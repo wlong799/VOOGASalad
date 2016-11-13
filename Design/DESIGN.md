@@ -77,3 +77,11 @@
         * CollisionHandler will handle collisions with certain objects appropriately - setting aspects of the character to give it some sort of power up
     * Different player input - tapping screen, key input, game controller
 
+### Design Considerations  
+
+* After the back-end and front-end teams are separated, the parameters and classes that are shared between the two subteams must be decided as soon as possible.
+    * Front-end
+        * What should the responsibility of game player do. We decide that it should be a purely front-end module and does not do any logical computation. 
+    * Back-end
+        * How to represent a goal of a level. A “goal” can involve collisions between sprite, or it can involve the survival time. Whether to have a Goal class/interface or to build the goals in Sprites to trigger.
+
