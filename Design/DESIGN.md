@@ -59,14 +59,14 @@
     * Only one input: flapping
     * One player
     * One life
-    
-# Differences in these games
+
+* Differences
     * Constantly moving background versus a background that moves as a response to the player moving
         * An option when setting the background - user can specify how the background should move, and if it moves automatically, user can set a speed
         * Background class holds this information as to how it should behave
     * Different number of players
         * One or two players - set through the components block of the UI
-        * Sprites are instantiated as necessary, and Game  Player will keep track of which characters are to be controlled through user input
+        * Sprites are instantiated as necessary, and Game Player will keep track of which characters are to be controlled through user input
     * Players get power in different ways e.g. guns, size of the player, or no power at all. These could be added to the sprite before the game starts or be power ups retrieved from the map. 
     * Goals can be more or less complex
         * Many different types of goals can occur in a 2-d scrolling game. In the examples above we see an example of a conquest type goal (rescuing a princess), a combat style goal (kill all of the enemies), and a  time related goal (survival). 
