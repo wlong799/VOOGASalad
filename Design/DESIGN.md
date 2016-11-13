@@ -59,9 +59,8 @@
     * Only one input: flapping
     * One player
     * One life
-
+    
 # Differences in these games
-
     * Constantly moving background versus a background that moves as a response to the player moving
         * An option when setting the background - user can specify how the background should move, and if it moves automatically, user can set a speed
         * Background class holds this information as to how it should behave
