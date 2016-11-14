@@ -10,6 +10,8 @@ public class AbstractBlock implements IBlock {
 	Position myPos;
 	ArrayList<String> myImgPaths;
 	Dimension myDimension;
+	BlockCollisionBehavior myCollisionBehavior;
+	boolean myEffective; // effective for collision checking
 	
 	@Override
 	public void setPosition(Position pos) {
@@ -39,6 +41,22 @@ public class AbstractBlock implements IBlock {
 	@Override
 	public Dimension getDimension() {
 		return myDimension;
+	}
+
+	public BlockCollisionBehavior getCollisionBehavior() {
+		return myCollisionBehavior;
+	}
+
+	public void setCollisionBehavior(BlockCollisionBehavior collisionBehavior) {
+		this.myCollisionBehavior = collisionBehavior;
+	}
+	
+	public boolean isEffective() {
+		return myEffective;
+	}
+	
+	public void setEffective(boolean effective) {
+		myEffective = effective;
 	}
 
 }
