@@ -8,11 +8,12 @@ import java.util.*;
  * Base class for all sprites providing common functionalities.
  * @author Jay
  */
-public class AbstractSprite implements ISprite {
+public abstract class AbstractSprite implements ISprite {
 
-	Position myPosition;
-	ArrayList<String> myImgPaths;
-	double myHP;
+	protected Position myPosition;
+	protected ArrayList<String> myImgPaths;
+	protected boolean myDead;
+	protected Collision myCollision;
 	
 	@Override
 	public void setPosition(Position pos) {
@@ -26,36 +27,17 @@ public class AbstractSprite implements ISprite {
 	
 	@Override
 	public void setDead(boolean dead) {
-		// TODO Auto-generated method stub
-		
+		myDead = dead;
 	}
 
 	@Override
 	public boolean isDead() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void collided(ISprite otherSprite) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setHP(double hp) {
-		myHP = hp;
-	}
-	
-	@Override
-	public double getHP() {
-		return myHP;
+		return myDead;
 	}
 
 	@Override
 	public void setCollisionProperty(Collision coll) {
-		// TODO Auto-generated method stub
-		
+		myCollision = coll;
 	}
 
 	@Override
