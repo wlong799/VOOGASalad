@@ -1,3 +1,6 @@
+# classpath #
+.classpath
+
 # IDEA Ignores #
 ################
 *.iml
