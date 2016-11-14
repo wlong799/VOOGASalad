@@ -10,8 +10,6 @@ public interface Actor {
 	void moveUp();
 	void moveDown();
 	void jumpUp();
-	void act();
-	void fire();
 	
 	ArrayList<ActionTrigger> getActionTriggers();
 	void setActionTriggers(ArrayList<ActionTrigger> ats);
