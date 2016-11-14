@@ -10,6 +10,8 @@
 
 ### Overview
 
+![Game Flow](GameFlow.png "Game Flow")
+
 * Our project consists of four parts, game authoring environment, game data, game engine, and game player. 
 * Game authoring environment (`AuthorEnvironment` class) supports creating and modifying game data (described in detail below). 
 * Game data forms the core of the game, and sufficiently represents a game. It has a physics engine (`PhysicsEngine` class), a game (`Game` class), and a control module (`Control` class). The physics engine specifies how physics works, such as collision behavior, friction, and gravity. The game consists things such as sprites, and level information. The control module specifies how user input is handled. 
@@ -18,11 +20,11 @@
 
 ### User Interface
 
-* ADD IMAGE HERE
+![User Interface](UserInterface.png "User Interface")
 
 ### Design Details
 
-* INSERT DIAGRAM HERE
+![Design Detail](DesignDetail.png "Design Detail")
 
 * Authoring Environment creates and sets the information of the game. It can create a new Game object, and it can add levels to a game. It has the access to every setter/getter of the Game, Level, Physics Engine, etc. Once a user is done setting all these attributes, the game object will be serialized and saved for later use of the actual game playing.
 * GameObject class contains everything that we need for a GameEngine to run. It contains several Level objects, and each Level object has some level specific data, for example sprites and goals.
