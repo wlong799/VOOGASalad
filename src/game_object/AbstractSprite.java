@@ -1,8 +1,8 @@
 package game_object;
 
 import voogasalad_overwatch.Collision;
-import voogasalad_overwatch.ISprite;
-import voogasalad_overwatch.Position;
+
+import java.util.*;
 
 /**
  * Base class for all sprites providing common functionalities.
@@ -11,6 +11,8 @@ import voogasalad_overwatch.Position;
 public class AbstractSprite implements ISprite {
 
 	Position myPosition;
+	ArrayList<String> myImgPaths;
+	double myHP;
 	
 	@Override
 	public void setPosition(Position pos) {
@@ -42,14 +44,28 @@ public class AbstractSprite implements ISprite {
 
 	@Override
 	public void setHP(double hp) {
-		// TODO Auto-generated method stub
-		
+		myHP = hp;
+	}
+	
+	@Override
+	public double getHP() {
+		return myHP;
 	}
 
 	@Override
 	public void setCollisionProperty(Collision coll) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public ArrayList<String> getImagePaths() {
+		return myImgPaths;
+	}
+
+	@Override
+	public void setImagePaths(ArrayList<String> imgPaths) {
+		myImgPaths = imgPaths;
 	}
 
 }
