@@ -1,5 +1,7 @@
 package game_object;
 
-public class Character {
+public class Character extends AbstractSprite {
 
+	
+	
 }
