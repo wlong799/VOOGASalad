@@ -24,9 +24,7 @@ public interface IAuthorEnvironment {
 	
 	IPhysicsEngine getPhysicsEngine();
 	
-	void handle();
-	
 	void load();
 	
-	void setLanguage();
+	void setLanguage(String lang);
 }

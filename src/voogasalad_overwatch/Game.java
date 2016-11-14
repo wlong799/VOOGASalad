@@ -32,6 +32,12 @@ public class Game implements IGame {
     public void editSprite (Sprite s) {
        Collision coll = new Collision();
        s.setCollisionProperty(coll);
+       int hp = 0;
+       s.setHP(hp);
+       if(hp<0){
+           BadDataException bde = new BadDataException();
+           bde.showError("Invalid Health");
+       }
     }
 
 }
