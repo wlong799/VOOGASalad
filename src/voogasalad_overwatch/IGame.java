@@ -11,4 +11,6 @@ public interface IGame {
 	void setStartSprites(Collection<ISprite> starts);
 	
 	void setEndSprites(Collection<ISprite> ends);
+	
+	void editSprite(Sprite s);
 }
