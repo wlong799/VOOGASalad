@@ -63,4 +63,8 @@ public interface IAuthorEnvironment {
 	 * @return physicsengine interface
 	 */
 	IPhysicsEngine getPhysicsEngine();
+	
+	void load();
+	
+	void setLanguage(String lang);
 }
