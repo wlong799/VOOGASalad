@@ -1,5 +1,7 @@
 package voogasalad_overwatch;
 
+import com.sun.xml.internal.ws.dump.LoggingDumpTube.Position;
+
 public interface ISprite {
     
     // set this sprites position
