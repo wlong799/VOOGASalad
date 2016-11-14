@@ -1,5 +1,10 @@
 package voogasalad_overwatch;
 
 public interface IGameEngine {
-    public getAvailableGames();
+	
+	void setCurrentLevel(ILevel level);
+
+	void setPhysicsEngine(IPhysicsEngine physicsEngine);
+
+	void step();
 }
