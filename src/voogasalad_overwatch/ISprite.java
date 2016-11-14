@@ -12,5 +12,8 @@ public interface ISprite {
     boolean isDead();
     // what to do when this sprite collides with another sprite
     void collided(ISprite otherSprite);
-    
+    //sets the new hp of sprite
+    void setHP(double hp);
+    //sets the new collision property of sprite
+    void setCollisionProperty(Collision coll);
 }
