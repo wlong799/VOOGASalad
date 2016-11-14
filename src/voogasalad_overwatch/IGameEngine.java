@@ -1,5 +1,7 @@
 package voogasalad_overwatch;
 
+import java.util.List;
+
 public interface IGameEngine {
-    public getAvailableGames();
+    List<IGame> getAvailableGames();
 }
