@@ -42,4 +42,7 @@ public interface IGameEngine {
      */
     public IGame getAvailableGames();
 
+	void setCurrentLevel(ILevel level);
+
+	void step();
 }
