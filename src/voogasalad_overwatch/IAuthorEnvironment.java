@@ -23,4 +23,10 @@ public interface IAuthorEnvironment {
 	void setPhysicsEngine(IPhysicsEngine physicsEngine);
 	
 	IPhysicsEngine getPhysicsEngine();
+	
+	void handle();
+	
+	void load();
+	
+	void setLanguage();
 }

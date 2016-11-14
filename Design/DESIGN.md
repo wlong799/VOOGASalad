@@ -10,25 +10,27 @@
 
 ### Overview
 
-* Our project consists of four parts, game authoring environment, game data, game engine, and game player. 
-* Game authoring environment (`AuthorEnvironment` class) supports creating and modifying game data (described in detail below). 
-* Game data forms the core of the game, and sufficiently represents a game. It has a physics engine (`PhysicsEngine` class), a game (`Game` class), and a control module (`Control` class). The physics engine specifies how physics works, such as collision behavior, friction, and gravity. The game consists things such as sprites, and level information. The control module specifies how user input is handled. 
-* Game engine (`GameEngine` class) takes a set of game data and runs the game. At the highest level, it provides a step() function that steps the game forward by a given elapsed time. This function maps the current state of the game and the user input to the next state of the game. 
-* Game player (`GamePlayer` class) takes the game engine and renders the game on the screen. At a certain frame rate, it calls the `step()` function of the game engine, which updates the game data, and shows the resulting game data on the screen. 
+* Our project consists of four parts, game authoring environment, game data, game engine, and game player.
+    * Game authoring environment supports creating and modifying game data (described in detail below).
+    * Game data forms the core of the game, and sufficiently represents a game.
+    * Game engine takes a set of game data and runs the game.
+    * Game player takes the game engine and renders the game on the screen.
 
 ### User Interface
 
-* ADD IMAGE HERE
+![Error loading picture](ui.png "User Interface")
 
 ### Design Details
 
-* INSERT DIAGRAM HERE
+![Error loading picture](design.png "Design")
 
 * Authoring Environment creates and sets the information of the game. It can create a new Game object, and it can add levels to a game. It has the access to every setter/getter of the Game, Level, Physics Engine, etc. Once a user is done setting all these attributes, the game object will be serialized and saved for later use of the actual game playing.
+
 * GameObject class contains everything that we need for a GameEngine to run. It contains several Level objects, and each Level object has some level specific data, for example sprites and goals.
-* GameEngine and GamePlayer are two core parts to the actual game playing program. When the GamePlayer loads a game, it will unpack (re-instantiate) all the classes and hand them to the GameEngine. GameEngine uses the exact GameObject class (and all the classes within it, e.g. Level, Sprites etc) as in Authoring Environment.
-* GameEngine essentially implements the step() function, where it is given an timeElapsed and does all the calculation for every sprite of each frame.
-* GamePlayer is in charge of calling step() function and does the rendering of each frame based on the information of all the sprites.
+
+* GameEngine and GamePlayer are two core parts to the actual game playing program. When the GamePlayer loads a game, it will unpack (re-instantiate) all the classes and hand them to the GameEngine.GameEngine uses the exact GameObject class (and all the classes within it, e.g. Level, Sprites etc) as in Authoring Environment.
+    * GameEngine essentially implements the step() function at the highest level, where it is given an timeElapsed and does all the calculation for every sprite of each frame. It has a physics engine (`PhysicsEngine` class), a game (`GameObject` class), and a control module (`Control` class). The physics engine specifies how physics works, such as collision behavior, friction, and gravity. The game consists things such as sprites, and level information. The control module specifies how user input is handled.
+    * GamePlayer is in charge of calling step() function in a certain frame rate and does the rendering of each frame based on the information of all the sprites.
 
 ### Example Games
 
@@ -67,10 +69,10 @@
     * Different number of players
         * One or two players - set through the components block of the UI
         * Sprites are instantiated as necessary, and Game Player will keep track of which characters are to be controlled through user input
-    * Players get power in different ways e.g. guns, size of the player, or no power at all. These could be added to the sprite before the game starts or be power ups retrieved from the map. 
+    * Players get power in different ways e.g. guns, size of the player, or no power at all. These could be added to the sprite before the game starts or be power ups retrieved from the map.
     * Goals can be more or less complex
-        * Many different types of goals can occur in a 2-d scrolling game. In the examples above we see an example of a conquest type goal (rescuing a princess), a combat style goal (kill all of the enemies), and a  time related goal (survival). 
-        * Other types of goals could include collecting a set of objects or a certain number of coins, or it could be as simple as making it to the end of each level. 
+        * Many different types of goals can occur in a 2-d scrolling game. In the examples above we see an example of a conquest type goal (rescuing a princess), a combat style goal (kill all of the enemies), and a  time related goal (survival).
+        * Other types of goals could include collecting a set of objects or a certain number of coins, or it could be as simple as making it to the end of each level.
     * Differing number of lives
         * Each sprite, when initiated, will have its number of lives set
     * Items to collect, which give the player some advantage
@@ -81,7 +83,6 @@
 
 * After the back-end and front-end teams are separated, the parameters and classes that are shared between the two subteams must be decided as soon as possible.
     * Front-end
-        * What should the responsibility of game player do. We decide that it should be a purely front-end module and does not do any logical computation. 
+        * What should the responsibility of game player do. We decide that it should be a purely front-end module and does not do any logical computation.
     * Back-end
         * How to represent a goal of a level. A “goal” can involve collisions between sprite, or it can involve the survival time. Whether to have a Goal class/interface or to build the goals in Sprites to trigger.
-
