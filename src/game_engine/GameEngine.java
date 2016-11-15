@@ -1,9 +1,15 @@
 package game_engine;
 
+import game_object.level.AbstractLevel;
+import voogasalad_overwatch.Game;
+
 public class GameEngine implements IGameEngine{
-	boolean runFlag;
+	private boolean runFlag;
+	private Game myGame;
+	private AbstractLevel myCurrentLevel;
 	
-	public GameEngine() {
+	public GameEngine(Game game) {
+		myGame = game;
 		runFlag = true;
 	}
 	
