@@ -17,7 +17,7 @@ public interface IAuthorEnvironment {
 	/**
 	 * Set which game that is open should
 	 * be in the front and able for the user
-	 * to iteract with
+	 * to interact with
 	 * @param game interface
 	 */
 	void setCurrentGame(IGame game);
@@ -51,7 +51,7 @@ public interface IAuthorEnvironment {
 	ILevel getCurrentLevel();
 	
 	/**
-	 * define the physics that should influene the
+	 * define the physics that should influence the
 	 * game interactions
 	 * @param physicsEngine
 	 */

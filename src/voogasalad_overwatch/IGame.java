@@ -13,4 +13,5 @@ public interface IGame {
 	void setEndSprites(Collection<ISprite> ends);
 	
 	void editSprite(Sprite s);
+	
 }
