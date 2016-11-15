@@ -7,7 +7,7 @@ import game_object.CollisionBody;
 import game_object.Dimension;
 import game_object.Position;
 
-public class AbstractBlock extends AbstractSprite implements CollisionBody {
+public abstract class AbstractBlock extends AbstractSprite implements CollisionBody {
 
 	Position myPos;
 	ArrayList<String> myImgPaths;
@@ -15,18 +15,22 @@ public class AbstractBlock extends AbstractSprite implements CollisionBody {
 	BlockCollisionBehavior myCollisionBehavior;
 	boolean myEffective; // effective for collision checking
 	
+	@Override
 	public void setPosition(Position pos) {
 		myPos = pos;
 	}
-
+	
+	@Override
 	public Position getPosition() {
 		return myPos;
 	}
 
+	@Override
 	public ArrayList<String> getImagePaths() {
 		return myImgPaths;
 	}
 
+	@Override
 	public void setImagePaths(ArrayList<String> imgPaths) {
 		myImgPaths = imgPaths;
 	}
@@ -53,35 +57,6 @@ public class AbstractBlock extends AbstractSprite implements CollisionBody {
 	
 	public void setEffective(boolean effective) {
 		myEffective = effective;
-	}
-
-	@Override
-	public void collided(CollisionBody otherBody) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setCategoryBitMask(int categoryBitMask) {
-		// TODO Auto-generated method stub
-	}
-	
-	@Override
-	public int getCategoryBitMask() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void setCollisionBitMask(int collisionBitMask) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public int getCollisionBitMask() {
-		// TODO Auto-generated method stub
-		return 0;
 	}
 
 }
