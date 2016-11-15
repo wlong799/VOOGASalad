@@ -2,10 +2,12 @@ package game_object.block;
 
 import java.util.ArrayList;
 
+import game_object.AbstractSprite;
+import game_object.CollisionBody;
 import game_object.Dimension;
 import game_object.Position;
 
-public class AbstractBlock implements IBlock {
+public class AbstractBlock extends AbstractSprite implements CollisionBody {
 
 	Position myPos;
 	ArrayList<String> myImgPaths;
@@ -13,32 +15,26 @@ public class AbstractBlock implements IBlock {
 	BlockCollisionBehavior myCollisionBehavior;
 	boolean myEffective; // effective for collision checking
 	
-	@Override
 	public void setPosition(Position pos) {
 		myPos = pos;
 	}
 
-	@Override
 	public Position getPosition() {
 		return myPos;
 	}
 
-	@Override
 	public ArrayList<String> getImagePaths() {
 		return myImgPaths;
 	}
 
-	@Override
 	public void setImagePaths(ArrayList<String> imgPaths) {
 		myImgPaths = imgPaths;
 	}
 
-	@Override
 	public void setDimension(Dimension d) {
 		myDimension = d;
 	}
 
-	@Override
 	public Dimension getDimension() {
 		return myDimension;
 	}
@@ -57,6 +53,35 @@ public class AbstractBlock implements IBlock {
 	
 	public void setEffective(boolean effective) {
 		myEffective = effective;
+	}
+
+	@Override
+	public void collided(CollisionBody otherBody) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setCategoryBitMask(int categoryBitMask) {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public int getCategoryBitMask() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void setCollisionBitMask(int collisionBitMask) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getCollisionBitMask() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
