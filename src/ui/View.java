@@ -97,6 +97,12 @@ public abstract class View {
 		root.getChildren().add(e);
 	}
 	
+	protected void addUIAll(Node...nodes) {
+		for (Node e : nodes) {
+			addUI(e);
+		}
+	}
+	
 	protected void clearUI() {
 		root.getChildren().clear();
 	}
