@@ -1,39 +1,42 @@
 package voogasalad_overwatch;
 
+import game_object.Game;
+import game_object.Level;
+
 public class AuthorEnvironment implements IAuthorEnvironment {
 
     @Override
-    public void addGame (IGame game) {
+    public void addGame (Game game) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void setCurrentGame (IGame game) {
+    public void setCurrentGame (Game game) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public IGame getCurrentGame () {
+    public Game getCurrentGame () {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void addLevel (ILevel level) {
+    public void addLevel(Level level) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public void setCurrentLevel (ILevel level) {
+    public void setCurrentLevel (Level level) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public ILevel getCurrentLevel () {
+    public Level getCurrentLevel() {
         // TODO Auto-generated method stub
         return null;
     }
