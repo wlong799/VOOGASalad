@@ -53,20 +53,6 @@ public interface IAuthorEnvironment {
 	 */
 	Level getCurrentLevel();
 	
-	/**
-	 * define the physics that should influence the
-	 * game interactions
-	 * @param physicsEngine
-	 */
-	void setPhysicsEngine(IPhysicsEngine physicsEngine);
-	
-	/**
-	 * returns the current physics that are 
-	 * being applied to the level
-	 * @return physicsengine interface
-	 */
-	IPhysicsEngine getPhysicsEngine();
-	
 	void load();
 	
 	void setLanguage(String lang);

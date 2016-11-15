@@ -11,22 +11,25 @@ public abstract class View {
 	
 	// position x and y are relative to parentView
 	// i.e if x = 0, y = 0, view is at top left corner of parentView
-	private double width;
-	private double height;
+	private double myWidth;
+	private double myHeight;
 	private List<View> subViews;
 	private View parentView;
 	private Group root;
+	private AuthoringController myController;
 	
-	public View() {
+	public View(AuthoringController controller) {
 		subViews = new ArrayList<>();
 		root = new Group();
+		myController = controller;
+		initUI();
 	}
 	
 	public void setPositionAndSize(double x, double y, double width, double height) {
 		setPositionX(x);
 		setPositionY(y);
-		this.width = width;
-		this.height = height;
+		myWidth = width;
+		myHeight = height;
 	}
 	
 	public Parent getUI() {
@@ -78,19 +81,23 @@ public abstract class View {
 	}
 	
 	public double getWidth() {
-		return width;
+		return myWidth;
 	}
 	
 	public void setWidth(double width) {
-		this.width = width;
+		myWidth = width;
 	}
 	
 	public double getHeight() {
-		return height;
+		return myHeight;
 	}
 	
 	public void setHeight(double height) {
-		this.height = height;
+		myHeight = height;
+	}
+	
+	protected AuthoringController getController() {
+		return myController;
 	}
 	
 	protected void addUI(Node e) {
@@ -108,6 +115,8 @@ public abstract class View {
 	}
 	
 	protected abstract void layoutSelf();
+	
+	protected abstract void initUI();
 	
 	private void layoutSubViews() {
 		for (View child : subViews) {

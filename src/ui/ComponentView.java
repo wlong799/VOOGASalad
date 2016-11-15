@@ -14,12 +14,8 @@ public class ComponentView extends View {
 	private VBox box;
 	private static final double imageWidthRatio = 0.6;
 	
-	public ComponentView() {
-		imageView = new ImageView();
-		title = new Label("");
-		box = new VBox();
-		box.getChildren().addAll(imageView, title);
-		this.addUI(box);
+	public ComponentView(AuthoringController controller) {
+		super(controller);
 	}
 	
 	public void setImage(Image img) {
@@ -38,6 +34,15 @@ public class ComponentView extends View {
 		box.setSpacing(10);
 		box.setPadding(new Insets(5,5,5,5));
 		imageView.setFitWidth(this.getWidth() * imageWidthRatio);
+	}
+	
+	@Override
+	protected void initUI() {
+		imageView = new ImageView();
+		title = new Label("");
+		box = new VBox();
+		box.getChildren().addAll(imageView, title);
+		this.addUI(box);
 	}
 
 }

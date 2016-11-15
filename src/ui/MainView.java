@@ -6,10 +6,15 @@ public class MainView extends View {
 	private InspectorView inspector;
 	private ComponentsView components;
 
-	public MainView() {
-		navigator = new NavigatorView();
-		inspector = new InspectorView();
-		components = new ComponentsView();
+	public MainView(AuthoringController controller) {
+		super(controller);
+	}
+	
+	@Override
+	protected void initUI() {
+		navigator = new NavigatorView(this.getController());
+		inspector = new InspectorView(this.getController());
+		components = new ComponentsView(this.getController());
 		addSubViews(navigator, inspector, components);
 	}
 

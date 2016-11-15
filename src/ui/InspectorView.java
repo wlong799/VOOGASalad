@@ -5,6 +5,16 @@ import javafx.scene.shape.Rectangle;
 
 public class InspectorView extends View {
 
+	public InspectorView(AuthoringController controller) {
+		super(controller);
+	}
+	
+	@Override
+	protected void initUI() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	@Override
 	protected void layoutSelf() {
 		this.clearUI();
