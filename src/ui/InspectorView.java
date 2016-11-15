@@ -1,26 +1,37 @@
 package ui;
 
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.VBox;
 
-public class InspectorView extends View {
+public class InspectorView extends View implements Subscriber {
+	
+	private SpriteView inspectedSpriteView;
+	private VBox configs;
 
 	public InspectorView(AuthoringController controller) {
 		super(controller);
 	}
 	
 	@Override
+	public void didUpdate(Publisher target) {
+		if (target instanceof AuthoringController) {
+			inspectedSpriteView = ((AuthoringController) target).getSelectedSpriteView();
+		}
+		updateUI();
+	}
+	
+	@Override
 	protected void initUI() {
-		// TODO Auto-generated method stub
-		
+		configs = new VBox();
 	}
 
 	@Override
 	protected void layoutSelf() {
-		this.clearUI();
-		Rectangle rect = new Rectangle(0,0,this.getWidth(),this.getHeight());
-		rect.setFill(Color.BEIGE);
-		this.addUI(rect);
+		// TODO
+	}
+	
+	private void updateUI() {
+		configs.getChildren().clear();
+		// TODO fill in VBox the selections and update SpriteView
 	}
 
 }
