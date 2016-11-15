@@ -5,17 +5,20 @@ public class Dimension {
 	private double myWidth;
 	private double myHeight;
 	
-	public double getMyWidth() {
+	public double getWidth() {
 		return myWidth;
 	}
-	public void setMyWidth(double myWidth) {
-		this.myWidth = myWidth;
+	
+	public void setWidth(double width) {
+		myWidth = width;
 	}
-	public double getMyHeight() {
+	
+	public double getHeight() {
 		return myHeight;
 	}
-	public void setMyHeight(double myHeight) {
-		this.myHeight = myHeight;
+	
+	public void setHeight(double height) {
+		myHeight = height;
 	}
 	
 }
