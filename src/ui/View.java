@@ -5,11 +5,10 @@ import java.util.List;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 
 public abstract class View {
 	
-	private double x;
-	private double y;
 	// position x and y are relative to parentView
 	// i.e if x = 0, y = 0, view is at top left corner of parentView
 	private double width;
@@ -18,15 +17,19 @@ public abstract class View {
 	private View parentView;
 	private Group root;
 	
-	public View(double x, double y, double width, double height) {
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+	public View() {
 		subViews = new ArrayList<>();
+		root = new Group();
 	}
 	
-	public Node getUI() {
+	public void setPositionAndSize(double x, double y, double width, double height) {
+		setPositionX(x);
+		setPositionY(y);
+		this.width = width;
+		this.height = height;
+	}
+	
+	public Parent getUI() {
 		return root;
 	}
 	
@@ -35,12 +38,19 @@ public abstract class View {
 		layoutSubViews();
 	}
 	
+	public void addSubViews(View...views) {
+		for (View child : views) {
+			addSubView(child);
+		}
+	}
+	
 	public void addSubView(View child) {
 		if (child.getParentView() != null) {
 			throw new IllegalArgumentException("Child already has a parent view");
 		}
 		subViews.add(child);
 		child.setParentView(this);
+		addUI(child.getUI());
 	}
 	
 	public View getParentView() {
@@ -52,19 +62,19 @@ public abstract class View {
 	}
 	
 	public double getPositionX() {
-		return x;
+		return root.getLayoutX();
 	}
 	
 	public void setPositionX(double x) {
-		this.x = x;
+		root.setLayoutX(x);
 	}
 	
 	public double getPositionY() {
-		return y;
+		return root.getLayoutY();
 	}
 	
 	public void setPositionY(double y) {
-		this.y = y;
+		root.setLayoutY(y);
 	}
 	
 	public double getWidth() {
