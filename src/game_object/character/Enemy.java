@@ -32,6 +32,12 @@ public class Enemy extends ActiveCharacter {
 		// TODO Auto-generated method stub
 	}
 
+	/* CollisionBody */
+	@Override
+	public void setCategoryBitMask(int categoryBitMask) {
+		myCategoryBitMask = categoryBitMask;
+	}
+	
 	@Override
 	public int getCategoryBitMask() {
 		return myCategoryBitMask;

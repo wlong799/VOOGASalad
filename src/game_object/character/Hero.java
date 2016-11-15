@@ -8,8 +8,8 @@ import game_object.acting.ActionTrigger;
 
 public class Hero extends ActiveCharacter {
 
-	private static int myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
-	private static int myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
+	private int myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
+	private int myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 
 	@Override
 	public ArrayList<ActionTrigger> getActionTriggers() {
@@ -38,6 +38,12 @@ public class Hero extends ActiveCharacter {
 		}
 	}
 
+	/* CollisionBody */
+	@Override
+	public void setCategoryBitMask(int categoryBitMask) {
+		myCategoryBitMask = categoryBitMask;
+	}
+	
 	@Override
 	public int getCategoryBitMask() {
 		return myCategoryBitMask;
