@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
+import network.Connection;
 import network.Message;
 
 /**
@@ -15,24 +16,21 @@ import network.Message;
  */
 public class Daemon extends Thread {
 	
-	private ServerSocket serverSocket;
-	private List<Connection> connectionPool;
-	private BlockingQueue<Message> messageQueue;
+	private Coordinator coordinator;
 	
-	public Daemon(ServerSocket serverSocket,
-				  List<Connection> connectionPool,
-				  BlockingQueue<Message> messageQueue) {
-		this.serverSocket = serverSocket;
-		this.connectionPool = connectionPool;
-		this.messageQueue = messageQueue;
+	public Daemon(Coordinator coordinator) {
+		this.coordinator = coordinator;
 	}
 	
 	@Override
 	public void run() {
+		System.out.println("Daemon starts");
 		while (true) {
 			try {
-				Socket clientConn = serverSocket.accept();
-				connectionPool.add(new Connection(clientConn, messageQueue));
+				Socket clientSock = coordinator.getServerSocket().accept();
+				Connection conn = new Connection(
+						coordinator.getMessageQueue(), clientSock);
+				coordinator.addConnection(conn);
 			} catch (IOException e) {
 				// TODO cx15
 				e.printStackTrace();
