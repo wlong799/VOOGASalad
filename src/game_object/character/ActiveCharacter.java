@@ -1,6 +1,5 @@
 package game_object.character;
 
-import game_object.Actor;
 import game_object.DefaultConstants;
 
 /**
@@ -33,8 +32,8 @@ public abstract class ActiveCharacter extends AbstractCharacter implements Actor
 	}
 
 	@Override
-	public void jumpUp() {
-		myPosition.setY(myPosition.getY() + myJumpingUnit);
+	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
+		myVelocity.setYVelocity(myJumpingUnit);
 	}
 
 }
