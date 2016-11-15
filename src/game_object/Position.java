@@ -1,5 +1,10 @@
 package game_object;
 
+/**
+ * A class representing 2D position (x, y), with the convention that
+ * (0, 0) is the upper left corner of the screen. 
+ * @author Jay, Yilun
+ */
 public class Position {
 	
 	private double myX, myY;
