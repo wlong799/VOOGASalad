@@ -1,4 +1,4 @@
-package game_object;
+package game_object.core;
 
 /**
  * A class representing 2D velocity.
@@ -8,6 +8,11 @@ public class Velocity {
 	
 	private double myXVelocity, myYVelocity;
 	
+	public Velocity(double xVelocity, double yVelocity) {
+		myXVelocity = xVelocity;
+		myYVelocity = yVelocity;
+	}
+
 	public void setXVelocity(double xVelocity) {
 		myXVelocity = xVelocity;
 	}

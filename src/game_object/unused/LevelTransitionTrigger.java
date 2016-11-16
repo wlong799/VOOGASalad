@@ -1,4 +1,4 @@
-package game_object.level;
+package game_object.unused;
 
 public abstract class LevelTransitionTrigger {
 
