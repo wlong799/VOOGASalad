@@ -19,18 +19,18 @@ public class TransitionManager extends AbstractTransitionManager{
 	}
 	
 	@Override
-	public void levelWon() {
-		//myLevel = myLevel.getNextLevel();
+	public Level levelWonReturn() {
+		return myLevel = myLevel.getNextLevel();
 	}
 
 	@Override
-	public void levelLost() {
-		//
+	public Level levelLostReturn() {
+		return null;
 	}
 
 	@Override
-	public void levelGoOn() {
-		return;
+	public Level levelGoOnReturn() {
+		return null;
 	}
 
 }

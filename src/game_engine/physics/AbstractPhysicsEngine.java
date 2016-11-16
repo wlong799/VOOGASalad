@@ -1,18 +1,32 @@
 package game_engine.physics;
 
 public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
+	protected CollisionManager myCollisionManager;
+	protected LocationManager myLocationManager;
 
 	public AbstractPhysicsEngine() {
 		initCollisionManager();
 		initLocationManager();
 	}
 
-	public abstract void initCollisionManager();
+	@Override
+	public void initCollisionManager() {
+		myCollisionManager = new CollisionManager();
+	}
 
-	public abstract void initLocationManager();
+	@Override
+	public void initLocationManager() {
+		myLocationManager = new LocationManager();
+	}
 
-	public abstract CollisionManager getCollisionManager();
+	@Override
+	public CollisionManager getCollisionManager() {
+		return myCollisionManager;
+	}
 
-	public abstract LocationManager getLocationManager();
+	@Override
+	public LocationManager getLocationManager() {
+		return myLocationManager;
+	}
 
 }

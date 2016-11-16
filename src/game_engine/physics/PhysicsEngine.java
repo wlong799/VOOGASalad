@@ -13,31 +13,9 @@ import game_object.level.Level;
  * @author Charlie Wang
  */
 public class PhysicsEngine extends AbstractPhysicsEngine{
-	private CollisionManager myCollisionManager;
-	private LocationManager myLocationManager;
 
 	public PhysicsEngine() {
 		super();
-	}
-	
-	@Override
-	public void initCollisionManager() {
-		myCollisionManager = new CollisionManager();
-	}
-
-	@Override
-	public void initLocationManager() {
-		myLocationManager = new LocationManager();
-	}
-
-	@Override
-	public CollisionManager getCollisionManager() {
-		return myCollisionManager;
-	}
-
-	@Override
-	public LocationManager getLocationManager() {
-		return myLocationManager;
 	}
 	
 	public void setGroundBlocks(List<AbstractBlock> blocks) {
