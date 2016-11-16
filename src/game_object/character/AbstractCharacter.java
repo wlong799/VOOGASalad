@@ -1,9 +1,11 @@
 package game_object.character;
 
-import game_object.AbstractSprite;
-import game_object.CollisionBody;
-import game_object.PhysicsBody;
-import game_object.Velocity;
+import java.util.ArrayList;
+
+import game_object.core.AbstractSprite;
+import game_object.core.Velocity;
+import game_object.simulation.CollisionBody;
+import game_object.simulation.PhysicsBody;
 import game_object.weapon.Weapon;
 
 /**
@@ -12,6 +14,10 @@ import game_object.weapon.Weapon;
  */
 public abstract class AbstractCharacter extends AbstractSprite implements CollisionBody, PhysicsBody {
 	
+	public AbstractCharacter(double x, double y, ArrayList<String> imgPaths) {
+		super(x, y, imgPaths);
+	}
+
 	protected double myMaxHP;
 	protected double myCurrentHP;
 	protected boolean myAffectedByPhysics;

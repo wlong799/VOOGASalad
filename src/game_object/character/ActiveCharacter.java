@@ -1,12 +1,18 @@
 package game_object.character;
 
-import game_object.DefaultConstants;
+import java.util.ArrayList;
+
+import game_object.core.DefaultConstants;
 
 /**
  * A base class for all active characters, aka characters that can move.
  * @author Jay
  */
 public abstract class ActiveCharacter extends AbstractCharacter implements Actor {
+
+	public ActiveCharacter(double x, double y, ArrayList<String> imgPaths) {
+		super(x, y, imgPaths);
+	}
 
 	private double myMovingUnit = DefaultConstants.MOVING_UNIT;
 	private double myJumpingUnit = DefaultConstants.JUMPING_UNIT;

@@ -1,14 +1,11 @@
 package game_object.block;
 
-import game_object.CollisionBody;
+import java.util.ArrayList;
 
 public class GroundBlock extends AbstractBlock {
-	
-	@Override
-	public void collided(CollisionBody otherBody) {
-		// TODO Auto-generated method stub
-		
+
+	public GroundBlock(double x, double y, ArrayList<String> imgPaths) {
+		super(x, y, imgPaths, BlockCollisionBehavior.TOP_TOP_COLLISION);
 	}
-	
 	
 }

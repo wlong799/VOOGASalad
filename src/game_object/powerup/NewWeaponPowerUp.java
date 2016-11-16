@@ -15,7 +15,6 @@ public class NewWeaponPowerUp extends PowerUp {
 	
 	@Override
 	public void affect(Upgrader u) {
-		// TODO Auto-generated method stub
 		u.getWeapon(myWeapon);
 	}
 

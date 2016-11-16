@@ -1,9 +1,9 @@
 package game_object.weapon;
 
-import game_object.CollisionBody;
-import game_object.PhysicsBody;
-import game_object.Position;
-import game_object.Velocity;
+import game_object.core.Position;
+import game_object.core.Velocity;
+import game_object.simulation.CollisionBody;
+import game_object.simulation.PhysicsBody;
 
 /**
  * this class represents a single projectile on screen

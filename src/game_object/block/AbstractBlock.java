@@ -2,38 +2,24 @@ package game_object.block;
 
 import java.util.ArrayList;
 
-import game_object.AbstractSprite;
-import game_object.Dimension;
-import game_object.Position;
+import game_object.core.AbstractSprite;
+import game_object.core.Dimension;
+import game_object.core.ImageStyle;
 
 public abstract class AbstractBlock extends AbstractSprite {
 
-	Position myPos;
-	ArrayList<String> myImgPaths;
 	Dimension myDimension;
 	BlockCollisionBehavior myCollisionBehavior;
 	boolean myEffective; // effective for collision checking
+
+	public AbstractBlock(double x, double y, ArrayList<String> imgPaths, BlockCollisionBehavior bcb) {
+		super(x, y, imgPaths);
+		myCollisionBehavior = bcb;
+		myEffective = true;
+		setImgStyle(ImageStyle.TILE);
+	}
+
 	
-	@Override
-	public void setPosition(Position pos) {
-		myPos = pos;
-	}
-	
-	@Override
-	public Position getPosition() {
-		return myPos;
-	}
-
-	@Override
-	public ArrayList<String> getImagePaths() {
-		return myImgPaths;
-	}
-
-	@Override
-	public void setImagePaths(ArrayList<String> imgPaths) {
-		myImgPaths = imgPaths;
-	}
-
 	public void setDimension(Dimension d) {
 		myDimension = d;
 	}

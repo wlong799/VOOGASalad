@@ -15,6 +15,4 @@ public class ReplenishHealthPowerUp extends PowerUp {
 		u.replenishHealth();
 	}
 
-	
-	
 }
