@@ -8,6 +8,11 @@ public class Velocity {
 	
 	private double myXVelocity, myYVelocity;
 	
+	public Velocity(double xVelocity, double yVelocity) {
+		myXVelocity = xVelocity;
+		myYVelocity = yVelocity;
+	}
+
 	public void setXVelocity(double xVelocity) {
 		myXVelocity = xVelocity;
 	}

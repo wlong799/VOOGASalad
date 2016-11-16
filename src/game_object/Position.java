@@ -9,6 +9,11 @@ public class Position {
 	
 	private double myX, myY;
 	
+	public Position(double x, double y) {
+		myX = x;
+		myY = y;
+	}
+
 	public double getX() {
 		return myX;
 	}

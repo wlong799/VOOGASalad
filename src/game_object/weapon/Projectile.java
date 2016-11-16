@@ -1,5 +1,9 @@
 package game_object.weapon;
 
+import game_object.PhysicsBody;
+import game_object.Position;
+import game_object.Velocity;
+
 /**
  * this class represents a single projectile on screen
  * the projectile keeps a ProjectileModel object "for reference"
@@ -8,55 +12,27 @@ package game_object.weapon;
  * @author Yilun
  *
  */
-public class Projectile {
+public class Projectile implements PhysicsBody {
 
 	// position
-	private double myX;
-	private double myY;
+	private Position myPosition;
 	// velocity
-	private double myVx;
-	private double myVy;
+	private Velocity myVelocity;
 	
 	private ProjectileModel myModel;
 
 	public Projectile(double x, double y, double vx, double vy, ProjectileModel model) {
-		myX = x;
-		myY = y;
-		myVx = vx;
-		myVy = vy;
+		myPosition = new Position(x, y);
+		myVelocity = new Velocity(vx, vy);
 		myModel = model;
 	}
-
-	public double getX() {
-		return myX;
+	
+	public Position getPosition() {
+		return myPosition;
 	}
 
-	public void setX(double x) {
-		myX = x;
-	}
-
-	public double getY() {
-		return myY;
-	}
-
-	public void setY(double y) {
-		myY = y;
-	}
-
-	public double getVx() {
-		return myVx;
-	}
-
-	public void setVx(double vx) {
-		myVx = vx;
-	}
-
-	public double getVy() {
-		return myVy;
-	}
-
-	public void setVy(double vy) {
-		myVy = vy;
+	public void setPosition(Position position) {
+		myPosition = position;
 	}
 
 	public ProjectileModel getModel() {
@@ -65,6 +41,26 @@ public class Projectile {
 
 	public void setModel(ProjectileModel model) {
 		myModel = model;
+	}
+
+	@Override
+	public void setAffectedByPhysics(boolean affectedByPhysics) {
+		myModel.setAffectedByGravity(affectedByPhysics);
+	}
+
+	@Override
+	public boolean getAffectedByPhysics() {
+		return myModel.isAffectedByGravity();
+	}
+
+	@Override
+	public Velocity getVelocity() {
+		return myVelocity;
+	}
+
+	@Override
+	public void setVelocity(Velocity velocity) {
+		myVelocity = velocity;
 	}
 	
 }
