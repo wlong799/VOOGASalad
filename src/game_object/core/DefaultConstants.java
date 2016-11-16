@@ -1,4 +1,4 @@
-package game_object;
+package game_object.core;
 
 public class DefaultConstants {
 	public static final double MOVING_UNIT = 5;
