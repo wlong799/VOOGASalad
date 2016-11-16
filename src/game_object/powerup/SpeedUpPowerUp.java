@@ -2,7 +2,7 @@ package game_object.powerup;
 
 import java.util.ArrayList;
 
-import game_object.character.Upgrader;
+import game_object.character.IUpgrader;
 
 public class SpeedUpPowerUp extends PowerUp {
 
@@ -14,7 +14,7 @@ public class SpeedUpPowerUp extends PowerUp {
 	}
 
 	@Override
-	public void affect(Upgrader u) {
+	public void affect(IUpgrader u) {
 		u.speedUp(mySpeedUpFactor);
 	}
 	
