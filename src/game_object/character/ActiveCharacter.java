@@ -10,8 +10,8 @@ import game_object.core.DefaultConstants;
  */
 public abstract class ActiveCharacter extends AbstractCharacter implements Actor {
 
-	public ActiveCharacter(double x, double y, ArrayList<String> imgPaths) {
-		super(x, y, imgPaths);
+	public ActiveCharacter(double x, double y, ArrayList<String> imgPaths, double maxHP) {
+		super(x, y, imgPaths, maxHP);
 	}
 
 	private double myMovingUnit = DefaultConstants.MOVING_UNIT;

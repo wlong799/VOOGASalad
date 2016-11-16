@@ -10,8 +10,8 @@ import game_object.simulation.CollisionBody;
 
 public class Enemy extends ActiveCharacter {
 	
-	public Enemy(double x, double y, ArrayList<String> imgPaths) {
-		super(x, y, imgPaths);
+	public Enemy(double x, double y, ArrayList<String> imgPaths, double maxHP) {
+		super(x, y, imgPaths, maxHP);
 	}
 
 	private int myCategoryBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;

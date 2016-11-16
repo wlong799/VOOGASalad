@@ -13,8 +13,8 @@ public class Hero extends ActiveCharacter implements Upgrader {
 	private int myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
 	private int myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 
-	public Hero(double x, double y, ArrayList<String> imgPaths) {
-		super(x, y, imgPaths);
+	public Hero(double x, double y, ArrayList<String> imgPaths, double maxHP) {
+		super(x, y, imgPaths, maxHP);
 	}
 	
 	@Override

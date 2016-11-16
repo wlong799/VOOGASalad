@@ -13,16 +13,21 @@ import game_object.weapon.Weapon;
  * @author Jay
  */
 public abstract class AbstractCharacter extends AbstractSprite implements CollisionBody, PhysicsBody {
-	
-	public AbstractCharacter(double x, double y, ArrayList<String> imgPaths) {
-		super(x, y, imgPaths);
-	}
 
 	protected double myMaxHP;
 	protected double myCurrentHP;
 	protected boolean myAffectedByPhysics;
 	protected Velocity myVelocity;
 	protected Weapon myCurrentWeapon;
+	protected boolean myDead;
+	
+	public AbstractCharacter(double x, double y, ArrayList<String> imgPaths, double maxHP) {
+		super(x, y, imgPaths);
+		myMaxHP = maxHP;
+		myCurrentHP = myMaxHP;
+		myVelocity = new Velocity(0, 0);
+		myDead = false;
+	}
 	
 	public void setMaxHP(int maxHP) {
 		myMaxHP = maxHP;

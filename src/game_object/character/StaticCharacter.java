@@ -8,8 +8,8 @@ import java.util.ArrayList;
  */
 public abstract class StaticCharacter extends AbstractCharacter {
 
-	public StaticCharacter(double x, double y, ArrayList<String> imgPaths) {
-		super(x, y, imgPaths);
+	public StaticCharacter(double x, double y, ArrayList<String> imgPaths, double maxHP) {
+		super(x, y, imgPaths, maxHP);
 	}
 
 }
