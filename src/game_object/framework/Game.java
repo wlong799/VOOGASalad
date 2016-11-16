@@ -1,7 +1,10 @@
-package game_object;
+package game_object.framework;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import game_object.level.Level;
+import game_object.level.TransitionMenu;
 
 /**
  * A class representing a game.

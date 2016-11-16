@@ -1,4 +1,6 @@
-package game_object;
+package game_object.simulation;
+
+import game_object.core.Velocity;
 
 /**
  * A physics body that, if getAffectedByPhysics() returns true, will be affected by physics

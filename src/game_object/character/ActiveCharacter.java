@@ -1,6 +1,8 @@
 package game_object.character;
 
-import game_object.DefaultConstants;
+import java.util.ArrayList;
+
+import game_object.core.DefaultConstants;
 
 /**
  * A base class for all active characters, aka characters that can move.
@@ -8,9 +10,29 @@ import game_object.DefaultConstants;
  */
 public abstract class ActiveCharacter extends AbstractCharacter implements Actor {
 
+	public ActiveCharacter(double x, double y, ArrayList<String> imgPaths, double maxHP) {
+		super(x, y, imgPaths, maxHP);
+	}
+
 	private double myMovingUnit = DefaultConstants.MOVING_UNIT;
 	private double myJumpingUnit = DefaultConstants.JUMPING_UNIT;
 	
+	public double getMovingUnit() {
+		return myMovingUnit;
+	}
+
+	public void setMovingUnit(double movingUnit) {
+		myMovingUnit = movingUnit;
+	}
+
+	public double getJumpingUnit() {
+		return myJumpingUnit;
+	}
+
+	public void setJumpingUnit(double jumpingUnit) {
+		myJumpingUnit = jumpingUnit;
+	}
+
 	@Override
 	public void moveRight() {
 		myPosition.setX(myPosition.getX() + myMovingUnit);

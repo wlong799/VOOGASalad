@@ -1,8 +1,10 @@
-package game_object;
+package game_object.level;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import game_object.background.Background;
+import game_object.block.AbstractBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 
@@ -12,11 +14,12 @@ import game_object.character.Hero;
  */
 public class Level {
 
-	Level myNextLevel;
-	TransitionMenu myNextMenu;
-	List<Hero> myHeros;
-	List<Enemy> myEnemies;
-	//TODO: List<Block> myBlocks;
+	private Level myNextLevel;
+	private TransitionMenu myNextMenu;
+	private Background myBackground;
+	private List<Hero> myHeros;
+	private List<Enemy> myEnemies;
+	private List<AbstractBlock> myBlocks;
 	
 	public Level() {
 		myHeros = new ArrayList<>();
@@ -55,6 +58,38 @@ public class Level {
 	
 	public void removeEnemy(Enemy enemy) {
 		myEnemies.remove(enemy);
+	}
+
+	public Background getBackground() {
+		return myBackground;
+	}
+
+	public void setBackground(Background background) {
+		myBackground = background;
+	}
+
+	public List<Hero> getHeros() {
+		return myHeros;
+	}
+
+	public void setHeros(List<Hero> heros) {
+		myHeros = heros;
+	}
+
+	public List<Enemy> getEnemies() {
+		return myEnemies;
+	}
+
+	public void setEnemies(List<Enemy> enemies) {
+		myEnemies = enemies;
+	}
+
+	public List<AbstractBlock> getBlocks() {
+		return myBlocks;
+	}
+
+	public void setBlocks(List<AbstractBlock> blocks) {
+		myBlocks = blocks;
 	}
 	
 }
