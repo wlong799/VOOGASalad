@@ -5,6 +5,7 @@ public class MainView extends View {
 	private NavigatorView navigator;
 	private InspectorView inspector;
 	private ComponentsView components;
+	private CanvasView canvas;
 
 	public MainView(AuthoringController controller) {
 		super(controller);
@@ -15,7 +16,8 @@ public class MainView extends View {
 		navigator = new NavigatorView(this.getController());
 		inspector = new InspectorView(this.getController());
 		components = new ComponentsView(this.getController());
-		addSubViews(navigator, inspector, components);
+		canvas = new CanvasView(this.getController());
+		addSubViews(navigator, inspector, components, canvas);
 	}
 
 	@Override
@@ -25,6 +27,8 @@ public class MainView extends View {
 				this.getHeight());
 		components.setPositionAndSize(100, this.getHeight() - 100, 
 				this.getWidth() - 200, 100);
+		canvas.setPositionAndSize(100, 0, this.getWidth() - 200, 
+				this.getHeight() - 100);
 	}
 	
 }

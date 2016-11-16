@@ -114,9 +114,9 @@ public abstract class View {
 		root.getChildren().clear();
 	}
 	
-	protected abstract void layoutSelf();
-	
 	protected abstract void initUI();
+	
+	protected abstract void layoutSelf();
 	
 	private void layoutSubViews() {
 		for (View child : subViews) {

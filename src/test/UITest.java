@@ -1,7 +1,9 @@
 package test;
 
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import ui.AuthoringController;
 import ui.MainView;
@@ -15,8 +17,10 @@ public class UITest extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		double width = 500;
-		double height = 500;
+		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+		double width = primaryScreenBounds.getWidth();
+		double height = primaryScreenBounds.getHeight() - 20;
+		
 		AuthorEnvironment env = new AuthorEnvironment();
 		AuthoringController controller = new AuthoringController(env);
 		MainView mainView = new MainView(controller);
