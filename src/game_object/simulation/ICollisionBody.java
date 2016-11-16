@@ -1,6 +1,6 @@
 package game_object.simulation;
 
-public interface ICollisionBody {
+public interface ICollisionBody extends IBodyWithPosition {
 	
 	void setCategoryBitMask(int categoryBitMask);
 	
