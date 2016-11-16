@@ -8,8 +8,14 @@ package game_engine.physics;
  */
 public interface IPhysicsEngine {
 
+	/**
+	 * Initializes the collision manager
+	 */
 	public void initCollisionManager();
 	
+	/**
+	 * Initializes the location manager
+	 */
 	public void initLocationManager();
 	
 	public CollisionManager getCollisionManager();

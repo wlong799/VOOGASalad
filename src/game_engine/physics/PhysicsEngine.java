@@ -12,10 +12,14 @@ import game_object.level.Level;
  * 
  * @author Charlie Wang
  */
-public class PhysicsEngine implements IPhysicsEngine{
+public class PhysicsEngine extends AbstractPhysicsEngine{
 	private CollisionManager myCollisionManager;
 	private LocationManager myLocationManager;
 
+	public PhysicsEngine() {
+		super();
+	}
+	
 	@Override
 	public void initCollisionManager() {
 		myCollisionManager = new CollisionManager();
