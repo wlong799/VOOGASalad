@@ -1,12 +1,12 @@
 package game_engine;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import game_object.character.AbstractCharacter;
-import voogasalad_overwatch.Sprite;
+import game_object.AbstractSprite;
 
 public class Gravity {
-	private ArrayList<Sprite> myGrounds;
+	private ArrayList<AbstractSprite> myGrounds;
 	private static final double G = 10;
 	private double myGravity;
 
@@ -16,36 +16,14 @@ public class Gravity {
 
 	public Gravity(double g) {
 		myGravity = g;
-		myGrounds = new ArrayList<Sprite>();
+		myGrounds = new ArrayList<AbstractSprite>();
 	}
 
-	public void calculateNewVerticalPosition(AbstractCharacter character, double elapsedTime) {
-		
-		double y = character.getPosition().getY();
-		double vy = character.getVelocity().getYVelocity();
-		double newy = y + elapsedTime * vy;
-		double newvy = vy + elapsedTime * myGravity;
-		
-		boolean touched = checkTouchedGround(character, newy);
-		updateNewPositionAndVelocity(newy, newvy, touched, character); //touched any ground or concrete blocks
-
-	}
-
-	public boolean checkTouchedGround(AbstractCharacter character, double newy) {
-		//TODO: loop through all the (can-stand-on) blocks can check if they collide with the top border of the hit box
-		return false;
+	public double getGravity() {
+		return myGravity;
 	}
 	
-	private void updateNewPositionAndVelocity(double newy, double newvy, boolean touched, AbstractCharacter character) {
-		if (touched) {
-			character.getVelocity().setYVelocity(0);
-			return;
-		}
-		
-		//new position = current position + dy
-		character.getPosition().setY(newy);
-		
-		//new velocity = current velocity +dvy
-		character.getVelocity().setYVelocity(newvy);
+	public List<AbstractSprite> getGrounds() {
+		return myGrounds;
 	}
 }
