@@ -1,8 +1,10 @@
-package game_object.core;
+package game_object.unused;
 
 import voogasalad_overwatch.Collision;
 
 import java.util.*;
+
+import game_object.core.Position;
 
 public interface ISprite {
     
