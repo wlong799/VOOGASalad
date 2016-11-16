@@ -4,15 +4,15 @@ import java.util.ArrayList;
 
 import game_object.core.AbstractSprite;
 import game_object.core.Velocity;
-import game_object.simulation.CollisionBody;
-import game_object.simulation.PhysicsBody;
+import game_object.simulation.ICollisionBody;
+import game_object.simulation.IPhysicsBody;
 import game_object.weapon.Weapon;
 
 /**
  * A base class for all characters.
  * @author Jay
  */
-public abstract class AbstractCharacter extends AbstractSprite implements CollisionBody, PhysicsBody {
+public abstract class AbstractCharacter extends AbstractSprite implements ICollisionBody, IPhysicsBody {
 
 	protected double myMaxHP;
 	protected double myCurrentHP;

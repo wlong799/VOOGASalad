@@ -2,8 +2,8 @@ package game_object.weapon;
 
 import game_object.core.Position;
 import game_object.core.Velocity;
-import game_object.simulation.CollisionBody;
-import game_object.simulation.PhysicsBody;
+import game_object.simulation.ICollisionBody;
+import game_object.simulation.IPhysicsBody;
 
 /**
  * this class represents a single projectile on screen
@@ -13,7 +13,7 @@ import game_object.simulation.PhysicsBody;
  * @author Yilun
  *
  */
-public class Projectile implements PhysicsBody, CollisionBody {
+public class Projectile implements IPhysicsBody, ICollisionBody {
 
 	// position
 	private Position myPosition;
