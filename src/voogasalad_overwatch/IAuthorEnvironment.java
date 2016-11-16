@@ -1,26 +1,73 @@
 package voogasalad_overwatch;
 
+import game_object.framework.Game;
+import game_object.level.Level;
+
 /**
- * Visualize all of the setters for every class
+ * Supports creating and modifying game date
  * @author
  *
  */
 public interface IAuthorEnvironment {
 
-	void addGame(IGame game);
+	/**
+	 * add a game to the scene that the user
+	 * can modify
+	 * @param game interface
+	 */
+	void addGame(Game game);
 	
-	void setCurrentGame(IGame game);
+	/**
+	 * Set which game that is open should
+	 * be in the front and able for the user
+	 * to iteract with
+	 * @param game interface
+	 */
+	void setCurrentGame(Game game);
 	
-	IGame getCurrentGame();
+	/**
+	 * Returns the game that the 
+	 * user is currently interacting with/
+	 * modifying
+	 * @return game interface
+	 */
+	Game getCurrentGame();
+		
+	/**
+	 * add a certain level to the current game
+	 * @param level
+	 */
+	void addLevel(Level level);
 	
+	/**
+	 * set a level to be the one able to
+	 * modify and have the user interact
+	 * @param level interface
+	 */
+	void setCurrentLevel(Level level);
 	
-	void addLevel(ILevel level);
+	/**
+	 * returns the current level that the user
+	 * is interacting with
+	 * @return level interface
+	 */
+	Level getCurrentLevel();
 	
-	void setCurrentLevel(ILevel level);
-	
-	ILevel getCurrentLevel();
-	
+	/**
+	 * define the physics that should influene the
+	 * game interactions
+	 * @param physicsEngine
+	 */
 	void setPhysicsEngine(IPhysicsEngine physicsEngine);
 	
+	/**
+	 * returns the current physics that are 
+	 * being applied to the level
+	 * @return physicsengine interface
+	 */
 	IPhysicsEngine getPhysicsEngine();
+	
+	void load();
+	
+	void setLanguage(String lang);
 }
