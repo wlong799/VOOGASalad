@@ -1,5 +1,10 @@
 package game_engine;
 
+/**
+ * Basic interface for all game engines
+ * 
+ * @author Charlie Wang
+ */
 public interface IGameEngine {
 
 	/**

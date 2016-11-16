@@ -3,6 +3,8 @@ package game_engine.physics;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_object.block.AbstractBlock;
+import game_object.block.BlockCollisionBehavior;
 import game_object.core.AbstractSprite;
 
 /**
@@ -27,8 +29,17 @@ public class Gravity {
 	public double getGravity() {
 		return myGravity;
 	}
-	
+
 	public List<AbstractSprite> getGrounds() {
 		return myGrounds;
+	}
+
+	public void setGroundBlocks(List<AbstractBlock> blocks) {
+		for (AbstractBlock b : blocks) {
+			if (b.getCollisionBehavior()==BlockCollisionBehavior.TOP_TOP_COLLISION||
+					b.getCollisionBehavior()==BlockCollisionBehavior.ALL_ALL_COLLISION) {
+				myGrounds.add(b);
+			}
+		}
 	}
 }
