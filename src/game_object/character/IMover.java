@@ -4,7 +4,12 @@ import java.util.ArrayList;
 
 import game_object.acting.ActionTrigger;
 
-public interface Actor {
+/**
+ * An interface representing all the sprites/character that will move
+ * (either by MovingEnging(AI) or by key input)
+ * @author Jay
+ */
+public interface IMover {
 	void moveLeft();
 	void moveRight();
 	void moveUp();
