@@ -2,7 +2,7 @@ package game_object.character;
 
 import game_object.weapon.Weapon;
 
-public interface Upgrader {
+public interface IUpgrader {
 
 	// set the character to full health
 	void replenishHealth();

@@ -6,7 +6,7 @@ import game_object.acting.ActionTrigger;
 import game_object.core.DefaultConstants;
 import game_object.weapon.Weapon;
 
-public class Hero extends ActiveCharacter implements Upgrader {
+public class Hero extends ActiveCharacter implements IUpgrader {
 
 
 	private int myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
