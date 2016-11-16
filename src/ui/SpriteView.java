@@ -24,6 +24,19 @@ public class SpriteView extends View {
 		return mySprite;
 	}
 	
+	public void setPositionX(double x) {
+		/*
+		 * TODO
+		 * two things:
+		 * 1. set frontend UI position in display
+		 * 2. set Sprite position
+		 */
+	}
+	
+	public void setPositionY(double y) {
+		//TODO
+	}
+	
 	@Override
 	protected void initUI() {
 		if (mySprite == null) return;
