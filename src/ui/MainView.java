@@ -17,18 +17,31 @@ public class MainView extends View {
 		inspector = new InspectorView(this.getController());
 		components = new ComponentsView(this.getController());
 		canvas = new CanvasView(this.getController());
-		addSubViews(navigator, inspector, components, canvas);
+		addSubViews(navigator, inspector, canvas, components);
 	}
 
 	@Override
 	protected void layoutSelf() {
-		navigator.setPositionAndSize(0, 0, 100, this.getHeight());
-		inspector.setPositionAndSize(this.getWidth() - 100, 0, 100, 
+		navigator.setPositionAndSize(
+				0,
+				0,
+				UIConstants.LEFT_WIDTH,
 				this.getHeight());
-		components.setPositionAndSize(100, this.getHeight() - 100, 
-				this.getWidth() - 200, 100);
-		canvas.setPositionAndSize(100, 0, this.getWidth() - 200, 
-				this.getHeight() - 100);
+		inspector.setPositionAndSize(
+				this.getWidth() - UIConstants.RIGHT_WIDTH,
+				0,
+				UIConstants.RIGHT_WIDTH,
+				this.getHeight());
+		components.setPositionAndSize(
+				UIConstants.LEFT_WIDTH, 
+				this.getHeight() - UIConstants.BOTTOM_HEIGHT, 
+				this.getWidth() - UIConstants.LEFT_WIDTH - UIConstants.RIGHT_WIDTH,
+				UIConstants.BOTTOM_HEIGHT);
+		canvas.setPositionAndSize(
+				UIConstants.LEFT_WIDTH,
+				0,
+				this.getWidth() - UIConstants.LEFT_WIDTH - UIConstants.RIGHT_WIDTH, 
+				this.getHeight() - UIConstants.BOTTOM_HEIGHT);
 	}
 	
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Base class for all sprites providing common functionalities.
  * @author Jay
  */
-public abstract class AbstractSprite {
+public abstract class AbstractSprite implements ISprite {
 
 	protected Position myPosition;
 	protected ArrayList<String> myImgPaths;

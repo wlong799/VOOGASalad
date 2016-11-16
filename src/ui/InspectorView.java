@@ -1,20 +1,18 @@
 package ui;
 
-import game_object.unused.ISprite;
+import game_object.core.ISprite;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class InspectorView extends View implements Subscriber {
 	
 	private SpriteView inspectedSpriteView;
 	private VBox configs;
-	private HBox xBox;
-	private HBox yBox;
+	private VBox xBox;
+	private VBox yBox;
 
 	public InspectorView(AuthoringController controller) {
 		super(controller);
@@ -24,14 +22,15 @@ public class InspectorView extends View implements Subscriber {
 	public void didUpdate(Publisher target) {
 		if (target instanceof AuthoringController) {
 			inspectedSpriteView = ((AuthoringController) target).getSelectedSpriteView();
+			updateUI();
 		}
-		updateUI();
 	}
 	
 	@Override
 	protected void initUI() {
+		this.getController().addSubscriber(this);
 		configs = new VBox();
-		configs.setAlignment(Pos.CENTER);
+		this.addUI(configs);
 	}
 
 	@Override
@@ -54,13 +53,12 @@ public class InspectorView extends View implements Subscriber {
 		configs.getChildren().addAll(xBox, yBox);
 	}
 	
-	private HBox makeDoubleInputBox(String title, double defaultValue, 
+	private VBox makeDoubleInputBox(String title, double defaultValue, 
 			ChangeListener<String> listener) {
-		HBox box = new HBox();
+		VBox box = new VBox();
 		Label label = new Label(title);
 		TextField tf = new TextField(defaultValue + "");
 		box.getChildren().addAll(label, tf);
-		box.setSpacing(10);
 		box.setPadding(new Insets(5,5,5,5));
 		tf.textProperty().addListener(listener);
 		return box;

@@ -20,6 +20,7 @@ public class UITest extends Application {
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		double width = primaryScreenBounds.getWidth();
 		double height = primaryScreenBounds.getHeight() - 20;
+		//TODO adjust task bar height for Windows OS
 		
 		AuthorEnvironment env = new AuthorEnvironment();
 		AuthoringController controller = new AuthoringController(env);
@@ -29,7 +30,6 @@ public class UITest extends Application {
 		Scene scn = new Scene(mainView.getUI());
 		Stage stage = new Stage();
 		stage.setWidth(width);
-		stage.setHeight(height);
 		stage.setScene(scn);
 		stage.show();
 		
