@@ -1,5 +1,6 @@
 package game_object.weapon;
 
+import game_object.CollisionBody;
 import game_object.PhysicsBody;
 import game_object.Position;
 import game_object.Velocity;
@@ -12,7 +13,7 @@ import game_object.Velocity;
  * @author Yilun
  *
  */
-public class Projectile implements PhysicsBody {
+public class Projectile implements PhysicsBody, CollisionBody {
 
 	// position
 	private Position myPosition;
@@ -61,6 +62,30 @@ public class Projectile implements PhysicsBody {
 	@Override
 	public void setVelocity(Velocity velocity) {
 		myVelocity = velocity;
+	}
+
+	@Override
+	public void setCategoryBitMask(int categoryBitMask) {
+		// TODO Auto-generated method stub
+		throw new RuntimeException("Unimplemented");
+	}
+
+	@Override
+	public int getCategoryBitMask() {
+		// TODO Auto-generated method stub
+		throw new RuntimeException("Unimplemented");
+	}
+
+	@Override
+	public void setCollisionBitMask(int collisionBitMask) {
+		// TODO Auto-generated method stub
+		throw new RuntimeException("Unimplemented");
+	}
+
+	@Override
+	public int getCollisionBitMask() {
+		// TODO Auto-generated method stub
+		throw new RuntimeException("Unimplemented");
 	}
 	
 }

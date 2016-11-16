@@ -3,11 +3,10 @@ package game_object.block;
 import java.util.ArrayList;
 
 import game_object.AbstractSprite;
-import game_object.CollisionBody;
 import game_object.Dimension;
 import game_object.Position;
 
-public abstract class AbstractBlock extends AbstractSprite implements CollisionBody {
+public abstract class AbstractBlock extends AbstractSprite {
 
 	Position myPos;
 	ArrayList<String> myImgPaths;

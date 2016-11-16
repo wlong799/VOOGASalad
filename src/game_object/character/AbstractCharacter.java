@@ -4,6 +4,7 @@ import game_object.AbstractSprite;
 import game_object.CollisionBody;
 import game_object.PhysicsBody;
 import game_object.Velocity;
+import game_object.weapon.Weapon;
 
 /**
  * A base class for all characters.
@@ -15,6 +16,7 @@ public abstract class AbstractCharacter extends AbstractSprite implements Collis
 	protected double myCurrentHP;
 	protected boolean myAffectedByPhysics;
 	protected Velocity myVelocity;
+	protected Weapon myCurrentWeapon;
 	
 	public void setMaxHP(int maxHP) {
 		myMaxHP = maxHP;
@@ -32,6 +34,16 @@ public abstract class AbstractCharacter extends AbstractSprite implements Collis
 		return myCurrentHP;
 	}
 	
+	
+	
+	public Weapon getCurrentWeapon() {
+		return myCurrentWeapon;
+	}
+
+	public void setCurrentWeapon(Weapon currentWeapon) {
+		myCurrentWeapon = currentWeapon;
+	}
+
 	/* PhysicsBody */
 	@Override
 	public void setAffectedByPhysics(boolean affectedByPhysics) {

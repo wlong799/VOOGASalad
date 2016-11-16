@@ -11,6 +11,22 @@ public abstract class ActiveCharacter extends AbstractCharacter implements Actor
 	private double myMovingUnit = DefaultConstants.MOVING_UNIT;
 	private double myJumpingUnit = DefaultConstants.JUMPING_UNIT;
 	
+	public double getMovingUnit() {
+		return myMovingUnit;
+	}
+
+	public void setMovingUnit(double movingUnit) {
+		myMovingUnit = movingUnit;
+	}
+
+	public double getJumpingUnit() {
+		return myJumpingUnit;
+	}
+
+	public void setJumpingUnit(double jumpingUnit) {
+		myJumpingUnit = jumpingUnit;
+	}
+
 	@Override
 	public void moveRight() {
 		myPosition.setX(myPosition.getX() + myMovingUnit);
