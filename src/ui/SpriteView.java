@@ -1,8 +1,6 @@
 package ui;
 
-import java.util.stream.Collectors;
-
-import game_object.unused.ISprite;
+import game_object.core.ISprite;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -40,7 +38,7 @@ public class SpriteView extends View {
 	@Override
 	protected void initUI() {
 		if (mySprite == null) return;
-		String path = mySprite.getImagePaths().stream().collect(Collectors.joining(""));
+		String path = mySprite.getImgPaths().get(0);
 		Image image = new Image(path);
 		imageView = new ImageView(image);
 		this.addUI(imageView);

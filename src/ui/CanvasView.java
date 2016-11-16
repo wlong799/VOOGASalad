@@ -22,7 +22,8 @@ public class CanvasView extends View {
 	protected void initUI() {
 		spriteViews = new ArrayList<>();
 		content = new Group();
-		Rectangle rect = new Rectangle(0,0,500,500);
+		Rectangle rect = new Rectangle(0,0,
+				UIConstants.CANVAS_STARTING_WIDTH,UIConstants.CANVAS_HEIGHT);
 		rect.setFill(Color.BEIGE);
 		content.getChildren().add(rect);
 		scrollPane = new ScrollPane(rect);

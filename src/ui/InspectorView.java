@@ -1,6 +1,6 @@
 package ui;
 
-import game_object.unused.ISprite;
+import game_object.core.ISprite;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

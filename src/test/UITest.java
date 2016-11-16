@@ -29,7 +29,6 @@ public class UITest extends Application {
 		Scene scn = new Scene(mainView.getUI());
 		Stage stage = new Stage();
 		stage.setWidth(width);
-		stage.setHeight(height);
 		stage.setScene(scn);
 		stage.show();
 		
