@@ -4,6 +4,10 @@ import game_object.core.ISprite;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * wrapper for Sprite in AuthEnv
+ * parent view is set to CanvasView when added to env
+ */
 public class SpriteView extends View {
 	
 	private ISprite mySprite;
@@ -22,6 +26,7 @@ public class SpriteView extends View {
 		return mySprite;
 	}
 	
+	@Override
 	public void setPositionX(double x) {
 		/*
 		 * TODO
@@ -31,6 +36,7 @@ public class SpriteView extends View {
 		 */
 	}
 	
+	@Override
 	public void setPositionY(double y) {
 		//TODO
 	}
@@ -41,15 +47,16 @@ public class SpriteView extends View {
 		String path = mySprite.getImgPaths().get(0);
 		Image image = new Image(path);
 		imageView = new ImageView(image);
+		imageView.setFitHeight(image.getHeight());
+		imageView.setFitWidth(image.getWidth());
 		this.addUI(imageView);
-		imageView.setOnMouseClicked(e -> 
-			this.getController().selectSpriteView(this));
+		imageView.setOnMouseClicked(e -> {
+			this.getController().selectSpriteView(this);});
 	}
 
 	@Override
 	protected void layoutSelf() {
-		imageView.setFitWidth(this.getWidth());
-		imageView.setFitHeight(this.getHeight());
+		System.out.println("laying out");
 	}
 
 }
