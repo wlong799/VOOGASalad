@@ -1,5 +1,8 @@
 package voogasalad_overwatch;
 
+import game_object.framework.Game;
+import game_object.level.Level;
+
 /**
  * Supports creating and modifying game date
  * @author
@@ -12,7 +15,7 @@ public interface IAuthorEnvironment {
 	 * can modify
 	 * @param game interface
 	 */
-	void addGame(IGame game);
+	void addGame(Game game);
 	
 	/**
 	 * Set which game that is open should
@@ -20,7 +23,7 @@ public interface IAuthorEnvironment {
 	 * to iteract with
 	 * @param game interface
 	 */
-	void setCurrentGame(IGame game);
+	void setCurrentGame(Game game);
 	
 	/**
 	 * Returns the game that the 
@@ -28,27 +31,27 @@ public interface IAuthorEnvironment {
 	 * modifying
 	 * @return game interface
 	 */
-	IGame getCurrentGame();
+	Game getCurrentGame();
 		
 	/**
 	 * add a certain level to the current game
 	 * @param level
 	 */
-	void addLevel(ILevel level);
+	void addLevel(Level level);
 	
 	/**
 	 * set a level to be the one able to
 	 * modify and have the user interact
 	 * @param level interface
 	 */
-	void setCurrentLevel(ILevel level);
+	void setCurrentLevel(Level level);
 	
 	/**
 	 * returns the current level that the user
 	 * is interacting with
 	 * @return level interface
 	 */
-	ILevel getCurrentLevel();
+	Level getCurrentLevel();
 	
 	/**
 	 * define the physics that should influene the
@@ -63,4 +66,8 @@ public interface IAuthorEnvironment {
 	 * @return physicsengine interface
 	 */
 	IPhysicsEngine getPhysicsEngine();
+	
+	void load();
+	
+	void setLanguage(String lang);
 }
