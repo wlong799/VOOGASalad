@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import game_object.acting.ActionTrigger;
 import game_object.core.DefaultConstants;
-import game_object.simulation.CollisionBody;
 import game_object.weapon.Weapon;
 
 public class Hero extends ActiveCharacter implements Upgrader {

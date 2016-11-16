@@ -2,11 +2,8 @@ package game_object.character;
 
 import java.util.ArrayList;
 
-import javax.management.RuntimeErrorException;
-
 import game_object.acting.ActionTrigger;
 import game_object.core.DefaultConstants;
-import game_object.simulation.CollisionBody;
 
 public class Enemy extends ActiveCharacter {
 	

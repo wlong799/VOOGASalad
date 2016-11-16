@@ -1,6 +1,6 @@
 package game_object.core;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * Base class for all sprites providing common functionalities.

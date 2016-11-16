@@ -1,8 +1,9 @@
 package game_object.powerup;
 
+import java.util.ArrayList;
+
 import game_object.character.Upgrader;
 import game_object.weapon.Weapon;
-import java.util.*;
 
 public class NewWeaponPowerUp extends PowerUp {
 

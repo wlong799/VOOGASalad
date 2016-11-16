@@ -1,8 +1,6 @@
 package game_object.unused;
 
-import voogasalad_overwatch.Collision;
-
-import java.util.*;
+import java.util.ArrayList;
 
 import game_object.core.Position;
 
