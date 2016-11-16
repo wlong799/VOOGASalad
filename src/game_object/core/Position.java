@@ -1,4 +1,4 @@
-package game_object;
+package game_object.core;
 
 /**
  * A class representing 2D position (x, y), with the convention that
@@ -9,6 +9,11 @@ public class Position {
 	
 	private double myX, myY;
 	
+	public Position(double x, double y) {
+		myX = x;
+		myY = y;
+	}
+
 	public double getX() {
 		return myX;
 	}

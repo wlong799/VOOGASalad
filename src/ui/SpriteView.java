@@ -2,7 +2,7 @@ package ui;
 
 import java.util.stream.Collectors;
 
-import game_object.ISprite;
+import game_object.unused.ISprite;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
