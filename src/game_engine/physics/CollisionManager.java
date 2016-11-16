@@ -1,4 +1,4 @@
-package game_engine;
+package game_engine.physics;
 
 public class CollisionManager {
 	public CollisionManager() {

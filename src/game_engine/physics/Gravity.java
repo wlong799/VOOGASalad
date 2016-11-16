@@ -1,10 +1,15 @@
-package game_engine;
+package game_engine.physics;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import game_object.AbstractSprite;
+import game_object.core.AbstractSprite;
 
+/**
+ * Class that represent the basic behaviors of gravity
+ * 
+ * @author Charlie Wang
+ */
 public class Gravity {
 	private ArrayList<AbstractSprite> myGrounds;
 	private static final double G = 10;

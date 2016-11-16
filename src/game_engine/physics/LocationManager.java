@@ -1,7 +1,5 @@
-package game_engine;
+package game_engine.physics;
 
-import game_object.Position;
-import game_object.Velocity;
 import game_object.character.AbstractCharacter;
 
 public class LocationManager {

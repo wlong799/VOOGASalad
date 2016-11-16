@@ -1,4 +1,4 @@
-package game_engine;
+package game_engine.physics;
 
 public class PhysicsEngine implements IPhysicsEngine{
 	private CollisionManager myCollisionManager;

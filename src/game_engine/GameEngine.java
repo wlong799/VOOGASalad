@@ -1,8 +1,13 @@
 package game_engine;
 
-import game_object.Game;
-import game_object.Level;
-import game_object.TransitionMenu;
+import java.util.List;
+
+import game_object.block.AbstractBlock;
+import game_object.character.Enemy;
+import game_object.character.Hero;
+import game_object.framework.Game;
+import game_object.level.Level;
+import game_object.level.TransitionMenu;
 
 public class GameEngine implements IGameEngine{
 	private boolean runFlag;
@@ -10,6 +15,9 @@ public class GameEngine implements IGameEngine{
 	private Level myCurrentLevel;
 	private TransitionMenu myFirstSceneAsMenu;
 	private Level myFirstSceneAsLevel;
+	private List<Hero> myHeros;
+	private List<Enemy> myEnemies;
+	private List<AbstractBlock> myBlocks;
 	
 	public GameEngine(Game game) {
 		myGame = game;
