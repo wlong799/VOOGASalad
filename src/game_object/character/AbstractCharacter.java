@@ -19,7 +19,7 @@ public abstract class AbstractCharacter extends AbstractSprite implements IChara
 	protected Weapon myCurrentWeapon;
 	protected boolean myDead;
 	
-	public AbstractCharacter(double x, double y, ArrayList<String> imgPaths, double maxHP) {
+	protected AbstractCharacter(double x, double y, ArrayList<String> imgPaths, double maxHP) {
 		super(x, y, imgPaths);
 		myMaxHP = maxHP;
 		myCurrentHP = myMaxHP;
@@ -27,6 +27,17 @@ public abstract class AbstractCharacter extends AbstractSprite implements IChara
 		myDead = false;
 	}
 	
+	@Override
+	public Weapon getCurrentWeapon() {
+		return myCurrentWeapon;
+	}
+
+	@Override
+	public void setCurrentWeapon(Weapon currentWeapon) {
+		myCurrentWeapon = currentWeapon;
+	}
+	
+	/* IMortal Implementations */
 	@Override
 	public void setMaxHP(int maxHP) {
 		myMaxHP = maxHP;
@@ -48,16 +59,16 @@ public abstract class AbstractCharacter extends AbstractSprite implements IChara
 	}
 	
 	@Override
-	public Weapon getCurrentWeapon() {
-		return myCurrentWeapon;
+	public void setDead(boolean dead) {
+		myDead = dead;
 	}
 
 	@Override
-	public void setCurrentWeapon(Weapon currentWeapon) {
-		myCurrentWeapon = currentWeapon;
+	public boolean getDead() {
+		return myDead;
 	}
 
-	/* PhysicsBody */
+	/* IPhysicsBody Implementations */
 	@Override
 	public void setAffectedByPhysics(boolean affectedByPhysics) {
 		myAffectedByPhysics = affectedByPhysics;

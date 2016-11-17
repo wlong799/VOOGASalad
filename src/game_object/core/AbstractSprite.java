@@ -13,12 +13,12 @@ public abstract class AbstractSprite implements ISprite {
 	protected ImageStyle myImgStyle;
 	
 	
-	public AbstractSprite(double x, double y, List<String> imgPaths) {
+	protected AbstractSprite(double x, double y, List<String> imgPaths) {
 		this(imgPaths);
 		myPosition = new Position(x, y);
 	}
 
-	public AbstractSprite(Position position, List<String> imgPaths) {
+	protected AbstractSprite(Position position, List<String> imgPaths) {
 		this(imgPaths);
 		myPosition = position;
 	}

@@ -10,7 +10,7 @@ import game_object.core.DefaultConstants;
  */
 public abstract class ActiveCharacter extends AbstractCharacter implements IMover {
 
-	public ActiveCharacter(double x, double y, ArrayList<String> imgPaths, double maxHP) {
+	protected ActiveCharacter(double x, double y, ArrayList<String> imgPaths, double maxHP) {
 		super(x, y, imgPaths, maxHP);
 	}
 

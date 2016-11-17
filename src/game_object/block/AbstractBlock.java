@@ -12,7 +12,7 @@ public abstract class AbstractBlock extends AbstractSprite implements IBlock {
 	BlockCollisionBehavior myCollisionBehavior;
 	boolean myEffective; // effective for collision checking
 
-	public AbstractBlock(double x, double y, ArrayList<String> imgPaths, BlockCollisionBehavior bcb) {
+	protected AbstractBlock(double x, double y, ArrayList<String> imgPaths, BlockCollisionBehavior bcb) {
 		super(x, y, imgPaths);
 		myCollisionBehavior = bcb;
 		myEffective = true;

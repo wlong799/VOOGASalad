@@ -8,7 +8,7 @@ import game_object.weapon.Weapon;
  * Character interface
  * @author Jay
  */
-public interface ICharacter extends ICollisionBody, IPhysicsBody {
+public interface ICharacter extends ICollisionBody, IPhysicsBody, IMortal {
 
 	void setMaxHP(int maxHP);
 	
