@@ -9,6 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
 
 public class CanvasView extends View {
 	
@@ -43,7 +44,7 @@ public class CanvasView extends View {
 				0,
 				0,
 				UIConstants.CANVAS_STARTING_WIDTH,
-				UIConstants.CANVAS_HEIGHT);
+				Screen.getPrimary().getVisualBounds().getHeight()-UIConstants.BOTTOM_HEIGHT-40);
 		background.setFill(Color.BEIGE);
 		content.getChildren().add(background);
 		scrollPane = new ScrollPane(content);

@@ -18,6 +18,7 @@ public class UITest extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
+		
 		double width = primaryScreenBounds.getWidth();
 		double height = primaryScreenBounds.getHeight() - 20;
 		//TODO adjust task bar height for Windows OS
