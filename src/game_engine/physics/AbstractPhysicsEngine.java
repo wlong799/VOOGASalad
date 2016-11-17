@@ -11,6 +11,7 @@ import game_object.simulation.IPhysicsBody;
 
 /**
  * Abstract class for a basic physics engine
+ * 	implements all the updater
  * 
  * @author Charlie Wang
  */

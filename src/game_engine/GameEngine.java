@@ -97,6 +97,7 @@ public class GameEngine implements IGameEngine {
 	private void updateNewParameters(IPhysicsBody body) {
 		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
 		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
+		myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
 	}
 	
 	@Override

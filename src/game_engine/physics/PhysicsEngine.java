@@ -1,13 +1,11 @@
 package game_engine.physics;
 
-import game_object.character.AbstractCharacter;
 import game_object.core.Position;
 import game_object.core.Velocity;
-import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 
 /**
- * Engine that handles all the physical movements and collisions
+ * Engine that calculates all the velocity and position.
  * 
  * @author Charlie Wang
  */

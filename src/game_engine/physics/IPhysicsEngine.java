@@ -5,7 +5,7 @@ import game_object.core.Velocity;
 import game_object.simulation.IPhysicsBody;
 
 /**
- * Structure of a physics engine; calculates new position and velocity
+ * Structure of a physics engine; calculates and updates new position and velocity
  * 
  * @author Charlie Wang
  */
