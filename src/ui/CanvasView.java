@@ -6,8 +6,12 @@ import java.util.List;
 import game_object.block.GroundBlock;
 import game_object.core.ISprite;
 import game_object.core.Position;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -30,11 +34,16 @@ public class CanvasView extends View {
 	 * @param y position Y of spView to add relative to top-left corner of CanvasView
 	 * x and y are not relative to the origin of content!
 	 */
-	public void add(SpriteView spView, double x, double y) {
+	public void add(SpriteView spView, double x, double y, boolean relative) {
 		spriteViews.add(spView);
 		spView.setCanvasView(this);
 		content.getChildren().add(spView.getUI());
-		setRelativePosition(spView, x, y);
+		if (relative) {
+			setRelativePosition(spView, x, y);
+		}
+		else {
+			setAbsolutePosition(spView, x, y);
+		}
 	}
 	
 	/**
@@ -92,6 +101,7 @@ public class CanvasView extends View {
 		content.getChildren().add(background);
 		scrollPane = new ScrollPane(content);
 		this.addUI(scrollPane);
+		setOnDrag();
 		
 		//debug
 		scrollPane.setOnScroll(e -> {
@@ -104,14 +114,54 @@ public class CanvasView extends View {
 		ISprite block = new GroundBlock(40, 40, path);
 		SpriteView testsp = new SpriteView(this.getController());
 		testsp.setSprite(block);
-		this.add(testsp, 40, 40);
-		
+		this.add(testsp, 40, 40, false);
 	}
 
 	@Override
 	protected void layoutSelf() {
 		scrollPane.setPrefHeight(this.getHeight());
 		scrollPane.setPrefWidth(this.getWidth());
+	}
+	
+	private void setOnDrag() {
+		scrollPane.setOnDragOver(new EventHandler<DragEvent>() {
+		    public void handle(DragEvent event) {
+		        /* data is dragged over the target */
+		        /* accept it only if it is not dragged from the same node 
+		         * and if it has a string data */
+		        if (event.getDragboard().hasString()) {
+		            /* allow for both copying and moving, whatever user chooses */
+		            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+		        }
+		        
+		        event.consume();
+		    }
+		});
+		scrollPane.setOnDragDropped(new EventHandler<DragEvent>() {
+		    public void handle(DragEvent event) {
+		        Dragboard db = event.getDragboard();
+		        boolean success = false;
+		        if (db.hasString()) {
+		        	//TODO: make this stable
+		           double x = event.getSceneX() - UIConstants.LEFT_WIDTH; // dangerous!!
+		           double y = event.getSceneY();
+		           makeAndAddSpriteView(x, y);
+		           success = true;
+		        }
+		        event.setDropCompleted(success);
+		        
+		        event.consume();
+		     }
+		});
+	}
+	
+	private void makeAndAddSpriteView(double x, double y) {
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("turtle.gif");
+		ISprite block = new GroundBlock(40, 40, path);
+		SpriteView testsp = new SpriteView(this.getController());
+		testsp.setSprite(block);
+		this.add(testsp, x - 20, y - 20, true);
 	}
 
 }
