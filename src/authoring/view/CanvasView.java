@@ -220,9 +220,10 @@ public class CanvasView extends View {
 		ArrayList<String> path = new ArrayList<String>();
 		path.add(id);
 		ISprite block = new StaticBlock(40, 40, path);
-		SpriteView testsp = new SpriteView(this.getController());
-		testsp.setSprite(block);
-		this.add(testsp, x - testsp.getWidth() / 2, y - testsp.getHeight() / 2, true);
+		SpriteView spView = new SpriteView(this.getController());
+		spView.setSprite(block);
+		this.add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
+		this.getController().selectSpriteView(spView);
 	}
 
 }
