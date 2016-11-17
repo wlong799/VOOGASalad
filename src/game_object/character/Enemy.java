@@ -39,7 +39,7 @@ public class Enemy extends ActiveCharacter {
 	/* CollisionBody */
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {
-		myCategoryBitMask = categoryBitMask;
+		ExceptionThrower.notYetSupported();
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public class Enemy extends ActiveCharacter {
 
 	@Override
 	public void setCollisionBitMask(int collisionBitMask) {
-		myCollisionBitMask = collisionBitMask;
+		ExceptionThrower.notYetSupported();
 	}
 
 	@Override

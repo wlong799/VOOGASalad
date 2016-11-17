@@ -19,11 +19,12 @@ public class Level {
 	private Background myBackground;
 	private List<Hero> myHeros;
 	private List<Enemy> myEnemies;
-	private List<StaticBlock> myBlocks;
+	private List<StaticBlock> myStaticBlocks;
 	
 	public Level() {
 		myHeros = new ArrayList<>();
 		myEnemies = new ArrayList<>();
+		myStaticBlocks = new ArrayList<>();
 	}
 	
 	/* Transitions. Note if getNextLevel() returns a non-null value,  getNextMenu() will be ignored. */
@@ -85,11 +86,11 @@ public class Level {
 	}
 
 	public List<StaticBlock> getBlocks() {
-		return myBlocks;
+		return myStaticBlocks;
 	}
 
 	public void setBlocks(List<StaticBlock> blocks) {
-		myBlocks = blocks;
+		myStaticBlocks = blocks;
 	}
 	
 }
