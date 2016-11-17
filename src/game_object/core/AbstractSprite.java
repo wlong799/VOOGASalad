@@ -10,8 +10,8 @@ public abstract class AbstractSprite implements ISprite {
 
 	protected Position myPosition;
 	protected Position myPreviousPosition;
-	protected List<String> myImgPaths;
-	protected ImageStyle myImgStyle;
+	protected List<String> myImagePaths;
+	protected ImageStyle myImageStyle;
 	protected Dimension myDimension;
 	
 	protected AbstractSprite(double x, double y, List<String> imgPaths) {
@@ -23,9 +23,16 @@ public abstract class AbstractSprite implements ISprite {
 		myPosition = position;
 	}
 
-	private AbstractSprite(List<String> imgPaths) {
-		myImgPaths = imgPaths;
-		myImgStyle = ImageStyle.TRUE_SIZE;
+	private AbstractSprite(List<String> imagePaths) {
+		myImagePaths = imagePaths;
+		myImageStyle = ImageStyle.TRUE_SIZE;
+	}
+	
+	/* IBodyWithPosition Implementations */
+	@Override
+	public void setPosition(Position pos) {
+		myPreviousPosition = myPosition;
+		myPosition = pos;
 	}
 	
 	@Override
@@ -38,12 +45,7 @@ public abstract class AbstractSprite implements ISprite {
 		return myPreviousPosition;
 	}
 	
-	@Override
-	public void setPosition(Position pos) {
-		myPreviousPosition = myPosition;
-		myPosition = pos;
-	}
-	
+	/* IBodyWithImage Implementations */
 	@Override
 	public void setDimension(Dimension dimension) {
 		myDimension = dimension;
@@ -55,23 +57,23 @@ public abstract class AbstractSprite implements ISprite {
 	}
 
 	@Override
-	public List<String> getImgPaths() {
-		return myImgPaths;
+	public void setImagePaths(List<String> imagePaths) {
+		myImagePaths = imagePaths;
+	}
+	
+	@Override
+	public List<String> getImagePaths() {
+		return myImagePaths;
 	}
 
 	@Override
-	public void setImgPaths(List<String> imgPaths) {
-		myImgPaths = imgPaths;
+	public void setImageStyle(ImageStyle imgStyle) {
+		myImageStyle = imgStyle;
 	}
-
+	
 	@Override
 	public ImageStyle getImgStyle() {
-		return myImgStyle;
-	}
-
-	@Override
-	public void setImgStyle(ImageStyle imgStyle) {
-		myImgStyle = imgStyle;
+		return myImageStyle;
 	}
 	
 }
