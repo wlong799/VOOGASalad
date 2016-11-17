@@ -14,5 +14,6 @@ public class UIConstants {
 	public static final double SCROLL_VALUE_UNIT = 0.01;
 	public static final double COMPONENT_WIDTH_PORTION = 0.9;
 	public static final double COMPONENT_WIDTH = 50;
+	public static final double COMPONENTS_MIN_HEIGHT = 100;
 	
 }

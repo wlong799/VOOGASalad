@@ -10,6 +10,8 @@ public class MainView extends View {
 	private InspectorView inspector;
 	private ComponentsView components;
 	private CanvasView canvas;
+	private double componentsHeight;
+	private double initialHeight = 0;
 
 	public MainView(AuthoringController controller) {
 		super(controller);
@@ -26,6 +28,7 @@ public class MainView extends View {
 
 	@Override
 	protected void layoutSelf() {
+		recalculateSizes();
 		navigator.setPositionAndSize(
 				0,
 				0,
@@ -38,14 +41,23 @@ public class MainView extends View {
 				this.getHeight());
 		components.setPositionAndSize(
 				UIConstants.LEFT_WIDTH, 
-				this.getHeight() - UIConstants.BOTTOM_HEIGHT, 
+				this.getHeight() - componentsHeight, 
 				this.getWidth() - UIConstants.LEFT_WIDTH - UIConstants.RIGHT_WIDTH,
-				UIConstants.BOTTOM_HEIGHT);
+				componentsHeight);
 		canvas.setPositionAndSize(
 				UIConstants.LEFT_WIDTH,
 				0,
 				this.getWidth() - UIConstants.LEFT_WIDTH - UIConstants.RIGHT_WIDTH, 
-				this.getHeight() - UIConstants.BOTTOM_HEIGHT);
+				this.getHeight() - componentsHeight);
+	}
+	
+	private void recalculateSizes() {
+		if (this.getHeight() > initialHeight) {
+			initialHeight = this.getHeight();
+		}
+		componentsHeight = Math.max(
+			this.getHeight() / initialHeight * UIConstants.BOTTOM_HEIGHT,
+			UIConstants.COMPONENTS_MIN_HEIGHT);
 	}
 	
 }
