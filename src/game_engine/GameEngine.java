@@ -2,6 +2,8 @@ package game_engine;
 
 import java.util.List;
 
+import game_engine.collision.AbstractCollisionEngine;
+import game_engine.collision.CollisionEngine;
 import game_engine.physics.AbstractPhysicsEngine;
 import game_engine.physics.PhysicsEngine;
 import game_engine.transition.AbstractTransitionManager;
@@ -21,6 +23,7 @@ import game_object.level.TransitionMenu;
 public class GameEngine implements IGameEngine {
 	private boolean runFlag;
 	private AbstractPhysicsEngine myPhysicsEngine;
+	private AbstractCollisionEngine myCollisionEngine;
 	private AbstractTransitionManager myTransitionManager;
 	private Game myGame;
 	private Level myCurrentLevel;
@@ -37,6 +40,7 @@ public class GameEngine implements IGameEngine {
 		myFirstSceneAsLevel = game.getFirstSceneAsLevel();
 		myCurrentLevel = myFirstSceneAsLevel;
 		myPhysicsEngine = new PhysicsEngine();
+		myCollisionEngine = new CollisionEngine();
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 	}
 
@@ -101,6 +105,10 @@ public class GameEngine implements IGameEngine {
 		myPhysicsEngine = physicsEngine;
 	}
 
+	public void setCollisionEngine(AbstractCollisionEngine collisionEngine) {
+		myCollisionEngine = collisionEngine;
+	}
+	
 	public void setTransitionManager(AbstractTransitionManager transitionManager) {
 		myTransitionManager = transitionManager;
 	}

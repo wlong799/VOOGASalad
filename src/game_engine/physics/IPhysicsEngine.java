@@ -1,25 +1,20 @@
 package game_engine.physics;
 
+import game_object.simulation.IPhysicsBody;
+
 /**
- * Structure of a physics engine;
- * consists of a CollisionManager and a Location Manager
+ * Structure of a physics engine; calculates new position and velocity
  * 
  * @author Charlie Wang
  */
 public interface IPhysicsEngine {
 
-	/**
-	 * Initializes the collision manager
-	 */
-	public void initCollisionManager();
+	public double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime);
 	
-	/**
-	 * Initializes the location manager
-	 */
-	public void initLocationManager();
+	public double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime);
 	
-	public CollisionManager getCollisionManager();
+	public double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime);
 	
-	public LocationManager getLocationManager();
+	public double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime);
 	
 }
