@@ -8,24 +8,24 @@ import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.core.Velocity;
 
+
 /**
  * 
  * @author Michael
  * @author Charlie
  *
  */
-public class CollisionEngine extends AbstractCollisionEngine{
-
+public class CollisionEngine extends AbstractCollisionEngine {
 
     @Override
     public void checkCollisions (List<Hero> heroes,
                                  List<Enemy> enemies,
                                  List<AbstractBlock> blocks) {
-        for(Hero h : heroes){
-            for(Enemy e : enemies){
-                if((h.getCategoryBitMask() & e.getCategoryBitMask())!= 0){
-                    //IF COLLISON
-                    if(h.getPosition() == e.getPosition()){
+        for (Hero h : heroes) {
+            for (Enemy e : enemies) {
+                if ((h.getCategoryBitMask() & e.getCategoryBitMask()) != 0) {
+                    // IF COLLISON
+                    if (h.getPosition() == e.getPosition()) {
                         h.setDead(true);
                     }
                 }
@@ -33,37 +33,41 @@ public class CollisionEngine extends AbstractCollisionEngine{
         }
         checkCharacterBlockCollisions(heroes, blocks);
         checkCharacterBlockCollisions(enemies, blocks);
-        
     }
-    
-    private void checkCharacterBlockCollisions(List<? extends ActiveCharacter> characters, List<AbstractBlock> blocks){
-        for(ActiveCharacter c : characters){
-            for(AbstractBlock block : blocks){
-                // if character and block are able to collide
-                
-                if(didBlockAndCharacterCollide(c, block)!=CollisionDirection.NONE){
-                    // TODO: figure out which side of the block the character collides with
-                    // if left or right, set x velocity to 0
-                    // if top or bottom, set y velocity to 0
-                    
-                    // JUST FOR SHOWING WHAT WOULD HAPPEN
-                    c.setVelocity(new Velocity(0, c.getVelocity().getYVelocity()));
+
+    private void checkCharacterBlockCollisions (List<? extends ActiveCharacter> characters,
+                                                List<AbstractBlock> blocks) {
+        for (ActiveCharacter c : characters) {
+            for (AbstractBlock block : blocks) {
+                if ((c.getCategoryBitMask() & block.getCollisionBitMask()) != 0) {
+                    CollisionDirection collision = getBlockAndCharacterCollision(c, block);
+                    if (collision != CollisionDirection.NONE) {
+                        if (collision == CollisionDirection.TOP ||
+                            collision == CollisionDirection.BOTTOM) {
+                            c.setVelocity(new Velocity(c.getVelocity().getXVelocity(), 0));
+                        }
+                        else {
+                            c.setVelocity(new Velocity(0, c.getVelocity().getYVelocity()));
+                        }
+
+                    }
                 }
             }
         }
     }
-    
-    private CollisionDirection didBlockAndCharacterCollide(ActiveCharacter character, AbstractBlock block){
+
+    private CollisionDirection getBlockAndCharacterCollision (ActiveCharacter character,
+                                                              AbstractBlock block) {
         // TODO: figure out if/where the block/character collided
+        
         return CollisionDirection.NONE;
     }
 
-    
     private enum CollisionDirection {
-        TOP,
-        BOTTOM,
-        LEFT,
-        RIGHT,
-        NONE;
+                                     TOP,
+                                     BOTTOM,
+                                     LEFT,
+                                     RIGHT,
+                                     NONE;
     }
 }
