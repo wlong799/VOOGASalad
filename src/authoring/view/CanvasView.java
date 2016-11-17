@@ -1,8 +1,11 @@
-package ui;
+package authoring.view;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import authoring.AuthoringController;
+import authoring.View;
+import authoring.constants.UIConstants;
 import game_object.block.StaticBlock;
 import game_object.core.ISprite;
 import game_object.core.Position;

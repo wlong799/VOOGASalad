@@ -1,4 +1,8 @@
-package ui;
+package authoring.view;
+
+import authoring.AuthoringController;
+import authoring.View;
+import authoring.constants.UIConstants;
 
 public class MainView extends View {
 	

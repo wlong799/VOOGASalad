@@ -1,4 +1,4 @@
-package ui;
+package authoring.updating;
 
 import java.util.HashSet;
 import java.util.Set;

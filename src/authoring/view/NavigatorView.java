@@ -1,5 +1,7 @@
-package ui;
+package authoring.view;
 
+import authoring.AuthoringController;
+import authoring.View;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 

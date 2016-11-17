@@ -1,5 +1,9 @@
-package ui;
+package authoring.view;
 
+import authoring.AuthoringController;
+import authoring.View;
+import authoring.updating.IPublisher;
+import authoring.updating.ISubscriber;
 import game_object.core.ISprite;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;

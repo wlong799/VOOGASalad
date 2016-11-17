@@ -1,8 +1,10 @@
-package ui;
+package authoring.view;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import authoring.AuthoringController;
+import authoring.View;
 import game_object.constants.GameObjectConstants;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;

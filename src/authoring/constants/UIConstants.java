@@ -1,4 +1,4 @@
-package ui;
+package authoring.constants;
 
 public class UIConstants {
 	

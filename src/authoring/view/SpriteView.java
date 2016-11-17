@@ -1,5 +1,7 @@
-package ui;
+package authoring.view;
 
+import authoring.AuthoringController;
+import authoring.View;
 import game_object.core.ISprite;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
