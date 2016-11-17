@@ -48,11 +48,11 @@ public class InspectorView extends View implements ISubscriber {
 		ISprite sprite = inspectedSpriteView.getSprite();
 		xBox = makeDoubleInputBox("position X", sprite.getPosition().getX(), 
 				(newVal) -> {
-					inspectedSpriteView.setPositionX(Double.parseDouble(newVal));
+					inspectedSpriteView.setAbsolutePositionX(Double.parseDouble(newVal));
 				});
 		yBox = makeDoubleInputBox("position Y", sprite.getPosition().getY(), 
 				(newVal) -> {
-					inspectedSpriteView.setPositionY(Double.parseDouble(newVal));
+					inspectedSpriteView.setAbsolutePositionY(Double.parseDouble(newVal));
 				});
 		configs.getChildren().addAll(xBox, yBox);
 	}

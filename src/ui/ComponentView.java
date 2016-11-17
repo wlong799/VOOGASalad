@@ -41,8 +41,20 @@ public class ComponentView extends View {
 		imageView = new ImageView();
 		title = new Label("");
 		box = new VBox();
+		box.setAlignment(Pos.CENTER);
 		box.getChildren().addAll(imageView, title);
 		this.addUI(box);
+		setOnDrag();
+	}
+	
+	private void setOnDrag() {
+		//TODO drag and drop to canvas
+		imageView.setOnDragDetected(e -> {
+			System.out.println("drag starts");
+		});
+		imageView.setOnDragDone(e -> {
+			System.out.println("dropped");
+		});
 	}
 
 }

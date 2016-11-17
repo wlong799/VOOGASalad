@@ -34,7 +34,7 @@ public class CanvasView extends View {
 		spriteViews.add(spView);
 		spView.setCanvasView(this);
 		content.getChildren().add(spView.getUI());
-		setPosition(spView, x, y);
+		setRelativePosition(spView, x, y);
 	}
 	
 	/**
@@ -44,15 +44,39 @@ public class CanvasView extends View {
 	 * @param y new position Y relative to top-left corner
 	 * x and y are not relative to the origin of content!
 	 */
-	public void setPosition(SpriteView spView, double x, double y) {
+	public void setRelativePosition(SpriteView spView, double x, double y) {
+		double scWidth = scrollPane.getViewportBounds().getWidth();
+		double scHeight = scrollPane.getViewportBounds().getHeight();
 		double bgWidth = background.getWidth();
 		double bgHeight = background.getHeight();
 		double newx = 0, newy = 0;
-		newx = scrollPane.getHvalue() * bgWidth + x;
-		newy = scrollPane.getVvalue() * bgHeight + y;
+		if (scWidth > bgWidth) {
+			newx = x;
+		}
+		else {
+			newx = scrollPane.getHvalue() * (bgWidth - scWidth) + x;
+		}
+		if (scHeight > bgHeight) {
+			newy = y;
+		}
+		else {
+			newy = scrollPane.getVvalue() * (bgHeight - scHeight) + y;
+		}
 		spView.getUI().setLayoutX(newx);
 		spView.getUI().setLayoutY(newy);
 		spView.getSprite().setPosition(new Position(newx, newy));
+	}
+	
+	/**
+	 * @param spView
+	 * @param x
+	 * @param y
+	 * x and y relative to the origin of content
+	 */
+	public void setAbsolutePosition(SpriteView spView, double x, double y) {
+		spView.setPositionX(x);
+		spView.setPositionY(y);
+		spView.getSprite().setPosition(new Position(x, y));
 	}
 	
 	@Override
@@ -71,8 +95,7 @@ public class CanvasView extends View {
 		
 		//debug
 		scrollPane.setOnScroll(e -> {
-			//System.out.println(scrollPane.getHvalue());
-			//System.out.println(scrollPane.getVvalue());
+			System.out.println(scrollPane.getViewportBounds().getWidth());
 		});
 		
 		//more debug
