@@ -34,23 +34,17 @@ public class GameEngine implements IGameEngine {
 	
 	private double myElapsedTime;
 	
-	private Game myGame;
 	private Level myCurrentLevel;
-	private TransitionMenu myFirstSceneAsMenu;
-	private Level myFirstSceneAsLevel;
 	private List<Hero> myHeroes;
 	private List<Enemy> myEnemies;
 	private List<StaticBlock> myBlocks;
 
-	public GameEngine(Game game) {
-		myGame = game;
-		myFirstSceneAsMenu = game.getFirstSceneAsMenu();
-		myFirstSceneAsLevel = game.getFirstSceneAsLevel();
-		myCurrentLevel = myFirstSceneAsLevel;
+	public GameEngine(Level level) {
+		myCurrentLevel = level;
 		myPhysicsEngine = new PhysicsEngine();
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController();
-		myTransitionManager = new TransitionManager(game, myCurrentLevel);
+		//myTransitionManager = new TransitionManager(game, myCurrentLevel);
 	}
 
 	private void menu() {

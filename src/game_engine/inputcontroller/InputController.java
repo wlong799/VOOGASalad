@@ -1,6 +1,5 @@
 package game_engine.inputcontroller;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import game_object.acting.KeyEvent;
@@ -25,7 +24,8 @@ public class InputController implements IInputController {
 			return;
 		}
 		event = myList.get(0);
-
+		
+		
 	}
 
 }
