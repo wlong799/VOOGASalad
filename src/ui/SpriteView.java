@@ -30,14 +30,30 @@ public class SpriteView extends View {
 		myCanvas = canvas;
 	}
 	
-	@Override
-	public void setPositionX(double x) {
-		myCanvas.setPosition(this, x, mySprite.getPosition().getY());
+	public void setAbsolutePositionX(double x) {
+		myCanvas.setAbsolutePosition(this, x, mySprite.getPosition().getY());
+	}
+	
+	public void setAbsolutePositionY(double y) {
+		myCanvas.setAbsolutePosition(this, mySprite.getPosition().getX(), y);
+	}
+	
+	public void setRelativePositionX(double x) {
+		myCanvas.setRelativePosition(this, x, mySprite.getPosition().getY());
+	}
+	
+	public void setRelativePositionY(double y) {
+		myCanvas.setRelativePosition(this, mySprite.getPosition().getX(), y);
 	}
 	
 	@Override
-	public void setPositionY(double y) {
-		myCanvas.setPosition(this, mySprite.getPosition().getX(), y);
+	public double getWidth() {
+		return imageView.getFitWidth();
+	}
+	
+	@Override
+	public double getHeight() {
+		return imageView.getFitHeight();
 	}
 	
 	@Override
@@ -49,13 +65,29 @@ public class SpriteView extends View {
 		imageView.setFitHeight(image.getHeight());
 		imageView.setFitWidth(image.getWidth());
 		this.addUI(imageView);
-		imageView.setOnMouseClicked(e -> {
-			this.getController().selectSpriteView(this);});
+		setMouseClicked();
+		setDragMove();
 	}
 
 	@Override
 	protected void layoutSelf() {
-		System.out.println("laying out");
+	}
+	
+	private void setMouseClicked() {
+		imageView.setOnMouseClicked(e -> {
+			this.getController().selectSpriteView(this);
+		});
+	}
+	
+	private void setDragMove() {
+		imageView.setOnMouseDragged(event -> {
+			double x = event.getSceneX() - UIConstants.LEFT_WIDTH; // dangerous!!
+	        double y = event.getSceneY();
+	        myCanvas.setRelativePosition(
+	        		this, 
+	        		x - this.getWidth() / 2, 
+	        		y - this.getHeight() / 2);
+		});
 	}
 
 }
