@@ -1,0 +1,9 @@
+
+
+.control{
+  -fx-font-size: 12; 
+  -fx-base: #1d1d1d;
+  -fx-background-radius: 7;
+  -fx-pref-width: 170;
+  -fx-pref-height: 25;
+}
