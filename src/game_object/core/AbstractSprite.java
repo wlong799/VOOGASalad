@@ -2,6 +2,8 @@ package game_object.core;
 
 import java.util.List;
 
+import game_object.simulation.ICollisionBody;
+
 /**
  * Base class for all sprites providing common functionalities.
  * @author Jay
@@ -9,9 +11,13 @@ import java.util.List;
 public abstract class AbstractSprite implements ISprite {
 
 	protected Position myPosition;
+	protected Position myPreviousPosition;
 	protected List<String> myImgPaths;
 	protected ImageStyle myImgStyle;
 	
+	protected AbstractSprite() {
+		
+	}
 	
 	protected AbstractSprite(double x, double y, List<String> imgPaths) {
 		this(imgPaths);
@@ -34,7 +40,13 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	
 	@Override
+	public Position getPreviousPosition() {
+		return myPreviousPosition;
+	}
+	
+	@Override
 	public void setPosition(Position pos) {
+		myPreviousPosition = myPosition;
 		myPosition = pos;
 	}
 
@@ -102,5 +114,9 @@ public abstract class AbstractSprite implements ISprite {
 		return 0;
 	}
 
+	@Override
+	public void onCollideWith(ICollisionBody otherBody) {
+		ExceptionThrower.needToBeOverriden();
+	}
 	
 }
