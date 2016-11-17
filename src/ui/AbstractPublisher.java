@@ -3,15 +3,15 @@ package ui;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class AbstractPublisher implements Publisher {
+public abstract class AbstractPublisher implements IPublisher {
 	
-	private Set<Subscriber> subscribers;
+	private Set<ISubscriber> subscribers;
 	
 	public AbstractPublisher() {
-		subscribers = new HashSet<Subscriber>();
+		subscribers = new HashSet<ISubscriber>();
 	}
 	
-	public void addSubscriber(Subscriber client) {
+	public void addSubscriber(ISubscriber client) {
 		subscribers.add(client);
 	}
 	
