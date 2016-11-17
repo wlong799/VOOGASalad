@@ -11,6 +11,7 @@ import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
 import game_object.block.AbstractBlock;
 import game_object.block.IBlock;
+import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.core.Position;
@@ -37,7 +38,7 @@ public class GameEngine implements IGameEngine {
 	private Level myFirstSceneAsLevel;
 	private List<Hero> myHeroes;
 	private List<Enemy> myEnemies;
-	private List<IBlock> myBlocks;
+	private List<StaticBlock> myBlocks;
 
 	public GameEngine(Game game) {
 		myGame = game;
