@@ -58,5 +58,49 @@ public abstract class AbstractSprite implements ISprite {
 		myImgStyle = imgStyle;
 	}
 
+	@Override
+	public void setAffectedByPhysics(boolean affectedByPhysics) {
+		ExceptionThrower.notYetSupported();
+	}
+
+	@Override
+	public boolean getAffectedByPhysics() {
+		ExceptionThrower.needToBeOverriden();
+		return false;
+	}
+
+	@Override
+	public Velocity getVelocity() {
+		ExceptionThrower.needToBeOverriden();
+		return null;
+	}
+
+	@Override
+	public void setVelocity(Velocity velocity) {
+		ExceptionThrower.needToBeOverriden();
+	}
+
+	@Override
+	public void setCategoryBitMask(int categoryBitMask) {
+		ExceptionThrower.needToBeOverriden();
+	}
+
+	@Override
+	public int getCategoryBitMask() {
+		ExceptionThrower.needToBeOverriden();
+		return 0;
+	}
+
+	@Override
+	public void setCollisionBitMask(int collisionBitMask) {
+		ExceptionThrower.needToBeOverriden();
+	}
+
+	@Override
+	public int getCollisionBitMask() {
+		ExceptionThrower.needToBeOverriden();
+		return 0;
+	}
+
 	
 }
