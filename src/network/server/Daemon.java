@@ -28,6 +28,7 @@ public class Daemon extends Thread {
 		while (true) {
 			try {
 				Socket clientSock = coordinator.getServerSocket().accept();
+				System.out.println("someone connects");
 				Connection conn = new Connection(
 						coordinator.getMessageQueue(), clientSock);
 				coordinator.addConnection(conn);

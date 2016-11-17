@@ -8,6 +8,7 @@ import java.util.concurrent.BlockingQueue;
 public class Sender extends Thread {
 	
 	private Connection connection;
+	private Socket socket;
 	private BlockingQueue<Message> outGoingBuffer;
 	private ObjectOutputStream outputStream;
 	
@@ -17,16 +18,20 @@ public class Sender extends Thread {
 						  throws IOException {
 		this.connection = conn;
 		this.outGoingBuffer = outGoingBuffer;
-		this.outputStream = new ObjectOutputStream(socket.getOutputStream());
+		this.socket = socket;
+		System.out.println("Sender");
 	}
 	
 	@Override
 	public void run() {
 		while (!connection.isClosed()) {
 			try {
-				outputStream.writeObject("hello from client " + this.getId());
+				this.outputStream = new ObjectOutputStream(socket.getOutputStream());
+				Message msg = outGoingBuffer.take();
+				System.out.println("message " + msg + " sent");
+				outputStream.writeObject(msg);
 				outputStream.flush();
-			} catch (IOException e) {
+			} catch (IOException | InterruptedException e) {
 				// TODO cx15
 				e.printStackTrace();
 			}

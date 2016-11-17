@@ -2,6 +2,8 @@ package network.client;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -17,35 +19,38 @@ public class NetworkClient {
 	
 	private Socket socket;
 	private BlockingQueue<Message> inComingBuffer;
+	private Queue<Message> shared;
 	private Connection connectionToServer;
+	private Reader reader;
 	
 	public NetworkClient() throws ServerDownException {
 		try {
 			socket = new Socket(SERVER_NAME, SERVER_PORT);
 			inComingBuffer = new LinkedBlockingQueue<>();
 			connectionToServer = new Connection(inComingBuffer, socket);
+			shared = new LinkedList<>();
+			reader = new Reader(inComingBuffer, shared, connectionToServer);
+			reader.start();
+			System.out.println("client constructor ends");
 		} catch (IOException e) {
 			throw new ServerDownException();
 		}
 	}
 	
 	/**
-	 * Check if the receiver buffer is not empty
-	 * @return true if subsequent read is nonblocking
+	 * To read messages periodically from server that is non-blocking.
+	 * @return a queue of messages that arrived after
+	 * last invocation to read() 
 	 */
-	public boolean newMessageArrived() {
-		return !inComingBuffer.isEmpty();
+	public Queue<Message> read() {
+		synchronized(shared) {
+			Queue<Message> ret = shared;
+			shared = new LinkedList<>();
+			return ret;
+		}
 	}
 	
-	/**
-	 * This call is blocking when no more cached message i.e. all
-	 * messages have been delivered/read. If one wish to call this
-	 * method from a single-threaded process, always check
-	 * <code>newMessageArrived()</code> before proceeding.
-	 * @return one received message from network
-	 * @throws InterruptedException 
-	 */
-	public Message read() throws InterruptedException {
-		return inComingBuffer.take();
+	public void send(Message msg) throws InterruptedException {
+		connectionToServer.send(msg);
 	}
 }
