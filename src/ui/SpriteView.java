@@ -32,19 +32,12 @@ public class SpriteView extends View {
 	
 	@Override
 	public void setPositionX(double x) {
-		/*
-		 * TODO
-		 * two things:
-		 * 1. set frontend UI position in display
-		 * 2. set Sprite position
-		 * reminder:
-		 * x is 
-		 */
+		myCanvas.setPosition(this, x, mySprite.getPosition().getY());
 	}
 	
 	@Override
 	public void setPositionY(double y) {
-		//TODO
+		myCanvas.setPosition(this, mySprite.getPosition().getX(), y);
 	}
 	
 	@Override
