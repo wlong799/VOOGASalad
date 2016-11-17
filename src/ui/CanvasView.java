@@ -71,8 +71,8 @@ public class CanvasView extends View {
 		else {
 			newy = scrollPane.getVvalue() * (bgHeight - scHeight) + y;
 		}
-		spView.getUI().setLayoutX(newx);
-		spView.getUI().setLayoutY(newy);
+		spView.setPositionX(newx);
+		spView.setPositionY(newy);
 		spView.getSprite().setPosition(new Position(newx, newy));
 	}
 	
@@ -105,7 +105,7 @@ public class CanvasView extends View {
 		
 		//debug
 		scrollPane.setOnScroll(e -> {
-			System.out.println(scrollPane.getViewportBounds().getWidth());
+			//System.out.println(scrollPane.getViewportBounds().getWidth());
 		});
 		
 		//more debug
@@ -131,7 +131,7 @@ public class CanvasView extends View {
 		         * and if it has a string data */
 		        if (event.getDragboard().hasString()) {
 		            /* allow for both copying and moving, whatever user chooses */
-		            event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+		            event.acceptTransferModes(TransferMode.COPY);
 		        }
 		        
 		        event.consume();
@@ -161,7 +161,7 @@ public class CanvasView extends View {
 		ISprite block = new GroundBlock(40, 40, path);
 		SpriteView testsp = new SpriteView(this.getController());
 		testsp.setSprite(block);
-		this.add(testsp, x - 20, y - 20, true);
+		this.add(testsp, x - testsp.getWidth() / 2, y - testsp.getHeight() / 2, true);
 	}
 
 }

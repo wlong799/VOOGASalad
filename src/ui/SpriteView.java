@@ -47,6 +47,16 @@ public class SpriteView extends View {
 	}
 	
 	@Override
+	public double getWidth() {
+		return imageView.getFitWidth();
+	}
+	
+	@Override
+	public double getHeight() {
+		return imageView.getFitHeight();
+	}
+	
+	@Override
 	protected void initUI() {
 		if (mySprite == null) return;
 		String path = mySprite.getImgPaths().get(0);
@@ -55,13 +65,29 @@ public class SpriteView extends View {
 		imageView.setFitHeight(image.getHeight());
 		imageView.setFitWidth(image.getWidth());
 		this.addUI(imageView);
-		imageView.setOnMouseClicked(e -> {
-			this.getController().selectSpriteView(this);});
+		setMouseClicked();
+		setDragMove();
 	}
 
 	@Override
 	protected void layoutSelf() {
-		System.out.println("laying out");
+	}
+	
+	private void setMouseClicked() {
+		imageView.setOnMouseClicked(e -> {
+			this.getController().selectSpriteView(this);
+		});
+	}
+	
+	private void setDragMove() {
+		imageView.setOnMouseDragged(event -> {
+			double x = event.getSceneX() - UIConstants.LEFT_WIDTH; // dangerous!!
+	        double y = event.getSceneY();
+	        myCanvas.setRelativePosition(
+	        		this, 
+	        		x - this.getWidth() / 2, 
+	        		y - this.getHeight() / 2);
+		});
 	}
 
 }

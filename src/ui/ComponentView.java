@@ -58,11 +58,11 @@ public class ComponentView extends View {
 			public void handle(MouseEvent event) {
 				/* drag was detected, start a drag-and-drop gesture*/
 				/* allow any transfer mode */
-				Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+				Dragboard db = imageView.startDragAndDrop(TransferMode.COPY);
 
 				/* Put a string on a dragboard */
 				ClipboardContent content = new ClipboardContent();
-				content.putString("shit");
+				content.putString("dragging");
 				db.setContent(content);
 
 				event.consume();
