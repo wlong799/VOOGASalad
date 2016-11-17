@@ -62,6 +62,7 @@ public class GameEngine implements IGameEngine {
 	@Override
 	public void init() {
 		setElements(myCurrentLevel);
+		draw();
 	}
 
 	@Override
@@ -98,6 +99,7 @@ public class GameEngine implements IGameEngine {
 		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
 		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 		myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
+		myCollisionEngine.checkCollisions(myHeroes, myEnemies, myBlocks);
 	}
 	
 	@Override
