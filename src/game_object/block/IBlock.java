@@ -7,9 +7,5 @@ public interface IBlock extends ISprite {
 	BlockCollisionBehavior getCollisionBehavior();
 
 	void setCollisionBehavior(BlockCollisionBehavior collisionBehavior);
-	
-	boolean isEffective();
-	
-	void setEffective(boolean effective);
 
 }
