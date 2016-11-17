@@ -41,7 +41,7 @@ public class CollisionEngine extends AbstractCollisionEngine{
             for(AbstractBlock block : blocks){
                 // if character and block are able to collide
                 
-                if(didBlockAndCharacterCollide(c, block)){
+                if(didBlockAndCharacterCollide(c, block)!=CollisionDirection.NONE){
                     // TODO: figure out which side of the block the character collides with
                     // if left or right, set x velocity to 0
                     // if top or bottom, set y velocity to 0
@@ -53,10 +53,17 @@ public class CollisionEngine extends AbstractCollisionEngine{
         }
     }
     
-    private boolean didBlockAndCharacterCollide(ActiveCharacter character, AbstractBlock block){
-        // TODO: figure out if the block/character collided
-        return false;
+    private CollisionDirection didBlockAndCharacterCollide(ActiveCharacter character, AbstractBlock block){
+        // TODO: figure out if/where the block/character collided
+        return CollisionDirection.NONE;
     }
+
     
-    
+    private enum CollisionDirection {
+        TOP,
+        BOTTOM,
+        LEFT,
+        RIGHT,
+        NONE;
+    }
 }
