@@ -4,17 +4,22 @@ import java.util.ArrayList;
 
 import game_object.acting.ActionTrigger;
 import game_object.core.DefaultConstants;
+import game_object.core.ExceptionThrower;
+import game_object.simulation.ICollisionBody;
 
 public class Enemy extends ActiveCharacter {
+	
+	private int myCategoryBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
+	private int myCollisionBitMask =
+			DefaultConstants.HERO_CATEGORY_BIT_MASK |
+			DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
+	private double bodyDamage; // damage this enemy does to the hero if directly collided.
+	
 	
 	public Enemy(double x, double y, ArrayList<String> imgPaths, double maxHP) {
 		super(x, y, imgPaths, maxHP);
 	}
 
-	private int myCategoryBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
-	private int myCollisionBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
-	private double bodyDamage; // damage this enemy does to the hero if directly collided.
-	
 	public double getBodyDamage() {
 		return bodyDamage;
 	}
@@ -50,6 +55,11 @@ public class Enemy extends ActiveCharacter {
 	@Override
 	public int getCollisionBitMask() {
 		return myCollisionBitMask;
+	}
+
+	@Override
+	public void onCollideWith(ICollisionBody otherSprite) {
+		ExceptionThrower.notYetSupported();
 	}
 	
 }

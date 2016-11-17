@@ -1,8 +1,9 @@
 package game_object.block;
 
 import game_object.core.Dimension;
+import game_object.core.ISprite;
 
-public interface IBlock {
+public interface IBlock extends ISprite {
 	
 	void setDimension(Dimension d);
 
