@@ -1,11 +1,12 @@
 package game_engine.collision;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import game_object.block.AbstractBlock;
-import game_object.character.ActiveCharacter;
+import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.character.ICharacter;
 import game_object.core.Dimension;
 import game_object.core.Position;
 import game_object.core.Velocity;
@@ -22,7 +23,7 @@ public class CollisionEngine extends AbstractCollisionEngine {
     @Override
     public void checkCollisions (List<Hero> heroes,
                                  List<Enemy> enemies,
-                                 List<AbstractBlock> blocks) {
+                                 List<StaticBlock> blocks) {
         for (Hero h : heroes) {
             for (Enemy e : enemies) {
                 if ((h.getCategoryBitMask() & e.getCategoryBitMask()) != 0) {
@@ -33,14 +34,15 @@ public class CollisionEngine extends AbstractCollisionEngine {
                 }
             }
         }
+        
         checkCharacterBlockCollisions(heroes, blocks);
         checkCharacterBlockCollisions(enemies, blocks);
     }
 
-    private void checkCharacterBlockCollisions (List<? extends ActiveCharacter> characters,
-                                                List<AbstractBlock> blocks) {
-        for (ActiveCharacter c : characters) {
-            for (AbstractBlock block : blocks) {
+    private void checkCharacterBlockCollisions (List<? extends ICharacter> characters,
+                                                List<StaticBlock> blocks) {
+        for (ICharacter c : characters) {
+            for (StaticBlock block : blocks) {
                 if ((c.getCategoryBitMask() & block.getCollisionBitMask()) != 0) {
                     CollisionDirection collision = getBlockAndCharacterCollision(c, block);
                     if (collision != CollisionDirection.NONE) {
@@ -58,8 +60,8 @@ public class CollisionEngine extends AbstractCollisionEngine {
         }
     }
 
-    private CollisionDirection getBlockAndCharacterCollision (ActiveCharacter character,
-                                                              AbstractBlock block) {
+    private CollisionDirection getBlockAndCharacterCollision (ICharacter character,
+                                                              StaticBlock block) {
         // TODO: figure out if/where the block/character collided
         if (overlap(character.getDimension(), character.getPosition(), block.getDimension(),
                     block.getPosition())) {
