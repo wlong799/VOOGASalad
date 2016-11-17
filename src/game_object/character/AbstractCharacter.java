@@ -10,7 +10,7 @@ import game_object.weapon.Weapon;
  * A base class for all characters.
  * @author Jay
  */
-public abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
+abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	protected double myMaxHP;
 	protected double myCurrentHP;
