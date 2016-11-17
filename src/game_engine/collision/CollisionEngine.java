@@ -16,7 +16,6 @@ import game_object.core.Velocity;
  */
 public class CollisionEngine extends AbstractCollisionEngine{
 
-
     @Override
     public void checkCollisions (List<Hero> heroes,
                                  List<Enemy> enemies,
