@@ -30,7 +30,6 @@ public interface IGameEngine {
 
 	/**
 	 * Update the current map set-up by checking user input or current object parameters
-	 * TODO: need help of PhysicsEngine
 	 */
 	public abstract void update();
 
