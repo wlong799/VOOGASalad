@@ -4,8 +4,8 @@ import game_object.framework.Game;
 import game_object.level.Level;
 
 /**
- * Used on games that only have these three states
- *  that returns a level when a goal is reached
+ * Used on games that only have these three states that returns a level when a
+ * goal is reached
  * 
  * @author Charlie Wang
  */
@@ -46,5 +46,4 @@ public abstract class AbstractTransitionManager implements ITransitionManager {
 	public abstract Level levelLostReturn();
 
 	public abstract Level levelGoOnReturn();
-
 }

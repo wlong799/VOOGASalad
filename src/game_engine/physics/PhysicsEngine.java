@@ -13,9 +13,13 @@ import game_object.level.Level;
  * @author Charlie Wang
  */
 public class PhysicsEngine extends AbstractPhysicsEngine{
-
-	public PhysicsEngine() {
-		super();
+	
+	public PhysicsEngine(int fps) {
+		super(fps);
+	}
+	
+	public void updateBlocks(Level myCurrentLevel) {
+		
 	}
 	
 	public void setGroundBlocks(List<AbstractBlock> blocks) {
