@@ -6,6 +6,7 @@ import java.util.List;
 import game_object.block.StaticBlock;
 import game_object.core.ISprite;
 import game_object.core.Position;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -13,6 +14,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
@@ -38,11 +42,16 @@ public class CanvasView extends View {
 	 * @param y position Y of spView to add relative to top-left corner of CanvasView
 	 * x and y are not relative to the origin of content!
 	 */
-	public void add(SpriteView spView, double x, double y) {
+	public void add(SpriteView spView, double x, double y, boolean relative) {
 		spriteViews.add(spView);
 		spView.setCanvasView(this);
 		content.getChildren().add(spView.getUI());
-		setPosition(spView, x, y);
+		if (relative) {
+			setRelativePosition(spView, x, y);
+		}
+		else {
+			setAbsolutePosition(spView, x, y);
+		}
 	}
 	
 	/**
@@ -52,15 +61,39 @@ public class CanvasView extends View {
 	 * @param y new position Y relative to top-left corner
 	 * x and y are not relative to the origin of content!
 	 */
-	public void setPosition(SpriteView spView, double x, double y) {
+	public void setRelativePosition(SpriteView spView, double x, double y) {
+		double scWidth = scrollPane.getViewportBounds().getWidth();
+		double scHeight = scrollPane.getViewportBounds().getHeight();
 		double bgWidth = background.getWidth();
 		double bgHeight = background.getHeight();
 		double newx = 0, newy = 0;
-		newx = scrollPane.getHvalue() * bgWidth + x;
-		newy = scrollPane.getVvalue() * bgHeight + y;
-		spView.getUI().setLayoutX(newx);
-		spView.getUI().setLayoutY(newy);
+		if (scWidth > bgWidth) {
+			newx = x;
+		}
+		else {
+			newx = scrollPane.getHvalue() * (bgWidth - scWidth) + x;
+		}
+		if (scHeight > bgHeight) {
+			newy = y;
+		}
+		else {
+			newy = scrollPane.getVvalue() * (bgHeight - scHeight) + y;
+		}
+		spView.setPositionX(newx);
+		spView.setPositionY(newy);
 		spView.getSprite().setPosition(new Position(newx, newy));
+	}
+	
+	/**
+	 * @param spView
+	 * @param x
+	 * @param y
+	 * x and y relative to the origin of content
+	 */
+	public void setAbsolutePosition(SpriteView spView, double x, double y) {
+		spView.setPositionX(x);
+		spView.setPositionY(y);
+		spView.getSprite().setPosition(new Position(x, y));
 	}
 	
 	@Override
@@ -77,11 +110,11 @@ public class CanvasView extends View {
 		scrollPane = new ScrollPane(content);
 		this.addUI(scrollPane);
 		initScreenAdjusterButtons();
+		setOnDrag();
 		
 		//debug
 		scrollPane.setOnScroll(e -> {
-			//System.out.println(scrollPane.getHvalue());
-			//System.out.println(scrollPane.getVvalue());
+			//System.out.println(scrollPane.getViewportBounds().getWidth());
 		});
 		
 		//more debug
@@ -90,8 +123,7 @@ public class CanvasView extends View {
 		ISprite block = new StaticBlock(40, 40, path);
 		SpriteView testsp = new SpriteView(this.getController());
 		testsp.setSprite(block);
-		this.add(testsp, 40, 40);
-		
+		this.add(testsp, 40, 40, false);
 	}
 	
 	private void initScreenAdjusterButtons(){
@@ -124,6 +156,47 @@ public class CanvasView extends View {
 	protected void layoutSelf() {
 		scrollPane.setPrefHeight(this.getHeight());
 		scrollPane.setPrefWidth(this.getWidth());
+	}
+	
+	private void setOnDrag() {
+		scrollPane.setOnDragOver(new EventHandler<DragEvent>() {
+		    public void handle(DragEvent event) {
+		        /* data is dragged over the target */
+		        /* accept it only if it is not dragged from the same node 
+		         * and if it has a string data */
+		        if (event.getDragboard().hasString()) {
+		            /* allow for both copying and moving, whatever user chooses */
+		            event.acceptTransferModes(TransferMode.COPY);
+		        }
+		        
+		        event.consume();
+		    }
+		});
+		scrollPane.setOnDragDropped(new EventHandler<DragEvent>() {
+		    public void handle(DragEvent event) {
+		        Dragboard db = event.getDragboard();
+		        boolean success = false;
+		        if (db.hasString()) {
+		        	//TODO: make this stable
+		           double x = event.getSceneX() - UIConstants.LEFT_WIDTH; // dangerous!!
+		           double y = event.getSceneY();
+		           makeAndAddSpriteView(x, y);
+		           success = true;
+		        }
+		        event.setDropCompleted(success);
+		        
+		        event.consume();
+		     }
+		});
+	}
+	
+	private void makeAndAddSpriteView(double x, double y) {
+		ArrayList<String> path = new ArrayList<String>();
+		path.add("turtle.gif");
+		ISprite block = new GroundBlock(40, 40, path);
+		SpriteView testsp = new SpriteView(this.getController());
+		testsp.setSprite(block);
+		this.add(testsp, x - testsp.getWidth() / 2, y - testsp.getHeight() / 2, true);
 	}
 
 }
