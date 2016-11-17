@@ -12,6 +12,7 @@ public class SpriteView extends View {
 	private ISprite mySprite;
 	private ImageView imageView;
 	private CanvasView myCanvas;
+	//private Position mouseOffset;
 	
 	public SpriteView(AuthoringController controller) {
 		super(controller);
@@ -81,12 +82,7 @@ public class SpriteView extends View {
 	
 	private void setDragMove() {
 		imageView.setOnMouseDragged(event -> {
-			double x = event.getSceneX() - UIConstants.LEFT_WIDTH; // dangerous!!
-	        double y = event.getSceneY();
-	        myCanvas.setRelativePosition(
-	        		this, 
-	        		x - this.getWidth() / 2, 
-	        		y - this.getHeight() / 2);
+			myCanvas.onDragSpriteView(this, event);
 		});
 	}
 

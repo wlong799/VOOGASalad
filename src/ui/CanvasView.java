@@ -8,14 +8,11 @@ import game_object.core.ISprite;
 import game_object.core.Position;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.Control;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -96,6 +93,34 @@ public class CanvasView extends View {
 		spView.getSprite().setPosition(new Position(x, y));
 	}
 	
+	public void onDragSpriteView(SpriteView spView, MouseEvent event) {
+		//TODO make this stable
+		double x = event.getSceneX() - UIConstants.LEFT_WIDTH; // dangerous!!
+        double y = event.getSceneY();
+        double scWidth = scrollPane.getViewportBounds().getWidth();
+		double scHeight = scrollPane.getViewportBounds().getHeight();
+		if (x < UIConstants.DRAG_SCROLL_THRESHOLD) {
+			scrollPane.setHvalue(Math.max(0, 
+					scrollPane.getHvalue() - UIConstants.SCROLL_VALUE_UNIT));
+		}
+		if (scWidth - x < UIConstants.DRAG_SCROLL_THRESHOLD) {
+			scrollPane.setHvalue(Math.min(1, 
+					scrollPane.getHvalue() + UIConstants.SCROLL_VALUE_UNIT));
+		}
+		if (y < UIConstants.DRAG_SCROLL_THRESHOLD) {
+			scrollPane.setVvalue(Math.max(0, 
+					scrollPane.getVvalue() - UIConstants.SCROLL_VALUE_UNIT));
+		}
+		if (scHeight - y < UIConstants.DRAG_SCROLL_THRESHOLD) {
+			scrollPane.setVvalue(Math.min(1, 
+					scrollPane.getVvalue() + UIConstants.SCROLL_VALUE_UNIT));
+		}
+        this.setRelativePosition(
+        		spView, 
+        		x - spView.getWidth() / 2, 
+        		y - spView.getHeight() / 2);
+	}
+	
 	@Override
 	protected void initUI() {
 		spriteViews = new ArrayList<>();
@@ -138,7 +163,6 @@ public class CanvasView extends View {
 		screenAdjusterButtonInit();
 		
 	}
-
 	
 	private void screenAdjusterButtonInit(){
 		screenNarrower.setOnAction((event) -> {
@@ -151,7 +175,6 @@ public class CanvasView extends View {
 		});
 	}
 	
-
 	@Override
 	protected void layoutSelf() {
 		scrollPane.setPrefHeight(this.getHeight());
@@ -193,7 +216,7 @@ public class CanvasView extends View {
 	private void makeAndAddSpriteView(double x, double y) {
 		ArrayList<String> path = new ArrayList<String>();
 		path.add("turtle.gif");
-		ISprite block = new GroundBlock(40, 40, path);
+		ISprite block = new StaticBlock(40, 40, path);
 		SpriteView testsp = new SpriteView(this.getController());
 		testsp.setSprite(block);
 		this.add(testsp, x - testsp.getWidth() / 2, y - testsp.getHeight() / 2, true);
