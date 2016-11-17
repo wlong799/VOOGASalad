@@ -17,6 +17,8 @@ public class InspectorView extends View implements ISubscriber {
 	private VBox configs;
 	private VBox xBox;
 	private VBox yBox;
+	private VBox widthBox;
+	private VBox heightBox;
 	
 	public interface ITextChangeHandler {
 		void handle(String newVal);
@@ -58,7 +60,15 @@ public class InspectorView extends View implements ISubscriber {
 				(newVal) -> {
 					inspectedSpriteView.setAbsolutePositionY(Double.parseDouble(newVal));
 				});
-		configs.getChildren().addAll(xBox, yBox);
+		widthBox = makeDoubleInputBox("width", sprite.getDimension().getWidth(),
+				(newVal) -> {
+					inspectedSpriteView.setDimensionWidth(Double.parseDouble(newVal));
+				});
+		heightBox = makeDoubleInputBox("height", sprite.getDimension().getHeight(),
+				(newVal) -> {
+					inspectedSpriteView.setDimensionHeight(Double.parseDouble(newVal));
+				});
+		configs.getChildren().addAll(xBox, yBox, widthBox, heightBox);
 	}
 	
 	private VBox makeDoubleInputBox(String title, double defaultValue, 

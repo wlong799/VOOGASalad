@@ -2,6 +2,7 @@ package authoring.view;
 
 import authoring.AuthoringController;
 import authoring.View;
+import game_object.core.Dimension;
 import game_object.core.ISprite;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,7 +15,6 @@ public class SpriteView extends View {
 	private ISprite mySprite;
 	private ImageView imageView;
 	private CanvasView myCanvas;
-	//private Position mouseOffset;
 	
 	public SpriteView(AuthoringController controller) {
 		super(controller);
@@ -49,6 +49,16 @@ public class SpriteView extends View {
 		myCanvas.setRelativePosition(this, mySprite.getPosition().getX(), y);
 	}
 	
+	public void setDimensionWidth(double width) {
+		imageView.setFitWidth(width);
+		mySprite.getDimension().setWidth(width);
+	}
+	
+	public void setDimensionHeight(double height) {
+		imageView.setFitHeight(height);
+		mySprite.getDimension().setHeight(height);
+	}
+	
 	@Override
 	public double getWidth() {
 		return imageView.getFitWidth();
@@ -67,6 +77,9 @@ public class SpriteView extends View {
 		imageView = new ImageView(image);
 		imageView.setFitHeight(image.getHeight());
 		imageView.setFitWidth(image.getWidth());
+		mySprite.setDimension(new Dimension());
+		mySprite.getDimension().setWidth(image.getWidth());
+		mySprite.getDimension().setHeight(image.getHeight());
 		this.addUI(imageView);
 		setMouseClicked();
 		setDragMove();
