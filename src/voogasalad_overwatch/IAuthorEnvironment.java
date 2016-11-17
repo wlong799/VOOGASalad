@@ -20,7 +20,7 @@ public interface IAuthorEnvironment {
 	/**
 	 * Set which game that is open should
 	 * be in the front and able for the user
-	 * to iteract with
+	 * to interact with
 	 * @param game interface
 	 */
 	void setCurrentGame(Game game);
@@ -52,20 +52,6 @@ public interface IAuthorEnvironment {
 	 * @return level interface
 	 */
 	Level getCurrentLevel();
-	
-	/**
-	 * define the physics that should influene the
-	 * game interactions
-	 * @param physicsEngine
-	 */
-	void setPhysicsEngine(IPhysicsEngine physicsEngine);
-	
-	/**
-	 * returns the current physics that are 
-	 * being applied to the level
-	 * @return physicsengine interface
-	 */
-	IPhysicsEngine getPhysicsEngine();
 	
 	void load();
 	
