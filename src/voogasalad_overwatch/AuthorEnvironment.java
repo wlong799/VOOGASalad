@@ -1,7 +1,7 @@
 package voogasalad_overwatch;
 
-import game_object.Game;
-import game_object.Level;
+import game_object.framework.Game;
+import game_object.level.Level;
 
 public class AuthorEnvironment implements IAuthorEnvironment {
 

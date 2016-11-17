@@ -1,4 +1,4 @@
-package game_object;
+package game_object.level;
 
 /**
  * An interface sprites that will transit to another level or menu,

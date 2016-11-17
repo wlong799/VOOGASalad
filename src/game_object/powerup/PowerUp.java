@@ -1,9 +1,17 @@
 package game_object.powerup;
 
-public class PowerUp {
+import java.util.ArrayList;
 
-	public void affect(Upgradable u) {
-		// use reflection to call method on Upgradable
+import game_object.character.IUpgrader;
+import game_object.core.AbstractSprite;
+import game_object.core.Position;
+
+public abstract class PowerUp extends AbstractSprite {
+	
+	public PowerUp(double x, double y, ArrayList<String> imgPaths) {
+		super(new Position(x, y), imgPaths);
 	}
+	
+	public abstract void affect(IUpgrader u);
 	
 }

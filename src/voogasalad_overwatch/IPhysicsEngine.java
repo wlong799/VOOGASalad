@@ -1,7 +1,5 @@
 package voogasalad_overwatch;
 
-import javafx.geometry.Point2D;
-
 /**
  * @author 
  *sets the physics that should be applied in a level

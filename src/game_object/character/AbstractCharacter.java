@@ -1,38 +1,74 @@
 package game_object.character;
 
-import game_object.AbstractSprite;
-import game_object.CollisionBody;
-import game_object.PhysicsBody;
-import game_object.Velocity;
+import java.util.ArrayList;
+
+import game_object.core.AbstractSprite;
+import game_object.core.Velocity;
+import game_object.weapon.Weapon;
 
 /**
  * A base class for all characters.
  * @author Jay
  */
-public abstract class AbstractCharacter extends AbstractSprite implements CollisionBody, PhysicsBody {
-	
+public abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
+
 	protected double myMaxHP;
 	protected double myCurrentHP;
 	protected boolean myAffectedByPhysics;
 	protected Velocity myVelocity;
+	protected Weapon myCurrentWeapon;
+	protected boolean myDead;
 	
+	protected AbstractCharacter(double x, double y, ArrayList<String> imgPaths, double maxHP) {
+		super(x, y, imgPaths);
+		myMaxHP = maxHP;
+		myCurrentHP = myMaxHP;
+		myVelocity = new Velocity(0, 0);
+		myDead = false;
+	}
+	
+	@Override
+	public Weapon getCurrentWeapon() {
+		return myCurrentWeapon;
+	}
+
+	@Override
+	public void setCurrentWeapon(Weapon currentWeapon) {
+		myCurrentWeapon = currentWeapon;
+	}
+	
+	/* IMortal Implementations */
+	@Override
 	public void setMaxHP(int maxHP) {
 		myMaxHP = maxHP;
 	}
 	
+	@Override
 	public double getMaxHP() {
 		return myMaxHP;
 	}
 	
+	@Override
 	public void setCurrentHP(double currentHP) {
 		myCurrentHP = currentHP;
 	}
 	
+	@Override
 	public double getCurrentHP() {
 		return myCurrentHP;
 	}
 	
-	/* PhysicsBody */
+	@Override
+	public void setDead(boolean dead) {
+		myDead = dead;
+	}
+
+	@Override
+	public boolean getDead() {
+		return myDead;
+	}
+
+	/* IPhysicsBody Implementations */
 	@Override
 	public void setAffectedByPhysics(boolean affectedByPhysics) {
 		myAffectedByPhysics = affectedByPhysics;
