@@ -9,5 +9,5 @@ public interface IBodyWithPosition {
 	void setPosition(Position position);
 
 	Position getPreviousPosition();
-	
+
 }
