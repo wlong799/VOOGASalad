@@ -3,7 +3,7 @@ package ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import game_object.block.GroundBlock;
+import game_object.block.StaticBlock;
 import game_object.core.ISprite;
 import game_object.core.Position;
 import javafx.scene.Group;
@@ -87,7 +87,7 @@ public class CanvasView extends View {
 		//more debug
 		ArrayList<String> path = new ArrayList<String>();
 		path.add("turtle.gif");
-		ISprite block = new GroundBlock(40, 40, path);
+		ISprite block = new StaticBlock(40, 40, path);
 		SpriteView testsp = new SpriteView(this.getController());
 		testsp.setSprite(block);
 		this.add(testsp, 40, 40);
@@ -97,10 +97,11 @@ public class CanvasView extends View {
 	private void initScreenAdjusterButtons(){
 		screenWider = new Button(" < > ");
 		screenNarrower = new Button(" > < ");
+		
 		screenWider.setLayoutX(UIConstants.BUTTON_WIDTH);
-		screenWider.getStyleClass().add("control");
 		screenNarrower.setPrefWidth(UIConstants.BUTTON_WIDTH);
 		screenWider.setPrefWidth(UIConstants.BUTTON_WIDTH);
+		
 		this.addUIAll(screenWider, screenNarrower);
 		screenAdjusterButtonInit();
 		
@@ -110,11 +111,11 @@ public class CanvasView extends View {
 	private void screenAdjusterButtonInit(){
 		screenNarrower.setOnAction((event) -> {
 			if (background.getWidth() > UIConstants.CANVAS_STARTING_WIDTH){
-				background.setWidth(background.getWidth()-50);
+				background.setWidth(background.getWidth()-UIConstants.SCREEN_CHANGE_INTERVAL);
 			}
 		});
 		screenWider.setOnAction((event) -> {
-			background.setWidth(background.getWidth()+50);
+			background.setWidth(background.getWidth()+UIConstants.SCREEN_CHANGE_INTERVAL);
 		});
 	}
 	

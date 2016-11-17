@@ -9,5 +9,6 @@ public class UIConstants {
 	public static final double BOTTOM_HEIGHT = 200;
 	public static final double BUTTON_WIDTH = 50;
 	public static final double BUTTON_HEIGHT = 50;
+	public static final double SCREEN_CHANGE_INTERVAL = 50;
 	
 }

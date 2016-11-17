@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game_object.background.Background;
-import game_object.block.AbstractBlock;
+import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 
@@ -19,7 +19,7 @@ public class Level {
 	private Background myBackground;
 	private List<Hero> myHeros;
 	private List<Enemy> myEnemies;
-	private List<AbstractBlock> myBlocks;
+	private List<StaticBlock> myBlocks;
 	
 	public Level() {
 		myHeros = new ArrayList<>();
@@ -84,11 +84,11 @@ public class Level {
 		myEnemies = enemies;
 	}
 
-	public List<AbstractBlock> getBlocks() {
+	public List<StaticBlock> getBlocks() {
 		return myBlocks;
 	}
 
-	public void setBlocks(List<AbstractBlock> blocks) {
+	public void setBlocks(List<StaticBlock> blocks) {
 		myBlocks = blocks;
 	}
 	
