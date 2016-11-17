@@ -44,6 +44,7 @@ public class GameEngine implements IGameEngine {
 	@Override
 	public void loop() {
 		init();
+		draw();
 		while (runFlag) {
 			long time = System.currentTimeMillis();
 			
@@ -101,7 +102,7 @@ public class GameEngine implements IGameEngine {
 
 	@Override
 	public void draw() {
-
+		
 	}
 
 	private WinStatus checkWin() {
