@@ -12,6 +12,8 @@ import game_engine.transition.WinStatus;
 import game_object.block.AbstractBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.core.Position;
+import game_object.core.Velocity;
 import game_object.framework.Game;
 import game_object.level.Level;
 import game_object.level.TransitionMenu;
@@ -82,18 +84,19 @@ public class GameEngine implements IGameEngine {
 	@Override
 	public void update() {
 		for (Hero h: myHeroes) {
-			
+			updateNewParameters(h);
 		}
 		for (Enemy e: myEnemies) {
-			
+			updateNewParameters(e);
 		}
-		for (Enemy e: myEnemies) {
-			
+		for (AbstractBlock b: myBlocks) {
+			updateNewParameters(b);
 		}
 	}
 
-	private void updateNewParameters() {
-		
+	private void updateNewParameters(IPhysicsBody body) {
+		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
+		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 	}
 	
 	@Override

@@ -15,27 +15,27 @@ import game_object.simulation.IPhysicsBody;
  * @author Charlie Wang
  */
 public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
-	Gravity myGravity;
+	protected Gravity myGravity;
 
-	public AbstractPhysicsEngine() {
+	protected AbstractPhysicsEngine() {
 		myGravity = new Gravity();
 	}
 
-	public abstract double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime);
+	protected abstract double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime);
 
-	public abstract double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime);
+	protected abstract double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime);
 
-	public abstract double calculateNewHorizontalPosition(IPhysicsBody sprite, double elapsedTime);
+	protected abstract double calculateNewHorizontalPosition(IPhysicsBody sprite, double elapsedTime);
 
-	public abstract double calculateNewHorizontalVelocity(IPhysicsBody sprite, double elapsedTime);
+	protected abstract double calculateNewHorizontalVelocity(IPhysicsBody sprite, double elapsedTime);
 
 	public abstract Position calculateNewPosition(IPhysicsBody body, double elapsedTime);
 	
 	public abstract Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime);
 	
 	public void updateHorizontalPositionAndVelocity(double newx, double newvx, IPhysicsBody body) {
-		body.getPosition().setY(newx);
-		body.getVelocity().setYVelocity(newvx);
+		body.getPosition().setX(newx);
+		body.getVelocity().setXVelocity(newvx);
 	}
 
 	public void updateVerticalPositionAndVelocity(double newy, double newvy, IPhysicsBody body) {
@@ -43,8 +43,21 @@ public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
 		body.getVelocity().setYVelocity(newvy);
 	}
 	
+	public void updatePosition(Position position, IPhysicsBody body) {
+		body.setPosition(position);
+	}
+	
+	public void updateVelocity(Velocity velocity, IPhysicsBody body) {
+		body.setVelocity(velocity);
+	}
+	
 	public void updatePositionAndVelocity(double newx, double newvx, double newy, double newvy, IPhysicsBody body) {
 		updateHorizontalPositionAndVelocity(newx, newvx, body);
 		updateVerticalPositionAndVelocity(newy, newvy, body); 
+	}
+	
+	public void updatePositionAndVelocity(Position position, Velocity velocity, IPhysicsBody body) {
+		updatePosition(position, body);
+		updateVelocity(velocity, body);
 	}
 }
