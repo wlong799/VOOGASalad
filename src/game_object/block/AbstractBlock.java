@@ -12,9 +12,7 @@ public abstract class AbstractBlock extends AbstractSprite implements IBlock {
 	protected int myCollisionBitMask =
 			DefaultConstants.HERO_CATEGORY_BIT_MASK |
 			DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
-			
-	Dimension myDimension;
-	BlockCollisionBehavior myCollisionBehavior;
+	protected BlockCollisionBehavior myCollisionBehavior;
 	boolean myEffective; // effective for collision checking
 
 	protected AbstractBlock(double x, double y, ArrayList<String> imgPaths, BlockCollisionBehavior bcb) {
@@ -22,16 +20,6 @@ public abstract class AbstractBlock extends AbstractSprite implements IBlock {
 		myCollisionBehavior = bcb;
 		myEffective = true;
 		setImgStyle(ImageStyle.TILE);
-	}
-
-	@Override
-	public void setDimension(Dimension d) {
-		myDimension = d;
-	}
-
-	@Override
-	public Dimension getDimension() {
-		return myDimension;
 	}
 
 	@Override
