@@ -6,4 +6,6 @@ import game_object.simulation.IPhysicsBody;
 
 public interface ISprite extends IPhysicsBody, ICollisionBody, IBodyWithImage {
 	
+	
+	
 }
