@@ -203,7 +203,7 @@ public class CanvasView extends View {
 		        	//TODO: make this stable
 		           double x = event.getSceneX() - UIConstants.LEFT_WIDTH; // dangerous!!
 		           double y = event.getSceneY();
-		           makeAndAddSpriteView(x, y);
+		           makeAndAddSpriteView(db.getString(), x, y);
 		           success = true;
 		        }
 		        event.setDropCompleted(success);
@@ -213,9 +213,9 @@ public class CanvasView extends View {
 		});
 	}
 	
-	private void makeAndAddSpriteView(double x, double y) {
+	private void makeAndAddSpriteView(String id, double x, double y) {
 		ArrayList<String> path = new ArrayList<String>();
-		path.add("turtle.gif");
+		path.add(id);
 		ISprite block = new StaticBlock(40, 40, path);
 		SpriteView testsp = new SpriteView(this.getController());
 		testsp.setSprite(block);
