@@ -67,25 +67,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public boolean getDead() {
 		return myDead;
 	}
-
-	/* IPhysicsBody Implementations */
-	@Override
-	public void setAffectedByPhysics(boolean affectedByPhysics) {
-		myAffectedByPhysics = affectedByPhysics;
-	}
+	/* ---IMortal Implementations End--- */
 	
-	@Override
-	public boolean getAffectedByPhysics() {
-		return myAffectedByPhysics;
-	}
-	
-	@Override
-	public void setVelocity(Velocity velocity) {
-		myVelocity = velocity;
-	}
-	
-	@Override
-	public Velocity getVelocity() {
-		return myVelocity;
-	}
 }

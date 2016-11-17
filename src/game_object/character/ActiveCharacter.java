@@ -3,6 +3,7 @@ package game_object.character;
 import java.util.ArrayList;
 
 import game_object.core.DefaultConstants;
+import game_object.core.Velocity;
 
 /**
  * A base class for all active characters, aka characters that can move.
@@ -57,5 +58,27 @@ abstract class ActiveCharacter extends AbstractCharacter {
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
 		myVelocity.setYVelocity(myJumpingUnit);
 	}
+	
+	/* IPhysicsBody Implementations */
+	@Override
+	public void setAffectedByPhysics(boolean affectedByPhysics) {
+		myAffectedByPhysics = affectedByPhysics;
+	}
+	
+	@Override
+	public boolean getAffectedByPhysics() {
+		return myAffectedByPhysics;
+	}
+	
+	@Override
+	public void setVelocity(Velocity velocity) {
+		myVelocity = velocity;
+	}
+	
+	@Override
+	public Velocity getVelocity() {
+		return myVelocity;
+	}
+	/* ---IPhysicsBody Implementations--- */
 
 }
