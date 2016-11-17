@@ -6,12 +6,12 @@ import javafx.scene.image.ImageView;
 
 /**
  * wrapper for Sprite in AuthEnv
- * parent view is set to CanvasView when added to env
  */
 public class SpriteView extends View {
 	
 	private ISprite mySprite;
 	private ImageView imageView;
+	private CanvasView myCanvas;
 	
 	public SpriteView(AuthoringController controller) {
 		super(controller);
@@ -26,6 +26,10 @@ public class SpriteView extends View {
 		return mySprite;
 	}
 	
+	public void setCanvasView(CanvasView canvas) {
+		myCanvas = canvas;
+	}
+	
 	@Override
 	public void setPositionX(double x) {
 		/*
@@ -33,6 +37,8 @@ public class SpriteView extends View {
 		 * two things:
 		 * 1. set frontend UI position in display
 		 * 2. set Sprite position
+		 * reminder:
+		 * x is 
 		 */
 	}
 	

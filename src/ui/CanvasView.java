@@ -31,8 +31,18 @@ public class CanvasView extends View {
 	public void add(SpriteView spView, double x, double y) {
 		spriteViews.add(spView);
 		content.getChildren().add(spView.getUI());
-		spView.setPositionX(x);
-		spView.setPositionY(y);
+		setPosition(spView, x, y);
+	}
+	
+	/**
+	 * method to set the position of a spView
+	 * @param spView to be set
+	 * @param x new position X relative to top-left corner
+	 * @param y new position Y relative to top-left corner
+	 * x and y are not relative to the origin of content!
+	 */
+	public void setPosition(SpriteView spView, double x, double y) {
+		//TODO
 	}
 	
 	@Override
