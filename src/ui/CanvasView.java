@@ -7,6 +7,11 @@ import game_object.block.GroundBlock;
 import game_object.core.ISprite;
 import game_object.core.Position;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.Control;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -18,6 +23,8 @@ public class CanvasView extends View {
 	private ScrollPane scrollPane;
 	private Group content; // holder for all SpriteViews
 	private Rectangle background;
+	private Button screenWider;
+	private Button screenNarrower;
 
 	public CanvasView(AuthoringController controller) {
 		super(controller);
@@ -69,6 +76,7 @@ public class CanvasView extends View {
 		content.getChildren().add(background);
 		scrollPane = new ScrollPane(content);
 		this.addUI(scrollPane);
+		initScreenAdjusterButtons();
 		
 		//debug
 		scrollPane.setOnScroll(e -> {
@@ -85,6 +93,31 @@ public class CanvasView extends View {
 		this.add(testsp, 40, 40);
 		
 	}
+	
+	private void initScreenAdjusterButtons(){
+		screenWider = new Button(" < > ");
+		screenNarrower = new Button(" > < ");
+		screenWider.setLayoutX(UIConstants.BUTTON_WIDTH);
+		screenWider.getStyleClass().add("control");
+		screenNarrower.setPrefWidth(UIConstants.BUTTON_WIDTH);
+		screenWider.setPrefWidth(UIConstants.BUTTON_WIDTH);
+		this.addUIAll(screenWider, screenNarrower);
+		screenAdjusterButtonInit();
+		
+	}
+
+	
+	private void screenAdjusterButtonInit(){
+		screenNarrower.setOnAction((event) -> {
+			if (background.getWidth() > UIConstants.CANVAS_STARTING_WIDTH){
+				background.setWidth(background.getWidth()-50);
+			}
+		});
+		screenWider.setOnAction((event) -> {
+			background.setWidth(background.getWidth()+50);
+		});
+	}
+	
 
 	@Override
 	protected void layoutSelf() {
