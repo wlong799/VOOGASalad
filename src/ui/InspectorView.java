@@ -7,7 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-public class InspectorView extends View implements Subscriber {
+public class InspectorView extends View implements ISubscriber {
 	
 	private SpriteView inspectedSpriteView;
 	private VBox configs;
@@ -19,7 +19,7 @@ public class InspectorView extends View implements Subscriber {
 	}
 	
 	@Override
-	public void didUpdate(Publisher target) {
+	public void didUpdate(IPublisher target) {
 		if (target instanceof AuthoringController) {
 			inspectedSpriteView = ((AuthoringController) target).getSelectedSpriteView();
 			updateUI();
