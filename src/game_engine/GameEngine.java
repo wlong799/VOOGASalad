@@ -15,27 +15,29 @@ import game_object.character.Hero;
 import game_object.framework.Game;
 import game_object.level.Level;
 import game_object.level.TransitionMenu;
+import game_object.simulation.IPhysicsBody;
 
 /**
  * 
  * @author Charlie Wang
  */
 public class GameEngine implements IGameEngine {
-	private boolean runFlag;
 	private AbstractPhysicsEngine myPhysicsEngine;
 	private AbstractCollisionEngine myCollisionEngine;
 	private AbstractTransitionManager myTransitionManager;
+	
+	private double myElapsedTime;
+	
 	private Game myGame;
 	private Level myCurrentLevel;
 	private TransitionMenu myFirstSceneAsMenu;
 	private Level myFirstSceneAsLevel;
-	private List<Hero> myHeros;
+	private List<Hero> myHeroes;
 	private List<Enemy> myEnemies;
 	private List<AbstractBlock> myBlocks;
 
 	public GameEngine(Game game) {
 		myGame = game;
-		runFlag = true;
 		myFirstSceneAsMenu = game.getFirstSceneAsMenu();
 		myFirstSceneAsLevel = game.getFirstSceneAsLevel();
 		myCurrentLevel = myFirstSceneAsLevel;
@@ -79,11 +81,21 @@ public class GameEngine implements IGameEngine {
 
 	@Override
 	public void update() {
-		// myPhysicsEngine.updateBlocks(myCurrentLevel);
-		// myPhysicsEngine.updateEnemies(myCurrentLevel);
-		// myPhysicsEngine.updateHeroes(myCurrentLevel);
+		for (Hero h: myHeroes) {
+			
+		}
+		for (Enemy e: myEnemies) {
+			
+		}
+		for (Enemy e: myEnemies) {
+			
+		}
 	}
 
+	private void updateNewParameters() {
+		
+	}
+	
 	@Override
 	public void draw() {
 		// TODO: pass to game play team to render
@@ -96,11 +108,19 @@ public class GameEngine implements IGameEngine {
 	}
 
 	public void setElements(Level level) {
-		myHeros = level.getHeros();
+		myHeroes = level.getHeros();
 		myEnemies = level.getEnemies();
 		myBlocks = level.getBlocks();
 	}
 
+	public void setElapsedTime(double elapsedTime) {
+		myElapsedTime = elapsedTime;
+	}
+	
+	public double getElapsedTime() {
+		return myElapsedTime;
+	}
+	
 	public void setPhysicsEngine(AbstractPhysicsEngine physicsEngine) {
 		myPhysicsEngine = physicsEngine;
 	}

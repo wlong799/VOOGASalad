@@ -17,4 +17,7 @@ public interface IPhysicsEngine {
 	
 	public double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime);
 	
+	public void updateHorizontalPositionAndVelocity(double newx, double newvx, IPhysicsBody body);
+	
+	public void updateVerticalPositionAndVelocity(double newy, double newvy, IPhysicsBody body);
 }
