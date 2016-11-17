@@ -4,10 +4,9 @@ import java.util.ArrayList;
 
 import game_object.core.AbstractSprite;
 import game_object.core.DefaultConstants;
-import game_object.core.Dimension;
 import game_object.core.ImageStyle;
 
-public abstract class AbstractBlock extends AbstractSprite implements IBlock {
+abstract class AbstractBlock extends AbstractSprite implements IBlock {
 
 	protected int myCollisionBitMask =
 			DefaultConstants.HERO_CATEGORY_BIT_MASK |

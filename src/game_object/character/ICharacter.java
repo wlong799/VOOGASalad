@@ -7,7 +7,7 @@ import game_object.weapon.Weapon;
  * Character interface
  * @author Jay
  */
-public interface ICharacter extends ISprite, IMortal {
+public interface ICharacter extends ISprite, IMortal, IMover {
 
 	void setMaxHP(int maxHP);
 	
