@@ -14,6 +14,7 @@ public abstract class AbstractSprite implements ISprite {
 	protected Position myPreviousPosition;
 	protected List<String> myImgPaths;
 	protected ImageStyle myImgStyle;
+	protected Dimension myDimension;
 	
 	protected AbstractSprite() {
 		
@@ -48,6 +49,16 @@ public abstract class AbstractSprite implements ISprite {
 	public void setPosition(Position pos) {
 		myPreviousPosition = myPosition;
 		myPosition = pos;
+	}
+	
+	@Override
+	public void setDimension(Dimension dimension) {
+		myDimension = dimension;
+	}
+
+	@Override
+	public Dimension getDimension() {
+		return myDimension;
 	}
 
 	@Override
