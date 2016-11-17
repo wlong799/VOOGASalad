@@ -97,10 +97,11 @@ public class CanvasView extends View {
 	private void initScreenAdjusterButtons(){
 		screenWider = new Button(" < > ");
 		screenNarrower = new Button(" > < ");
+		
 		screenWider.setLayoutX(UIConstants.BUTTON_WIDTH);
-		screenWider.getStyleClass().add("control");
 		screenNarrower.setPrefWidth(UIConstants.BUTTON_WIDTH);
 		screenWider.setPrefWidth(UIConstants.BUTTON_WIDTH);
+		
 		this.addUIAll(screenWider, screenNarrower);
 		screenAdjusterButtonInit();
 		
@@ -110,11 +111,11 @@ public class CanvasView extends View {
 	private void screenAdjusterButtonInit(){
 		screenNarrower.setOnAction((event) -> {
 			if (background.getWidth() > UIConstants.CANVAS_STARTING_WIDTH){
-				background.setWidth(background.getWidth()-50);
+				background.setWidth(background.getWidth()-UIConstants.SCREEN_CHANGE_INTERVAL);
 			}
 		});
 		screenWider.setOnAction((event) -> {
-			background.setWidth(background.getWidth()+50);
+			background.setWidth(background.getWidth()+UIConstants.SCREEN_CHANGE_INTERVAL);
 		});
 	}
 	
