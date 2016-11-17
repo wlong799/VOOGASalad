@@ -9,7 +9,6 @@ import game_engine.physics.PhysicsEngine;
 import game_engine.transition.AbstractTransitionManager;
 import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
-import game_object.block.AbstractBlock;
 import game_object.block.IBlock;
 import game_object.block.StaticBlock;
 import game_object.character.Enemy;
