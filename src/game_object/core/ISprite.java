@@ -5,4 +5,6 @@ import game_object.simulation.IBodyWithPosition;
 
 public interface ISprite extends IBodyWithPosition, IBodyWithImage {
 	
+	
+	
 }

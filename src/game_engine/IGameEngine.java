@@ -11,7 +11,7 @@ public interface IGameEngine {
 	 * Main game loop: consists of initialization of elements, step by step update,
 	 * 	ending conditions check, and image drawing 
 	 */
-	public abstract void loop();
+	public abstract void run();
 	
 	/**
 	 * Reads in the Game object and makes the initial map set up

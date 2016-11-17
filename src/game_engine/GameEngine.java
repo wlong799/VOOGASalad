@@ -19,7 +19,6 @@ import game_object.level.TransitionMenu;
  * @author Charlie Wang
  */
 public class GameEngine implements IGameEngine {
-	private static final int FPS = 30;
 	private boolean runFlag;
 	private AbstractPhysicsEngine myPhysicsEngine;
 	private AbstractTransitionManager myTransitionManager;
@@ -37,32 +36,14 @@ public class GameEngine implements IGameEngine {
 		myFirstSceneAsMenu = game.getFirstSceneAsMenu();
 		myFirstSceneAsLevel = game.getFirstSceneAsLevel();
 		myCurrentLevel = myFirstSceneAsLevel;
-		myPhysicsEngine = new PhysicsEngine(FPS);
+		myPhysicsEngine = new PhysicsEngine();
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 	}
 
 	@Override
-	public void loop() {
-		init();
+	public void run() {
+		update();
 		draw();
-		while (runFlag) {
-			long time = System.currentTimeMillis();
-			
-			endCheck();
-			update();
-			draw();
-			
-			time = (1000 / FPS) - (System.currentTimeMillis() - time);
-			if (time > 0) {
-				try {
-					Thread.sleep(time);
-				} catch (Exception e) {
-					//
-					e.printStackTrace();
-				}
-			}
-		}
-		shutdown();
 	}
 
 	private void menu() {
@@ -73,7 +54,6 @@ public class GameEngine implements IGameEngine {
 	@Override
 	public void init() {
 		setElements(myCurrentLevel);
-		// TODO: pass to game play team to render
 	}
 
 	@Override
@@ -102,7 +82,7 @@ public class GameEngine implements IGameEngine {
 
 	@Override
 	public void draw() {
-		
+		// TODO: pass to game play team to render
 	}
 
 	private WinStatus checkWin() {
