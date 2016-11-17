@@ -17,11 +17,16 @@ public class UITest extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		String os = System.getProperty("os.name");
 		Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		
+		double height = 0;
 		double width = primaryScreenBounds.getWidth();
-		double height = primaryScreenBounds.getHeight() - 20;
-		//TODO adjust task bar height for Windows OS
+		if (os.contains("Windows")) {
+			height = primaryScreenBounds.getHeight();
+		}
+		else {
+			height = primaryScreenBounds.getHeight() - 20;
+		}
 		
 		AuthorEnvironment env = new AuthorEnvironment();
 		AuthoringController controller = new AuthoringController(env);
@@ -30,6 +35,8 @@ public class UITest extends Application {
 		mainView.layout();
 		Scene scn = new Scene(mainView.getUI());
 		Stage stage = new Stage();
+		stage.setX(primaryScreenBounds.getMinX());
+		stage.setY(primaryScreenBounds.getMinY());
 		stage.setWidth(width);
 		stage.setScene(scn);
 		stage.show();
