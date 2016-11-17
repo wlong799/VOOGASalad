@@ -13,6 +13,8 @@ public abstract class AbstractSprite implements ISprite {
 	protected List<String> myImagePaths;
 	protected ImageStyle myImageStyle;
 	protected Dimension myDimension;
+	protected boolean myAffectedByPhysics;
+	protected Velocity myVelocity;
 	
 	protected AbstractSprite(double x, double y, List<String> imgPaths) {
 		this(new Position(x, y), imgPaths);
@@ -75,5 +77,22 @@ public abstract class AbstractSprite implements ISprite {
 	public ImageStyle getImgStyle() {
 		return myImageStyle;
 	}
+
+	/* ICollisionBody Setter Implementations */
+	@Override
+	public void setCollisionBitMask(int collisionBitMask) {
+		ExceptionThrower.notYetSupported();
+	}
 	
+	@Override
+	public void setCategoryBitMask(int categoryBitMask) {
+		ExceptionThrower.notYetSupported();
+	}
+	
+	/* IPhysicsBody Setter Implementations */
+	@Override
+	public void setAffectedByPhysics(boolean affectedByPhysics) {
+		ExceptionThrower.notYetSupported();
+	}
 }
+
