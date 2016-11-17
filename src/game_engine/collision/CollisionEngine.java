@@ -6,6 +6,8 @@ import game_object.block.AbstractBlock;
 import game_object.character.ActiveCharacter;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.core.Dimension;
+import game_object.core.Position;
 import game_object.core.Velocity;
 
 
@@ -59,8 +61,70 @@ public class CollisionEngine extends AbstractCollisionEngine {
     private CollisionDirection getBlockAndCharacterCollision (ActiveCharacter character,
                                                               AbstractBlock block) {
         // TODO: figure out if/where the block/character collided
-        
+        if (overlap(character.getDimension(), character.getPosition(), block.getDimension(),
+                    block.getPosition())) {
+            Position prevPosition = character.getPreviousPosition();
+            Dimension charDimension = character.getDimension();
+            Position blockPosition = block.getPosition();
+            Dimension blockDimension = block.getDimension();
+
+            // collided from the left (i.e. your right edge was to the left, and you were above the
+            // bottom edge of the block
+            double charLeft = prevPosition.getX();
+            double charRight = charLeft + charDimension.getWidth();
+            double charTop = prevPosition.getY();
+            double charBottom = charTop + charDimension.getHeight();
+            double blockTop = blockPosition.getY();
+            double blockBottom = blockTop + blockDimension.getHeight();
+            double blockLeft = blockPosition.getX();
+            double blockRight = blockLeft + blockDimension.getWidth();
+            boolean couldLandOnBlock = (charLeft > blockLeft && charLeft < blockRight) ||
+                                       (charRight > blockLeft && charRight < blockRight);
+            if (charRight < blockLeft && charTop < blockBottom) {
+                return CollisionDirection.LEFT;
+            }
+            else if (charLeft > blockRight && charTop < blockBottom) {
+                return CollisionDirection.RIGHT;
+            }
+            else if (charBottom < blockTop &&
+                     couldLandOnBlock) {
+                return CollisionDirection.TOP;
+            }
+            else if (charTop > blockBottom && couldLandOnBlock) {
+                return CollisionDirection.BOTTOM;
+            }
+            else {
+                return CollisionDirection.CORNER;
+            }
+        }
         return CollisionDirection.NONE;
+
+    }
+
+    private boolean overlap (Dimension dimA, Position posA, Dimension dimB, Position posB) {
+
+        double xLeftA = posA.getX();
+        double xRightA = xLeftA + dimA.getWidth();
+        double xLeftB = posB.getX();
+        double xRightB = xLeftB + dimB.getWidth();
+
+        if ((xLeftA >= xLeftB && xLeftA <= xRightB) || (xRightA >= xLeftB && xRightA <= xRightB) ||
+            (xLeftB >= xLeftA && xRightB <= xRightA) || (xLeftA >= xLeftB && xRightA <= xRightB)) {
+            return true;
+        }
+
+        double yTopA = posA.getY();
+        double yBottomA = yTopA - dimA.getHeight();
+        double yTopB = posB.getY();
+        double yBottomB = yTopB - dimB.getHeight();
+
+        if ((yTopA >= yTopB && yTopA <= yBottomB) || (yBottomA >= yTopB && yBottomA <= yBottomB) ||
+            (yTopB >= yTopA && yBottomB <= yBottomA) ||
+            (yBottomA >= yTopB && yBottomA <= yBottomB)) {
+            return true;
+        }
+
+        return false;
     }
 
     private enum CollisionDirection {
@@ -68,6 +132,7 @@ public class CollisionEngine extends AbstractCollisionEngine {
                                      BOTTOM,
                                      LEFT,
                                      RIGHT,
+                                     CORNER,
                                      NONE;
     }
 }
