@@ -4,15 +4,13 @@ import java.util.ArrayList;
 
 import game_object.core.AbstractSprite;
 import game_object.core.Velocity;
-import game_object.simulation.ICollisionBody;
-import game_object.simulation.IPhysicsBody;
 import game_object.weapon.Weapon;
 
 /**
  * A base class for all characters.
  * @author Jay
  */
-public abstract class AbstractCharacter extends AbstractSprite implements ICollisionBody, IPhysicsBody {
+public abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	protected double myMaxHP;
 	protected double myCurrentHP;
@@ -29,28 +27,32 @@ public abstract class AbstractCharacter extends AbstractSprite implements IColli
 		myDead = false;
 	}
 	
+	@Override
 	public void setMaxHP(int maxHP) {
 		myMaxHP = maxHP;
 	}
 	
+	@Override
 	public double getMaxHP() {
 		return myMaxHP;
 	}
 	
+	@Override
 	public void setCurrentHP(double currentHP) {
 		myCurrentHP = currentHP;
 	}
 	
+	@Override
 	public double getCurrentHP() {
 		return myCurrentHP;
 	}
 	
-	
-	
+	@Override
 	public Weapon getCurrentWeapon() {
 		return myCurrentWeapon;
 	}
 
+	@Override
 	public void setCurrentWeapon(Weapon currentWeapon) {
 		myCurrentWeapon = currentWeapon;
 	}
