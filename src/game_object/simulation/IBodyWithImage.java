@@ -1,14 +1,14 @@
 package game_object.simulation;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import game_object.core.ImageStyle;
 
 public interface IBodyWithImage {
 
-	ArrayList<String> getImgPaths();
+	List<String> getImgPaths();
 
-	void setImgPaths(ArrayList<String> imgPaths);
+	void setImgPaths(List<String> imgPaths);
 
 	ImageStyle getImgStyle();
 
