@@ -34,23 +34,23 @@ public class MainView extends View {
 		navigator.setPositionAndSize(
 				0,
 				0,
-				UIConstants.LEFT_WIDTH,
-				this.getHeight());
+				this.getWidth(),
+				UIConstants.TOP_HEIGHT);
 		inspector.setPositionAndSize(
 				this.getWidth() - UIConstants.RIGHT_WIDTH,
-				0,
+				UIConstants.TOP_HEIGHT,
 				UIConstants.RIGHT_WIDTH,
 				this.getHeight());
 		components.setPositionAndSize(
-				UIConstants.LEFT_WIDTH, 
+				0, 
 				this.getHeight() - componentsHeight, 
-				this.getWidth() - UIConstants.LEFT_WIDTH - UIConstants.RIGHT_WIDTH,
+				this.getWidth() - UIConstants.RIGHT_WIDTH,
 				componentsHeight);
 		canvas.setPositionAndSize(
-				UIConstants.LEFT_WIDTH,
 				0,
-				this.getWidth() - UIConstants.LEFT_WIDTH - UIConstants.RIGHT_WIDTH, 
-				this.getHeight() - componentsHeight);
+				UIConstants.TOP_HEIGHT,
+				this.getWidth() - UIConstants.RIGHT_WIDTH, 
+				this.getHeight() - componentsHeight - UIConstants.TOP_HEIGHT);
 	}
 	
 	private void recalculateSizes() {

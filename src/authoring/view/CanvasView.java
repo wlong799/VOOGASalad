@@ -98,8 +98,8 @@ public class CanvasView extends View {
 	
 	public void onDragSpriteView(SpriteView spView, MouseEvent event) {
 		//TODO make this stable
-		double x = event.getSceneX() - UIConstants.LEFT_WIDTH; // dangerous!!
-        double y = event.getSceneY();
+		double x = event.getSceneX(); // dangerous!!
+        double y = event.getSceneY() - UIConstants.TOP_HEIGHT;
         double scWidth = scrollPane.getViewportBounds().getWidth();
 		double scHeight = scrollPane.getViewportBounds().getHeight();
 		if (x < UIConstants.DRAG_SCROLL_THRESHOLD) {
@@ -204,8 +204,8 @@ public class CanvasView extends View {
 		        boolean success = false;
 		        if (db.hasString()) {
 		        	//TODO: make this stable
-		           double x = event.getSceneX() - UIConstants.LEFT_WIDTH; // dangerous!!
-		           double y = event.getSceneY();
+		           double x = event.getSceneX(); // dangerous!!
+		           double y = event.getSceneY() - UIConstants.TOP_HEIGHT;
 		           makeAndAddSpriteView(db.getString(), x, y);
 		           success = true;
 		        }

@@ -37,6 +37,7 @@ public class GameMenuView extends View {
 
     @Override
     protected void layoutSelf() {
-        return;
+        myMenuView.setPrefHeight(this.getHeight());
+        myMenuView.setPrefWidth(this.getWidth());
     }
 }
