@@ -17,6 +17,10 @@ public class GameMenu {
         myMenu = new Menu(menuName);
     }
 
+    public void addGameMenuElement(AbstractGameMenuElement menuElement) {
+        myMenu.getItems().add(menuElement.getMenuElement());
+    }
+
     public Menu getMenu() {
         return myMenu;
     }

@@ -2,6 +2,7 @@ package ui.menu;
 
 
 import javafx.scene.control.MenuItem;
+import ui.AuthoringController;
 
 /**
  * Abstract superclass for all GameMenuElements. GameMenuElements are placed in GameMenus within the GameMenuBar. These
@@ -12,9 +13,11 @@ import javafx.scene.control.MenuItem;
  */
 public abstract class AbstractGameMenuElement {
     private MenuItem myMenuItem;
+    protected AuthoringController myController;
 
-    public AbstractGameMenuElement(String menuElementName) {
+    protected AbstractGameMenuElement(String menuElementName, AuthoringController controller) {
         myMenuItem = new MenuItem(menuElementName);
+        myController = controller;
         setFunctionality();
     }
 
