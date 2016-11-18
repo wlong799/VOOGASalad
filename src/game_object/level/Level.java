@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game_object.background.Background;
-import game_object.block.AbstractBlock;
+import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 
@@ -19,11 +19,12 @@ public class Level {
 	private Background myBackground;
 	private List<Hero> myHeros;
 	private List<Enemy> myEnemies;
-	private List<AbstractBlock> myBlocks;
+	private List<StaticBlock> myStaticBlocks;
 	
 	public Level() {
 		myHeros = new ArrayList<>();
 		myEnemies = new ArrayList<>();
+		myStaticBlocks = new ArrayList<>();
 	}
 	
 	/* Transitions. Note if getNextLevel() returns a non-null value,  getNextMenu() will be ignored. */
@@ -84,12 +85,12 @@ public class Level {
 		myEnemies = enemies;
 	}
 
-	public List<AbstractBlock> getBlocks() {
-		return myBlocks;
+	public List<StaticBlock> getBlocks() {
+		return myStaticBlocks;
 	}
 
-	public void setBlocks(List<AbstractBlock> blocks) {
-		myBlocks = blocks;
+	public void setBlocks(List<StaticBlock> blocks) {
+		myStaticBlocks = blocks;
 	}
 	
 }

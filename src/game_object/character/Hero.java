@@ -4,13 +4,13 @@ import java.util.ArrayList;
 
 import game_object.acting.ActionTrigger;
 import game_object.core.DefaultConstants;
+import game_object.simulation.ICollisionBody;
 import game_object.weapon.Weapon;
 
 public class Hero extends ActiveCharacter implements IUpgrader {
 
-
-	private int myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
-	private int myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
+	private final int myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
+	private final int myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 
 	public Hero(double x, double y, ArrayList<String> imgPaths, double maxHP) {
 		super(x, y, imgPaths, maxHP);
@@ -28,8 +28,8 @@ public class Hero extends ActiveCharacter implements IUpgrader {
 
 	}
 
-	/*@Override
-	public void collided(CollisionBody otherBody) {
+	@Override
+	public void onCollideWith(ICollisionBody otherBody) {
 		if (!myAffectedByPhysics || myCollisionBitMask == 0) {
 			return;
 		}
@@ -41,22 +41,12 @@ public class Hero extends ActiveCharacter implements IUpgrader {
 			Enemy enemy = (Enemy) otherBody;
 			myCurrentHP -= enemy.getBodyDamage();
 		}
-	}*/
-
-	/* CollisionBody */
-	@Override
-	public void setCategoryBitMask(int categoryBitMask) {
-		myCategoryBitMask = categoryBitMask;
 	}
 	
+	/* CollisionBody Getter Implementations */
 	@Override
 	public int getCategoryBitMask() {
 		return myCategoryBitMask;
-	}
-
-	@Override
-	public void setCollisionBitMask(int collisionBitMask) {
-		myCollisionBitMask = collisionBitMask;
 	}
 
 	@Override
@@ -64,7 +54,7 @@ public class Hero extends ActiveCharacter implements IUpgrader {
 		return myCollisionBitMask;
 	}
 
-	/* Upgrader */
+	/* Upgrader -- Not used for now*/
 	@Override
 	public void replenishHealth() {
 		setCurrentHP(getMaxHP());

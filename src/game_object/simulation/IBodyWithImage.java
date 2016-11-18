@@ -1,17 +1,21 @@
 package game_object.simulation;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import game_object.core.Dimension;
 import game_object.core.ImageStyle;
 
 public interface IBodyWithImage {
 
-	ArrayList<String> getImgPaths();
+	List<String> getImagePaths();
 
-	void setImgPaths(ArrayList<String> imgPaths);
+	void setImagePaths(List<String> imagePaths);
 
 	ImageStyle getImgStyle();
 
-	void setImgStyle(ImageStyle imgStyle);
+	void setImageStyle(ImageStyle imageStyle);
 	
+	void setDimension(Dimension dimension);
+	
+	Dimension getDimension();
 }

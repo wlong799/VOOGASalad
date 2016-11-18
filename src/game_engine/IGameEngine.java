@@ -1,12 +1,17 @@
 package game_engine;
 
+/**
+ * Basic interface for all game engines
+ * 
+ * @author Charlie Wang
+ */
 public interface IGameEngine {
 
 	/**
 	 * Main game loop: consists of initialization of elements, step by step update,
 	 * 	ending conditions check, and image drawing 
 	 */
-	public abstract void loop();
+	public abstract void run();
 	
 	/**
 	 * Reads in the Game object and makes the initial map set up
@@ -25,7 +30,6 @@ public interface IGameEngine {
 
 	/**
 	 * Update the current map set-up by checking user input or current object parameters
-	 * TODO: need help of PhysicsEngine
 	 */
 	public abstract void update();
 

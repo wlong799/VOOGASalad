@@ -4,52 +4,55 @@ import java.util.ArrayList;
 
 import game_object.acting.ActionTrigger;
 import game_object.core.DefaultConstants;
+import game_object.core.ExceptionThrower;
+import game_object.simulation.ICollisionBody;
 
 public class Enemy extends ActiveCharacter {
+	
+	private int myCategoryBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
+	private int myCollisionBitMask =
+			DefaultConstants.HERO_CATEGORY_BIT_MASK |
+			DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
+	private double myBodyDamage = 30; // damage this enemy does to the hero if directly collided.
+	
 	
 	public Enemy(double x, double y, ArrayList<String> imgPaths, double maxHP) {
 		super(x, y, imgPaths, maxHP);
 	}
 
-	private int myCategoryBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
-	private int myCollisionBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
-	private double bodyDamage; // damage this enemy does to the hero if directly collided.
+	public void setBodyDamage(double bodyDamage) {
+		myBodyDamage = bodyDamage;
+	}
 	
 	public double getBodyDamage() {
-		return bodyDamage;
+		return myBodyDamage;
 	}
 	
 	@Override
 	public ArrayList<ActionTrigger> getActionTriggers() {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
+		ExceptionThrower.notYetSupported();
+		return null;
 	}
 
 	@Override
 	public void setActionTriggers(ArrayList<ActionTrigger> ats) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
+		ExceptionThrower.notYetSupported();
 	}
 
-	/* CollisionBody */
-	@Override
-	public void setCategoryBitMask(int categoryBitMask) {
-		myCategoryBitMask = categoryBitMask;
-	}
-	
+	/* ICollisionBody Getter Implementations */
 	@Override
 	public int getCategoryBitMask() {
 		return myCategoryBitMask;
 	}
 
 	@Override
-	public void setCollisionBitMask(int collisionBitMask) {
-		myCollisionBitMask = collisionBitMask;
+	public int getCollisionBitMask() {
+		return myCollisionBitMask;
 	}
 
 	@Override
-	public int getCollisionBitMask() {
-		return myCollisionBitMask;
+	public void onCollideWith(ICollisionBody otherSprite) {
+		ExceptionThrower.notYetSupported();
 	}
 	
 }
