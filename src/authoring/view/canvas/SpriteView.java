@@ -65,6 +65,7 @@ public class SpriteView extends View {
 		this.removeSubView(spResizeView);
 		spResizeView = new SpriteResizeView(this.getController());
 		this.addSubView(spResizeView);
+		layout();
 	}
 	
 	public void indicateDeselection() {

@@ -76,9 +76,7 @@ public class CanvasView extends View {
 		else {
 			newy = scrollPane.getVvalue() * (bgHeight - scHeight) + y;
 		}
-		spView.setPositionX(newx);
-		spView.setPositionY(newy);
-		spView.getSprite().setPosition(new Position(newx, newy));
+		setAbsolutePosition(spView, newx, newy);
 	}
 	
 	/**

@@ -13,6 +13,7 @@ public class SpriteResizeView extends View {
 	private Rectangle resizeSW;
 	private Rectangle resizeSE;
 	private SpriteView spView;
+	private static final double resize_unit = 5;
 
 	public SpriteResizeView(AuthoringController controller) {
 		super(controller);
@@ -34,9 +35,22 @@ public class SpriteResizeView extends View {
 	protected void layoutSelf() {
 		border.setWidth(this.getWidth());
 		border.setHeight(this.getHeight());
+		resizeNW.setLayoutX(-resize_unit / 2);
+		resizeNW.setLayoutY(-resize_unit / 2);
+		resizeNE.setLayoutX(this.getWidth() - resize_unit / 2);
+		resizeNE.setLayoutY(-resize_unit / 2);
+		resizeSW.setLayoutX(-resize_unit / 2);
+		resizeSW.setLayoutY(this.getHeight() - resize_unit / 2);
+		resizeSE.setLayoutX(this.getWidth() - resize_unit / 2);
+		resizeSE.setLayoutY(this.getHeight() - resize_unit / 2);
 	}
 	
 	private void initSelectionIndicator() {
+		initBorder();
+		initResizers();
+	}
+
+	private void initBorder() {
 		border =  new Rectangle(
 				0,
 				0,
@@ -45,6 +59,14 @@ public class SpriteResizeView extends View {
 		border.setFill(Color.TRANSPARENT);
 		border.setStroke(Color.BLACK);
 		this.addUI(border);
+	}
+	
+	private void initResizers() {
+		resizeNW = new Rectangle(0, 0, resize_unit, resize_unit);
+		resizeNE = new Rectangle(0, 0, resize_unit, resize_unit);
+		resizeSW = new Rectangle(0, 0, resize_unit, resize_unit);
+		resizeSE = new Rectangle(0, 0, resize_unit, resize_unit);
+		this.addUIAll(resizeNW, resizeNE, resizeSW, resizeSE);
 	}
 
 }
