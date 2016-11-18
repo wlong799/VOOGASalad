@@ -14,10 +14,10 @@ import game_object.simulation.IPhysicsBody;
  * @author Charlie Wang
  */
 public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
-	protected Gravity myGravity;
+	protected PhysicsParameters myParams;
 
 	protected AbstractPhysicsEngine() {
-		myGravity = new Gravity();
+		myParams = new PhysicsParameters();
 	}
 
 	protected abstract double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime);

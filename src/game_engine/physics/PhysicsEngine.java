@@ -32,7 +32,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	@Override
 	protected double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
 		double vy = body.getVelocity().getYVelocity();
-		double newvy = vy + elapsedTime * myGravity.getGravity();
+		double newvy = vy + elapsedTime * myParams.getGravity();
 		return newvy;
 	}
 
@@ -52,5 +52,12 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	public Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime) {
 		return new Velocity(calculateNewHorizontalVelocity(body, elapsedTime),
 				calculateNewVerticalVelocity(body, elapsedTime));
+	}
+
+	@Override
+	public void setParameters(String parameter, double value) {
+		if (parameter.equals("gravity")) {
+			myParams.setGravity(value);
+		}
 	}
 }

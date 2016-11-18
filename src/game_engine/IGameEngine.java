@@ -14,26 +14,28 @@ public interface IGameEngine {
 	/**
 	 * Reads in the Game object and makes the initial map set up
 	 */
-	public abstract void init();
+	public void init();
 	
 	/**
 	 * Closes engine or transit to other levels
 	 */
-	public abstract void shutdown();
+	public void shutdown();
 
 	/**
 	 * Update the current map set-up by checking user input or current object parameters
 	 */
-	public abstract void update();
+	public void update();
 
 	/**
 	 * Draw out the images in each update
 	 * TODO: decide how to pass to frontend
 	 */
-	public abstract void draw();
+	public void draw();
 	
-	public abstract void setInputList(List<KeyEvent> list);
+	public void setInputList(List<KeyEvent> list);
 	
-	public abstract void setElapsedTime(double elapsedTime);
+	public void setElapsedTime(double elapsedTime);
 
+	public void setParameter(String parameter, double value);
+	
 }

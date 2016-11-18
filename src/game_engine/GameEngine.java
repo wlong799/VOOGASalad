@@ -21,6 +21,7 @@ import game_object.framework.Game;
 import game_object.level.Level;
 import game_object.level.TransitionMenu;
 import game_object.simulation.IPhysicsBody;
+import goal.IGoal;
 
 /**
  * 
@@ -100,9 +101,12 @@ public class GameEngine implements IGameEngine {
 	}
 
 	private WinStatus checkWin() {
-		// TODO: check whether a Goal has been reached
-		WinStatus ws = null;
-		return ws;
+//		for (IGoal g : myGoals) {
+//			if (g.checkGoal()) {
+//				return g.getResult();
+//			}
+//		}
+		return WinStatus.GOON;
 	}
 
 	public void setElements(Level level) {
@@ -134,4 +138,9 @@ public class GameEngine implements IGameEngine {
 	public void setTransitionManager(AbstractTransitionManager transitionManager) {
 		myTransitionManager = transitionManager;
 	}
+	
+	public void setParameter(String parameter, double value) {
+		myPhysicsEngine.setParameters(parameter, value);
+	}
+
 }
