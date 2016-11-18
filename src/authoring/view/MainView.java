@@ -4,9 +4,12 @@ import authoring.AuthoringController;
 import authoring.View;
 import authoring.constants.UIConstants;
 
+import ui.menu.GameMenuFactory;
+import ui.menu.GameMenuView;
+
 public class MainView extends View {
 	
-	private NavigatorView navigator;
+	private GameMenuView navigator;
 	private InspectorView inspector;
 	private ComponentsView components;
 	private CanvasView canvas;
@@ -19,7 +22,7 @@ public class MainView extends View {
 	
 	@Override
 	protected void initUI() {
-		navigator = new NavigatorView(this.getController());
+		navigator = GameMenuFactory.createGameMenuView(this.getController());
 		inspector = new InspectorView(this.getController());
 		components = new ComponentsView(this.getController());
 		canvas = new CanvasView(this.getController());
