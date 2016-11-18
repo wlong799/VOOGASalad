@@ -94,9 +94,8 @@ public class CanvasView extends View {
 	}
 	
 	public void onDragSpriteView(SpriteView spView, MouseEvent event) {
-		//TODO make this stable
-		double x = event.getSceneX(); // dangerous!!
-        double y = event.getSceneY() - UIConstants.TOP_HEIGHT;
+		double x = event.getSceneX() - this.getPositionX();
+        double y = event.getSceneY() - this.getPositionY();
         double scWidth = scrollPane.getViewportBounds().getWidth();
 		double scHeight = scrollPane.getViewportBounds().getHeight();
 		if (x < UIConstants.DRAG_SCROLL_THRESHOLD) {
@@ -162,6 +161,7 @@ public class CanvasView extends View {
 	}
 	
 	private void setOnDrag() {
+		CanvasView t = this;
 		scrollPane.setOnDragOver(new EventHandler<DragEvent>() {
 		    public void handle(DragEvent event) {
 		        /* data is dragged over the target */
@@ -171,7 +171,6 @@ public class CanvasView extends View {
 		            /* allow for both copying and moving, whatever user chooses */
 		            event.acceptTransferModes(TransferMode.COPY);
 		        }
-		        
 		        event.consume();
 		    }
 		});
@@ -180,9 +179,8 @@ public class CanvasView extends View {
 		        Dragboard db = event.getDragboard();
 		        boolean success = false;
 		        if (db.hasString()) {
-		        	//TODO: make this stable
-		           double x = event.getSceneX(); // dangerous!!
-		           double y = event.getSceneY() - UIConstants.TOP_HEIGHT;
+		           double x = event.getSceneX() - t.getPositionX();
+		           double y = event.getSceneY() - t.getPositionY();
 		           makeAndAddSpriteView(db.getString(), x, y);
 		           success = true;
 		        }
