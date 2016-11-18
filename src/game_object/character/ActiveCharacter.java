@@ -59,15 +59,10 @@ abstract class ActiveCharacter extends AbstractCharacter {
 		myVelocity.setYVelocity(myJumpingUnit);
 	}
 	
-	/* IPhysicsBody Implementations */
-	@Override
-	public void setAffectedByPhysics(boolean affectedByPhysics) {
-		myAffectedByPhysics = affectedByPhysics;
-	}
-	
+	/* IPhysicsBody Implementations */	
 	@Override
 	public boolean getAffectedByPhysics() {
-		return myAffectedByPhysics;
+		return true;
 	}
 	
 	@Override
@@ -79,6 +74,5 @@ abstract class ActiveCharacter extends AbstractCharacter {
 	public Velocity getVelocity() {
 		return myVelocity;
 	}
-	/* ---IPhysicsBody Implementations--- */
 
 }

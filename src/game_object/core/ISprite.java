@@ -5,7 +5,5 @@ import game_object.simulation.ICollisionBody;
 import game_object.simulation.IPhysicsBody;
 
 public interface ISprite extends IPhysicsBody, ICollisionBody, IBodyWithImage {
-	
-	
-	
+
 }
