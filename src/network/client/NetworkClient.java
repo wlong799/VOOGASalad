@@ -31,7 +31,6 @@ public class NetworkClient {
 			shared = new LinkedList<>();
 			reader = new Reader(inComingBuffer, shared, connectionToServer);
 			reader.start();
-			System.out.println("client constructor ends");
 		} catch (IOException e) {
 			throw new ServerDownException();
 		}

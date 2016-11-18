@@ -5,6 +5,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import network.Connection;
 import network.Message;
@@ -16,6 +18,9 @@ import network.Message;
  */
 public class Daemon extends Thread {
 	
+	private static final Logger LOGGER =
+			Logger.getLogger( Daemon.class.getName() );
+	
 	private Coordinator coordinator;
 	
 	public Daemon(Coordinator coordinator) {
@@ -24,17 +29,16 @@ public class Daemon extends Thread {
 	
 	@Override
 	public void run() {
-		System.out.println("Daemon starts");
+		LOGGER.info("Daemon starts");
 		while (true) {
 			try {
 				Socket clientSock = coordinator.getServerSocket().accept();
-				System.out.println("someone connects");
+				LOGGER.info("Daemon accepted new connection");
 				Connection conn = new Connection(
 						coordinator.getMessageQueue(), clientSock);
 				coordinator.addConnection(conn);
 			} catch (IOException e) {
-				// TODO cx15
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 		}
     }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
 
 import network.Connection;
 import network.Message;
@@ -13,6 +14,9 @@ import network.client.NetworkClient;
 import network.exceptions.ServerDownException;
 
 public class Coordinator {
+	
+	private static final Logger LOGGER =
+			Logger.getLogger( Coordinator.class.getName() );
 	
 	private ServerSocket serverSocket;
 	private List<Connection> connectionPool;
@@ -41,9 +45,9 @@ public class Coordinator {
 								conn.send(msg);
 							}
 						}
+						LOGGER.info("Broadcasted to all: " + msg);
 					} catch (InterruptedException e) {
-						// TODO cx15
-						e.printStackTrace();
+						Thread.currentThread().interrupt();
 					}
 				}
 			}
@@ -71,6 +75,8 @@ public class Coordinator {
 			NetworkClient c1 = new NetworkClient();
 			NetworkClient c2 = new NetworkClient();
 			c1.send(new Message("client 1"));
+			Thread.sleep(1000);
+			System.out.println("FINAL READ: " + c2.read().peek());
 		} catch (IOException | ServerDownException | InterruptedException e) {
 			e.printStackTrace();
 		}

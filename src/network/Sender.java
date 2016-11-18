@@ -19,7 +19,6 @@ public class Sender extends Thread {
 		this.connection = conn;
 		this.outGoingBuffer = outGoingBuffer;
 		this.socket = socket;
-		System.out.println("Sender");
 	}
 	
 	@Override
@@ -32,8 +31,7 @@ public class Sender extends Thread {
 				outputStream.writeObject(msg);
 				outputStream.flush();
 			} catch (IOException | InterruptedException e) {
-				// TODO cx15
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 		}
 	}

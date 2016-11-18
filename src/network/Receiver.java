@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Logger;
+
+import network.server.Daemon;
 
 
 public class Receiver extends Thread {
@@ -13,6 +16,9 @@ public class Receiver extends Thread {
 	private Socket socket;
 	private BlockingQueue<Message> inComingBuffer;
 	
+	private static final Logger LOGGER =
+			Logger.getLogger( Daemon.class.getName() );
+	
 	public Receiver(Socket socket,
 					Connection conn,
 					BlockingQueue<Message> inComingBuffer)
@@ -20,7 +26,6 @@ public class Receiver extends Thread {
 		this.connection = conn;
 		this.socket = socket;
 		this.inComingBuffer = inComingBuffer;
-		System.out.println("Receiver");
 	}
 
 	@Override
@@ -30,9 +35,8 @@ public class Receiver extends Thread {
 				this.objectInputStream =
 						new ObjectInputStream(socket.getInputStream());
 				Message msg = (Message) objectInputStream.readObject();
-				System.out.println("received msg: " + msg);
+				LOGGER.info("Receiver " + this.getId() + " received msg: " + msg);
 				inComingBuffer.put(msg);
-				System.out.println("receiver put");
 			} catch (IOException | ClassNotFoundException | InterruptedException e) {
 				// TODO cx15 properly close connection
 				e.printStackTrace();

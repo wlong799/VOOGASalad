@@ -29,8 +29,7 @@ public class Reader extends Thread {
 					shared.add(msg);
 				}
 			} catch (InterruptedException e) {
-				// TODO cx15
-				e.printStackTrace();
+				Thread.currentThread().interrupt();
 			}
 		}
 	}

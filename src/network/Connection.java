@@ -21,7 +21,6 @@ public class Connection {
 		this.outGoingBuffer = new LinkedBlockingQueue<>();
 		this.isClosed = false;
 		this.receiver = new Receiver(socket, this, inComingBuffer);
-		System.out.println("connection");
 		this.sender = new Sender(socket, this, outGoingBuffer);
 		this.receiver.start();
 		this.sender.start();
