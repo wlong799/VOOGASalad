@@ -86,6 +86,7 @@ public abstract class View {
 	
 	public void setWidth(double width) {
 		myWidth = width;
+		layout();
 	}
 	
 	public double getHeight() {
@@ -94,6 +95,7 @@ public abstract class View {
 	
 	public void setHeight(double height) {
 		myHeight = height;
+		layout();
 	}
 	
 	protected AuthoringController getController() {

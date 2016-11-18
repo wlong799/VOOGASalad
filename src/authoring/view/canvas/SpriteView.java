@@ -2,11 +2,7 @@ package authoring.view.canvas;
 
 import authoring.AuthoringController;
 import authoring.View;
-import game_object.core.Dimension;
 import game_object.core.ISprite;
-import javafx.scene.Group;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -18,9 +14,8 @@ public class SpriteView extends View {
 	//TODO: extract selection indicator to a view
 	//so that they can be laid out automatically
 	private ISprite mySprite;
-	private Group plate;
-	private ImageView imageView;
 	private CanvasView myCanvas;
+	private SpriteImageView spImageView;
 	private Rectangle selectionIndicator;
 	private boolean selected;
 	
@@ -58,48 +53,46 @@ public class SpriteView extends View {
 	}
 	
 	public void setDimensionWidth(double width) {
-		imageView.setFitWidth(width);
+		spImageView.setWidth(width);
 		mySprite.getDimension().setWidth(width);
 		redrawSelection();
 	}
 	
 	public void setDimensionHeight(double height) {
-		imageView.setFitHeight(height);
+		spImageView.setHeight(height);
 		mySprite.getDimension().setHeight(height);
 		redrawSelection();
 	}
 	
 	@Override
 	public double getWidth() {
-		return imageView.getFitWidth();
+		return spImageView.getWidth();
 	}
 	
 	@Override
 	public double getHeight() {
-		return imageView.getFitHeight();
+		return spImageView.getHeight();
 	}
 	
 	public void indicateSelection() {
 		selected = true;
 		selectionIndicator = initSelectionIndicator();
-		plate.getChildren().clear();
-		plate.getChildren().addAll(selectionIndicator, imageView);
+		this.clearUI();
+		this.addUIAll(selectionIndicator, spImageView.getUI());
 	}
 	
 	public void indicateDeselection() {
 		selected = false;
-		plate.getChildren().remove(selectionIndicator);
+		this.clearUI();
+		this.addUI(spImageView.getUI());
 	}
 	
 	@Override
 	protected void initUI() {
 		if (mySprite == null) return;
-		plate = new Group();
-		String path = mySprite.getImagePaths().get(0);
-		initImageAndSprite(path);
 		
-		plate.getChildren().add(imageView);
-		this.addUI(plate);
+		spImageView = new SpriteImageView(this.getController());
+		this.addSubView(spImageView);
 		
 		setMouseClicked();
 		setDragMove();
@@ -107,39 +100,29 @@ public class SpriteView extends View {
 
 	@Override
 	protected void layoutSelf() {
+		spImageView.setWidth(this.getWidth());
+		spImageView.setHeight(this.getHeight());
 	}
 	
 	private void setMouseClicked() {
-		plate.setOnMouseClicked(e -> {
+		this.getUI().setOnMouseClicked(e -> {
 			this.getController().selectSpriteView(this);
 		});
 	}
 	
 	private void setDragMove() {
 		//TODO: save offset
-		plate.setOnMouseDragged(event -> {
+		this.getUI().setOnMouseDragged(event -> {
 			myCanvas.onDragSpriteView(this, event);
 		});
-	}
-	
-	private void initImageAndSprite(String path) {
-		Image image = new Image(path);
-		imageView = new ImageView(image);
-		
-		imageView.setFitHeight(image.getHeight());
-		imageView.setFitWidth(image.getWidth());
-		
-		mySprite.setDimension(new Dimension());
-		mySprite.getDimension().setWidth(image.getWidth());
-		mySprite.getDimension().setHeight(image.getHeight());
 	}
 	
 	private Rectangle initSelectionIndicator() {
 		Rectangle border =  new Rectangle(
 				0,
 				0,
-				imageView.getFitWidth(),
-				imageView.getFitHeight());
+				spImageView.getWidth(),
+				spImageView.getHeight());
 		border.setFill(Color.TRANSPARENT);
 		border.setStroke(Color.BLACK);
 		return border;
