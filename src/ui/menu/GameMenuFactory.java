@@ -1,9 +1,9 @@
 package ui.menu;
 
-import ui.AuthoringController;
-
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
+
+import authoring.AuthoringController;
 
 /**
  * Responsible for creating the overall menu bar at the top of the application. Uses reflection to access the necessary

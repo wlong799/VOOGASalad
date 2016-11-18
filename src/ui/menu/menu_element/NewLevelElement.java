@@ -1,6 +1,6 @@
 package ui.menu.menu_element;
 
-import ui.AuthoringController;
+import authoring.AuthoringController;
 import ui.menu.AbstractGameMenuElement;
 
 /**

@@ -1,9 +1,9 @@
 package ui.menu;
 
+import authoring.AuthoringController;
+import authoring.View;
 import javafx.scene.Parent;
 import javafx.scene.control.MenuBar;
-import ui.AuthoringController;
-import ui.View;
 
 /**
  * Menu bar located at top of application. Contains various sub-menus, for opening and closing game workspaces,

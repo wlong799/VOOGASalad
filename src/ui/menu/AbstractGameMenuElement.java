@@ -1,8 +1,8 @@
 package ui.menu;
 
 
+import authoring.AuthoringController;
 import javafx.scene.control.MenuItem;
-import ui.AuthoringController;
 
 /**
  * Abstract superclass for all GameMenuElements. GameMenuElements are placed in GameMenus within the GameMenuBar. These
