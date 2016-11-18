@@ -162,11 +162,7 @@ public class CanvasView extends View {
 		CanvasView t = this;
 		scrollPane.setOnDragOver(new EventHandler<DragEvent>() {
 		    public void handle(DragEvent event) {
-		        /* data is dragged over the target */
-		        /* accept it only if it is not dragged from the same node 
-		         * and if it has a string data */
 		        if (event.getDragboard().hasString()) {
-		            /* allow for both copying and moving, whatever user chooses */
 		            event.acceptTransferModes(TransferMode.COPY);
 		        }
 		        event.consume();

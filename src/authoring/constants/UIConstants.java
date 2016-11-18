@@ -15,5 +15,6 @@ public class UIConstants {
 	public static final double COMPONENT_WIDTH_PORTION = 0.9;
 	public static final double COMPONENT_WIDTH = 50;
 	public static final double COMPONENTS_MIN_HEIGHT = 100;
+	public static final double RESIZER_STROKE_WIDTH = 5;
 	
 }

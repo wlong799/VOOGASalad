@@ -2,19 +2,22 @@ package authoring;
 
 import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
+import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import voogasalad_overwatch.AuthorEnvironment;
 
 public class AuthoringController extends AbstractPublisher {
 	
-	private AuthorEnvironment env;
+	private AuthorEnvironment myEnvironment;
 	private SpriteView selectedSpriteView;
+	private Scene myScene;
 	
 	public AuthoringController(AuthorEnvironment environment) {
-		env = environment;
+		myEnvironment = environment;
 	}
 	
 	public AuthorEnvironment getEnvironment() {
-		return env;
+		return myEnvironment;
 	}
 	
 	public void selectSpriteView(SpriteView spriteView) {
@@ -30,6 +33,14 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public SpriteView getSelectedSpriteView() {
 		return selectedSpriteView;
+	}
+	
+	public void setScene(Scene scene) {
+		myScene = scene;
+	}
+	
+	public void setMouseCursor(Cursor type) {
+		myScene.setCursor(type);
 	}
 
 }

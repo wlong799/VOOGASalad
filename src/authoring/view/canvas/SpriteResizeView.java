@@ -2,6 +2,8 @@ package authoring.view.canvas;
 
 import authoring.AuthoringController;
 import authoring.View;
+import authoring.constants.UIConstants;
+import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -62,11 +64,43 @@ public class SpriteResizeView extends View {
 	}
 	
 	private void initResizers() {
-		resizeNW = new Rectangle(0, 0, resize_unit, resize_unit);
-		resizeNE = new Rectangle(0, 0, resize_unit, resize_unit);
-		resizeSW = new Rectangle(0, 0, resize_unit, resize_unit);
-		resizeSE = new Rectangle(0, 0, resize_unit, resize_unit);
+		resizeNW = initResizerRectangle();
+		resizeNE = initResizerRectangle();
+		resizeSW = initResizerRectangle();
+		resizeSE = initResizerRectangle();
 		this.addUIAll(resizeNW, resizeNE, resizeSW, resizeSE);
+		setOnHover();
+		setOnDishover(resizeNW, resizeNE, resizeSW, resizeSE);
+	}
+	
+	private Rectangle initResizerRectangle() {
+		Rectangle result = new Rectangle(0, 0, resize_unit, resize_unit);
+		result.setStrokeWidth(UIConstants.RESIZER_STROKE_WIDTH);
+		result.setStroke(Color.TRANSPARENT);
+		return result;
+	}
+	
+	private void setOnHover() {
+		resizeNW.setOnMouseEntered(e -> {
+			this.getController().setMouseCursor(Cursor.NW_RESIZE);
+		});
+		resizeNE.setOnMouseEntered(e -> {
+			this.getController().setMouseCursor(Cursor.NE_RESIZE);
+		});
+		resizeSW.setOnMouseEntered(e -> {
+			this.getController().setMouseCursor(Cursor.SW_RESIZE);
+		});
+		resizeSE.setOnMouseEntered(e -> {
+			this.getController().setMouseCursor(Cursor.SE_RESIZE);
+		});
+	}
+	
+	private void setOnDishover(Rectangle...resizers) {
+		for (Rectangle resizer : resizers) {
+			resizer.setOnMouseExited(e -> {
+				this.getController().setMouseCursor(Cursor.DEFAULT);
+			});
+		}
 	}
 
 }

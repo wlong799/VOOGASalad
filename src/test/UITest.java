@@ -49,6 +49,8 @@ public class UITest extends Application {
 			mainView.setHeight(newHeight.doubleValue());
 			mainView.layout();
 		});
+		
+		controller.setScene(scn);
 	}
 	
 }
