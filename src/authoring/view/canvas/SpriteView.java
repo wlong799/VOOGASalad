@@ -116,6 +116,7 @@ public class SpriteView extends View {
 	}
 	
 	private void setDragMove() {
+		//TODO: save offset
 		plate.setOnMouseDragged(event -> {
 			myCanvas.onDragSpriteView(this, event);
 		});
