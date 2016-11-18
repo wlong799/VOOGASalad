@@ -40,18 +40,8 @@ public class StaticBlock extends AbstractBlock {
 	}
 
 	@Override
-	public void setCategoryBitMask(int categoryBitMask) {
-		ExceptionThrower.notYetSupported();
-	}
-
-	@Override
 	public int getCategoryBitMask() {
 		return myCategoryBitMask;
-	}
-
-	@Override
-	public void setCollisionBitMask(int collisionBitMask) {
-		ExceptionThrower.notYetSupported();
 	}
 
 	@Override

@@ -9,4 +9,5 @@ public class ExceptionThrower {
 	public static void needToBeOverriden() {
 		throw new RuntimeException("This method should be overriden in order to be called.");
 	}
+	
 }

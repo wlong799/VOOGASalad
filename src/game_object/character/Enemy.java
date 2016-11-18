@@ -13,43 +13,36 @@ public class Enemy extends ActiveCharacter {
 	private int myCollisionBitMask =
 			DefaultConstants.HERO_CATEGORY_BIT_MASK |
 			DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
-	private double bodyDamage; // damage this enemy does to the hero if directly collided.
+	private double myBodyDamage = 30; // damage this enemy does to the hero if directly collided.
 	
 	
 	public Enemy(double x, double y, ArrayList<String> imgPaths, double maxHP) {
 		super(x, y, imgPaths, maxHP);
 	}
 
+	public void setBodyDamage(double bodyDamage) {
+		myBodyDamage = bodyDamage;
+	}
+	
 	public double getBodyDamage() {
-		return bodyDamage;
+		return myBodyDamage;
 	}
 	
 	@Override
 	public ArrayList<ActionTrigger> getActionTriggers() {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
+		ExceptionThrower.notYetSupported();
+		return null;
 	}
 
 	@Override
 	public void setActionTriggers(ArrayList<ActionTrigger> ats) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
-	}
-
-	/* CollisionBody */
-	@Override
-	public void setCategoryBitMask(int categoryBitMask) {
 		ExceptionThrower.notYetSupported();
 	}
-	
+
+	/* ICollisionBody Getter Implementations */
 	@Override
 	public int getCategoryBitMask() {
 		return myCategoryBitMask;
-	}
-
-	@Override
-	public void setCollisionBitMask(int collisionBitMask) {
-		ExceptionThrower.notYetSupported();
 	}
 
 	@Override

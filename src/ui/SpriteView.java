@@ -60,7 +60,7 @@ public class SpriteView extends View {
 	@Override
 	protected void initUI() {
 		if (mySprite == null) return;
-		String path = mySprite.getImgPaths().get(0);
+		String path = mySprite.getImagePaths().get(0);
 		Image image = new Image(path);
 		imageView = new ImageView(image);
 		imageView.setFitHeight(image.getHeight());
