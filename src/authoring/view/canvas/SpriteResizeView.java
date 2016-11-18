@@ -2,6 +2,7 @@ package authoring.view.canvas;
 
 import authoring.AuthoringController;
 import authoring.View;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class SpriteResizeView extends View {
@@ -26,12 +27,24 @@ public class SpriteResizeView extends View {
 	@Override
 	protected void initUI() {
 		if (spView == null) return;
+		initSelectionIndicator();
 	}
 
 	@Override
 	protected void layoutSelf() {
-		// TODO Auto-generated method stub
-		
+		border.setWidth(this.getWidth());
+		border.setHeight(this.getHeight());
+	}
+	
+	private void initSelectionIndicator() {
+		border =  new Rectangle(
+				0,
+				0,
+				spView.getWidth(),
+				spView.getHeight());
+		border.setFill(Color.TRANSPARENT);
+		border.setStroke(Color.BLACK);
+		this.addUI(border);
 	}
 
 }

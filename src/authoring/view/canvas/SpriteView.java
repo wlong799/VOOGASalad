@@ -3,8 +3,6 @@ package authoring.view.canvas;
 import authoring.AuthoringController;
 import authoring.View;
 import game_object.core.ISprite;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * wrapper for Sprite in AuthEnv
@@ -16,8 +14,7 @@ public class SpriteView extends View {
 	private ISprite mySprite;
 	private CanvasView myCanvas;
 	private SpriteImageView spImageView;
-	private Rectangle selectionIndicator;
-	private boolean selected;
+	private SpriteResizeView spResizeView;
 	
 	public SpriteView(AuthoringController controller) {
 		super(controller);
@@ -53,38 +50,25 @@ public class SpriteView extends View {
 	}
 	
 	public void setDimensionWidth(double width) {
-		spImageView.setWidth(width);
+		this.setWidth(width);
 		mySprite.getDimension().setWidth(width);
-		redrawSelection();
+		layout();
 	}
 	
 	public void setDimensionHeight(double height) {
-		spImageView.setHeight(height);
+		this.setHeight(height);
 		mySprite.getDimension().setHeight(height);
-		redrawSelection();
-	}
-	
-	@Override
-	public double getWidth() {
-		return spImageView.getWidth();
-	}
-	
-	@Override
-	public double getHeight() {
-		return spImageView.getHeight();
+		layout();
 	}
 	
 	public void indicateSelection() {
-		selected = true;
-		selectionIndicator = initSelectionIndicator();
-		this.clearUI();
-		this.addUIAll(selectionIndicator, spImageView.getUI());
+		this.removeSubView(spResizeView);
+		spResizeView = new SpriteResizeView(this.getController());
+		this.addSubView(spResizeView);
 	}
 	
 	public void indicateDeselection() {
-		selected = false;
-		this.clearUI();
-		this.addUI(spImageView.getUI());
+		this.removeSubView(spResizeView);
 	}
 	
 	@Override
@@ -93,6 +77,8 @@ public class SpriteView extends View {
 		
 		spImageView = new SpriteImageView(this.getController());
 		this.addSubView(spImageView);
+		this.setHeight(spImageView.getHeight());
+		this.setWidth(spImageView.getWidth());
 		
 		setMouseClicked();
 		setDragMove();
@@ -102,6 +88,8 @@ public class SpriteView extends View {
 	protected void layoutSelf() {
 		spImageView.setWidth(this.getWidth());
 		spImageView.setHeight(this.getHeight());
+		spResizeView.setWidth(this.getWidth());
+		spResizeView.setHeight(this.getHeight());
 	}
 	
 	private void setMouseClicked() {
@@ -115,24 +103,6 @@ public class SpriteView extends View {
 		this.getUI().setOnMouseDragged(event -> {
 			myCanvas.onDragSpriteView(this, event);
 		});
-	}
-	
-	private Rectangle initSelectionIndicator() {
-		Rectangle border =  new Rectangle(
-				0,
-				0,
-				spImageView.getWidth(),
-				spImageView.getHeight());
-		border.setFill(Color.TRANSPARENT);
-		border.setStroke(Color.BLACK);
-		return border;
-	}
-	
-	private void redrawSelection() {
-		if (selected) {
-			indicateDeselection();
-			indicateSelection();
-		}
 	}
 
 }
