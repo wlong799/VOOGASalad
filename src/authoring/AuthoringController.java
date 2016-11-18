@@ -18,6 +18,11 @@ public class AuthoringController extends AbstractPublisher {
 	}
 	
 	public void selectSpriteView(SpriteView spriteView) {
+		if (spriteView == null) return;
+		if (selectedSpriteView != null) {
+			selectedSpriteView.indicateDeselection();
+		}
+		spriteView.indicateSelection();
 		selectedSpriteView = spriteView;
 		this.notifySubscribers();
 	}
