@@ -10,9 +10,11 @@ public abstract class AbstractSprite implements ISprite {
 
 	protected Position myPosition;
 	protected Position myPreviousPosition;
-	protected List<String> myImgPaths;
-	protected ImageStyle myImgStyle;
+	protected List<String> myImagePaths;
+	protected ImageStyle myImageStyle;
 	protected Dimension myDimension;
+	protected boolean myAffectedByPhysics;
+	protected Velocity myVelocity;
 	
 	protected AbstractSprite(double x, double y, List<String> imgPaths) {
 		this(new Position(x, y), imgPaths);
@@ -23,9 +25,16 @@ public abstract class AbstractSprite implements ISprite {
 		myPosition = position;
 	}
 
-	private AbstractSprite(List<String> imgPaths) {
-		myImgPaths = imgPaths;
-		myImgStyle = ImageStyle.TRUE_SIZE;
+	private AbstractSprite(List<String> imagePaths) {
+		myImagePaths = imagePaths;
+		myImageStyle = ImageStyle.TRUE_SIZE;
+	}
+	
+	/* IBodyWithPosition Implementations */
+	@Override
+	public void setPosition(Position pos) {
+		myPreviousPosition = myPosition;
+		myPosition = pos;
 	}
 	
 	@Override
@@ -38,12 +47,7 @@ public abstract class AbstractSprite implements ISprite {
 		return myPreviousPosition;
 	}
 	
-	@Override
-	public void setPosition(Position pos) {
-		myPreviousPosition = myPosition;
-		myPosition = pos;
-	}
-	
+	/* IBodyWithImage Implementations */
 	@Override
 	public void setDimension(Dimension dimension) {
 		myDimension = dimension;
@@ -55,23 +59,40 @@ public abstract class AbstractSprite implements ISprite {
 	}
 
 	@Override
-	public List<String> getImgPaths() {
-		return myImgPaths;
-	}
-
-	@Override
-	public void setImgPaths(List<String> imgPaths) {
-		myImgPaths = imgPaths;
-	}
-
-	@Override
-	public ImageStyle getImgStyle() {
-		return myImgStyle;
-	}
-
-	@Override
-	public void setImgStyle(ImageStyle imgStyle) {
-		myImgStyle = imgStyle;
+	public void setImagePaths(List<String> imagePaths) {
+		myImagePaths = imagePaths;
 	}
 	
+	@Override
+	public List<String> getImagePaths() {
+		return myImagePaths;
+	}
+
+	@Override
+	public void setImageStyle(ImageStyle imgStyle) {
+		myImageStyle = imgStyle;
+	}
+	
+	@Override
+	public ImageStyle getImgStyle() {
+		return myImageStyle;
+	}
+
+	/* ICollisionBody Setter Implementations */
+	@Override
+	public void setCollisionBitMask(int collisionBitMask) {
+		ExceptionThrower.notYetSupported();
+	}
+	
+	@Override
+	public void setCategoryBitMask(int categoryBitMask) {
+		ExceptionThrower.notYetSupported();
+	}
+	
+	/* IPhysicsBody Setter Implementations */
+	@Override
+	public void setAffectedByPhysics(boolean affectedByPhysics) {
+		ExceptionThrower.notYetSupported();
+	}
 }
+

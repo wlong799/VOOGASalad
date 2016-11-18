@@ -16,7 +16,7 @@ abstract class AbstractBlock extends AbstractSprite implements IBlock {
 	protected AbstractBlock(double x, double y, ArrayList<String> imgPaths, BlockCollisionBehavior bcb) {
 		super(x, y, imgPaths);
 		myCollisionBehavior = bcb;
-		setImgStyle(ImageStyle.TILE);
+		setImageStyle(ImageStyle.TILE);
 	}
 
 	@Override
