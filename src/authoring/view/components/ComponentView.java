@@ -1,4 +1,4 @@
-package authoring.view;
+package authoring.view.components;
 
 import authoring.AuthoringController;
 import authoring.View;

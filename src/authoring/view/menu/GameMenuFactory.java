@@ -1,4 +1,4 @@
-package ui.menu;
+package authoring.view.menu;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import authoring.AuthoringController;
  * @version 11/17/16
  */
 public class GameMenuFactory {
-    private static final String MENU_ELEMENT_PACKAGE = "ui.menu.menu_element.";
+    private static final String MENU_ELEMENT_PACKAGE = "authoring.view.menu.menu_element.";
 
     /**
      * GameMenuInfo enum holds the information that should be loaded into the GameMenuView. Each element in the enum

@@ -1,4 +1,4 @@
-package authoring.view;
+package authoring.view.canvas;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,6 @@ import game_object.core.ISprite;
 import game_object.core.Position;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -27,8 +26,6 @@ public class CanvasView extends View {
 	private ScrollPane scrollPane;
 	private Group content; // holder for all SpriteViews
 	private Rectangle background;
-	private Button screenWider;
-	private Button screenNarrower;
 
 	public CanvasView(AuthoringController controller) {
 		super(controller);
@@ -124,6 +121,10 @@ public class CanvasView extends View {
         		y - spView.getHeight() / 2);
 	}
 	
+	public Rectangle getBackground() {
+		return background;
+	}
+	
 	@Override
 	protected void initUI() {
 		spriteViews = new ArrayList<>();
@@ -137,7 +138,7 @@ public class CanvasView extends View {
 		content.getChildren().add(background);
 		scrollPane = new ScrollPane(content);
 		this.addUI(scrollPane);
-		initScreenAdjusterButtons();
+		this.addSubView(new CanvasAdjusterButtonsView(this.getController()));
 		setOnDrag();
 		
 		//debug
@@ -152,30 +153,6 @@ public class CanvasView extends View {
 		SpriteView testsp = new SpriteView(this.getController());
 		testsp.setSprite(block);
 		this.add(testsp, 40, 40, false);
-	}
-	
-	private void initScreenAdjusterButtons(){
-		screenWider = new Button(" < > ");
-		screenNarrower = new Button(" > < ");
-		
-		screenWider.setLayoutX(UIConstants.BUTTON_WIDTH);
-		screenNarrower.setPrefWidth(UIConstants.BUTTON_WIDTH);
-		screenWider.setPrefWidth(UIConstants.BUTTON_WIDTH);
-		
-		this.addUIAll(screenWider, screenNarrower);
-		screenAdjusterButtonInit();
-		
-	}
-	
-	private void screenAdjusterButtonInit(){
-		screenNarrower.setOnAction((event) -> {
-			if (background.getWidth() > UIConstants.CANVAS_STARTING_WIDTH){
-				background.setWidth(background.getWidth()-UIConstants.SCREEN_CHANGE_INTERVAL);
-			}
-		});
-		screenWider.setOnAction((event) -> {
-			background.setWidth(background.getWidth()+UIConstants.SCREEN_CHANGE_INTERVAL);
-		});
 	}
 	
 	@Override

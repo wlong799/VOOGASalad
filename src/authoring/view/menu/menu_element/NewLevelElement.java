@@ -1,7 +1,7 @@
-package ui.menu.menu_element;
+package authoring.view.menu.menu_element;
 
 import authoring.AuthoringController;
-import ui.menu.AbstractGameMenuElement;
+import authoring.view.menu.AbstractGameMenuElement;
 
 /**
  * Adds a new level to the game

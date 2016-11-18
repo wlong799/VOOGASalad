@@ -3,8 +3,10 @@ package authoring.view;
 import authoring.AuthoringController;
 import authoring.View;
 import authoring.constants.UIConstants;
-import ui.menu.GameMenuFactory;
-import ui.menu.GameMenuView;
+import authoring.view.canvas.CanvasView;
+import authoring.view.components.ComponentsView;
+import authoring.view.menu.GameMenuFactory;
+import authoring.view.menu.GameMenuView;
 
 public class MainView extends View {
 	

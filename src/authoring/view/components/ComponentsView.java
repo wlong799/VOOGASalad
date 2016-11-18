@@ -1,4 +1,4 @@
-package authoring.view;
+package authoring.view.components;
 
 import java.util.ArrayList;
 import java.util.List;

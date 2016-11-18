@@ -1,4 +1,4 @@
-package ui.menu;
+package authoring.view.menu;
 
 import javafx.scene.control.Menu;
 
