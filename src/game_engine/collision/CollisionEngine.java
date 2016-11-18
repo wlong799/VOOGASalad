@@ -18,7 +18,8 @@ import game_object.core.Velocity;
  * @author Charlie
  * @author Grant
  */
-public class CollisionEngine extends AbstractCollisionEngine {
+
+public class CollisionEngine extends AbstractCollisionEngine{
 
     @Override
     public void checkCollisions (List<Hero> heroes,

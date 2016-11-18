@@ -1,9 +1,12 @@
 package game_object.weapon;
 
+import java.util.List;
+
 import game_object.core.AbstractSprite;
 import game_object.core.ISprite;
 import game_object.core.Position;
 import game_object.core.Velocity;
+import game_object.simulation.ICollisionBody;
 
 /**
  * this class represents a single projectile on screen
@@ -13,28 +16,22 @@ import game_object.core.Velocity;
  * @author Yilun
  *
  */
-public class Projectile extends AbstractSprite implements ISprite {
 
-	// position
-	private Position myPosition;
+public class Projectile extends AbstractSprite {
+
+	protected Projectile(double x, double y, List<String> imgPaths) {
+		super(x, y, imgPaths);
+	}
+
 	// velocity
 	private Velocity myVelocity;
 	
 	private ProjectileModel myModel;
 
-	public Projectile(double x, double y, double vx, double vy, ProjectileModel model) {
-		myPosition = new Position(x, y);
-		myVelocity = new Velocity(vx, vy);
-		myModel = model;
-	}
-	
-	public Position getPosition() {
-		return myPosition;
-	}
-
-	public void setPosition(Position position) {
-		myPosition = position;
-	}
+//	public Projectile(double x, double y, double vx, double vy, ProjectileModel model) {
+//		super(x, y);
+//		myModel = model;
+//	}
 
 	public ProjectileModel getModel() {
 		return myModel;
@@ -86,6 +83,12 @@ public class Projectile extends AbstractSprite implements ISprite {
 	public int getCollisionBitMask() {
 		// TODO Auto-generated method stub
 		throw new RuntimeException("Unimplemented");
+	}
+
+	@Override
+	public void onCollideWith(ICollisionBody otherBody) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
