@@ -5,12 +5,9 @@ import game_object.simulation.IPhysicsBody;
 public class PhysicsEngineWithFriction extends PhysicsEngine{
 	
 	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
-		return 0;
-	}
-
-	@Override
-	protected double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime) {
-		return 0;
+		double vx = body.getVelocity().getXVelocity();
+		double newvx = vx - myParams.getAirFriction();
+		return newvx;
 	}
 	
 	public void setParameters(String parameter, double value) {

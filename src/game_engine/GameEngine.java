@@ -1,5 +1,6 @@
 package game_engine;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import game_engine.collision.AbstractCollisionEngine;
@@ -22,6 +23,7 @@ import game_object.level.Level;
 import game_object.level.TransitionMenu;
 import game_object.simulation.IPhysicsBody;
 import goal.IGoal;
+import goal.time.TimeGoal;
 
 /**
  * 
@@ -32,9 +34,9 @@ public class GameEngine implements IGameEngine {
 	private AbstractCollisionEngine myCollisionEngine;
 	private AbstractTransitionManager myTransitionManager;
 	private InputController myInputController;
-	
+
 	private double myElapsedTime;
-	
+
 	private Level myCurrentLevel;
 	private List<Hero> myHeroes;
 	private List<Enemy> myEnemies;
@@ -45,12 +47,13 @@ public class GameEngine implements IGameEngine {
 		myPhysicsEngine = new PhysicsEngine();
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController();
-		//myTransitionManager = new TransitionManager(game, myCurrentLevel);
+		// myTransitionManager = new TransitionManager(game, myCurrentLevel);
 	}
 
 	private void menu() {
 		// TODO: pass all the objects in the menu level to the game player team
 		// return: flag that its good to go (first level) (tentative)
+		// might be dispensable
 	}
 
 	@Override
@@ -77,39 +80,44 @@ public class GameEngine implements IGameEngine {
 
 	@Override
 	public void update() {
-		for (Hero h: myHeroes) {
+		executeInput();
+		for (Hero h : myHeroes) {
 			updateNewParameters(h);
 		}
-		for (Enemy e: myEnemies) {
+		for (Enemy e : myEnemies) {
 			updateNewParameters(e);
 		}
-		for (IBlock b: myBlocks) {
+		for (IBlock b : myBlocks) {
 			updateNewParameters(b);
 		}
+		myCollisionEngine.checkCollisions(myHeroes, myEnemies, myBlocks);
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {
 		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
 		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 		myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
-		myCollisionEngine.checkCollisions(myHeroes, myEnemies, myBlocks);
 	}
-	
+
 	@Override
 	public void draw() {
 		// TODO: pass to game play team to render
 	}
 
 	private WinStatus checkWin() {
-//		for (IGoal g : myGoals) {
-//			if (g.checkGoal()) {
-//				return g.getResult();
-//			}
-//		}
+		List<IGoal> myGoals = new ArrayList<IGoal>();
+		for (IGoal g : myGoals) {
+			if (g instanceof TimeGoal) {
+				((TimeGoal) g).setCurrentTime(0);
+			}
+			if (g.checkGoal()) {
+				return g.getResult();
+			}
+		}
 		return WinStatus.GOON;
 	}
 
-	public void setElements(Level level) {
+	private void setElements(Level level) {
 		myHeroes = level.getHeros();
 		myEnemies = level.getEnemies();
 		myBlocks = level.getBlocks();
@@ -118,15 +126,15 @@ public class GameEngine implements IGameEngine {
 	public void setElapsedTime(double elapsedTime) {
 		myElapsedTime = elapsedTime;
 	}
-	
+
 	public double getElapsedTime() {
 		return myElapsedTime;
 	}
-	
+
 	public void setInputList(List<KeyEvent> list) {
 		myInputController.setInputList(list);
 	}
-	
+
 	public void setPhysicsEngine(AbstractPhysicsEngine physicsEngine) {
 		myPhysicsEngine = physicsEngine;
 	}
@@ -134,13 +142,17 @@ public class GameEngine implements IGameEngine {
 	public void setCollisionEngine(AbstractCollisionEngine collisionEngine) {
 		myCollisionEngine = collisionEngine;
 	}
-	
+
 	public void setTransitionManager(AbstractTransitionManager transitionManager) {
 		myTransitionManager = transitionManager;
 	}
-	
+
 	public void setParameter(String parameter, double value) {
 		myPhysicsEngine.setParameters(parameter, value);
+	}
+	
+	private void executeInput() {
+		myInputController.executeInput();
 	}
 
 }

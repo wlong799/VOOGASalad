@@ -25,7 +25,6 @@ public class InputController implements IInputController {
 		}
 		event = myList.get(0);
 		
-		
 	}
 
 }
