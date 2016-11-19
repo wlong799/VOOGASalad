@@ -1,4 +1,4 @@
-package ui;
+package authoring;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +56,13 @@ public abstract class View {
 		addUI(child.getUI());
 	}
 	
+	public void removeSubView(View child) {
+		if (child == null) return;
+		subViews.remove(child);
+		removeUI(child.getUI());
+		child.setParentView(null);
+	}
+	
 	public View getParentView() {
 		return parentView;
 	}
@@ -96,7 +103,7 @@ public abstract class View {
 		myHeight = height;
 	}
 	
-	protected AuthoringController getController() {
+	public AuthoringController getController() {
 		return myController;
 	}
 	
@@ -108,6 +115,10 @@ public abstract class View {
 		for (Node e : nodes) {
 			addUI(e);
 		}
+	}
+	
+	protected void removeUI(Node e) {
+		root.getChildren().remove(e);
 	}
 	
 	protected void clearUI() {

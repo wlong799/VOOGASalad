@@ -1,10 +1,15 @@
-package ui;
+package authoring.view.inspector;
 
+import authoring.AuthoringController;
+import authoring.View;
+import authoring.updating.IPublisher;
+import authoring.updating.ISubscriber;
+import authoring.view.canvas.SpriteView;
 import game_object.core.ISprite;
-import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
 public class InspectorView extends View implements ISubscriber {
@@ -13,6 +18,13 @@ public class InspectorView extends View implements ISubscriber {
 	private VBox configs;
 	private VBox xBox;
 	private VBox yBox;
+	private VBox zBox;
+	private VBox widthBox;
+	private VBox heightBox;
+	
+	public interface ITextChangeHandler {
+		void handle(String newVal);
+	}
 
 	public InspectorView(AuthoringController controller) {
 		super(controller);
@@ -43,24 +55,45 @@ public class InspectorView extends View implements ISubscriber {
 		configs.getChildren().clear();
 		ISprite sprite = inspectedSpriteView.getSprite();
 		xBox = makeDoubleInputBox("position X", sprite.getPosition().getX(), 
-				(obs, oldVal, newVal) -> {
-					inspectedSpriteView.setPositionX(Double.parseDouble(newVal));
+				(newVal) -> {
+					inspectedSpriteView.setAbsolutePositionX(Double.parseDouble(newVal));
 				});
 		yBox = makeDoubleInputBox("position Y", sprite.getPosition().getY(), 
-				(obs, oldVal, newVal) -> {
-					inspectedSpriteView.setPositionY(Double.parseDouble(newVal));
+				(newVal) -> {
+					inspectedSpriteView.setAbsolutePositionY(Double.parseDouble(newVal));
 				});
-		configs.getChildren().addAll(xBox, yBox);
+		zBox = makeDoubleInputBox("position Z", sprite.getPosition().getZ(),
+				(newVal) -> {
+					inspectedSpriteView.setAbsolutePositionZ(Double.parseDouble(newVal));
+				});
+		widthBox = makeDoubleInputBox("width", sprite.getDimension().getWidth(),
+				(newVal) -> {
+					inspectedSpriteView.setDimensionWidth(Double.parseDouble(newVal));
+				});
+		heightBox = makeDoubleInputBox("height", sprite.getDimension().getHeight(),
+				(newVal) -> {
+					inspectedSpriteView.setDimensionHeight(Double.parseDouble(newVal));
+				});
+		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox);
 	}
 	
 	private VBox makeDoubleInputBox(String title, double defaultValue, 
-			ChangeListener<String> listener) {
+			ITextChangeHandler handler) {
 		VBox box = new VBox();
 		Label label = new Label(title);
 		TextField tf = new TextField(defaultValue + "");
 		box.getChildren().addAll(label, tf);
 		box.setPadding(new Insets(5,5,5,5));
-		tf.textProperty().addListener(listener);
+		tf.setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.ENTER) {
+				handler.handle(tf.getText());
+			}
+		});
+		tf.focusedProperty().addListener((obs, oldVal, newVal) -> {
+			if (!newVal) {
+				handler.handle(tf.getText());
+			}
+		});
 		return box;
 	}
 
