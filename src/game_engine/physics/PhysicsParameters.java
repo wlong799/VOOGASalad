@@ -7,16 +7,19 @@ package game_engine.physics;
  */
 public class PhysicsParameters {
 	private static final double G = 10;
-	private static final double AF = -2;
-	private static final double GF = -3;
+	private static final double AF = 0.1;
+	private static final double GF = 0.5;
+	private static final double T = 1;
 	private double myGravity;
 	private double myAirFriction;
 	private double myGroundFriction;
+	private double myThreshold;
 
 	public PhysicsParameters() {
 		setGravity(G);
 		setAirFriction(AF);
 		setGroundFriction(GF);
+		setThreshold(T);
 	}
 
 	public void setGravity(double g) {
@@ -41,5 +44,13 @@ public class PhysicsParameters {
 	
 	public double getGroundFriction() {
 		return myGroundFriction;
+	}
+	
+	public void setThreshold(double t) {
+		myThreshold = t;
+	}
+	
+	public double getThreshold() {
+		return myThreshold;
 	}
 }
