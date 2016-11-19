@@ -6,7 +6,7 @@ package game_object.character;
  */
 public interface IMortal {
 	
-	void setMaxHP(int maxHP);
+	void setMaxHP(int maxHP, boolean setCurrentHPtoMax);
 	
 	double getMaxHP();
 	

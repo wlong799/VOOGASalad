@@ -1,8 +1,10 @@
 package game_object.character;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import game_object.core.DefaultConstants;
+import game_object.core.Dimension;
+import game_object.core.Position;
 import game_object.core.Velocity;
 
 /**
@@ -11,12 +13,13 @@ import game_object.core.Velocity;
  */
 abstract class ActiveCharacter extends AbstractCharacter {
 
-	protected ActiveCharacter(double x, double y, ArrayList<String> imgPaths, double maxHP) {
-		super(x, y, imgPaths, maxHP);
-	}
-
 	private double myMovingUnit = DefaultConstants.MOVING_UNIT;
 	private double myJumpingUnit = DefaultConstants.JUMPING_UNIT;
+	private Velocity myVelocity;
+	
+	protected ActiveCharacter(Position position, Dimension dimension, List<String> imagePaths) {
+		super(position, dimension, imagePaths);
+	}
 	
 	public double getMovingUnit() {
 		return myMovingUnit;
@@ -74,5 +77,5 @@ abstract class ActiveCharacter extends AbstractCharacter {
 	public Velocity getVelocity() {
 		return myVelocity;
 	}
-
+	/* ---IPhysicsBody Implementations END--- */	
 }

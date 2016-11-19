@@ -1,18 +1,23 @@
 package game_object.block;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import game_object.core.DefaultConstants;
+import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
+import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.simulation.ICollisionBody;
 
 public class StaticBlock extends AbstractBlock {
 	
 	private final int myCategoryBitMask = DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
+	protected int myCollisionBitMask =
+		DefaultConstants.HERO_CATEGORY_BIT_MASK |
+		DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 	
-	public StaticBlock(double x, double y, ArrayList<String> imgPaths) {
-		super(x, y, imgPaths, BlockCollisionBehavior.TOP_TOP_COLLISION);
+	protected StaticBlock(Position position, Dimension dimension, List<String> imagePaths) {
+		super(position, dimension, imagePaths);
 	}
 
 	@Override
@@ -29,7 +34,7 @@ public class StaticBlock extends AbstractBlock {
 
 	@Override
 	public Velocity getVelocity() {
-		return null;
+		return new Velocity(0, 0);
 	}
 
 	@Override
