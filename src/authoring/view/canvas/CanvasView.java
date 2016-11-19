@@ -8,7 +8,6 @@ import authoring.View;
 import authoring.constants.UIConstants;
 import game_object.block.StaticBlock;
 import game_object.core.ISprite;
-import game_object.core.Position;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
@@ -20,6 +19,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 
+/**
+ * Canvas View - editor UI
+ * need refactor - extract resize, drag methods to a 'controller'
+ * 		using composition
+ */
 public class CanvasView extends View {
 
 	private List<SpriteView> spriteViews;
@@ -30,6 +34,7 @@ public class CanvasView extends View {
 	private double scHeight;
 	private double bgWidth;
 	private double bgHeight;
+	private SpriteViewComparator spViewComparator;
 
 	public CanvasView(AuthoringController controller) {
 		super(controller);
@@ -38,10 +43,10 @@ public class CanvasView extends View {
 	/**
 	 * method to add a SpriteView to canvas
 	 * used for drag and drop from components view
-	 * @param spView SpriteView to add to display
-	 * @param x position X of spView to add relative to top-left corner of CanvasView
-	 * @param y position Y of spView to add relative to top-left corner of CanvasView
-	 * x and y are not relative to the origin of content!
+	 * @param spView
+	 * @param x
+	 * @param y
+	 * @param relative if true, x and y are positions on screen instead of real positions
 	 */
 	public void add(SpriteView spView, double x, double y, boolean relative) {
 		spriteViews.add(spView);
@@ -85,12 +90,18 @@ public class CanvasView extends View {
 	 * @param spView
 	 * @param x
 	 * @param y
-	 * x and y relative to the origin of content
+	 * x and y are absolute
 	 */
 	public void setAbsolutePosition(SpriteView spView, double x, double y) {
 		spView.setPositionX(x);
 		spView.setPositionY(y);
-		spView.getSprite().setPosition(new Position(x, y));
+		spView.getSprite().getPosition().setX(x);
+		spView.getSprite().getPosition().setY(y);
+	}
+	
+	public void setAbsolutePositionZ(SpriteView spView, double z) {
+		spView.getSprite().getPosition().setZ(z);
+		reorderSpriteViewsWithPositionZ();
 	}
 
 	public void onDragSpriteView(SpriteView spView, MouseEvent event) {
@@ -108,11 +119,11 @@ public class CanvasView extends View {
 
 	/**
 	 * @param spView
-	 * @param startX
-	 * @param startY
-	 * @param endX
-	 * @param endY
-	 * x, y are real sprite positions
+	 * @param startX top left corner X
+	 * @param startY top left corner Y
+	 * @param endX bottom right corner X
+	 * @param endY bottom right corner Y
+	 * x, y are absolute sprite positions
 	 */
 	public void onResizeSpriteView(SpriteView spView,
 			double startX,
@@ -140,6 +151,7 @@ public class CanvasView extends View {
 	@Override
 	protected void initUI() {
 		spriteViews = new ArrayList<>();
+		spViewComparator = new SpriteViewComparator();
 		content = new Group();
 		background = new Rectangle(
 				0,
@@ -242,6 +254,16 @@ public class CanvasView extends View {
 		double x = spView.getPositionX();
 		double y = spView.getPositionY();
 		return 0 <= x && x <= bgWidth && 0 <= y && y <= bgHeight;
+	}
+	
+	private void reorderSpriteViewsWithPositionZ() {
+		spriteViews.sort(spViewComparator);
+		content.getChildren().clear();
+		content.getChildren().add(background);
+		for (SpriteView spView : spriteViews) {
+			content.getChildren().add(spView.getUI());
+			System.out.println(spView.getSprite().getPosition().getZ());
+		}
 	}
 
 }

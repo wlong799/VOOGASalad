@@ -45,12 +45,8 @@ public class SpriteView extends View {
 		myCanvas.setAbsolutePosition(this, mySprite.getPosition().getX(), y);
 	}
 	
-	public void setRelativePositionX(double x) {
-		myCanvas.setRelativePosition(this, x, mySprite.getPosition().getY());
-	}
-	
-	public void setRelativePositionY(double y) {
-		myCanvas.setRelativePosition(this, mySprite.getPosition().getX(), y);
+	public void setAbsolutePositionZ(double z) {
+		myCanvas.setAbsolutePositionZ(this, z);
 	}
 	
 	public Position getMouseOffset() {
