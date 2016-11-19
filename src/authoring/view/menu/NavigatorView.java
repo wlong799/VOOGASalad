@@ -1,11 +1,13 @@
-package ui;
+package authoring.view.menu;
 
+import authoring.AuthoringController;
+import authoring.View;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class ComponentsView extends View {
+public class NavigatorView extends View {
 
-	public ComponentsView(AuthoringController controller) {
+	public NavigatorView(AuthoringController controller) {
 		super(controller);
 	}
 
@@ -13,7 +15,7 @@ public class ComponentsView extends View {
 	protected void layoutSelf() {
 		this.clearUI();
 		Rectangle rect = new Rectangle(0,0,this.getWidth(),this.getHeight());
-		rect.setFill(Color.AQUA);
+		rect.setFill(Color.BLUE);
 		this.addUI(rect);
 	}
 
