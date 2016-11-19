@@ -163,11 +163,15 @@ public class CanvasViewController {
 	
 	private void reorderSpriteViewsWithPositionZ() {
 		spriteViews.sort(spViewComparator);
+		double hValue = myScrollPane.getHvalue();
+		double vValue = myScrollPane.getVvalue();
 		myContent.getChildren().clear();
 		myContent.getChildren().add(myBackground);
 		for (SpriteView spView : spriteViews) {
 			myContent.getChildren().add(spView.getUI());
 		}
+		myScrollPane.setHvalue(hValue);
+		myScrollPane.setVvalue(vValue);
 	}
 	
 	private void setOnDrag() {
