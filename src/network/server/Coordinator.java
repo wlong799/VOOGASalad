@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.Logger;
 
 import network.Connection;
 import network.Message;
@@ -15,44 +14,19 @@ import network.exceptions.ServerDownException;
 
 public class Coordinator {
 	
-	private static final Logger LOGGER =
-			Logger.getLogger( Coordinator.class.getName() );
-	
 	private ServerSocket serverSocket;
 	private List<Connection> connectionPool;
 	private BlockingQueue<Message> messageQueue;
-	private Daemon daemon;
+	private boolean hasStopped;
 	
 	public Coordinator(int port)
 			throws IOException, InterruptedException {
 		serverSocket = new ServerSocket(port);
 		connectionPool = new ArrayList<>();
 		messageQueue = new LinkedBlockingQueue<>();
-		daemon = new Daemon(this);
-        daemon.start();
-        broadcast();
-	}
-	
-	private void broadcast() {
-		Thread worker = new Thread() {
-			@Override
-			public void run() {
-				while(true) {
-					try {
-						Message msg = messageQueue.take();
-						synchronized (connectionPool) {
-							for (Connection conn : connectionPool) {
-								conn.send(msg);
-							}
-						}
-						LOGGER.info("Broadcasted to all: " + msg);
-					} catch (InterruptedException e) {
-						Thread.currentThread().interrupt();
-					}
-				}
-			}
-		};
-		worker.start();
+		hasStopped = false;
+        new Daemon(this).start();
+        new Postman(connectionPool, messageQueue, this).start();
 	}
 	
 	public ServerSocket getServerSocket() {
@@ -65,19 +39,29 @@ public class Coordinator {
 		}
 	}
 	
+	public boolean removeConnection(Connection conn) {
+		synchronized (connectionPool) {
+			return connectionPool.remove(conn);
+		}
+	}
+	
 	public BlockingQueue<Message> getMessageQueue() {
 		return messageQueue;
 	}
-
-	public static void main(String[] args) {
+	
+	public boolean hasStopped() {
+		return hasStopped;
+	}
+	
+	public void shutdown() {
 		try {
-			Coordinator cor = new Coordinator(9999);
-			NetworkClient c1 = new NetworkClient();
-			NetworkClient c2 = new NetworkClient();
-			c1.send(new Message("client 1"));
-			Thread.sleep(1000);
-			System.out.println("FINAL READ: " + c2.read().peek());
-		} catch (IOException | ServerDownException | InterruptedException e) {
+			hasStopped = false;
+			synchronized (connectionPool) {
+				connectionPool.clear();
+			}
+			serverSocket.close();
+		} catch (IOException e) {
+			// TODO cx15 ask Duvall about server side exception best practice
 			e.printStackTrace();
 		}
 	}

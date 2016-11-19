@@ -21,8 +21,7 @@ public class Receiver extends Thread {
 	
 	public Receiver(Socket socket,
 					Connection conn,
-					BlockingQueue<Message> inComingBuffer)
-			throws IOException {
+					BlockingQueue<Message> inComingBuffer) {
 		this.connection = conn;
 		this.socket = socket;
 		this.inComingBuffer = inComingBuffer;

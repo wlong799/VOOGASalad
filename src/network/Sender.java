@@ -14,8 +14,7 @@ public class Sender extends Thread {
 	
 	public Sender(Socket socket,
 				  Connection conn,
-				  BlockingQueue<Message> outGoingBuffer)
-						  throws IOException {
+				  BlockingQueue<Message> outGoingBuffer) {
 		this.connection = conn;
 		this.outGoingBuffer = outGoingBuffer;
 		this.socket = socket;
@@ -25,13 +24,16 @@ public class Sender extends Thread {
 	public void run() {
 		while (!connection.isClosed()) {
 			try {
-				this.outputStream = new ObjectOutputStream(socket.getOutputStream());
+				this.outputStream =
+						new ObjectOutputStream(socket.getOutputStream());
 				Message msg = outGoingBuffer.take();
-				System.out.println("message " + msg + " sent");
 				outputStream.writeObject(msg);
 				outputStream.flush();
-			} catch (IOException | InterruptedException e) {
+			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
+			} catch (IOException e) {
+				// TODO cx15 disconnect and abort
+				e.printStackTrace();
 			}
 		}
 	}

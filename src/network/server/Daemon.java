@@ -1,15 +1,10 @@
 package network.server;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import network.Connection;
-import network.Message;
 
 /**
  * The daemon/dispatcher/master thread on server side, which listens
@@ -30,7 +25,7 @@ public class Daemon extends Thread {
 	@Override
 	public void run() {
 		LOGGER.info("Daemon starts");
-		while (true) {
+		while (!coordinator.hasStopped()) {
 			try {
 				Socket clientSock = coordinator.getServerSocket().accept();
 				LOGGER.info("Daemon accepted new connection");
@@ -38,7 +33,7 @@ public class Daemon extends Thread {
 						coordinator.getMessageQueue(), clientSock);
 				coordinator.addConnection(conn);
 			} catch (IOException e) {
-				Thread.currentThread().interrupt();
+				// TODO cx15 properly shutdown the server 
 			}
 		}
     }

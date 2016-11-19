@@ -12,30 +12,34 @@ public class Connection {
 	private Socket socket;
 	private BlockingQueue<Message> outGoingBuffer;
 	private boolean isClosed;
-	private Receiver receiver;
-	private Sender sender;
+//	private Receiver receiver;
+//	private Sender sender;
 	
-	public Connection(BlockingQueue<Message> inComingBuffer,
-					  Socket socket) throws IOException {
+	public Connection(BlockingQueue<Message> incomingBuffer, 
+					  Socket socket) {
 		this.socket = socket;
 		this.outGoingBuffer = new LinkedBlockingQueue<>();
 		this.isClosed = false;
-		this.receiver = new Receiver(socket, this, inComingBuffer);
-		this.sender = new Sender(socket, this, outGoingBuffer);
-		this.receiver.start();
-		this.sender.start();
+		new Receiver(socket, this, incomingBuffer).start();
+		new Sender(socket, this, outGoingBuffer).start();
+//		this.receiver.start();
+//		this.sender.start();
 	}
 	
-	public void send(Message msg) throws InterruptedException {
-		outGoingBuffer.put(msg);
+	public void send(Message msg) {
+		try {
+			outGoingBuffer.put(msg);
+		} catch (InterruptedException e) {
+			Thread.currentThread().interrupt();
+		}
 	}
 	
-	public boolean isClosed() {
+	public synchronized boolean isClosed() {
 		return isClosed;
 	}
 
-	public void close() {
+	public synchronized void close() throws IOException {
 		this.isClosed = true;
-		// TODO cx15 notify coordinator
+		socket.close();
 	}
 }
