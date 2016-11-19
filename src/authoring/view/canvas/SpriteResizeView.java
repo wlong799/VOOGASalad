@@ -118,30 +118,30 @@ public class SpriteResizeView extends View {
 					spView, 
 					spView.getPositionX(),
 					spView.getPositionY(),
-					e.getSceneX() - canvas.getPositionX(),
-					e.getSceneY() - canvas.getPositionY());
+					canvas.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
+					canvas.toAbsoluteY(e.getSceneY() - canvas.getPositionY()));
 		});
 		resizeSW.setOnMouseDragged(e -> {
 			canvas.onResizeSpriteView(
 					spView, 
-					e.getSceneX() - canvas.getPositionX(),
+					canvas.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
 					spView.getPositionY(),
 					spView.getPositionX() + spView.getWidth(),
-					e.getSceneY() - canvas.getPositionY());
+					canvas.toAbsoluteY(e.getSceneY() - canvas.getPositionY()));
 		});
 		resizeNE.setOnMouseDragged(e -> {
 			canvas.onResizeSpriteView(
 					spView, 
 					spView.getPositionX(),
-					e.getSceneY() - canvas.getPositionY(),
-					e.getSceneX() - canvas.getPositionX(),
+					canvas.toAbsoluteY(e.getSceneY() - canvas.getPositionY()),
+					canvas.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
 					spView.getPositionY() + spView.getHeight());
 		});
 		resizeNW.setOnMouseDragged(e -> {
 			canvas.onResizeSpriteView(
 					spView, 
-					e.getSceneX() - canvas.getPositionX(),
-					e.getSceneY() - canvas.getPositionY(),
+					canvas.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
+					canvas.toAbsoluteY(e.getSceneY() - canvas.getPositionY()),
 					spView.getPositionX() + spView.getWidth(),
 					spView.getPositionY() + spView.getHeight());
 		});

@@ -26,6 +26,10 @@ public class CanvasView extends View {
 	private ScrollPane scrollPane;
 	private Group content; // holder for all SpriteViews
 	private Rectangle background;
+	private double scWidth;
+	private double scHeight;
+	private double bgWidth;
+	private double bgHeight;
 
 	public CanvasView(AuthoringController controller) {
 		super(controller);
@@ -59,22 +63,20 @@ public class CanvasView extends View {
 	 * x and y are not relative to the origin of content!
 	 */
 	public void setRelativePosition(SpriteView spView, double x, double y) {
-		double scWidth = scrollPane.getViewportBounds().getWidth();
-		double scHeight = scrollPane.getViewportBounds().getHeight();
-		double bgWidth = background.getWidth();
-		double bgHeight = background.getHeight();
+		retrieveScrollPaneSize();
+		retrieveBackgroundSize();
 		double newx = 0, newy = 0;
 		if (scWidth > bgWidth) {
 			newx = x;
 		}
 		else {
-			newx = scrollPane.getHvalue() * (bgWidth - scWidth) + x;
+			newx = toAbsoluteX(x);
 		}
 		if (scHeight > bgHeight) {
 			newy = y;
 		}
 		else {
-			newy = scrollPane.getVvalue() * (bgHeight - scHeight) + y;
+			newy = toAbsoluteY(y);
 		}
 		setAbsolutePosition(spView, newx, newy);
 	}
@@ -94,8 +96,7 @@ public class CanvasView extends View {
 	public void onDragSpriteView(SpriteView spView, MouseEvent event) {
 		double x = event.getSceneX() - this.getPositionX();
         double y = event.getSceneY() - this.getPositionY();
-        double scWidth = scrollPane.getViewportBounds().getWidth();
-		double scHeight = scrollPane.getViewportBounds().getHeight();
+        retrieveScrollPaneSize();
 		if (x < UIConstants.DRAG_SCROLL_THRESHOLD) {
 			scrollPane.setHvalue(Math.max(0, 
 					scrollPane.getHvalue() - UIConstants.SCROLL_VALUE_UNIT));
@@ -132,13 +133,21 @@ public class CanvasView extends View {
 			double endX,
 			double endY) {
 		if (startX > endX || startY > endY) return;
-		this.setRelativePosition(spView, startX, startY);
+		this.setAbsolutePosition(spView, startX, startY);
 		spView.setDimensionWidth(endX - startX);
 		spView.setDimensionHeight(endY - startY);
 	}
 	
 	public Rectangle getBackground() {
 		return background;
+	}
+	
+	public double toAbsoluteX(double x) {
+		return scrollPane.getHvalue() * (bgWidth - scWidth) + x;
+	}
+	
+	public double toAbsoluteY(double y) {
+		return scrollPane.getVvalue() * (bgWidth - scWidth) + y;
 	}
 	
 	@Override
@@ -212,6 +221,16 @@ public class CanvasView extends View {
 		spView.setSprite(block);
 		this.add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
 		this.getController().selectSpriteView(spView);
+	}
+	
+	private void retrieveScrollPaneSize() {
+		scWidth = scrollPane.getViewportBounds().getWidth();
+		scHeight = scrollPane.getViewportBounds().getHeight();
+	}
+	
+	private void retrieveBackgroundSize() {
+		bgWidth = background.getWidth();
+		bgHeight = background.getHeight();
 	}
 
 }
