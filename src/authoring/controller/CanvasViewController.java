@@ -151,6 +151,15 @@ public class CanvasViewController {
 		}
 	}
 	
+	// relative positions to absolute
+	public double toAbsoluteX(double x) {
+		return myScrollPane.getHvalue() * (bgWidth - scWidth) + x;
+	}
+
+	public double toAbsoluteY(double y) {
+		return myScrollPane.getVvalue() * (bgWidth - scWidth) + y;
+	}
+	
 	private void retrieveScrollPaneSize() {
 		scWidth = myScrollPane.getViewportBounds().getWidth();
 		scHeight = myScrollPane.getViewportBounds().getHeight();
@@ -232,14 +241,6 @@ public class CanvasViewController {
 			myScrollPane.setVvalue(Math.min(1, 
 					myScrollPane.getVvalue() + UIConstants.SCROLL_VALUE_UNIT));
 		}
-	}
-	
-	public double toAbsoluteX(double x) {
-		return myScrollPane.getHvalue() * (bgWidth - scWidth) + x;
-	}
-
-	public double toAbsoluteY(double y) {
-		return myScrollPane.getVvalue() * (bgWidth - scWidth) + y;
 	}
 
 }
