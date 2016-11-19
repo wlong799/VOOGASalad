@@ -43,6 +43,7 @@ public class Level {
 	public TransitionMenu getNextMenu() {
 		return myNextMenu;
 	}
+	/* ---Transitions END--- */
 	
 	/* Add/Remove specific sprites */
 	public void addHero(Hero hero) {

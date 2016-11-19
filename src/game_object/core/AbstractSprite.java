@@ -13,19 +13,10 @@ public abstract class AbstractSprite implements ISprite {
 	protected List<String> myImagePaths;
 	protected ImageStyle myImageStyle;
 	protected Dimension myDimension;
-	protected boolean myAffectedByPhysics;
-	protected Velocity myVelocity;
-	
-	protected AbstractSprite(double x, double y, List<String> imgPaths) {
-		this(new Position(x, y), imgPaths);
-	}
 
-	protected AbstractSprite(Position position, List<String> imgPaths) {
-		this(imgPaths);
+	protected AbstractSprite(Position position, Dimension dimension, List<String> imagePaths) {
 		myPosition = position;
-	}
-
-	private AbstractSprite(List<String> imagePaths) {
+		myDimension = dimension;
 		myImagePaths = imagePaths;
 		myImageStyle = ImageStyle.TRUE_SIZE;
 	}
