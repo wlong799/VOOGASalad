@@ -115,8 +115,8 @@ public class CanvasView extends View {
 		}
         this.setRelativePosition(
         		spView, 
-        		x - spView.getWidth() / 2, 
-        		y - spView.getHeight() / 2);
+        		x - spView.getMouseOffset().getX(), 
+        		y - spView.getMouseOffset().getY());
 	}
 	
 	/**

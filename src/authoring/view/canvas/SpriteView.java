@@ -3,6 +3,7 @@ package authoring.view.canvas;
 import authoring.AuthoringController;
 import authoring.View;
 import game_object.core.ISprite;
+import game_object.core.Position;
 
 /**
  * wrapper for Sprite in AuthEnv
@@ -13,6 +14,7 @@ public class SpriteView extends View {
 	private CanvasView myCanvas;
 	private SpriteImageView spImageView;
 	private SpriteResizeView spResizeView;
+	private Position mouseOffset;
 	
 	public SpriteView(AuthoringController controller) {
 		super(controller);
@@ -49,6 +51,10 @@ public class SpriteView extends View {
 	
 	public void setRelativePositionY(double y) {
 		myCanvas.setRelativePosition(this, mySprite.getPosition().getX(), y);
+	}
+	
+	public Position getMouseOffset() {
+		return mouseOffset;
 	}
 	
 	/**
@@ -93,6 +99,7 @@ public class SpriteView extends View {
 		
 		setMouseClicked();
 		spImageView.setDragMove();
+		mouseOffset = new Position(0, 0);
 	}
 
 	@Override

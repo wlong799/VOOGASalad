@@ -52,7 +52,15 @@ public class SpriteImageView extends View {
 	}
 	
 	public void setDragMove() {
-		//TODO: save offset
+		this.getUI().setOnMousePressed(event -> {
+			CanvasView canvas = spView.getCanvasView();
+			spView.getMouseOffset().setX(
+				canvas.toAbsoluteX(event.getSceneX() - canvas.getPositionX()) - 
+				spView.getPositionX());
+			spView.getMouseOffset().setY(
+				canvas.toAbsoluteY(event.getSceneY() - canvas.getPositionY()) - 
+				spView.getPositionY());
+		});
 		this.getUI().setOnMouseDragged(event -> {
 			spView.getCanvasView().onDragSpriteView(spView, event);
 		});
