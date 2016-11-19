@@ -1,13 +1,9 @@
 package authoring.view.canvas;
 
-import java.util.ArrayList;
-
 import authoring.AuthoringController;
 import authoring.View;
 import authoring.constants.UIConstants;
 import authoring.controller.CanvasViewController;
-import game_object.block.StaticBlock;
-import game_object.core.ISprite;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.paint.Color;
@@ -51,14 +47,6 @@ public class CanvasView extends View {
 		canvasViewController = this.getController().getCanvasViewController();
 		canvasViewController.init(
 				this, scrollPane, content, background);
-
-		//debug
-		ArrayList<String> path = new ArrayList<String>();
-		path.add("turtle.gif");
-		ISprite block = new StaticBlock(40, 40, path);
-		SpriteView testsp = new SpriteView(this.getController());
-		testsp.setSprite(block);
-		canvasViewController.add(testsp, 40, 40, false);
 	}
 
 	@Override

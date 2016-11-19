@@ -8,7 +8,9 @@ import authoring.view.canvas.CanvasView;
 import authoring.view.canvas.SpriteView;
 import authoring.view.canvas.SpriteViewComparator;
 import game_object.block.StaticBlock;
+import game_object.core.Dimension;
 import game_object.core.ISprite;
+import game_object.core.Position;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
@@ -165,7 +167,6 @@ public class CanvasViewController {
 		myContent.getChildren().add(myBackground);
 		for (SpriteView spView : spriteViews) {
 			myContent.getChildren().add(spView.getUI());
-			System.out.println(spView.getSprite().getPosition().getZ());
 		}
 	}
 	
@@ -203,7 +204,7 @@ public class CanvasViewController {
 	private void makeAndAddSpriteView(String id, double x, double y) {
 		ArrayList<String> path = new ArrayList<String>();
 		path.add(id);
-		ISprite block = new StaticBlock(40, 40, path);
+		ISprite block = new StaticBlock(new Position(40,40), new Dimension(0, 0), path);
 		SpriteView spView = new SpriteView(myCanvas.getController());
 		spView.setSprite(block);
 		this.add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);

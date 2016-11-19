@@ -2,7 +2,6 @@ package authoring.view.canvas;
 
 import authoring.AuthoringController;
 import authoring.View;
-import game_object.core.Dimension;
 import game_object.core.ISprite;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,7 +45,6 @@ public class SpriteImageView extends View {
 		this.setHeight(image.getHeight());
 		layout();
 		
-		mySprite.setDimension(new Dimension());
 		mySprite.getDimension().setWidth(image.getWidth());
 		mySprite.getDimension().setHeight(image.getHeight());
 	}
