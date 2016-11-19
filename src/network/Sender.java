@@ -5,12 +5,17 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * The worker thread that tries to push messages in the outGoingBuffer
+ * to server who is going to forward them to all subscribers
+ * @author CharlesXu
+ *
+ */
 public class Sender extends Thread {
 	
 	private Connection connection;
 	private Socket socket;
 	private BlockingQueue<Message> outGoingBuffer;
-	private ObjectOutputStream outputStream;
 	
 	public Sender(Socket socket,
 				  Connection conn,
@@ -24,7 +29,7 @@ public class Sender extends Thread {
 	public void run() {
 		while (!connection.isClosed()) {
 			try {
-				this.outputStream =
+				ObjectOutputStream outputStream =
 						new ObjectOutputStream(socket.getOutputStream());
 				Message msg = outGoingBuffer.take();
 				outputStream.writeObject(msg);

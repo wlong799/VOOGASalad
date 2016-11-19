@@ -8,11 +8,14 @@ import java.util.logging.Logger;
 
 import network.server.Daemon;
 
-
+/**
+ * The worker thread that reads from connection to server and 
+ * put messages read into client supplied buffer.
+ * @author CharlesXu
+ */
 public class Receiver extends Thread {
 	
 	private Connection connection;
-	private ObjectInputStream objectInputStream;
 	private Socket socket;
 	private BlockingQueue<Message> inComingBuffer;
 	
@@ -31,7 +34,7 @@ public class Receiver extends Thread {
 	public void run() {
 		while (!connection.isClosed()) {
 			try {
-				this.objectInputStream =
+				ObjectInputStream objectInputStream =
 						new ObjectInputStream(socket.getInputStream());
 				Message msg = (Message) objectInputStream.readObject();
 				LOGGER.info("Receiver " + this.getId() + " received msg: " + msg);

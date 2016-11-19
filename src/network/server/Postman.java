@@ -7,6 +7,12 @@ import java.util.logging.Logger;
 import network.Connection;
 import network.Message;
 
+/**
+ * The worker thread that remove message from the main message queue
+ * one at a time and forward the message to all subscribers in the
+ * connectionPool
+ * @author CharlesXu
+ */
 public class Postman extends Thread {
 	
 	private static final Logger LOGGER =
@@ -33,8 +39,9 @@ public class Postman extends Thread {
 					for (Connection conn : connectionPool) {
 						if (conn.isClosed()) {
 							connectionPool.remove(conn);
+						} else {
+							conn.send(msg);
 						}
-						conn.send(msg);
 					}
 				}
 				LOGGER.info("Broadcasted to all: " + msg);

@@ -7,13 +7,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import network.server.Coordinator;
 
+/**
+ * A logical connection between two parties.
+ * @author CharlesXu
+ */
 public class Connection {
 	
 	private Socket socket;
 	private BlockingQueue<Message> outGoingBuffer;
 	private boolean isClosed;
-//	private Receiver receiver;
-//	private Sender sender;
 	
 	public Connection(BlockingQueue<Message> incomingBuffer, 
 					  Socket socket) {
@@ -22,8 +24,6 @@ public class Connection {
 		this.isClosed = false;
 		new Receiver(socket, this, incomingBuffer).start();
 		new Sender(socket, this, outGoingBuffer).start();
-//		this.receiver.start();
-//		this.sender.start();
 	}
 	
 	public void send(Message msg) {

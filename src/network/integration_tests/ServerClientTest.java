@@ -7,7 +7,20 @@ import network.client.NetworkClient;
 import network.exceptions.ServerDownException;
 import network.server.Coordinator;
 
-public class ServerClient {
+/**
+ * This integration test runs multiple clients and a server on the same
+ * node/machine such that we could defined a strong serial order of events
+ * which makes assertion easy.
+ * 
+ * <p>We avoid JUint test becuase as its name suggests it is a framework 
+ * for unit testing, which is not what we want here. Further, on assertion
+ * failure, JUnit terminates its thread only and does not properly clean
+ * up the dangling sockets and connection. 
+ * 
+ * @author CharlesXu
+ */
+public class ServerClientTest {
+	
 	public static final String SOME_MSG = "some random massage";
 	public static final String SOME_DIFF_MSG = "another random massage";
 	
