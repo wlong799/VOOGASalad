@@ -16,7 +16,7 @@ public class StaticBlock extends AbstractBlock {
 		DefaultConstants.HERO_CATEGORY_BIT_MASK |
 		DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 	
-	protected StaticBlock(Position position, Dimension dimension, List<String> imagePaths) {
+	public StaticBlock(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 	}
 

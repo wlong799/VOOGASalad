@@ -19,7 +19,7 @@ public class Enemy extends ActiveCharacter {
 	// damage this enemy does to the hero if directly collided.
 	private double myBodyDamage = DefaultConstants.ENEMY_BODY_DAMAGE;
 	
-	protected Enemy(Position position, Dimension dimension, List<String> imagePaths) {
+	public Enemy(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 	}
 
