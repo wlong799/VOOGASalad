@@ -7,13 +7,14 @@ import authoring.AuthoringController;
 import authoring.View;
 import game_object.constants.GameObjectConstants;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 
 public class ComponentsView extends View {
 	
-	private ScrollPane scrollPane;
-	private HBox content;
 
 	public ComponentsView(AuthoringController controller) {
 		super(controller);
@@ -21,21 +22,30 @@ public class ComponentsView extends View {
 
 	@Override
 	protected void layoutSelf() {
-		scrollPane.setPrefWidth(this.getWidth());
-		scrollPane.setPrefHeight(this.getHeight());
+		TabPane tabPane = new TabPane();
+		tabPane.setPrefHeight(this.getHeight());
+		tabPane.setPrefWidth(this.getWidth());
+		this.addUI(tabPane);
+		
+		initEnemyTab(tabPane);
+		initBlockTab(tabPane);
 	}
 
 	@Override
 	protected void initUI() {
-		scrollPane = new ScrollPane();
-		this.addUI(scrollPane);
-		content = new HBox();
-		content.setSpacing(20);
-		content.setAlignment(Pos.CENTER);
-		scrollPane.setContent(content);
+		
+	}
+	
+	protected void initEnemyTab(TabPane tabPane) {
+		Tab enemyTab = initTab("Enemy");
+		tabPane.getTabs().add(enemyTab);
+		HBox hbox = new HBox();
+		hbox.setSpacing(20);
+		hbox.setAlignment(Pos.CENTER);
+		ScrollPane scrollPane = new ScrollPane();
+		scrollPane.setContent(hbox);
 		scrollPane.setFitToHeight(true);
 		
-		//debug
 		List<String> list = new ArrayList<String>();
 		list.add(GameObjectConstants.BLUE_SNAIL_FILE);
 		list.add(GameObjectConstants.ELIZA_FILE);
@@ -47,8 +57,52 @@ public class ComponentsView extends View {
 			c.setWidth(50);
 			c.setImagePath(list.get(i % list.size()));
 			c.setTitleText("test");
-			content.getChildren().add(c.getUI());
+			hbox.getChildren().add(c.getUI());
 		}
+		enemyTab.setContent(initScrollPane());
 	}
+	
+	protected void initBlockTab(TabPane tabPane) {
+		Tab blockTab = initTab("Block");
+		tabPane.getTabs().add(blockTab);
+		HBox hbox = new HBox();
+		hbox.setSpacing(20);
+		hbox.setAlignment(Pos.CENTER);
+		ScrollPane scrollPane = new ScrollPane();
+		scrollPane.setContent(hbox);
+		scrollPane.setFitToHeight(true);
+		
+		List<String> list = new ArrayList<String>();
+		list.add(GameObjectConstants.BRICK);
+		list.add(GameObjectConstants.BUSH);
+		for (int i = 0; i < 20; i++) {
+			ComponentView c = new ComponentView(this.getController());
+			c.setWidth(50);
+			c.setImagePath(list.get(i % list.size()));
+			c.setTitleText("test");
+			hbox.getChildren().add(c.getUI());
+		}
+		blockTab.setContent(initScrollPane());
+		
+	}
+	
+	protected Tab initTab(String tabName) {
+		Tab tab = new Tab();
+		tab.setText(tabName);
+		return tab;
+	}
+	
+	protected ScrollPane initScrollPane(){
+		HBox hbox = new HBox();
+		hbox.setSpacing(20);
+		hbox.setAlignment(Pos.CENTER);
+		ScrollPane scrollPane = new ScrollPane();
+		scrollPane.setContent(hbox);
+		scrollPane.setFitToHeight(true);
+		
+		return scrollPane;
+	}
+	
+	
 
 }

@@ -8,4 +8,8 @@ public class GameObjectConstants {
 	public static final String RIBBON_PIG_FILE = "img/ribbon_pig.png";
 	public static final String SLIME_FILE = "img/slime.png";
 	
+	public static final String BUSH = "img/bush.png";
+	public static final String BRICK = "img/brick.png";
+	
+	
 }
