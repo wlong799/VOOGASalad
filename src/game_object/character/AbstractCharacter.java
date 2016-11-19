@@ -3,7 +3,6 @@ package game_object.character;
 import java.util.ArrayList;
 
 import game_object.core.AbstractSprite;
-import game_object.core.Velocity;
 import game_object.weapon.Weapon;
 
 /**
@@ -14,8 +13,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	protected double myMaxHP;
 	protected double myCurrentHP;
-	protected boolean myAffectedByPhysics;
-	protected Velocity myVelocity;
 	protected Weapon myCurrentWeapon;
 	protected boolean myDead;
 	
@@ -23,7 +20,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		super(x, y, imgPaths);
 		myMaxHP = maxHP;
 		myCurrentHP = myMaxHP;
-		myVelocity = new Velocity(0, 0);
 		myDead = false;
 	}
 	
@@ -68,5 +64,5 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		return myDead;
 	}
 	/* ---IMortal Implementations End--- */
-	
+
 }

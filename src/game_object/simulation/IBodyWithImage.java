@@ -7,13 +7,13 @@ import game_object.core.ImageStyle;
 
 public interface IBodyWithImage {
 
-	List<String> getImgPaths();
+	List<String> getImagePaths();
 
-	void setImgPaths(List<String> imgPaths);
+	void setImagePaths(List<String> imagePaths);
 
 	ImageStyle getImgStyle();
 
-	void setImgStyle(ImageStyle imgStyle);
+	void setImageStyle(ImageStyle imageStyle);
 	
 	void setDimension(Dimension dimension);
 	
