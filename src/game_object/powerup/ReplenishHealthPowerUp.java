@@ -1,13 +1,16 @@
 package game_object.powerup;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import game_object.character.IUpgrader;
+import game_object.core.Dimension;
+import game_object.core.Position;
 
 public class ReplenishHealthPowerUp extends PowerUp {
 
-	public ReplenishHealthPowerUp(double x, double y, ArrayList<String> imgPaths) {
-		super(x, y, imgPaths);
+
+	protected ReplenishHealthPowerUp(Position position, Dimension dimension, List<String> imagePaths) {
+		super(position, dimension, imagePaths);
 	}
 
 	@Override

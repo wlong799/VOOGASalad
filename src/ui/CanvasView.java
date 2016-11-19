@@ -87,7 +87,7 @@ public class CanvasView extends View {
 		//more debug
 		ArrayList<String> path = new ArrayList<String>();
 		path.add("turtle.gif");
-		ISprite block = new StaticBlock(40, 40, path);
+		ISprite block = null;
 		SpriteView testsp = new SpriteView(this.getController());
 		testsp.setSprite(block);
 		this.add(testsp, 40, 40);
