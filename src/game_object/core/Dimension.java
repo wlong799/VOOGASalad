@@ -5,6 +5,11 @@ public class Dimension {
 	private double myWidth;
 	private double myHeight;
 	
+	public Dimension(double width, double height) {
+		myWidth = width;
+		myHeight = height;
+	}
+	
 	public double getWidth() {
 		return myWidth;
 	}

@@ -15,7 +15,7 @@ abstract class ActiveCharacter extends AbstractCharacter {
 
 	private double myMovingUnit = DefaultConstants.MOVING_UNIT;
 	private double myJumpingUnit = DefaultConstants.JUMPING_UNIT;
-	private Velocity myVelocity;
+	private Velocity myVelocity = new Velocity(0, 0);
 	
 	protected ActiveCharacter(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
