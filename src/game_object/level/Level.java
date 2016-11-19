@@ -62,6 +62,14 @@ public class Level {
 		myEnemies.remove(enemy);
 	}
 
+	public void addStaticBlock(StaticBlock staticBlock) {
+		myStaticBlocks.add(staticBlock);
+	}
+	
+	public void removeStaticBlock(StaticBlock staticBlock) {
+		myStaticBlocks.remove(staticBlock);
+	}
+	
 	public Background getBackground() {
 		return myBackground;
 	}

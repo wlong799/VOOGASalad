@@ -15,7 +15,7 @@ public class Hero extends ActiveCharacter implements IUpgrader {
 	private final int myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
 	private final int myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 
-	protected Hero(Position position, Dimension dimension, List<String> imagePaths) {
+	public Hero(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 	}
 	
