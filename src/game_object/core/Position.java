@@ -2,7 +2,8 @@ package game_object.core;
 
 /**
  * A class representing 2D position (x, y), with the convention that
- * (0, 0) is the upper left corner of the screen. 
+ * (0, 0) is the upper left corner of the screen.
+ * 
  * @author Jay, Yilun
  */
 public class Position {
@@ -44,4 +45,5 @@ public class Position {
 	public void setZ(double z) {
 		myZ = z;
 	}
+
 }
