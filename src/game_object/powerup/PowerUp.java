@@ -1,19 +1,20 @@
 package game_object.powerup;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import game_object.character.IUpgrader;
 import game_object.core.AbstractSprite;
+import game_object.core.Dimension;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.simulation.ICollisionBody;
 
 public abstract class PowerUp extends AbstractSprite {
 	
-	public PowerUp(double x, double y, ArrayList<String> imgPaths) {
-		super(new Position(x, y), imgPaths);
+	protected PowerUp(Position position, Dimension dimension, List<String> imagePaths) {
+		super(position, dimension, imagePaths);
 	}
-	
+
 	public abstract void affect(IUpgrader u);
 
 	@Override

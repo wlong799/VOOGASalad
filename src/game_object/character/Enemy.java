@@ -1,23 +1,26 @@
 package game_object.character;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import game_object.acting.ActionTrigger;
 import game_object.core.DefaultConstants;
+import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
+import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
 
 public class Enemy extends ActiveCharacter {
-	
+
 	private int myCategoryBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 	private int myCollisionBitMask =
 			DefaultConstants.HERO_CATEGORY_BIT_MASK |
 			DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
-	private double myBodyDamage = 30; // damage this enemy does to the hero if directly collided.
+	// damage this enemy does to the hero if directly collided.
+	private double myBodyDamage = DefaultConstants.ENEMY_BODY_DAMAGE;
 	
-	
-	public Enemy(double x, double y, ArrayList<String> imgPaths, double maxHP) {
-		super(x, y, imgPaths, maxHP);
+	protected Enemy(Position position, Dimension dimension, List<String> imagePaths) {
+		super(position, dimension, imagePaths);
 	}
 
 	public void setBodyDamage(double bodyDamage) {

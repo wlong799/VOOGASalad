@@ -3,7 +3,7 @@ package game_object.weapon;
 import java.util.List;
 
 import game_object.core.AbstractSprite;
-import game_object.core.ISprite;
+import game_object.core.Dimension;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.simulation.ICollisionBody;
@@ -19,20 +19,17 @@ import game_object.simulation.ICollisionBody;
 
 public class Projectile extends AbstractSprite {
 
-	protected Projectile(double x, double y, List<String> imgPaths) {
-		super(x, y, imgPaths);
-	}
-
 	// velocity
 	private Velocity myVelocity;
 	
 	private ProjectileModel myModel;
 
-//	public Projectile(double x, double y, double vx, double vy, ProjectileModel model) {
-//		super(x, y);
-//		myModel = model;
-//	}
 
+	protected Projectile(Position position, Dimension dimension, List<String> imagePaths, ProjectileModel model) {
+		super(position, dimension, imagePaths);
+		myModel = model;
+	}
+	
 	public ProjectileModel getModel() {
 		return myModel;
 	}
