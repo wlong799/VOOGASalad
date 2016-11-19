@@ -88,7 +88,7 @@ public class GameEngine implements IGameEngine {
 			updateNewParameters(e);
 		}
 		for (IBlock b : myBlocks) {
-			updateNewParameters(b);
+			//aupdateNewParameters(b);
 		}
 		myCollisionEngine.checkCollisions(myHeroes, myEnemies, myBlocks);
 	}
@@ -153,6 +153,22 @@ public class GameEngine implements IGameEngine {
 	
 	private void executeInput() {
 		myInputController.executeInput();
+	}
+	
+	public void printOutput() {
+		for (Hero h : myHeroes) {
+			System.out.println("x = "+h.getPosition().getX()+" ; y = "+h.getPosition().getY());
+			System.out.println("vx = "+h.getVelocity().getXVelocity()+" ; vy = "+h.getVelocity().getYVelocity());
+		}
+		for (Enemy e : myEnemies) {
+			System.out.println("x = "+e.getPosition().getX()+" ; y = "+e.getPosition().getY());
+			System.out.println("vx = "+e.getVelocity().getXVelocity()+" ; vy = "+e.getVelocity().getYVelocity());
+		}
+		for (IBlock b : myBlocks) {
+			System.out.println("x = "+b.getPosition().getX()+" ; y = "+b.getPosition().getY());
+			System.out.println("vx = "+b.getVelocity().getXVelocity()+" ; vy = "+b.getVelocity().getYVelocity());
+		}
+		System.out.println();
 	}
 
 }

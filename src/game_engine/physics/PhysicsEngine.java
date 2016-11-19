@@ -33,6 +33,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	protected double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
 		double vy = body.getVelocity().getYVelocity();
 		double newvy = vy + elapsedTime * myParams.getGravity();
+		
 		return newvy;
 	}
 
