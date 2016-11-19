@@ -1,4 +1,4 @@
-package ui;
+package authoring.updating;
 
 public interface ISubscriber {
 	
