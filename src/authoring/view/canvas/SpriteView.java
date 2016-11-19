@@ -9,8 +9,6 @@ import game_object.core.ISprite;
  */
 public class SpriteView extends View {
 	
-	//TODO: extract selection indicator to a view
-	//so that they can be laid out automatically
 	private ISprite mySprite;
 	private CanvasView myCanvas;
 	private SpriteImageView spImageView;
@@ -33,6 +31,10 @@ public class SpriteView extends View {
 		myCanvas = canvas;
 	}
 	
+	public CanvasView getCanvasView() {
+		return myCanvas;
+	}
+	
 	public void setAbsolutePositionX(double x) {
 		myCanvas.setAbsolutePosition(this, x, mySprite.getPosition().getY());
 	}
@@ -49,12 +51,20 @@ public class SpriteView extends View {
 		myCanvas.setRelativePosition(this, mySprite.getPosition().getX(), y);
 	}
 	
+	/**
+	 * @param width
+	 * set width both frontend and backend mySprite
+	 */
 	public void setDimensionWidth(double width) {
 		this.setWidth(width);
 		mySprite.getDimension().setWidth(width);
 		layout();
 	}
 	
+	/**
+	 * @param height
+	 * set height both frontend and backend mySprite
+	 */
 	public void setDimensionHeight(double height) {
 		this.setHeight(height);
 		mySprite.getDimension().setHeight(height);
@@ -82,7 +92,7 @@ public class SpriteView extends View {
 		this.setWidth(spImageView.getWidth());
 		
 		setMouseClicked();
-		setDragMove();
+		spImageView.setDragMove();
 	}
 
 	@Override
@@ -96,13 +106,6 @@ public class SpriteView extends View {
 	private void setMouseClicked() {
 		this.getUI().setOnMouseClicked(e -> {
 			this.getController().selectSpriteView(this);
-		});
-	}
-	
-	private void setDragMove() {
-		//TODO: save offset
-		this.getUI().setOnMouseDragged(event -> {
-			myCanvas.onDragSpriteView(this, event);
 		});
 	}
 

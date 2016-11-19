@@ -118,6 +118,25 @@ public class CanvasView extends View {
         		y - spView.getHeight() / 2);
 	}
 	
+	/**
+	 * @param spView
+	 * @param startX
+	 * @param startY
+	 * @param endX
+	 * @param endY
+	 * x, y are positions displayed instead of real sprite positions
+	 */
+	public void onResizeSpriteView(SpriteView spView,
+			double startX,
+			double startY,
+			double endX,
+			double endY) {
+		if (startX > endX || startY > endY) return;
+		this.setRelativePosition(spView, startX, startY);
+		spView.setDimensionWidth(endX - startX);
+		spView.setDimensionHeight(endY - startY);
+	}
+	
 	public Rectangle getBackground() {
 		return background;
 	}

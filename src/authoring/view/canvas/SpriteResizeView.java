@@ -5,11 +5,15 @@ import authoring.View;
 import authoring.constants.UIConstants;
 import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
 public class SpriteResizeView extends View {
 	
-	private Rectangle border;
+	private Line borderN;
+	private Line borderW;
+	private Line borderS;
+	private Line borderE;
 	private Rectangle resizeNW;
 	private Rectangle resizeNE;
 	private Rectangle resizeSW;
@@ -35,8 +39,14 @@ public class SpriteResizeView extends View {
 
 	@Override
 	protected void layoutSelf() {
-		border.setWidth(this.getWidth());
-		border.setHeight(this.getHeight());
+		borderN.setEndX(this.getWidth());
+		borderW.setEndY(this.getHeight());
+		borderE.setStartX(this.getWidth());
+		borderE.setEndX(this.getWidth());
+		borderE.setEndY(this.getHeight());
+		borderS.setStartY(this.getHeight());
+		borderS.setEndX(this.getWidth());
+		borderS.setEndY(this.getHeight());
 		resizeNW.setLayoutX(-resize_unit / 2);
 		resizeNW.setLayoutY(-resize_unit / 2);
 		resizeNE.setLayoutX(this.getWidth() - resize_unit / 2);
@@ -53,14 +63,11 @@ public class SpriteResizeView extends View {
 	}
 
 	private void initBorder() {
-		border =  new Rectangle(
-				0,
-				0,
-				spView.getWidth(),
-				spView.getHeight());
-		border.setFill(Color.TRANSPARENT);
-		border.setStroke(Color.BLACK);
-		this.addUI(border);
+		borderN = new Line();
+		borderS = new Line();
+		borderW = new Line();
+		borderE = new Line();
+		this.addUIAll(borderN, borderS, borderW, borderE);
 	}
 	
 	private void initResizers() {
@@ -71,6 +78,7 @@ public class SpriteResizeView extends View {
 		this.addUIAll(resizeNW, resizeNE, resizeSW, resizeSE);
 		setOnHover();
 		setOnDishover(resizeNW, resizeNE, resizeSW, resizeSE);
+		setOnDrag();
 	}
 	
 	private Rectangle initResizerRectangle() {
@@ -101,6 +109,42 @@ public class SpriteResizeView extends View {
 				this.getController().setMouseCursor(Cursor.DEFAULT);
 			});
 		}
+	}
+	
+	private void setOnDrag() {
+		CanvasView canvas = spView.getCanvasView();
+		resizeSE.setOnMouseDragged(e -> {
+			canvas.onResizeSpriteView(
+					spView, 
+					spView.getPositionX(),
+					spView.getPositionY(),
+					e.getSceneX() - canvas.getPositionX(),
+					e.getSceneY() - canvas.getPositionY());
+		});
+		resizeSW.setOnMouseDragged(e -> {
+			canvas.onResizeSpriteView(
+					spView, 
+					e.getSceneX() - canvas.getPositionX(),
+					spView.getPositionY(),
+					spView.getPositionX() + spView.getWidth(),
+					e.getSceneY() - canvas.getPositionY());
+		});
+		resizeNE.setOnMouseDragged(e -> {
+			canvas.onResizeSpriteView(
+					spView, 
+					spView.getPositionX(),
+					e.getSceneY() - canvas.getPositionY(),
+					e.getSceneX() - canvas.getPositionX(),
+					spView.getPositionY() + spView.getHeight());
+		});
+		resizeNW.setOnMouseDragged(e -> {
+			canvas.onResizeSpriteView(
+					spView, 
+					e.getSceneX() - canvas.getPositionX(),
+					e.getSceneY() - canvas.getPositionY(),
+					spView.getPositionX() + spView.getWidth(),
+					spView.getPositionY() + spView.getHeight());
+		});
 	}
 
 }

@@ -50,5 +50,12 @@ public class SpriteImageView extends View {
 		mySprite.getDimension().setWidth(image.getWidth());
 		mySprite.getDimension().setHeight(image.getHeight());
 	}
+	
+	public void setDragMove() {
+		//TODO: save offset
+		this.getUI().setOnMouseDragged(event -> {
+			spView.getCanvasView().onDragSpriteView(spView, event);
+		});
+	}
 
 }
