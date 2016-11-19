@@ -5,6 +5,7 @@ import authoring.View;
 import authoring.constants.UIConstants;
 import authoring.view.canvas.CanvasView;
 import authoring.view.components.ComponentsView;
+import authoring.view.inspector.InspectorView;
 import authoring.view.menu.GameMenuFactory;
 import authoring.view.menu.GameMenuView;
 

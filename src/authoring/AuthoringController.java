@@ -1,5 +1,6 @@
 package authoring;
 
+import authoring.controller.CanvasViewController;
 import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
 import javafx.scene.Cursor;
@@ -11,9 +12,15 @@ public class AuthoringController extends AbstractPublisher {
 	private AuthorEnvironment myEnvironment;
 	private SpriteView selectedSpriteView;
 	private Scene myScene;
+	private CanvasViewController canvasViewController;
 	
 	public AuthoringController(AuthorEnvironment environment) {
 		myEnvironment = environment;
+		canvasViewController = new CanvasViewController();
+	}
+	
+	public CanvasViewController getCanvasViewController() {
+		return canvasViewController;
 	}
 	
 	public AuthorEnvironment getEnvironment() {

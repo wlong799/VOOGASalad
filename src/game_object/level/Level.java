@@ -43,6 +43,7 @@ public class Level {
 	public TransitionMenu getNextMenu() {
 		return myNextMenu;
 	}
+	/* ---Transitions END--- */
 	
 	/* Add/Remove specific sprites */
 	public void addHero(Hero hero) {
@@ -61,6 +62,14 @@ public class Level {
 		myEnemies.remove(enemy);
 	}
 
+	public void addStaticBlock(StaticBlock staticBlock) {
+		myStaticBlocks.add(staticBlock);
+	}
+	
+	public void removeStaticBlock(StaticBlock staticBlock) {
+		myStaticBlocks.remove(staticBlock);
+	}
+	
 	public Background getBackground() {
 		return myBackground;
 	}

@@ -8,7 +8,7 @@ public interface IUpgrader {
 	void replenishHealth();
 	
 	// set the weapon of the character to the specified weapon
-	void getWeapon(Weapon w);
+	void obtainWeapon(Weapon w);
 	
 	// increase the speed of the character. 
 	// percent is **change** amount. So a percent of 0.1 is 1.1x original speed

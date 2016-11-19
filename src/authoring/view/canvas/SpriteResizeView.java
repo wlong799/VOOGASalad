@@ -3,6 +3,7 @@ package authoring.view.canvas;
 import authoring.AuthoringController;
 import authoring.View;
 import authoring.constants.UIConstants;
+import authoring.controller.CanvasViewController;
 import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -112,36 +113,37 @@ public class SpriteResizeView extends View {
 	}
 	
 	private void setOnDrag() {
+		CanvasViewController canvasController = this.getController().getCanvasViewController();
 		CanvasView canvas = spView.getCanvasView();
 		resizeSE.setOnMouseDragged(e -> {
-			canvas.onResizeSpriteView(
+			canvasController.onResizeSpriteView(
 					spView, 
 					spView.getPositionX(),
 					spView.getPositionY(),
-					canvas.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
-					canvas.toAbsoluteY(e.getSceneY() - canvas.getPositionY()));
+					canvasController.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
+					canvasController.toAbsoluteY(e.getSceneY() - canvas.getPositionY()));
 		});
 		resizeSW.setOnMouseDragged(e -> {
-			canvas.onResizeSpriteView(
+			canvasController.onResizeSpriteView(
 					spView, 
-					canvas.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
+					canvasController.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
 					spView.getPositionY(),
 					spView.getPositionX() + spView.getWidth(),
-					canvas.toAbsoluteY(e.getSceneY() - canvas.getPositionY()));
+					canvasController.toAbsoluteY(e.getSceneY() - canvas.getPositionY()));
 		});
 		resizeNE.setOnMouseDragged(e -> {
-			canvas.onResizeSpriteView(
+			canvasController.onResizeSpriteView(
 					spView, 
 					spView.getPositionX(),
-					canvas.toAbsoluteY(e.getSceneY() - canvas.getPositionY()),
-					canvas.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
+					canvasController.toAbsoluteY(e.getSceneY() - canvas.getPositionY()),
+					canvasController.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
 					spView.getPositionY() + spView.getHeight());
 		});
 		resizeNW.setOnMouseDragged(e -> {
-			canvas.onResizeSpriteView(
+			canvasController.onResizeSpriteView(
 					spView, 
-					canvas.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
-					canvas.toAbsoluteY(e.getSceneY() - canvas.getPositionY()),
+					canvasController.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
+					canvasController.toAbsoluteY(e.getSceneY() - canvas.getPositionY()),
 					spView.getPositionX() + spView.getWidth(),
 					spView.getPositionY() + spView.getHeight());
 		});

@@ -1,4 +1,4 @@
-package authoring.view;
+package authoring.view.inspector;
 
 import authoring.AuthoringController;
 import authoring.View;
@@ -18,6 +18,7 @@ public class InspectorView extends View implements ISubscriber {
 	private VBox configs;
 	private VBox xBox;
 	private VBox yBox;
+	private VBox zBox;
 	private VBox widthBox;
 	private VBox heightBox;
 	
@@ -61,6 +62,10 @@ public class InspectorView extends View implements ISubscriber {
 				(newVal) -> {
 					inspectedSpriteView.setAbsolutePositionY(Double.parseDouble(newVal));
 				});
+		zBox = makeDoubleInputBox("position Z", sprite.getPosition().getZ(),
+				(newVal) -> {
+					inspectedSpriteView.setAbsolutePositionZ(Double.parseDouble(newVal));
+				});
 		widthBox = makeDoubleInputBox("width", sprite.getDimension().getWidth(),
 				(newVal) -> {
 					inspectedSpriteView.setDimensionWidth(Double.parseDouble(newVal));
@@ -69,7 +74,7 @@ public class InspectorView extends View implements ISubscriber {
 				(newVal) -> {
 					inspectedSpriteView.setDimensionHeight(Double.parseDouble(newVal));
 				});
-		configs.getChildren().addAll(xBox, yBox, widthBox, heightBox);
+		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox);
 	}
 	
 	private VBox makeDoubleInputBox(String title, double defaultValue, 
