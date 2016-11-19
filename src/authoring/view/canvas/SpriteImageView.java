@@ -55,14 +55,14 @@ public class SpriteImageView extends View {
 		this.getUI().setOnMousePressed(event -> {
 			CanvasView canvas = spView.getCanvasView();
 			spView.getMouseOffset().setX(
-				canvas.toAbsoluteX(event.getSceneX() - canvas.getPositionX()) - 
-				spView.getPositionX());
+				this.getController().getCanvasViewController()
+				.toAbsoluteX(event.getSceneX() - canvas.getPositionX()) - spView.getPositionX());
 			spView.getMouseOffset().setY(
-				canvas.toAbsoluteY(event.getSceneY() - canvas.getPositionY()) - 
-				spView.getPositionY());
+				this.getController().getCanvasViewController()
+				.toAbsoluteY(event.getSceneY() - canvas.getPositionY()) - spView.getPositionY());
 		});
 		this.getUI().setOnMouseDragged(event -> {
-			spView.getCanvasView().onDragSpriteView(spView, event);
+			this.getController().getCanvasViewController().onDragSpriteView(spView, event);
 		});
 	}
 

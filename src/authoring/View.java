@@ -103,7 +103,7 @@ public abstract class View {
 		myHeight = height;
 	}
 	
-	protected AuthoringController getController() {
+	public AuthoringController getController() {
 		return myController;
 	}
 	

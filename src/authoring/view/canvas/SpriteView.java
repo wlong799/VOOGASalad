@@ -38,15 +38,15 @@ public class SpriteView extends View {
 	}
 	
 	public void setAbsolutePositionX(double x) {
-		myCanvas.setAbsolutePosition(this, x, mySprite.getPosition().getY());
+		this.getController().getCanvasViewController().setAbsolutePosition(this, x, mySprite.getPosition().getY());
 	}
 	
 	public void setAbsolutePositionY(double y) {
-		myCanvas.setAbsolutePosition(this, mySprite.getPosition().getX(), y);
+		this.getController().getCanvasViewController().setAbsolutePosition(this, mySprite.getPosition().getX(), y);
 	}
 	
 	public void setAbsolutePositionZ(double z) {
-		myCanvas.setAbsolutePositionZ(this, z);
+		this.getController().getCanvasViewController().setAbsolutePositionZ(this, z);
 	}
 	
 	public Position getMouseOffset() {

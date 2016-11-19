@@ -4,7 +4,6 @@ import authoring.AuthoringController;
 import authoring.View;
 import authoring.constants.UIConstants;
 import javafx.scene.control.Button;
-import javafx.scene.shape.Rectangle;
 
 public class CanvasAdjusterButtonsView extends View {
 	
@@ -34,14 +33,10 @@ public class CanvasAdjusterButtonsView extends View {
 	
 	private void screenAdjusterButtonInit(){
 		screenNarrower.setOnAction((event) -> {
-			Rectangle background = ((CanvasView) this.getParentView()).getBackground();
-			if (background.getWidth() > UIConstants.CANVAS_STARTING_WIDTH){
-				background.setWidth(background.getWidth()-UIConstants.SCREEN_CHANGE_INTERVAL);
-			}
+			this.getController().getCanvasViewController().shrink();
 		});
 		screenWider.setOnAction((event) -> {
-			Rectangle background = ((CanvasView) this.getParentView()).getBackground();
-			background.setWidth(background.getWidth()+UIConstants.SCREEN_CHANGE_INTERVAL);
+			this.getController().getCanvasViewController().expand();
 		});
 	}
 
