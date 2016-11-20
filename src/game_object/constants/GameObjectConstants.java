@@ -7,5 +7,6 @@ public class GameObjectConstants {
 	public static final String ORANGE_MUSHROOM_FILE = "img/orange_mushroom.png";
 	public static final String RIBBON_PIG_FILE = "img/ribbon_pig.png";
 	public static final String SLIME_FILE = "img/slime.png";
+	public static final String STONE_BLOCK_FILE = "img/stone_block.png";
 	
 }
