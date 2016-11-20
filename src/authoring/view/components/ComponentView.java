@@ -6,7 +6,7 @@ import authoring.constants.UIConstants;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -18,7 +18,6 @@ import javafx.scene.layout.VBox;
 public class ComponentView extends View {
 
 	private ImageView imageView;
-	private Label title;
 	private VBox box;
 	private Component myComponent;
 
@@ -38,10 +37,9 @@ public class ComponentView extends View {
 	@Override
 	protected void initUI() {
 		imageView = new ImageView();
-		title = new Label("");
 		box = new VBox();
 		box.setAlignment(Pos.CENTER);
-		box.getChildren().addAll(imageView, title);
+		box.getChildren().addAll(imageView);
 		box.setPrefWidth(this.getWidth());
 		box.setPrefHeight(this.getHeight());
 		box.setAlignment(Pos.CENTER);
@@ -56,7 +54,8 @@ public class ComponentView extends View {
 	
 	private void updateUI() {
 		imageView.setImage(new Image(myComponent.getImagePath()));
-		title.setText(myComponent.getTitle());
+		Tooltip tip = new Tooltip(myComponent.getTitle());
+		Tooltip.install(imageView, tip);
 	}
 
 	private void setOnDrag() {
