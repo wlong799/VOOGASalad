@@ -1,5 +1,6 @@
 package game_object.example_game;
 
+import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.KeyEvent;
 import game_object.core.ISprite;
@@ -29,7 +30,7 @@ public class ExampleEventsAndTriggers {
 	public static ActionTrigger JUMP_TRIGGER;
 	public static ActionTrigger SHOOT_TRIGGER;
 	
-	public ExampleEventsAndTriggers() {
+	static {
 		UP_KEY_EVENT = new KeyEvent(KeyCode.UP);
 		DOWN_KEY_EVENT = new KeyEvent(KeyCode.DOWN);
 		LEFT_KEY_EVENT = new KeyEvent(KeyCode.LEFT);
@@ -37,12 +38,10 @@ public class ExampleEventsAndTriggers {
 		SPACE_KEY_EVENT = new KeyEvent(KeyCode.SPACE);
 		ENTER_KEY_EVENT = new KeyEvent(KeyCode.ENTER);
 		
-		MOVE_LEFT_TRIGGER = new ActionTrigger(MOVABLE_SPRITE, LEFT_KEY_EVENT, "moveLeft");
-		MOVE_RIGHT_TRIGGER = new ActionTrigger(MOVABLE_SPRITE, RIGHT_KEY_EVENT, "moveRight");
-		FLY_UP_TRIGGER = new ActionTrigger(MOVABLE_SPRITE, UP_KEY_EVENT, "moveUp");
-		FLY_DOWN_TRIGGER = new ActionTrigger(MOVABLE_SPRITE, DOWN_KEY_EVENT, "moveDown");
-		JUMP_TRIGGER = new ActionTrigger(MOVABLE_SPRITE, SPACE_KEY_EVENT, "jumpUp");
-		SHOOT_TRIGGER = new ActionTrigger(MOVABLE_SPRITE, ENTER_KEY_EVENT, "shoot");
+		MOVE_LEFT_TRIGGER = new ActionTrigger(LEFT_KEY_EVENT, MOVABLE_SPRITE, ActionName.MOVE_LEFT);
+		MOVE_RIGHT_TRIGGER = new ActionTrigger(RIGHT_KEY_EVENT, MOVABLE_SPRITE, ActionName.MOVE_RIGHT);
+		JUMP_TRIGGER = new ActionTrigger(SPACE_KEY_EVENT, MOVABLE_SPRITE,  ActionName.JUMP);
+		SHOOT_TRIGGER = new ActionTrigger( ENTER_KEY_EVENT, MOVABLE_SPRITE, ActionName.SHOOT);
 	}
 	
 }

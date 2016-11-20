@@ -3,6 +3,7 @@ package game_object;
 
 import java.util.ArrayList;
 
+import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.KeyEvent;
 import game_object.block.StaticBlock;
@@ -38,8 +39,7 @@ public class LevelGenerator {
 		
 		Level level = new Level();
 		
-		level.setWidth(2000);
-		level.setHeight(1000);
+		level.setLevelDimension(new Dimension(2000, 800));
 		
 		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(50,0));
@@ -63,10 +63,9 @@ public class LevelGenerator {
 		KeyEvent rightEvent = new KeyEvent(KeyCode.RIGHT);
 		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.SPACE);
 		
-		level.getTriggers().add(new ActionTrigger(hero, leftEvent, "moveLeft"));
-		level.getTriggers().add(new ActionTrigger(hero, rightEvent, "moveRight"));
-		level.getTriggers().add(new ActionTrigger(hero, spaceBarEvent, "jumpUp"));
-		
+		level.addTrigger(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
+		level.addTrigger(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
+		level.addTrigger(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
 		return level;
 	}
 	
@@ -82,8 +81,7 @@ public class LevelGenerator {
 		blockImages.add("data/img/stone_block.png");
 		
 		Level level = new Level();
-		level.setWidth(2000);
-		level.setHeight(1000);
+		level.setLevelDimension(new Dimension(2000, 800));
 		
 		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(50, 0));
@@ -99,10 +97,9 @@ public class LevelGenerator {
 		KeyEvent rightEvent = new KeyEvent(KeyCode.RIGHT);
 		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.SPACE);
 		
-		level.getTriggers().add(new ActionTrigger(hero, leftEvent, "moveLeft"));
-		level.getTriggers().add(new ActionTrigger(hero, rightEvent, "moveRight"));
-		level.getTriggers().add(new ActionTrigger(hero, spaceBarEvent, "jumpUp"));
-		
+		level.addTrigger(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
+		level.addTrigger(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
+		level.addTrigger(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
 		return level;
 	}
 	
