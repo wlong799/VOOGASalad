@@ -11,6 +11,7 @@ import game_engine.physics.AbstractPhysicsEngine;
 import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
+import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.AbstractTransitionManager;
 import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
@@ -159,7 +160,7 @@ public class GameEngine implements IGameEngine {
 		myTransitionManager = transitionManager;
 	}
 
-	public void setParameter(String parameter, double value) {
+	public void setParameter(PhysicsParameterSetOptions parameter, double value) {
 		myPhysicsEngine.setParameters(parameter, value);
 	}
 

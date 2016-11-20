@@ -15,16 +15,16 @@ public class PhysicsEngineWithFriction extends PhysicsEngine {
 		return newvx;
 	}
 
-	public void setParameters(String parameter, double value) {
-		if (parameter.equals("gravity")) {
+	public void setParameters(PhysicsParameterSetOptions option, double value) {
+		if (option == PhysicsParameterSetOptions.GRAVITY) {
 			myParams.setGravity(value);
-		} else if (parameter.equals("airfriction")) {
+		} else if (option == PhysicsParameterSetOptions.AIRFRICTION) {
 			myParams.setAirFriction(value);
-		} else if (parameter.equals("groundfriction")) {
+		} else if (option == PhysicsParameterSetOptions.GROUNDFRICTION) {
 			myParams.setGroundFriction(value);
-		} else if (parameter.equals("minthreshold")) {
+		} else if (option == PhysicsParameterSetOptions.MINTHRESHOLD) {
 			myParams.setMinThreshold(value);
-		} else if (parameter.equals("maxthreshold")) {
+		} else if (option == PhysicsParameterSetOptions.MAXTHRESHOLD) {
 			myParams.setMaxThreshold(value);
 		} else {
 			//
