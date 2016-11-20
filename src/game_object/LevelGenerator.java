@@ -1,6 +1,7 @@
 package game_object;
 
 import game_object.block.StaticBlock;
+import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.core.Dimension;
 import game_object.core.Position;
@@ -20,9 +21,15 @@ public class LevelGenerator {
 	public static Level getTestLevelA() {
 		Level level = new Level();
 		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), null);
+		hero.setVelocity(new Velocity(50,0));
+		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60),null);
+		
+		StaticBlock smackDown = new StaticBlock(new Position(340, 50), new Dimension(100, 200),null);
 		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), null);
 		level.addHero(hero);
+		level.addEnemy(enemy);
 		level.addStaticBlock(ground);
+		level.addStaticBlock(smackDown);
 		return level;
 	}
 	
