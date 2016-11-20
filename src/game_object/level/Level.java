@@ -28,6 +28,7 @@ public class Level {
 		myHeros = new ArrayList<>();
 		myEnemies = new ArrayList<>();
 		myStaticBlocks = new ArrayList<>();
+		myTriggers = new ArrayList<>();
 	}
 	
 	public List<ISprite> getAllSprites() {
