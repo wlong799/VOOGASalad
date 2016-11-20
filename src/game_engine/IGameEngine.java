@@ -2,6 +2,7 @@ package game_engine;
 
 import java.util.List;
 
+import game_engine.physics.PhysicsParameterSetOptions;
 import game_object.acting.KeyEvent;
 
 /**
@@ -34,6 +35,6 @@ public interface IGameEngine {
 	
 	public void setInputList(List<KeyEvent> list);
 
-	public void setParameter(String parameter, double value);
+	public void setParameter(PhysicsParameterSetOptions option, double value);
 	
 }

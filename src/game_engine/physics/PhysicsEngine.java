@@ -59,8 +59,8 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	}
 
 	@Override
-	public void setParameters(String parameter, double value) {
-		if (parameter.equals("gravity")) {
+	public void setParameters(PhysicsParameterSetOptions option, double value) {
+		if (option == PhysicsParameterSetOptions.GRAVITY) {
 			myParams.setGravity(value);
 		}
 	}

@@ -27,5 +27,5 @@ public interface IPhysicsEngine {
 	
 	public void updatePositionAndVelocity(Position position, Velocity velocity, IPhysicsBody body);
 	
-	public void setParameters(String parameter, double value);
+	public void setParameters(PhysicsParameterSetOptions option, double value);
 }
