@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 public class ComponentsView extends View {
 	List<String> EnemyList, BlockList, PersonalizedList;
 	HBox personalizedHBox;
+	Button upload;
 	
 
 	public ComponentsView(AuthoringController controller) {
@@ -146,32 +147,28 @@ public class ComponentsView extends View {
 	}
 	
 	private Button initUploadButton(){
-		Button upload = new Button();
+		upload = new Button();
 		ImageView uploadImage = new ImageView(GameObjectConstants.UPLOAD);
 		uploadImage.setFitHeight(50);
 		uploadImage.setFitWidth(50);
 		upload.setGraphic(uploadImage);
 		PersonalizedList = new ArrayList<>();
+		initUploadButtonAction();
 		
+		return upload;
+	}
+	
+	private void initUploadButtonAction(){
 		upload.setOnAction((event) -> {
 			
-			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Choose sprite image");
-			File file = fileChooser.showOpenDialog(new Stage());
+			File userFile = userChosenFile();
+			String userFileName = userChosenName();
 			
-			TextInputDialog dialog = new TextInputDialog("image name");
-			dialog.setTitle("Image Name");
-			dialog.setHeaderText(null);
-			dialog.setContentText("Please enter a name to save your image by");
-			Optional<String> result = dialog.showAndWait();
-			
-			if ((result.isPresent() && (file != null)))  {
-				updatePersonalizedList(file.toURI().toString(), result.get());
+			if ((!userFileName.equals("") && (userFile != null)))  {
+				updatePersonalizedList(userFile.toURI().toString(), userFileName);
 			}
 				
 		});
-		
-		return upload;
 	}
 
 	private void updatePersonalizedList(String filePath, String imageName) {
@@ -181,6 +178,22 @@ public class ComponentsView extends View {
 		c.setTitleText(imageName);
 		personalizedHBox.getChildren().add(c.getUI());
 		
+	}
+	
+	private File userChosenFile(){
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Choose sprite image");
+		File file = fileChooser.showOpenDialog(new Stage());
+		return file;
+	}
+	
+	private String userChosenName(){
+		TextInputDialog dialog = new TextInputDialog("image name");
+		dialog.setTitle("Image Name");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Please enter a name to save your image by");
+		Optional<String> result = dialog.showAndWait();
+		return result.isPresent() ? result.get() : "";
 	}
 	
 	
