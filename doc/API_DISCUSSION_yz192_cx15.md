@@ -1,4 +1,4 @@
-Yilun Zhou yz192
+Yilun Zhou yz192 Charles Xu cx15
 
 Our API is designed to be flexible in choices of sprites. We have multiple hierarchies of characters, such as Sprite, Mortal, Mover, Upgrader, Block, etc. 
 
