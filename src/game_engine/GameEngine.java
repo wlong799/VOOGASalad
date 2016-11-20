@@ -86,8 +86,8 @@ public class GameEngine implements IGameEngine {
 	@Override
 	public void update(double elapsedTime) {
 
-            System.out.println("HELLO?");
-	        setElapsedTime(elapsedTime);
+		System.out.println("HELLO?");
+		setElapsedTime(elapsedTime);
 		executeInput();
 		for (Hero h : myHeroes) {
 			updateNewParameters(h);
@@ -128,14 +128,14 @@ public class GameEngine implements IGameEngine {
 	}
 
 	private void setElements(Level level) {
-	    System.out.println("set elements");
+		System.out.println("set elements");
 		myHeroes = level.getHeros();
 		myEnemies = level.getEnemies();
 		myBlocks = level.getBlocks();
 		System.out.println("end set elements");
 	}
 
-	public void setElapsedTime(double elapsedTime) {
+	private void setElapsedTime(double elapsedTime) {
 		myElapsedTime = elapsedTime;
 	}
 

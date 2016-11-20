@@ -9,7 +9,6 @@ public class Test {
 		// TODO Auto-generated method stub
 		Level level = LevelGenerator.getTestLevelB();
 		GameEngine ge = new GameEngine(level);
-		ge.setElapsedTime(1.0 / 60);
 		ge.init();
 		for (int i = 0; i < 60; i++) {
 			ge.update(1.0 / 60);

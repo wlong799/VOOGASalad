@@ -33,8 +33,6 @@ public interface IGameEngine {
 	public void draw();
 	
 	public void setInputList(List<KeyEvent> list);
-	
-	public void setElapsedTime(double elapsedTime);
 
 	public void setParameter(String parameter, double value);
 	

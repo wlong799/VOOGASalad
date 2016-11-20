@@ -8,8 +8,8 @@ package game_engine.physics;
  */
 public class PhysicsParameters {
 	private static final double G = 10;
-	private static final double AF = 0.1;
-	private static final double GF = 0.9;
+	private static final double AF = 0;
+	private static final double GF = 0.1;
 	private static final double TMIN = 1;
 	private static final double TMAX = 55;
 	private double myGravity;
