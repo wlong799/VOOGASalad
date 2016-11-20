@@ -79,11 +79,42 @@ public abstract class AbstractSprite implements ISprite {
 	public void setCategoryBitMask(int categoryBitMask) {
 		ExceptionThrower.notYetSupported();
 	}
+	/* ---ICollisionBody Setter Implementations END--- */
+	
 	
 	/* IPhysicsBody Setter Implementations */
 	@Override
 	public void setAffectedByPhysics(boolean affectedByPhysics) {
 		ExceptionThrower.notYetSupported();
 	}
+	/* ---IPhysicsBody Setter Implementations END--- */
+	
+	
+	/* ISpriteVisualization Implementations */
+	@Override
+	public String getImagePath() {
+		return myImagePaths.get(0);
+	}
+
+	@Override
+	public double getXForVisualization() {
+		return myPosition.getX();
+	}
+
+	@Override
+	public double getYForVisualization() {
+		return myPosition.getY();
+	}
+
+	@Override
+	public double getWidthForVisualization() {
+		return myDimension.getWidth();
+	}
+
+	@Override
+	public double getHeightForVisualization() {
+		return myDimension.getHeight();
+	}
+	/* ---ISpriteVisualization Implementations END--- */
 }
 
