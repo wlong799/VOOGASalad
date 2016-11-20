@@ -170,12 +170,14 @@ public class CanvasViewController {
 	// MARK: adjuster buttons
 	public void expand() {
 		myBackground.setWidth(myBackground.getWidth()+UIConstants.SCREEN_CHANGE_INTERVAL);
+		myEnvironment.getCurrentLevel().getLevelDimension().setWidth(myBackground.getWidth());
 	}
 	
 	public void shrink() {
 		if (myBackground.getWidth() > UIConstants.CANVAS_STARTING_WIDTH){
 			myBackground.setWidth(myBackground.getWidth()-UIConstants.SCREEN_CHANGE_INTERVAL);
 		}
+		myEnvironment.getCurrentLevel().getLevelDimension().setWidth(myBackground.getWidth());
 	}
 	
 	// relative positions to absolute
@@ -193,8 +195,6 @@ public class CanvasViewController {
 		if (currentLevel == null) {
 			throw new RuntimeException("no current level for canvas");
 		}
-		double maxRight = Double.MIN_VALUE;
-		double maxBot = Double.MIN_VALUE;
 		for (ISprite sp : currentLevel.getAllSprites()) {
 			SpriteView spView = new SpriteView(myCanvas.getController());
 			Dimension dim = new Dimension(sp.getDimension().getWidth(), sp.getDimension().getHeight());
@@ -204,11 +204,9 @@ public class CanvasViewController {
 			spView.setDimensionWidth(dim.getWidth());
 			//TODO extract component class to save default dimension height and width for a component
 			//avoid setting dimension with image width and height
-			maxRight = Math.max(dim.getWidth() + sp.getPosition().getX(), maxRight);
-			maxBot = Math.max(dim.getHeight() + sp.getPosition().getY(), maxBot);
 		}
-		myBackground.setWidth(Math.max(myBackground.getWidth(), maxRight));
-		myBackground.setHeight(Math.max(myBackground.getHeight(), maxBot));
+		myBackground.setWidth(currentLevel.getLevelDimension().getWidth());
+		myBackground.setHeight(currentLevel.getLevelDimension().getHeight());
 	}
 	
 	private void retrieveScrollPaneSize() {

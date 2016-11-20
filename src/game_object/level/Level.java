@@ -34,6 +34,7 @@ public class Level implements ILevelVisualization {
 		myEnemies = new ArrayList<>();
 		myStaticBlocks = new ArrayList<>();
 		myTriggers = new ArrayList<>();
+		myLevelDimension = new Dimension(0, 0);
 	}
 	
 	public List<ISprite> getAllSprites() {
