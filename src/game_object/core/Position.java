@@ -45,5 +45,10 @@ public class Position {
 	public void setZ(double z) {
 		myZ = z;
 	}
+	
+	@Override
+	public String toString() {
+	    return myX + ", " + myY;
+	}
 
 }
