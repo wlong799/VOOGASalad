@@ -67,8 +67,7 @@ public class Coordinator {
 			}
 			serverSocket.close();
 		} catch (IOException e) {
-			// TODO cx15 ask Duvall about server side exception best practice
-			e.printStackTrace();
+			// socket already closed, do nothing
 		}
 	}
 }

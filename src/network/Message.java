@@ -11,6 +11,9 @@ public class Message implements Serializable {
 
 	private static final long serialVersionUID = 7187322794430736566L;
 	
+	
+	// TODO cx15 session lease / keepAlive hearbeat with each client
+	// TODO cx15 extends Message and build multiplexer for different types of msg
 	private Object payload;
 	
 	public Message(Object obj) {

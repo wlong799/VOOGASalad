@@ -33,7 +33,8 @@ public class Daemon extends Thread {
 						coordinator.getMessageQueue(), clientSock);
 				coordinator.addConnection(conn);
 			} catch (IOException e) {
-				// TODO cx15 properly shutdown the server 
+				// running out of file descriptor
+				// daemon keeps running and maybe some connection will close soon
 			}
 		}
     }

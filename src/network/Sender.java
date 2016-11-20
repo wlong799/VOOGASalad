@@ -37,8 +37,7 @@ public class Sender extends Thread {
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			} catch (IOException e) {
-				// TODO cx15 disconnect and abort
-				e.printStackTrace();
+				connection.close();
 			}
 		}
 	}

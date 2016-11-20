@@ -12,12 +12,7 @@ import network.Message;
 import network.exceptions.ServerDownException;
 
 
-/**
- * The Client API for access to network to talk to 
- * other participants in the game
- * @author CharlesXu
- */
-public class NetworkClient {
+public class NetworkClient implements INetworkClient{
 	
 	// TODO cx15 read config from a file
 	public static final String SERVER_NAME = "127.0.0.1";
@@ -41,8 +36,6 @@ public class NetworkClient {
 	}
 	
 	/**
-	 * Read all messages that arrived after last invocation to read() 
-	 * and returns an empty queue if no new messages received.
 	 * This method is non-blocking. 
 	 * 
 	 * <p>Our developers are not familiar with the parallel computing paradigm
@@ -50,10 +43,12 @@ public class NetworkClient {
 	 * thread. We have seen attempts to call this method using UI thread/main thread
 	 * and the whole UI freezes when it blocks.
 	 * 
-	 * <p>To mitigate the challenge, the client starts a reader thread in its 
+	 * <p>To mitigate this challenge, the client starts a reader thread in its 
 	 * constructor to implement this interface in a non-blocking fashion. 
-	 * @return a queue of messages read
+	 * 
+	 * @return a queue of messages read ordered in time
 	 */
+	@Override
 	public Queue<Message> read() {
 		synchronized(nonBlockingIncomingBuffer) {
 			Queue<Message> ret = nonBlockingIncomingBuffer;
@@ -62,12 +57,8 @@ public class NetworkClient {
 		}
 	}
 	
-	/**
-	 * Send a message to all its peers through the central server
-	 * @param msg a Message to be broadcast to all its peers
-	 * @throws InterruptedException
-	 */
-	public void broadcast(Message msg) throws InterruptedException {
+	@Override
+	public void broadcast(Message msg) {
 		connectionToServer.send(msg);
 	}
 	

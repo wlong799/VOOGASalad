@@ -8,7 +8,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import network.server.Coordinator;
 
 /**
- * A logical connection between two parties.
+ * A logical connection to another party. Use two threads as
+ * sender and receiver to synchronize read/write requests.
  * @author CharlesXu
  */
 public class Connection {
@@ -38,8 +39,19 @@ public class Connection {
 		return isClosed;
 	}
 
-	public synchronized void close() throws IOException {
+	/**
+	 * Close the socket as connection to the party on the other side.
+	 * Reader and sender thread will exit. 
+	 * @throws IOException when try to close a socket that is
+	 * 		   already closed.
+	 */
+	public synchronized void close() {
 		this.isClosed = true;
-		socket.close();
+		try {
+			socket.close();
+		} catch (IOException e) {
+			// the socket is already closed, possibly by another thread
+			// nothing and child threads will gracefully exit
+		}
 	}
 }

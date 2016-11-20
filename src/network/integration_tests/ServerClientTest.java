@@ -12,7 +12,7 @@ import network.server.Coordinator;
  * node/machine such that we could defined a strong serial order of events
  * which makes assertion easy.
  * 
- * <p>We avoid JUint test becuase as its name suggests it is a framework 
+ * <p>We avoid JUint test because as its name suggests it is a framework 
  * for unit testing, which is not what we want here. Further, on assertion
  * failure, JUnit terminates its thread only and does not properly clean
  * up the dangling sockets and connection. 
@@ -33,6 +33,7 @@ public class ServerClientTest {
 			NetworkClient c1 = new NetworkClient();
 			NetworkClient c2 = new NetworkClient();
 			NetworkClient c3 = new NetworkClient();
+			Thread.sleep(DELAY_MILLIS);
 			c1.broadcast(new Message(SOME_MSG));
 			Thread.sleep(DELAY_MILLIS);
 			System.out.println(c2.read().peek().toString());

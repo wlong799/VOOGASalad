@@ -39,9 +39,12 @@ public class Receiver extends Thread {
 				Message msg = (Message) objectInputStream.readObject();
 				LOGGER.info("Receiver " + this.getId() + " received msg: " + msg);
 				inComingBuffer.put(msg);
-			} catch (IOException | ClassNotFoundException | InterruptedException e) {
-				// TODO cx15 properly close connection
-				e.printStackTrace();
+			} catch (IOException | ClassNotFoundException e) {
+				// IOException : the socket is closed, or not connected, or input has been shutdown
+				// ClassNotFoundException: reflection failed
+				connection.close();
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
 			}
         }
 	}
