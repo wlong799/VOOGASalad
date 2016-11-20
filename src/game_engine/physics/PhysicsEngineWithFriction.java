@@ -9,7 +9,7 @@ public class PhysicsEngineWithFriction extends PhysicsEngine {
 		double friction = (body.getVelocity().getYVelocity() == 0) ? myParams.getGroundFriction()
 				: myParams.getAirFriction();
 		double newvx = vx * (1 - friction);
-		if (newvx < myParams.getThreshold()) {
+		if (newvx < myParams.getMinThreshold()) {
 			newvx = 0;
 		}
 		return newvx;
@@ -22,8 +22,10 @@ public class PhysicsEngineWithFriction extends PhysicsEngine {
 			myParams.setAirFriction(value);
 		} else if (parameter.equals("groundfriction")) {
 			myParams.setGroundFriction(value);
-		} else if (parameter.equals("threshold")) {
-			myParams.setThreshold(value);
+		} else if (parameter.equals("minthreshold")) {
+			myParams.setMinThreshold(value);
+		} else if (parameter.equals("maxthreshold")) {
+			myParams.setMaxThreshold(value);
 		} else {
 			//
 		}

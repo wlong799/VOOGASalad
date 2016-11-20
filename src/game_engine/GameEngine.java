@@ -69,7 +69,7 @@ public class GameEngine implements IGameEngine {
 	public void endCheck() {
 		WinStatus ws = checkWin();
 		if (ws != WinStatus.GOON) {
-			//myCurrentLevel = myTransitionManager.readWinStatus(ws);
+			// myCurrentLevel = myTransitionManager.readWinStatus(ws);
 			if (myCurrentLevel == null) {
 				shutdown();
 			}
@@ -92,15 +92,17 @@ public class GameEngine implements IGameEngine {
 			updateNewParameters(e);
 		}
 		for (IBlock b : myBlocks) {
-			//aupdateNewParameters(b);
+			updateNewParameters(b);
 		}
 		myCollisionEngine.checkCollisions(myHeroes, myEnemies, myBlocks);
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {
-		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
-		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
-		myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
+		if (body.getAffectedByPhysics()) {
+			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
+			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
+			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
+		}
 	}
 
 	@Override
@@ -154,23 +156,23 @@ public class GameEngine implements IGameEngine {
 	public void setParameter(String parameter, double value) {
 		myPhysicsEngine.setParameters(parameter, value);
 	}
-	
+
 	private void executeInput() {
 		myInputController.executeInput();
 	}
-	
+
 	public void printOutput() {
 		for (Hero h : myHeroes) {
-			System.out.println("x = "+h.getPosition().getX()+" ; y = "+h.getPosition().getY());
-			System.out.println("vx = "+h.getVelocity().getXVelocity()+" ; vy = "+h.getVelocity().getYVelocity());
+			System.out.println("x = " + h.getPosition().getX() + " ; y = " + h.getPosition().getY());
+			System.out.println("vx = " + h.getVelocity().getXVelocity() + " ; vy = " + h.getVelocity().getYVelocity());
 		}
 		for (Enemy e : myEnemies) {
-			System.out.println("x = "+e.getPosition().getX()+" ; y = "+e.getPosition().getY());
-			System.out.println("vx = "+e.getVelocity().getXVelocity()+" ; vy = "+e.getVelocity().getYVelocity());
+			System.out.println("x = " + e.getPosition().getX() + " ; y = " + e.getPosition().getY());
+			System.out.println("vx = " + e.getVelocity().getXVelocity() + " ; vy = " + e.getVelocity().getYVelocity());
 		}
 		for (IBlock b : myBlocks) {
-			System.out.println("x = "+b.getPosition().getX()+" ; y = "+b.getPosition().getY());
-			System.out.println("vx = "+b.getVelocity().getXVelocity()+" ; vy = "+b.getVelocity().getYVelocity());
+			System.out.println("x = " + b.getPosition().getX() + " ; y = " + b.getPosition().getY());
+			System.out.println("vx = " + b.getVelocity().getXVelocity() + " ; vy = " + b.getVelocity().getYVelocity());
 		}
 		System.out.println();
 	}
