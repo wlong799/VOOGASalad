@@ -11,12 +11,14 @@ import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.core.Dimension;
 import game_object.core.ISprite;
+import game_object.visualization.ILevelVisualization;
+import game_object.visualization.ISpriteVisualization;
 
 /**
  * A class representing a level.
  * @author Jay
  */
-public class Level {
+public class Level implements ILevelVisualization {
 
 	private Dimension myLevelDimension;
 	private Level myNextLevel;
@@ -163,5 +165,25 @@ public class Level {
 		return triggersWithEvent;
 	}
 	/* ---Events and Triggers--- */
+
+	
+	/* ILevelVisualization Implementations */
+	List<ISpriteVisualization> mySpriteVisualizations;
+	
+	@Override
+	public void init() {
+		mySpriteVisualizations = new ArrayList<>();
+		List<ISprite> allSprites = getAllSprites();
+		allSprites.sort((s1, s2) ->
+			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
+		);
+		mySpriteVisualizations.addAll(allSprites);
+	}
+
+	@Override
+	public List<ISpriteVisualization> getAllSpriteVisualizations() {
+		return mySpriteVisualizations;
+	}
+	/* ---ILevelVisualization Implementations END--- */
 	
 }
