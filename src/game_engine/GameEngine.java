@@ -5,11 +5,14 @@ import java.util.List;
 
 import game_engine.collision.AbstractCollisionEngine;
 import game_engine.collision.CollisionEngine;
+import game_engine.collision.ICollisionEngine;
 import game_engine.inputcontroller.InputController;
 import game_engine.physics.AbstractPhysicsEngine;
+import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
 import game_engine.transition.AbstractTransitionManager;
+import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
 import game_object.acting.KeyEvent;
@@ -31,9 +34,9 @@ import goal.time.TimeGoal;
  * @author Charlie Wang
  */
 public class GameEngine implements IGameEngine {
-	private AbstractPhysicsEngine myPhysicsEngine;
-	private AbstractCollisionEngine myCollisionEngine;
-	private AbstractTransitionManager myTransitionManager;
+	private IPhysicsEngine myPhysicsEngine;
+	private ICollisionEngine myCollisionEngine;
+	private ITransitionManager myTransitionManager;
 	private InputController myInputController;
 
 	private double myElapsedTime;
@@ -67,7 +70,7 @@ public class GameEngine implements IGameEngine {
 	public void endCheck() {
 		WinStatus ws = checkWin();
 		if (ws != WinStatus.GOON) {
-			myCurrentLevel = myTransitionManager.readWinStatus(ws);
+			// myCurrentLevel = myTransitionManager.readWinStatus(ws);
 			if (myCurrentLevel == null) {
 				shutdown();
 			}
@@ -99,9 +102,11 @@ public class GameEngine implements IGameEngine {
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {
-		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
-		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
-		myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
+		if (body.getAffectedByPhysics()) {
+			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
+			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
+			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
+		}
 	}
 
 	@Override
@@ -157,9 +162,25 @@ public class GameEngine implements IGameEngine {
 	public void setParameter(String parameter, double value) {
 		myPhysicsEngine.setParameters(parameter, value);
 	}
-	
+
 	private void executeInput() {
 		myInputController.executeInput();
+	}
+
+	public void printOutput() {
+		for (Hero h : myHeroes) {
+			System.out.println("x = " + h.getPosition().getX() + " ; y = " + h.getPosition().getY());
+			System.out.println("vx = " + h.getVelocity().getXVelocity() + " ; vy = " + h.getVelocity().getYVelocity());
+		}
+		for (Enemy e : myEnemies) {
+			System.out.println("x = " + e.getPosition().getX() + " ; y = " + e.getPosition().getY());
+			System.out.println("vx = " + e.getVelocity().getXVelocity() + " ; vy = " + e.getVelocity().getYVelocity());
+		}
+		for (IBlock b : myBlocks) {
+			System.out.println("x = " + b.getPosition().getX() + " ; y = " + b.getPosition().getY());
+			System.out.println("vx = " + b.getVelocity().getXVelocity() + " ; vy = " + b.getVelocity().getYVelocity());
+		}
+		System.out.println();
 	}
 
 }

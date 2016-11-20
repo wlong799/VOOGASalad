@@ -1,26 +1,29 @@
 package game_engine.physics;
 
 /**
- * Class that represent the basic behaviors of gravity
+ * Class that represent the basic behaviors of gravity and friction
  * 
  * @author Charlie Wang
  * @author Grant Costa
  */
 public class PhysicsParameters {
 	private static final double G = 10;
-	private static final double AF = 1;
+	private static final double AF = 0.1;
 	private static final double GF = 0.9;
-	private static final double T = .1;
+	private static final double TMIN = 1;
+	private static final double TMAX = 55;
 	private double myGravity;
 	private double myAirFriction;
 	private double myGroundFriction;
-	private double myThreshold;
+	private double myMinThreshold;
+	private double myMaxThreshold;
 
 	public PhysicsParameters() {
 		setGravity(G);
 		setAirFriction(AF);
 		setGroundFriction(GF);
-		setThreshold(T);
+		setMinThreshold(TMIN);
+		setMaxThreshold(TMAX);
 	}
 
 	public void setGravity(double g) {
@@ -47,11 +50,19 @@ public class PhysicsParameters {
 		return myGroundFriction;
 	}
 	
-	public void setThreshold(double t) {
-		myThreshold = t;
+	public void setMinThreshold(double t) {
+		myMinThreshold = t;
 	}
 	
-	public double getThreshold() {
-		return myThreshold;
+	public double getMinThreshold() {
+		return myMinThreshold;
+	}
+	
+	public void setMaxThreshold(double t) {
+		myMaxThreshold = t;
+	}
+	
+	public double getMaxThreshold() {
+		return myMaxThreshold;
 	}
 }
