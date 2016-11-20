@@ -16,6 +16,8 @@ import game_object.core.ISprite;
  */
 public class Level {
 
+	private double myWidth; 
+	private double myHeight;
 	private Level myNextLevel;
 	private TransitionMenu myNextMenu;
 	private Background myBackground;
@@ -126,6 +128,22 @@ public class Level {
 
 	public void setTriggers(List<ActionTrigger> triggers) {
 		myTriggers = triggers;
+	}
+
+	public double getWidth() {
+		return myWidth;
+	}
+
+	public void setWidth(double width) {
+		myWidth = width;
+	}
+
+	public double getHeight() {
+		return myHeight;
+	}
+
+	public void setHeight(double height) {
+		myHeight = height;
 	}
 	
 }

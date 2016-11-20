@@ -37,6 +37,10 @@ public class LevelGenerator {
 		blockImages.add("data/img/stone_block.png");
 		
 		Level level = new Level();
+		
+		level.setWidth(2000);
+		level.setHeight(1000);
+		
 		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(50,0));
 		hero.setImageStyle(ImageStyle.FIT);
@@ -78,6 +82,9 @@ public class LevelGenerator {
 		blockImages.add("data/img/stone_block.png");
 		
 		Level level = new Level();
+		level.setWidth(2000);
+		level.setHeight(1000);
+		
 		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(50, 0));
 		hero.setImageStyle(ImageStyle.FIT);
