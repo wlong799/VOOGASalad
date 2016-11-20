@@ -56,6 +56,14 @@ public class CanvasViewController {
 	}
 	
 	/**
+	 * refresh sprite views
+	 * called after user selects a different level
+	 */
+	public void refresh() {
+		initSpriteViews();
+	}
+	
+	/**
 	 * method to add a SpriteView to canvas
 	 * used for drag and drop from components view
 	 * @param spView
@@ -173,6 +181,7 @@ public class CanvasViewController {
 	}
 	
 	private void initSpriteViews() {
+		clearSpriteViews();
 		Level currentLevel = myEnvironment.getCurrentLevel();
 		if (currentLevel == null) {
 			throw new RuntimeException("no current level for canvas");
@@ -209,8 +218,7 @@ public class CanvasViewController {
 		spriteViews.sort(spViewComparator);
 		double hValue = myScrollPane.getHvalue();
 		double vValue = myScrollPane.getVvalue();
-		myContent.getChildren().clear();
-		myContent.getChildren().add(myBackground);
+		clearSpriteViews();
 		for (SpriteView spView : spriteViews) {
 			myContent.getChildren().add(spView.getUI());
 		}
@@ -278,6 +286,11 @@ public class CanvasViewController {
 			myScrollPane.setVvalue(Math.min(1, 
 					myScrollPane.getVvalue() + UIConstants.SCROLL_VALUE_UNIT));
 		}
+	}
+	
+	private void clearSpriteViews() {
+		myContent.getChildren().clear();
+		myContent.getChildren().add(myBackground);
 	}
 
 }

@@ -45,7 +45,7 @@ public class AuthoringInitializer {
 
 	private AuthorEnvironment initEnvironment() {
 		Game game = new Game();
-		Level testLevel = LevelGenerator.getTestLevelA();
+		Level testLevel = LevelGenerator.getTestLevelB();
 		game.addLevel(testLevel);
 		AuthorEnvironment env = new AuthorEnvironment();
 		env.addGame(game);
