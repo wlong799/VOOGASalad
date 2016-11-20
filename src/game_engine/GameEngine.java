@@ -53,7 +53,7 @@ public class GameEngine implements IGameEngine {
 		myCurrentLevel = level;
 		myPhysicsEngine = new PhysicsEngineWithFriction();
 		myCollisionEngine = new CollisionEngine();
-		myInputController = new InputController();
+		myInputController = new InputController(level);
 		// myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		init();
 	}
