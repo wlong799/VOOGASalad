@@ -22,9 +22,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ComponentsView extends View {
-	List<String> EnemyList, BlockList, PersonalizedList;
-	HBox personalizedHBox;
-	Button upload;
+	private List<String> enemyList, blockList, personalizedList;
+	private HBox personalizedHBox;
+	private Button upload;
 	
 
 	public ComponentsView(AuthoringController controller) {
@@ -60,8 +60,8 @@ public class ComponentsView extends View {
 		
 		initEnemyGraphics();
 		
-		for (String enemy : EnemyList) {
-			ComponentView c = createComponentView(EnemyList, enemy);
+		for (String enemy : enemyList) {
+			ComponentView c = createComponentView(enemyList, enemy);
 			hbox.getChildren().add(c.getUI());
 		}
 		enemyTab.setContent(scrollPane);
@@ -79,8 +79,8 @@ public class ComponentsView extends View {
 
 		initBlockGraphics();
 		
-		for (String block : BlockList) {
-			ComponentView component = createComponentView(BlockList, block);
+		for (String block : blockList) {
+			ComponentView component = createComponentView(blockList, block);
 			hbox.getChildren().add(component.getUI());
 		}
 		blockTab.setContent(scrollPane);
@@ -122,20 +122,20 @@ public class ComponentsView extends View {
 	}
 	
 	protected void initEnemyGraphics(){
-		EnemyList = new ArrayList<>();
+		enemyList = new ArrayList<>();
 		
-		EnemyList.add(GameObjectConstants.BLUE_SNAIL_FILE);
-		EnemyList.add(GameObjectConstants.ELIZA_FILE);
-		EnemyList.add(GameObjectConstants.ORANGE_MUSHROOM_FILE);
-		EnemyList.add(GameObjectConstants.RIBBON_PIG_FILE);
-		EnemyList.add(GameObjectConstants.SLIME_FILE);
+		enemyList.add(GameObjectConstants.BLUE_SNAIL_FILE);
+		enemyList.add(GameObjectConstants.ELIZA_FILE);
+		enemyList.add(GameObjectConstants.ORANGE_MUSHROOM_FILE);
+		enemyList.add(GameObjectConstants.RIBBON_PIG_FILE);
+		enemyList.add(GameObjectConstants.SLIME_FILE);
 	}
 	
 	protected void initBlockGraphics(){
-		BlockList = new ArrayList<>();
+		blockList = new ArrayList<>();
 		
-		BlockList.add(GameObjectConstants.BRICK);
-		BlockList.add(GameObjectConstants.BUSH);
+		blockList.add(GameObjectConstants.BRICK);
+		blockList.add(GameObjectConstants.BUSH);
 	}
 	
 	protected ComponentView createComponentView(List<String> list, String enemy) {
@@ -152,7 +152,7 @@ public class ComponentsView extends View {
 		uploadImage.setFitHeight(50);
 		uploadImage.setFitWidth(50);
 		upload.setGraphic(uploadImage);
-		PersonalizedList = new ArrayList<>();
+		personalizedList = new ArrayList<>();
 		initUploadButtonAction();
 		
 		return upload;
