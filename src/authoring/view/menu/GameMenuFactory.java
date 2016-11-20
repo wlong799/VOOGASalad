@@ -22,7 +22,7 @@ public class GameMenuFactory {
      */
     private enum GameMenuInfo {
         FILE("File", new String[]{}),
-        LEVEL("Level", new String[]{"NewLevelElement"}),
+        LEVEL("Level", new String[]{"NewLevelElement", "ChangeLevelBackgroundElement"}),
         VIEW("View", new String[]{}),
         KEYBOARD("Keyboard", new String[]{});
 

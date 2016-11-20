@@ -11,5 +11,5 @@ public class GameObjectConstants {
 	public static final String BUSH = "img/bush.png";
 	public static final String BRICK = "img/brick.png";
 	
-	
+	public static final String UPLOAD = "img/upload.png";
 }
