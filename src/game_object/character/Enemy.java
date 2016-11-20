@@ -32,6 +32,11 @@ public class Enemy extends ActiveCharacter {
 	}
 	
 	@Override
+	public void shoot() {
+		ExceptionThrower.notYetSupported();
+	}
+	
+	@Override
 	public ArrayList<ActionTrigger> getActionTriggers() {
 		ExceptionThrower.notYetSupported();
 		return null;

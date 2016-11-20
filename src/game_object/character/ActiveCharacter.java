@@ -11,7 +11,7 @@ import game_object.core.Velocity;
  * A base class for all active characters, aka characters that can move.
  * @author Jay
  */
-abstract class ActiveCharacter extends AbstractCharacter {
+abstract class ActiveCharacter extends AbstractCharacter implements ITriggerable {
 
 	private double myMovingUnit = DefaultConstants.MOVING_UNIT;
 	private double myJumpingUnit = DefaultConstants.JUMPING_UNIT;

@@ -3,6 +3,7 @@ package game_object.level;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_object.acting.ActionTrigger;
 import game_object.background.Background;
 import game_object.block.StaticBlock;
 import game_object.character.Enemy;
@@ -15,17 +16,21 @@ import game_object.core.ISprite;
  */
 public class Level {
 
+	private double myWidth; 
+	private double myHeight;
 	private Level myNextLevel;
 	private TransitionMenu myNextMenu;
 	private Background myBackground;
 	private List<Hero> myHeros;
 	private List<Enemy> myEnemies;
 	private List<StaticBlock> myStaticBlocks;
+	private List<ActionTrigger> myTriggers;
 	
 	public Level() {
 		myHeros = new ArrayList<>();
 		myEnemies = new ArrayList<>();
 		myStaticBlocks = new ArrayList<>();
+		myTriggers = new ArrayList<>();
 	}
 	
 	public List<ISprite> getAllSprites() {
@@ -115,12 +120,36 @@ public class Level {
 		myEnemies = enemies;
 	}
 
-	public List<StaticBlock> getBlocks() {
+	public List<StaticBlock> getStaticBlocks() {
 		return myStaticBlocks;
 	}
 
-	public void setBlocks(List<StaticBlock> blocks) {
+	public void setStaticBlocks(List<StaticBlock> blocks) {
 		myStaticBlocks = blocks;
+	}
+
+	public List<ActionTrigger> getTriggers() {
+		return myTriggers;
+	}
+
+	public void setTriggers(List<ActionTrigger> triggers) {
+		myTriggers = triggers;
+	}
+
+	public double getWidth() {
+		return myWidth;
+	}
+
+	public void setWidth(double width) {
+		myWidth = width;
+	}
+
+	public double getHeight() {
+		return myHeight;
+	}
+
+	public void setHeight(double height) {
+		myHeight = height;
 	}
 	
 }
