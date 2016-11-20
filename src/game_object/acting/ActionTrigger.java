@@ -6,12 +6,12 @@ public class ActionTrigger {
 
 	ISprite mySprite;
 	Event myEvent;
-	String myActionName;
+	ActionName myActionName;
 	
-	public ActionTrigger(ISprite s, Event e, String ae) {
-		mySprite = s;
-		myEvent = e;
-		myActionName = ae;
+	public ActionTrigger(ISprite sprite, Event event, ActionName actionName) {
+		mySprite = sprite;
+		myEvent = event;
+		myActionName = actionName;
 	}
 	
 }
