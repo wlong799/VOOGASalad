@@ -2,8 +2,6 @@ package game_engine.physics;
 
 import java.util.List;
 
-import game_object.block.AbstractBlock;
-import game_object.character.AbstractCharacter;
 import game_object.core.AbstractSprite;
 import game_object.core.Position;
 import game_object.core.Velocity;
@@ -16,10 +14,10 @@ import game_object.simulation.IPhysicsBody;
  * @author Charlie Wang
  */
 public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
-	protected Gravity myGravity;
+	protected PhysicsParameters myParams;
 
 	protected AbstractPhysicsEngine() {
-		myGravity = new Gravity();
+		myParams = new PhysicsParameters();
 	}
 
 	protected abstract double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime);
@@ -53,12 +51,16 @@ public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
 	}
 	
 	public void updatePositionAndVelocity(double newx, double newvx, double newy, double newvy, IPhysicsBody body) {
+
 		updateHorizontalPositionAndVelocity(newx, newvx, body);
-		updateVerticalPositionAndVelocity(newy, newvy, body); 
+		updateVerticalPositionAndVelocity(newy, newvy, body);
+	    
 	}
 	
 	public void updatePositionAndVelocity(Position position, Velocity velocity, IPhysicsBody body) {
+	    if(body.getAffectedByPhysics()){
 		updatePosition(position, body);
 		updateVelocity(velocity, body);
+	    }
 	}
 }

@@ -102,8 +102,10 @@ public class SpriteView extends View {
 	protected void layoutSelf() {
 		spImageView.setWidth(this.getWidth());
 		spImageView.setHeight(this.getHeight());
-		spResizeView.setWidth(this.getWidth());
-		spResizeView.setHeight(this.getHeight());
+		if (spResizeView != null) {
+			spResizeView.setWidth(this.getWidth());
+			spResizeView.setHeight(this.getHeight());
+		}
 	}
 	
 	private void setMouseClicked() {

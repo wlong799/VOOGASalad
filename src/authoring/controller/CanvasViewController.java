@@ -3,6 +3,7 @@ package authoring.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import authoring.AuthorEnvironment;
 import authoring.constants.UIConstants;
 import authoring.view.canvas.CanvasView;
 import authoring.view.canvas.SpriteView;
@@ -11,6 +12,7 @@ import game_object.block.StaticBlock;
 import game_object.core.Dimension;
 import game_object.core.ISprite;
 import game_object.core.Position;
+import game_object.level.Level;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
@@ -20,6 +22,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * @author billyu
+ * Controller for canvas
+ * TODO: extract subcontrollers, this is too long
+ */
 public class CanvasViewController {
 	
 	private CanvasView myCanvas;
@@ -27,6 +34,7 @@ public class CanvasViewController {
 	private ScrollPane myScrollPane;
 	private Group myContent; // holder for all SpriteViews
 	private Rectangle myBackground;
+	private AuthorEnvironment myEnvironment;
 	private double scWidth;
 	private double scHeight;
 	private double bgWidth;
@@ -38,10 +46,21 @@ public class CanvasViewController {
 		myScrollPane = scrollPane;
 		myContent = content;
 		myBackground = background;
+		myEnvironment = canvas.getController().getEnvironment();
 		
 		spriteViews = new ArrayList<>();
 		spViewComparator = new SpriteViewComparator();
 		setOnDrag();
+		
+		initSpriteViews();
+	}
+	
+	/**
+	 * refresh sprite views
+	 * called after user selects a different level
+	 */
+	public void refresh() {
+		initSpriteViews();
 	}
 	
 	/**
@@ -62,6 +81,14 @@ public class CanvasViewController {
 		else {
 			setAbsolutePosition(spView, x, y);
 		}
+		this.reorderSpriteViewsWithPositionZ();
+	}
+	
+	public void delete(SpriteView spView) {
+		if (spView == null) return;
+		spriteViews.remove(spView);
+		myEnvironment.getCurrentLevel().removeSprite(spView.getSprite());
+		this.reorderSpriteViewsWithPositionZ();
 	}
 
 	/**
@@ -151,6 +178,39 @@ public class CanvasViewController {
 		}
 	}
 	
+	// relative positions to absolute
+	public double toAbsoluteX(double x) {
+		return myScrollPane.getHvalue() * (bgWidth - scWidth) + x;
+	}
+
+	public double toAbsoluteY(double y) {
+		return myScrollPane.getVvalue() * (bgHeight - scHeight) + y;
+	}
+	
+	private void initSpriteViews() {
+		clearSpriteViews();
+		Level currentLevel = myEnvironment.getCurrentLevel();
+		if (currentLevel == null) {
+			throw new RuntimeException("no current level for canvas");
+		}
+		double maxRight = Double.MIN_VALUE;
+		double maxBot = Double.MIN_VALUE;
+		for (ISprite sp : currentLevel.getAllSprites()) {
+			SpriteView spView = new SpriteView(myCanvas.getController());
+			Dimension dim = new Dimension(sp.getDimension().getWidth(), sp.getDimension().getHeight());
+			spView.setSprite(sp);
+			this.add(spView, sp.getPosition().getX(), sp.getPosition().getY(), false);
+			spView.setDimensionHeight(dim.getHeight());
+			spView.setDimensionWidth(dim.getWidth());
+			//TODO extract component class to save default dimension height and width for a component
+			//avoid setting dimension with image width and height
+			maxRight = Math.max(dim.getWidth() + sp.getPosition().getX(), maxRight);
+			maxBot = Math.max(dim.getHeight() + sp.getPosition().getY(), maxBot);
+		}
+		myBackground.setWidth(Math.max(myBackground.getWidth(), maxRight));
+		myBackground.setHeight(Math.max(myBackground.getHeight(), maxBot));
+	}
+	
 	private void retrieveScrollPaneSize() {
 		scWidth = myScrollPane.getViewportBounds().getWidth();
 		scHeight = myScrollPane.getViewportBounds().getHeight();
@@ -163,11 +223,14 @@ public class CanvasViewController {
 	
 	private void reorderSpriteViewsWithPositionZ() {
 		spriteViews.sort(spViewComparator);
-		myContent.getChildren().clear();
-		myContent.getChildren().add(myBackground);
+		double hValue = myScrollPane.getHvalue();
+		double vValue = myScrollPane.getVvalue();
+		clearSpriteViews();
 		for (SpriteView spView : spriteViews) {
 			myContent.getChildren().add(spView.getUI());
 		}
+		myScrollPane.setHvalue(hValue);
+		myScrollPane.setVvalue(vValue);
 	}
 	
 	private void setOnDrag() {
@@ -199,16 +262,18 @@ public class CanvasViewController {
 	 * @param id
 	 * @param x
 	 * @param y
+	 * x and y are positions relative to screen
 	 * TEMPORARY - block is initialized as StaticBlock
 	 */
 	private void makeAndAddSpriteView(String id, double x, double y) {
 		ArrayList<String> path = new ArrayList<String>();
 		path.add(id);
-		ISprite block = new StaticBlock(new Position(40,40), new Dimension(0, 0), path);
+		StaticBlock block = new StaticBlock(new Position(0, 0), new Dimension(0, 0), path);
 		SpriteView spView = new SpriteView(myCanvas.getController());
 		spView.setSprite(block);
 		this.add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
 		myCanvas.getController().selectSpriteView(spView);
+		myEnvironment.getCurrentLevel().addStaticBlock(block);
 	}
 	
 	private void adjustScrollPane(double x, double y) {
@@ -230,12 +295,9 @@ public class CanvasViewController {
 		}
 	}
 	
-	public double toAbsoluteX(double x) {
-		return myScrollPane.getHvalue() * (bgWidth - scWidth) + x;
-	}
-
-	public double toAbsoluteY(double y) {
-		return myScrollPane.getVvalue() * (bgWidth - scWidth) + y;
+	private void clearSpriteViews() {
+		myContent.getChildren().clear();
+		myContent.getChildren().add(myBackground);
 	}
 
 }

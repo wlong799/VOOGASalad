@@ -26,4 +26,6 @@ public interface IPhysicsEngine {
 	public void updatePositionAndVelocity(double newx, double newvx, double newy, double newvy, IPhysicsBody body);
 	
 	public void updatePositionAndVelocity(Position position, Velocity velocity, IPhysicsBody body);
+	
+	public void setParameters(String parameter, double value);
 }

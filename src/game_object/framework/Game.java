@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game_object.level.Level;
-import game_object.level.TransitionMenu;
 
 /**
  * A class representing a game.
@@ -15,7 +14,7 @@ public class Game {
 	private List<Level> myLevels;
 
 	private Level myFirstSceneAsLevel;
-	private TransitionMenu myFirstSceneAsMenu;
+	//private TransitionMenu myFirstSceneAsMenu;
 	
 	public Game() {
 		myLevels = new ArrayList<>();
@@ -29,8 +28,12 @@ public class Game {
 		myLevels.remove(level);
 	}
 	
+	public List<Level> getAllLevels() {
+		return myLevels;
+	}
+	
 	/* 
-	 * First Scene, it is either a level or a menu.
+	 * First Scene, it is either a level or a menu. (For now let's just start with a level)
 	 * If getFirstSceneAsLevel() returns a non-null instance of Level,
 	 * getFirstSceneAsMenu() will be ignored.
 	 */
@@ -41,13 +44,13 @@ public class Game {
 	public Level getFirstSceneAsLevel() {
 		return myFirstSceneAsLevel;
 	}
-	
-	public void setFirstSceneAsMenu(TransitionMenu menu) {
-		myFirstSceneAsMenu = menu;
-	}
-
-	public TransitionMenu getFirstSceneAsMenu() {
-		return myFirstSceneAsMenu;
-	}
+//	
+//	public void setFirstSceneAsMenu(TransitionMenu menu) {
+//		myFirstSceneAsMenu = menu;
+//	}
+//
+//	public TransitionMenu getFirstSceneAsMenu() {
+//		return myFirstSceneAsMenu;
+//	}
 	
 }

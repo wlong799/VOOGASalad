@@ -1,42 +1,39 @@
 package game_engine;
 
+import java.util.List;
+
+import game_object.acting.KeyEvent;
+
 /**
  * Basic interface for all game engines
  * 
  * @author Charlie Wang
  */
 public interface IGameEngine {
-
-	/**
-	 * Main game loop: consists of initialization of elements, step by step update,
-	 * 	ending conditions check, and image drawing 
-	 */
-	public abstract void run();
 	
 	/**
 	 * Reads in the Game object and makes the initial map set up
 	 */
-	public abstract void init();
-
-	/**
-	 * Checks whether the ending condition (either win/lose) has been met
-	 */
-	public abstract void endCheck();
+	public void init();
 	
 	/**
 	 * Closes engine or transit to other levels
 	 */
-	public abstract void shutdown();
+	public void shutdown();
 
 	/**
 	 * Update the current map set-up by checking user input or current object parameters
 	 */
-	public abstract void update();
+	public void update(double elapsedTime);
 
 	/**
 	 * Draw out the images in each update
 	 * TODO: decide how to pass to frontend
 	 */
-	public abstract void draw();
+	public void draw();
+	
+	public void setInputList(List<KeyEvent> list);
 
+	public void setParameter(String parameter, double value);
+	
 }

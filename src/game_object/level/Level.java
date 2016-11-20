@@ -7,6 +7,7 @@ import game_object.background.Background;
 import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.core.ISprite;
 
 /**
  * A class representing a level.
@@ -25,6 +26,14 @@ public class Level {
 		myHeros = new ArrayList<>();
 		myEnemies = new ArrayList<>();
 		myStaticBlocks = new ArrayList<>();
+	}
+	
+	public List<ISprite> getAllSprites() {
+		List<ISprite> spriteList = new ArrayList<>();
+		spriteList.addAll(myHeros);
+		spriteList.addAll(myEnemies);
+		spriteList.addAll(myStaticBlocks);
+		return spriteList;
 	}
 	
 	/* Transitions. Note if getNextLevel() returns a non-null value,  getNextMenu() will be ignored. */
@@ -46,6 +55,18 @@ public class Level {
 	/* ---Transitions END--- */
 	
 	/* Add/Remove specific sprites */
+	public void removeSprite(ISprite sprite) {
+		if (sprite instanceof Hero) {
+			removeHero((Hero)sprite);
+		}
+		else if (sprite instanceof Enemy) {
+			removeEnemy((Enemy)sprite);
+		}
+		else if (sprite instanceof StaticBlock) {
+			removeStaticBlock((StaticBlock)sprite);
+		}
+	}
+	
 	public void addHero(Hero hero) {
 		myHeros.add(hero);
 	}
