@@ -59,6 +59,7 @@ public class ComponentView extends View {
 	}
 
 	private void setOnDrag() {
+		AuthoringController controller = this.getController();
 		imageView.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				/* drag was detected, start a drag-and-drop gesture*/
@@ -67,7 +68,7 @@ public class ComponentView extends View {
 
 				/* Put a string on a dragboard */
 				ClipboardContent content = new ClipboardContent();
-				content.putString(myComponent.getType().toString() + "," + myComponent.getImagePath());
+				content.putString(controller.getComponentController().component2ID(myComponent));
 				db.setContent(content);
 
 				event.consume();
