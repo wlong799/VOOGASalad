@@ -4,12 +4,13 @@ package game_engine.physics;
  * Class that represent the basic behaviors of gravity
  * 
  * @author Charlie Wang
+ * @author Grant Costa
  */
 public class PhysicsParameters {
 	private static final double G = 10;
-	private static final double AF = 0.1;
-	private static final double GF = 0.5;
-	private static final double T = 1;
+	private static final double AF = 1;
+	private static final double GF = 0.9;
+	private static final double T = .1;
 	private double myGravity;
 	private double myAirFriction;
 	private double myGroundFriction;
