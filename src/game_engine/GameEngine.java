@@ -8,6 +8,7 @@ import game_engine.collision.CollisionEngine;
 import game_engine.inputcontroller.InputController;
 import game_engine.physics.AbstractPhysicsEngine;
 import game_engine.physics.PhysicsEngine;
+import game_engine.physics.PhysicsEngineWithFriction;
 import game_engine.transition.AbstractTransitionManager;
 import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
@@ -44,10 +45,11 @@ public class GameEngine implements IGameEngine {
 
 	public GameEngine(Level level) {
 		myCurrentLevel = level;
-		myPhysicsEngine = new PhysicsEngine();
+		myPhysicsEngine = new PhysicsEngineWithFriction();
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController();
 		// myTransitionManager = new TransitionManager(game, myCurrentLevel);
+		init();
 	}
 
 	private void menu() {
@@ -79,7 +81,10 @@ public class GameEngine implements IGameEngine {
 	}
 
 	@Override
-	public void update() {
+	public void update(double elapsedTime) {
+
+            System.out.println("HELLO?");
+	        setElapsedTime(elapsedTime);
 		executeInput();
 		for (Hero h : myHeroes) {
 			updateNewParameters(h);
@@ -118,9 +123,11 @@ public class GameEngine implements IGameEngine {
 	}
 
 	private void setElements(Level level) {
+	    System.out.println("set elements");
 		myHeroes = level.getHeros();
 		myEnemies = level.getEnemies();
 		myBlocks = level.getBlocks();
+		System.out.println("end set elements");
 	}
 
 	public void setElapsedTime(double elapsedTime) {

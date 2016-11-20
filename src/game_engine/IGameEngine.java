@@ -24,7 +24,7 @@ public interface IGameEngine {
 	/**
 	 * Update the current map set-up by checking user input or current object parameters
 	 */
-	public void update();
+	public void update(double elapsedTime);
 
 	/**
 	 * Draw out the images in each update
