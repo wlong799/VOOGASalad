@@ -10,4 +10,7 @@ public class ExceptionThrower {
 		throw new RuntimeException("This method should be overriden in order to be called.");
 	}
 	
+	public static void illegalArgs(String s) {
+		throw new IllegalArgumentException(s);
+	}
 }

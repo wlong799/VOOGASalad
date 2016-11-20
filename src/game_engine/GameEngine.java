@@ -132,7 +132,7 @@ public class GameEngine implements IGameEngine {
 		System.out.println("set elements");
 		myHeroes = level.getHeros();
 		myEnemies = level.getEnemies();
-		myBlocks = level.getBlocks();
+		myBlocks = level.getStaticBlocks();
 		System.out.println("end set elements");
 	}
 
