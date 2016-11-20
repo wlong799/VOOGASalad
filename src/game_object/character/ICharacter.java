@@ -7,7 +7,7 @@ import game_object.weapon.Weapon;
  * Character interface
  * @author Jay
  */
-public interface ICharacter extends ISprite, IMortal, IMover {
+public interface ICharacter extends ISprite, IMortal, IMover, IShooter {
 
 	Weapon getCurrentWeapon();
 

@@ -1,5 +1,7 @@
 package game_object.weapon;
 
+import game_object.core.Velocity;
+
 /**
  * the ProjectileModel class represents a projectile model of a weapon
  * this class does NOT represent a single projectile on the screen. 
@@ -10,16 +12,13 @@ package game_object.weapon;
 public class ProjectileModel {
 
 	private String myImgPath;
-	private double mySpeed; // initial speed
-	// initial angle, in degree, 0 is x-direction, positive goes **down** (positive y direction)
-	private double myAngle; 
+	private Velocity myInitalVelocity;
 	// is the projectile subject to gravity (so that the path will be a parabola)
 	private boolean myAffectedByGravity;
 	
-	public ProjectileModel(String imgPath, double speed, double angle, boolean affectedByGravity) {
+	public ProjectileModel(String imgPath, Velocity v, boolean affectedByGravity) {
 		myImgPath = imgPath;
-		mySpeed = speed;
-		myAngle = angle;
+		myInitalVelocity = v;
 		myAffectedByGravity = affectedByGravity;
 	}
 
@@ -31,20 +30,12 @@ public class ProjectileModel {
 		myImgPath = imgPath;
 	}
 
-	public double getSpeed() {
-		return mySpeed;
+	public Velocity getInitalVelocity() {
+		return myInitalVelocity;
 	}
 
-	public void setSpeed(double speed) {
-		mySpeed = speed;
-	}
-
-	public double getAngle() {
-		return myAngle;
-	}
-
-	public void setAngle(double angle) {
-		myAngle = angle;
+	public void setInitalVelocity(Velocity initalVelocity) {
+		myInitalVelocity = initalVelocity;
 	}
 
 	public boolean isAffectedByGravity() {

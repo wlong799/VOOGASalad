@@ -6,6 +6,7 @@ import java.util.List;
 import game_object.acting.ActionTrigger;
 import game_object.core.DefaultConstants;
 import game_object.core.Dimension;
+import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
 import game_object.weapon.Weapon;
@@ -20,14 +21,19 @@ public class Hero extends ActiveCharacter implements IUpgrader {
 	}
 	
 	@Override
+	public void shoot() {
+		ExceptionThrower.notYetSupported();
+	}
+	
+	@Override
 	public ArrayList<ActionTrigger> getActionTriggers() {
-		// TODO Auto-generated method stub
+		ExceptionThrower.notYetSupported();
 		return null;
 	}
 
 	@Override
 	public void setActionTriggers(ArrayList<ActionTrigger> ats) {
-		
+		ExceptionThrower.notYetSupported();
 	}
 
 	@Override
