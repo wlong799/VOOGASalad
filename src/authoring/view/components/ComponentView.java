@@ -20,19 +20,15 @@ public class ComponentView extends View {
 	private ImageView imageView;
 	private Label title;
 	private VBox box;
-	private String imagePath;
+	private Component myComponent;
 
 	public ComponentView(AuthoringController controller) {
 		super(controller);
 	}
 
-	public void setTitleText(String text) {
-		title.setText(text);
-	}
-	
-	public void setImagePath(String path) {
-		imagePath = path;
-		setImage(new Image(imagePath));
+	public void setComponent(Component component) {
+		myComponent = component;
+		updateUI();
 	}
 
 	@Override
@@ -58,8 +54,9 @@ public class ComponentView extends View {
 		setOnDrag();
 	}
 	
-	private void setImage(Image img) {
-		imageView.setImage(img);
+	private void updateUI() {
+		imageView.setImage(new Image(myComponent.getImagePath()));
+		title.setText(myComponent.getTitle());
 	}
 
 	private void setOnDrag() {
@@ -71,7 +68,7 @@ public class ComponentView extends View {
 
 				/* Put a string on a dragboard */
 				ClipboardContent content = new ClipboardContent();
-				content.putString(imagePath);
+				content.putString(myComponent.getType().toString() + "," + myComponent.getImagePath());
 				db.setContent(content);
 
 				event.consume();

@@ -36,17 +36,17 @@ public class ComponentsView extends View {
 		scrollPane.setFitToHeight(true);
 		
 		//debug
-		List<String> list = new ArrayList<String>();
-		list.add(GameObjectConstants.BLUE_SNAIL_FILE);
-		list.add(GameObjectConstants.ELIZA_FILE);
-		list.add(GameObjectConstants.ORANGE_MUSHROOM_FILE);
-		list.add(GameObjectConstants.RIBBON_PIG_FILE);
-		list.add(GameObjectConstants.SLIME_FILE);
+		List<Component> list = new ArrayList<>();
+		list.add(GameObjectConstants.BLUE_SNAIL);
+		list.add(GameObjectConstants.ELIZA);
+		list.add(GameObjectConstants.ORANGE_MUSHROOM);
+		list.add(GameObjectConstants.RIBBON_PIG);
+		list.add(GameObjectConstants.SLIME);
+		list.add(GameObjectConstants.STONE_BLOCK);
 		for (int i = 0; i < 20; i++) {
 			ComponentView c = new ComponentView(this.getController());
-			c.setWidth(50);
-			c.setImagePath(list.get(i % list.size()));
-			c.setTitleText("test");
+			c.setWidth(80);
+			c.setComponent(list.get(i % list.size()));
 			content.getChildren().add(c.getUI());
 		}
 	}

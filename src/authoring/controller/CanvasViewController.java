@@ -8,10 +8,8 @@ import authoring.constants.UIConstants;
 import authoring.view.canvas.CanvasView;
 import authoring.view.canvas.SpriteView;
 import authoring.view.canvas.SpriteViewComparator;
-import game_object.block.StaticBlock;
 import game_object.core.Dimension;
 import game_object.core.ISprite;
-import game_object.core.Position;
 import game_object.level.Level;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -261,17 +259,12 @@ public class CanvasViewController {
 	 * @param x
 	 * @param y
 	 * x and y are positions relative to screen
-	 * TEMPORARY - block is initialized as StaticBlock
 	 */
 	private void makeAndAddSpriteView(String id, double x, double y) {
-		ArrayList<String> path = new ArrayList<String>();
-		path.add(id);
-		StaticBlock block = new StaticBlock(new Position(0, 0), new Dimension(0, 0), path);
-		SpriteView spView = new SpriteView(myCanvas.getController());
-		spView.setSprite(block);
+		SpriteView spView = myCanvas.getController().getComponentController().makeSpriteViewWithID(id, myCanvas);
 		this.add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
 		myCanvas.getController().selectSpriteView(spView);
-		myEnvironment.getCurrentLevel().addStaticBlock(block);
+		myEnvironment.getCurrentLevel().addSprite(spView.getSprite());
 	}
 	
 	private void adjustScrollPane(double x, double y) {
