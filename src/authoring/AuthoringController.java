@@ -5,6 +5,7 @@ import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 
 public class AuthoringController extends AbstractPublisher {
 	
@@ -42,6 +43,11 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public void setScene(Scene scene) {
 		myScene = scene;
+		myScene.setOnKeyPressed(event -> {
+			if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
+				canvasViewController.delete(selectedSpriteView);
+			}
+		});
 	}
 	
 	public void setMouseCursor(Cursor type) {

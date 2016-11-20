@@ -55,6 +55,18 @@ public class Level {
 	/* ---Transitions END--- */
 	
 	/* Add/Remove specific sprites */
+	public void removeSprite(ISprite sprite) {
+		if (sprite instanceof Hero) {
+			removeHero((Hero)sprite);
+		}
+		else if (sprite instanceof Enemy) {
+			removeEnemy((Enemy)sprite);
+		}
+		else if (sprite instanceof StaticBlock) {
+			removeStaticBlock((StaticBlock)sprite);
+		}
+	}
+	
 	public void addHero(Hero hero) {
 		myHeros.add(hero);
 	}

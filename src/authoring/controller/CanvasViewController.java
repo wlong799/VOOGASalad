@@ -83,6 +83,13 @@ public class CanvasViewController {
 		}
 		this.reorderSpriteViewsWithPositionZ();
 	}
+	
+	public void delete(SpriteView spView) {
+		if (spView == null) return;
+		spriteViews.remove(spView);
+		myEnvironment.getCurrentLevel().removeSprite(spView.getSprite());
+		this.reorderSpriteViewsWithPositionZ();
+	}
 
 	/**
 	 * method to set the position of a spView
