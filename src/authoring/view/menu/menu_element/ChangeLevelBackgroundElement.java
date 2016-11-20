@@ -15,6 +15,8 @@ public class ChangeLevelBackgroundElement extends AbstractGameMenuElement{
 	@Override
 	protected void setFunctionality() {
 		myController.getEnvironment();
-		System.out.println("change background");
+		myMenuItem.setOnAction((event) -> {
+			// TODO: fill this out
+		});
 	}
 }
