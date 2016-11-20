@@ -14,10 +14,6 @@ import network.exceptions.ServerDownException;
 
 public class NetworkClient implements INetworkClient{
 	
-	// TODO cx15 read config from a file
-	public static final String SERVER_NAME = "127.0.0.1";
-	public static final int SERVER_PORT = 9999;
-	
 	private Socket socket;
 	private BlockingQueue<Message> inComingBuffer;
 	private Queue<Message> nonBlockingIncomingBuffer;

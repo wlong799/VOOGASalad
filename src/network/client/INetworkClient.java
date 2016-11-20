@@ -2,6 +2,7 @@ package network.client;
 
 import java.util.Queue;
 
+import network.INetworkConfig;
 import network.Message;
 
 /**
@@ -9,7 +10,7 @@ import network.Message;
  * other participants in the game
  * @author CharlesXu
  */
-public interface INetworkClient {
+public interface INetworkClient extends INetworkConfig {
 	
 	/**
 	 * Read all messages that arrived after last invocation to read() 
