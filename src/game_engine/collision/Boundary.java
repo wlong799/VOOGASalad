@@ -51,8 +51,8 @@ public class Boundary {
     }
 
     private boolean contains (Position pos) {
-        if (pos.getX() < right() && pos.getX() > left()) {
-            if (pos.getY() < bottom() && pos.getY() > top()) {
+        if (pos.getX() <= right() && pos.getX() >= left()) {
+            if (pos.getY() <= bottom() && pos.getY() >= top()) {
                 return true;
             }
         }
