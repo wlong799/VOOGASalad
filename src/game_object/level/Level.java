@@ -30,15 +30,9 @@ public class Level {
 	
 	public List<ISprite> getAllSprites() {
 		List<ISprite> spriteList = new ArrayList<>();
-		for (Hero hero: myHeros) {
-			spriteList.add(hero);
-		}
-		for (Enemy enemy: myEnemies) {
-			spriteList.add(enemy);
-		}
-		for (StaticBlock staticBlock: myStaticBlocks) {
-			spriteList.add(staticBlock);
-		}
+		spriteList.addAll(myHeros);
+		spriteList.addAll(myEnemies);
+		spriteList.addAll(myStaticBlocks);
 		return spriteList;
 	}
 	
@@ -61,6 +55,18 @@ public class Level {
 	/* ---Transitions END--- */
 	
 	/* Add/Remove specific sprites */
+	public void removeSprite(ISprite sprite) {
+		if (sprite instanceof Hero) {
+			removeHero((Hero)sprite);
+		}
+		else if (sprite instanceof Enemy) {
+			removeEnemy((Enemy)sprite);
+		}
+		else if (sprite instanceof StaticBlock) {
+			removeStaticBlock((StaticBlock)sprite);
+		}
+	}
+	
 	public void addHero(Hero hero) {
 		myHeros.add(hero);
 	}
