@@ -22,6 +22,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * @author billyu
+ * Controller for canvas
+ * TODO: extract subcontrollers, this is too long
+ */
 public class CanvasViewController {
 	
 	private CanvasView myCanvas;
@@ -248,11 +253,12 @@ public class CanvasViewController {
 	private void makeAndAddSpriteView(String id, double x, double y) {
 		ArrayList<String> path = new ArrayList<String>();
 		path.add(id);
-		ISprite block = new StaticBlock(new Position(40,40), new Dimension(0, 0), path);
+		StaticBlock block = new StaticBlock(new Position(0, 0), new Dimension(0, 0), path);
 		SpriteView spView = new SpriteView(myCanvas.getController());
 		spView.setSprite(block);
 		this.add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
 		myCanvas.getController().selectSpriteView(spView);
+		myEnvironment.getCurrentLevel().addStaticBlock(block);
 	}
 	
 	private void adjustScrollPane(double x, double y) {
