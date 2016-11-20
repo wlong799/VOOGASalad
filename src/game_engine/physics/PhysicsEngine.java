@@ -19,6 +19,9 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
 	    
 		double vx = body.getVelocity().getXVelocity();
+		if (calculateNewVerticalVelocity(body, elapsedTime) == 0) {
+			vx = 0;
+		}
 		return vx;
 	}
 
