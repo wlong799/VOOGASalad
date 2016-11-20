@@ -30,15 +30,9 @@ public class Level {
 	
 	public List<ISprite> getAllSprites() {
 		List<ISprite> spriteList = new ArrayList<>();
-		for (Hero hero: myHeros) {
-			spriteList.add(hero);
-		}
-		for (Enemy enemy: myEnemies) {
-			spriteList.add(enemy);
-		}
-		for (StaticBlock staticBlock: myStaticBlocks) {
-			spriteList.add(staticBlock);
-		}
+		spriteList.addAll(myHeros);
+		spriteList.addAll(myEnemies);
+		spriteList.addAll(myStaticBlocks);
 		return spriteList;
 	}
 	

@@ -1,4 +1,4 @@
-package voogasalad_overwatch;
+package authoring;
 
 import game_object.framework.Game;
 import game_object.level.Level;
@@ -23,7 +23,7 @@ public interface IAuthorEnvironment {
 	 * to interact with
 	 * @param game interface
 	 */
-	void setCurrentGame(Game game);
+	void setCurrentGame(int index);
 	
 	/**
 	 * Returns the game that the 
@@ -44,7 +44,7 @@ public interface IAuthorEnvironment {
 	 * modify and have the user interact
 	 * @param level interface
 	 */
-	void setCurrentLevel(Level level);
+	void setCurrentLevel(int index);
 	
 	/**
 	 * returns the current level that the user

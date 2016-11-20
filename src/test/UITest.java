@@ -1,13 +1,16 @@
 package test;
 
+import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
 import authoring.view.MainView;
+import game_object.LevelGenerator;
+import game_object.framework.Game;
+import game_object.level.Level;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import voogasalad_overwatch.AuthorEnvironment;
 
 public class UITest extends Application {
 	
@@ -28,7 +31,14 @@ public class UITest extends Application {
 			height = primaryScreenBounds.getHeight() - 20;
 		}
 		
+		Game game = new Game();
+		Level testLevel = LevelGenerator.getTestLevelA();
+		game.addLevel(testLevel);
 		AuthorEnvironment env = new AuthorEnvironment();
+		env.addGame(game);
+		env.setCurrentGame(0);
+		env.setCurrentLevel(0);
+		
 		AuthoringController controller = new AuthoringController(env);
 		MainView mainView = new MainView(controller);
 		mainView.setPositionAndSize(0, 0, width, height);

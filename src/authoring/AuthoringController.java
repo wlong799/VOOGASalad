@@ -5,7 +5,6 @@ import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
-import voogasalad_overwatch.AuthorEnvironment;
 
 public class AuthoringController extends AbstractPublisher {
 	
