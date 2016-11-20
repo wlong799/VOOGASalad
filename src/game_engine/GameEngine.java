@@ -21,6 +21,7 @@ import game_object.block.IBlock;
 import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.core.ISprite;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.framework.Game;
@@ -43,9 +44,10 @@ public class GameEngine implements IGameEngine {
 	private double myElapsedTime;
 
 	private Level myCurrentLevel;
-	private List<Hero> myHeroes;
-	private List<Enemy> myEnemies;
-	private List<StaticBlock> myBlocks;
+	private List<ISprite> mySprites;
+	// private List<Hero> myHeroes;
+	// private List<Enemy> myEnemies;
+	// private List<StaticBlock> myBlocks;
 
 	public GameEngine(Level level) {
 		myCurrentLevel = level;
@@ -86,20 +88,13 @@ public class GameEngine implements IGameEngine {
 
 	@Override
 	public void update(double elapsedTime) {
-
-		System.out.println("HELLO?");
 		setElapsedTime(elapsedTime);
 		executeInput();
-		for (Hero h : myHeroes) {
-			updateNewParameters(h);
+		for (ISprite s : mySprites) {
+			updateNewParameters(s);
 		}
-		for (Enemy e : myEnemies) {
-			updateNewParameters(e);
-		}
-		for (IBlock b : myBlocks) {
-			updateNewParameters(b);
-		}
-		myCollisionEngine.checkCollisions(myHeroes, myEnemies, myBlocks);
+		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
+				myCurrentLevel.getStaticBlocks());
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {
@@ -129,11 +124,7 @@ public class GameEngine implements IGameEngine {
 	}
 
 	private void setElements(Level level) {
-		System.out.println("set elements");
-		myHeroes = level.getHeros();
-		myEnemies = level.getEnemies();
-		myBlocks = level.getStaticBlocks();
-		System.out.println("end set elements");
+		mySprites = level.getAllSprites();
 	}
 
 	private void setElapsedTime(double elapsedTime) {
@@ -169,17 +160,9 @@ public class GameEngine implements IGameEngine {
 	}
 
 	public void printOutput() {
-		for (Hero h : myHeroes) {
-			System.out.println("x = " + h.getPosition().getX() + " ; y = " + h.getPosition().getY());
-			System.out.println("vx = " + h.getVelocity().getXVelocity() + " ; vy = " + h.getVelocity().getYVelocity());
-		}
-		for (Enemy e : myEnemies) {
-			System.out.println("x = " + e.getPosition().getX() + " ; y = " + e.getPosition().getY());
-			System.out.println("vx = " + e.getVelocity().getXVelocity() + " ; vy = " + e.getVelocity().getYVelocity());
-		}
-		for (IBlock b : myBlocks) {
-			System.out.println("x = " + b.getPosition().getX() + " ; y = " + b.getPosition().getY());
-			System.out.println("vx = " + b.getVelocity().getXVelocity() + " ; vy = " + b.getVelocity().getYVelocity());
+		for (ISprite s : mySprites) {
+			System.out.println("x = " + s.getPosition().getX() + " ; y = " + s.getPosition().getY());
+			System.out.println("vx = " + s.getVelocity().getXVelocity() + " ; vy = " + s.getVelocity().getYVelocity());
 		}
 		System.out.println();
 	}

@@ -9,7 +9,7 @@ public class InputController implements IInputController {
 	private List<KeyEvent> myList;
 
 	public InputController() {
-
+		
 	}
 
 	@Override
