@@ -1,6 +1,8 @@
 package game_object;
 
 
+import java.util.ArrayList;
+
 import game_object.acting.ActionTrigger;
 import game_object.acting.KeyEvent;
 import game_object.block.StaticBlock;
@@ -24,13 +26,23 @@ public class LevelGenerator {
 	 * @return
 	 */
 	public static Level getTestLevelA() {
-		Level level = new Level();
-		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), null);
-		hero.setVelocity(new Velocity(50,0));
-		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60),null);
+		ArrayList<String> heroImages = new ArrayList<>();
+		heroImages.add("data/img/blue_snail.png");
 		
-		StaticBlock smackDown = new StaticBlock(new Position(340, 50), new Dimension(100, 200),null);
-		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), null);
+		ArrayList<String> enemyImages = new ArrayList<>();
+		enemyImages.add("data/img/eliza.png");
+		
+		ArrayList<String> blockImages = new ArrayList<>();
+		blockImages.add("data/img/stone_block.png");
+		
+		Level level = new Level();
+		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), heroImages);
+		hero.setVelocity(new Velocity(50,0));
+		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
+		
+		StaticBlock smackDown = new StaticBlock(new Position(340, 50), new Dimension(100, 200), blockImages);
+		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), blockImages);
+		
 		level.addHero(hero);
 		level.addEnemy(enemy);
 		level.addStaticBlock(ground);
@@ -52,10 +64,17 @@ public class LevelGenerator {
 	 * The hero can move left, right, and jump.
 	 */
 	public static Level getTestLevelB() {
+		ArrayList<String> heroImages = new ArrayList<>();
+		heroImages.add("data/img/slime.png");
+		
+		ArrayList<String> blockImages = new ArrayList<>();
+		blockImages.add("data/img/stone_block.png");
+		
 		Level level = new Level();
-		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), null);
+		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(50, 0));
-		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), null);
+		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), blockImages);
+		
 		level.addHero(hero);
 		level.addStaticBlock(ground);
 		
