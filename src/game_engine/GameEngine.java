@@ -59,7 +59,6 @@ public class GameEngine implements IGameEngine {
 	@Override
 	public void init() {
 		setElements(myCurrentLevel);
-		draw();
 	}
 
 	public void endCheck() {
@@ -98,8 +97,8 @@ public class GameEngine implements IGameEngine {
 	}
 
 	@Override
-	public void draw() {
-		// TODO: pass to game play team to render
+	public List<ISprite> getSprites() {
+		return mySprites;
 	}
 
 	private WinStatus checkWin() {
