@@ -9,6 +9,7 @@ import game_engine.collision.ICollisionEngine;
 import game_engine.inputcontroller.InputController;
 import game_engine.physics.AbstractPhysicsEngine;
 import game_engine.physics.IPhysicsEngine;
+import game_engine.physics.PhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.AbstractTransitionManager;
