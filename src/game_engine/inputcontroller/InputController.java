@@ -14,6 +14,7 @@ public class InputController implements IInputController {
 
 	private List<KeyEvent> myList;
 	private Level myLevel;
+	private boolean exist;
 
 	public InputController(Level level) {
 		myLevel = level;
@@ -26,6 +27,7 @@ public class InputController implements IInputController {
 
 	@Override
 	public void executeInput() {
+		exist = false;
 		KeyEvent event;
 		if (myList == null || myList.size() == 0) {
 			return;
@@ -43,9 +45,11 @@ public class InputController implements IInputController {
 		if (at.getActionName() == ActionName.MOVE_LEFT) {
 			IMover m = (IMover) sprite;
 			m.moveLeft();
+			exist = true;
 		} else if (at.getActionName() == ActionName.MOVE_RIGHT) {
 			IMover m = (IMover) sprite;
 			m.moveRight();
+			exist = true;
 		} else if (at.getActionName() == ActionName.JUMP) {
 			IMover m = (IMover) sprite;
 			m.jumpUp();
@@ -53,5 +57,9 @@ public class InputController implements IInputController {
 			ICharacter c = (ICharacter) sprite;
 			c.shoot();
 		}
+	}
+	
+	public boolean getInputExist() {
+		return exist;
 	}
 }

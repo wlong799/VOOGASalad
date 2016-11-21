@@ -17,7 +17,6 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 
 	@Override
 	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
-
 		double vx = body.getVelocity().getXVelocity();
 		if (calculateNewVerticalVelocity(body, elapsedTime) == 0) {
 			vx = 0;
@@ -38,7 +37,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		double vy = body.getVelocity().getYVelocity();
 		double newvy = vy + elapsedTime * myParams.getGravity();
 		if (Math.abs(newvy) > myParams.getMaxThreshold()) {
-			newvy = myParams.getMaxThreshold();
+			newvy = newvy > 0 ? myParams.getMaxThreshold() : -myParams.getMaxThreshold();
 		}
 		return newvy;
 	}
