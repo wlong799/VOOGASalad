@@ -7,11 +7,11 @@ package game_engine.physics;
  * @author Grant Costa
  */
 public class PhysicsParameters {
-	private static final double G = 10;
+	private static final double G = 20;
 	private static final double AF = 0;
 	private static final double GF = 0.1;
 	private static final double TMIN = 1;
-	private static final double TMAX = 55;
+	private static final double TMAX = 1000;
 	private double myGravity;
 	private double myAirFriction;
 	private double myGroundFriction;
