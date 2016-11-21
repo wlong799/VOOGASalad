@@ -16,6 +16,8 @@ public class Game {
 	private Level myFirstSceneAsLevel;
 	//private TransitionMenu myFirstSceneAsMenu;
 	
+	private Level myCurrentLevel;
+	
 	public Game() {
 		myLevels = new ArrayList<>();
 	}
@@ -30,6 +32,14 @@ public class Game {
 	
 	public List<Level> getAllLevels() {
 		return myLevels;
+	}
+	
+	public void setCurrentLevel(Level currentLevel) {
+		myCurrentLevel = currentLevel;
+	}
+	
+	public Level getCurrentLevel() {
+		return myCurrentLevel;
 	}
 	
 	/* 

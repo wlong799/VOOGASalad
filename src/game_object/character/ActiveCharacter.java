@@ -4,6 +4,7 @@ import java.util.List;
 
 import game_object.core.DefaultConstants;
 import game_object.core.Dimension;
+import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.core.Velocity;
 
@@ -37,30 +38,33 @@ abstract class ActiveCharacter extends AbstractCharacter implements ITriggerable
 		myJumpingUnit = jumpingUnit;
 	}
 
+	/* IMover Implementations */
 	@Override
 	public void moveRight() {
-		myPosition.setX(myPosition.getX() + myMovingUnit);
+		myVelocity.setXVelocity(myMovingUnit);
 	}
 	
 	@Override
 	public void moveLeft() {
-		myPosition.setX(myPosition.getX() - myMovingUnit);
+		myVelocity.setXVelocity(-myMovingUnit);
 	}
 
 	@Override
 	public void moveUp() {
-		myPosition.setY(myPosition.getY() - myMovingUnit);
+		ExceptionThrower.notYetSupported();
 	}
 
 	@Override
 	public void moveDown() {
-		myPosition.setY(myPosition.getY() + myMovingUnit);
+		ExceptionThrower.notYetSupported();
 	}
 
 	@Override
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
-		myVelocity.setYVelocity(myJumpingUnit);
+		myVelocity.setYVelocity(-myJumpingUnit);
 	}
+	/* ---IMover Implementations END---*/
+	
 	
 	/* IPhysicsBody Implementations */	
 	@Override
