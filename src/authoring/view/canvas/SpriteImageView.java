@@ -1,7 +1,5 @@
 package authoring.view.canvas;
 
-import java.io.File;
-
 import authoring.AuthoringController;
 import authoring.View;
 import game_object.core.ISprite;
@@ -40,9 +38,8 @@ public class SpriteImageView extends View {
 	}
 	
 	private void initImageAndSprite(String path) {
-		Image image = new Image(new File(path).toURI().toString());
+		Image image = new Image(path);
 		imageView = new ImageView(image);
-		
 		
 		this.setWidth(image.getWidth());
 		this.setHeight(image.getHeight());
