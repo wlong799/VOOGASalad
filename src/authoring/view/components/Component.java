@@ -38,8 +38,12 @@ public class Component {
         try {
             Constructor<? extends ISprite> spriteConstructor = myTemplateSprite.getClass().getConstructor(
                     Position.class, Dimension.class, List.class);
-            sprite = spriteConstructor.newInstance(myTemplateSprite.getPosition(), myTemplateSprite.getDimension(),
-                    myTemplateSprite.getImagePaths());
+            Position oldPos = myTemplateSprite.getPosition();
+            Position newPos = new Position(oldPos.getX(), oldPos.getY(), oldPos.getZ());
+            Dimension oldDim = myTemplateSprite.getDimension();
+            Dimension newDim = new Dimension(oldDim.getWidth(), oldDim.getHeight());
+            List<String> newImagePaths = new ArrayList<>(myTemplateSprite.getImagePaths());
+            sprite = spriteConstructor.newInstance(newPos, newDim, newImagePaths);
         } catch (Exception e) {
             System.out.println(COPY_ERROR);
             e.printStackTrace();

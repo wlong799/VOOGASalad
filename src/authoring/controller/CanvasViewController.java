@@ -249,9 +249,8 @@ public class CanvasViewController {
     }
 
     /**
-     * @param id
      * @param x
-     * @param y  x and y are positions relative to screen
+     * @param y x and y are positions relative to screen
      */
     private void makeAndAddSpriteView(double x, double y) {
         SpriteView spView = myCanvas.getController().getComponentController().makeSpriteViewFromCopiedSprite(myCanvas);
