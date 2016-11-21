@@ -7,7 +7,7 @@ package game_engine.physics;
  * @author Grant Costa
  */
 public class PhysicsParameters {
-	private static final double G = 20;
+	private static final double G = 50;
 	private static final double AF = 0;
 	private static final double GF = 0.1;
 	private static final double TMIN = 1;

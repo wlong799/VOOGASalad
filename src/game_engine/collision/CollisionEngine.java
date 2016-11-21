@@ -103,8 +103,8 @@ public class CollisionEngine extends AbstractCollisionEngine{
             double blockLeft = blockBoundary.left();
             double blockRight = blockBoundary.right();
             
-            boolean couldLandOnBlock = (charLeft >= blockLeft && charLeft <= blockRight) ||
-                                       (charRight >= blockLeft && charRight <= blockRight);
+            boolean couldLandOnBlock = (charLeft > blockLeft && charLeft < blockRight) ||
+                                       (charRight > blockLeft && charRight < blockRight);
             System.out.println(charBottom);
             System.out.println(blockTop);
             System.out.println(couldLandOnBlock);
