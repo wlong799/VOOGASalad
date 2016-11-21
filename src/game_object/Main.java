@@ -4,7 +4,10 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import game_engine.GameEngine;
+import game_object.character.Hero;
+import game_object.core.ISprite;
 import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
 import javafx.animation.KeyFrame;
@@ -14,15 +17,16 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
 public class Main extends Application {
+	
+	private Scene scene;
+	
     public static void main (String[] args) {
         launch(args);
     }
@@ -36,7 +40,7 @@ public class Main extends Application {
         GameEngine object = new GameEngine(l);
         Stage s = new Stage();
         Group g = new Group();
-        Scene scene = new Scene(g, 600, 600, Color.WHITE);
+        scene = new Scene(g, 600, 600, Color.WHITE);
         s.setScene(scene);
         s.show();
         Map<ISpriteVisualization, ImageView> spriteViewMap =
@@ -52,6 +56,7 @@ public class Main extends Application {
             spriteViewMap.put(sp, image);
             g.getChildren().add(image);
         }
+        addHeroControls(l);
         KeyFrame frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
                                       new EventHandler<ActionEvent>() {
                                           @Override
@@ -77,4 +82,28 @@ public class Main extends Application {
         animation.getKeyFrames().add(frame);
         animation.play();
     }
+    
+    private void addHeroControls(Level l) {
+    	for (ISprite sp : l.getAllSprites()) {
+    		if (sp instanceof Hero) {
+    			Hero hero = (Hero) sp;
+    			scene.setOnKeyPressed(event -> {
+    				switch (event.getCode()) {
+    				case W:
+    					hero.moveUp();
+    				case A:
+    					hero.moveLeft();
+    				case S:
+    					hero.moveDown();
+    				case D:
+    					hero.moveRight();
+    				default:
+    					break;
+    				}
+    			});
+    			break;
+    		}
+    	}
+    }
+    
 }
