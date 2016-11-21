@@ -18,6 +18,7 @@ import game_object.core.Velocity;
 
 public class CollisionEngine extends AbstractCollisionEngine{
 
+    private static final double COLLISION_THRESHOLD = 10.0;
     @Override
     public void checkCollisions (List<Hero> heroes,
                                  List<Enemy> enemies,
@@ -102,13 +103,15 @@ public class CollisionEngine extends AbstractCollisionEngine{
             double blockLeft = blockBoundary.left();
             double blockRight = blockBoundary.right();
             
-            boolean couldLandOnBlock = (charLeft > blockLeft && charLeft < blockRight) ||
-                                       (charRight > blockLeft && charRight < blockRight);
-
-            if (charTop >= blockBottom && couldLandOnBlock) {
+            boolean couldLandOnBlock = (charLeft >= blockLeft && charLeft <= blockRight) ||
+                                       (charRight >= blockLeft && charRight <= blockRight);
+            System.out.println(charBottom);
+            System.out.println(blockTop);
+            System.out.println(couldLandOnBlock);
+            if ((charTop+COLLISION_THRESHOLD) >= blockBottom && couldLandOnBlock) {
                 return CollisionDirection.BOTTOM;
             }
-            else if (charBottom <= blockTop &&
+            else if ((charBottom-COLLISION_THRESHOLD) <= blockTop &&
                      couldLandOnBlock) {
                 return CollisionDirection.TOP;
             }

@@ -41,8 +41,8 @@ public class LevelGenerator {
 		
 		level.setLevelDimension(new Dimension(2000, 800));
 		
-		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), heroImages);
-		hero.setVelocity(new Velocity(50,0));
+		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 60), heroImages);
+		hero.setVelocity(new Velocity(40, -80));
 		hero.setImageStyle(ImageStyle.FIT);
 		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
