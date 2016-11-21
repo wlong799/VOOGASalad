@@ -65,9 +65,9 @@ public class GameEngine_Game implements IGameEngine {
 	}
 
 	public void draw() {
-		
+
 	}
-	
+
 	@Override
 	public void update(double elapsedTime) {
 		setElapsedTime(elapsedTime);
@@ -137,5 +137,5 @@ public class GameEngine_Game implements IGameEngine {
 	private void executeInput() {
 		myInputController.executeInput();
 	}
-	
+
 }

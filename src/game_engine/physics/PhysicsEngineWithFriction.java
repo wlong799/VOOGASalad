@@ -11,7 +11,7 @@ public class PhysicsEngineWithFriction extends PhysicsEngine {
 
 	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
 		double vx = body.getVelocity().getXVelocity();
-		double friction = (calculateNewVerticalVelocity(body, elapsedTime) == 0) ? myParams.getGroundFriction()
+		double friction = (body.getVelocity().getYVelocity() == 0) ? myParams.getGroundFriction()
 				: myParams.getAirFriction();
 		double newvx = vx * (1 - friction);
 		if (newvx < myParams.getMinThreshold()) {
