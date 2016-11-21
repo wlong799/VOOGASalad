@@ -17,8 +17,11 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 
 	@Override
 	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
-	    
+
 		double vx = body.getVelocity().getXVelocity();
+		if (calculateNewVerticalVelocity(body, elapsedTime) == 0) {
+			vx = 0;
+		}
 		return vx;
 	}
 
@@ -29,7 +32,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		double newx = x + elapsedTime * vx;
 		return newx;
 	}
-	
+
 	@Override
 	protected double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
 		double vy = body.getVelocity().getYVelocity();
@@ -47,12 +50,12 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		double newy = y + elapsedTime * vy;
 		return newy;
 	}
-	
+
 	public Position calculateNewPosition(IPhysicsBody body, double elapsedTime) {
 		return new Position(calculateNewHorizontalPosition(body, elapsedTime),
 				calculateNewVerticalPosition(body, elapsedTime));
 	}
-	
+
 	public Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime) {
 		return new Velocity(calculateNewHorizontalVelocity(body, elapsedTime),
 				calculateNewVerticalVelocity(body, elapsedTime));

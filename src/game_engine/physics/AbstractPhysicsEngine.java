@@ -1,8 +1,5 @@
 package game_engine.physics;
 
-import java.util.List;
-
-import game_object.core.AbstractSprite;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.simulation.IPhysicsBody;

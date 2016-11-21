@@ -2,6 +2,11 @@ package game_engine.physics;
 
 import game_object.simulation.IPhysicsBody;
 
+/**
+ * Added air friction and ground friction to the model
+ * 
+ * @author Charlie Wang
+ */
 public class PhysicsEngineWithFriction extends PhysicsEngine {
 
 	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
