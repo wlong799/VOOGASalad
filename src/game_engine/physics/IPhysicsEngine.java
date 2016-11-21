@@ -11,9 +11,9 @@ import game_object.simulation.IPhysicsBody;
  */
 public interface IPhysicsEngine {
 
-	public Position calculateNewPosition(IPhysicsBody body, double elapsedTime);
+	public Position calculateNewPosition(IPhysicsBody body, double elapsedTime, boolean exist);
 	
-	public Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime);
+	public Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime, boolean exist);
 	
 	public void updateHorizontalPositionAndVelocity(double newx, double newvx, IPhysicsBody body);
 	

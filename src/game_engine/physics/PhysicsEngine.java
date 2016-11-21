@@ -16,19 +16,18 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	}
 
 	@Override
-	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
-
+	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime, boolean exist) {
 		double vx = body.getVelocity().getXVelocity();
-		if (calculateNewVerticalVelocity(body, elapsedTime) == 0) {
+		if (calculateNewVerticalVelocity(body, elapsedTime) == 0 && !exist) {
 			vx = 0;
 		}
 		return vx;
 	}
 
 	@Override
-	protected double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime) {
+	protected double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime, boolean exist) {
 		double x = body.getPosition().getX();
-		double vx = calculateNewHorizontalVelocity(body, elapsedTime);
+		double vx = calculateNewHorizontalVelocity(body, elapsedTime, exist);
 		double newx = x + elapsedTime * vx;
 		return newx;
 	}
@@ -51,13 +50,13 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		return newy;
 	}
 
-	public Position calculateNewPosition(IPhysicsBody body, double elapsedTime) {
-		return new Position(calculateNewHorizontalPosition(body, elapsedTime),
+	public Position calculateNewPosition(IPhysicsBody body, double elapsedTime, boolean exist) {
+		return new Position(calculateNewHorizontalPosition(body, elapsedTime, exist),
 				calculateNewVerticalPosition(body, elapsedTime));
 	}
 
-	public Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime) {
-		return new Velocity(calculateNewHorizontalVelocity(body, elapsedTime),
+	public Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime, boolean exist) {
+		return new Velocity(calculateNewHorizontalVelocity(body, elapsedTime, exist),
 				calculateNewVerticalVelocity(body, elapsedTime));
 	}
 

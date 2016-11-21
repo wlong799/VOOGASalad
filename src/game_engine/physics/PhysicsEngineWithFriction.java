@@ -9,11 +9,14 @@ import game_object.simulation.IPhysicsBody;
  */
 public class PhysicsEngineWithFriction extends PhysicsEngine {
 
-	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
+	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime, boolean exist) {
 		double vx = body.getVelocity().getXVelocity();
-		double friction = (body.getVelocity().getYVelocity() == 0) ? myParams.getGroundFriction()
-				: myParams.getAirFriction();
-		double newvx = vx * (1 - friction);
+		double newvx = vx;
+		if (!exist) {
+			double friction = (body.getVelocity().getYVelocity() == 0) ? myParams.getGroundFriction()
+					: myParams.getAirFriction();
+			newvx = vx * (1 - friction);
+		}
 		if (newvx < myParams.getMinThreshold()) {
 			newvx = 0;
 		}
