@@ -24,7 +24,7 @@ import javafx.stage.Stage;
 
 public class ComponentsView extends View {
 
-	private List<Component> heroList, enemyList, blockList, personalizedList;
+	private List<Component> heroList, enemyList, blockList;
 	private HBox personalizedHBox;
 	private Button upload;
 	private TabPane tabPane;
@@ -161,6 +161,7 @@ public class ComponentsView extends View {
 		blockList = new ArrayList<>();
 		blockList.add(GameObjectConstants.BRICK);
 		blockList.add(GameObjectConstants.BUSH);
+		blockList.add(GameObjectConstants.STONE_BLOCK);
 	}
 	
 	private ComponentView createComponentView(List<Component> list, Component enemy) {
@@ -176,7 +177,6 @@ public class ComponentsView extends View {
 		uploadImage.setFitHeight(50);
 		uploadImage.setFitWidth(50);
 		upload.setGraphic(uploadImage);
-		personalizedList = new ArrayList<>();
 		initUploadButtonAction();
 		
 		return upload;
