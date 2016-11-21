@@ -1,10 +1,12 @@
 package game_object.acting;
 
+import javafx.scene.input.KeyCode;
+
 public class KeyEvent extends Event {
 
-	String myKey;
+	KeyCode myKey;
 	
-	public KeyEvent(String key) {
+	public KeyEvent(KeyCode key) {
 		super("KEY");
 		myKey = key;
 	}

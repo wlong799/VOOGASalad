@@ -2,9 +2,6 @@ package game_object;
 
 import game_engine.GameEngine;
 import game_object.level.Level;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
 
 public class Main {
     public static void main(String[] args){

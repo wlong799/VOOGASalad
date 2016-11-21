@@ -22,10 +22,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ComponentsView extends View {
+
 	private List<String> enemyList, blockList, personalizedList;
 	private HBox personalizedHBox;
 	private Button upload;
-	
 
 	public ComponentsView(AuthoringController controller) {
 		super(controller);
@@ -33,6 +33,10 @@ public class ComponentsView extends View {
 
 	@Override
 	protected void layoutSelf() {
+	}
+
+	@Override
+	protected void initUI() {
 		TabPane tabPane = new TabPane();
 		tabPane.setPrefHeight(this.getHeight());
 		tabPane.setPrefWidth(this.getWidth());
@@ -41,11 +45,6 @@ public class ComponentsView extends View {
 		initEnemyTab(tabPane);
 		initBlockTab(tabPane);
 		initUploadedTab(tabPane);
-	}
-
-	@Override
-	protected void initUI() {
-		
 	}
 	
 	protected void initEnemyTab(TabPane tabPane) {
@@ -123,7 +122,7 @@ public class ComponentsView extends View {
 	
 	protected void initEnemyGraphics(){
 		enemyList = new ArrayList<>();
-		
+
 		enemyList.add(GameObjectConstants.BLUE_SNAIL_FILE);
 		enemyList.add(GameObjectConstants.ELIZA_FILE);
 		enemyList.add(GameObjectConstants.ORANGE_MUSHROOM_FILE);
@@ -141,7 +140,7 @@ public class ComponentsView extends View {
 	protected ComponentView createComponentView(List<String> list, String enemy) {
 		ComponentView c = new ComponentView(this.getController());
 		c.setWidth(50);
-		c.setImagePath(enemy);
+		c.setComponent(enemy);
 		c.setTitleText(enemy);
 		return c;
 	}
