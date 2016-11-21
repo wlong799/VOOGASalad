@@ -1,6 +1,6 @@
 package authoring;
 
-import authoring.view.MainView;
+import authoring.view.AuthoringView;
 import game_object.LevelGenerator;
 import game_object.framework.Game;
 import game_object.level.Level;
@@ -15,7 +15,7 @@ public class AuthoringInitializer {
 	private double width;
 	private double height;
 	private Scene scn;
-	private MainView mainView;
+	private AuthoringView authoringView;
 	private AuthorEnvironment environment;
 	
 	public void init() {
@@ -33,9 +33,9 @@ public class AuthoringInitializer {
 		environment = initEnvironment();
 		
 		AuthoringController controller = new AuthoringController(environment);
-		mainView = new MainView(controller);
-		mainView.setPositionAndSize(0, 0, width, height);
-		mainView.layout();
+		authoringView = new AuthoringView(controller);
+		authoringView.setPositionAndSize(0, 0, width, height);
+		authoringView.layout();
 		
 		scn = initScene();
 		controller.setScene(scn);
@@ -55,15 +55,15 @@ public class AuthoringInitializer {
 	}
 
 	private Scene initScene() {
-		Scene scn = new Scene(mainView.getUI());
+		Scene scn = new Scene(authoringView.getUI());
 		
 		scn.widthProperty().addListener((val, oldWidth, newWidth) -> {
-			mainView.setWidth(newWidth.doubleValue());
-			mainView.layout();
+			authoringView.setWidth(newWidth.doubleValue());
+			authoringView.layout();
 		});
 		scn.heightProperty().addListener((val, oldHeight, newHeight) -> {
-			mainView.setHeight(newHeight.doubleValue());
-			mainView.layout();
+			authoringView.setHeight(newHeight.doubleValue());
+			authoringView.layout();
 		});
 		return scn;
 	}
