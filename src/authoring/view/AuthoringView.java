@@ -1,7 +1,6 @@
 package authoring.view;
 
 import authoring.AuthoringController;
-import authoring.View;
 import authoring.view.canvas.CanvasView;
 import authoring.view.components.ComponentsView;
 import authoring.view.inspector.InspectorView;
@@ -9,7 +8,7 @@ import authoring.view.menu.GameMenuFactory;
 import authoring.view.menu.GameMenuView;
 import javafx.scene.layout.GridPane;
 
-public class AuthoringView extends View {
+public class AuthoringView extends AbstractView {
     private static final double MENU_HEIGHT = 35;
     private static final double COMPONENT_HEIGHT = 250;
     private static final double INSPECTOR_WIDTH = 300;
@@ -45,10 +44,11 @@ public class AuthoringView extends View {
         myGridContent.add(myComponents.getUI(), 0, 2, 2, 1);
 
         addUI(myGridContent);
+        addSubViews(myGameMenu, myCanvas, myInspector, myComponents);
     }
 
     @Override
-    protected void layoutSelf() {
+    protected void updateLayoutSelf() {
         if (getWidth() < THRESHOLD_WIDTH) {
             if (myGridContent.getChildren().contains(myInspector.getUI())) {
                 myGridContent.getChildren().remove(myInspector.getUI());
@@ -77,19 +77,15 @@ public class AuthoringView extends View {
         double middleHeight = getHeight() < THRESHOLD_HEIGHT ? getHeight() - PADDING - MENU_HEIGHT :
                 getHeight() - MENU_HEIGHT - COMPONENT_HEIGHT - (2 * PADDING);
 
-        myGameMenu.setPositionAndSize(0, 0, getWidth(), MENU_HEIGHT);
-        myCanvas.setPositionAndSize(0, 0, getWidth() < THRESHOLD_WIDTH ? getWidth() :
+        myGameMenu.setSize(getWidth(), MENU_HEIGHT);
+        myCanvas.setSize(getWidth() < THRESHOLD_WIDTH ? getWidth() :
                 getWidth() - PADDING - INSPECTOR_WIDTH, middleHeight);
         if (getWidth() >= THRESHOLD_WIDTH) {
-            myInspector.setPositionAndSize(0, 0, INSPECTOR_WIDTH, middleHeight);
+            myInspector.setSize(INSPECTOR_WIDTH, middleHeight);
         }
         if (getHeight() >= THRESHOLD_HEIGHT) {
-            myComponents.setPositionAndSize(0, 0, getWidth(), COMPONENT_HEIGHT);
+            myComponents.setSize(getWidth(), COMPONENT_HEIGHT);
         }
-        myGameMenu.layout();
-        myCanvas.layout();
-        myInspector.layout();
-        myComponents.layout();
     }
 }
 

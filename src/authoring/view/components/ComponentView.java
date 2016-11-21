@@ -1,7 +1,7 @@
 package authoring.view.components;
 
 import authoring.AuthoringController;
-import authoring.View;
+import authoring.view.AbstractView;
 import authoring.constants.UIConstants;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 
-public class ComponentView extends View {
+public class ComponentView extends AbstractView {
 
 	private ImageView imageView;
 	private VBox box;
@@ -31,7 +31,7 @@ public class ComponentView extends View {
 	}
 
 	@Override
-	protected void layoutSelf() {
+	protected void updateLayoutSelf() {
 	}
 
 	@Override

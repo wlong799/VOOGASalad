@@ -34,8 +34,8 @@ public class AuthoringInitializer {
 		
 		AuthoringController controller = new AuthoringController(environment);
 		authoringView = new AuthoringView(controller);
-		authoringView.setPositionAndSize(0, 0, width, height);
-		authoringView.layout();
+		authoringView.setSize(width, height);
+		authoringView.updateLayout();
 		
 		scn = initScene();
 		controller.setScene(scn);
@@ -59,11 +59,11 @@ public class AuthoringInitializer {
 		
 		scn.widthProperty().addListener((val, oldWidth, newWidth) -> {
 			authoringView.setWidth(newWidth.doubleValue());
-			authoringView.layout();
+			authoringView.updateLayout();
 		});
 		scn.heightProperty().addListener((val, oldHeight, newHeight) -> {
 			authoringView.setHeight(newHeight.doubleValue());
-			authoringView.layout();
+			authoringView.updateLayout();
 		});
 		return scn;
 	}

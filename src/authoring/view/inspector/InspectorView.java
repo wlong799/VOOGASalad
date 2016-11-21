@@ -1,7 +1,7 @@
 package authoring.view.inspector;
 
 import authoring.AuthoringController;
-import authoring.View;
+import authoring.view.AbstractView;
 import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
 import authoring.view.canvas.SpriteView;
@@ -12,7 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 
-public class InspectorView extends View implements ISubscriber {
+public class InspectorView extends AbstractView implements ISubscriber {
 	
 	private SpriteView inspectedSpriteView;
 	private VBox configs;
@@ -46,7 +46,7 @@ public class InspectorView extends View implements ISubscriber {
 	}
 
 	@Override
-	protected void layoutSelf() {
+	protected void updateLayoutSelf() {
 		configs.setPrefWidth(this.getWidth());
 		configs.setPrefHeight(this.getHeight());
 	}
