@@ -42,10 +42,10 @@ public class CollisionEngine extends AbstractCollisionEngine{
                                                 List<StaticBlock> blocks) {
         for (ICharacter c : characters) {
             for (StaticBlock block : blocks) {
-                System.out.println("Character at " + c.getPosition());
+                //System.out.println("Character at " + c.getPosition());
                 double r = c.getPosition().getX() + c.getDimension().getWidth();
-                System.out.println("Character right at " +r);
-                System.out.println("Block at " + block.getPosition());
+                //System.out.println("Character right at " +r);
+                //System.out.println("Block at " + block.getPosition());
                 if ((c.getCategoryBitMask() & block.getCollisionBitMask()) != 0) {
                     CollisionDirection collision = getBlockAndCharacterCollision(c, block);
 
