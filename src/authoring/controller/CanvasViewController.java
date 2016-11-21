@@ -188,7 +188,7 @@ public class CanvasViewController {
 	}
 	
 	private void initSpriteViews() {
-		clearSpriteViews();
+		clearSpriteViews(true);
 		Level currentLevel = myEnvironment.getCurrentLevel();
 		if (currentLevel == null) {
 			throw new RuntimeException("no current level for canvas");
@@ -221,7 +221,7 @@ public class CanvasViewController {
 		spriteViews.sort(spViewComparator);
 		double hValue = myScrollPane.getHvalue();
 		double vValue = myScrollPane.getVvalue();
-		clearSpriteViews();
+		clearSpriteViews(false);
 		for (SpriteView spView : spriteViews) {
 			myContent.getChildren().add(spView.getUI());
 		}
@@ -286,9 +286,15 @@ public class CanvasViewController {
 		}
 	}
 	
-	private void clearSpriteViews() {
+	/**
+	 * @param data if spriteViews get cleared also
+	 */
+	private void clearSpriteViews(boolean data) {
 		myContent.getChildren().clear();
 		myContent.getChildren().add(myBackground);
+		if (data) {
+			spriteViews.clear();
+		}
 	}
 
 }

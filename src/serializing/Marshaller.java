@@ -16,26 +16,28 @@ import game_object.framework.Game;
 public class Marshaller {
 	
 	private XStream mySerializer;
+	private static final int FILE_OFFSET = 5;
+	//"file:" before the real file path
 	
 	public Marshaller() {
 		mySerializer = new XStream(new DomDriver());
 	}
 	
 	public void saveGame(Game game, String destPath) throws IOException {
-		try (Writer writer = new BufferedWriter(new FileWriter(destPath))) {
+		try (Writer writer = new BufferedWriter(new FileWriter(destPath.substring(FILE_OFFSET)))) {
 			String output = mySerializer.toXML(game);
 			writer.write(output);
 		}
 	}
 	
 	public Game loadGame(String srcPath) throws IOException {
-		try(BufferedReader br = new BufferedReader(new FileReader(srcPath))) {
+		try(BufferedReader br = new BufferedReader(new FileReader(srcPath.substring(FILE_OFFSET)))) {
 			return (Game)mySerializer.fromXML(br);
 		}
 	}
 	
 	public static void main(String[] args) {
-		String path = "data/game/test.xml";
+		String path = "file:data/game/test.xml";
 		Game testGame = new Game();
 		testGame.addLevel(LevelGenerator.getTestLevelA());
 		Marshaller test = new Marshaller();
