@@ -90,13 +90,16 @@ public class Main extends Application {
     			scene.setOnKeyPressed(event -> {
     				switch (event.getCode()) {
     				case W:
-    					hero.moveUp();
+    					hero.jumpUp();
+    					break;
     				case A:
     					hero.moveLeft();
+    					break;
     				case S:
-    					hero.moveDown();
+    					break;
     				case D:
     					hero.moveRight();
+    					break;
     				default:
     					break;
     				}
