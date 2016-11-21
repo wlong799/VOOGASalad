@@ -14,7 +14,7 @@ public class PhysicsEngineWithFriction extends PhysicsEngine {
 		double friction = (body.getVelocity().getYVelocity() == 0) ? myParams.getGroundFriction()
 				: myParams.getAirFriction();
 		double newvx = vx * (1 - friction);
-		if (newvx < myParams.getMinThreshold()) {
+		if (Math.abs(newvx) < myParams.getMinThreshold()) {
 			newvx = 0;
 		}
 		return newvx;
