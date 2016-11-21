@@ -61,7 +61,7 @@ public class GameEngine implements IGameEngine {
 		setElements(myCurrentLevel);
 	}
 
-	public void endCheck() {
+	private void endCheck() {
 		WinStatus ws = checkWin();
 		if (ws != WinStatus.GOON) {
 			// myCurrentLevel = myTransitionManager.readWinStatus(ws);
@@ -86,6 +86,7 @@ public class GameEngine implements IGameEngine {
 		}
 		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
 				myCurrentLevel.getStaticBlocks());
+		endCheck();
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {
