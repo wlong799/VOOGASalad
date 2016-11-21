@@ -7,10 +7,12 @@ import java.util.Optional;
 
 import authoring.AuthoringController;
 import authoring.View;
+import game_object.GameObjectType;
 import game_object.constants.GameObjectConstants;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -22,10 +24,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ComponentsView extends View {
-	
-	List<Component> EnemyList, BlockList, PersonalizedList;
-	HBox personalizedHBox;
-	Button upload;
+
+	private List<Component> enemyList, blockList, personalizedList;
+	private HBox personalizedHBox;
+	private Button upload;
 
 	public ComponentsView(AuthoringController controller) {
 		super(controller);
@@ -59,8 +61,8 @@ public class ComponentsView extends View {
 		
 		initEnemyGraphics();
 		
-		for (String enemy : EnemyList) {
-			ComponentView c = createComponentView(EnemyList, enemy);
+		for (Component enemy : enemyList) {
+			ComponentView c = createComponentView(enemyList, enemy);
 			hbox.getChildren().add(c.getUI());
 		}
 		enemyTab.setContent(scrollPane);
@@ -78,8 +80,8 @@ public class ComponentsView extends View {
 
 		initBlockGraphics();
 		
-		for (String block : BlockList) {
-			ComponentView component = createComponentView(BlockList, block);
+		for (Component block : blockList) {
+			ComponentView component = createComponentView(blockList, block);
 			hbox.getChildren().add(component.getUI());
 		}
 		blockTab.setContent(scrollPane);
@@ -121,27 +123,25 @@ public class ComponentsView extends View {
 	}
 	
 	protected void initEnemyGraphics(){
-		EnemyList = new ArrayList<>();
-		
-		EnemyList.add(GameObjectConstants.BLUE_SNAIL);
-		EnemyList.add(GameObjectConstants.ELIZA);
-		EnemyList.add(GameObjectConstants.ORANGE_MUSHROOM);
-		EnemyList.add(GameObjectConstants.RIBBON_PIG);
-		EnemyList.add(GameObjectConstants.SLIME);
+		enemyList = new ArrayList<>();
+
+		enemyList.add(GameObjectConstants.BLUE_SNAIL);
+		enemyList.add(GameObjectConstants.ELIZA);
+		enemyList.add(GameObjectConstants.ORANGE_MUSHROOM);
+		enemyList.add(GameObjectConstants.RIBBON_PIG);
+		enemyList.add(GameObjectConstants.SLIME);
 	}
 	
 	protected void initBlockGraphics(){
-		BlockList = new ArrayList<>();
-		
-		BlockList.add(GameObjectConstants.BRICK);
-		BlockList.add(GameObjectConstants.BUSH);
+		blockList = new ArrayList<>();
+		blockList.add(GameObjectConstants.BRICK);
+		blockList.add(GameObjectConstants.BUSH);
 	}
 	
-	protected ComponentView createComponentView(List<String> list, String enemy) {
+	protected ComponentView createComponentView(List<Component> list, Component enemy) {
 		ComponentView c = new ComponentView(this.getController());
 		c.setWidth(50);
-		c.setImagePath(enemy);
-		c.setTitleText(enemy);
+		c.setComponent(enemy);
 		return c;
 	}
 	
@@ -151,7 +151,7 @@ public class ComponentsView extends View {
 		uploadImage.setFitHeight(50);
 		uploadImage.setFitWidth(50);
 		upload.setGraphic(uploadImage);
-		PersonalizedList = new ArrayList<>();
+		personalizedList = new ArrayList<>();
 		initUploadButtonAction();
 		
 		return upload;
@@ -162,21 +162,37 @@ public class ComponentsView extends View {
 			
 			File userFile = userChosenFile();
 			String userFileName = userChosenName();
+			String userSpriteType = userChosenType();
 			
 			if ((!userFileName.equals("") && (userFile != null)))  {
-				updatePersonalizedList(userFile.toURI().toString(), userFileName);
+				updatePersonalizedList(userFile.toURI().toString(), userFileName, userSpriteType);
 			}
 				
 		});
 	}
 
-	private void updatePersonalizedList(String filePath, String imageName) {
+	private void updatePersonalizedList(String filePath, String imageName, String spriteType) {
+
 		ComponentView c = new ComponentView(this.getController());
 		c.setWidth(50);
-		c.setImagePath(filePath);
-		c.setTitleText(imageName);
+		
+		Component personalizedComponent = new Component(spriteType(spriteType), imageName, filePath);
+		c.setComponent(personalizedComponent
+				);
 		personalizedHBox.getChildren().add(c.getUI());
 		
+	}
+	
+	private GameObjectType spriteType(String input) {
+		switch (input) {
+		case "Hero":
+			return GameObjectType.Hero;
+		case "Enemy":
+			return GameObjectType.Enemy;
+		case "Block":
+			return GameObjectType.StaticBlock;
+		}
+		return GameObjectType.Hero;
 	}
 	
 	private File userChosenFile(){
@@ -194,6 +210,23 @@ public class ComponentsView extends View {
 		Optional<String> result = dialog.showAndWait();
 		return result.isPresent() ? result.get() : "";
 	}
+	
+	private String userChosenType(){
+		List<String> spriteTypes = new ArrayList<>();
+		spriteTypes.add("Hero");
+		spriteTypes.add("Enemy");
+		spriteTypes.add("Block");
+		
+		ChoiceDialog<String> typeChooser = new ChoiceDialog<>("Hero", spriteTypes);
+		typeChooser.setTitle("Choose your type!");
+		typeChooser.setHeaderText(null);
+		typeChooser.setContentText("Please choose which type of character you image will be");
+		
+		Optional<String> result = typeChooser.showAndWait();
+		return result.isPresent() ? result.get() : "Hero";
+	}
+	
+	
 	
 	
 
