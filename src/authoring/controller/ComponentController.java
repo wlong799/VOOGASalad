@@ -29,10 +29,13 @@ public class ComponentController {
 		switch(type) {
 		case Enemy:
 			sprite = new Enemy(new Position(0, 0), new Dimension(0, 0), path);
+			break;
 		case Hero:
 			sprite = new Hero(new Position(0, 0), new Dimension(0, 0), path);
+			break;
 		case StaticBlock:
 			sprite = new StaticBlock(new Position(0, 0), new Dimension(0, 0), path);
+			break;
 		}
 		SpriteView spView = new SpriteView(canvas.getController());
 		spView.setSprite(sprite);
