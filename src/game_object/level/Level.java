@@ -34,6 +34,7 @@ public class Level implements ILevelVisualization {
 		myEnemies = new ArrayList<>();
 		myStaticBlocks = new ArrayList<>();
 		myTriggers = new ArrayList<>();
+		myLevelDimension = new Dimension(0, 0);
 	}
 	
 	public List<ISprite> getAllSprites() {
@@ -73,6 +74,18 @@ public class Level implements ILevelVisualization {
 	/* ---Transitions END--- */
 	
 	/* Add/Remove specific sprites */
+	public void addSprite(ISprite sprite) {
+		if (sprite instanceof Hero) {
+			addHero((Hero)sprite);
+		}
+		else if (sprite instanceof Enemy) {
+			addEnemy((Enemy)sprite);
+		}
+		else if (sprite instanceof StaticBlock) {
+			addStaticBlock((StaticBlock)sprite);
+		}
+	}
+	
 	public void removeSprite(ISprite sprite) {
 		if (sprite instanceof Hero) {
 			removeHero((Hero)sprite);

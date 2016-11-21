@@ -6,7 +6,7 @@ import authoring.constants.UIConstants;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -18,21 +18,16 @@ import javafx.scene.layout.VBox;
 public class ComponentView extends View {
 
 	private ImageView imageView;
-	private Label title;
 	private VBox box;
-	private String imagePath;
+	private Component myComponent;
 
 	public ComponentView(AuthoringController controller) {
 		super(controller);
 	}
 
-	public void setTitleText(String text) {
-		title.setText(text);
-	}
-	
-	public void setImagePath(String path) {
-		imagePath = path;
-		setImage(new Image(imagePath));
+	public void setComponent(Component component) {
+		myComponent = component;
+		updateUI();
 	}
 
 	@Override
@@ -42,10 +37,9 @@ public class ComponentView extends View {
 	@Override
 	protected void initUI() {
 		imageView = new ImageView();
-		title = new Label("");
 		box = new VBox();
 		box.setAlignment(Pos.CENTER);
-		box.getChildren().addAll(imageView, title);
+		box.getChildren().addAll(imageView);
 		box.setPrefWidth(this.getWidth());
 		box.setPrefHeight(this.getHeight());
 		box.setAlignment(Pos.CENTER);
@@ -58,11 +52,14 @@ public class ComponentView extends View {
 		setOnDrag();
 	}
 	
-	private void setImage(Image img) {
-		imageView.setImage(img);
+	private void updateUI() {
+		imageView.setImage(new Image(myComponent.getImagePath()));
+		Tooltip tip = new Tooltip(myComponent.getTitle());
+		Tooltip.install(imageView, tip);
 	}
 
 	private void setOnDrag() {
+		AuthoringController controller = this.getController();
 		imageView.setOnDragDetected(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent event) {
 				/* drag was detected, start a drag-and-drop gesture*/
@@ -71,7 +68,7 @@ public class ComponentView extends View {
 
 				/* Put a string on a dragboard */
 				ClipboardContent content = new ClipboardContent();
-				content.putString(imagePath);
+				content.putString(controller.getComponentController().component2ID(myComponent));
 				db.setContent(content);
 
 				event.consume();

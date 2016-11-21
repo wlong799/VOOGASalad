@@ -8,10 +8,8 @@ import authoring.constants.UIConstants;
 import authoring.view.canvas.CanvasView;
 import authoring.view.canvas.SpriteView;
 import authoring.view.canvas.SpriteViewComparator;
-import game_object.block.StaticBlock;
 import game_object.core.Dimension;
 import game_object.core.ISprite;
-import game_object.core.Position;
 import game_object.level.Level;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -170,12 +168,14 @@ public class CanvasViewController {
 	// MARK: adjuster buttons
 	public void expand() {
 		myBackground.setWidth(myBackground.getWidth()+UIConstants.SCREEN_CHANGE_INTERVAL);
+		myEnvironment.getCurrentLevel().getLevelDimension().setWidth(myBackground.getWidth());
 	}
 	
 	public void shrink() {
 		if (myBackground.getWidth() > UIConstants.CANVAS_STARTING_WIDTH){
 			myBackground.setWidth(myBackground.getWidth()-UIConstants.SCREEN_CHANGE_INTERVAL);
 		}
+		myEnvironment.getCurrentLevel().getLevelDimension().setWidth(myBackground.getWidth());
 	}
 	
 	// relative positions to absolute
@@ -188,13 +188,11 @@ public class CanvasViewController {
 	}
 	
 	private void initSpriteViews() {
-		clearSpriteViews();
+		clearSpriteViews(true);
 		Level currentLevel = myEnvironment.getCurrentLevel();
 		if (currentLevel == null) {
 			throw new RuntimeException("no current level for canvas");
 		}
-		double maxRight = Double.MIN_VALUE;
-		double maxBot = Double.MIN_VALUE;
 		for (ISprite sp : currentLevel.getAllSprites()) {
 			SpriteView spView = new SpriteView(myCanvas.getController());
 			Dimension dim = new Dimension(sp.getDimension().getWidth(), sp.getDimension().getHeight());
@@ -204,11 +202,9 @@ public class CanvasViewController {
 			spView.setDimensionWidth(dim.getWidth());
 			//TODO extract component class to save default dimension height and width for a component
 			//avoid setting dimension with image width and height
-			maxRight = Math.max(dim.getWidth() + sp.getPosition().getX(), maxRight);
-			maxBot = Math.max(dim.getHeight() + sp.getPosition().getY(), maxBot);
 		}
-		myBackground.setWidth(Math.max(myBackground.getWidth(), maxRight));
-		myBackground.setHeight(Math.max(myBackground.getHeight(), maxBot));
+		myBackground.setWidth(currentLevel.getLevelDimension().getWidth());
+		myBackground.setHeight(currentLevel.getLevelDimension().getHeight());
 	}
 	
 	private void retrieveScrollPaneSize() {
@@ -225,7 +221,7 @@ public class CanvasViewController {
 		spriteViews.sort(spViewComparator);
 		double hValue = myScrollPane.getHvalue();
 		double vValue = myScrollPane.getVvalue();
-		clearSpriteViews();
+		clearSpriteViews(false);
 		for (SpriteView spView : spriteViews) {
 			myContent.getChildren().add(spView.getUI());
 		}
@@ -263,17 +259,12 @@ public class CanvasViewController {
 	 * @param x
 	 * @param y
 	 * x and y are positions relative to screen
-	 * TEMPORARY - block is initialized as StaticBlock
 	 */
 	private void makeAndAddSpriteView(String id, double x, double y) {
-		ArrayList<String> path = new ArrayList<String>();
-		path.add(id);
-		StaticBlock block = new StaticBlock(new Position(0, 0), new Dimension(0, 0), path);
-		SpriteView spView = new SpriteView(myCanvas.getController());
-		spView.setSprite(block);
+		SpriteView spView = myCanvas.getController().getComponentController().makeSpriteViewWithID(id, myCanvas);
 		this.add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
 		myCanvas.getController().selectSpriteView(spView);
-		myEnvironment.getCurrentLevel().addStaticBlock(block);
+		myEnvironment.getCurrentLevel().addSprite(spView.getSprite());
 	}
 	
 	private void adjustScrollPane(double x, double y) {
@@ -295,9 +286,15 @@ public class CanvasViewController {
 		}
 	}
 	
-	private void clearSpriteViews() {
+	/**
+	 * @param data if spriteViews get cleared also
+	 */
+	private void clearSpriteViews(boolean data) {
 		myContent.getChildren().clear();
 		myContent.getChildren().add(myBackground);
+		if (data) {
+			spriteViews.clear();
+		}
 	}
 
 }
