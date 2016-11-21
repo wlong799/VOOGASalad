@@ -1,8 +1,5 @@
 package game_object.character;
 
-import java.util.ArrayList;
-
-import game_object.acting.ActionTrigger;
 
 /**
  * An interface representing all the sprites/character that will move
@@ -15,8 +12,5 @@ public interface IMover {
 	void moveUp();
 	void moveDown();
 	void jumpUp();
-	
-	ArrayList<ActionTrigger> getActionTriggers();
-	void setActionTriggers(ArrayList<ActionTrigger> ats);
 	
 }
