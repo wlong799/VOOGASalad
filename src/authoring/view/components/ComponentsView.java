@@ -9,6 +9,7 @@ import authoring.AuthoringController;
 import authoring.View;
 import game_object.GameObjectType;
 import game_object.constants.GameObjectConstants;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
@@ -106,7 +107,6 @@ public class ComponentsView extends View {
 			hbox.getChildren().add(component.getUI());
 		}
 		blockTab.setContent(scrollPane);
-		
 	}
 	
 	private void initUploadedTab() {
@@ -140,6 +140,7 @@ public class ComponentsView extends View {
 		HBox hbox = new HBox();
 		hbox.setSpacing(20);
 		hbox.setAlignment(Pos.CENTER);
+		hbox.setPadding(new Insets(0, 0, 0, 10));
 		return hbox;
 	}
 	
@@ -184,6 +185,7 @@ public class ComponentsView extends View {
 	private void initUploadButtonAction(){
 		upload.setOnAction((event) -> {
 			File userFile = userChosenFile();
+			if (userFile == null) return;
 			String userFileName = userChosenName();
 			String userSpriteType = userChosenType();
 			
