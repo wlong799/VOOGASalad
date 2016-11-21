@@ -82,9 +82,8 @@ public class GameEngine implements IGameEngine {
 	public void update(double elapsedTime) {
 		setElapsedTime(elapsedTime);
 		executeInput();
-		boolean exist = myInputController.getInputExist();
 		for (ISprite s : mySprites) {
-			updateNewParameters(s, exist);
+			updateNewParameters(s);
 		}
 		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
 				myCurrentLevel.getStaticBlocks());
@@ -92,10 +91,10 @@ public class GameEngine implements IGameEngine {
 		endCheck();
 	}
 
-	private void updateNewParameters(IPhysicsBody body, boolean exist) {
+	private void updateNewParameters(IPhysicsBody body) {
 		if (body.getAffectedByPhysics()) {
-			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime, exist);
-			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime, exist);
+			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
+			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
 		}
 	}

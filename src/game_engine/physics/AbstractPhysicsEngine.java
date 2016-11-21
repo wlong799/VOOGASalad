@@ -20,13 +20,13 @@ public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
 
 	protected abstract double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime);
 
-	protected abstract double calculateNewHorizontalPosition(IPhysicsBody sprite, double elapsedTime, boolean exist);
+	protected abstract double calculateNewHorizontalPosition(IPhysicsBody sprite, double elapsedTime);
 
-	protected abstract double calculateNewHorizontalVelocity(IPhysicsBody sprite, double elapsedTime, boolean exist);
+	protected abstract double calculateNewHorizontalVelocity(IPhysicsBody sprite, double elapsedTime);
 
-	public abstract Position calculateNewPosition(IPhysicsBody body, double elapsedTime, boolean exist);
+	public abstract Position calculateNewPosition(IPhysicsBody body, double elapsedTime);
 
-	public abstract Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime, boolean exist);
+	public abstract Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime);
 
 	public void updateHorizontalPositionAndVelocity(double newx, double newvx, IPhysicsBody body) {
 		body.getPosition().setX(newx);
