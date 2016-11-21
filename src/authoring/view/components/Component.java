@@ -33,15 +33,16 @@ public class Component {
         myDescription = description;
     }
 
-    public ISprite getSprite() {
+    public ISprite copySpriteFromTemplate() {
         ISprite sprite = null;
         try {
             Constructor<? extends ISprite> spriteConstructor = myTemplateSprite.getClass().getConstructor(
-                    Position.class, Dimension.class, String.class);
+                    Position.class, Dimension.class, List.class);
             sprite = spriteConstructor.newInstance(myTemplateSprite.getPosition(), myTemplateSprite.getDimension(),
                     myTemplateSprite.getImagePaths());
         } catch (Exception e) {
             System.out.println(COPY_ERROR);
+            e.printStackTrace();
         }
         return sprite;
     }

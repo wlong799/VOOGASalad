@@ -198,7 +198,7 @@ public class ComponentsView extends AbstractView {
     private void updatePersonalizedList(String filePath, String imageName, String spriteType) {
         ComponentView c = new ComponentView(this.getController());
         c.setWidth(50);
-        Component personalizedComponent = new Component(spriteType(spriteType), imageName, filePath);
+        Component personalizedComponent = new Component(spriteType(spriteType), filePath, imageName, imageName);
         c.setComponent(personalizedComponent);
         personalizedHBox.getChildren().add(c.getUI());
     }
