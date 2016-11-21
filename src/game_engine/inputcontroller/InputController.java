@@ -34,10 +34,11 @@ public class InputController implements IInputController {
 		}
 		event = myList.get(0);
 		List<ActionTrigger> trigger = myLevel.getTriggersWithEvent(event);
-		
+
 		for (ActionTrigger actionTrigger : trigger) {
 			chooseAction(actionTrigger);
 		}
+		// System.out.println(exist);
 	}
 
 	private void chooseAction(ActionTrigger at) {
@@ -52,13 +53,15 @@ public class InputController implements IInputController {
 			exist = true;
 		} else if (at.getActionName() == ActionName.JUMP) {
 			IMover m = (IMover) sprite;
-			m.jumpUp();
+			if (sprite.getVelocity().getYVelocity() == 0) {
+				m.jumpUp();
+			}
 		} else if (at.getActionName() == ActionName.SHOOT) {
 			ICharacter c = (ICharacter) sprite;
 			c.shoot();
 		}
 	}
-	
+
 	public boolean getInputExist() {
 		return exist;
 	}

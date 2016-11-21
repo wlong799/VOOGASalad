@@ -82,6 +82,7 @@ public class GameEngine implements IGameEngine {
 	public void update(double elapsedTime) {
 		setElapsedTime(elapsedTime);
 		executeInput();
+		myPhysicsEngine.setExisted(myInputController.getInputExist());
 		for (ISprite s : mySprites) {
 			updateNewParameters(s);
 		}

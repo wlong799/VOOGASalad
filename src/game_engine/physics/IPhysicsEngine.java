@@ -28,4 +28,6 @@ public interface IPhysicsEngine {
 	public void updatePositionAndVelocity(Position position, Velocity velocity, IPhysicsBody body);
 	
 	public void setParameters(PhysicsParameterSetOptions option, double value);
+	
+	public void setExisted(boolean exist);
 }

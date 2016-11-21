@@ -11,6 +11,7 @@ import game_object.simulation.IPhysicsBody;
  */
 public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
 	protected PhysicsParameters myParams;
+	protected boolean existLeftRight;
 
 	protected AbstractPhysicsEngine() {
 		myParams = new PhysicsParameters();
@@ -58,5 +59,9 @@ public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
 			updatePosition(position, body);
 			updateVelocity(velocity, body);
 		}
+	}
+	
+	public void setExisted(boolean exist) {
+		existLeftRight = exist;
 	}
 }
