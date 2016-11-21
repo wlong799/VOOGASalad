@@ -96,7 +96,6 @@ public class Main extends Application {
     					hero.moveLeft();
     					break;
     				case S:
-    					hero.moveDown();
     					break;
     				case D:
     					hero.moveRight();
