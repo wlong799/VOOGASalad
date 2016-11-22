@@ -68,13 +68,13 @@ public class Component {
         List<String> path = new ArrayList<>();
         path.add(imagePath);
         switch (gameObjectType) {
-            case Enemy:
+            case ENEMY:
                 sprite = new Enemy(new Position(0, 0), new Dimension(0, 0), path);
                 break;
-            case Hero:
+            case HERO:
                 sprite = new Hero(new Position(0, 0), new Dimension(0, 0), path);
                 break;
-            case StaticBlock:
+            case STATIC_BLOCK:
                 sprite = new StaticBlock(new Position(0, 0), new Dimension(0, 0), path);
                 break;
         }

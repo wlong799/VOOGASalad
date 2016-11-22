@@ -20,7 +20,6 @@ public class ComponentListView extends AbstractView {
     private static final class ComponentViewCell extends ListCell<ComponentView> {
         @Override
         public void updateItem(ComponentView item, boolean empty) {
-            super.updateItem(item, empty);
             if (item != null) {
                 setGraphic(item.getUI());
             }
@@ -31,13 +30,13 @@ public class ComponentListView extends AbstractView {
     private ListView<ComponentView> myListView;
     private ObservableList<ComponentView> myComponentList;
 
-    public ComponentListView(AuthoringController controller, GameObjectType gameObjectType) {
+    private ComponentListView(AuthoringController controller, GameObjectType gameObjectType) {
         super(controller);
         myGameObjectType = gameObjectType;
     }
 
-    public void addComponent(Component component) {
-        // TODO: 11/21/16 add based on game object type
+    public void addComponent(String imagePath, String title, String description) {
+        Component component = new Component(myGameObjectType, imagePath, title, description);
         ComponentView componentView = new ComponentView(getController());
         componentView.setComponent(component);
         myComponentList.add(componentView);
@@ -47,7 +46,8 @@ public class ComponentListView extends AbstractView {
     @Override
     protected void initUI() {
         myComponentList = FXCollections.observableArrayList();
-        myListView = new ListView<>(myComponentList);
+        myListView = new ListView<>();
+        myListView.setItems(myComponentList);
         myListView.setOrientation(Orientation.HORIZONTAL);
         myListView.setCellFactory(list -> new ComponentViewCell());
         addUI(myListView);
