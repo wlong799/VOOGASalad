@@ -17,9 +17,14 @@ import javafx.scene.control.ListView;
  * @version 11/21/16
  */
 public class ComponentListView extends AbstractView {
+    private static final int MAX_NUMBER_COMPONENTS_VIEWED = 10;
+    private static final double MIN_COMPONENT_WIDTH = 125;
+    private static final double COMPONENT_HEIGHT_RATIO = 0.9;
+
     private static final class ComponentViewCell extends ListCell<ComponentView> {
         @Override
         public void updateItem(ComponentView item, boolean empty) {
+            super.updateItem(item, empty);
             if (item != null) {
                 setGraphic(item.getUI());
             }
@@ -57,5 +62,9 @@ public class ComponentListView extends AbstractView {
     protected void updateLayoutSelf() {
         myListView.setPrefWidth(getWidth());
         myListView.setPrefHeight(getHeight());
+        getSubViews().forEach(subView -> {
+            subView.setHeight(getHeight() * COMPONENT_HEIGHT_RATIO);
+            subView.setWidth(Math.max(getWidth() / MAX_NUMBER_COMPONENTS_VIEWED, MIN_COMPONENT_WIDTH));
+        });
     }
 }
