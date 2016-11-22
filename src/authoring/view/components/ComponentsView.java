@@ -56,19 +56,14 @@ public class ComponentsView extends AbstractView {
         Tab heroTab = initTab("Hero");
         heroTab.setClosable(false);
         tabPane.getTabs().add(heroTab);
-
-        HBox hbox = initNewHBox();
-
-        ScrollPane scrollPane = initScrollPane();
-        scrollPane.setContent(hbox);
-
         initHeroGraphics();
+        ComponentListView heroListView = new ComponentListView(getController(), GameObjectType.Hero);
 
         for (Component hero : heroList) {
             ComponentView c = createComponentView(heroList, hero);
-            hbox.getChildren().add(c.getUI());
+            heroListView.addComponent(hero);
         }
-        heroTab.setContent(scrollPane);
+        heroTab.setContent(heroListView.getUI());
     }
 
     private void initEnemyTab() {
