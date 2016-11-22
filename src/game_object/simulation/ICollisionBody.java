@@ -10,4 +10,5 @@ public interface ICollisionBody extends IBodyWithPosition {
 	
 	int getCollisionBitMask();
 	
+	void onCollideWith(ICollisionBody otherBody);
 }

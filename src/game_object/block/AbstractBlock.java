@@ -1,32 +1,19 @@
 package game_object.block;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.ImageStyle;
+import game_object.core.Position;
 
-public abstract class AbstractBlock extends AbstractSprite implements IBlock {
+abstract class AbstractBlock extends AbstractSprite implements IBlock {
 
-	Dimension myDimension;
-	BlockCollisionBehavior myCollisionBehavior;
-	boolean myEffective; // effective for collision checking
-
-	protected AbstractBlock(double x, double y, ArrayList<String> imgPaths, BlockCollisionBehavior bcb) {
-		super(x, y, imgPaths);
-		myCollisionBehavior = bcb;
-		myEffective = true;
-		setImgStyle(ImageStyle.TILE);
-	}
-
-	@Override
-	public void setDimension(Dimension d) {
-		myDimension = d;
-	}
-
-	@Override
-	public Dimension getDimension() {
-		return myDimension;
+	protected BlockCollisionBehavior myCollisionBehavior = BlockCollisionBehavior.ALL_ALL_COLLISION;
+	
+	protected AbstractBlock(Position position, Dimension dimension, List<String> imagePaths) {
+		super(position, dimension, imagePaths);
+		myImageStyle = ImageStyle.TILE;
 	}
 
 	@Override
@@ -39,14 +26,4 @@ public abstract class AbstractBlock extends AbstractSprite implements IBlock {
 		this.myCollisionBehavior = collisionBehavior;
 	}
 	
-	@Override
-	public boolean isEffective() {
-		return myEffective;
-	}
-	
-	@Override
-	public void setEffective(boolean effective) {
-		myEffective = effective;
-	}
-
 }

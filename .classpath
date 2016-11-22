@@ -8,5 +8,7 @@
 	<classpathentry kind="lib" path="lib/xstream-1.4.9.jar"/>
 	<classpathentry kind="lib" path="lib/xstream-doc.jar"/>
 	<classpathentry kind="lib" path="lib/xstream-src.jar"/>
+	<classpathentry kind="lib" path="data"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

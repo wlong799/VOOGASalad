@@ -1,21 +1,26 @@
 package game_object.character;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import game_object.core.DefaultConstants;
+import game_object.core.Dimension;
+import game_object.core.ExceptionThrower;
+import game_object.core.Position;
+import game_object.core.Velocity;
 
 /**
  * A base class for all active characters, aka characters that can move.
  * @author Jay
  */
-public abstract class ActiveCharacter extends AbstractCharacter implements IMover {
-
-	protected ActiveCharacter(double x, double y, ArrayList<String> imgPaths, double maxHP) {
-		super(x, y, imgPaths, maxHP);
-	}
+abstract class ActiveCharacter extends AbstractCharacter implements ITriggerable {
 
 	private double myMovingUnit = DefaultConstants.MOVING_UNIT;
 	private double myJumpingUnit = DefaultConstants.JUMPING_UNIT;
+	private Velocity myVelocity = new Velocity(0, 0);
+	
+	protected ActiveCharacter(Position position, Dimension dimension, List<String> imagePaths) {
+		super(position, dimension, imagePaths);
+	}
 	
 	public double getMovingUnit() {
 		return myMovingUnit;
@@ -33,29 +38,48 @@ public abstract class ActiveCharacter extends AbstractCharacter implements IMove
 		myJumpingUnit = jumpingUnit;
 	}
 
+	/* IMover Implementations */
 	@Override
 	public void moveRight() {
-		myPosition.setX(myPosition.getX() + myMovingUnit);
+		myVelocity.setXVelocity(myMovingUnit);
 	}
 	
 	@Override
 	public void moveLeft() {
-		myPosition.setX(myPosition.getX() - myMovingUnit);
+		myVelocity.setXVelocity(-myMovingUnit);
 	}
 
 	@Override
 	public void moveUp() {
-		myPosition.setY(myPosition.getY() - myMovingUnit);
+		ExceptionThrower.notYetSupported();
 	}
 
 	@Override
 	public void moveDown() {
-		myPosition.setY(myPosition.getY() + myMovingUnit);
+		ExceptionThrower.notYetSupported();
 	}
 
 	@Override
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
-		myVelocity.setYVelocity(myJumpingUnit);
+		myVelocity.setYVelocity(-myJumpingUnit);
 	}
-
+	/* ---IMover Implementations END---*/
+	
+	
+	/* IPhysicsBody Implementations */	
+	@Override
+	public boolean getAffectedByPhysics() {
+		return true;
+	}
+	
+	@Override
+	public void setVelocity(Velocity velocity) {
+		myVelocity = velocity;
+	}
+	
+	@Override
+	public Velocity getVelocity() {
+		return myVelocity;
+	}
+	/* ---IPhysicsBody Implementations END--- */	
 }

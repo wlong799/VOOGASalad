@@ -3,28 +3,57 @@ package game_object.level;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_object.acting.ActionTrigger;
+import game_object.acting.Event;
 import game_object.background.Background;
-import game_object.block.AbstractBlock;
+import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.core.Dimension;
+import game_object.core.ISprite;
+import game_object.visualization.ILevelVisualization;
+import game_object.visualization.ISpriteVisualization;
 
 /**
  * A class representing a level.
  * @author Jay
  */
-public class Level {
+public class Level implements ILevelVisualization {
 
+	private Dimension myLevelDimension;
 	private Level myNextLevel;
 	private TransitionMenu myNextMenu;
 	private Background myBackground;
 	private List<Hero> myHeros;
 	private List<Enemy> myEnemies;
-	private List<AbstractBlock> myBlocks;
+	private List<StaticBlock> myStaticBlocks;
+	private List<ActionTrigger> myTriggers;
 	
 	public Level() {
 		myHeros = new ArrayList<>();
 		myEnemies = new ArrayList<>();
+		myStaticBlocks = new ArrayList<>();
+		myTriggers = new ArrayList<>();
+		myLevelDimension = new Dimension(0, 0);
 	}
+	
+	public List<ISprite> getAllSprites() {
+		List<ISprite> spriteList = new ArrayList<>();
+		spriteList.addAll(myHeros);
+		spriteList.addAll(myEnemies);
+		spriteList.addAll(myStaticBlocks);
+		return spriteList;
+	}
+	
+	/* Level Dimensions */
+	public void setLevelDimension(Dimension levelDimension) {
+		myLevelDimension = levelDimension;
+	}
+	
+	public Dimension getLevelDimension() {
+		return myLevelDimension;
+	}
+	/* ---Level Dimensions END ---*/
 	
 	/* Transitions. Note if getNextLevel() returns a non-null value,  getNextMenu() will be ignored. */
 	public void setNextLevel(Level nextLevel) {
@@ -42,8 +71,33 @@ public class Level {
 	public TransitionMenu getNextMenu() {
 		return myNextMenu;
 	}
+	/* ---Transitions END--- */
 	
 	/* Add/Remove specific sprites */
+	public void addSprite(ISprite sprite) {
+		if (sprite instanceof Hero) {
+			addHero((Hero)sprite);
+		}
+		else if (sprite instanceof Enemy) {
+			addEnemy((Enemy)sprite);
+		}
+		else if (sprite instanceof StaticBlock) {
+			addStaticBlock((StaticBlock)sprite);
+		}
+	}
+	
+	public void removeSprite(ISprite sprite) {
+		if (sprite instanceof Hero) {
+			removeHero((Hero)sprite);
+		}
+		else if (sprite instanceof Enemy) {
+			removeEnemy((Enemy)sprite);
+		}
+		else if (sprite instanceof StaticBlock) {
+			removeStaticBlock((StaticBlock)sprite);
+		}
+	}
+	
 	public void addHero(Hero hero) {
 		myHeros.add(hero);
 	}
@@ -60,6 +114,17 @@ public class Level {
 		myEnemies.remove(enemy);
 	}
 
+	public void addStaticBlock(StaticBlock staticBlock) {
+		myStaticBlocks.add(staticBlock);
+	}
+	
+	public void removeStaticBlock(StaticBlock staticBlock) {
+		myStaticBlocks.remove(staticBlock);
+	}
+	/* ---Add/Remove specific sprites END--- */
+	
+	
+	/* Accessors for background, characters and blocks */
 	public Background getBackground() {
 		return myBackground;
 	}
@@ -84,12 +149,54 @@ public class Level {
 		myEnemies = enemies;
 	}
 
-	public List<AbstractBlock> getBlocks() {
-		return myBlocks;
+	public List<StaticBlock> getStaticBlocks() {
+		return myStaticBlocks;
 	}
 
-	public void setBlocks(List<AbstractBlock> blocks) {
-		myBlocks = blocks;
+	public void setStaticBlocks(List<StaticBlock> blocks) {
+		myStaticBlocks = blocks;
 	}
+	/* ---Accessors for background, characters and blocks END--- */
+
+	
+	/* Events and Triggers */
+	public void addTrigger(ActionTrigger trigger) {
+		myTriggers.add(trigger);
+	}
+	
+	public void removeTrigger(ActionTrigger trigger) {
+		myTriggers.remove(trigger);
+	}
+	
+	public List<ActionTrigger> getTriggersWithEvent(Event event) {
+		List<ActionTrigger> triggersWithEvent = new ArrayList<>();
+		for (ActionTrigger trigger : myTriggers) {
+			if (trigger.getEvent().equals(event)) {
+				triggersWithEvent.add(trigger);
+			}
+		}
+		return triggersWithEvent;
+	}
+	/* ---Events and Triggers--- */
+
+	
+	/* ILevelVisualization Implementations */
+	List<ISpriteVisualization> mySpriteVisualizations;
+	
+	@Override
+	public void init() {
+		mySpriteVisualizations = new ArrayList<>();
+		List<ISprite> allSprites = getAllSprites();
+		allSprites.sort((s1, s2) ->
+			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
+		);
+		mySpriteVisualizations.addAll(allSprites);
+	}
+
+	@Override
+	public List<ISpriteVisualization> getAllSpriteVisualizations() {
+		return mySpriteVisualizations;
+	}
+	/* ---ILevelVisualization Implementations END--- */
 	
 }
