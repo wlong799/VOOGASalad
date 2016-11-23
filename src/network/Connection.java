@@ -5,6 +5,7 @@ import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import network.messages.Message;
 import network.server.Coordinator;
 
 /**

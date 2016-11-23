@@ -5,7 +5,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
 import network.Connection;
-import network.Message;
+import network.messages.Message;
 
 /**
  * The worker thread that remove message from the main message queue

@@ -8,9 +8,9 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.Connection;
-import network.Message;
 import network.client.NetworkClient;
 import network.exceptions.ServerDownException;
+import network.messages.Message;
 
 /**
  * The central coordination service. Its main purpose is to observe

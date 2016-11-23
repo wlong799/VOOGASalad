@@ -8,23 +8,31 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.Connection;
-import network.Message;
 import network.exceptions.ServerDownException;
+import network.messages.Message;
 
-
+/** 
+ * @author CharlesXu
+ */
 public class NetworkClient implements INetworkClient{
 	
 	private Socket socket;
+	private Connection connectionToServer;
 	private BlockingQueue<Message> inComingBuffer;
 	private Queue<Message> nonBlockingIncomingBuffer;
-	private Connection connectionToServer;
+	private Multiplexer mux;
 	
-	public NetworkClient() throws ServerDownException {
+	// TODO cx15 gamePlayer information obj
+	private String userName;
+	
+	public NetworkClient(String userName) throws ServerDownException {
 		try {
-			socket = new Socket(SERVER_NAME, SERVER_PORT);
+			this.userName = userName;
+			socket = new Socket(DEV_SERVER_NAME, SERVER_PORT);
 			inComingBuffer = new LinkedBlockingQueue<>();
 			connectionToServer = new Connection(inComingBuffer, socket);
 			nonBlockingIncomingBuffer = new LinkedList<>();
+			mux = new Multiplexer();
 			startReaderThread();
 		} catch (IOException e) {
 			throw new ServerDownException();
@@ -45,17 +53,30 @@ public class NetworkClient implements INetworkClient{
 	 * @return a queue of messages read ordered in time
 	 */
 	@Override
-	public Queue<Message> read() {
+	public Queue<Message> read(Class<?> messageType) {
+		Queue<Message> msgsReceived;
 		synchronized(nonBlockingIncomingBuffer) {
-			Queue<Message> ret = nonBlockingIncomingBuffer;
+			msgsReceived = nonBlockingIncomingBuffer;
 			nonBlockingIncomingBuffer = new LinkedList<>();
-			return ret;
 		}
+		for(Message msg : msgsReceived) {
+			msg.multiplex(mux);
+		}
+		Queue<Message> ret = mux.getMessageQueue(messageType);
+		mux.flush(messageType);
+		return ret;
 	}
 	
 	@Override
 	public void broadcast(Message msg) {
+		msg.setSender(userName);
 		connectionToServer.send(msg);
+	}
+	
+	@Override
+	public void disconnect() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	/**
@@ -87,4 +108,5 @@ public class NetworkClient implements INetworkClient{
 		};
 		reader.start();
 	}
+
 }

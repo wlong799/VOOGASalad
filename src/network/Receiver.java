@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
+import network.messages.Message;
 import network.server.Daemon;
 
 /**
