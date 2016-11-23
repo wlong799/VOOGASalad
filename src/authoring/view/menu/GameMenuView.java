@@ -1,7 +1,7 @@
 package authoring.view.menu;
 
 import authoring.AuthoringController;
-import authoring.View;
+import authoring.view.AbstractView;
 import javafx.scene.Parent;
 import javafx.scene.control.MenuBar;
 
@@ -13,7 +13,7 @@ import javafx.scene.control.MenuBar;
  * @author Will Long
  * @version 11/17/16
  */
-public class GameMenuView extends View {
+public class GameMenuView extends AbstractView {
 
     private MenuBar myMenuView;
 
@@ -36,7 +36,7 @@ public class GameMenuView extends View {
     }
 
     @Override
-    protected void layoutSelf() {
+    protected void updateLayoutSelf() {
         myMenuView.setPrefHeight(this.getHeight());
         myMenuView.setPrefWidth(this.getWidth());
     }

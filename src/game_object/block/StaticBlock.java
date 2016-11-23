@@ -23,7 +23,7 @@ public class StaticBlock extends AbstractBlock {
 	@Override
 	public void setAffectedByPhysics(boolean affectedByPhysics) {
 		if (affectedByPhysics) {
-			throw new IllegalArgumentException("StaticBlock shouldn't be affected by physics");
+			throw new IllegalArgumentException("STATIC_BLOCK shouldn't be affected by physics");
 		}
 	}
 
@@ -40,7 +40,7 @@ public class StaticBlock extends AbstractBlock {
 	@Override
 	public void setVelocity(Velocity velocity) {
 		if (velocity != null) {
-			throw new IllegalArgumentException("StaticBlock shouldn't be set a velocity");
+			throw new IllegalArgumentException("STATIC_BLOCK shouldn't be set a velocity");
 		}
 	}
 

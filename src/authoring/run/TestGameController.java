@@ -1,9 +1,9 @@
-package game_object;
+package authoring.run;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import authoring.AuthoringController;
 import game_engine.GameEngine;
 import game_object.character.Hero;
 import game_object.core.ISprite;
@@ -11,56 +11,48 @@ import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
+public class TestGameController {
 
-public class Main extends Application {
+	private AuthoringController myTopController;
+	private TestGameView myTestView;
+	private GameEngine myGameEngine;
 
-	private Scene scene;
-
-	public static void main (String[] args) {
-		launch(args);
+	public TestGameController(AuthoringController topController) {
+		myTopController = topController;
+		myTestView = new TestGameView(topController);
 	}
 
-	@Override
-	public void start (Stage primaryStage) throws Exception {
-		Level l = LevelGenerator.getTestLevelA();
-		l.init();
-		GameEngine object = new GameEngine(l);
-		Stage s = new Stage();
-		Group g = new Group();
-		scene = new Scene(g, 600, 600, Color.WHITE);
-		s.setScene(scene);
-		s.show();
+	public void showTestGame() {
+		Level level = myTopController.getEnvironment().getCurrentLevel();
+		level.init();
+		myGameEngine = new GameEngine(level);
+
+		myTestView.clearSpriteViews();
 		Map<ISpriteVisualization, ImageView> spriteViewMap =
 				new HashMap<ISpriteVisualization, ImageView>();
-		for (ISpriteVisualization sp : l.getAllSpriteVisualizations()) {
-			ImageView image =
-					new ImageView(new File(sp.getImagePath()).toURI().toString());// ,
+		for (ISpriteVisualization sp : level.getAllSpriteVisualizations()) {
+			ImageView image = new ImageView(sp.getImagePath());
 			image.setX(sp.getXForVisualization());
 			image.setY(sp.getYForVisualization());
 
 			image.setFitWidth(sp.getWidthForVisualization());
 			image.setFitHeight(sp.getHeightForVisualization());
 			spriteViewMap.put(sp, image);
-			g.getChildren().add(image);
+			
+			myTestView.addSpriteView(image);
 		}
-		addHeroControls(l);
+
 		KeyFrame frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
 				new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
-				object.update(5.0 / 60.0);
-				for (ISpriteVisualization sprite : spriteViewMap
-						.keySet()) {
+				myGameEngine.update(5.0 / 60.0);
+				for (ISpriteVisualization sprite : spriteViewMap.keySet()) {
 					spriteViewMap.get(sprite).setX(sprite.getXForVisualization());
 					spriteViewMap.get(sprite).setY(sprite.getYForVisualization());
 				}
@@ -71,13 +63,17 @@ public class Main extends Application {
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 		animation.play();
-	}
 
+		addHeroControls(level);
+		
+		myTestView.show();
+	}
+	
 	private void addHeroControls(Level l) {
 		for (ISprite sp : l.getAllSprites()) {
 			if (sp instanceof Hero) {
 				Hero hero = (Hero) sp;
-				scene.setOnKeyPressed(event -> {
+				myTestView.getScene().setOnKeyPressed(event -> {
 					switch (event.getCode()) {
 					case W:
 						hero.jumpUp();
