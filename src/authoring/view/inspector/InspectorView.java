@@ -8,9 +8,12 @@ import authoring.view.canvas.SpriteView;
 import game_object.core.ISprite;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class InspectorView extends AbstractView implements ISubscriber {
 	
@@ -21,6 +24,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	private VBox zBox;
 	private VBox widthBox;
 	private VBox heightBox;
+	private VBox keyInputBox;
 	
 	public interface ITextChangeHandler {
 		void handle(String newVal);
@@ -74,7 +78,8 @@ public class InspectorView extends AbstractView implements ISubscriber {
 				(newVal) -> {
 					inspectedSpriteView.setDimensionHeight(Double.parseDouble(newVal));
 				});
-		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox);
+		keyInputBox = unitTable();
+		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox, keyInputBox);
 	}
 	
 	private VBox makeDoubleInputBox(String title, double defaultValue, 
@@ -96,5 +101,26 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		});
 		return box;
 	}
+
+	private VBox unitTable(){
+		final VBox vbox = new VBox();
+		vbox.setSpacing(5);
+		vbox.setPadding((new Insets(5,5,5,5)));
+		
+		final Label label = new Label ("Action Type Key Inputs");
+		label.setFont(new Font("Arial", 20));
+		
+		TableView table = new TableView();
+		
+		TableColumn actionType = new TableColumn("Action Type");
+		TableColumn keyInput = new TableColumn("Key Input");
+		
+		table.getColumns().addAll(actionType, keyInput);
+		
+		vbox.getChildren().addAll(table, label);
+		
+		return vbox;
+	}
+	
 
 }
