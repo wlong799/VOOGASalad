@@ -25,6 +25,8 @@ public interface IAuthorEnvironment {
 	 */
 	void setCurrentGame(int index);
 	
+	void setCurrentGame(Game game);
+	
 	/**
 	 * Returns the game that the 
 	 * user is currently interacting with/

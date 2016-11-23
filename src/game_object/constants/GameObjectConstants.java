@@ -14,7 +14,6 @@ public class GameObjectConstants {
 	public static final String BUSH_FILE = "img/sprites/bush.png";
 	public static final String BRICK_FILE = "img/sprites/brick.png";
 	
-	
 	public static final Component BLUE_SNAIL = new Component(GameObjectType.Hero, "Blue Snail", BLUE_SNAIL_FILE);
 	public static final Component ELIZA = new Component(GameObjectType.Hero, "Eliza", ELIZA_FILE);
 	public static final Component ORANGE_MUSHROOM = new Component(GameObjectType.Hero, "Orange Mushroom", ORANGE_MUSHROOM_FILE);

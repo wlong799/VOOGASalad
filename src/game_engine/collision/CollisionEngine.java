@@ -18,6 +18,7 @@ import game_object.core.Velocity;
 
 public class CollisionEngine extends AbstractCollisionEngine{
 
+    private static final double COLLISION_THRESHOLD = 10.0;
     @Override
     public void checkCollisions (List<Hero> heroes,
                                  List<Enemy> enemies,
@@ -42,10 +43,10 @@ public class CollisionEngine extends AbstractCollisionEngine{
                                                 List<StaticBlock> blocks) {
         for (ICharacter c : characters) {
             for (StaticBlock block : blocks) {
-                System.out.println("Character at " + c.getPosition());
+                //System.out.println("Character at " + c.getPosition());
                 double r = c.getPosition().getX() + c.getDimension().getWidth();
-                System.out.println("Character right at " +r);
-                System.out.println("Block at " + block.getPosition());
+                //System.out.println("Character right at " +r);
+                //System.out.println("Block at " + block.getPosition());
                 if ((c.getCategoryBitMask() & block.getCollisionBitMask()) != 0) {
                     CollisionDirection collision = getBlockAndCharacterCollision(c, block);
 
@@ -104,11 +105,13 @@ public class CollisionEngine extends AbstractCollisionEngine{
             
             boolean couldLandOnBlock = (charLeft > blockLeft && charLeft < blockRight) ||
                                        (charRight > blockLeft && charRight < blockRight);
-
-            if (charTop >= blockBottom && couldLandOnBlock) {
+            System.out.println(charBottom);
+            System.out.println(blockTop);
+            System.out.println(couldLandOnBlock);
+            if ((charTop+COLLISION_THRESHOLD) >= blockBottom && couldLandOnBlock) {
                 return CollisionDirection.BOTTOM;
             }
-            else if (charBottom <= blockTop &&
+            else if ((charBottom-COLLISION_THRESHOLD) <= blockTop &&
                      couldLandOnBlock) {
                 return CollisionDirection.TOP;
             }
