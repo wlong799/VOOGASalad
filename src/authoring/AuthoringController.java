@@ -1,5 +1,7 @@
 package authoring;
 
+import java.io.File;
+
 import authoring.controller.CanvasViewController;
 import authoring.controller.ComponentController;
 import authoring.updating.AbstractPublisher;
@@ -63,6 +65,9 @@ public class AuthoringController extends AbstractPublisher {
 				canvasViewController.delete(selectedSpriteView);
 			}
 		});
+		File f = new File("css/style.css");
+		scene.getStylesheets().clear();
+		scene.getStylesheets().add(f.getPath());
 	}
 	
 	public void setMouseCursor(Cursor type) {
