@@ -2,7 +2,6 @@ package authoring.view.components;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
