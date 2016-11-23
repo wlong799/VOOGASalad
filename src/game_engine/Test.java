@@ -7,7 +7,7 @@ public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		Level level = LevelGenerator.getTestLevelB();
+		Level level = LevelGenerator.getTestLevelA();
 		GameEngine ge = new GameEngine(level);
 		ge.init();
 		for (int i = 0; i < 60; i++) {
