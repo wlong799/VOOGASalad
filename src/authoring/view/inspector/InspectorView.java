@@ -1,19 +1,31 @@
 package authoring.view.inspector;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
 import authoring.view.canvas.SpriteView;
+import game_object.acting.ActionName;
 import game_object.core.ISprite;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.util.Callback;
 
 public class InspectorView extends AbstractView implements ISubscriber {
 	
@@ -110,16 +122,30 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		final Label label = new Label ("Action Type Key Inputs");
 		label.setFont(new Font("Arial", 20));
 		
-		TableView table = new TableView();
+		TableView<ActionTypeKeyInput> table = new TableView<ActionTypeKeyInput>();
+		ObservableList<ActionTypeKeyInput> data = getInitialTableData();
+		table.getItems().addAll(data);
 		
-		TableColumn actionType = new TableColumn("Action Type");
-		TableColumn keyInput = new TableColumn("Key Input");
+		TableColumn<ActionTypeKeyInput, String> actionType = new TableColumn<ActionTypeKeyInput, String>("Action Type");
+		TableColumn<ActionTypeKeyInput, String> keyInput = new TableColumn<ActionTypeKeyInput, String>("Key Input");
 		
 		table.getColumns().addAll(actionType, keyInput);
+		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		
-		vbox.getChildren().addAll(table, label);
+		vbox.getChildren().addAll(label, table);
 		
 		return vbox;
+	}
+	
+	private ObservableList<ActionTypeKeyInput> getInitialTableData() {
+		
+		ActionTypeKeyInput left = new ActionTypeKeyInput (ActionName.MOVE_LEFT);
+		ActionTypeKeyInput right = new ActionTypeKeyInput (ActionName.MOVE_RIGHT);
+		ActionTypeKeyInput jump = new ActionTypeKeyInput (ActionName.JUMP);
+		ActionTypeKeyInput shoot = new ActionTypeKeyInput (ActionName.SHOOT);
+		
+		ObservableList<ActionTypeKeyInput> list = FXCollections.observableArrayList(left,right,jump,shoot);
+		return list;
 	}
 	
 
