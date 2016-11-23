@@ -228,37 +228,32 @@ public class CanvasViewController {
     }
 
     private void setOnDrag() {
-        myScrollPane.setOnDragOver(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                if (event.getDragboard().hasString()) {
-                    event.acceptTransferModes(TransferMode.COPY);
-                }
-                event.consume();
+        myScrollPane.setOnDragOver(event -> {
+            if (event.getDragboard().hasImage()) {
+                event.acceptTransferModes(TransferMode.COPY);
             }
+            event.consume();
         });
-        myScrollPane.setOnDragDropped(new EventHandler<DragEvent>() {
-            public void handle(DragEvent event) {
-                Dragboard db = event.getDragboard();
-                boolean success = false;
-                if (db.hasString()) {
-                    double x = event.getSceneX() - myCanvas.getPositionX();
-                    double y = event.getSceneY() - myCanvas.getPositionY();
-                    makeAndAddSpriteView(db.getString(), x, y);
-                    success = true;
-                }
-                event.setDropCompleted(success);
-                event.consume();
+        myScrollPane.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+            if (db.hasImage()) {
+                double x = event.getSceneX() - myCanvas.getPositionX();
+                double y = event.getSceneY() - myCanvas.getPositionY();
+                makeAndAddSpriteView(x, y);
+                success = true;
             }
+            event.setDropCompleted(success);
+            event.consume();
         });
     }
 
     /**
-     * @param id
      * @param x
-     * @param y  x and y are positions relative to screen
+     * @param y x and y are positions relative to screen
      */
-    private void makeAndAddSpriteView(String id, double x, double y) {
-        SpriteView spView = myCanvas.getController().getComponentController().makeSpriteViewWithID(id, myCanvas);
+    private void makeAndAddSpriteView(double x, double y) {
+        SpriteView spView = myCanvas.getController().getComponentController().makeSpriteViewFromCopiedSprite(myCanvas);
         this.add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
         myCanvas.getController().selectSpriteView(spView);
         myEnvironment.getCurrentLevel().addSprite(spView.getSprite());

@@ -17,8 +17,10 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 
 	@Override
 	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
-	    
 		double vx = body.getVelocity().getXVelocity();
+		if (calculateNewVerticalVelocity(body, elapsedTime) == 0 && !existLeftRight) {
+			vx = 0;
+		}
 		return vx;
 	}
 
@@ -29,13 +31,13 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		double newx = x + elapsedTime * vx;
 		return newx;
 	}
-	
+
 	@Override
 	protected double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
 		double vy = body.getVelocity().getYVelocity();
 		double newvy = vy + elapsedTime * myParams.getGravity();
-		if (newvy > myParams.getMaxThreshold()) {
-			newvy = myParams.getMaxThreshold();
+		if (Math.abs(newvy) > myParams.getMaxThreshold()) {
+			newvy = newvy > 0 ? myParams.getMaxThreshold() : -myParams.getMaxThreshold();
 		}
 		return newvy;
 	}
@@ -47,20 +49,20 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		double newy = y + elapsedTime * vy;
 		return newy;
 	}
-	
+
 	public Position calculateNewPosition(IPhysicsBody body, double elapsedTime) {
 		return new Position(calculateNewHorizontalPosition(body, elapsedTime),
 				calculateNewVerticalPosition(body, elapsedTime));
 	}
-	
+
 	public Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime) {
 		return new Velocity(calculateNewHorizontalVelocity(body, elapsedTime),
 				calculateNewVerticalVelocity(body, elapsedTime));
 	}
 
 	@Override
-	public void setParameters(String parameter, double value) {
-		if (parameter.equals("gravity")) {
+	public void setParameters(PhysicsParameterSetOptions option, double value) {
+		if (option == PhysicsParameterSetOptions.GRAVITY) {
 			myParams.setGravity(value);
 		}
 	}

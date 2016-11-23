@@ -42,6 +42,10 @@ public abstract class AbstractView {
         mySubViews.forEach(AbstractView::updateLayout);
     }
 
+    protected List<AbstractView> getSubViews() {
+        return mySubViews;
+    }
+
     public void addSubView(AbstractView view) {
         if (view.getParentView() != null) {
             throw new IllegalArgumentException(ILLEGAL_SUBVIEW_MESSAGE);

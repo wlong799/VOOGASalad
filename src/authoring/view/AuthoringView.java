@@ -2,7 +2,8 @@ package authoring.view;
 
 import authoring.AuthoringController;
 import authoring.view.canvas.CanvasView;
-import authoring.view.components.ComponentsView;
+import authoring.view.components.ComponentPanelFactory;
+import authoring.view.components.ComponentPanelView;
 import authoring.view.inspector.InspectorView;
 import authoring.view.menu.GameMenuFactory;
 import authoring.view.menu.GameMenuView;
@@ -20,7 +21,7 @@ public class AuthoringView extends AbstractView {
 
     private GameMenuView myGameMenu;
     private InspectorView myInspector;
-    private ComponentsView myComponents;
+    private ComponentPanelView myComponents;
     private CanvasView myCanvas;
 
     public AuthoringView(AuthoringController controller) {
@@ -36,7 +37,7 @@ public class AuthoringView extends AbstractView {
         myGameMenu = GameMenuFactory.createGameMenuView(this.getController());
         myCanvas = new CanvasView(this.getController());
         myInspector = new InspectorView(this.getController());
-        myComponents = new ComponentsView(this.getController());
+        myComponents = ComponentPanelFactory.createComponentPanelView(this.getController());
 
         myGridContent.add(myGameMenu.getUI(), 0, 0, 2, 1);
         myGridContent.add(myCanvas.getUI(), 0, 1, 1, 1);

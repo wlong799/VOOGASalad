@@ -55,7 +55,7 @@ public class AuthoringInitializer {
 	}
 
 	private Scene initScene() {
-		Scene scn = new Scene(authoringView.getUI());
+		Scene scn = new Scene(authoringView.getUI(), width, height);
 		
 		scn.widthProperty().addListener((val, oldWidth, newWidth) -> {
 			authoringView.setWidth(newWidth.doubleValue());
