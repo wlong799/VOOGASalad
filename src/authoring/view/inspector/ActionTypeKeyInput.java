@@ -9,7 +9,6 @@ import javafx.scene.input.KeyEvent;
 public class ActionTypeKeyInput {
 	
 	private ActionName actionName;
-	static String actionNameString;
 	private KeyEvent keyEvent;
 	private KeyCode keyInput;
 	private ISprite sprite;
@@ -24,8 +23,6 @@ public class ActionTypeKeyInput {
 		this.keyInput = key;
 		this.sprite = spriteToSet;
 		
-		this.actionNameString = actionNameToSet.toString();
-		
 		setActionTrigger();
 	}
 	
@@ -35,8 +32,11 @@ public class ActionTypeKeyInput {
 	 */
 	public ActionTypeKeyInput(ActionName actionNameToSet) {
 		this.actionName = actionNameToSet;
-		this.actionNameString = actionNameToSet.toString();
 		this.keyInput = null;
+	}
+	
+	public String getActionName() {
+		return this.actionName.toString();
 	}
 	
 	private void setActionTrigger() {

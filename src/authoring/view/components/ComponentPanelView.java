@@ -1,6 +1,7 @@
 package authoring.view.components;
 
 import authoring.AuthoringController;
+import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import game_object.constants.GameObjectConstants;
 import javafx.geometry.Pos;
@@ -40,6 +41,8 @@ public class ComponentPanelView extends AbstractView {
         myButtonImageView = new ImageView(GameObjectConstants.UPLOAD);
         myButtonImageView.setPreserveRatio(true);
         myComponentCreationButton = new Button();
+        myComponentCreationButton.setPrefHeight(UIConstants.BOTTOM_HEIGHT + 50);
+        myComponentCreationButton.setPrefWidth(200);
         myComponentCreationButton.setGraphic(myButtonImageView);
         setComponentCreationButtonAction();
 

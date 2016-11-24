@@ -12,6 +12,8 @@ import authoring.updating.ISubscriber;
 import authoring.view.canvas.SpriteView;
 import game_object.acting.ActionName;
 import game_object.core.ISprite;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -22,6 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.effect.Effect;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -37,6 +40,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	private VBox widthBox;
 	private VBox heightBox;
 	private VBox keyInputBox;
+	private TableView<ActionTypeKeyInput> table;
 	
 	public interface ITextChangeHandler {
 		void handle(String newVal);
@@ -58,6 +62,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	protected void initUI() {
 		this.getController().addSubscriber(this);
 		configs = new VBox();
+
 		this.addUI(configs);
 	}
 
@@ -70,23 +75,23 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	private void updateUI() {
 		configs.getChildren().clear();
 		ISprite sprite = inspectedSpriteView.getSprite();
-		xBox = makeDoubleInputBox("position X", sprite.getPosition().getX(), 
+		xBox = makeDoubleInputBox("Position X", sprite.getPosition().getX(), 
 				(newVal) -> {
 					inspectedSpriteView.setAbsolutePositionX(Double.parseDouble(newVal));
 				});
-		yBox = makeDoubleInputBox("position Y", sprite.getPosition().getY(), 
+		yBox = makeDoubleInputBox("Position Y", sprite.getPosition().getY(), 
 				(newVal) -> {
 					inspectedSpriteView.setAbsolutePositionY(Double.parseDouble(newVal));
 				});
-		zBox = makeDoubleInputBox("position Z", sprite.getPosition().getZ(),
+		zBox = makeDoubleInputBox("Position Z", sprite.getPosition().getZ(),
 				(newVal) -> {
 					inspectedSpriteView.setAbsolutePositionZ(Double.parseDouble(newVal));
 				});
-		widthBox = makeDoubleInputBox("width", sprite.getDimension().getWidth(),
+		widthBox = makeDoubleInputBox("Width", sprite.getDimension().getWidth(),
 				(newVal) -> {
 					inspectedSpriteView.setDimensionWidth(Double.parseDouble(newVal));
 				});
-		heightBox = makeDoubleInputBox("height", sprite.getDimension().getHeight(),
+		heightBox = makeDoubleInputBox("Height", sprite.getDimension().getHeight(),
 				(newVal) -> {
 					inspectedSpriteView.setDimensionHeight(Double.parseDouble(newVal));
 				});
@@ -98,6 +103,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 			ITextChangeHandler handler) {
 		VBox box = new VBox();
 		Label label = new Label(title);
+		label.setFont(Font.font("Segoe UI Semibold"));
 		TextField tf = new TextField(defaultValue + "");
 		box.getChildren().addAll(label, tf);
 		box.setPadding(new Insets(5,5,5,5));
@@ -122,30 +128,55 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		final Label label = new Label ("Action Type Key Inputs");
 		label.setFont(new Font("Arial", 20));
 		
-		TableView<ActionTypeKeyInput> table = new TableView<ActionTypeKeyInput>();
-		ObservableList<ActionTypeKeyInput> data = getInitialTableData();
-		table.getItems().addAll(data);
-		
-		TableColumn<ActionTypeKeyInput, String> actionType = new TableColumn<ActionTypeKeyInput, String>("Action Type");
-		TableColumn<ActionTypeKeyInput, String> keyInput = new TableColumn<ActionTypeKeyInput, String>("Key Input");
-		
-		table.getColumns().addAll(actionType, keyInput);
-		table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		
-		vbox.getChildren().addAll(label, table);
+		vbox.getChildren().addAll(label, getInitialTableData());
 		
 		return vbox;
 	}
 	
-	private ObservableList<ActionTypeKeyInput> getInitialTableData() {
+	@SuppressWarnings("unchecked")
+	private TableView<Map.Entry<String,String>> getInitialTableData() {
 		
-		ActionTypeKeyInput left = new ActionTypeKeyInput (ActionName.MOVE_LEFT);
-		ActionTypeKeyInput right = new ActionTypeKeyInput (ActionName.MOVE_RIGHT);
-		ActionTypeKeyInput jump = new ActionTypeKeyInput (ActionName.JUMP);
-		ActionTypeKeyInput shoot = new ActionTypeKeyInput (ActionName.SHOOT);
+		Map<String, String> map = new HashMap<>();
 		
-		ObservableList<ActionTypeKeyInput> list = FXCollections.observableArrayList(left,right,jump,shoot);
-		return list;
+		ActionTypeKeyInput actionTypeLeft = new ActionTypeKeyInput(ActionName.MOVE_LEFT);
+		ActionTypeKeyInput actionTypeRight = new ActionTypeKeyInput(ActionName.MOVE_RIGHT);
+		ActionTypeKeyInput actionTypeJump = new ActionTypeKeyInput(ActionName.JUMP);
+		ActionTypeKeyInput actionTypeShoot = new ActionTypeKeyInput(ActionName.SHOOT);
+		
+        map.put(actionTypeLeft.getActionName(), "None");
+        map.put(actionTypeRight.getActionName(), "None");
+        map.put(actionTypeJump.getActionName(), "None");
+        map.put(actionTypeShoot.getActionName(), "None");
+
+
+        // use fully detailed type for Map.Entry<String, String> 
+        TableColumn<Map.Entry<String, String>, String> column1 = new TableColumn<>("Action Type");
+        column1.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
+                // this callback returns property for just one cell, you can't use a loop here
+                // for first column we use key
+                return new SimpleStringProperty(p.getValue().getKey());
+            }
+        });
+
+        TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>("Key Input");
+        column2.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
+
+            @Override
+            public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
+                // for second column we use value
+                return new SimpleStringProperty(p.getValue().getValue());
+            }
+        });
+
+        ObservableList<Map.Entry<String, String>> items = FXCollections.observableArrayList(map.entrySet());
+        final TableView<Map.Entry<String,String>> table = new TableView<>(items);
+        table.getColumns().addAll(column1, column2);
+        table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+       return table;
 	}
 	
 
