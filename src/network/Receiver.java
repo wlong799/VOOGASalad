@@ -41,7 +41,7 @@ public class Receiver extends Thread {
 				Message msg = (Message) objectInputStream.readObject();
 				LOGGER.info("Receiver " + this.getId() + " received msg: " + msg);
 				if (msg instanceof SystemOperation) {
-					((SystemOperation)msg).execute(connection);
+					((SystemOperation<?>)msg).execute(connection);
 				} else {
 					inComingBuffer.put(msg);
 				}

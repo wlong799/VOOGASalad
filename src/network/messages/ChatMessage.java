@@ -5,29 +5,16 @@ import network.client.Multiplexer;
 /**
  * @author CharlesXu
  */
-public class ChatMessage extends AbstractMessage {
+public class ChatMessage extends AbstractMessage<String> {
 
 	private static final long serialVersionUID = -3340751700831119309L;
 	
-	private String payload;
-	
-	public ChatMessage(String obj) {
-		payload = obj;
+	public ChatMessage(String text) {
+		super(text);
 	}
 	
-	public ChatMessage(String sender, String obj) {
-		super(sender);
-		payload = obj;
-	}
-	
-	@Override
-	public String getPayload() {
-		return payload;
-	}
-	
-	@Override
-	public String toString() {
-		return payload.toString();
+	public ChatMessage(String sender, String text) {
+		super(sender, text);
 	}
 
 	@Override

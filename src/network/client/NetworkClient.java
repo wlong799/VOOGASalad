@@ -8,6 +8,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.Connection;
+import network.exceptions.JeopardyException;
 import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;
@@ -17,8 +18,6 @@ import network.messages.MessageType;
  * @author CharlesXu
  */
 public class NetworkClient implements INetworkClient{
-	
-	private static final String DUMMY_PAYLOAD = "";
 	
 	private Socket socket;
 	private Connection connectionToServer;
@@ -57,8 +56,10 @@ public class NetworkClient implements INetworkClient{
 	 * @return a queue of messages read ordered in time
 	 */
 	@Override
-	public Queue<Message> read(MessageType type) {
-		// TODO cx15 exception when lost connection or connection closed and try to send
+	public Queue<Message> read(MessageType type) throws JeopardyException {
+		if (connectionToServer.isClosed()) {
+			throw new JeopardyException();
+		}
 		Queue<Message> msgsReceived;
 		synchronized(nonBlockingIncomingBuffer) {
 			msgsReceived = nonBlockingIncomingBuffer;
@@ -74,6 +75,14 @@ public class NetworkClient implements INetworkClient{
 	
 	@Override
 	public void broadcast(Object payload, MessageType type)
+			throws MessageCreationFailureException, JeopardyException {
+		if (connectionToServer.isClosed()) {
+			throw new JeopardyException();
+		}
+		signAndsend(type, payload);
+	}
+	
+	private void signAndsend(MessageType type, Object... payload)
 			throws MessageCreationFailureException {
 		Message msg = type.build(payload);
 		msg.setSender(userName);
@@ -82,11 +91,13 @@ public class NetworkClient implements INetworkClient{
 	
 	@Override
 	public void disconnect() {
-		try {
-			broadcast(DUMMY_PAYLOAD, MessageType.DISCONNECT);
-			connectionToServer.close();
-		} catch (MessageCreationFailureException e) {
-			// well defined message, no way for exception
+		if (!connectionToServer.isClosed()) {
+			try {
+				signAndsend(MessageType.DISCONNECT);
+				connectionToServer.close();
+			} catch (MessageCreationFailureException e) {
+				// trusted code with well defined message, no way for exception
+			}
 		}
 	}
 

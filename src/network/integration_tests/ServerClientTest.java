@@ -3,6 +3,7 @@ package network.integration_tests;
 import java.io.IOException;
 
 import network.client.NetworkClient;
+import network.exceptions.JeopardyException;
 import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;
@@ -47,13 +48,14 @@ public class ServerClientTest {
 			System.out.println(c2.read(MessageType.CHAT).isEmpty());
 			System.out.println(c3.read(MessageType.CHAT).peek().toString());
 			System.out.println(c3.read(MessageType.CHAT).isEmpty());
-			c1.broadcast(SOME_MSG, MessageType.CHAT);
+			c1.broadcast(SOME_DIFF_MSG, MessageType.CHAT);
 			Thread.sleep(DELAY_MILLIS);
 			System.out.println(c2.read(MessageType.CHAT).peek().toString());
 			c2.disconnect();
 			cor.shutdown();
 		} catch (IOException | ServerDownException |
-				InterruptedException | MessageCreationFailureException e) {
+				InterruptedException | MessageCreationFailureException 
+				| JeopardyException e) {
 			e.printStackTrace();
 		}
 	}

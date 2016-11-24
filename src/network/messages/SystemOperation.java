@@ -4,29 +4,20 @@ import network.Connection;
 import network.client.Multiplexer;
 
 /**
- * Special type of message that contains no payload but
- * an operation to be execute on the counter party
+ * Special type of message that corresponds to some privileged
+ * operation to be execute on the counter party
  * @author CharlesXu
  */
-public abstract class SystemOperation extends AbstractMessage {
+public abstract class SystemOperation<T> extends AbstractMessage<T> {
 
 	private static final long serialVersionUID = -8441978966737291513L;
-
+	
 	public SystemOperation() {}
 	
-	public SystemOperation(String sender) {
-		super(sender);
-	}
+	public abstract void execute(Connection conn);
 	
-	@Override
-	public String getPayload() {
-		return null;
-	}
-
 	@Override
 	public void multiplex(Multiplexer mux) {
-		//no op
+		// default is no op
 	}
-	
-	public abstract void execute(Connection conn);
 }

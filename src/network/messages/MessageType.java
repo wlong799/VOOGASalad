@@ -18,7 +18,8 @@ public enum MessageType {
 	
 	CHAT ("network.messages.ChatMessage"),
 	KEYPRESS ("TODO"), // TODO cx15
-	DISCONNECT ("network.messages.Disconnect");
+	DISCONNECT ("network.messages.Disconnect"),
+	SESSION_LEASE ("TODO"); // TODO cx15
 	
 	private String className;
 	
@@ -26,7 +27,7 @@ public enum MessageType {
 		this.className = className;
 	}
 	
-	public Message build(Object payload)
+	public Message build(Object... payload)
 			throws MessageCreationFailureException{
 		Message msg = null;
 		try {
