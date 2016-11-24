@@ -20,6 +20,13 @@ public interface Message extends Serializable {
 	
 	void setSender(String sender);
 	
+	/**
+	 * There are many types of messages and each type might be handled
+	 * differently by the receiver. By Implementing this method differently
+	 * all subclasses of Message puts itself on the right buffer without
+	 * a big if tree.
+	 * @param mux a Multiplexer that provides access to all queues
+	 */
 	void multiplex(Multiplexer mux);
 
 }

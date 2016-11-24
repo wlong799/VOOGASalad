@@ -3,9 +3,11 @@ package network.integration_tests;
 import java.io.IOException;
 
 import network.client.NetworkClient;
+import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.ChatMessage;
 import network.messages.Message;
+import network.messages.MessageType;
 import network.server.Coordinator;
 
 /**
@@ -38,19 +40,20 @@ public class ServerClientTest {
 			NetworkClient c2 = new NetworkClient(USER_B);
 			NetworkClient c3 = new NetworkClient(USER_C);
 			Thread.sleep(DELAY_MILLIS);
-			c1.broadcast(new ChatMessage(SOME_MSG));
+			c1.broadcast(SOME_MSG, MessageType.CHAT);
 			Thread.sleep(DELAY_MILLIS);
-			Message m = c2.read(ChatMessage.class).peek();
+			Message m = c2.read(MessageType.CHAT).peek();
 			System.out.println(m.toString());
 			System.out.println(m.getSender());
-			System.out.println(c2.read(ChatMessage.class).isEmpty());
-			System.out.println(c3.read(ChatMessage.class).peek().toString());
-			System.out.println(c3.read(ChatMessage.class).isEmpty());
-			c1.broadcast(new ChatMessage(SOME_DIFF_MSG));
+			System.out.println(c2.read(MessageType.CHAT).isEmpty());
+			System.out.println(c3.read(MessageType.CHAT).peek().toString());
+			System.out.println(c3.read(MessageType.CHAT).isEmpty());
+			c1.broadcast(SOME_MSG, MessageType.CHAT);
 			Thread.sleep(DELAY_MILLIS);
-			System.out.println(c2.read(ChatMessage.class).peek().toString());
+			System.out.println(c2.read(MessageType.CHAT).peek().toString());
 			cor.shutdown();
-		} catch (IOException | ServerDownException | InterruptedException e) {
+		} catch (IOException | ServerDownException |
+				InterruptedException | MessageCreationFailureException e) {
 			e.printStackTrace();
 		}
 	}

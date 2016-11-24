@@ -2,6 +2,9 @@ package network.messages;
 
 import network.client.Multiplexer;
 
+/**
+ * @author CharlesXu
+ */
 public class ChatMessage extends AbstractMessage {
 
 	private static final long serialVersionUID = -3340751700831119309L;
@@ -29,6 +32,6 @@ public class ChatMessage extends AbstractMessage {
 
 	@Override
 	public void multiplex(Multiplexer mux) {
-		mux.getMessageQueue(this.getClass()).add(this);
+		mux.getMessageQueue(MessageType.CHAT).add(this);
 	}
 }

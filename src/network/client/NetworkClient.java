@@ -8,8 +8,10 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.Connection;
+import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;
+import network.messages.MessageType;
 
 /** 
  * @author CharlesXu
@@ -53,7 +55,7 @@ public class NetworkClient implements INetworkClient{
 	 * @return a queue of messages read ordered in time
 	 */
 	@Override
-	public Queue<Message> read(Class<?> messageType) {
+	public Queue<Message> read(MessageType type) {
 		Queue<Message> msgsReceived;
 		synchronized(nonBlockingIncomingBuffer) {
 			msgsReceived = nonBlockingIncomingBuffer;
@@ -62,20 +64,22 @@ public class NetworkClient implements INetworkClient{
 		for(Message msg : msgsReceived) {
 			msg.multiplex(mux);
 		}
-		Queue<Message> ret = mux.getMessageQueue(messageType);
-		mux.flush(messageType);
+		Queue<Message> ret = mux.getMessageQueue(type);
+		mux.flush(type);
 		return ret;
 	}
 	
 	@Override
-	public void broadcast(Message msg) {
+	public void broadcast(Object payload, MessageType type)
+			throws MessageCreationFailureException {
+		Message msg = type.build(payload);
 		msg.setSender(userName);
 		connectionToServer.send(msg);
 	}
 	
 	@Override
 	public void disconnect() {
-		// TODO Auto-generated method stub
+		// TODO cx15
 		
 	}
 	
