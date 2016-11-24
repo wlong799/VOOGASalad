@@ -7,6 +7,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
 import network.messages.Message;
+import network.messages.SystemOperation;
 import network.server.Daemon;
 
 /**
@@ -39,7 +40,11 @@ public class Receiver extends Thread {
 						new ObjectInputStream(socket.getInputStream());
 				Message msg = (Message) objectInputStream.readObject();
 				LOGGER.info("Receiver " + this.getId() + " received msg: " + msg);
-				inComingBuffer.put(msg);
+				if (msg instanceof SystemOperation) {
+					((SystemOperation)msg).execute(connection);
+				} else {
+					inComingBuffer.put(msg);
+				}
 			} catch (IOException | ClassNotFoundException e) {
 				// IOException : the socket is closed, or not connected, or input has been shutdown
 				// ClassNotFoundException: reflection failed

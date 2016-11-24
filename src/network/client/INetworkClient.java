@@ -36,4 +36,9 @@ public interface INetworkClient extends INetworkConfig {
 	 * Disconnect from server and gracefully clean up
 	 */
 	void disconnect();
+	
+	/**
+	 * reconnect to server
+	 */
+	void reconnect();
 }

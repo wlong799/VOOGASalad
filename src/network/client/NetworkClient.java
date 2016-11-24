@@ -18,6 +18,8 @@ import network.messages.MessageType;
  */
 public class NetworkClient implements INetworkClient{
 	
+	private static final String DUMMY_PAYLOAD = "";
+	
 	private Socket socket;
 	private Connection connectionToServer;
 	private BlockingQueue<Message> inComingBuffer;
@@ -56,6 +58,7 @@ public class NetworkClient implements INetworkClient{
 	 */
 	@Override
 	public Queue<Message> read(MessageType type) {
+		// TODO cx15 exception when lost connection or connection closed and try to send
 		Queue<Message> msgsReceived;
 		synchronized(nonBlockingIncomingBuffer) {
 			msgsReceived = nonBlockingIncomingBuffer;
@@ -79,6 +82,16 @@ public class NetworkClient implements INetworkClient{
 	
 	@Override
 	public void disconnect() {
+		try {
+			broadcast(DUMMY_PAYLOAD, MessageType.DISCONNECT);
+			connectionToServer.close();
+		} catch (MessageCreationFailureException e) {
+			// well defined message, no way for exception
+		}
+	}
+
+	@Override
+	public void reconnect() {
 		// TODO cx15
 		
 	}
@@ -112,5 +125,4 @@ public class NetworkClient implements INetworkClient{
 		};
 		reader.start();
 	}
-
 }

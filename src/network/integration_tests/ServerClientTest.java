@@ -5,7 +5,6 @@ import java.io.IOException;
 import network.client.NetworkClient;
 import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
-import network.messages.ChatMessage;
 import network.messages.Message;
 import network.messages.MessageType;
 import network.server.Coordinator;
@@ -51,6 +50,7 @@ public class ServerClientTest {
 			c1.broadcast(SOME_MSG, MessageType.CHAT);
 			Thread.sleep(DELAY_MILLIS);
 			System.out.println(c2.read(MessageType.CHAT).peek().toString());
+			c2.disconnect();
 			cor.shutdown();
 		} catch (IOException | ServerDownException |
 				InterruptedException | MessageCreationFailureException e) {

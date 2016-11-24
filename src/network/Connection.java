@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
 
 import network.messages.Message;
-import network.server.Coordinator;
 
 /**
  * A logical connection to another party. Use two threads as
@@ -14,6 +14,11 @@ import network.server.Coordinator;
  * @author CharlesXu
  */
 public class Connection {
+	
+	// TODO cx15 handshake to get connection information
+	
+	private static final Logger LOGGER =
+			Logger.getLogger( Connection.class.getName() );
 	
 	private Socket socket;
 	private BlockingQueue<Message> outGoingBuffer;
@@ -47,6 +52,7 @@ public class Connection {
 	 * 		   already closed.
 	 */
 	public synchronized void close() {
+		LOGGER.info("Connection closed");
 		this.isClosed = true;
 		try {
 			socket.close();

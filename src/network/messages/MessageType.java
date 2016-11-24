@@ -18,7 +18,7 @@ public enum MessageType {
 	
 	CHAT ("network.messages.ChatMessage"),
 	KEYPRESS ("TODO"), // TODO cx15
-	DISCONNECT ("TODO"); // TODO cx15 
+	DISCONNECT ("network.messages.Disconnect");
 	
 	private String className;
 	
