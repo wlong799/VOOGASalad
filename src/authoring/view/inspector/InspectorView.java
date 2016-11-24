@@ -1,11 +1,15 @@
 package authoring.view.inspector;
 
+import java.awt.Desktop.Action;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.AbstractAction;
+
 import authoring.AuthoringController;
+import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
@@ -13,19 +17,30 @@ import authoring.view.canvas.SpriteView;
 import game_object.acting.ActionName;
 import game_object.core.ISprite;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.effect.Effect;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.util.Callback;
@@ -119,7 +134,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		});
 		return box;
 	}
-
+	
 	private VBox unitTable(){
 		final VBox vbox = new VBox();
 		vbox.setSpacing(5);
@@ -128,7 +143,36 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		final Label label = new Label ("Action Type Key Inputs");
 		label.setFont(new Font("Arial", 20));
 		
-		vbox.getChildren().addAll(label, getInitialTableData());
+		Button btnLeft = new Button("Set Left");
+		Button btnRight = new Button("Set Right");
+		Button btnJump = new Button("Set Jump");
+		Button btnShoot = new Button("Set Shoot");
+
+		btnLeft.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		btnRight.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		btnJump.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		btnShoot.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+		
+		btnLeft.setFont(Font.font(10.3));
+		btnRight.setFont(Font.font(10.3));
+		btnJump.setFont(Font.font(10.3));
+		btnShoot.setFont(Font.font(10.3));
+
+		TilePane tileButtons = new TilePane(Orientation.HORIZONTAL);
+		tileButtons.setPadding(new Insets(8, 10, 8, 0));
+		tileButtons.setHgap(10.0);
+		tileButtons.setVgap(8.0);
+		tileButtons.getChildren().addAll(btnLeft, btnRight, btnJump, btnShoot);
+		
+//		Button setKeyInput = new Button("Set");
+//		setKeyInput.setPrefWidth(UIConstants.RIGHT_WIDTH + 100);
+//		setKeyInput.setOnAction(new EventHandler<ActionEvent>() {
+//			@Override public void handle(ActionEvent e) {
+//				//do this
+//			}
+//		});
+		
+		vbox.getChildren().addAll(label, getInitialTableData(), tileButtons);
 		
 		return vbox;
 	}
@@ -148,25 +192,44 @@ public class InspectorView extends AbstractView implements ISubscriber {
         map.put(actionTypeJump.getActionName(), "None");
         map.put(actionTypeShoot.getActionName(), "None");
 
-
-        // use fully detailed type for Map.Entry<String, String> 
         TableColumn<Map.Entry<String, String>, String> column1 = new TableColumn<>("Action Type");
         column1.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
 
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
-                // this callback returns property for just one cell, you can't use a loop here
-                // for first column we use key
                 return new SimpleStringProperty(p.getValue().getKey());
             }
         });
 
+        
+//        TableColumn<TableView, StringProperty> column = new TableColumn<>("option");
+//        column.setCellValueFactory(i -> {
+//            final StringProperty value = i.getValue().optionProperty();
+//            // binding to constant value
+//            return Bindings.createObjectBinding(() -> value);
+//        });
+//
+//        column.setCellFactory(col -> {
+//            TableCell<TableView, StringProperty> c = new TableCell<>();
+//            final ComboBox<String> comboBox = new ComboBox<>(options);
+//            c.itemProperty().addListener((observable, oldValue, newValue) -> {
+//                if (oldValue != null) {
+//                    comboBox.valueProperty().unbindBidirectional(oldValue);
+//                }
+//                if (newValue != null) {
+//                    comboBox.valueProperty().bindBidirectional(newValue);
+//                }
+//            });
+//            c.graphicProperty().bind(Bindings.when(c.emptyProperty()).then((Node) null).otherwise(comboBox));
+//            return c;
+//        });
+        
         TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>("Key Input");
+        
         column2.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Map.Entry<String, String>, String>, ObservableValue<String>>() {
 
             @Override
             public ObservableValue<String> call(TableColumn.CellDataFeatures<Map.Entry<String, String>, String> p) {
-                // for second column we use value
                 return new SimpleStringProperty(p.getValue().getValue());
             }
         });
@@ -178,6 +241,5 @@ public class InspectorView extends AbstractView implements ISubscriber {
 
        return table;
 	}
-	
 
 }
