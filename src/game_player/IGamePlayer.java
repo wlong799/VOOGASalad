@@ -23,7 +23,7 @@ public interface IGamePlayer {
 	
 	//Initial test method used in setting up an initial menu for game play 
 	//view
-	List<FakeGameInfo> getAllGameInfo();
+	//List<FakeGameInfo> getAllGameInfo();
 	
 	/**
 	 * on a frame by frame basis

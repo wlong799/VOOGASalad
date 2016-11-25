@@ -8,6 +8,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import game_object.framework.Game;
+import game_player_menu.GamePlayMenu;
 import javafx.animation.KeyFrame;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Point2D;
@@ -24,17 +25,17 @@ import javafx.util.Duration;
 public class GamePlayManager {
 	private Stage myStage;
 	private GamePlayMenu myMainMenu;
-	private XStream mySerializer = new XStream(new DomDriver());
-	private Game myCurrentGame;
+	private Scene myCurrentScene;
+	//private XStream mySerializer = new XStream(new DomDriver());
+	//private Game myCurrentGame;
 	
 	public void start(Stage s) {
 		myStage = s;
-		chooseGame();
+		myMainMenu = new GamePlayMenu(s);
+		
 	}
 	
-	public void chooseGame(){
-		myCurrentGame = (Game)mySerializer.fromXML("/sample_game/sample_game.xml");
-	}
+	
 	
 
 }
