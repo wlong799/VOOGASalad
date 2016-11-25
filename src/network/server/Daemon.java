@@ -30,7 +30,7 @@ public class Daemon extends Thread {
 				Socket clientSock = coordinator.getServerSocket().accept();
 				LOGGER.info("Daemon accepted new connection");
 				Connection conn = new Connection(
-						coordinator.getMessageQueue(), clientSock);
+						coordinator.getMessageQueue(), clientSock, false);
 				coordinator.addConnection(conn);
 			} catch (IOException e) {
 				// running out of file descriptor

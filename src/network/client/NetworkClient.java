@@ -33,7 +33,7 @@ public class NetworkClient implements INetworkClient{
 			this.userName = userName;
 			socket = new Socket(DEV_SERVER_NAME, SERVER_PORT);
 			inComingBuffer = new LinkedBlockingQueue<>();
-			connectionToServer = new Connection(inComingBuffer, socket);
+			connectionToServer = new Connection(inComingBuffer, socket, true);
 			nonBlockingIncomingBuffer = new LinkedList<>();
 			mux = new Multiplexer();
 			startReaderThread();

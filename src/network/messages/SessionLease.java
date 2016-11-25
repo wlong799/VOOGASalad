@@ -1,6 +1,7 @@
 package network.messages;
 
 import network.Connection;
+import network.exceptions.MessageCreationFailureException;
 
 public class SessionLease extends SystemOperation<String> {
 	
@@ -14,7 +15,12 @@ public class SessionLease extends SystemOperation<String> {
 
 	@Override
 	public void execute(Connection conn) {
-		// TODO cx15 reset timer
+		conn.setLastActiveMillis(System.currentTimeMillis());
+		try {
+			conn.send(MessageType.SESSION_LEASE_GRANTED.build());
+		} catch (MessageCreationFailureException e) {
+			// trusted code
+		}
 	}
 
 }

@@ -20,5 +20,6 @@ public class Disconnect extends SystemOperation<String> {
 	@Override
 	public void execute(Connection conn) {
 		conn.close();
+		// TODO cx15 tell everyone else
 	}
 }

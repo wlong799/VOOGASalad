@@ -19,7 +19,8 @@ public enum MessageType {
 	CHAT ("network.messages.ChatMessage"),
 	KEYPRESS ("TODO"), // TODO cx15
 	DISCONNECT ("network.messages.Disconnect"),
-	SESSION_LEASE ("TODO"); // TODO cx15
+	SESSION_LEASE ("network.messages.SessionLease"),
+	SESSION_LEASE_GRANTED ("network.messages.SessionLeaseGranted");
 	
 	private String className;
 	
