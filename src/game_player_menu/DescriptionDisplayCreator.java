@@ -1,6 +1,5 @@
 package game_player_menu;
 
-import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 import javafx.scene.layout.Pane;
 

@@ -1,4 +1,4 @@
-package game_player;
+package game_player_menu;
 
 import javafx.scene.layout.Pane;
 

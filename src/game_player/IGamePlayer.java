@@ -15,19 +15,14 @@ public interface IGamePlayer {
 	void start(); // also replay
 	
 	void save();
-
-	/**
+/*
+	*//**
 	 * include each game's name, image, and description
-	 */
-	//List<GameInfo> getAllGameInfo();
-	
+	 *//*
+	List<GameInfo> getAllGameInfo();
+	*/
 	//Initial test method used in setting up an initial menu for game play 
 	//view
 	//List<FakeGameInfo> getAllGameInfo();
 	
-	/**
-	 * on a frame by frame basis
-	 */
-	void update(List<KeyCode> currentlyPressedKeys);
-
 }

@@ -3,7 +3,6 @@ package game_player_menu;
 import java.util.ArrayList;
 import java.util.List;
 
-import game_player.ItemDescription;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -14,7 +13,7 @@ public class GamePlayMenu {
 	
 	public GamePlayMenu(Stage s){
 		getItemDescriptions();
-		myMenuSceneGenerator = new MenuSceneGenerator();
+		myMenuSceneGenerator = new HBoxMenu();
 		showMenu(s, myMenuSceneGenerator.getMenuScene(myMenuItems));
 	}
 

@@ -1,6 +1,5 @@
 package game_player_menu;
 
-import game_player.ItemDescription;
 import javafx.scene.layout.Pane;
 
 public class DisplayableItemDescription {
