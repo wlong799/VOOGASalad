@@ -1,6 +1,7 @@
 package authoring.view.components;
 
 import authoring.AuthoringController;
+import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import game_object.constants.GameObjectConstants;
 import javafx.geometry.Pos;
@@ -35,10 +36,13 @@ public class ComponentPanelView extends AbstractView {
         myContent = new HBox();
         myContent.setAlignment(Pos.CENTER);
         myTabPane = new TabPane();
+        myTabPane.getStyleClass().add("data/css/style2.css");
 
         myButtonImageView = new ImageView(GameObjectConstants.UPLOAD);
         myButtonImageView.setPreserveRatio(true);
         myComponentCreationButton = new Button();
+        myComponentCreationButton.setPrefHeight(UIConstants.BOTTOM_HEIGHT + 50);
+        myComponentCreationButton.setPrefWidth(200);
         myComponentCreationButton.setGraphic(myButtonImageView);
         setComponentCreationButtonAction();
 
@@ -75,10 +79,21 @@ public class ComponentPanelView extends AbstractView {
 
     public void addTab(String tabName, ComponentListView componentListView) {
         Tab newTab = new Tab(tabName);
+        setTabStyle(newTab);
         newTab.setClosable(false);
         newTab.setContent(componentListView.getUI());
         myTabPane.getTabs().add(newTab);
         addSubView(componentListView);
+    }
+    
+    private void setTabStyle(Tab tab) {
+    	tab.setStyle(
+        		"-fx-background-insets: 0 1 0 1,0,0;"
+        		+"-fx-alignment: CENTER;"
+        		+"-fx-text-fill: #828282;"
+        		+ "-fx-font-size: 12px;"
+        		+ "-fx-font-weight: bold;"
+        		);
     }
 
     private void setComponentCreationButtonAction() {
