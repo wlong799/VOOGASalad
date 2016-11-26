@@ -9,42 +9,60 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class TestGameView extends AbstractView {
-	
+
 	private Stage myStage;
 	private Scene myScene;
 	private Group myGroup;
 
+	private TestGameRunningView myRunningView;
+	private TestGameConfiguringView myConfiguringView;
+
 	public TestGameView(AuthoringController controller) {
 		super(controller);
 	}
-	
+
 	public void show() {
-		System.out.println(myGroup.getChildren());
 		myStage.show();
 	}
-	
+
 	public Scene getScene() {
 		return myScene;
 	}
-	
+
 	public void clearSpriteViews() {
-		myGroup.getChildren().clear();
+		myRunningView.clearSpriteViews();
 	}
-	
+
 	public void addSpriteView(ImageView spView) {
-		myGroup.getChildren().add(spView);
+		myRunningView.addSpriteView(spView);
 	}
 
 	@Override
 	protected void initUI() {
 		myStage = new Stage();
 		myGroup = new Group();
-		myScene = new Scene(myGroup, 600, 600, Color.WHITE);
+		myRunningView = new TestGameRunningView(this.getController());
+		myConfiguringView = new TestGameConfiguringView(this.getController());
+		this.addSubViews(myRunningView, myConfiguringView);
+		myGroup.getChildren().addAll(myRunningView.getUI(), myConfiguringView.getUI());
+
+		myScene = new Scene(myGroup, 900, 600, Color.WHITE);
+		myScene.heightProperty().addListener((obv, oldVal, newVal) -> {
+			this.setHeight(newVal.doubleValue());
+			this.updateLayout();
+		});
+		myScene.widthProperty().addListener((obv, oldVal, newVal) -> {
+			this.setWidth(newVal.doubleValue());
+			this.updateLayout();
+		});
 		myStage.setScene(myScene);
 	}
 
 	@Override
 	protected void updateLayoutSelf() {
+		myRunningView.setSize(this.getWidth() - 200, 600);
+		myConfiguringView.setSize(200, this.getHeight());
+		myConfiguringView.setPositionX(this.getWidth() - 200);
 	}
 
 }

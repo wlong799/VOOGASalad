@@ -72,6 +72,10 @@ public class TestGameController {
 		myTestView.show();
 	}
 	
+	public GameEngine getEngine() {
+		return myGameEngine;
+	}
+	
 	private void addHeroControls(Level l) {
 		for (ISprite sp : l.getAllSprites()) {
 			if (sp instanceof Hero) {

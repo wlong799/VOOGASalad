@@ -28,7 +28,6 @@ public abstract class AbstractView {
         initUI();
     }
 
-
     public Parent getUI() {
         return myUIRoot;
     }
