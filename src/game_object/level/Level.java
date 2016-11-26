@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game_engine.physics.PhysicsParameters;
+import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
 import game_object.background.Background;
@@ -175,6 +176,21 @@ public class Level implements ILevelVisualization {
 	
 	public void removeTrigger(ActionTrigger trigger) {
 		myTriggers.remove(trigger);
+	}
+	
+	public ActionTrigger getTriggerWithSpriteAndAction(
+		ISprite sprite,
+		ActionName actionName
+	) {
+		for (ActionTrigger trigger : myTriggers) {
+			if (
+				trigger.getSprite().equals(sprite) &&
+				trigger.getActionName().equals(actionName)
+			) {
+				return trigger;
+			}
+		}
+		return null;
 	}
 	
 	public List<ActionTrigger> getTriggersWithEvent(Event event) {
