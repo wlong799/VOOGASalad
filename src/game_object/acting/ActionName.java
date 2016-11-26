@@ -16,4 +16,14 @@ public enum ActionName {
 	public String toString() {
 		return myName;
 	}
+	
+	public static ActionName getActionWithName(String s) {
+		for (ActionName action : ActionName.values()) {
+			if (action.toString().equals(s)) {
+				return action;
+			}
+		}
+		return null;
+	}
+	
 }

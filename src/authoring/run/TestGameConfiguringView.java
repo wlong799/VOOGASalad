@@ -22,7 +22,6 @@ public class TestGameConfiguringView extends AbstractView {
 		myBox.setPadding(new Insets(5, 5, 5, 5));
 		myBox.setStyle("-fx-background-color: linen;");
 		fillInBox();
-		this.addUI(myBox);
 	}
 
 	@Override
