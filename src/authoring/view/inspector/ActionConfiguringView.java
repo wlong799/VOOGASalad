@@ -1,6 +1,7 @@
 package authoring.view.inspector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,7 +104,7 @@ public class ActionConfiguringView extends AbstractView {
 		myTableView = new TableView<>(myItems);
 		myTableView.getColumns().addAll(column1, column2);
 		myTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-		myTableView.setMaxHeight(200);
+		myTableView.setMaxHeight(150);
 
 		setTableActions();
 
@@ -133,20 +134,32 @@ public class ActionConfiguringView extends AbstractView {
 	
 	private KeyCode getKeyDialog(ActionTrigger trigger) {
 		List<String> choices = new ArrayList<>();
-		choices.add(KeyCode.A.toString());
-		choices.add(KeyCode.B.toString());
-		choices.add(KeyCode.C.toString());
+		choices.addAll(new ArrayList<String>(Arrays.asList("UP", "DOWN", "LEFT", "RIGHT")));
+		for (int i = 65; i <= 90; i++) {
+			choices.add("" + (char) i);
+		}
 		ChoiceDialog<String> dialog = new ChoiceDialog<>(KeyCode.A.toString(), choices);
 		dialog.setTitle("Choice Key Input to Control this Action");
 		dialog.setHeaderText("When you press this key during the game, the character will " + trigger.getActionName());
 		dialog.setContentText("Choose your key input:");
-		
+
 		Optional<String> result = dialog.showAndWait();
 		
 		if (!result.isPresent()) {
 			return KeyCode.A;
 		}
-		
+		switch(result.get()) {
+		case "UP":
+			return KeyCode.UP;
+		case "DOWN":
+			return KeyCode.DOWN;
+		case "LEFT":
+			return KeyCode.LEFT;
+		case "RIGHT":
+			return KeyCode.RIGHT;
+		default:
+			break;
+		}
 		return KeyCode.valueOf(result.get());
 	}
 
