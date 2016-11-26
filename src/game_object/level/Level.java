@@ -3,6 +3,7 @@ package game_object.level;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_engine.physics.PhysicsParameters;
 import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
 import game_object.background.Background;
@@ -24,6 +25,7 @@ public class Level implements ILevelVisualization {
 	private Level myNextLevel;
 	private TransitionMenu myNextMenu;
 	private Background myBackground;
+	private PhysicsParameters myPhysicsParameters;
 	private List<Hero> myHeros;
 	private List<Enemy> myEnemies;
 	private List<StaticBlock> myStaticBlocks;
@@ -35,6 +37,7 @@ public class Level implements ILevelVisualization {
 		myStaticBlocks = new ArrayList<>();
 		myTriggers = new ArrayList<>();
 		myLevelDimension = new Dimension(0, 0);
+		myPhysicsParameters = new PhysicsParameters();
 	}
 	
 	public List<ISprite> getAllSprites() {
@@ -54,6 +57,12 @@ public class Level implements ILevelVisualization {
 		return myLevelDimension;
 	}
 	/* ---Level Dimensions END ---*/
+	
+	/* Engine Settings */
+	public PhysicsParameters getPhysicsParameters() {
+		return myPhysicsParameters;
+	}
+	/* --- Engine Settings END --- */
 	
 	/* Transitions. Note if getNextLevel() returns a non-null value,  getNextMenu() will be ignored. */
 	public void setNextLevel(Level nextLevel) {
