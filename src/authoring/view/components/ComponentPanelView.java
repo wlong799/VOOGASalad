@@ -84,6 +84,7 @@ public class ComponentPanelView extends AbstractView {
     private void setComponentCreationButtonAction() {
         myComponentCreationButton.setOnAction(event -> {
             File imageFile = showFileSelectionDialog();
+            if (imageFile == null) return;
             String componentTitle = showStringInputDialog("Component Name");
             String componentDescription = showStringInputDialog("Component Description");
             if (!(imageFile == null || componentTitle == null || componentDescription == null)) {

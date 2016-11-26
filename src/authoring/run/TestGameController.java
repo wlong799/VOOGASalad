@@ -21,6 +21,9 @@ public class TestGameController {
 	private AuthoringController myTopController;
 	private TestGameView myTestView;
 	private GameEngine myGameEngine;
+	
+	private KeyFrame frame;
+	private Timeline animation;
 
 	public TestGameController(AuthoringController topController) {
 		myTopController = topController;
@@ -47,7 +50,7 @@ public class TestGameController {
 			myTestView.addSpriteView(image);
 		}
 
-		KeyFrame frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
+		frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
 				new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
@@ -59,7 +62,7 @@ public class TestGameController {
 			}
 		});
 
-		Timeline animation = new Timeline();
+		animation = new Timeline();
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 		animation.play();
