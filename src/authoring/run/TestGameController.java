@@ -61,7 +61,10 @@ public class TestGameController {
 				}
 			}
 		});
-
+		
+		if (animation != null) {
+			animation.stop();
+		}
 		animation = new Timeline();
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);

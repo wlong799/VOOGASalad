@@ -20,6 +20,7 @@ public class TestGameConfiguringView extends AbstractView {
 		myBox = new VBox();
 		myBox.setSpacing(10);
 		myBox.setPadding(new Insets(5, 5, 5, 5));
+		myBox.setStyle("-fx-background-color: linen;");
 		fillInBox();
 		this.addUI(myBox);
 	}
@@ -27,6 +28,7 @@ public class TestGameConfiguringView extends AbstractView {
 	@Override
 	protected void updateLayoutSelf() {
 		myBox.setPrefWidth(this.getWidth());
+		myBox.setPrefHeight(this.getHeight());
 	}
 	
 	private void fillInBox() {

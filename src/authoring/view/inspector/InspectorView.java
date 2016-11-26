@@ -63,6 +63,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	
 	private void updateUI() {
 		configs.getChildren().clear();
+		System.out.println(configs.getWidth());
 		sprite = inspectedSpriteView.getSprite();
 		xBox = makeDoubleInputBox("Position X", sprite.getPosition().getX(), 
 				(newVal) -> {
