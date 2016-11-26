@@ -1,10 +1,9 @@
 package authoring.view.inspector;
 
 import game_object.acting.ActionName;
+import game_object.acting.KeyEvent;
 import game_object.core.ISprite;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 public class ActionTypeKeyInput {
 	

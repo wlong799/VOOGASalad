@@ -68,7 +68,7 @@ public class TestGameController {
 		animation.play();
 
 		addHeroControls(level);
-		
+		myTestView.updateLayout();
 		myTestView.show();
 	}
 	
