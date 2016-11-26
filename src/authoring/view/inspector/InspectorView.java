@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.swing.AbstractAction;
 
@@ -15,6 +16,7 @@ import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
 import authoring.view.canvas.SpriteView;
 import game_object.acting.ActionName;
+import game_object.acting.ActionTrigger;
 import game_object.core.ISprite;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -27,6 +29,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
@@ -39,6 +42,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.effect.Effect;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
@@ -48,6 +52,7 @@ import javafx.util.Callback;
 public class InspectorView extends AbstractView implements ISubscriber {
 	
 	private SpriteView inspectedSpriteView;
+	private ISprite sprite;
 	private VBox configs;
 	private VBox xBox;
 	private VBox yBox;
@@ -56,6 +61,11 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	private VBox heightBox;
 	private VBox keyInputBox;
 	private TableView<ActionTypeKeyInput> table;
+	private ActionTypeKeyInput actionTypeLeft;
+	private ActionTypeKeyInput actionTypeRight;
+	private ActionTypeKeyInput actionTypeJump;
+	private ActionTypeKeyInput actionTypeShoot;
+	private Map<ISprite, ActionTrigger> spritesWithSetActionTriggers;
 	
 	public interface ITextChangeHandler {
 		void handle(String newVal);
@@ -89,7 +99,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	
 	private void updateUI() {
 		configs.getChildren().clear();
-		ISprite sprite = inspectedSpriteView.getSprite();
+		sprite = inspectedSpriteView.getSprite();
 		xBox = makeDoubleInputBox("Position X", sprite.getPosition().getX(), 
 				(newVal) -> {
 					inspectedSpriteView.setAbsolutePositionX(Double.parseDouble(newVal));
@@ -157,6 +167,20 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		btnRight.setFont(Font.font(10.3));
 		btnJump.setFont(Font.font(10.3));
 		btnShoot.setFont(Font.font(10.3));
+		
+		btnLeft.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				KeyCode kc = keyChoiceDialog("left");
+				if (spritesWithSetActionTriggers.containsKey(sprite)) {
+					//TODO: replace null with event
+					spritesWithSetActionTriggers.get(sprite).setEvent(null);
+				}
+				//TODO: replace null with event
+				ActionTrigger actionTrigger = new ActionTrigger(null, sprite, ActionName.MOVE_LEFT);
+				spritesWithSetActionTriggers.put(sprite, actionTrigger);
+			}
+		});
 
 		TilePane tileButtons = new TilePane(Orientation.HORIZONTAL);
 		tileButtons.setPadding(new Insets(8, 10, 8, 0));
@@ -164,17 +188,35 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		tileButtons.setVgap(8.0);
 		tileButtons.getChildren().addAll(btnLeft, btnRight, btnJump, btnShoot);
 		
-//		Button setKeyInput = new Button("Set");
-//		setKeyInput.setPrefWidth(UIConstants.RIGHT_WIDTH + 100);
-//		setKeyInput.setOnAction(new EventHandler<ActionEvent>() {
-//			@Override public void handle(ActionEvent e) {
-//				//do this
-//			}
-//		});
-		
 		vbox.getChildren().addAll(label, getInitialTableData(), tileButtons);
 		
 		return vbox;
+	}
+	
+	private KeyCode keyChoiceDialog(String action) {
+		
+		List<String> choices = new ArrayList<>();
+		choices.add(KeyCode.A.toString());
+		choices.add(KeyCode.B.toString());
+		choices.add(KeyCode.C.toString());
+
+		ChoiceDialog<String> dialog = new ChoiceDialog<>(KeyCode.A.toString(), choices);
+		dialog.setTitle("Choice Key Input to Control this Action");
+		dialog.setHeaderText("When you press this key during the game, the character will " + action);
+		dialog.setContentText("Choose your key input:");
+		
+		Optional<String> result = dialog.showAndWait();
+		
+		if (!result.isPresent()) {
+			return KeyCode.A;
+		}
+		
+		switch (result.get()) {
+			case "a": return KeyCode.A;
+			case "b": return KeyCode.B;
+			case "c": return KeyCode.C;
+		}
+		return null;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -182,10 +224,10 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		
 		Map<String, String> map = new HashMap<>();
 		
-		ActionTypeKeyInput actionTypeLeft = new ActionTypeKeyInput(ActionName.MOVE_LEFT);
-		ActionTypeKeyInput actionTypeRight = new ActionTypeKeyInput(ActionName.MOVE_RIGHT);
-		ActionTypeKeyInput actionTypeJump = new ActionTypeKeyInput(ActionName.JUMP);
-		ActionTypeKeyInput actionTypeShoot = new ActionTypeKeyInput(ActionName.SHOOT);
+		actionTypeLeft = new ActionTypeKeyInput(ActionName.MOVE_LEFT, sprite);
+		actionTypeRight = new ActionTypeKeyInput(ActionName.MOVE_RIGHT, sprite);
+		actionTypeJump = new ActionTypeKeyInput(ActionName.JUMP, sprite);
+		actionTypeShoot = new ActionTypeKeyInput(ActionName.SHOOT, sprite);
 		
         map.put(actionTypeLeft.getActionName(), "None");
         map.put(actionTypeRight.getActionName(), "None");
@@ -200,29 +242,6 @@ public class InspectorView extends AbstractView implements ISubscriber {
                 return new SimpleStringProperty(p.getValue().getKey());
             }
         });
-
-        
-//        TableColumn<TableView, StringProperty> column = new TableColumn<>("option");
-//        column.setCellValueFactory(i -> {
-//            final StringProperty value = i.getValue().optionProperty();
-//            // binding to constant value
-//            return Bindings.createObjectBinding(() -> value);
-//        });
-//
-//        column.setCellFactory(col -> {
-//            TableCell<TableView, StringProperty> c = new TableCell<>();
-//            final ComboBox<String> comboBox = new ComboBox<>(options);
-//            c.itemProperty().addListener((observable, oldValue, newValue) -> {
-//                if (oldValue != null) {
-//                    comboBox.valueProperty().unbindBidirectional(oldValue);
-//                }
-//                if (newValue != null) {
-//                    comboBox.valueProperty().bindBidirectional(newValue);
-//                }
-//            });
-//            c.graphicProperty().bind(Bindings.when(c.emptyProperty()).then((Node) null).otherwise(comboBox));
-//            return c;
-//        });
         
         TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>("Key Input");
         

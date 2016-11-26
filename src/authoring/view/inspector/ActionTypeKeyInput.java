@@ -14,25 +14,19 @@ public class ActionTypeKeyInput {
 	private ISprite sprite;
 	
 	/**
-	 * constructor when key input has been given
+	 * constructor for when no key input has been set
 	 * @param actionNameToSet
-	 * @param key
 	 */
-	public ActionTypeKeyInput(ActionName actionNameToSet, KeyCode key, ISprite spriteToSet) {
+	public ActionTypeKeyInput(ActionName actionNameToSet, ISprite spriteToSet) {
 		this.actionName = actionNameToSet;
-		this.keyInput = key;
+		this.keyInput = null;
 		this.sprite = spriteToSet;
 		
 		setActionTrigger();
 	}
 	
-	/**
-	 * constructor for when no key input has been set
-	 * @param actionNameToSet
-	 */
-	public ActionTypeKeyInput(ActionName actionNameToSet) {
-		this.actionName = actionNameToSet;
-		this.keyInput = null;
+	public void updateActionTypeKeyInput(KeyCode key) {
+		this.keyInput = key;
 	}
 	
 	public String getActionName() {
