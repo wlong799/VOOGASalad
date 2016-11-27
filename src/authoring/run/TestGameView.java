@@ -47,6 +47,8 @@ public class TestGameView extends AbstractView {
 		myGroup.getChildren().addAll(myRunningView.getUI(), myConfiguringView.getUI());
 
 		myScene = new Scene(myGroup, 900, 600, Color.WHITE);
+		this.setWidth(900);
+		this.setHeight(600);
 		myScene.heightProperty().addListener((obv, oldVal, newVal) -> {
 			this.setHeight(newVal.doubleValue());
 			this.updateLayout();
@@ -60,7 +62,7 @@ public class TestGameView extends AbstractView {
 
 	@Override
 	protected void updateLayoutSelf() {
-		myRunningView.setSize(this.getWidth() - 200, 600);
+		myRunningView.setSize(this.getWidth() - 200, this.getHeight());
 		myConfiguringView.setSize(200, this.getHeight());
 		myConfiguringView.setPositionX(this.getWidth() - 200);
 	}
