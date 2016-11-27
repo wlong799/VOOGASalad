@@ -14,7 +14,7 @@ public class TestGameConfiguringView extends AbstractView {
 	public TestGameConfiguringView(AuthoringController controller) {
 		super(controller);
 	}
-
+	
 	@Override
 	protected void initUI() {
 		myBox = new VBox();
@@ -22,6 +22,7 @@ public class TestGameConfiguringView extends AbstractView {
 		myBox.setPadding(new Insets(5, 5, 5, 5));
 		myBox.setStyle("-fx-background-color: linen;");
 		fillInBox();
+		this.addUI(myBox);
 	}
 
 	@Override

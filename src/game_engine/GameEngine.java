@@ -97,7 +97,6 @@ public class GameEngine implements IGameEngine {
 			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
 			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
-			System.out.println(body + ": gg");
 		}
 	}
 
