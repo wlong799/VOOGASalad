@@ -9,9 +9,9 @@ import javafx.scene.control.Slider;
  */
 public class ParamSlider {
 	
-	private int min, max, value, increment;
+	private double min, max, value, increment;
 	
-	public ParamSlider (int min, int max, int value, int increment) {
+	public ParamSlider (double min, double max, double value, double increment) {
 		this.min = min;
 		this.max = max;
 		this.value = value;
@@ -25,8 +25,8 @@ public class ParamSlider {
 		slider.setValue(value);
 		slider.setShowTickLabels(true);
 		slider.setShowTickMarks(true);
-		slider.setMajorTickUnit(50);
-		slider.setMinorTickCount(5);
+		slider.setMajorTickUnit((max - min) / 5);
+		slider.setMinorTickCount((int) ((max - min) / 50));
 		slider.setBlockIncrement(increment);
 		return slider;
 	}

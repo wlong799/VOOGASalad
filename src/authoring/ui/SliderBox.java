@@ -14,12 +14,12 @@ public class SliderBox {
 	private Text hud;
 	private VBox box;
 	
-	public SliderBox(String text, int min, int max, int value, int increment){
+	public SliderBox(String text, double min, double max, double value, double increment){
 		hud = new Text(text);
 		slider = new ParamSlider(min, max, value, increment).getSlider();
 	}
 	
-	public SliderBox(String text, int min, int max, int value, int increment, 
+	public SliderBox(String text, double min, double max, double value, double increment, 
 			ChangeListener<Number> listener) {
 		hud = new Text(text);
 		slider = new ParamSlider(min, max, value, increment).getSlider();

@@ -34,6 +34,7 @@ public class TestGameController {
 		Level level = myTopController.getEnvironment().getCurrentLevel();
 		level.init();
 		myGameEngine = new GameEngine(level);
+		myGameEngine.suppressLogDebug();
 
 		myTestView.clearSpriteViews();
 		Map<ISpriteVisualization, ImageView> spriteViewMap =
