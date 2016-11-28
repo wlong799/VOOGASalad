@@ -1,5 +1,6 @@
 package game_player_menu;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -36,17 +37,30 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 		Text instructions = new Text();
 		instructions.setText(myResources.getString("MenuInstructionText"));
 		instructions.setFont(new Font(Double.parseDouble(myResources.getString("MenuInstructionFontSize"))));
-        BorderPane root = new BorderPane();
-        root.setPrefSize(Double.parseDouble(myResources.getString("MenuWidth")),
-        		Double.parseDouble(myResources.getString("MenuHeight")));
+        instructions.getStyleClass().add("text");
+		BorderPane root = createBorderPane();
         root.setAlignment(instructions, Pos.CENTER);
         root.setTop(instructions);
 		myMenuScene = new Scene(root);
-		//myMenuScene.getStylesheets().add("/voogasalad_overwatch/data/css/menuLayout.css");
+		setMenuCSS();
 		root.setCenter(layoutDescriptions(menuItems));
 		return myMenuScene;
 	}
 	
+	private BorderPane createBorderPane() {
+		 BorderPane root = new BorderPane();
+	     root.setPrefSize(Double.parseDouble(myResources.getString("MenuWidth")),
+	        		Double.parseDouble(myResources.getString("MenuHeight")));
+	     root.getStyleClass().add("pane");
+		return root;
+	}
+
+	private void setMenuCSS() {
+		File f = new File(myResources.getString("MenuLayoutCSSFile"));
+		myMenuScene.getStylesheets().clear();
+		myMenuScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+	}
+
 	protected abstract Node layoutDescriptions(List<DisplayableItemDescription> menuItems);
 
 	private void makeItemsDisplayable(List<ItemDescription> menuItems) {

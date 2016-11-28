@@ -4,11 +4,36 @@
 
 
 .pane {
-    -fx-background-color: #8fbc8f;
+    -fx-background-color: #242331;
 
 
 }
 
+/* .button styling adapted from 
+http://fxexperience.com/2011/12/styling-fx-buttons-with-css/
+*/
+
+.button {
+    -fx-background-color: 
+        #000000,
+        linear-gradient(#7ebcea, #2f4b8f),
+        linear-gradient(#426ab7, #263e75),
+        linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+.button: Text {
+    -fx-effect: dropshadow( one-pass-box , rgba(0,0,0,0.8) , 0, 0.0 , 0 , 1);
+
+}
+
+.button:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
 .grid {
     -fx-background-color: white;
     -fx-background-radius: 5.0;
@@ -18,15 +43,19 @@
     -fx-vgap: 10;
 }
 
+.text {
+    -fx-fill: #7EA0B7;
+}
 
 .vbox {
 /*    -fx-background-image: url("graphics/arrow_t_up_right.png");
     -fx-background-size: 96, 205;
     -fx-background-repeat: no-repeat;*/
+    -fx-background-color: #5d5e60;
     -fx-border-color: #2e8b57;
     -fx-border-width: 2px;
     -fx-padding: 10;
-    -fx-spacing: 8;
+    -fx-spacing: 50;
 }
 
 .hbox {

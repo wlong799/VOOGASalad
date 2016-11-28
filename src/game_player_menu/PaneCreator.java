@@ -22,17 +22,12 @@ public class PaneCreator implements DescriptionDisplayCreator{
 	
 	@Override
 	public Pane getPaneRepresentation(String name, String description, String imagePath, ISelectable listener) {
-		
-		Pane pane = new VBox(15);
-		/*pane.setStyle("-fx-padding: 10;" + 
-                 "-fx-border-style: solid inside;" + 
-                 "-fx-border-width: 2;" +
-                 "-fx-border-insets: 5;" + 
-                 "-fx-border-radius: 5;" + 
-                 "-fx-border-color: blue;");*/
+		Pane pane = new VBox();
+		pane.getStyleClass().add("vbox");
 		pane.getChildren().add(myNameTranslator.createNode(name,true, listener));
 		pane.getChildren().add(myDescriptionTranslator.createNode(description,true,listener));
 		pane.getChildren().add(myImageTranslator.createNode(imagePath,true, listener));
+		pane.setMaxHeight(200);
 		return pane;
 	}
 

@@ -18,6 +18,7 @@ public class TextTranslator extends NodeTranslator {
 	@Override
 	public Node createNode(String text, boolean isSelectable, ISelectable listener) {
 		Button menuButton = new Button(text);
+		menuButton.getStyleClass().add("button");
 		if(isSelectable){
 			makeButtonSelectable(menuButton, listener);
 		}

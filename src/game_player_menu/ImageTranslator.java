@@ -16,6 +16,8 @@ public class ImageTranslator extends NodeTranslator {
 	public Node createNode(String text, boolean isSelectable, ISelectable listener){
 		Image currImage = new Image(getClass().getResourceAsStream(text));
 		ImageView view = new ImageView(currImage);
+		view.setFitWidth(Double.parseDouble(myResources.getString("ItemDescriptionImageWidth")));
+		view.setFitHeight(Double.parseDouble(myResources.getString("ItemDescriptionImageHeight")));
 		if(isSelectable){
 			makeImageViewSelectable(view, listener);
 		}
