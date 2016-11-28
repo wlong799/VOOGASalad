@@ -5,6 +5,7 @@ import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
+import game_object.character.Hero;
 import game_object.core.ISprite;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -87,7 +88,10 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		myActionView = new ActionConfiguringView(this.getController());
 		myActionView.setSprite(sprite);
 		this.addSubView(myActionView);
-		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox, myActionView.getUI());
+		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox);
+		if (sprite instanceof Hero) {
+			configs.getChildren().add(myActionView.getUI());
+		}
 	}
 	
 	private VBox makeDoubleInputBox(String title, double defaultValue, 

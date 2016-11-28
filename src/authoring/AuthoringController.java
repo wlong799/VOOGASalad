@@ -4,7 +4,7 @@ import java.io.File;
 
 import authoring.controller.CanvasViewController;
 import authoring.controller.ComponentController;
-import authoring.run.TestGameController;
+import authoring.controller.run.TestGameController;
 import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
 import javafx.scene.Cursor;

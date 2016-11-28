@@ -60,9 +60,9 @@ public class LevelGenerator {
 		level.addStaticBlock(ground);
 		level.addStaticBlock(smackDown);
 		
-		KeyEvent leftEvent = new KeyEvent(KeyCode.LEFT);
-		KeyEvent rightEvent = new KeyEvent(KeyCode.RIGHT);
-		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.SPACE);
+		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
+		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
+		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
 		
 		level.addTrigger(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
 		level.addTrigger(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
@@ -94,9 +94,9 @@ public class LevelGenerator {
 		level.addHero(hero);
 		level.addStaticBlock(ground);
 		
-		KeyEvent leftEvent = new KeyEvent(KeyCode.LEFT);
-		KeyEvent rightEvent = new KeyEvent(KeyCode.RIGHT);
-		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.SPACE);
+		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
+		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
+		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
 		
 		level.addTrigger(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
 		level.addTrigger(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));

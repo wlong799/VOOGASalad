@@ -1,4 +1,4 @@
-package authoring.run;
+package authoring.view.run;
 
 import authoring.AuthoringController;
 import authoring.ui.SliderBox;
