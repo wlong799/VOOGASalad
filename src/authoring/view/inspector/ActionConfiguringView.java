@@ -124,8 +124,14 @@ public class ActionConfiguringView extends AbstractView {
 					currentLevel.addTrigger(currentTrigger);
 				}
 				KeyCode code = getKeyDialog(currentTrigger);
-				currentTrigger.setEvent(new KeyEvent(code));
-				myEntryMap.put(action.toString(), code.toString());
+				if (code == null) {
+					currentLevel.removeTrigger(currentTrigger);
+					myEntryMap.put(action.toString(), "None");
+				}
+				else {
+					currentTrigger.setEvent(new KeyEvent(code));
+					myEntryMap.put(action.toString(), code.toString());
+				}
 				myItems.clear();
 				myItems.addAll(myEntryMap.entrySet());
 			}
@@ -134,7 +140,7 @@ public class ActionConfiguringView extends AbstractView {
 	
 	private KeyCode getKeyDialog(ActionTrigger trigger) {
 		List<String> choices = new ArrayList<>();
-		choices.addAll(new ArrayList<String>(Arrays.asList("UP", "DOWN", "LEFT", "RIGHT")));
+		choices.addAll(new ArrayList<String>(Arrays.asList("NONE", "UP", "DOWN", "LEFT", "RIGHT")));
 		for (int i = 65; i <= 90; i++) {
 			choices.add("" + (char) i);
 		}
@@ -146,7 +152,7 @@ public class ActionConfiguringView extends AbstractView {
 		Optional<String> result = dialog.showAndWait();
 		
 		if (!result.isPresent()) {
-			return KeyCode.A;
+			return null;
 		}
 		switch(result.get()) {
 		case "up":
