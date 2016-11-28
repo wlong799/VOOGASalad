@@ -7,13 +7,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class GamePlayMenu {
+public class GamePlayMenu implements IMenuInputListener {
 	private List<ItemDescription> myMenuItems;
 	private MenuSceneGenerator myMenuSceneGenerator;
 	
 	public GamePlayMenu(Stage s){
 		getItemDescriptions();
-		myMenuSceneGenerator = new HBoxMenu();
+		myMenuSceneGenerator = new HBoxMenu(this);
 		showMenu(s, myMenuSceneGenerator.getMenuScene(myMenuItems));
 	}
 
@@ -24,7 +24,15 @@ public class GamePlayMenu {
 
 	private void getItemDescriptions() {
 		myMenuItems = new ArrayList<ItemDescription>();
-		myMenuItems.add(new ItemDescription("TestName", "TestDescription", "images/blue_snail.png"));
+		myMenuItems.add(new ItemDescription("TestName", "TestDescription", "blue_snail.png"));
+		myMenuItems.add(new ItemDescription("TestName", "TestDescription", "blue_snail.png"));
+		myMenuItems.add(new ItemDescription("TestName", "TestDescription", "blue_snail.png"));
+		myMenuItems.add(new ItemDescription("TestName", "TestDescription", "blue_snail.png"));
+	}
+
+	@Override
+	public void itemChosen(String name) {
+		System.out.println("Playing Game:" + name);
 	}
 	
 }

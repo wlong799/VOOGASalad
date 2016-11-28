@@ -25,8 +25,8 @@ import javafx.util.Duration;
 public class GamePlayManager {
 	private Stage myStage;
 	private GamePlayMenu myMainMenu;
-	private Scene myCurrentScene;
-	private GamePlayer myGamePlayer;
+	//private Scene myCurrentScene;
+	//private GamePlayer myGamePlayer;
 	//private XStream mySerializer = new XStream(new DomDriver());
 	//private Game myCurrentGame;
 	

@@ -9,5 +9,5 @@ import javafx.scene.Node;
  */
 public interface INodeTranslator {
 	
-	Node createNode(String text);
+	Node createNode(String text, boolean isSelectable, ISelectable listener);
 }

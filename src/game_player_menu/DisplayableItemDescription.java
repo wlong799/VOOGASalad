@@ -2,26 +2,28 @@ package game_player_menu;
 
 import javafx.scene.layout.Pane;
 
-public class DisplayableItemDescription {
+public class DisplayableItemDescription implements ISelectable{
 	
 	private ItemDescription myItemDescription;
 	private Pane myItemDescriptionDisplay;
-	private PaneCreator myPaneCreator;
+	private IMenuInputListener myMenuInputListener;
 	
-	public DisplayableItemDescription(ItemDescription itemDescription, PaneCreator paneCreator){
+	public DisplayableItemDescription(ItemDescription itemDescription, IMenuInputListener menuListener){
 		myItemDescription = itemDescription;
-		myPaneCreator = paneCreator;
-		representItemAsPane();
+		myMenuInputListener = menuListener;
 	}
-	
-	private void representItemAsPane(){
-		myItemDescriptionDisplay = myPaneCreator.getPaneRepresentation(
-				myItemDescription.getName(), 
-				myItemDescription.getDescriptionn(),
-				myItemDescription.getImagePath());
-	}
+
 	
 	public Pane getPaneRepresentation(){
 		return myItemDescriptionDisplay;
+	}
+	
+	public void setPaneRepresentation(Pane paneRepresentation){
+		myItemDescriptionDisplay = paneRepresentation;
+	}
+
+	@Override
+	public void select() {
+		myMenuInputListener.itemChosen(myItemDescription.getName());
 	}
 }	

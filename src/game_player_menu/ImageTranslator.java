@@ -7,10 +7,23 @@ import javafx.scene.image.ImageView;
 public class ImageTranslator extends NodeTranslator {
 
 	
+	/*public ImageTranslator(ISelectable listener) {
+		super(listener);
+		// TODO Auto-generated constructor stub
+	}
+*/
 	@Override
-	public Node createNode(String text){
+	public Node createNode(String text, boolean isSelectable, ISelectable listener){
 		Image currImage = new Image(getClass().getResourceAsStream(text));
-		return new ImageView(currImage);
+		ImageView view = new ImageView(currImage);
+		if(isSelectable){
+			makeImageViewSelectable(view, listener);
+		}
+		return view;
+	}
+
+	private void makeImageViewSelectable(ImageView view, ISelectable listener) {
+		view.setOnMouseClicked(e -> listener.select());
 	}
 	
 	

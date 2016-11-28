@@ -7,10 +7,6 @@ import javafx.scene.Scene;
 
 public interface IMenuSceneGenerator {
 	
-	Scene generateScene();
-	
-	void makeItemsDisplayable(List<ItemDescription> menuItems);
-	
 	Scene getMenuScene(List<ItemDescription> menuItems);
 	
 }
