@@ -1,10 +1,12 @@
 package authoring.run;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import authoring.AuthoringController;
 import game_engine.GameEngine;
+import game_object.acting.ActionTrigger;
 import game_object.character.Hero;
 import game_object.core.ISprite;
 import game_object.level.Level;
@@ -83,6 +85,7 @@ public class TestGameController {
 		for (ISprite sp : l.getAllSprites()) {
 			if (sp instanceof Hero) {
 				Hero hero = (Hero) sp;
+				ArrayList<ActionTrigger> herosActionTrigger = hero.getActionTriggers();
 				myTestView.getScene().setOnKeyPressed(event -> {
 					switch (event.getCode()) {
 					case W:

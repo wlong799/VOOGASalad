@@ -149,13 +149,13 @@ public class ActionConfiguringView extends AbstractView {
 			return KeyCode.A;
 		}
 		switch(result.get()) {
-		case "UP":
+		case "up":
 			return KeyCode.UP;
-		case "DOWN":
+		case "down":
 			return KeyCode.DOWN;
-		case "LEFT":
+		case "left":
 			return KeyCode.LEFT;
-		case "RIGHT":
+		case "right":
 			return KeyCode.RIGHT;
 		default:
 			break;
