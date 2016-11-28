@@ -14,6 +14,10 @@ public abstract class SystemOperation<T> extends AbstractMessage<T> {
 	
 	public SystemOperation() {}
 	
+	public SystemOperation(T payload) {
+		super(payload);
+	}
+	
 	public abstract void execute(Connection conn);
 	
 	@Override

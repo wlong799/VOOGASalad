@@ -4,7 +4,6 @@ import network.client.Multiplexer;
 
 public class UserGoneOfflineMessage extends AbstractMessage<String> {
 
-	// TODO cx15 store in the payload which user is gone
 	private static final long serialVersionUID = 267564981803032815L;
 
 	public UserGoneOfflineMessage(String text) {

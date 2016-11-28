@@ -23,9 +23,6 @@ import network.messages.Message;
  */
 public class Connection {
 	
-	// TODO cx15 handshake to get connection information
-	// TODO cx15 when disconnect, flood message to all other clients about that node
-	
 	private static final Logger LOGGER =
 			Logger.getLogger( Connection.class.getName() );
 	
@@ -33,6 +30,7 @@ public class Connection {
 	private BlockingQueue<Message> outGoingBuffer;
 	private boolean isClosed;
 	private long lastActiveMillis;
+	private String userName;
 	
 	public Connection(BlockingQueue<Message> incomingBuffer, 
 					  Socket socket,
@@ -84,5 +82,13 @@ public class Connection {
 			}
 			LOGGER.info("Connection closed");
 		}
+	}
+	
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	
+	public String getUserName() {
+		return userName;
 	}
 }

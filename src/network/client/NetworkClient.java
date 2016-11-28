@@ -33,7 +33,7 @@ public class NetworkClient implements INetworkClient{
 		try {
 			socket = new Socket(DEV_SERVER_NAME, SERVER_PORT);
 			inComingBuffer = new LinkedBlockingQueue<>();
-			connectionToServer = new Connection(inComingBuffer, socket, true);
+			connectionToServer = new ConnectionToServer(inComingBuffer, socket, true, userName);
 			nonBlockingIncomingBuffer = new LinkedList<>();
 			mux = new Multiplexer();
 			startReaderThread();
@@ -99,12 +99,6 @@ public class NetworkClient implements INetworkClient{
 				// trusted code with well defined message, no way for exception
 			}
 		}
-	}
-
-	@Override
-	public void reconnect() {
-		// TODO cx15
-		
 	}
 	
 	/**

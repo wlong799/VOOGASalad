@@ -20,7 +20,7 @@ public enum MessageType {
 	PLAYER_MODEL ("TODO"), // TODO cx15 broadcast the player model to all other players
 	USER_GONE_OFFLINE ("network.messages.UserGoneOfflineMessage"),
 	
-	JOIN ("TODO"),
+	HANDSHAKE ("network.messages.HandShake"),
 	DISCONNECT ("network.messages.Disconnect"),
 	SESSION_LEASE ("network.messages.SessionLease"),
 	SESSION_LEASE_GRANTED ("network.messages.SessionLeaseGranted");
@@ -39,6 +39,7 @@ public enum MessageType {
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException
 				| ClassNotFoundException | ReflectionFoundNoMatchesException e) {
+			e.printStackTrace();
 			throw new MessageCreationFailureException();
 		}
 		return msg;

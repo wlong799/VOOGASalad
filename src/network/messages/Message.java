@@ -11,8 +11,6 @@ import network.client.Multiplexer;
  */
 public interface Message extends Serializable {
 
-	// TODO cx15 session lease / keepAlive hearbeat with each client
-	
 	Object getPayload();
 	
 	String getSender();
@@ -27,5 +25,4 @@ public interface Message extends Serializable {
 	 * @param mux a Multiplexer that provides access to all queues
 	 */
 	void multiplex(Multiplexer mux);
-
 }

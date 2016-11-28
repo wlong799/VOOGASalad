@@ -25,8 +25,8 @@ public class ConnectionToClient extends Connection {
 		super.close();
 		coordinator.removeConnection(this);
 		try {
-			// TODO cx15 add user id
-			coordinator.broadcast(MessageType.USER_GONE_OFFLINE.build("TODO"));
+			coordinator.broadcast(MessageType.USER_GONE_OFFLINE.build(
+					"User " + this.getUserName() + " disconnected"));
 		} catch (MessageCreationFailureException e) {
 			// trusted code
 		}

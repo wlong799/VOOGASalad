@@ -52,9 +52,7 @@ public class ServerClientTest {
 			Thread.sleep(DELAY_MILLIS);
 			System.out.println(c2.read(MessageType.CHAT).peek().toString());
 			c2.disconnect();
-//			cor.shutdown();
-			
-			// TODO cx15 test timer
+			cor.shutdown();
 		} catch (IOException | ServerDownException |
 				InterruptedException | MessageCreationFailureException 
 				| JeopardyException e) {
