@@ -5,6 +5,7 @@ import java.util.Queue;
 import network.INetworkConfig;
 import network.exceptions.JeopardyException;
 import network.exceptions.MessageCreationFailureException;
+import network.exceptions.ServerDownException;
 import network.messages.Message;
 import network.messages.MessageType;
 
@@ -45,5 +46,5 @@ public interface INetworkClient extends INetworkConfig {
 	/**
 	 * reconnect to server
 	 */
-	void reconnect();
+	void reconnect() throws ServerDownException;
 }

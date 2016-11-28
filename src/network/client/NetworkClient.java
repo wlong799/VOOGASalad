@@ -29,8 +29,8 @@ public class NetworkClient implements INetworkClient{
 	private String userName;
 	
 	public NetworkClient(String userName) throws ServerDownException {
+		this.userName = userName;
 		try {
-			this.userName = userName;
 			socket = new Socket(DEV_SERVER_NAME, SERVER_PORT);
 			inComingBuffer = new LinkedBlockingQueue<>();
 			connectionToServer = new Connection(inComingBuffer, socket, true);

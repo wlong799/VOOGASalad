@@ -29,8 +29,8 @@ public class Daemon extends Thread {
 			try {
 				Socket clientSock = coordinator.getServerSocket().accept();
 				LOGGER.info("Daemon accepted new connection");
-				Connection conn = new Connection(
-						coordinator.getMessageQueue(), clientSock, false);
+				ConnectionToClient conn = new ConnectionToClient(
+						coordinator.getMessageQueue(), clientSock, false, coordinator);
 				coordinator.addConnection(conn);
 			} catch (IOException e) {
 				// running out of file descriptor

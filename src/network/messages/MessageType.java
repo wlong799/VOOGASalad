@@ -17,7 +17,10 @@ import network.utils.ReflectionUtils;
 public enum MessageType {
 	
 	CHAT ("network.messages.ChatMessage"),
-	KEYPRESS ("TODO"), // TODO cx15
+	PLAYER_MODEL ("TODO"), // TODO cx15 broadcast the player model to all other players
+	USER_GONE_OFFLINE ("network.messages.UserGoneOfflineMessage"),
+	
+	JOIN ("TODO"),
 	DISCONNECT ("network.messages.Disconnect"),
 	SESSION_LEASE ("network.messages.SessionLease"),
 	SESSION_LEASE_GRANTED ("network.messages.SessionLeaseGranted");

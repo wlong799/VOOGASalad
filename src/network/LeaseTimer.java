@@ -13,7 +13,7 @@ import network.messages.MessageType;
  */
 public class LeaseTimer extends Thread {
 
-	public static final long TTL_MILLIS = 6000;
+	public static final long TTL_MILLIS = 10000;
 	
 	private static final Logger LOGGER =
 			Logger.getLogger( LeaseTimer.class.getName() );
@@ -28,11 +28,18 @@ public class LeaseTimer extends Thread {
 
 	@Override
 	public void run() {
+		LOGGER.info("Lease Timer starts");
 		while (!connection.isClosed()) {
+			
 			long timeElapsed = System.currentTimeMillis() -
 								connection.getLastActiveMillis();
 			if (timeElapsed > TTL_MILLIS) {
 				LOGGER.info("Session Timeout");
+				try {
+					connection.send(MessageType.DISCONNECT.build());
+				} catch (MessageCreationFailureException e) {
+					// trusted code
+				}
 				connection.close();
 				// TODO cx15 tell every one else
 			} else if (isLeaseHolder && timeElapsed > TTL_MILLIS / 2) {
@@ -47,7 +54,7 @@ public class LeaseTimer extends Thread {
 				}
 			} else {
 				try {
-					Thread.sleep(TTL_MILLIS - timeElapsed);
+					Thread.sleep(TTL_MILLIS / 3);
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 				}

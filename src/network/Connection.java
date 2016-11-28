@@ -43,7 +43,7 @@ public class Connection {
 		this.lastActiveMillis = System.currentTimeMillis();
 		new Receiver(socket, this, incomingBuffer).start();
 		new Sender(socket, this, outGoingBuffer).start();
-		new LeaseTimer(this, isLeaseHolder);
+		new LeaseTimer(this, isLeaseHolder).start();
 	}
 	
 	public void send(Message msg) {
@@ -73,13 +73,16 @@ public class Connection {
 	 * 		   already closed.
 	 */
 	public synchronized void close() {
-		this.isClosed = true;
-		try {
-			socket.close();
-		} catch (IOException e) {
-			// the socket is already closed, possibly by another thread
-			// nothing and child threads will gracefully exit
+		if (!isClosed) {
+			isClosed = true;
+			try {
+				while(!outGoingBuffer.isEmpty()) {}
+				socket.close();
+			} catch (IOException e) {
+				// the socket is already closed, possibly by another thread
+				// nothing and child threads will gracefully exit
+			}
+			LOGGER.info("Connection closed");
 		}
-		LOGGER.info("Connection closed");
 	}
 }
