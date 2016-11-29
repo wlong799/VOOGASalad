@@ -1,6 +1,7 @@
 package game_engine.inputcontroller;
 
 import java.util.List;
+import java.util.Set;
 
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
@@ -12,7 +13,8 @@ import game_object.level.Level;
 
 public class InputController implements IInputController {
 
-	private List<KeyEvent> myList;
+	private Set<KeyEvent> myList;
+	private boolean jumping;
 	private Level myLevel;
 	private boolean exist;
 
@@ -21,23 +23,23 @@ public class InputController implements IInputController {
 	}
 
 	@Override
-	public void setInputList(List<KeyEvent> list) {
+	public void setInputList(Set<KeyEvent> list) {
 		myList = list;
 	}
 
 	@Override
 	public void executeInput() {
 		exist = false;
-		KeyEvent event;
 		if (myList == null || myList.size() == 0) {
 			return;
 		}
-		event = myList.get(0);
-		List<ActionTrigger> trigger = myLevel.getTriggersWithEvent(event);
-
-		for (ActionTrigger actionTrigger : trigger) {
-			chooseAction(actionTrigger);
+		for (KeyEvent event : myList) {
+			List<ActionTrigger> trigger = myLevel.getTriggersWithEvent(event);
+			for (ActionTrigger actionTrigger : trigger) {
+				chooseAction(actionTrigger);
+			}
 		}
+		//boolean myJump = jumping
 		// System.out.println(exist);
 	}
 
@@ -51,11 +53,10 @@ public class InputController implements IInputController {
 			IMover m = (IMover) sprite;
 			m.moveRight();
 			exist = true;
-		} else if (at.getActionName() == ActionName.JUMP) {
+		} else if (at.getActionName() == ActionName.JUMP) { 
 			IMover m = (IMover) sprite;
-			if (sprite.getVelocity().getYVelocity() == 0) {
-				m.jumpUp();
-			}
+			m.jumpUp();
+			jumping = true;
 		} else if (at.getActionName() == ActionName.SHOOT) {
 			ICharacter c = (ICharacter) sprite;
 			c.shoot();
