@@ -2,6 +2,7 @@ package authoring.view;
 
 import authoring.AuthoringController;
 import authoring.view.canvas.CanvasView;
+import authoring.view.chat.ChatView;
 import authoring.view.components.ComponentPanelFactory;
 import authoring.view.components.ComponentPanelView;
 import authoring.view.inspector.InspectorView;
@@ -23,6 +24,7 @@ public class AuthoringView extends AbstractView {
     private InspectorView myInspector;
     private ComponentPanelView myComponents;
     private CanvasView myCanvas;
+    private ChatView myChat;
 
     public AuthoringView(AuthoringController controller) {
         super(controller);
@@ -38,14 +40,16 @@ public class AuthoringView extends AbstractView {
         myCanvas = new CanvasView(this.getController());
         myInspector = new InspectorView(this.getController());
         myComponents = ComponentPanelFactory.createComponentPanelView(this.getController());
-
+        myChat = new ChatView(this.getController());
+        
         myGridContent.add(myGameMenu.getUI(), 0, 0, 2, 1);
         myGridContent.add(myCanvas.getUI(), 0, 1, 1, 1);
         myGridContent.add(myInspector.getUI(), 1, 1, 1, 1);
-        myGridContent.add(myComponents.getUI(), 0, 2, 2, 1);
+        myGridContent.add(myComponents.getUI(), 0, 2, 1, 1);
+        myGridContent.add(myChat.getUI(), 1, 2, 1, 1);
 
         addUI(myGridContent);
-        addSubViews(myGameMenu, myCanvas, myInspector, myComponents);
+        addSubViews(myGameMenu, myCanvas, myInspector, myComponents, myChat);
     }
 
     @Override
@@ -69,7 +73,7 @@ public class AuthoringView extends AbstractView {
             }
         } else {
             if (!myGridContent.getChildren().contains(myComponents.getUI())) {
-                myGridContent.add(myComponents.getUI(), 0, 2, 2, 1);
+                myGridContent.add(myComponents.getUI(), 0, 2, 1, 1);
                 GridPane.setRowSpan(myCanvas.getUI(), 1);
                 GridPane.setRowSpan(myInspector.getUI(), 1);
             }
@@ -85,7 +89,10 @@ public class AuthoringView extends AbstractView {
             myInspector.setSize(INSPECTOR_WIDTH, middleHeight);
         }
         if (getHeight() >= THRESHOLD_HEIGHT) {
-            myComponents.setSize(getWidth(), COMPONENT_HEIGHT);
+            myComponents.setSize(getWidth() - PADDING - INSPECTOR_WIDTH, COMPONENT_HEIGHT);
+        }
+        if (getWidth() >= THRESHOLD_WIDTH && getHeight() >= THRESHOLD_HEIGHT) {
+        	myChat.setSize(INSPECTOR_WIDTH, COMPONENT_HEIGHT);
         }
     }
 }
