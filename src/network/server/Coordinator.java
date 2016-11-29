@@ -6,11 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.logging.Logger;
 
 import network.Connection;
-import network.Message;
-import network.client.NetworkClient;
-import network.exceptions.ServerDownException;
+import network.messages.Message;
 
 /**
  * The central coordination service. Its main purpose is to observe
@@ -20,8 +19,11 @@ import network.exceptions.ServerDownException;
  */
 public class Coordinator {
 	
+	private static final Logger LOGGER =
+			Logger.getLogger( Coordinator.class.getName() );
+	
 	private ServerSocket serverSocket;
-	private List<Connection> connectionPool;
+	private List<ConnectionToClient> connectionPool;
 	private BlockingQueue<Message> messageQueue;
 	private boolean hasStopped;
 	
@@ -32,14 +34,14 @@ public class Coordinator {
 		messageQueue = new LinkedBlockingQueue<>();
 		hasStopped = false;
         new Daemon(this).start();
-        new Postman(connectionPool, messageQueue, this).start();
+        new Postman(this).start();
 	}
 	
 	public ServerSocket getServerSocket() {
 		return serverSocket;
 	}
 
-	public void addConnection(Connection conn) {
+	public void addConnection(ConnectionToClient conn) {
 		synchronized (connectionPool) {
 			connectionPool.add(conn);
 		}
@@ -51,6 +53,17 @@ public class Coordinator {
 		}
 	}
 	
+	public void broadcast(Message msg) {
+		synchronized (connectionPool) {
+			for (Connection conn : connectionPool) {
+				if (!conn.isClosed()) {
+					conn.send(msg);
+				}
+			}
+		}
+		LOGGER.info("Broadcasted to all: " + msg);
+	}
+	
 	public BlockingQueue<Message> getMessageQueue() {
 		return messageQueue;
 	}
@@ -60,14 +73,16 @@ public class Coordinator {
 	}
 	
 	public void shutdown() {
-		try {
-			hasStopped = false;
-			synchronized (connectionPool) {
-				connectionPool.clear();
+		if (!hasStopped) {
+			try {
+				hasStopped = true;
+				synchronized (connectionPool) {
+					connectionPool.clear();
+				}
+				serverSocket.close();
+			} catch (IOException e) {
+				// socket already closed, do nothing
 			}
-			serverSocket.close();
-		} catch (IOException e) {
-			// socket already closed, do nothing
 		}
 	}
 }

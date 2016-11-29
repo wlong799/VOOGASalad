@@ -8,23 +8,34 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.Connection;
-import network.Message;
+import network.exceptions.JeopardyException;
+import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
+import network.messages.Message;
+import network.messages.MessageType;
 
-
+/** 
+ * @author CharlesXu
+ */
 public class NetworkClient implements INetworkClient{
 	
 	private Socket socket;
+	private Connection connectionToServer;
 	private BlockingQueue<Message> inComingBuffer;
 	private Queue<Message> nonBlockingIncomingBuffer;
-	private Connection connectionToServer;
+	private Multiplexer mux;
 	
-	public NetworkClient() throws ServerDownException {
+	// TODO cx15 gamePlayer information obj
+	private String userName;
+	
+	public NetworkClient(String userName) throws ServerDownException {
+		this.userName = userName;
 		try {
-			socket = new Socket(SERVER_NAME, SERVER_PORT);
+			socket = new Socket(DEV_SERVER_NAME, SERVER_PORT);
 			inComingBuffer = new LinkedBlockingQueue<>();
-			connectionToServer = new Connection(inComingBuffer, socket);
+			connectionToServer = new ConnectionToServer(inComingBuffer, socket, true, userName);
 			nonBlockingIncomingBuffer = new LinkedList<>();
+			mux = new Multiplexer();
 			startReaderThread();
 		} catch (IOException e) {
 			throw new ServerDownException();
@@ -45,17 +56,49 @@ public class NetworkClient implements INetworkClient{
 	 * @return a queue of messages read ordered in time
 	 */
 	@Override
-	public Queue<Message> read() {
-		synchronized(nonBlockingIncomingBuffer) {
-			Queue<Message> ret = nonBlockingIncomingBuffer;
-			nonBlockingIncomingBuffer = new LinkedList<>();
-			return ret;
+	public Queue<Message> read(MessageType type) throws JeopardyException {
+		if (connectionToServer.isClosed()) {
+			throw new JeopardyException();
 		}
+		Queue<Message> msgsReceived;
+		synchronized(nonBlockingIncomingBuffer) {
+			msgsReceived = nonBlockingIncomingBuffer;
+			nonBlockingIncomingBuffer = new LinkedList<>();
+		}
+		for(Message msg : msgsReceived) {
+			msg.multiplex(mux);
+		}
+		Queue<Message> ret = mux.getMessageQueue(type);
+		mux.flush(type);
+		return ret;
 	}
 	
 	@Override
-	public void broadcast(Message msg) {
+	public void broadcast(Object payload, MessageType type)
+			throws MessageCreationFailureException, JeopardyException {
+		if (connectionToServer.isClosed()) {
+			throw new JeopardyException();
+		}
+		signAndsend(type, payload);
+	}
+	
+	private void signAndsend(MessageType type, Object... payload)
+			throws MessageCreationFailureException {
+		Message msg = type.build(payload);
+		msg.setSender(userName);
 		connectionToServer.send(msg);
+	}
+	
+	@Override
+	public void disconnect() {
+		if (!connectionToServer.isClosed()) {
+			try {
+				signAndsend(MessageType.DISCONNECT);
+				connectionToServer.close();
+			} catch (MessageCreationFailureException e) {
+				// trusted code with well defined message, no way for exception
+			}
+		}
 	}
 	
 	/**
