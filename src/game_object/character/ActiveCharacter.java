@@ -61,7 +61,9 @@ abstract class ActiveCharacter extends AbstractCharacter implements ITriggerable
 
 	@Override
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
+	   if(myCurrentJumps<getMaxNumberOfJumps()){
 		myVelocity.setYVelocity(-myJumpingUnit);
+	   }
 	}
 	/* ---IMover Implementations END---*/
 	

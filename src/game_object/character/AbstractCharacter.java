@@ -18,6 +18,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	protected double myMaxHP = DefaultConstants.CHARACTER_MAX_HP;
 	protected double myCurrentHP = DefaultConstants.CHARACTER_MAX_HP;
 	protected boolean myDead = false;
+        protected int myCurrentJumps;
 	protected Weapon myCurrentWeapon;
 	
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
@@ -36,6 +37,14 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	@Override
 	public double getMaxHP() {
 		return myMaxHP;
+	}
+	
+	public void incrementCurrentJumps() {
+	    myCurrentJumps++;
+	}
+	
+	public void resetCurrentJumps(){
+	    myCurrentJumps=0;
 	}
 	
 	@Override
