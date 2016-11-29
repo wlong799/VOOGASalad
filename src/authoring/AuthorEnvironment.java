@@ -14,26 +14,29 @@ public class AuthorEnvironment implements IAuthorEnvironment {
     private List<Game> games;
     private Game currentGame;
     private Level currentLevel;
-    private SimpleIntegerProperty numLevels, currentLevelIndex;
+    private SimpleIntegerProperty numLevels, currentLevelIndex, numGames, currentGameIndex;
 
     public AuthorEnvironment() {
         games = new ArrayList<>();
         numLevels = new SimpleIntegerProperty();
         currentLevelIndex = new SimpleIntegerProperty();
-        numLevels.set(0);
-        currentLevelIndex.set(0);
+        numGames = new SimpleIntegerProperty();
+        currentGameIndex = new SimpleIntegerProperty();
     }
 
     @Override
     public void addGame(Game game) {
         games.add(game);
+        setCurrentGame(games.size() - 1);
     }
 
     @Override
     public void setCurrentGame(int index) {
+        numGames.set(games.size());
         if (index < 0 || index >= games.size()) {
             throw new IllegalArgumentException("index for level out of range");
         }
+        currentGameIndex.set(index);
         currentGame = games.get(index);
         setCurrentLevel(0);
     }
@@ -41,10 +44,18 @@ public class AuthorEnvironment implements IAuthorEnvironment {
     @Override
     public void setCurrentGame(Game game) {
         if (!games.contains(game)) {
-            games.add(game);
+            addGame(game);
+        } else {
+            setCurrentGame(games.indexOf(game));
         }
-        currentGame = game;
-        setCurrentLevel(0);
+    }
+
+    public void closeCurrentGame() {
+        games.remove(getCurrentGame());
+        if (games.size() == 0) {
+            System.exit(0);
+        }
+        setCurrentGame(games.size() - 1);
     }
 
     @Override
@@ -63,14 +74,14 @@ public class AuthorEnvironment implements IAuthorEnvironment {
 
     @Override
     public void setCurrentLevel(int index) {
-        numLevels.set(currentGame.getAllLevels().size());
-        currentLevelIndex.set(index);
         if (currentGame == null) {
             throw new IllegalArgumentException("no current game");
         }
+        numLevels.set(currentGame.getAllLevels().size());
         if (index < 0 || index >= currentGame.getAllLevels().size()) {
             throw new IllegalArgumentException("index for level out of range");
         }
+        currentLevelIndex.set(index);
         currentLevel = currentGame.getAllLevels().get(index);
     }
 
@@ -79,15 +90,13 @@ public class AuthorEnvironment implements IAuthorEnvironment {
         return currentLevel;
     }
 
-    @Override
-    public void load() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void setLanguage(String lang) {
-        // TODO Auto-generated method stub
-
+    public void deleteCurrentLevel() {
+        Level level = getCurrentLevel();
+        getCurrentGame().removeLevel(level);
+        if (getCurrentGame().getAllLevels().size() == 0) {
+            addLevel(LevelGenerator.getTestLevelB());
+        }
+        setCurrentLevel(getCurrentGame().getAllLevels().size() - 1);
     }
 
     public SimpleIntegerProperty getNumLevels() {
@@ -98,12 +107,21 @@ public class AuthorEnvironment implements IAuthorEnvironment {
         return currentLevelIndex;
     }
 
-    public void deleteCurrentLevel() {
-        Level level = getCurrentLevel();
-        getCurrentGame().removeLevel(level);
-        if (getCurrentGame().getAllLevels().size() == 0) {
-            addLevel(LevelGenerator.getTestLevelB());
-        }
-        setCurrentLevel(getCurrentGame().getAllLevels().size() - 1);
+    public SimpleIntegerProperty getNumGames() {
+        return numGames;
+    }
+
+    public SimpleIntegerProperty getCurrentGameIndex() {
+        return currentGameIndex;
+    }
+
+    @Override
+    public void load() {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void setLanguage(String lang) {
+        // TODO Auto-generated method stub
     }
 }

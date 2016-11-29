@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class ChangeGameElement extends AbstractGameMenuElement {
     private static final String MENU_NAME = "Change Game";
-    private static final String LEVEL_PREFIX = "Level ";
+    private static final String GAME_PREFIX = "Game ";
 
     private ToggleGroup myToggleGroup;
     private Map<Integer, RadioMenuItem> myCurrentItems;
@@ -28,10 +28,10 @@ public class ChangeGameElement extends AbstractGameMenuElement {
 
     @Override
     protected void setFunctionality() {
-        myController.getEnvironment().getNumLevels().addListener(observable -> {
-            refreshAvailableLevels();
+        myController.getEnvironment().getNumGames().addListener(observable -> {
+            refreshAvailableGames();
         });
-        myController.getEnvironment().getCurrentLevelIndex().addListener((observable, oldValue, newValue) -> {
+        myController.getEnvironment().getCurrentGameIndex().addListener((observable, oldValue, newValue) -> {
             RadioMenuItem radioMenuItem = myCurrentItems.get(newValue.intValue());
             if (radioMenuItem != null) {
                 myCurrentItems.get(newValue.intValue()).setSelected(true);
@@ -40,23 +40,22 @@ public class ChangeGameElement extends AbstractGameMenuElement {
         myToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (myToggleGroup.getSelectedToggle() != null) {
                 int index = (int) newValue.getUserData();
-                if (index != myController.getEnvironment().getCurrentLevelIndex().get()) {
-                    myController.getEnvironment().setCurrentLevel(index);
+                if (index != myController.getEnvironment().getCurrentGameIndex().get()) {
+                    myController.getEnvironment().setCurrentGame(index);
                     myController.getCanvasViewController().refresh();
                 }
             }
         });
-        refreshAvailableLevels();
     }
 
-    private void refreshAvailableLevels() {
+    private void refreshAvailableGames() {
         ((Menu) myMenuItem).getItems().clear();
         myToggleGroup.getToggles().removeAll();
         myCurrentItems.clear();
-        for (int i = 0; i < myController.getEnvironment().getNumLevels().get(); i++) {
-            RadioMenuItem radioMenuItem = new RadioMenuItem(LEVEL_PREFIX + (i + 1));
+        for (int i = 0; i < myController.getEnvironment().getNumGames().get(); i++) {
+            RadioMenuItem radioMenuItem = new RadioMenuItem(GAME_PREFIX + (i + 1));
             radioMenuItem.setUserData(i);
-            if (myController.getEnvironment().getCurrentLevelIndex().get() == i) {
+            if (myController.getEnvironment().getCurrentGameIndex().get() == i) {
                 radioMenuItem.setSelected(true);
             }
             radioMenuItem.setToggleGroup(myToggleGroup);
@@ -70,5 +69,6 @@ public class ChangeGameElement extends AbstractGameMenuElement {
         myMenuItem = new Menu(menuItemName);
         myToggleGroup = new ToggleGroup();
         myCurrentItems = new HashMap<>();
+        refreshAvailableGames();
     }
 }
