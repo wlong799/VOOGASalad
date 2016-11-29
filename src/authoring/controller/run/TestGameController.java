@@ -72,7 +72,7 @@ public class TestGameController {
 					if (sprite.facingLeft()) {
 						imgView.setImage(new Image(sprite.getImagePathLeft()));
 					}
-					else {
+					else if (sprite.facingRight()) {
 						imgView.setImage(new Image(sprite.getImagePathRight()));
 					}
 					imgView.setX(sprite.getXForVisualization());
