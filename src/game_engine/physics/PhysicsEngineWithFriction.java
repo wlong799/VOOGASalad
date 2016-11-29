@@ -1,5 +1,6 @@
 package game_engine.physics;
 
+import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 
 /**
@@ -9,7 +10,11 @@ import game_object.simulation.IPhysicsBody;
  */
 public class PhysicsEngineWithFriction extends PhysicsEngine {
 
-	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
+	public PhysicsEngineWithFriction(Level level) {
+		super(level);
+	}
+
+	public double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
 		double vx = body.getVelocity().getXVelocity();
 		double newvx = vx;
 		if (!existLeftRight) {
