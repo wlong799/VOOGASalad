@@ -11,7 +11,7 @@ public class ChangeLevelBackgroundElement extends AbstractGameMenuElement{
 
 	private static final String MENU_NAME = "Change Background";
 	 // TODO: link this to resources file
-	
+
 	protected ChangeLevelBackgroundElement(AuthoringController controller) {
 		super(MENU_NAME, controller);
 	}
@@ -20,7 +20,7 @@ public class ChangeLevelBackgroundElement extends AbstractGameMenuElement{
 	protected void setFunctionality() {
 		myController.getEnvironment();
 		myMenuItem.setOnAction((event) -> {
-			
+			// TODO: 11/28/16 Add this ability
 		});
 	}
 }
