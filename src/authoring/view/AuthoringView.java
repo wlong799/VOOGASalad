@@ -58,6 +58,7 @@ public class AuthoringView extends AbstractView {
             if (myGridContent.getChildren().contains(myInspector.getUI())) {
                 myGridContent.getChildren().remove(myInspector.getUI());
                 GridPane.setColumnSpan(myCanvas.getUI(), 2);
+                GridPane.setColumnSpan(myComponents.getUI(), 2);
             }
         } else {
             if (!myGridContent.getChildren().contains(myInspector.getUI())) {
@@ -76,6 +77,15 @@ public class AuthoringView extends AbstractView {
                 myGridContent.add(myComponents.getUI(), 0, 2, 1, 1);
                 GridPane.setRowSpan(myCanvas.getUI(), 1);
                 GridPane.setRowSpan(myInspector.getUI(), 1);
+            }
+        }
+        if (getWidth() < THRESHOLD_WIDTH || getHeight() < THRESHOLD_HEIGHT) {
+        	if (myGridContent.getChildren().contains(myChat.getUI())) {
+                myGridContent.getChildren().remove(myChat.getUI());
+            }
+        } else {
+        	if (!myGridContent.getChildren().contains(myChat.getUI())) {
+                myGridContent.add(myChat.getUI(), 1, 2, 1, 1);
             }
         }
 
