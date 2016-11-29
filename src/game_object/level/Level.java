@@ -122,24 +122,12 @@ public class Level implements ILevelVisualization {
 		return myHeros;
 	}
 
-	public void setHeros(List<Hero> heros) {
-		myHeros = heros;
-	}
-
 	public List<Enemy> getEnemies() {
 		return myEnemies;
 	}
 
-	public void setEnemies(List<Enemy> enemies) {
-		myEnemies = enemies;
-	}
-
 	public List<StaticBlock> getStaticBlocks() {
 		return myStaticBlocks;
-	}
-
-	public void setStaticBlocks(List<StaticBlock> blocks) {
-		myStaticBlocks = blocks;
 	}
 	/* ---Accessors for background, characters and blocks END--- */
 
@@ -148,14 +136,6 @@ public class Level implements ILevelVisualization {
 	public List<ActionTrigger> getAllTriggers() {
 		return myTriggers;
 	}
-//	
-//	public void addTrigger(ActionTrigger trigger) {
-//		myTriggers.add(trigger);
-//	}
-//	
-//	public void removeTrigger(ActionTrigger trigger) {
-//		myTriggers.remove(trigger);
-//	}
 	
 	public ActionTrigger getTriggerWithSpriteAndAction(
 		ISprite sprite,
@@ -181,11 +161,13 @@ public class Level implements ILevelVisualization {
 		}
 		return triggersWithEvent;
 	}
-	/* ---Events and Triggers--- */
+	/* ---Events and Triggers END--- */
 
+	/* Goals */
 	public List<IGoal> getAllGoals() {
 		return myGoals;
 	}
+	/* ---Goals END--- */
 	
 	/* ILevelVisualization Implementations */
 	List<ISpriteVisualization> mySpriteVisualizations;

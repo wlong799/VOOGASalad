@@ -10,14 +10,9 @@ public abstract class TimeGoal extends AbstractGoal{
 	public TimeGoal(double timeLimit) {
 		 myLimit = timeLimit;
 	}
-	
-	@Override
-	public abstract boolean checkGoal();
 
-	@Override
-	protected abstract void setResult();
-	
 	public void setCurrentTime(double currentTime) {
 		myCurrentTime = currentTime;
 	}
+
 }
