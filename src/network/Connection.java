@@ -6,6 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
+import network.exceptions.JeopardyException;
 import network.messages.Message;
 
 /**
@@ -45,10 +46,12 @@ public class Connection {
 	}
 	
 	public void send(Message msg) {
-		try {
-			outGoingBuffer.put(msg);
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
+		if (!isClosed) {
+			try {
+				outGoingBuffer.put(msg);
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+			}
 		}
 	}
 	

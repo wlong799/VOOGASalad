@@ -77,6 +77,8 @@ public class Coordinator {
 			try {
 				hasStopped = true;
 				synchronized (connectionPool) {
+					for (Connection conn : connectionPool)
+						conn.close();
 					connectionPool.clear();
 				}
 				serverSocket.close();
