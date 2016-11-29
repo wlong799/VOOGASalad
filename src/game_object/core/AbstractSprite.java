@@ -95,6 +95,24 @@ public abstract class AbstractSprite implements ISprite {
 	public String getImagePath() {
 		return myImagePaths.get(0);
 	}
+	
+	@Override
+	public String getImagePathLeft() {
+		return myImagePaths.get(0);
+	}
+	
+	@Override
+	public String getImagePathRight() {
+		if (myImagePaths.size() < 2) {
+			return myImagePaths.get(0);
+		}
+		return myImagePaths.get(1);
+	}
+	
+	@Override
+	public boolean facingLeft() {
+		return getVelocity().getXVelocity() < 0;
+	}
 
 	@Override
 	public double getXForVisualization() {

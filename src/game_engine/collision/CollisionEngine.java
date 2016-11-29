@@ -66,11 +66,13 @@ public class CollisionEngine extends AbstractCollisionEngine{
                             c.setPosition(new Position(c.getPosition().getX(),
                                                        block.getPosition().getY()-c.getDimension().getHeight()));
                             c.setVelocity(new Velocity(c.getVelocity().getXVelocity(), 0));
+                            c.resetCurrentJumps();
                         }
                         else if (collision == CollisionDirection.BOTTOM) {
                             c.setPosition(new Position(c.getPosition().getX(), block.getPosition()
                                     .getY() + block.getDimension().getHeight()));
                             c.setVelocity(new Velocity(c.getVelocity().getXVelocity(), 0));
+                            //c.resetCurrentJumps();
                         }
                         else if (collision == CollisionDirection.RIGHT) {
                             c.setPosition(new Position(block.getPosition().getX() +

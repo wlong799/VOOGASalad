@@ -30,10 +30,11 @@ public class LevelGenerator {
 	 */
 	public static Level getTestLevelA() {
 		ArrayList<String> heroImages = new ArrayList<>();
-		heroImages.add(GameObjectConstants.BLUE_SNAIL_FILE);
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_LEFT);
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_RIGHT);
 		
 		ArrayList<String> enemyImages = new ArrayList<>();
-		enemyImages.add(GameObjectConstants.ELIZA_FILE);
+		enemyImages.add(GameObjectConstants.ORANGE_MUSHROOM_FILE);
 		
 		ArrayList<String> blockImages = new ArrayList<>();
 		blockImages.add(GameObjectConstants.STONE_BLOCK_FILE);
@@ -76,7 +77,8 @@ public class LevelGenerator {
 	 */
 	public static Level getTestLevelB() {
 		ArrayList<String> heroImages = new ArrayList<>();
-		heroImages.add(GameObjectConstants.BLUE_SNAIL_FILE);
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_LEFT);
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_RIGHT);
 		
 		ArrayList<String> blockImages = new ArrayList<>();
 		blockImages.add(GameObjectConstants.STONE_BLOCK_FILE);

@@ -24,8 +24,8 @@ public class ComponentPanelFactory {
     private enum ComponentPanelInfo {
         HERO("Heroes", GameObjectType.HERO, new String[][]
                 {
-                        {GameObjectConstants.BLUE_SNAIL_FILE, "Blue Snail", "A blue snail hero."},
-                        {GameObjectConstants.ELIZA_FILE, "Eliza", "Eliza, a hero."}
+                        {GameObjectConstants.BLUE_SNAIL_LEFT, "Blue Snail", "A blue snail hero."},
+                        {GameObjectConstants.ELIZA_LEFT, "Eliza", "Eliza, a hero."}
                 }),
         ENEMY("Enemies", GameObjectType.ENEMY, new String[][]
                 {
