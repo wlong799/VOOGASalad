@@ -33,6 +33,8 @@ public class TestGameController {
 	private KeyFrame frame;
 	private Timeline animation;
 
+	private Level myLevel;
+	private Map<ISpriteVisualization, ImageView> spriteViewMap;
 	private Hero hero = null;
 
 	public TestGameController(AuthoringController topController) {
@@ -41,15 +43,15 @@ public class TestGameController {
 	}
 
 	public void showTestGame() {
-		Level level = myTopController.getEnvironment().getCurrentLevel();
-		level.init();
-		myGameEngine = new GameEngine(level);
+		myLevel = myTopController.getEnvironment().getCurrentLevel();
+		findHero();
+		myLevel.init();
+		myGameEngine = new GameEngine(myLevel);
 		myGameEngine.suppressLogDebug();
 
 		myTestView.clearSpriteViews();
-		Map<ISpriteVisualization, ImageView> spriteViewMap =
-				new HashMap<ISpriteVisualization, ImageView>();
-		for (ISpriteVisualization sp : level.getAllSpriteVisualizations()) {
+		spriteViewMap = new HashMap<ISpriteVisualization, ImageView>();
+		for (ISpriteVisualization sp : myLevel.getAllSpriteVisualizations()) {
 			ImageView image = new ImageView(sp.getImagePath());
 			image.setX(sp.getXForVisualization());
 			image.setY(sp.getYForVisualization());
@@ -81,7 +83,7 @@ public class TestGameController {
 		animation.getKeyFrames().add(frame);
 		animation.play();
 
-		keyTriggers2Controls(level);
+		keyTriggers2Controls();
 		myTestView.updateLayout();
 		myTestView.show();
 	}
@@ -89,9 +91,9 @@ public class TestGameController {
 	public GameEngine getEngine() {
 		return myGameEngine;
 	}
-
-	private void keyTriggers2Controls(Level l) {
-		for (ISprite sp : l.getAllSprites()) {
+	
+	private void findHero() {
+		for (ISprite sp : myLevel.getAllSprites()) {
 			if (sp instanceof Hero) {
 				Hero hero = (Hero) sp;
 				ArrayList<ActionTrigger> herosActionTrigger = hero.getActionTriggers();
@@ -105,11 +107,14 @@ public class TestGameController {
 					}
 				});
 			}
-			
+		}
+	}
+
+	private void keyTriggers2Controls() {
 		if (hero == null) return;
 		myTestView.getScene().setOnKeyPressed(event -> {
 			for (ActionName name : ActionName.values()) {
-				ActionTrigger trigger = l.getTriggerWithSpriteAndAction(hero, name);
+				ActionTrigger trigger = myLevel.getTriggerWithSpriteAndAction(hero, name);
 				if (trigger == null) break;
 				Event evt = trigger.getEvent();
 				if (!(evt instanceof KeyEvent)) break;
@@ -138,5 +143,4 @@ public class TestGameController {
 	}
 	
 }
-	}
 
