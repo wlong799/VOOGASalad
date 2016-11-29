@@ -16,13 +16,13 @@ public abstract class AbstractGameMenuElement {
     protected AuthoringController myController;
 
     protected AbstractGameMenuElement(String menuElementName, AuthoringController controller) {
-        setMyMenuItem(new MenuItem(menuElementName));
+        setMyMenuItem(menuElementName);
         myController = controller;
         setFunctionality();
     }
 
     public MenuItem getMenuElement() {
-        return getMyMenuItem();
+        return myMenuItem;
     }
 
     /**
@@ -30,11 +30,7 @@ public abstract class AbstractGameMenuElement {
      */
     protected abstract void setFunctionality();
 
-	public MenuItem getMyMenuItem() {
-		return myMenuItem;
-	}
-
-	public void setMyMenuItem(MenuItem myMenuItem) {
-		this.myMenuItem = myMenuItem;
+	protected void setMyMenuItem(String menuItemName) {
+		myMenuItem = new MenuItem(menuItemName);
 	}
 }

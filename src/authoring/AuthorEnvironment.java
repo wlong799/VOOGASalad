@@ -5,13 +5,15 @@ import java.util.List;
 
 import game_object.framework.Game;
 import game_object.level.Level;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.value.ObservableIntegerValue;
 
 public class AuthorEnvironment implements IAuthorEnvironment {
 	
 	private List<Game> games;
 	private Game currentGame;
 	private Level currentLevel;
-	
+
 	public AuthorEnvironment() {
 		games = new ArrayList<>();
 	}
