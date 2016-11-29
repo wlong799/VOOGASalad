@@ -13,6 +13,7 @@ public class GameObjectConstants {
     public static final String STONE_BLOCK_FILE = "img/sprites/stone_block.png";
     public static final String BUSH_FILE = "img/sprites/bush.png";
     public static final String BRICK_FILE = "img/sprites/brick.png";
+    public static final String MARIO_GROUND_FILE = "img/sprites/mario_ground.png";
 
     public static final Component BLUE_SNAIL = new Component(GameObjectType.HERO, BLUE_SNAIL_FILE, "Blue Snail", "A blue snail hero.");
     public static final Component ELIZA = new Component(GameObjectType.HERO, ELIZA_FILE, "Eliza", "Eliza, a hero.");
@@ -22,6 +23,7 @@ public class GameObjectConstants {
     public static final Component STONE_BLOCK = new Component(GameObjectType.STATIC_BLOCK, STONE_BLOCK_FILE, "Stone", "A stony block.");
     public static final Component BUSH = new Component(GameObjectType.STATIC_BLOCK, BUSH_FILE, "Bush", "A bush block.");
     public static final Component BRICK = new Component(GameObjectType.STATIC_BLOCK, BRICK_FILE, "Brick", "A brick block.");
-
+    public static final Component MARIO_GROUND = new Component(GameObjectType.STATIC_BLOCK, MARIO_GROUND_FILE, "Mario Ground", "the default ground in mario games");
+    
     public static final String UPLOAD = "img/upload.png";
 }
