@@ -36,7 +36,7 @@ public class GameEngine_Game implements IGameEngine {
 
 	public GameEngine_Game(Game game) {
 		myCurrentLevel = game.getFirstSceneAsLevel();
-		myPhysicsEngine = new PhysicsEngineWithFriction();
+		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(myCurrentLevel);
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
@@ -45,13 +45,13 @@ public class GameEngine_Game implements IGameEngine {
 		init();
 	}
 
-	public void run() {
-		while (runFlag == true) {
-			update(myElapsedTime);
-			draw();
-			endCheck();
-		}
-	}
+//	public void run() {
+//		while (runFlag == true) {
+//			update(myElapsedTime);
+//			draw();
+//			endCheck();
+//		}
+//	}
 
 	@Override
 	public void init() {
@@ -60,7 +60,6 @@ public class GameEngine_Game implements IGameEngine {
 
 	@Override
 	public void shutdown() {
-		// TODO Auto-generated method stub
 		runFlag = false;
 	}
 
