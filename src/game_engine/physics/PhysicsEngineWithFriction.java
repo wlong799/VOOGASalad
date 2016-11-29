@@ -14,7 +14,7 @@ public class PhysicsEngineWithFriction extends PhysicsEngine {
 		super(level);
 	}
 
-	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
+	public double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
 		double vx = body.getVelocity().getXVelocity();
 		double newvx = vx;
 		if (!existLeftRight) {

@@ -91,6 +91,11 @@ public class GameEngine implements IGameEngine {
 
 	private void updateNewParameters(IPhysicsBody body) {
 		if (body.getAffectedByPhysics()) {
+//			double newX = myPhysicsEngine.calculateNewHorizontalPosition(body, myElapsedTime);
+//			double newY = myPhysicsEngine.calculateNewVerticalPosition(body, myElapsedTime);
+//			double newVx = myPhysicsEngine.calculateNewHorizontalVelocity(body, myElapsedTime);
+//			double newVy = myPhysicsEngine.calculateNewVerticalVelocity(body, myElapsedTime);
+//			myPhysicsEngine.updatePositionAndVelocity(newX, newVx, newY, newVy, body);
 			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
 			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
