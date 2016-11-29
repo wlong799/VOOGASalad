@@ -20,6 +20,5 @@ public class NewLevelElement extends AbstractGameMenuElement{
     @Override
     protected void setFunctionality() {
         myController.getEnvironment();
-        System.out.println("Creating new level...");
     }
 }

@@ -1,7 +1,7 @@
 package authoring.view.canvas;
 
 import authoring.AuthoringController;
-import authoring.View;
+import authoring.view.AbstractView;
 import authoring.constants.UIConstants;
 import authoring.controller.CanvasViewController;
 import javafx.scene.Cursor;
@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
-public class SpriteResizeView extends View {
+public class SpriteResizeView extends AbstractView {
 	
 	private Line borderN;
 	private Line borderW;
@@ -27,7 +27,7 @@ public class SpriteResizeView extends View {
 	}
 	
 	@Override
-	public void setParentView(View parent) {
+	public void setParentView(AbstractView parent) {
 		spView = (SpriteView) parent;
 		initUI();
 	}
@@ -39,7 +39,7 @@ public class SpriteResizeView extends View {
 	}
 
 	@Override
-	protected void layoutSelf() {
+	protected void updateLayoutSelf() {
 		borderN.setEndX(this.getWidth());
 		borderW.setEndY(this.getHeight());
 		borderE.setStartX(this.getWidth());
