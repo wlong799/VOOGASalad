@@ -21,8 +21,6 @@ public class NewLevelElement extends AbstractGameMenuElement {
     protected void setFunctionality() {
         myMenuItem.setOnAction(event -> {
             myController.getEnvironment().addLevel(LevelGenerator.getTestLevelB());
-            int numLevels = myController.getEnvironment().getCurrentGame().getAllLevels().size();
-            myController.getEnvironment().setCurrentLevel(numLevels - 1);
             myController.getCanvasViewController().refresh();
         });
     }

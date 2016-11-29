@@ -16,8 +16,8 @@ public abstract class AbstractGameMenuElement {
     protected AuthoringController myController;
 
     protected AbstractGameMenuElement(String menuElementName, AuthoringController controller) {
-        setMyMenuItem(menuElementName);
         myController = controller;
+        initMenuItem(menuElementName);
         setFunctionality();
     }
 
@@ -30,7 +30,7 @@ public abstract class AbstractGameMenuElement {
      */
     protected abstract void setFunctionality();
 
-	protected void setMyMenuItem(String menuItemName) {
-		myMenuItem = new MenuItem(menuItemName);
-	}
+    protected void initMenuItem(String menuItemName) {
+        myMenuItem = new MenuItem(menuItemName);
+    }
 }
