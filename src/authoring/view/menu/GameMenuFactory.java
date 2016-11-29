@@ -23,8 +23,9 @@ public class GameMenuFactory {
     private enum GameMenuInfo {
         FILE("File", new String[]{"LoadElement", "SaveElement"}),
         LEVEL("Level", new String[]{"NewLevelElement", "ChangeLevelBackgroundElement"}),
-        VIEW("View", new String[]{}),
-        KEYBOARD("Keyboard", new String[]{});
+        VIEW("AbstractView", new String[]{}),
+        KEYBOARD("Keyboard", new String[]{}),
+        TEST("Test", new String[]{"RunElement"});
 
         private String myGameMenuName;
         private String[] myGameMenuElementClasses;

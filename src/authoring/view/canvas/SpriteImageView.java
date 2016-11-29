@@ -1,12 +1,12 @@
 package authoring.view.canvas;
 
 import authoring.AuthoringController;
-import authoring.View;
+import authoring.view.AbstractView;
 import game_object.core.ISprite;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class SpriteImageView extends View {
+public class SpriteImageView extends AbstractView {
 	
 	private SpriteView spView;
 	private ImageView imageView;
@@ -17,7 +17,7 @@ public class SpriteImageView extends View {
 	}
 	
 	@Override
-	public void setParentView(View parent) {
+	public void setParentView(AbstractView parent) {
 		spView = (SpriteView) parent;
 		mySprite = spView.getSprite();
 		initUI();
@@ -32,7 +32,7 @@ public class SpriteImageView extends View {
 	}
 
 	@Override
-	protected void layoutSelf() {
+	protected void updateLayoutSelf() {
 		imageView.setFitHeight(this.getHeight());
 		imageView.setFitWidth(this.getWidth());
 	}
@@ -43,7 +43,7 @@ public class SpriteImageView extends View {
 		
 		this.setWidth(image.getWidth());
 		this.setHeight(image.getHeight());
-		layout();
+		updateLayout();
 		
 		mySprite.getDimension().setWidth(image.getWidth());
 		mySprite.getDimension().setHeight(image.getHeight());

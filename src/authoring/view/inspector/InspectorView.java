@@ -1,26 +1,33 @@
 package authoring.view.inspector;
 
 import authoring.AuthoringController;
-import authoring.View;
 import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
+import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
+import game_object.character.Hero;
 import game_object.core.ISprite;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
-public class InspectorView extends View implements ISubscriber {
+public class InspectorView extends AbstractView implements ISubscriber {
 	
 	private SpriteView inspectedSpriteView;
+	private ISprite sprite;
 	private VBox configs;
 	private VBox xBox;
 	private VBox yBox;
 	private VBox zBox;
 	private VBox widthBox;
 	private VBox heightBox;
+	private ScrollPane inspectorPane;
+	
+	private ActionConfiguringView myActionView;
 	
 	public interface ITextChangeHandler {
 		void handle(String newVal);
@@ -41,46 +48,57 @@ public class InspectorView extends View implements ISubscriber {
 	@Override
 	protected void initUI() {
 		this.getController().addSubscriber(this);
+		inspectorPane = new ScrollPane();
+		inspectorPane.setFitToWidth(true);
 		configs = new VBox();
-		this.addUI(configs);
+		inspectorPane.setContent(configs);
+
+		this.addUI(inspectorPane);
 	}
 
 	@Override
-	protected void layoutSelf() {
-		configs.setPrefWidth(this.getWidth());
-		configs.setPrefHeight(this.getHeight());
+	protected void updateLayoutSelf() {
+		inspectorPane.setPrefWidth(this.getWidth());
+		inspectorPane.setPrefHeight(this.getHeight());
 	}
 	
 	private void updateUI() {
 		configs.getChildren().clear();
-		ISprite sprite = inspectedSpriteView.getSprite();
-		xBox = makeDoubleInputBox("position X", sprite.getPosition().getX(), 
+		sprite = inspectedSpriteView.getSprite();
+		xBox = makeDoubleInputBox("Position X", sprite.getPosition().getX(), 
 				(newVal) -> {
 					inspectedSpriteView.setAbsolutePositionX(Double.parseDouble(newVal));
 				});
-		yBox = makeDoubleInputBox("position Y", sprite.getPosition().getY(), 
+		yBox = makeDoubleInputBox("Position Y", sprite.getPosition().getY(), 
 				(newVal) -> {
 					inspectedSpriteView.setAbsolutePositionY(Double.parseDouble(newVal));
 				});
-		zBox = makeDoubleInputBox("position Z", sprite.getPosition().getZ(),
+		zBox = makeDoubleInputBox("Position Z", sprite.getPosition().getZ(),
 				(newVal) -> {
 					inspectedSpriteView.setAbsolutePositionZ(Double.parseDouble(newVal));
 				});
-		widthBox = makeDoubleInputBox("width", sprite.getDimension().getWidth(),
+		widthBox = makeDoubleInputBox("Width", sprite.getDimension().getWidth(),
 				(newVal) -> {
 					inspectedSpriteView.setDimensionWidth(Double.parseDouble(newVal));
 				});
-		heightBox = makeDoubleInputBox("height", sprite.getDimension().getHeight(),
+		heightBox = makeDoubleInputBox("Height", sprite.getDimension().getHeight(),
 				(newVal) -> {
 					inspectedSpriteView.setDimensionHeight(Double.parseDouble(newVal));
 				});
+		myActionView = new ActionConfiguringView(this.getController());
+		myActionView.setSprite(sprite);
+		this.addSubView(myActionView);
 		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox);
+		if (sprite instanceof Hero) {
+			configs.getChildren().add(myActionView.getUI());
+		}
 	}
 	
 	private VBox makeDoubleInputBox(String title, double defaultValue, 
 			ITextChangeHandler handler) {
 		VBox box = new VBox();
 		Label label = new Label(title);
+		label.setFont(Font.font("Segoe UI Semibold"));
 		TextField tf = new TextField(defaultValue + "");
 		box.getChildren().addAll(label, tf);
 		box.setPadding(new Insets(5,5,5,5));
