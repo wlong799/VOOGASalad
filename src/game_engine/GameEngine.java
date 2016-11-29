@@ -50,10 +50,9 @@ public class GameEngine implements IGameEngine {
 		init();
 	}
 
-
-	@Override
-	public void init() {
+	private void init() {
 		setElements(myCurrentLevel);
+		myCurrentLevel.init();
 	}
 	
 	public void suppressLogDebug() {
@@ -63,7 +62,7 @@ public class GameEngine implements IGameEngine {
 
 	private void endCheck() {
 		WinStatus ws = checkWin();
-		if (ws != WinStatus.GOON) {
+		if (ws != WinStatus.GO_ON) {
 			if (myCurrentLevel == null) {
 				shutdown();
 			}
@@ -113,7 +112,7 @@ public class GameEngine implements IGameEngine {
 				return g.getResult();
 			}
 		}
-		return WinStatus.GOON;
+		return WinStatus.GO_ON;
 	}
 
 	private void setElements(Level level) {

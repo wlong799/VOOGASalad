@@ -16,11 +16,6 @@ import game_object.visualization.ISpriteVisualization;
 public interface IGameEngine {
 
 	/**
-	 * Reads in the Game object and makes the initial map set up
-	 */
-	public void init();
-
-	/**
 	 * Closes engine or transit to other levels
 	 */
 	public void shutdown();

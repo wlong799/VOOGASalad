@@ -56,8 +56,7 @@ public class GameEngine_Game implements IGameEngine {
 //		}
 //	}
 
-	@Override
-	public void init() {
+	private void init() {
 		setElements(myCurrentLevel);
 	}
 
@@ -110,7 +109,7 @@ public class GameEngine_Game implements IGameEngine {
 
 	private void endCheck() {
 		WinStatus ws = checkWin();
-		if (ws != WinStatus.GOON) {
+		if (ws != WinStatus.GO_ON) {
 			myCurrentLevel = myTransitionManager.readWinStatus(ws);
 			if (myCurrentLevel == null) {
 				shutdown();
@@ -129,7 +128,7 @@ public class GameEngine_Game implements IGameEngine {
 				return g.getResult();
 			}
 		}
-		return WinStatus.GOON;
+		return WinStatus.GO_ON;
 	}
 
 	private void setElapsedTime(double elapsedTime) {
