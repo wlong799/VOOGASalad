@@ -23,6 +23,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	private int myMaxNumberOfJumps = DefaultConstants.MAX_JUMP;
 	private Velocity myVelocity = new Velocity(0, 0);
 	protected boolean myDead = false;
+        protected int myCurrentJumps;
 	protected Weapon myCurrentWeapon;
 	
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
@@ -41,6 +42,10 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	@Override
 	public double getMaxHP() {
 		return myMaxHP;
+	}
+	
+	public void resetCurrentJumps(){
+	    myCurrentJumps=0;
 	}
 	
 	@Override
@@ -115,7 +120,10 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
-		myVelocity.setYVelocity(-myJumpingUnit);
+	         if(myCurrentJumps<getMaxNumberOfJumps()){
+	                myCurrentJumps++;
+	                myVelocity.setYVelocity(-myJumpingUnit);
+	           }
 	}
 	/* ---IMover Implementations END---*/
 	
