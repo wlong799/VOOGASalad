@@ -89,7 +89,7 @@ public class TestGameConfiguringView extends AbstractView {
 		
 		myBox.getChildren().addAll(
 				gravityBox.getBox(), afBox.getBox(), gfBox.getBox(), tminBox.getBox(), tmaxBox.getBox());
-		//myBox.getChildren().forEach(box->((SliderBox)box).getBox().setFocusTraversable(false));
+		myBox.getChildren().forEach(box->box.setFocusTraversable(true));
 		//myBox.requestFocus();
 		//myBox.getChildren().get(0).setDisable(true);
 	}
