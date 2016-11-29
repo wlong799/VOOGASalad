@@ -28,15 +28,14 @@ public class InputController implements IInputController {
 	@Override
 	public void executeInput() {
 		exist = false;
-		KeyEvent event;
 		if (myList == null || myList.size() == 0) {
 			return;
 		}
-		event = myList.get(0);
-		List<ActionTrigger> trigger = myLevel.getTriggersWithEvent(event);
-
-		for (ActionTrigger actionTrigger : trigger) {
-			chooseAction(actionTrigger);
+		for (KeyEvent event : myList) {
+			List<ActionTrigger> trigger = myLevel.getTriggersWithEvent(event);
+			for (ActionTrigger actionTrigger : trigger) {
+				chooseAction(actionTrigger);
+			}
 		}
 		// System.out.println(exist);
 	}
@@ -53,9 +52,9 @@ public class InputController implements IInputController {
 			exist = true;
 		} else if (at.getActionName() == ActionName.JUMP) {
 			IMover m = (IMover) sprite;
-			if (sprite.getVelocity().getYVelocity() == 0) {
-				m.jumpUp();
-			}
+			// if (sprite.getVelocity().getYVelocity() == 0) {
+			m.jumpUp();
+			// }
 		} else if (at.getActionName() == ActionName.SHOOT) {
 			ICharacter c = (ICharacter) sprite;
 			c.shoot();
