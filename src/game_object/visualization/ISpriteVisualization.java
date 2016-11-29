@@ -21,6 +21,8 @@ public interface ISpriteVisualization {
 	
 	boolean facingLeft();
 	
+	boolean facingRight();
+	
 	double getXForVisualization();
 	
 	double getYForVisualization();
