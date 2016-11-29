@@ -11,6 +11,10 @@ public class KeyEvent extends Event {
 		myKey = key;
 	}
 
+	public KeyCode getKeyCode() {
+		return myKey;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -36,6 +40,4 @@ public class KeyEvent extends Event {
 		return true;
 	}
 	
-
-
 }

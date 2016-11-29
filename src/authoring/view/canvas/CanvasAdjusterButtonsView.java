@@ -1,11 +1,11 @@
 package authoring.view.canvas;
 
 import authoring.AuthoringController;
-import authoring.View;
+import authoring.view.AbstractView;
 import authoring.constants.UIConstants;
 import javafx.scene.control.Button;
 
-public class CanvasAdjusterButtonsView extends View {
+public class CanvasAdjusterButtonsView extends AbstractView {
 	
 	private Button screenWider;
 	private Button screenNarrower;
@@ -28,7 +28,7 @@ public class CanvasAdjusterButtonsView extends View {
 	}
 
 	@Override
-	protected void layoutSelf() {
+	protected void updateLayoutSelf() {
 	}
 	
 	private void screenAdjusterButtonInit(){

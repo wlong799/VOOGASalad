@@ -9,7 +9,6 @@ import game_engine.collision.ICollisionEngine;
 import game_engine.inputcontroller.InputController;
 import game_engine.physics.AbstractPhysicsEngine;
 import game_engine.physics.IPhysicsEngine;
-import game_engine.physics.PhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.AbstractTransitionManager;
@@ -41,6 +40,9 @@ public class GameEngine implements IGameEngine {
 	// private List<Hero> myHeroes;
 	// private List<Enemy> myEnemies;
 	// private List<StaticBlock> myBlocks;
+	
+	//for suppressing log output
+	private boolean logSuppressed = false;
 
 	public GameEngine(Level level) {
 		myCurrentLevel = level;
@@ -61,10 +63,15 @@ public class GameEngine implements IGameEngine {
 	public void init() {
 		setElements(myCurrentLevel);
 	}
+	
+	public void suppressLogDebug() {
+		logSuppressed = true;
+		myCollisionEngine.suppressLogDebug();
+	}
 
 	private void endCheck() {
 		WinStatus ws = checkWin();
-		if (ws != WinStatus.GOON) {
+		if (ws != WinStatus.GO_ON) {
 			// myCurrentLevel = myTransitionManager.readWinStatus(ws);
 			if (myCurrentLevel == null) {
 				shutdown();
@@ -115,7 +122,7 @@ public class GameEngine implements IGameEngine {
 				return g.getResult();
 			}
 		}
-		return WinStatus.GOON;
+		return WinStatus.GO_ON;
 	}
 
 	private void setElements(Level level) {
@@ -155,6 +162,7 @@ public class GameEngine implements IGameEngine {
 	}
 
 	public void printOutput() {
+		if (logSuppressed) return;
 		for (ISprite s : mySprites) {
 			System.out.println("x = " + s.getPosition().getX() + " ; y = " + s.getPosition().getY());
 			System.out.println("vx = " + s.getVelocity().getXVelocity() + " ; vy = " + s.getVelocity().getYVelocity());
