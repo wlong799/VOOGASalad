@@ -1,7 +1,7 @@
 package authoring.view.canvas;
 
 import authoring.AuthoringController;
-import authoring.View;
+import authoring.view.AbstractView;
 import authoring.constants.UIConstants;
 import authoring.controller.CanvasViewController;
 import javafx.scene.Group;
@@ -11,11 +11,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
 
 /**
- * Canvas View - editor UI
+ * Canvas AbstractView - editor UI
  * need refactor - extract resize, drag methods to a 'controller'
  * 		using composition
  */
-public class CanvasView extends View {
+public class CanvasView extends AbstractView {
 
 	private ScrollPane scrollPane;
 	private Group content; // holder for all SpriteViews
@@ -42,6 +42,9 @@ public class CanvasView extends View {
 		content.getChildren().add(background);
 		scrollPane = new ScrollPane(content);
 		this.addUI(scrollPane);
+		CanvasAdjusterButtonsView canvasAdjusterButtonsView = new CanvasAdjusterButtonsView(getController());
+		addUI(canvasAdjusterButtonsView.getUI());
+		addSubView(canvasAdjusterButtonsView);
 		this.addSubView(new CanvasAdjusterButtonsView(this.getController()));
 		
 		canvasViewController = this.getController().getCanvasViewController();
@@ -50,7 +53,7 @@ public class CanvasView extends View {
 	}
 
 	@Override
-	protected void layoutSelf() {
+	protected void updateLayoutSelf() {
 		scrollPane.setPrefHeight(this.getHeight());
 		scrollPane.setPrefWidth(this.getWidth());
 	}

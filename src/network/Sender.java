@@ -5,6 +5,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 
+import network.messages.Message;
+
 /**
  * The worker thread that tries to push messages in the outGoingBuffer
  * to server who is going to forward them to all subscribers

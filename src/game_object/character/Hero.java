@@ -11,7 +11,7 @@ import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
 import game_object.weapon.Weapon;
 
-public class Hero extends ActiveCharacter implements IUpgrader {
+public class Hero extends AbstractCharacter implements IUpgrader, ITriggerable {
 
 	private final int myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
 	private final int myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;

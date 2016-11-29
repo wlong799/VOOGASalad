@@ -12,5 +12,6 @@ public interface IMover {
 	void moveUp();
 	void moveDown();
 	void jumpUp();
-	
+	int getMaxNumberOfJumps();
+	void resetCurrentJumps();
 }

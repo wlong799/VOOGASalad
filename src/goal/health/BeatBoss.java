@@ -2,12 +2,12 @@ package goal.health;
 
 import game_engine.transition.WinStatus;
 import game_object.character.ICharacter;
+import goal.GoalType;
 
 public class BeatBoss extends HealthGoal {
 
 	public BeatBoss(ICharacter boss) {
 		super(boss);
-		setResult();
 	}
 
 	@Override
@@ -16,8 +16,13 @@ public class BeatBoss extends HealthGoal {
 	}
 
 	@Override
-	public void setResult() {
-		ws = WinStatus.WON;
+	public WinStatus getResult() {
+		return WinStatus.WON;
+	}
+	
+	@Override
+	public final GoalType getGoalType() {
+		return GoalType.BEAT_BOSS;
 	}
 
 }

@@ -7,6 +7,7 @@ import game_object.core.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
+import game_object.core.Velocity;
 import game_object.weapon.Weapon;
 
 /**
@@ -17,7 +18,12 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	protected double myMaxHP = DefaultConstants.CHARACTER_MAX_HP;
 	protected double myCurrentHP = DefaultConstants.CHARACTER_MAX_HP;
+	private double myMovingUnit = DefaultConstants.MOVING_UNIT;
+	private double myJumpingUnit = DefaultConstants.JUMPING_UNIT;
+	private int myMaxNumberOfJumps = DefaultConstants.MAX_JUMP;
+	private Velocity myVelocity = new Velocity(0, 0);
 	protected boolean myDead = false;
+        protected int myCurrentJumps;
 	protected Weapon myCurrentWeapon;
 	
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
@@ -36,6 +42,10 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	@Override
 	public double getMaxHP() {
 		return myMaxHP;
+	}
+	
+	public void resetCurrentJumps(){
+	    myCurrentJumps=0;
 	}
 	
 	@Override
@@ -70,5 +80,73 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		ExceptionThrower.notYetSupported();
 		myCurrentWeapon = currentWeapon;
 	}
+	
+	public double getMovingUnit() {
+		return myMovingUnit;
+	}
 
+	public void setMovingUnit(double movingUnit) {
+		myMovingUnit = movingUnit;
+	}
+
+	public double getJumpingUnit() {
+		return myJumpingUnit;
+	}
+
+	public void setJumpingUnit(double jumpingUnit) {
+		myJumpingUnit = jumpingUnit;
+	}
+
+	/* IMover Implementations */
+	@Override
+	public void moveRight() {
+		myVelocity.setXVelocity(myMovingUnit);
+	}
+	
+	@Override
+	public void moveLeft() {
+		myVelocity.setXVelocity(-myMovingUnit);
+	}
+
+	@Override
+	public void moveUp() {
+		ExceptionThrower.notYetSupported();
+	}
+
+	@Override
+	public void moveDown() {
+		ExceptionThrower.notYetSupported();
+	}
+
+	@Override
+	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
+	         if(myCurrentJumps<getMaxNumberOfJumps()){
+	                myCurrentJumps++;
+	                myVelocity.setYVelocity(-myJumpingUnit);
+	           }
+	}
+	/* ---IMover Implementations END---*/
+	
+	
+	/* IPhysicsBody Implementations */	
+	@Override
+	public boolean getAffectedByPhysics() {
+		return true;
+	}
+	
+	@Override
+	public void setVelocity(Velocity velocity) {
+		myVelocity = velocity;
+	}
+	
+	@Override
+	public Velocity getVelocity() {
+		return myVelocity;
+	}
+	/* ---IPhysicsBody Implementations END--- */	
+	
+	@Override
+	public int getMaxNumberOfJumps() {
+		return myMaxNumberOfJumps;
+	}
 }
