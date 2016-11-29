@@ -23,7 +23,7 @@ public abstract class AbstractTransitionManager implements ITransitionManager {
 			levelWon();
 		else if (ws == WinStatus.LOST)
 			levelLost();
-		else if (ws == WinStatus.GOON)
+		else if (ws == WinStatus.GO_ON)
 			levelGoOn();
 		
 		return returnLevel;

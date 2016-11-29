@@ -18,6 +18,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
@@ -67,8 +68,15 @@ public class TestGameController {
 			public void handle (ActionEvent event) {
 				myGameEngine.update(5.0 / 60.0);
 				for (ISpriteVisualization sprite : spriteViewMap.keySet()) {
-					spriteViewMap.get(sprite).setX(sprite.getXForVisualization());
-					spriteViewMap.get(sprite).setY(sprite.getYForVisualization());
+					ImageView imgView = spriteViewMap.get(sprite);
+					if (sprite.facingLeft()) {
+						imgView.setImage(new Image(sprite.getImagePathLeft()));
+					}
+					else if (sprite.facingRight()) {
+						imgView.setImage(new Image(sprite.getImagePathRight()));
+					}
+					imgView.setX(sprite.getXForVisualization());
+					imgView.setY(sprite.getYForVisualization());
 				}
 			}
 		});

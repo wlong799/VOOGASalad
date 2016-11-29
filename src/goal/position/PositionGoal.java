@@ -14,9 +14,4 @@ public abstract class PositionGoal extends AbstractGoal{
 		 myPos = pos;
 	}
 	
-	@Override
-	public abstract boolean checkGoal();
-
-	@Override
-	protected abstract void setResult();
 }

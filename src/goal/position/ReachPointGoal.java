@@ -3,12 +3,12 @@ package goal.position;
 import game_engine.transition.WinStatus;
 import game_object.character.ICharacter;
 import game_object.core.Position;
+import goal.GoalType;
 
-public class ReachPoint extends PositionGoal {
+public class ReachPointGoal extends PositionGoal {
 
-	public ReachPoint(ICharacter character, Position pos) {
+	public ReachPointGoal(ICharacter character, Position pos) {
 		super(character, pos);
-		setResult();
 	}
 
 	@Override
@@ -22,10 +22,15 @@ public class ReachPoint extends PositionGoal {
 				myPos.getY() < y + height / 2 && 
 				myPos.getY() > x - height / 2);
 	}
-
+	
 	@Override
-	protected void setResult() {
-		ws = WinStatus.WON;
+	public final GoalType getGoalType() {
+		return GoalType.REACH_POINT;
+	}
+	
+	@Override
+	public WinStatus getResult() {
+		return WinStatus.WON;
 	}
 
 }

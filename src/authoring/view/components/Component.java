@@ -10,6 +10,7 @@ import game_object.core.Position;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -27,8 +28,16 @@ public class Component {
     private String myTitle;
     private String myDescription;
 
+    public Component(GameObjectType gameObjectType, String imagePathLeft, String imagePathRight, String title, String description) {
+        List<String> imagePaths = new ArrayList<String>(Arrays.asList(imagePathLeft, imagePathRight));
+    	myTemplateSprite = createTemplateSpriteFromType(gameObjectType, imagePaths);
+        myTitle = title;
+        myDescription = description;
+    }
+    
     public Component(GameObjectType gameObjectType, String imagePath, String title, String description) {
-        myTemplateSprite = createTemplateSpriteFromType(gameObjectType, imagePath);
+    	List<String> imagePaths = new ArrayList<String>(Arrays.asList(imagePath));
+    	myTemplateSprite = createTemplateSpriteFromType(gameObjectType, imagePaths);
         myTitle = title;
         myDescription = description;
     }
@@ -63,19 +72,17 @@ public class Component {
         return myTemplateSprite.getImagePath();
     }
 
-    private ISprite createTemplateSpriteFromType(GameObjectType gameObjectType, String imagePath) {
+    private ISprite createTemplateSpriteFromType(GameObjectType gameObjectType, List<String> imagePaths) {
         ISprite sprite = null;
-        List<String> path = new ArrayList<>();
-        path.add(imagePath);
         switch (gameObjectType) {
             case ENEMY:
-                sprite = new Enemy(new Position(0, 0), new Dimension(0, 0), path);
+                sprite = new Enemy(new Position(0, 0), new Dimension(0, 0), imagePaths);
                 break;
             case HERO:
-                sprite = new Hero(new Position(0, 0), new Dimension(0, 0), path);
+                sprite = new Hero(new Position(0, 0), new Dimension(0, 0), imagePaths);
                 break;
             case STATIC_BLOCK:
-                sprite = new StaticBlock(new Position(0, 0), new Dimension(0, 0), path);
+                sprite = new StaticBlock(new Position(0, 0), new Dimension(0, 0), imagePaths);
                 break;
         }
         return sprite;
