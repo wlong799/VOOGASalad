@@ -10,7 +10,7 @@ import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
 
-public class Enemy extends ActiveCharacter {
+public class Enemy extends AbstractCharacter {
 
 	private int myCategoryBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 	private int myCollisionBitMask =
@@ -33,17 +33,6 @@ public class Enemy extends ActiveCharacter {
 	
 	@Override
 	public void shoot() {
-		ExceptionThrower.notYetSupported();
-	}
-	
-	@Override
-	public ArrayList<ActionTrigger> getActionTriggers() {
-		ExceptionThrower.notYetSupported();
-		return null;
-	}
-
-	@Override
-	public void setActionTriggers(ArrayList<ActionTrigger> ats) {
 		ExceptionThrower.notYetSupported();
 	}
 
