@@ -70,8 +70,7 @@ public class TestGameController {
                              new EventHandler<ActionEvent>() {
                                  @Override
                                  public void handle (ActionEvent event) {
-                                     List<KeyEvent> keyList = new ArrayList<KeyEvent>(currentlyPressedKeys);
-                                     myGameEngine.setInputList(keyList);
+                                     myGameEngine.setInputList(currentlyPressedKeys);
                                      myGameEngine.update(5.0 / 60.0);
                                      for (ISpriteVisualization sprite : spriteViewMap.keySet()) {
                                          spriteViewMap.get(sprite)
