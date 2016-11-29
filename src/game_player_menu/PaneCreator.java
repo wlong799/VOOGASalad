@@ -3,7 +3,6 @@ package game_player_menu;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import sun.font.TrueTypeGlyphMapper;
 
 public class PaneCreator implements DescriptionDisplayCreator{
 	
@@ -31,6 +30,4 @@ public class PaneCreator implements DescriptionDisplayCreator{
 		return pane;
 	}
 
-	
-	
 }
