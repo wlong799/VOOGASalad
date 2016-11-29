@@ -2,8 +2,6 @@ package game_object.core;
 
 import java.util.List;
 
-import javafx.stage.Screen;
-
 /**
  * Base class for all sprites providing common functionalities.
  * @author Jay

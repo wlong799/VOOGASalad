@@ -15,6 +15,8 @@ import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.WinStatus;
 import game_object.acting.KeyEvent;
 import game_object.background.Background;
+import game_object.character.Hero;
+import game_object.core.AbstractSprite;
 import game_object.core.ISprite;
 import game_object.core.Position;
 import game_object.core.Velocity;
@@ -86,10 +88,18 @@ public class GameEngine implements IGameEngine {
 		}
 		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
 				myCurrentLevel.getStaticBlocks());
-		//printOutput();
+		updateVisualzation();
 		endCheck();
 	}
 
+	private void updateVisualzation() {
+		Hero pivotHero = myCurrentLevel.getHeros().get(0);
+		if (pivotHero != null) {
+			AbstractSprite.getStaticPivotPosition().setX(pivotHero.getPosition().getX());
+			AbstractSprite.getStaticPivotPosition().setY(pivotHero.getPosition().getY());
+		}
+	}
+	
 	private void updateNewParameters(IPhysicsBody body) {
 		if (body.getAffectedByPhysics()) {
 //			double newX = myPhysicsEngine.calculateNewHorizontalPosition(body, myElapsedTime);

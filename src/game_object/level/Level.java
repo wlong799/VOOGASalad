@@ -11,7 +11,6 @@ import game_object.background.Background;
 import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
-import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.ISprite;
 import game_object.visualization.ILevelVisualization;
@@ -176,7 +175,6 @@ public class Level implements ILevelVisualization {
 	
 	@Override
 	public void init() {
-		pivotHero = getHeros().get(0);
 		mySpriteVisualizations = new ArrayList<>();
 		List<ISprite> allSprites = getAllSprites();
 		allSprites.sort((s1, s2) ->
@@ -187,10 +185,6 @@ public class Level implements ILevelVisualization {
 
 	@Override
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
-		if (pivotHero != null) {
-			AbstractSprite.getStaticPivotPosition().setX(pivotHero.getPosition().getX());
-			AbstractSprite.getStaticPivotPosition().setY(pivotHero.getPosition().getY());
-		}
 		return mySpriteVisualizations;
 	}
 	/* ---ILevelVisualization Implementations END--- */
