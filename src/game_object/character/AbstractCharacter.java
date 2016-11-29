@@ -122,6 +122,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
 	         if(myCurrentJumps<getMaxNumberOfJumps()){
 	                myCurrentJumps++;
+	                System.out.println(myCurrentJumps);
 	                myVelocity.setYVelocity(-myJumpingUnit);
 	           }
 	}

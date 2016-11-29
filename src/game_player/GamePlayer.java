@@ -1,16 +1,19 @@
 package game_player;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 
 import authoring.view.canvas.SpriteImageView;
 import game_engine.GameEngine;
+import game_engine.GameEngine_Game;
 import game_object.LevelGenerator;
 import game_object.background.Background;
 import game_object.core.ISprite;
 import game_object.framework.Game;
 import game_object.level.Level;
+import game_object.visualization.ISpriteVisualization;
 import javafx.animation.AnimationTimer;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -26,19 +29,19 @@ import game_object.acting.*;
  */
 public class GamePlayer implements IGamePlayer {
 	private Game myCurrentGame;
-	private GameEngine myGameEngine;
+	private GameEngine_Game myGameEngine;
 	private Stage myStage;
 	private Scene myScene;
 	private Group myRoot;
-	private List<KeyEvent> myKeysPressed;
-
+	private Set<KeyEvent> myKeysPressed;
+	
 
 	public GamePlayer(Stage s){
 		myRoot = new Group();
 		myScene = new Scene(myRoot);
 		myStage = s;
 		myStage.setScene(myScene);
-		myKeysPressed = new ArrayList<KeyEvent>();
+		myKeysPressed = new HashSet<KeyEvent>();
 		setGame("");
 		setSceneKeyListener();
 		start();
@@ -77,8 +80,7 @@ public class GamePlayer implements IGamePlayer {
 	@Override
 	public void setGame(String gameName) {
 		myCurrentGame = new Game();
-		Level level = LevelGenerator.getTestLevelA();
-		myGameEngine = new GameEngine(level);
+		myGameEngine = new GameEngine_Game(myCurrentGame);
 	}
 
 	@Override
@@ -100,7 +102,7 @@ public class GamePlayer implements IGamePlayer {
 		myRoot.getChildren().clear();
 		ImageView background = getBackGroundImage();
 		myRoot.getChildren().add(background);
-		for(ISprite currentSprite : myGameEngine.getSprites()){
+		for(ISpriteVisualization currentSprite : myGameEngine.getSprites()){
 			Image currentSpriteImage = new Image(currentSprite.getImagePath());
 			ImageView currentSpriteView = new ImageView(currentSpriteImage);
 			currentSpriteView.setFitWidth(currentSprite.getWidthForVisualization());
