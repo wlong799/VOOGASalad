@@ -27,91 +27,6 @@ import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
 public class TestGameController {
-
-<<<<<<< HEAD
-	private AuthoringController myTopController;
-	private TestGameView myTestView;
-	private GameEngine myGameEngine;
-
-	private KeyFrame frame;
-	private Timeline animation;
-
-	private Level myLevel;
-	private Map<ISpriteVisualization, ImageView> spriteViewMap;
-	private Hero hero = null;
-
-	public TestGameController(AuthoringController topController) {
-		myTopController = topController;
-		myTestView = new TestGameView(topController);
-	}
-
-	public void showTestGame() {
-		myLevel = myTopController.getEnvironment().getCurrentLevel();
-		findHero();
-		myLevel.init();
-		myGameEngine = new GameEngine(myLevel);
-		myGameEngine.suppressLogDebug();
-
-		myTestView.clearSpriteViews();
-		spriteViewMap = new HashMap<ISpriteVisualization, ImageView>();
-		for (ISpriteVisualization sp : myLevel.getAllSpriteVisualizations()) {
-			ImageView image = new ImageView(sp.getImagePath());
-			image.setX(sp.getXForVisualization());
-			image.setY(sp.getYForVisualization());
-
-			image.setFitWidth(sp.getWidthForVisualization());
-			image.setFitHeight(sp.getHeightForVisualization());
-			spriteViewMap.put(sp, image);
-
-			myTestView.addSpriteView(image);
-		}
-
-		frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
-				new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				myGameEngine.update(5.0 / 60.0);
-				for (ISpriteVisualization sprite : spriteViewMap.keySet()) {
-					ImageView imgView = spriteViewMap.get(sprite);
-					if (sprite.facingLeft()) {
-						imgView.setImage(new Image(sprite.getImagePathLeft()));
-					}
-					else if (sprite.facingRight()) {
-						imgView.setImage(new Image(sprite.getImagePathRight()));
-					}
-					imgView.setX(sprite.getXForVisualization());
-					imgView.setY(sprite.getYForVisualization());
-				}
-			}
-		});
-
-		if (animation != null) {
-			animation.stop();
-		}
-		animation = new Timeline();
-		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);
-		animation.play();
-
-		keyTriggers2Controls();
-		myTestView.updateLayout();
-		myTestView.show();
-	}
-
-	public GameEngine getEngine() {
-		return myGameEngine;
-	}
-	
-	private void findHero() {
-		for (ISprite sp : myLevel.getAllSprites()) {
-			if (sp instanceof Hero) {
-				hero = (Hero) sp;
-			}
-		}
-	}
-
-	private void keyTriggers2Controls() {
-=======
     private AuthoringController myTopController;
     private TestGameView myTestView;
     private GameEngine myGameEngine;
@@ -191,8 +106,6 @@ public class TestGameController {
     }
 
     private void keyTriggers2Controls() {
-	    
->>>>>>> 264567daccdf4d941c8f92859d2d991a516390e2
 		if (hero == null) return;
 		myTestView.getScene().setOnKeyReleased(event-> {
 		    System.out.println(event.getCode() + " Remove");
