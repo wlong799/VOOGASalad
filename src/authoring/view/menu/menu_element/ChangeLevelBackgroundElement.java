@@ -9,7 +9,7 @@ import authoring.view.menu.AbstractGameMenuElement;
  */
 public class ChangeLevelBackgroundElement extends AbstractGameMenuElement{
 
-	private static final String MENU_NAME = "Change Level Background";
+	private static final String MENU_NAME = "Change Background";
 	 // TODO: link this to resources file
 	
 	protected ChangeLevelBackgroundElement(AuthoringController controller) {
