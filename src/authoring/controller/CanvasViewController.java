@@ -173,6 +173,16 @@ public class CanvasViewController {
         }
         myEnvironment.getCurrentLevel().getLevelDimension().setWidth(myBackground.getWidth());
     }
+    
+    public void taller() {
+    	myBackground.setHeight(myBackground.getHeight() + UIConstants.SCREEN_CHANGE_INTERVAL);
+        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(myBackground.getHeight());
+    }
+    
+    public void shorter() {
+    	myBackground.setHeight(myBackground.getHeight() - UIConstants.SCREEN_CHANGE_INTERVAL);
+        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(myBackground.getHeight());
+    }
 
     // relative positions to absolute
     public double toAbsoluteX(double x) {

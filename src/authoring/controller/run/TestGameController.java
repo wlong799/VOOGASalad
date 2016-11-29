@@ -113,6 +113,7 @@ public class TestGameController {
 	private void keyTriggers2Controls() {
 		if (hero == null) return;
 		myTestView.getScene().setOnKeyPressed(event -> {
+			System.out.println(event.toString());
 			for (ActionName name : ActionName.values()) {
 				ActionTrigger trigger = myLevel.getTriggerWithSpriteAndAction(hero, name);
 				if (trigger == null) break;

@@ -58,11 +58,4 @@ public class CanvasView extends AbstractView {
 		scrollPane.setPrefWidth(this.getWidth());
 	}
 
-//	private boolean canAdjustScrollPane(SpriteView spView) {
-//		retrieveBackgroundSize();
-//		double x = spView.getPositionX();
-//		double y = spView.getPositionY();
-//		return 0 <= x && x <= bgWidth && 0 <= y && y <= bgHeight;
-//	}
-
 }
