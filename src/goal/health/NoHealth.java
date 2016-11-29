@@ -2,12 +2,12 @@ package goal.health;
 
 import game_engine.transition.WinStatus;
 import game_object.character.ICharacter;
+import goal.GoalType;
 
 public class NoHealth extends HealthGoal{
 	
 	public NoHealth(ICharacter hero) {
 		super(hero);
-		setResult();
 	}
 	
 	@Override
@@ -16,8 +16,13 @@ public class NoHealth extends HealthGoal{
 	}
 
 	@Override
-	protected void setResult() {
-		ws = WinStatus.LOST;
+	public WinStatus getResult() {
+		return WinStatus.LOST;
+	}
+	
+	@Override
+	public final GoalType getGoalType() {
+		return GoalType.NO_HEALTH;
 	}
 
 }

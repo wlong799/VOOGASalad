@@ -4,20 +4,19 @@ import game_object.framework.Game;
 import game_object.level.Level;
 
 /**
- * Handles level transitions: 
- * 	the most basic rule -- go to the next level
+ * Handles level transitions: the most basic rule -- go to the next level
  * 
  * @author Charlie Wang
  */
-public class TransitionManager extends AbstractTransitionManager{
+public class TransitionManager extends AbstractTransitionManager {
 
 	Level myLevel;
-	
+
 	public TransitionManager(Game game, Level currentLevel) {
 		super(game);
 		myLevel = currentLevel;
 	}
-	
+
 	@Override
 	public Level levelWonReturn() {
 		return myLevel = myLevel.getNextLevel();
@@ -25,7 +24,11 @@ public class TransitionManager extends AbstractTransitionManager{
 
 	@Override
 	public Level levelLostReturn() {
-		return null;
+		Level level = myLevel;
+		while (level!=null) {
+			level=level.getNextLevel();
+		}
+		return level;
 	}
 
 	@Override

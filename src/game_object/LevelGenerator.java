@@ -30,10 +30,11 @@ public class LevelGenerator {
 	 */
 	public static Level getTestLevelA() {
 		ArrayList<String> heroImages = new ArrayList<>();
-		heroImages.add(GameObjectConstants.BLUE_SNAIL_FILE);
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_LEFT);
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_RIGHT);
 		
 		ArrayList<String> enemyImages = new ArrayList<>();
-		enemyImages.add(GameObjectConstants.ELIZA_FILE);
+		enemyImages.add(GameObjectConstants.ORANGE_MUSHROOM_FILE);
 		
 		ArrayList<String> blockImages = new ArrayList<>();
 		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
@@ -55,18 +56,18 @@ public class LevelGenerator {
 		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
 		
-		level.addHero(hero);
-		level.addEnemy(enemy);
-		level.addStaticBlock(ground);
-		level.addStaticBlock(smackDown);
+		level.addSprite(hero);
+		level.addSprite(enemy);
+		level.addSprite(ground);
+		level.addSprite(smackDown);
 		
 		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
 		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
 		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
 		
-		level.addTrigger(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
-		level.addTrigger(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
-		level.addTrigger(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
+		level.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
+		level.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
+		level.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
 		return level;
 	}
 	
@@ -76,7 +77,8 @@ public class LevelGenerator {
 	 */
 	public static Level getTestLevelB() {
 		ArrayList<String> heroImages = new ArrayList<>();
-		heroImages.add(GameObjectConstants.BLUE_SNAIL_FILE);
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_LEFT);
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_RIGHT);
 		
 		ArrayList<String> blockImages = new ArrayList<>();
 		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
@@ -91,16 +93,16 @@ public class LevelGenerator {
 		StaticBlock ground = new StaticBlock(new Position(0, 600), new Dimension(2000, 200), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
 		
-		level.addHero(hero);
-		level.addStaticBlock(ground);
+		level.addSprite(hero);
+		level.addSprite(ground);
 		
 		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
 		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
 		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
 		
-		level.addTrigger(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
-		level.addTrigger(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
-		level.addTrigger(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
+		level.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
+		level.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
+		level.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
 		return level;
 	}
 	

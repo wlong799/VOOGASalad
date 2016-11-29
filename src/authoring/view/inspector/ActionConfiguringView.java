@@ -121,11 +121,11 @@ public class ActionConfiguringView extends AbstractView {
 						currentLevel.getTriggerWithSpriteAndAction(sprite, action);
 				if (currentTrigger == null) {
 					currentTrigger = new ActionTrigger(new KeyEvent(null), sprite, action);
-					currentLevel.addTrigger(currentTrigger);
+					currentLevel.getAllTriggers().add(currentTrigger);
 				}
 				KeyCode code = getKeyDialog(currentTrigger);
 				if (code == null) {
-					currentLevel.removeTrigger(currentTrigger);
+					currentLevel.getAllTriggers().remove(currentTrigger);
 					myEntryMap.put(action.toString(), "None");
 				}
 				else {
