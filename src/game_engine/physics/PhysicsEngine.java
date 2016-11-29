@@ -2,6 +2,7 @@ package game_engine.physics;
 
 import game_object.core.Position;
 import game_object.core.Velocity;
+import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 
 /**
@@ -11,8 +12,8 @@ import game_object.simulation.IPhysicsBody;
  */
 public class PhysicsEngine extends AbstractPhysicsEngine {
 
-	public PhysicsEngine() {
-		super();
+	public PhysicsEngine(Level level) {
+		super(level);
 	}
 
 	@Override
