@@ -10,19 +10,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Switch the currently active editable level.
+ * Switch the currently active editable game.
  *
  * @author Will Long
  * @version 11/28/16
  */
-public class ChangeLevelElement extends AbstractGameMenuElement {
-    private static final String MENU_NAME = "Change Level";
+public class ChangeGameElement extends AbstractGameMenuElement {
+    private static final String MENU_NAME = "Change Game";
     private static final String LEVEL_PREFIX = "Level ";
 
     private ToggleGroup myToggleGroup;
     private Map<Integer, RadioMenuItem> myCurrentItems;
 
-    private ChangeLevelElement(AuthoringController controller) {
+    private ChangeGameElement(AuthoringController controller) {
         super(MENU_NAME, controller);
     }
 
