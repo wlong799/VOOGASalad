@@ -113,6 +113,11 @@ public abstract class AbstractSprite implements ISprite {
 	public boolean facingLeft() {
 		return getVelocity().getXVelocity() < 0;
 	}
+	
+	@Override
+	public boolean facingRight() {
+		return getVelocity().getXVelocity() > 0;
+	}
 
 	@Override
 	public double getXForVisualization() {
