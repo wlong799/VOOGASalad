@@ -2,6 +2,7 @@ package game_engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import game_engine.collision.CollisionEngine;
 import game_engine.collision.ICollisionEngine;
@@ -13,12 +14,14 @@ import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
 import game_object.acting.KeyEvent;
+import game_object.background.Background;
 import game_object.core.ISprite;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.framework.Game;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
+import game_object.visualization.ISpriteVisualization;
 import goal.IGoal;
 import goal.time.TimeGoal;
 
@@ -36,7 +39,7 @@ public class GameEngine_Game implements IGameEngine {
 
 	public GameEngine_Game(Game game) {
 		myCurrentLevel = game.getFirstSceneAsLevel();
-		myPhysicsEngine = new PhysicsEngineWithFriction();
+		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(myCurrentLevel);
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
@@ -45,22 +48,20 @@ public class GameEngine_Game implements IGameEngine {
 		init();
 	}
 
-	public void run() {
-		while (runFlag == true) {
-			update(myElapsedTime);
-			draw();
-			endCheck();
-		}
-	}
+//	public void run() {
+//		while (runFlag == true) {
+//			update(myElapsedTime);
+//			draw();
+//			endCheck();
+//		}
+//	}
 
-	@Override
-	public void init() {
+	private void init() {
 		setElements(myCurrentLevel);
 	}
 
 	@Override
 	public void shutdown() {
-		// TODO Auto-generated method stub
 		runFlag = false;
 	}
 
@@ -80,12 +81,12 @@ public class GameEngine_Game implements IGameEngine {
 	}
 
 	@Override
-	public List<ISprite> getSprites() {
-		return mySprites;
+	public List<ISpriteVisualization> getSprites() {
+		return myCurrentLevel.getAllSpriteVisualizations();
 	}
 
 	@Override
-	public void setInputList(List<KeyEvent> list) {
+	public void setInputList(Set<KeyEvent> list) {
 		myInputController.setInputList(list);
 	}
 
@@ -136,6 +137,11 @@ public class GameEngine_Game implements IGameEngine {
 
 	private void executeInput() {
 		myInputController.executeInput();
+	}
+
+	@Override
+	public Background getBackground() {
+		return myCurrentLevel.getBackground();
 	}
 
 }
