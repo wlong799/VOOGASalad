@@ -63,6 +63,7 @@ public class GameEngine implements IGameEngine {
 	private void endCheck() {
 		WinStatus ws = checkWin();
 		if (ws != WinStatus.GO_ON) {
+			// myCurrentLevel = myTransitionManager.readWinStatus(ws);
 			if (myCurrentLevel == null) {
 				shutdown();
 			}
