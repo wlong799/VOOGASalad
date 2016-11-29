@@ -20,9 +20,7 @@ public class DeleteLevelElement extends AbstractGameMenuElement {
     @Override
     protected void setFunctionality() {
         myMenuItem.setOnAction(event -> {
-            myController.getEnvironment().addLevel(LevelGenerator.getTestLevelB());
-            int numLevels = myController.getEnvironment().getCurrentGame().getAllLevels().size();
-            myController.getEnvironment().setCurrentLevel(numLevels - 1);
+            myController.getEnvironment().deleteCurrentLevel();
             myController.getCanvasViewController().refresh();
         });
     }

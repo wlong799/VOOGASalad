@@ -3,6 +3,7 @@ package authoring;
 import java.util.ArrayList;
 import java.util.List;
 
+import game_object.LevelGenerator;
 import game_object.framework.Game;
 import game_object.level.Level;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -95,5 +96,14 @@ public class AuthorEnvironment implements IAuthorEnvironment {
 
     public SimpleIntegerProperty getCurrentLevelIndex() {
         return currentLevelIndex;
+    }
+
+    public void deleteCurrentLevel() {
+        Level level = getCurrentLevel();
+        getCurrentGame().removeLevel(level);
+        if (getCurrentGame().getAllLevels().size() == 0) {
+            addLevel(LevelGenerator.getTestLevelB());
+        }
+        setCurrentLevel(getCurrentGame().getAllLevels().size() - 1);
     }
 }

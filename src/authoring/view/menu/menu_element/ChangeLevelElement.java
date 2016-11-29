@@ -56,6 +56,9 @@ public class ChangeLevelElement extends AbstractGameMenuElement {
         for (int i = 0; i < myController.getEnvironment().getNumLevels().get(); i++) {
             RadioMenuItem radioMenuItem = new RadioMenuItem(LEVEL_PREFIX + (i + 1));
             radioMenuItem.setUserData(i);
+            if (myController.getEnvironment().getCurrentLevelIndex().get() == i) {
+                radioMenuItem.setSelected(true);
+            }
             radioMenuItem.setToggleGroup(myToggleGroup);
             myCurrentItems.put(i, radioMenuItem);
             ((Menu) myMenuItem).getItems().add(radioMenuItem);
