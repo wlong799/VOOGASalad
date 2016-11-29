@@ -69,12 +69,7 @@ public class TestGameController {
 				myGameEngine.update(5.0 / 60.0);
 				for (ISpriteVisualization sprite : spriteViewMap.keySet()) {
 					ImageView imgView = spriteViewMap.get(sprite);
-					if (sprite.facingLeft()) {
-						imgView.setImage(new Image(sprite.getImagePathLeft()));
-					}
-					else if (sprite.facingRight()) {
-						imgView.setImage(new Image(sprite.getImagePathRight()));
-					}
+					imgView.setImage(new Image(sprite.getImagePath()));
 					imgView.setX(sprite.getXForVisualization());
 					imgView.setY(sprite.getYForVisualization());
 				}

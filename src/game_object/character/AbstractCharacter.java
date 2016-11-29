@@ -44,10 +44,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		return myMaxHP;
 	}
 	
-	public void resetCurrentJumps(){
-	    myCurrentJumps=0;
-	}
-	
 	@Override
 	public void setCurrentHP(double currentHP) {
 		myCurrentHP = currentHP;
@@ -117,13 +113,18 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public void moveDown() {
 		ExceptionThrower.notYetSupported();
 	}
+	
+	@Override
+	public void resetCurrentJumps(){
+	    myCurrentJumps = 0;
+	}
 
 	@Override
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
-	         if(myCurrentJumps<getMaxNumberOfJumps()){
-	                myCurrentJumps++;
-	                myVelocity.setYVelocity(-myJumpingUnit);
-	           }
+		if (myCurrentJumps < getMaxNumberOfJumps()) {
+			myCurrentJumps++;
+			myVelocity.setYVelocity(-myJumpingUnit);
+		}
 	}
 	/* ---IMover Implementations END---*/
 	

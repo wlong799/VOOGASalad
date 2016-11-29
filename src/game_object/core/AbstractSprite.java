@@ -2,18 +2,25 @@ package game_object.core;
 
 import java.util.List;
 
+import javafx.stage.Screen;
+
 /**
  * Base class for all sprites providing common functionalities.
  * @author Jay
  */
 public abstract class AbstractSprite implements ISprite {
 
+	private static Position staticPivotPosition;
 	protected Position myPosition;
 	protected Position myPreviousPosition;
 	protected List<String> myImagePaths;
 	protected ImageStyle myImageStyle;
 	protected Dimension myDimension;
 
+	static {
+		staticPivotPosition = new Position(0, 0);
+	}
+	
 	protected AbstractSprite(Position position, Dimension dimension, List<String> imagePaths) {
 		myPosition = position;
 		myDimension = dimension;
@@ -91,42 +98,31 @@ public abstract class AbstractSprite implements ISprite {
 	
 	
 	/* ISpriteVisualization Implementations */
+	public static Position getStaticPivotPosition() {
+		return staticPivotPosition;
+	}
+	
 	@Override
 	public String getImagePath() {
-		return myImagePaths.get(0);
-	}
-	
-	@Override
-	public String getImagePathLeft() {
-		return myImagePaths.get(0);
-	}
-	
-	@Override
-	public String getImagePathRight() {
-		if (myImagePaths.size() < 2) {
-			return myImagePaths.get(0);
-		}
-		return myImagePaths.get(1);
-	}
-	
-	@Override
-	public boolean facingLeft() {
-		return getVelocity().getXVelocity() < 0;
-	}
-	
-	@Override
-	public boolean facingRight() {
-		return getVelocity().getXVelocity() > 0;
+		return getVelocity().getXVelocity() < 0 // face left
+				? myImagePaths.get(0)
+				: (
+					myImagePaths.size() < 2
+					? myImagePaths.get(0)
+					: myImagePaths.get(1)
+				);
 	}
 
 	@Override
 	public double getXForVisualization() {
-		return myPosition.getX();
+		return myPosition.getX() - staticPivotPosition.getX()
+			+ 200;
 	}
 
 	@Override
 	public double getYForVisualization() {
-		return myPosition.getY();
+		return myPosition.getY();// - staticPivotPosition.getY()
+			//+ Screen.getPrimary().getVisualBounds().getHeight() / 2;
 	}
 
 	@Override
