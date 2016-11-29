@@ -1,15 +1,9 @@
 package goal;
 
-import game_engine.transition.WinStatus;
-
-public abstract class AbstractGoal implements IGoal{
-	protected WinStatus ws;
+/**
+ * AbstractGoal. Left for future use.
+ * @author Charlie, Jay
+ */
+public abstract class AbstractGoal implements IGoal {
 	
-	public abstract boolean checkGoal();
-	
-	public WinStatus getResult() {
-		return ws;
-	}
-	
-	protected abstract void setResult();
 }

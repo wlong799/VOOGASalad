@@ -1,12 +1,12 @@
 package goal.time;
 
 import game_engine.transition.WinStatus;
+import goal.GoalType;
 
 public class NoTime extends TimeGoal{
 	
 	public NoTime(double timeLimit) {
 		super(timeLimit);
-		setResult();
 	}
 	
 	@Override
@@ -15,8 +15,14 @@ public class NoTime extends TimeGoal{
 	}
 	
 	@Override
-	protected void setResult() {
-		ws = WinStatus.WON;
+	public WinStatus getResult() {
+		return WinStatus.WON;
+	}
+
+	@Override
+	public GoalType getGoalType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

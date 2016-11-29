@@ -56,18 +56,18 @@ public class LevelGenerator {
 		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
 		
-		level.addHero(hero);
-		level.addEnemy(enemy);
-		level.addStaticBlock(ground);
-		level.addStaticBlock(smackDown);
+		level.addSprite(hero);
+		level.addSprite(enemy);
+		level.addSprite(ground);
+		level.addSprite(smackDown);
 		
 		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
 		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
 		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
 		
-		level.addTrigger(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
-		level.addTrigger(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
-		level.addTrigger(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
+		level.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
+		level.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
+		level.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
 		return level;
 	}
 	
@@ -93,16 +93,16 @@ public class LevelGenerator {
 		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
 		
-		level.addHero(hero);
-		level.addStaticBlock(ground);
+		level.addSprite(hero);
+		level.addSprite(ground);
 		
 		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
 		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
 		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
 		
-		level.addTrigger(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
-		level.addTrigger(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
-		level.addTrigger(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
+		level.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
+		level.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
+		level.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
 		return level;
 	}
 	

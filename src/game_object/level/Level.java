@@ -15,6 +15,7 @@ import game_object.core.Dimension;
 import game_object.core.ISprite;
 import game_object.visualization.ILevelVisualization;
 import game_object.visualization.ISpriteVisualization;
+import goal.IGoal;
 
 /**
  * A class representing a level.
@@ -27,6 +28,7 @@ public class Level implements ILevelVisualization {
 	private TransitionMenu myNextMenu;
 	private Background myBackground;
 	private PhysicsParameters myPhysicsParameters;
+	private List<IGoal> myGoals;
 	private List<Hero> myHeros;
 	private List<Enemy> myEnemies;
 	private List<StaticBlock> myStaticBlocks;
@@ -39,6 +41,7 @@ public class Level implements ILevelVisualization {
 		myTriggers = new ArrayList<>();
 		myLevelDimension = new Dimension(0, 0);
 		myPhysicsParameters = new PhysicsParameters();
+		myGoals = new ArrayList<>();
 	}
 	
 	public List<ISprite> getAllSprites() {
@@ -86,50 +89,22 @@ public class Level implements ILevelVisualization {
 	/* Add/Remove specific sprites */
 	public void addSprite(ISprite sprite) {
 		if (sprite instanceof Hero) {
-			addHero((Hero)sprite);
-		}
-		else if (sprite instanceof Enemy) {
-			addEnemy((Enemy)sprite);
-		}
-		else if (sprite instanceof StaticBlock) {
-			addStaticBlock((StaticBlock)sprite);
+			myHeros.add((Hero)sprite);
+		} else if (sprite instanceof Enemy) {
+			myEnemies.add((Enemy)sprite);
+		} else if (sprite instanceof StaticBlock) {
+			myStaticBlocks.add((StaticBlock)sprite);
 		}
 	}
 	
 	public void removeSprite(ISprite sprite) {
 		if (sprite instanceof Hero) {
-			removeHero((Hero)sprite);
+			myHeros.remove((Hero)sprite);
+		} else if (sprite instanceof Enemy) {
+			myEnemies.remove((Enemy)sprite);
+		} else if (sprite instanceof StaticBlock) {
+			myStaticBlocks.remove((StaticBlock)sprite);
 		}
-		else if (sprite instanceof Enemy) {
-			removeEnemy((Enemy)sprite);
-		}
-		else if (sprite instanceof StaticBlock) {
-			removeStaticBlock((StaticBlock)sprite);
-		}
-	}
-	
-	public void addHero(Hero hero) {
-		myHeros.add(hero);
-	}
-	
-	public void removeHero(Hero hero) {
-		myHeros.remove(hero);
-	}
-	
-	public void addEnemy(Enemy enemy) {
-		myEnemies.add(enemy);
-	}
-	
-	public void removeEnemy(Enemy enemy) {
-		myEnemies.remove(enemy);
-	}
-
-	public void addStaticBlock(StaticBlock staticBlock) {
-		myStaticBlocks.add(staticBlock);
-	}
-	
-	public void removeStaticBlock(StaticBlock staticBlock) {
-		myStaticBlocks.remove(staticBlock);
 	}
 	/* ---Add/Remove specific sprites END--- */
 	
@@ -147,35 +122,19 @@ public class Level implements ILevelVisualization {
 		return myHeros;
 	}
 
-	public void setHeros(List<Hero> heros) {
-		myHeros = heros;
-	}
-
 	public List<Enemy> getEnemies() {
 		return myEnemies;
-	}
-
-	public void setEnemies(List<Enemy> enemies) {
-		myEnemies = enemies;
 	}
 
 	public List<StaticBlock> getStaticBlocks() {
 		return myStaticBlocks;
 	}
-
-	public void setStaticBlocks(List<StaticBlock> blocks) {
-		myStaticBlocks = blocks;
-	}
 	/* ---Accessors for background, characters and blocks END--- */
 
 	
 	/* Events and Triggers */
-	public void addTrigger(ActionTrigger trigger) {
-		myTriggers.add(trigger);
-	}
-	
-	public void removeTrigger(ActionTrigger trigger) {
-		myTriggers.remove(trigger);
+	public List<ActionTrigger> getAllTriggers() {
+		return myTriggers;
 	}
 	
 	public ActionTrigger getTriggerWithSpriteAndAction(
@@ -202,8 +161,13 @@ public class Level implements ILevelVisualization {
 		}
 		return triggersWithEvent;
 	}
-	/* ---Events and Triggers--- */
+	/* ---Events and Triggers END--- */
 
+	/* Goals */
+	public List<IGoal> getAllGoals() {
+		return myGoals;
+	}
+	/* ---Goals END--- */
 	
 	/* ILevelVisualization Implementations */
 	List<ISpriteVisualization> mySpriteVisualizations;
@@ -223,5 +187,4 @@ public class Level implements ILevelVisualization {
 		return mySpriteVisualizations;
 	}
 	/* ---ILevelVisualization Implementations END--- */
-	
 }
