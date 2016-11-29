@@ -19,6 +19,13 @@ import game_object.core.Velocity;
 public class CollisionEngine extends AbstractCollisionEngine{
 
     private static final double COLLISION_THRESHOLD = 10.0;
+    
+    private boolean logSuppressed = false;
+    
+    public void suppressLogDebug() {
+    	logSuppressed = true;
+    }
+    
     @Override
     public void checkCollisions (List<Hero> heroes,
                                  List<Enemy> enemies,
@@ -51,8 +58,10 @@ public class CollisionEngine extends AbstractCollisionEngine{
                     CollisionDirection collision = getBlockAndCharacterCollision(c, block);
 
                     if (collision != CollisionDirection.NONE) {
-                        System.out.println(collision);
-                        System.out.println("Collision between " + c.toString() + " and " + block);
+                    	if (!logSuppressed) {
+                    		System.out.println(collision);
+                    		System.out.println("Collision between " + c.toString() + " and " + block);
+                    	}
                         if (collision == CollisionDirection.TOP) {
                             c.setPosition(new Position(c.getPosition().getX(),
                                                        block.getPosition().getY()-c.getDimension().getHeight()));
@@ -106,9 +115,11 @@ public class CollisionEngine extends AbstractCollisionEngine{
             
             boolean couldLandOnBlock = (charLeft > blockLeft && charLeft < blockRight) ||
                                        (charRight > blockLeft && charRight < blockRight);
-            System.out.println(charBottom);
-            System.out.println(blockTop);
-            System.out.println(couldLandOnBlock);
+            if (!logSuppressed) {
+            	System.out.println(charBottom);
+            	System.out.println(blockTop);
+            	System.out.println(couldLandOnBlock);
+            }
             if ((charTop+COLLISION_THRESHOLD) >= blockBottom && couldLandOnBlock) {
                 return CollisionDirection.BOTTOM;
             }

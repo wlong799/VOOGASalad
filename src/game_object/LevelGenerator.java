@@ -9,6 +9,7 @@ import game_object.acting.KeyEvent;
 import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.constants.GameObjectConstants;
 import game_object.core.Dimension;
 import game_object.core.ImageStyle;
 import game_object.core.Position;
@@ -29,13 +30,13 @@ public class LevelGenerator {
 	 */
 	public static Level getTestLevelA() {
 		ArrayList<String> heroImages = new ArrayList<>();
-		heroImages.add("data/img/blue_snail.png");
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_FILE);
 		
 		ArrayList<String> enemyImages = new ArrayList<>();
-		enemyImages.add("data/img/eliza.png");
+		enemyImages.add(GameObjectConstants.ELIZA_FILE);
 		
 		ArrayList<String> blockImages = new ArrayList<>();
-		blockImages.add("data/img/stone_block.png");
+		blockImages.add(GameObjectConstants.STONE_BLOCK_FILE);
 		
 		Level level = new Level();
 		
@@ -59,9 +60,9 @@ public class LevelGenerator {
 		level.addStaticBlock(ground);
 		level.addStaticBlock(smackDown);
 		
-		KeyEvent leftEvent = new KeyEvent(KeyCode.LEFT);
-		KeyEvent rightEvent = new KeyEvent(KeyCode.RIGHT);
-		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.SPACE);
+		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
+		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
+		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
 		
 		level.addTrigger(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
 		level.addTrigger(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
@@ -75,10 +76,10 @@ public class LevelGenerator {
 	 */
 	public static Level getTestLevelB() {
 		ArrayList<String> heroImages = new ArrayList<>();
-		heroImages.add("data/img/slime.png");
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_FILE);
 		
 		ArrayList<String> blockImages = new ArrayList<>();
-		blockImages.add("data/img/stone_block.png");
+		blockImages.add(GameObjectConstants.STONE_BLOCK_FILE);
 		
 		Level level = new Level();
 		level.setLevelDimension(new Dimension(2000, 800));
@@ -93,9 +94,9 @@ public class LevelGenerator {
 		level.addHero(hero);
 		level.addStaticBlock(ground);
 		
-		KeyEvent leftEvent = new KeyEvent(KeyCode.LEFT);
-		KeyEvent rightEvent = new KeyEvent(KeyCode.RIGHT);
-		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.SPACE);
+		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
+		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
+		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
 		
 		level.addTrigger(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
 		level.addTrigger(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));

@@ -11,6 +11,7 @@ import authoring.view.menu.AbstractGameMenuElement;
  */
 public class NewLevelElement extends AbstractGameMenuElement{
     private static final String MENU_NAME = "New Level";
+    // TODO: link this to resources file
 
     private NewLevelElement(AuthoringController controller) {
         super(MENU_NAME, controller);
@@ -19,6 +20,5 @@ public class NewLevelElement extends AbstractGameMenuElement{
     @Override
     protected void setFunctionality() {
         myController.getEnvironment();
-        System.out.println("Creating new level...");
     }
 }

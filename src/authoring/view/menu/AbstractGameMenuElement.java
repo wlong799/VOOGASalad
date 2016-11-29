@@ -12,21 +12,29 @@ import javafx.scene.control.MenuItem;
  * @version 11/17/16
  */
 public abstract class AbstractGameMenuElement {
-    private MenuItem myMenuItem;
+    protected MenuItem myMenuItem;
     protected AuthoringController myController;
 
     protected AbstractGameMenuElement(String menuElementName, AuthoringController controller) {
-        myMenuItem = new MenuItem(menuElementName);
+        setMyMenuItem(new MenuItem(menuElementName));
         myController = controller;
         setFunctionality();
     }
 
     public MenuItem getMenuElement() {
-        return myMenuItem;
+        return getMyMenuItem();
     }
 
     /**
      * Adds the actual implementation to the menu element, specifying how it interacts with the game.
      */
     protected abstract void setFunctionality();
+
+	public MenuItem getMyMenuItem() {
+		return myMenuItem;
+	}
+
+	public void setMyMenuItem(MenuItem myMenuItem) {
+		this.myMenuItem = myMenuItem;
+	}
 }

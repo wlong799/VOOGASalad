@@ -27,6 +27,16 @@ public class AuthorEnvironment implements IAuthorEnvironment {
         	throw new IllegalArgumentException("index for level out of range");
         }
         currentGame = games.get(index);
+        setCurrentLevel(0);
+    }
+    
+    @Override
+    public void setCurrentGame(Game game) {
+    	if (!games.contains(game)) {
+    		games.add(game);
+    	}
+    	currentGame = game;
+    	setCurrentLevel(0);
     }
 
     @Override
