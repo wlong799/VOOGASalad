@@ -5,22 +5,22 @@ import authoring.view.menu.AbstractGameMenuElement;
 import game_object.LevelGenerator;
 
 /**
- * Adds a new level to the game.
+ * Delete current level.
  *
  * @author Will Long
  * @version 11/28/16
  */
-public class NewLevelElement extends AbstractGameMenuElement {
-    private static final String MENU_NAME = "New Level";
+public class DeleteLevelElement extends AbstractGameMenuElement {
+    private static final String MENU_NAME = "Delete Level";
 
-    private NewLevelElement(AuthoringController controller) {
+    private DeleteLevelElement(AuthoringController controller) {
         super(MENU_NAME, controller);
     }
 
     @Override
     protected void setFunctionality() {
         myMenuItem.setOnAction(event -> {
-            myController.getEnvironment().addLevel(LevelGenerator.getTestLevelB());
+            myController.getEnvironment().deleteCurrentLevel();
             myController.getCanvasViewController().refresh();
         });
     }
