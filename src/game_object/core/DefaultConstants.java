@@ -4,6 +4,7 @@ public class DefaultConstants {
 	
 	public static final double MOVING_UNIT = 50;
 	public static final double JUMPING_UNIT = 100;
+	public static final int MAX_JUMP = 2;
 	
 	public static final int VOID_CATEGORY_BIT_MASK = 0;
 	public static final int HERO_CATEGORY_BIT_MASK = 1 << 0;
