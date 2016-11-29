@@ -63,6 +63,7 @@ public class TestGameConfiguringView extends AbstractView {
 			this.getController().getTestGameController().getEngine()
 				.setParameter(PhysicsParameterSetOptions.GROUNDFRICTION, newVal.doubleValue());
 		});
+		gfBox.getBox().setFocusTraversable(false);
 		SliderBox tmaxBox = new SliderBox(
 				"Max Threshold", 
 				0, 
@@ -73,6 +74,7 @@ public class TestGameConfiguringView extends AbstractView {
 			this.getController().getTestGameController().getEngine()
 				.setParameter(PhysicsParameterSetOptions.MAXTHRESHOLD, newVal.doubleValue());
 		});
+		tmaxBox.getBox().setFocusTraversable(false);
 		SliderBox tminBox = new SliderBox(
 				"Min Threshold", 
 				0, 
@@ -83,8 +85,13 @@ public class TestGameConfiguringView extends AbstractView {
 			this.getController().getTestGameController().getEngine()
 				.setParameter(PhysicsParameterSetOptions.MINTHRESHOLD, newVal.doubleValue());
 		});
+		tminBox.getBox().setFocusTraversable(false);
+		
 		myBox.getChildren().addAll(
 				gravityBox.getBox(), afBox.getBox(), gfBox.getBox(), tminBox.getBox(), tmaxBox.getBox());
+		//myBox.getChildren().forEach(box->((SliderBox)box).getBox().setFocusTraversable(false));
+		//myBox.requestFocus();
+		//myBox.getChildren().get(0).setDisable(true);
 	}
 
 }
