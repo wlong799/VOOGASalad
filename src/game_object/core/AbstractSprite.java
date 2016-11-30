@@ -2,6 +2,8 @@ package game_object.core;
 
 import java.util.List;
 
+import game_object.constants.DefaultConstants;
+
 /**
  * Base class for all sprites providing common functionalities.
  * @author Jay
@@ -127,8 +129,16 @@ public abstract class AbstractSprite implements ISprite {
 
 	@Override
 	public double getXForVisualization() {
-		return myPosition.getX() - staticPivotPosition.getX()
-			+ staticPivotDimension.getWidth() / 2;
+		double staticX = staticPivotPosition.getX();
+		double myX = myPosition.getX();
+		double threshold = DefaultConstants.SCROLL_THRESHOLD;
+		if (staticX < threshold) {
+			return myX - staticX + threshold;
+		}
+		else if (staticPivotDimension.getWidth() - staticX < threshold) {
+			return myX - staticX + staticPivotDimension.getWidth() - threshold;
+		}
+		return myX;
 	}
 
 	@Override
