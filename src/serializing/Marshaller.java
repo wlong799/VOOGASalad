@@ -11,7 +11,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import game_object.LevelGenerator;
-import game_object.framework.Game;
+import game_object.core.Game;
 
 public class Marshaller {
 	

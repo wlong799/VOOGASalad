@@ -1,4 +1,4 @@
-package game_object.core;
+package game_object.constants;
 
 public class DefaultConstants {
 	

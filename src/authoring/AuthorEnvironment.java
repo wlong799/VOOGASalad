@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game_object.LevelGenerator;
-import game_object.framework.Game;
+import game_object.core.Game;
 import game_object.level.Level;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.value.ObservableIntegerValue;
 
 public class AuthorEnvironment implements IAuthorEnvironment {
 
