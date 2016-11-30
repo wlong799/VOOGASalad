@@ -37,7 +37,7 @@ public class LevelGenerator {
 		enemyImages.add(GameObjectConstants.ORANGE_MUSHROOM_FILE);
 		
 		ArrayList<String> blockImages = new ArrayList<>();
-		blockImages.add(GameObjectConstants.STONE_BLOCK_FILE);
+		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
 		
 		Level level = new Level();
 		
@@ -81,7 +81,7 @@ public class LevelGenerator {
 		heroImages.add(GameObjectConstants.BLUE_SNAIL_RIGHT);
 		
 		ArrayList<String> blockImages = new ArrayList<>();
-		blockImages.add(GameObjectConstants.STONE_BLOCK_FILE);
+		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
 		
 		Level level = new Level();
 		level.setLevelDimension(new Dimension(2000, 800));
@@ -90,7 +90,7 @@ public class LevelGenerator {
 		hero.setVelocity(new Velocity(50, 0));
 		hero.setImageStyle(ImageStyle.FIT);
 		
-		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), blockImages);
+		StaticBlock ground = new StaticBlock(new Position(0, 600), new Dimension(2000, 200), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
 		
 		level.addSprite(hero);
