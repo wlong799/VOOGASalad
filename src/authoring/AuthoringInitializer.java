@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import authoring.view.AuthoringView;
 import game_object.LevelGenerator;
-import game_object.framework.Game;
+import game_object.core.Game;
 import game_object.level.Level;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;

@@ -88,11 +88,11 @@ public class GameEngine implements IGameEngine {
 		}
 		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
 				myCurrentLevel.getStaticBlocks());
-		updateVisualzation();
+		updateScrolling();
 		endCheck();
 	}
 
-	private void updateVisualzation() {
+	private void updateScrolling() {
 		Hero pivotHero = myCurrentLevel.getHeros().get(0);
 		if (pivotHero != null) {
 			AbstractSprite.getStaticPivotPosition().setX(pivotHero.getPosition().getX());

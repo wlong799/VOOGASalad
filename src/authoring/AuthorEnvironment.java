@@ -3,7 +3,7 @@ package authoring;
 import java.util.ArrayList;
 import java.util.List;
 
-import game_object.framework.Game;
+import game_object.core.Game;
 import game_object.level.Level;
 
 public class AuthorEnvironment implements IAuthorEnvironment {
