@@ -40,8 +40,8 @@ public class Hero extends AbstractCharacter implements IUpgrader, ITriggerable {
 	public void onCollideWith(ICollisionBody otherBody) {
 		if (otherBody.getCategoryBitMask() == DefaultConstants.ENEMY_CATEGORY_BIT_MASK) {
 			assert(otherBody instanceof Enemy);
-			Enemy enemy = (Enemy) otherBody;
-			myCurrentHP -= enemy.getBodyDamage();
+			//Enemy enemy = (Enemy) otherBody;
+			getVelocity().setYVelocity(-100);
 		}
 	}
 	

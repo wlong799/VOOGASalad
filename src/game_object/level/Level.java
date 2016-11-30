@@ -11,6 +11,7 @@ import game_object.background.Background;
 import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Game;
 import game_object.core.ISprite;
@@ -66,10 +67,6 @@ public class Level implements ILevelVisualization {
 	}
 	
 	/* Level Dimensions */
-	public void setLevelDimension(Dimension levelDimension) {
-		myLevelDimension = levelDimension;
-	}
-	
 	public Dimension getLevelDimension() {
 		return myLevelDimension;
 	}
@@ -194,6 +191,7 @@ public class Level implements ILevelVisualization {
 			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
 		);
 		mySpriteVisualizations.addAll(allSprites);
+		AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
 	}
 
 	@Override

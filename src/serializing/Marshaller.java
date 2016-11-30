@@ -44,7 +44,7 @@ public class Marshaller {
 		try {
 			test.saveGame(testGame, path);
 			testGame = test.loadGame(path);
-			System.out.println(testGame.getAllLevels().get(0).getAllSprites().size());
+			System.out.println(testGame.getAllLevelsReadOnly().get(0).getAllSprites().size());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
