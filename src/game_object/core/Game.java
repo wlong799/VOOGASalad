@@ -24,8 +24,8 @@ public class Game {
 	public Game() {
 		myLevels = new ArrayList<>();
 		myScreenSize = new Dimension(
-			DefaultConstants.SCREEN_WIDTH,
-			DefaultConstants.SCREEN_HEIGHT
+			DefaultConstants.GAME_WIDTH,
+			DefaultConstants.GAME_HEIGHT
 		);
 	}
 	

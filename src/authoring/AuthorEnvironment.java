@@ -76,7 +76,6 @@ public class AuthorEnvironment implements IAuthorEnvironment {
         if (currentGame == null) {
             throw new IllegalArgumentException("no current game");
         }
-
         numLevels.set(currentGame.getAllLevelsReadOnly().size());
         if (index < 0 || index >= currentGame.getAllLevelsReadOnly().size()) {
             throw new IllegalArgumentException("index for level out of range");
@@ -126,4 +125,3 @@ public class AuthorEnvironment implements IAuthorEnvironment {
     }
 
 }
-

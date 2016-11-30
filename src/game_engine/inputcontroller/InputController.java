@@ -39,7 +39,6 @@ public class InputController implements IInputController {
 					chooseAction(actionTrigger);
 				}
 			}
-			System.out.println(myJump);
 		}
 		myJump = jumping;
 	}
