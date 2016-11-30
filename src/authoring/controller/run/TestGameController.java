@@ -9,12 +9,16 @@ import java.util.Set;
 import authoring.AuthoringController;
 import authoring.view.run.TestGameView;
 import game_engine.GameEngine;
+import game_engine.GameEngine_Game;
+import game_engine.IGameEngine;
+import game_object.LevelGenerator;
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 import game_object.character.Hero;
 import game_object.core.ISprite;
+import game_object.framework.Game;
 import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
 import javafx.animation.KeyFrame;
@@ -30,7 +34,7 @@ public class TestGameController {
 
     private AuthoringController myTopController;
     private TestGameView myTestView;
-    private GameEngine myGameEngine;
+    private IGameEngine myGameEngine;
 
     private KeyFrame frame;
     private Timeline animation;
@@ -46,32 +50,30 @@ public class TestGameController {
     }
 
     public void showTestGame () {
-        myLevel = myTopController.getEnvironment().getCurrentLevel();
+        Game testGame = LevelGenerator.getTestGame();
+        myLevel = testGame.getCurrentLevel();//myTopController.getEnvironment().getCurrentLevel();
         findHero();
-        myLevel.init();
-        myGameEngine = new GameEngine(myLevel);
-        myGameEngine.suppressLogDebug();
+        //myLevel.init();
+        myGameEngine = new GameEngine_Game(testGame);
+        //myGameEngine.suppressLogDebug();
 
         myTestView.clearSpriteViews();
         spriteViewMap = new HashMap<ISpriteVisualization, ImageView>();
-        for (ISpriteVisualization sp : myLevel.getAllSpriteVisualizations()) {
-            ImageView image = new ImageView(sp.getImagePath());
-            image.setX(sp.getXForVisualization());
-            image.setY(sp.getYForVisualization());
-
-            image.setFitWidth(sp.getWidthForVisualization());
-            image.setFitHeight(sp.getHeightForVisualization());
-            spriteViewMap.put(sp, image);
-
-            myTestView.addSpriteView(image);
-        }
+        initSpriteMap();
         currentlyPressedKeys = new HashSet<KeyEvent>();
         frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
                              new EventHandler<ActionEvent>() {
                                  @Override
                                  public void handle (ActionEvent event) {
+                                     myLevel = testGame.getCurrentLevel();
+                                     System.out.println(myLevel + " current display level");
                                      myGameEngine.setInputList(currentlyPressedKeys);
                                      myGameEngine.update(5.0 / 60.0);
+                                     if(hero!=myLevel.getHeros().get(0)){
+                                         myTestView.clearSpriteViews();
+                                         initSpriteMap();
+                                         findHero();
+                                     }
                                      for (ISpriteVisualization sprite : spriteViewMap.keySet()) {
                                          spriteViewMap.get(sprite)
                                                  .setX(sprite.getXForVisualization());
@@ -94,7 +96,7 @@ public class TestGameController {
         myTestView.show();
     }
 
-    public GameEngine getEngine () {
+    public IGameEngine getEngine () {
         return myGameEngine;
     }
 
@@ -105,7 +107,20 @@ public class TestGameController {
             }
         }
     }
+    private void initSpriteMap(){
+        spriteViewMap.clear();
+        for (ISpriteVisualization sp : myLevel.getAllSpriteVisualizations()) {
+            ImageView image = new ImageView(sp.getImagePath());
+            image.setX(sp.getXForVisualization());
+            image.setY(sp.getYForVisualization());
 
+            image.setFitWidth(sp.getWidthForVisualization());
+            image.setFitHeight(sp.getHeightForVisualization());
+            spriteViewMap.put(sp, image);
+
+            myTestView.addSpriteView(image);
+        }
+    }
     private void keyTriggers2Controls() {
 	    
 		if (hero == null) return;

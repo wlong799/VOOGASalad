@@ -19,7 +19,12 @@ public class TransitionManager extends AbstractTransitionManager {
 
 	@Override
 	public Level levelWonReturn() {
-		return myLevel = myLevel.getNextLevel();
+	    System.out.println(myLevel.getNextLevel());
+	    myLevel = myLevel.getNextLevel();
+	    System.out.println(myLevel.getNextLevel());
+	    myGame.setCurrentLevel(myLevel);
+	    return myLevel;
+		//return myLevel = myLevel.getNextLevel();
 	}
 
 	@Override

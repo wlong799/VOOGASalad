@@ -82,7 +82,9 @@ public class CollisionEngine extends AbstractCollisionEngine {
     private void updateCharacterOnCollision (ICharacter c,
                                              ISprite other,
                                              CollisionDirection collision) {
+       
         if (collision != CollisionDirection.NONE) {
+            //logSuppressed = false;
             if (!logSuppressed) {
                 System.out.println(collision);
                 System.out.println("Collision between " + c.toString() + " and " + other);

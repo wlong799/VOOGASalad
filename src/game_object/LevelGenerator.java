@@ -14,7 +14,10 @@ import game_object.core.Dimension;
 import game_object.core.ImageStyle;
 import game_object.core.Position;
 import game_object.core.Velocity;
+import game_object.framework.Game;
 import game_object.level.Level;
+import goal.AbstractGoal;
+import goal.position.ReachPointGoal;
 import javafx.scene.input.KeyCode;
 
 /**
@@ -28,6 +31,14 @@ public class LevelGenerator {
 	 * The hero can move left, right, and jump.
 	 * @return
 	 */
+    
+        public static Game getTestGame() {
+            Game game = new Game();
+            //game.addLevel();
+            game.setCurrentLevel(getTestLevelA());
+            game.setFirstSceneAsLevel(game.getCurrentLevel());
+            return game;
+        }
 	public static Level getTestLevelA() {
 		ArrayList<String> heroImages = new ArrayList<>();
 		heroImages.add(GameObjectConstants.BLUE_SNAIL_LEFT);
@@ -55,11 +66,16 @@ public class LevelGenerator {
 		
 		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
+		StaticBlock goalBlock = new StaticBlock(new Position(400,450),new Dimension(50,50),blockImages);
 		
 		level.addSprite(hero);
-		level.addSprite(enemy);
+		//level.addSprite(enemy);
 		level.addSprite(ground);
 		level.addSprite(smackDown);
+		//level.addSprite(goalBlock);
+		AbstractGoal goal = new ReachPointGoal(hero,new Position(400,450));
+		level.getAllGoals().add(goal);
+		level.setNextLevel(getTestLevelB());
 		
 		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
 		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
@@ -68,6 +84,7 @@ public class LevelGenerator {
 		level.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
 		level.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
 		level.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
+		level.init();
 		return level;
 	}
 	
@@ -103,6 +120,7 @@ public class LevelGenerator {
 		level.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
 		level.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
 		level.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
+		level.init();
 		return level;
 	}
 	

@@ -46,7 +46,7 @@ public class GameEngine implements IGameEngine {
 		myCurrentLevel = level;
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
-		myInputController = new InputController(level);
+		//myInputController = new InputController(level);
 		init();
 	}
 
@@ -109,7 +109,7 @@ public class GameEngine implements IGameEngine {
 	}
 
 	private WinStatus checkWin() {
-		List<IGoal> myGoals = new ArrayList<IGoal>();
+		List<IGoal> myGoals = myCurrentLevel.getAllGoals();//new ArrayList<IGoal>();
 		for (IGoal g : myGoals) {
 			if (g instanceof TimeGoal) {
 				((TimeGoal) g).setCurrentTime(0);
