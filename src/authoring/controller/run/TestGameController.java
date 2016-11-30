@@ -121,51 +121,28 @@ public class TestGameController {
     private void keyTriggers2Controls() {
 		if (hero == null) return;
 		myTestView.getScene().setOnKeyReleased(event-> {
-		    System.out.println(event.getCode() + " Remove");
-		  for(ActionName name : ActionName.values()){
-		      ActionTrigger trigger = myLevel.getTriggerWithSpriteAndAction(hero, name);
-                      if (trigger == null) break;
-                      Event evt = trigger.getEvent();
-                      
-                      if (!(evt instanceof KeyEvent)) break;
-                      if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
-                          currentlyPressedKeys.remove((KeyEvent)evt);
-                          System.out.println(currentlyPressedKeys.size());
-                      }
-		  }
+			for(ActionName name : ActionName.values()){
+				ActionTrigger trigger = myLevel.getTriggerWithSpriteAndAction(hero, name);
+				if (trigger == null) break;
+				Event evt = trigger.getEvent();
+
+				if (!(evt instanceof KeyEvent)) break;
+				if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
+					currentlyPressedKeys.remove((KeyEvent)evt);
+				}
+			}
 		});
-		
+
 		myTestView.getScene().setOnKeyPressed(event -> {
 			for (ActionName name : ActionName.values()) {
 				ActionTrigger trigger = myLevel.getTriggerWithSpriteAndAction(hero, name);
 				if (trigger == null) break;
 				Event evt = trigger.getEvent();
-				
+
 				if (!(evt instanceof KeyEvent)) break;
 				if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
-				    currentlyPressedKeys.add((KeyEvent)evt);
+					currentlyPressedKeys.add((KeyEvent)evt);
 				}
-				/*
-				KeyCode code = ((KeyEvent) evt).getKeyCode();
-				if (event.getCode() == code) {
-					switch (name) {
-					case JUMP:
-						hero.jumpUp();
-						break;
-					case MOVE_LEFT:
-						hero.moveLeft();
-						break;
-					case MOVE_RIGHT:
-						hero.moveRight();
-						break;
-					case SHOOT:
-						//todo
-						break;
-					default:
-						break;
-					}
-
-				}*/
 			}
 		});
 	}
