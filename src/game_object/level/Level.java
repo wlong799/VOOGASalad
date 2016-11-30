@@ -66,10 +66,6 @@ public class Level implements ILevelVisualization {
 	}
 	
 	/* Level Dimensions */
-	public void setLevelDimension(Dimension levelDimension) {
-		myLevelDimension = levelDimension;
-	}
-	
 	public Dimension getLevelDimension() {
 		return myLevelDimension;
 	}
