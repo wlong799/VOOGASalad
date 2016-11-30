@@ -181,7 +181,7 @@ public class Level implements ILevelVisualization {
 		);
 		mySpriteVisualizations.addAll(allSprites);
 	}
-
+	
 	@Override
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
 		return mySpriteVisualizations;

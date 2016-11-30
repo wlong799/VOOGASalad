@@ -19,6 +19,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.image.*;
 import game_object.acting.*;
@@ -29,20 +30,22 @@ import game_object.acting.*;
  */
 public class GamePlayer implements IGamePlayer {
 	private Game myCurrentGame;
-	private GameEngine_Game myGameEngine;
+	private GameEngine myGameEngine;
 	private Stage myStage;
 	private Scene myScene;
-	private Group myRoot;
+	private Pane myRoot;
 	private Set<KeyEvent> myKeysPressed;
 	
 
-	public GamePlayer(Stage s){
-		myRoot = new Group();
+	public GamePlayer(Stage s, Game game){
+		myRoot = new Pane();
 		myScene = new Scene(myRoot);
 		myStage = s;
 		myStage.setScene(myScene);
 		myKeysPressed = new HashSet<KeyEvent>();
-		setGame("");
+		myCurrentGame = game;
+		myGameEngine = new GameEngine(myCurrentGame.getAllLevels().get(0));
+		//setGame("");
 		setSceneKeyListener();
 		start();
 	}
@@ -80,7 +83,7 @@ public class GamePlayer implements IGamePlayer {
 	@Override
 	public void setGame(String gameName) {
 		myCurrentGame = new Game();
-		myGameEngine = new GameEngine_Game(myCurrentGame);
+		//myGameEngine = new GameEngine_Game(myCurrentGame);
 	}
 
 	@Override
@@ -100,8 +103,8 @@ public class GamePlayer implements IGamePlayer {
 
 	private void renderSprites() {
 		myRoot.getChildren().clear();
-		ImageView background = getBackGroundImage();
-		myRoot.getChildren().add(background);
+		//ImageView background = getBackGroundImage();
+		//myRoot.getChildren().add(background);
 		for(ISpriteVisualization currentSprite : myGameEngine.getSprites()){
 			Image currentSpriteImage = new Image(currentSprite.getImagePath());
 			ImageView currentSpriteView = new ImageView(currentSpriteImage);
@@ -111,13 +114,11 @@ public class GamePlayer implements IGamePlayer {
 			currentSpriteView.setLayoutY(currentSprite.getYForVisualization());
 			myRoot.getChildren().add(currentSpriteView);
 		}
-
 	}
-
+	
 
 	private ImageView getBackGroundImage() {
-		Background imgPath = myCurrentGame.getCurrentLevel().getBackground();
-		imgPath.getImgPaths();
+		Background imgPath = myGameEngine.getBackground();
 		Image bckGrdImg = new Image(imgPath.getImgPaths().get(0));
 		return new ImageView(bckGrdImg);
 	}

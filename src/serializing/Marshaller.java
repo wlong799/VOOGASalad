@@ -36,6 +36,7 @@ public class Marshaller {
 		}
 	}
 	
+	
 	public static void main(String[] args) {
 		String path = "file:data/game/test.xml";
 		Game testGame = new Game();
@@ -44,7 +45,7 @@ public class Marshaller {
 		try {
 			test.saveGame(testGame, path);
 			testGame = test.loadGame(path);
-			System.out.println(testGame.getAllLevels().get(0).getAllSprites().size());
+			//System.out.println(testGame.getAllLevels().get(0).getAllSprites().size());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

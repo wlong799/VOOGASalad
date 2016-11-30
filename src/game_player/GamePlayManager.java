@@ -22,7 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class GamePlayManager {
+public class GamePlayManager implements ISceneManager {
 	private Stage myStage;
 	private GamePlayMenu myMainMenu;
 	//private Scene myCurrentScene;
@@ -32,7 +32,13 @@ public class GamePlayManager {
 	
 	public void start(Stage s) {
 		myStage = s;
-		myMainMenu = new GamePlayMenu(s);
+		myMainMenu = new GamePlayMenu(s, this);
+	}
+
+	@Override
+	public void playGame(Game game) {
+		GamePlayer player = new GamePlayer(myStage, game);
+		
 	}
 	
 	

@@ -54,6 +54,7 @@ public class GameEngine implements IGameEngine {
 	@Override
 	public void init() {
 		setElements(myCurrentLevel);
+		myCurrentLevel.init();
 	}
 	
 	public void suppressLogDebug() {
