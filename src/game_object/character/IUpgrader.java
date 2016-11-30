@@ -19,4 +19,7 @@ public interface IUpgrader {
 	//uses the multiplier to scale the image dimensions up or down
 	void changeSize(double multiplier);
 	
+	//gives ability to shoot projectile
+	void setHasProjectile();
+	
 }

@@ -15,6 +15,7 @@ public class Hero extends AbstractCharacter implements IUpgrader, ITriggerable {
 
 	private final int myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
 	private final int myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
+	private boolean hasProjectile = false;
 
 	public Hero(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
@@ -76,5 +77,11 @@ public class Hero extends AbstractCharacter implements IUpgrader, ITriggerable {
             myDimension.setHeight(multiplier*myDimension.getHeight());
             myDimension.setWidth(multiplier*myDimension.getWidth());
         }	
+        
+        public void setHasProjectile() {
+            hasProjectile = true;
+        }
+        
+        
 	
 }
