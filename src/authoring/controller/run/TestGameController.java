@@ -19,6 +19,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
@@ -33,6 +34,7 @@ public class TestGameController {
 
     private Level myLevel;
     private Map<ISpriteVisualization, ImageView> spriteViewMap;
+    private Map<ISpriteVisualization, String> imagePathMap;
     private Hero hero = null;
     private Set<KeyEvent> currentlyPressedKeys;
 
@@ -49,16 +51,13 @@ public class TestGameController {
         myGameEngine.suppressLogDebug();
 
         myTestView.clearSpriteViews();
-        spriteViewMap = new HashMap<ISpriteVisualization, ImageView>();
+        spriteViewMap = new HashMap<>();
+        imagePathMap = new HashMap<>(); 
         for (ISpriteVisualization sp : myLevel.getAllSpriteVisualizations()) {
-            ImageView image = new ImageView(sp.getImagePath());
-            image.setX(sp.getXForVisualization());
-            image.setY(sp.getYForVisualization());
-
-            image.setFitWidth(sp.getWidthForVisualization());
-            image.setFitHeight(sp.getHeightForVisualization());
+        	String imagePath = sp.getImagePath();
+            ImageView image = createNewImageViewForSprite(sp);
             spriteViewMap.put(sp, image);
-
+            imagePathMap.put(sp, imagePath);
             myTestView.addSpriteView(image);
         }
         currentlyPressedKeys = new HashSet<KeyEvent>();
@@ -68,7 +67,13 @@ public class TestGameController {
                                  public void handle (ActionEvent event) {
                                      myGameEngine.setInputList(currentlyPressedKeys);
                                      myGameEngine.update(5.0 / 60.0);
-                                     for (ISpriteVisualization sprite : spriteViewMap.keySet()) {
+                                     for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
+                                    	 //TODO: need to take care the case where new sprites are created (projectiles e.g.)
+                                    	 if (!imagePathMap.get(sprite).equals(sprite.getImagePath())) {
+                                    		 // image path changed (e.g. facing changed)
+                                    		 imagePathMap.put(sprite, sprite.getImagePath());
+                                    		 spriteViewMap.get(sprite).setImage(new Image(sprite.getImagePath()));
+                                    	 }
                                          spriteViewMap.get(sprite)
                                                  .setX(sprite.getXForVisualization());
                                          spriteViewMap.get(sprite)
@@ -88,6 +93,17 @@ public class TestGameController {
         keyTriggers2Controls();
         myTestView.updateLayout();
         myTestView.show();
+    }
+    
+    private ImageView createNewImageViewForSprite(ISpriteVisualization sprite) {
+    	String imagePath = sprite.getImagePath();
+        ImageView image = new ImageView(imagePath);
+        image.setX(sprite.getXForVisualization());
+        image.setY(sprite.getYForVisualization());
+
+        image.setFitWidth(sprite.getWidthForVisualization());
+        image.setFitHeight(sprite.getHeightForVisualization());
+        return image;
     }
 
     public GameEngine getEngine () {
