@@ -37,15 +37,13 @@ public class SpriteView extends AbstractView {
     }
 
     public void setAbsolutePositionX(double x) {
-        double newX = getController().getCanvasViewController().convertToNearestBlockValue(x);
-        setPositionX(newX);
-        mySprite.getPosition().setX(newX);
+        setPositionX(x);
+        mySprite.getPosition().setX(x);
     }
 
     public void setAbsolutePositionY(double y) {
-        double newY = getController().getCanvasViewController().convertToNearestBlockValue(y);
-        setPositionY(newY);
-        mySprite.getPosition().setY(newY);
+        setPositionY(y);
+        mySprite.getPosition().setY(y);
     }
 
     public void setAbsolutePositionZ(double z) {
@@ -61,9 +59,8 @@ public class SpriteView extends AbstractView {
      * @param width set width both frontend and backend mySprite
      */
     public void setDimensionWidth(double width) {
-        double newWidth = getController().getCanvasViewController().convertToNearestBlockValue(width);
-        setWidth(newWidth);
-        mySprite.getDimension().setWidth(newWidth);
+        setWidth(width);
+        mySprite.getDimension().setWidth(width);
         updateLayout();
     }
 
@@ -71,9 +68,8 @@ public class SpriteView extends AbstractView {
      * @param height set height both frontend and backend mySprite
      */
     public void setDimensionHeight(double height) {
-        double newHeight = getController().getCanvasViewController().convertToNearestBlockValue(height);
-        setHeight(newHeight);
-        mySprite.getDimension().setHeight(newHeight);
+        setHeight(height);
+        mySprite.getDimension().setHeight(height);
         updateLayout();
     }
 
@@ -112,17 +108,25 @@ public class SpriteView extends AbstractView {
 
     @Override
     protected void updateLayoutSelf() {
-        spImageView.setWidth(this.getWidth());
-        spImageView.setHeight(this.getHeight());
+        spImageView.setWidth(getWidth());
+        spImageView.setHeight(getHeight());
         if (spResizeView != null) {
-            spResizeView.setWidth(this.getWidth());
-            spResizeView.setHeight(this.getHeight());
+            spResizeView.setWidth(getWidth());
+            spResizeView.setHeight(getHeight());
         }
     }
 
     private void setMouseClicked() {
-        this.getUI().setOnMouseClicked(e -> {
-            this.getController().selectSpriteView(this);
+        getUI().setOnMouseClicked(e -> {
+            getController().selectSpriteView(this);
+            snapToGrid();
         });
+    }
+
+    public void snapToGrid() {
+        setAbsolutePositionX(getController().getCanvasViewController().convertToNearestBlockValue(getPositionX()));
+        setAbsolutePositionY(getController().getCanvasViewController().convertToNearestBlockValue(getPositionY()));
+        setDimensionWidth(getController().getCanvasViewController().convertToNearestBlockValue(getWidth()));
+        setDimensionHeight(getController().getCanvasViewController().convertToNearestBlockValue(getHeight()));
     }
 }

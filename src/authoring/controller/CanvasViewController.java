@@ -79,7 +79,8 @@ public class CanvasViewController {
         } else {
             setAbsolutePosition(spView, x, y);
         }
-        this.reorderSpriteViewsWithPositionZ();
+        reorderSpriteViewsWithPositionZ();
+        spView.snapToGrid();
     }
 
     public void delete(SpriteView spView) {
@@ -126,7 +127,6 @@ public class CanvasViewController {
 
     public void setAbsolutePositionZ(SpriteView spView, double z) {
         spView.setAbsolutePositionZ(z);
-        reorderSpriteViewsWithPositionZ();
     }
 
     public void onDragSpriteView(SpriteView spView, MouseEvent event) {
@@ -205,9 +205,9 @@ public class CanvasViewController {
             SpriteView spView = new SpriteView(myCanvas.getController());
             Dimension dim = new Dimension(sp.getDimension().getWidth(), sp.getDimension().getHeight());
             spView.setSprite(sp);
-            this.add(spView, sp.getPosition().getX(), sp.getPosition().getY(), false);
             spView.setDimensionHeight(dim.getHeight());
             spView.setDimensionWidth(dim.getWidth());
+            add(spView, sp.getPosition().getX(), sp.getPosition().getY(), false);
             //TODO extract component class to save default dimension height and width for a component
             //avoid setting dimension with image width and height
         }
@@ -252,7 +252,7 @@ public class CanvasViewController {
      */
     private void makeAndAddSpriteView(double x, double y) {
         SpriteView spView = myCanvas.getController().getComponentController().makeSpriteViewFromCopiedSprite(myCanvas);
-        this.add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
+        add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
         myCanvas.getController().selectSpriteView(spView);
         myEnvironment.getCurrentLevel().addSprite(spView.getSprite());
     }
@@ -288,7 +288,7 @@ public class CanvasViewController {
     }
 
     public double convertToNearestBlockValue(double value) {
-        return (int) (value / BLOCK_SIZE) * BLOCK_SIZE;
+        return Math.round(value / BLOCK_SIZE) * BLOCK_SIZE;
     }
 
 }
