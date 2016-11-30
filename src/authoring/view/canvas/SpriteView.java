@@ -9,7 +9,6 @@ import game_object.core.Position;
  * wrapper for Sprite in AuthEnv
  */
 public class SpriteView extends AbstractView {
-
     private ISprite mySprite;
     private CanvasView myCanvas;
     private SpriteImageView spImageView;
@@ -38,15 +37,20 @@ public class SpriteView extends AbstractView {
     }
 
     public void setAbsolutePositionX(double x) {
-        this.getController().getCanvasViewController().setAbsolutePosition(this, x, mySprite.getPosition().getY());
+        double newX = getController().getCanvasViewController().convertToNearestBlockValue(x);
+        setPositionX(newX);
+        mySprite.getPosition().setX(newX);
     }
 
     public void setAbsolutePositionY(double y) {
-        this.getController().getCanvasViewController().setAbsolutePosition(this, mySprite.getPosition().getX(), y);
+        double newY = getController().getCanvasViewController().convertToNearestBlockValue(y);
+        setPositionY(newY);
+        mySprite.getPosition().setY(newY);
     }
 
     public void setAbsolutePositionZ(double z) {
-        this.getController().getCanvasViewController().setAbsolutePositionZ(this, z);
+        mySprite.getPosition().setZ(z);
+        getController().getCanvasViewController().reorderSpriteViewsWithPositionZ();
     }
 
     public Position getMouseOffset() {
@@ -57,8 +61,9 @@ public class SpriteView extends AbstractView {
      * @param width set width both frontend and backend mySprite
      */
     public void setDimensionWidth(double width) {
-        this.setWidth(width);
-        mySprite.getDimension().setWidth(width);
+        double newWidth = getController().getCanvasViewController().convertToNearestBlockValue(width);
+        setWidth(newWidth);
+        mySprite.getDimension().setWidth(newWidth);
         updateLayout();
     }
 
@@ -66,8 +71,9 @@ public class SpriteView extends AbstractView {
      * @param height set height both frontend and backend mySprite
      */
     public void setDimensionHeight(double height) {
-        this.setHeight(height);
-        mySprite.getDimension().setHeight(height);
+        double newHeight = getController().getCanvasViewController().convertToNearestBlockValue(height);
+        setHeight(newHeight);
+        mySprite.getDimension().setHeight(newHeight);
         updateLayout();
     }
 
@@ -119,5 +125,4 @@ public class SpriteView extends AbstractView {
             this.getController().selectSpriteView(this);
         });
     }
-
 }

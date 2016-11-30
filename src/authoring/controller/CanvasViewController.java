@@ -24,6 +24,7 @@ import javafx.scene.shape.Rectangle;
  *         TODO: extract subcontrollers, this is too long
  */
 public class CanvasViewController {
+    private static final double BLOCK_SIZE = 50;
 
     private CanvasView myCanvas;
     private List<SpriteView> spriteViews;
@@ -35,6 +36,7 @@ public class CanvasViewController {
     private double scHeight;
     private double bgWidth;
     private double bgHeight;
+    private double blockSize;
     private SpriteViewComparator spViewComparator;
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, Rectangle background) {
@@ -118,14 +120,12 @@ public class CanvasViewController {
      * @param y      x and y are absolute
      */
     public void setAbsolutePosition(SpriteView spView, double x, double y) {
-        spView.setPositionX(x);
-        spView.setPositionY(y);
-        spView.getSprite().getPosition().setX(x);
-        spView.getSprite().getPosition().setY(y);
+        spView.setAbsolutePositionX(x);
+        spView.setAbsolutePositionY(y);
     }
 
     public void setAbsolutePositionZ(SpriteView spView, double z) {
-        spView.getSprite().getPosition().setZ(z);
+        spView.setAbsolutePositionZ(z);
         reorderSpriteViewsWithPositionZ();
     }
 
@@ -159,6 +159,18 @@ public class CanvasViewController {
         this.setAbsolutePosition(spView, startX, startY);
         spView.setDimensionWidth(endX - startX);
         spView.setDimensionHeight(endY - startY);
+    }
+
+    public void reorderSpriteViewsWithPositionZ() {
+        spriteViews.sort(spViewComparator);
+        double hValue = myScrollPane.getHvalue();
+        double vValue = myScrollPane.getVvalue();
+        clearSpriteViews(false);
+        for (SpriteView spView : spriteViews) {
+            myContent.getChildren().add(spView.getUI());
+        }
+        myScrollPane.setHvalue(hValue);
+        myScrollPane.setVvalue(vValue);
     }
 
     // MARK: adjuster buttons
@@ -211,18 +223,6 @@ public class CanvasViewController {
     private void retrieveBackgroundSize() {
         bgWidth = myBackground.getWidth();
         bgHeight = myBackground.getHeight();
-    }
-
-    private void reorderSpriteViewsWithPositionZ() {
-        spriteViews.sort(spViewComparator);
-        double hValue = myScrollPane.getHvalue();
-        double vValue = myScrollPane.getVvalue();
-        clearSpriteViews(false);
-        for (SpriteView spView : spriteViews) {
-            myContent.getChildren().add(spView.getUI());
-        }
-        myScrollPane.setHvalue(hValue);
-        myScrollPane.setVvalue(vValue);
     }
 
     private void setOnDrag() {
@@ -285,6 +285,10 @@ public class CanvasViewController {
         if (data) {
             spriteViews.clear();
         }
+    }
+
+    public double convertToNearestBlockValue(double value) {
+        return (int) (value / BLOCK_SIZE) * BLOCK_SIZE;
     }
 
 }
