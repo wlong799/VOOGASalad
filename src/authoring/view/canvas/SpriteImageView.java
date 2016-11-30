@@ -3,6 +3,7 @@ package authoring.view.canvas;
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import game_object.core.ISprite;
+import game_object.core.ImageStyle;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,11 +41,22 @@ public class SpriteImageView extends AbstractView {
     protected void updateLayoutSelf() {
         myContent.setPrefWidth(getWidth());
         myContent.setPrefHeight(getHeight());
-        tileImages();
+        myContent.getChildren().clear();
+        if (mySprite.getImgStyle() == ImageStyle.TILE) {
+            tileImages();
+        } else {
+            fitImage();
+        }
+    }
+
+    private void fitImage() {
+        ImageView imageView = new ImageView(myImage);
+        imageView.setFitHeight(getHeight());
+        imageView.setFitWidth(getWidth());
+        myContent.getChildren().add(imageView);
     }
 
     private void tileImages() {
-        myContent.getChildren().clear();
         double adjustedWidth = getHeight() * (myImage.getWidth() / myImage.getHeight());
         double width;
         for (width = adjustedWidth; width < getWidth(); width += adjustedWidth) {
