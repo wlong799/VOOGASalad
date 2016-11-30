@@ -15,14 +15,6 @@ public interface ISpriteVisualization {
 	
 	String getImagePath();
 	
-	String getImagePathLeft();
-	
-	String getImagePathRight();
-	
-	boolean facingLeft();
-	
-	boolean facingRight();
-	
 	double getXForVisualization();
 	
 	double getYForVisualization();

@@ -17,7 +17,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	}
 
 	@Override
-	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
+	public double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
 		double vx = body.getVelocity().getXVelocity();
 		if (calculateNewVerticalVelocity(body, elapsedTime) == 0 && !existLeftRight) {
 			vx = 0;
@@ -26,7 +26,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	}
 
 	@Override
-	protected double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime) {
+	public double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime) {
 		double x = body.getPosition().getX();
 		double vx = calculateNewHorizontalVelocity(body, elapsedTime);
 		double newx = x + elapsedTime * vx;
@@ -34,7 +34,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	}
 
 	@Override
-	protected double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
+	public double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
 		double vy = body.getVelocity().getYVelocity();
 		double newvy = vy + elapsedTime * myParams.getGravity();
 		if (Math.abs(newvy) > myParams.getMaxThreshold()) {
@@ -44,7 +44,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	}
 
 	@Override
-	protected double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime) {
+	public double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime) {
 		double y = body.getPosition().getY();
 		double vy = calculateNewVerticalVelocity(body, elapsedTime);
 		double newy = y + elapsedTime * vy;

@@ -1,8 +1,10 @@
-package game_object.framework;
+package game_object.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import game_object.constants.DefaultConstants;
 import game_object.level.Level;
 
 /**
@@ -12,6 +14,7 @@ import game_object.level.Level;
 public class Game {
 	
 	private List<Level> myLevels;
+	private Dimension myScreenSize;
 
 	private Level myFirstSceneAsLevel;
 	//private TransitionMenu myFirstSceneAsMenu;
@@ -20,18 +23,37 @@ public class Game {
 	
 	public Game() {
 		myLevels = new ArrayList<>();
+		myScreenSize = new Dimension(
+			DefaultConstants.SCREEN_WIDTH,
+			DefaultConstants.SCREEN_HEIGHT
+		);
 	}
 	
-	public void addLevel(Level level) {
+	public Dimension getScreenSize() {
+		return myScreenSize;
+	}
+	
+	/**
+	 * Return false if this level's id conflicts with the existing ones.
+	 * @param level
+	 * @return true if add succeeds, false otherwise
+	 */
+	public boolean addLevel(Level level) {
+		for (Level oldLevel : myLevels) {
+			if (oldLevel.getId().equals(level.getId())) {
+				return false;
+			}
+		}
 		myLevels.add(level);
+		return true;
 	}
 	
 	public void removeLevel(Level level) {
 		myLevels.remove(level);
 	}
 	
-	public List<Level> getAllLevels() {
-		return myLevels;
+	public List<Level> getAllLevelsReadOnly() {
+		return Collections.unmodifiableList(myLevels);
 	}
 	
 	public void setCurrentLevel(Level currentLevel) {

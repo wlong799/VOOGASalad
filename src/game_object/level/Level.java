@@ -11,7 +11,9 @@ import game_object.background.Background;
 import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
+import game_object.core.Game;
 import game_object.core.ISprite;
 import game_object.visualization.ILevelVisualization;
 import game_object.visualization.ISpriteVisualization;
@@ -23,6 +25,8 @@ import goal.IGoal;
  */
 public class Level implements ILevelVisualization {
 
+	private final String myId;
+	private final Game myParentGame;
 	private Dimension myLevelDimension;
 	private Level myNextLevel;
 	private TransitionMenu myNextMenu;
@@ -34,7 +38,9 @@ public class Level implements ILevelVisualization {
 	private List<StaticBlock> myStaticBlocks;
 	private List<ActionTrigger> myTriggers;
 	
-	public Level() {
+	public Level(Game parentGame, String id) {
+		myParentGame = parentGame;
+		myId = id;
 		myHeros = new ArrayList<>();
 		myEnemies = new ArrayList<>();
 		myStaticBlocks = new ArrayList<>();
@@ -42,6 +48,14 @@ public class Level implements ILevelVisualization {
 		myLevelDimension = new Dimension(0, 0);
 		myPhysicsParameters = new PhysicsParameters();
 		myGoals = new ArrayList<>();
+	}
+	
+	public String getId() {
+		return myId;
+	}
+	
+	public Game getParentGame() {
+		return myParentGame;
 	}
 	
 	public List<ISprite> getAllSprites() {
@@ -53,10 +67,6 @@ public class Level implements ILevelVisualization {
 	}
 	
 	/* Level Dimensions */
-	public void setLevelDimension(Dimension levelDimension) {
-		myLevelDimension = levelDimension;
-	}
-	
 	public Dimension getLevelDimension() {
 		return myLevelDimension;
 	}
@@ -171,6 +181,7 @@ public class Level implements ILevelVisualization {
 	
 	/* ILevelVisualization Implementations */
 	List<ISpriteVisualization> mySpriteVisualizations;
+	Hero pivotHero;
 	
 	@Override
 	public void init() {
@@ -180,6 +191,7 @@ public class Level implements ILevelVisualization {
 			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
 		);
 		mySpriteVisualizations.addAll(allSprites);
+		AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
 	}
 	
 	@Override

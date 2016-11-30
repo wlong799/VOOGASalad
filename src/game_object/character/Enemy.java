@@ -2,7 +2,7 @@ package game_object.character;
 
 import java.util.List;
 
-import game_object.core.DefaultConstants;
+import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;

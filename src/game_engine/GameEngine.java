@@ -15,6 +15,8 @@ import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.WinStatus;
 import game_object.acting.KeyEvent;
 import game_object.background.Background;
+import game_object.character.Hero;
+import game_object.core.AbstractSprite;
 import game_object.core.ISprite;
 import game_object.core.Position;
 import game_object.core.Velocity;
@@ -50,9 +52,7 @@ public class GameEngine implements IGameEngine {
 		init();
 	}
 
-
-	@Override
-	public void init() {
+	private void init() {
 		setElements(myCurrentLevel);
 		myCurrentLevel.init();
 	}
@@ -87,12 +87,25 @@ public class GameEngine implements IGameEngine {
 		}
 		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
 				myCurrentLevel.getStaticBlocks());
-		//printOutput();
+		updateScrolling();
 		endCheck();
 	}
 
+	private void updateScrolling() {
+		Hero pivotHero = myCurrentLevel.getHeros().get(0);
+		if (pivotHero != null) {
+			AbstractSprite.getStaticPivotPosition().setX(pivotHero.getPosition().getX());
+			AbstractSprite.getStaticPivotPosition().setY(pivotHero.getPosition().getY());
+		}
+	}
+	
 	private void updateNewParameters(IPhysicsBody body) {
 		if (body.getAffectedByPhysics()) {
+//			double newX = myPhysicsEngine.calculateNewHorizontalPosition(body, myElapsedTime);
+//			double newY = myPhysicsEngine.calculateNewVerticalPosition(body, myElapsedTime);
+//			double newVx = myPhysicsEngine.calculateNewHorizontalVelocity(body, myElapsedTime);
+//			double newVy = myPhysicsEngine.calculateNewVerticalVelocity(body, myElapsedTime);
+//			myPhysicsEngine.updatePositionAndVelocity(newX, newVx, newY, newVy, body);
 			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
 			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
