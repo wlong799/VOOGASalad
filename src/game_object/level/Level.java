@@ -47,6 +47,7 @@ public class Level implements ILevelVisualization {
 		myLevelDimension = new Dimension(0, 0);
 		myPhysicsParameters = new PhysicsParameters();
 		myGoals = new ArrayList<>();
+		myBackground = new Background();
 	}
 	
 	public String getId() {

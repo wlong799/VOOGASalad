@@ -11,11 +11,16 @@ import authoring.view.canvas.SpriteViewComparator;
 import game_object.core.Dimension;
 import game_object.core.ISprite;
 import game_object.level.Level;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -30,16 +35,15 @@ public class CanvasViewController {
     private List<SpriteView> spriteViews;
     private ScrollPane myScrollPane;
     private Group myContent; // holder for all SpriteViews
-    private Rectangle myBackground;
+    private HBox myBackground;
     private AuthorEnvironment myEnvironment;
     private double scWidth;
     private double scHeight;
     private double bgWidth;
     private double bgHeight;
-    private double blockSize;
     private SpriteViewComparator spViewComparator;
 
-    public void init(CanvasView canvas, ScrollPane scrollPane, Group content, Rectangle background) {
+    public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
         myCanvas = canvas;
         myScrollPane = scrollPane;
         myContent = content;
@@ -173,27 +177,32 @@ public class CanvasViewController {
         myScrollPane.setVvalue(vValue);
     }
 
-    // MARK: adjuster buttons
     public void expand() {
-        myBackground.setWidth(myBackground.getWidth() + UIConstants.SCREEN_CHANGE_INTERVAL);
-        myEnvironment.getCurrentLevel().getLevelDimension().setWidth(myBackground.getWidth());
+        double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
+        width += UIConstants.SCREEN_CHANGE_INTERVAL;
+        myEnvironment.getCurrentLevel().getLevelDimension().setWidth(width);
+        updateBackground();
     }
 
     public void shrink() {
-        if (myBackground.getWidth() > UIConstants.CANVAS_STARTING_WIDTH) {
-            myBackground.setWidth(myBackground.getWidth() - UIConstants.SCREEN_CHANGE_INTERVAL);
-        }
-        myEnvironment.getCurrentLevel().getLevelDimension().setWidth(myBackground.getWidth());
+        double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
+        width -= UIConstants.SCREEN_CHANGE_INTERVAL;
+        myEnvironment.getCurrentLevel().getLevelDimension().setWidth(width);
+        updateBackground();
     }
-    
+
     public void taller() {
-    	myBackground.setHeight(myBackground.getHeight() + UIConstants.SCREEN_CHANGE_INTERVAL);
-        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(myBackground.getHeight());
+        double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
+        height += UIConstants.SCREEN_CHANGE_INTERVAL;
+        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(height);
+        updateBackground();
     }
-    
+
     public void shorter() {
-    	myBackground.setHeight(myBackground.getHeight() - UIConstants.SCREEN_CHANGE_INTERVAL);
-        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(myBackground.getHeight());
+        double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
+        height -= UIConstants.SCREEN_CHANGE_INTERVAL;
+        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(height);
+        updateBackground();
     }
 
     // relative positions to absolute
@@ -221,8 +230,7 @@ public class CanvasViewController {
             //TODO extract component class to save default dimension height and width for a component
             //avoid setting dimension with image width and height
         }
-        myBackground.setWidth(currentLevel.getLevelDimension().getWidth());
-        myBackground.setHeight(currentLevel.getLevelDimension().getHeight());
+        updateBackground();
     }
 
     private void retrieveScrollPaneSize() {
@@ -297,8 +305,36 @@ public class CanvasViewController {
         }
     }
 
+    private void updateBackground() {
+        // TODO: 11/29/16 allow for tiling of multiple image paths, rather than just first
+        myBackground.getChildren().clear();
+        double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
+        double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
+        if (myEnvironment.getCurrentLevel().getBackground().getImagePaths().size() == 0) {
+            Rectangle rectangle = new Rectangle(0, 0, width, height);
+            rectangle.setFill(Color.BEIGE);
+            myBackground.getChildren().add(rectangle);
+        } else {
+            Image backgroundImage = new Image(myEnvironment.getCurrentLevel().getBackground().getImagePaths().get(0));
+            double adjustedWidth = height * (backgroundImage.getWidth() / backgroundImage.getHeight());
+            double usedWidth;
+            for (usedWidth = adjustedWidth; usedWidth < width; usedWidth += adjustedWidth) {
+                ImageView imageView = new ImageView(backgroundImage);
+                imageView.setPreserveRatio(true);
+                imageView.setFitWidth(adjustedWidth);
+                myBackground.getChildren().add(imageView);
+            }
+            ImageView imageView = new ImageView(backgroundImage);
+            imageView.setPreserveRatio(true);
+            imageView.setFitHeight(height);
+            imageView.setViewport(new Rectangle2D(0, 0,
+                    (1 - ((usedWidth - width) / adjustedWidth)) * backgroundImage.getWidth(),
+                    backgroundImage.getHeight()));
+            myBackground.getChildren().add(imageView);
+        }
+    }
+
     public double convertToNearestBlockValue(double value) {
         return Math.round(value / BLOCK_SIZE) * BLOCK_SIZE;
     }
-
 }
