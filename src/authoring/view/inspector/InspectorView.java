@@ -7,7 +7,10 @@ import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
 import game_object.character.Hero;
 import game_object.core.ISprite;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -26,7 +29,8 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	private VBox widthBox;
 	private VBox heightBox;
 	private ScrollPane inspectorPane;
-	
+	private CheckBox collideWithHerosCheckBox, collideWithEnemiesCheckBox, collideWithBlockCheckBox, applyPhysics;
+	ComponentPhysicsSettings componentPhysicsSettings;
 	private ActionConfiguringView myActionView;
 	
 	public interface ITextChangeHandler {
@@ -88,7 +92,11 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		myActionView = new ActionConfiguringView(this.getController());
 		myActionView.setSprite(sprite);
 		this.addSubView(myActionView);
-		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox);
+		
+		initCheckBoxes();
+		
+		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox, collideWithHerosCheckBox,
+        		collideWithEnemiesCheckBox, collideWithBlockCheckBox, applyPhysics);
 		if (sprite instanceof Hero) {
 			configs.getChildren().add(myActionView.getUI());
 		}
@@ -114,5 +122,23 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		});
 		return box;
 	}
+	
+	private void initCheckBoxes() {
+    	collideWithHerosCheckBox = new CheckBox("Collide with Heros");
+    	collideWithEnemiesCheckBox = new CheckBox("Collide with Enemies");
+    	collideWithBlockCheckBox = new CheckBox("Collide with Blocks");
+    	applyPhysics = new CheckBox("Apply Physics");
+    	
+    	componentPhysicsSettings = new ComponentPhysicsSettings(sprite);
+    	
+    	collideWithHerosCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
+            	componentPhysicsSettings.setCollisionOnHeros(new_val);
+            }
+        });
+    	
+    	
+    	
+    }
 
 }

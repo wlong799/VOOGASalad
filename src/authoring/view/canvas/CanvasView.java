@@ -39,6 +39,7 @@ public class CanvasView extends AbstractView {
 					UIConstants.TOP_HEIGHT -
 					40);
 		background.setFill(Color.BEIGE);
+		
 		content.getChildren().add(background);
 		scrollPane = new ScrollPane(content);
 		this.addUI(scrollPane);
