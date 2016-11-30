@@ -2,7 +2,6 @@ package authoring.view.menu.menu_element;
 
 import authoring.AuthoringController;
 import authoring.view.menu.AbstractGameMenuElement;
-import game_object.LevelGenerator;
 
 /**
  * Delete current level.
