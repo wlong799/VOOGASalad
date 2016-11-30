@@ -11,25 +11,30 @@ import authoring.view.canvas.SpriteViewComparator;
 import game_object.core.Dimension;
 import game_object.core.ISprite;
 import game_object.level.Level;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
  * @author billyu
  *         Controller for canvas
- *         TODO: extract subcontrollers, this is too long
  */
 public class CanvasViewController {
+    private static final double BLOCK_SIZE = 50;
 
     private CanvasView myCanvas;
     private List<SpriteView> spriteViews;
     private ScrollPane myScrollPane;
     private Group myContent; // holder for all SpriteViews
-    private Rectangle myBackground;
+    private HBox myBackground;
     private AuthorEnvironment myEnvironment;
     private double scWidth;
     private double scHeight;
@@ -37,7 +42,7 @@ public class CanvasViewController {
     private double bgHeight;
     private SpriteViewComparator spViewComparator;
 
-    public void init(CanvasView canvas, ScrollPane scrollPane, Group content, Rectangle background) {
+    public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
         myCanvas = canvas;
         myScrollPane = scrollPane;
         myContent = content;
@@ -77,7 +82,8 @@ public class CanvasViewController {
         } else {
             setAbsolutePosition(spView, x, y);
         }
-        this.reorderSpriteViewsWithPositionZ();
+        reorderSpriteViewsWithPositionZ();
+        spView.snapToGrid();
     }
 
     public void delete(SpriteView spView) {
@@ -118,15 +124,12 @@ public class CanvasViewController {
      * @param y      x and y are absolute
      */
     public void setAbsolutePosition(SpriteView spView, double x, double y) {
-        spView.setPositionX(x);
-        spView.setPositionY(y);
-        spView.getSprite().getPosition().setX(x);
-        spView.getSprite().getPosition().setY(y);
+        spView.setAbsolutePositionX(x);
+        spView.setAbsolutePositionY(y);
     }
 
     public void setAbsolutePositionZ(SpriteView spView, double z) {
-        spView.getSprite().getPosition().setZ(z);
-        reorderSpriteViewsWithPositionZ();
+        spView.setAbsolutePositionZ(z);
     }
 
     public void onDragSpriteView(SpriteView spView, MouseEvent event) {
@@ -161,27 +164,44 @@ public class CanvasViewController {
         spView.setDimensionHeight(endY - startY);
     }
 
-    // MARK: adjuster buttons
+    public void reorderSpriteViewsWithPositionZ() {
+        spriteViews.sort(spViewComparator);
+        double hValue = myScrollPane.getHvalue();
+        double vValue = myScrollPane.getVvalue();
+        clearSpriteViews(false);
+        for (SpriteView spView : spriteViews) {
+            myContent.getChildren().add(spView.getUI());
+        }
+        myScrollPane.setHvalue(hValue);
+        myScrollPane.setVvalue(vValue);
+    }
+
     public void expand() {
-        myBackground.setWidth(myBackground.getWidth() + UIConstants.SCREEN_CHANGE_INTERVAL);
-        myEnvironment.getCurrentLevel().getLevelDimension().setWidth(myBackground.getWidth());
+        double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
+        width += UIConstants.SCREEN_CHANGE_INTERVAL;
+        myEnvironment.getCurrentLevel().getLevelDimension().setWidth(width);
+        updateBackground();
     }
 
     public void shrink() {
-        if (myBackground.getWidth() > UIConstants.CANVAS_STARTING_WIDTH) {
-            myBackground.setWidth(myBackground.getWidth() - UIConstants.SCREEN_CHANGE_INTERVAL);
-        }
-        myEnvironment.getCurrentLevel().getLevelDimension().setWidth(myBackground.getWidth());
+        double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
+        width -= UIConstants.SCREEN_CHANGE_INTERVAL;
+        myEnvironment.getCurrentLevel().getLevelDimension().setWidth(width);
+        updateBackground();
     }
-    
+
     public void taller() {
-    	myBackground.setHeight(myBackground.getHeight() + UIConstants.SCREEN_CHANGE_INTERVAL);
-        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(myBackground.getHeight());
+        double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
+        height += UIConstants.SCREEN_CHANGE_INTERVAL;
+        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(height);
+        updateBackground();
     }
-    
+
     public void shorter() {
-    	myBackground.setHeight(myBackground.getHeight() - UIConstants.SCREEN_CHANGE_INTERVAL);
-        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(myBackground.getHeight());
+        double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
+        height -= UIConstants.SCREEN_CHANGE_INTERVAL;
+        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(height);
+        updateBackground();
     }
 
     // relative positions to absolute
@@ -203,14 +223,11 @@ public class CanvasViewController {
             SpriteView spView = new SpriteView(myCanvas.getController());
             Dimension dim = new Dimension(sp.getDimension().getWidth(), sp.getDimension().getHeight());
             spView.setSprite(sp);
-            this.add(spView, sp.getPosition().getX(), sp.getPosition().getY(), false);
             spView.setDimensionHeight(dim.getHeight());
             spView.setDimensionWidth(dim.getWidth());
-            //TODO extract component class to save default dimension height and width for a component
-            //avoid setting dimension with image width and height
+            add(spView, sp.getPosition().getX(), sp.getPosition().getY(), false);
         }
-        myBackground.setWidth(currentLevel.getLevelDimension().getWidth());
-        myBackground.setHeight(currentLevel.getLevelDimension().getHeight());
+        updateBackground();
     }
 
     private void retrieveScrollPaneSize() {
@@ -221,18 +238,6 @@ public class CanvasViewController {
     private void retrieveBackgroundSize() {
         bgWidth = myBackground.getWidth();
         bgHeight = myBackground.getHeight();
-    }
-
-    private void reorderSpriteViewsWithPositionZ() {
-        spriteViews.sort(spViewComparator);
-        double hValue = myScrollPane.getHvalue();
-        double vValue = myScrollPane.getVvalue();
-        clearSpriteViews(false);
-        for (SpriteView spView : spriteViews) {
-            myContent.getChildren().add(spView.getUI());
-        }
-        myScrollPane.setHvalue(hValue);
-        myScrollPane.setVvalue(vValue);
     }
 
     private void setOnDrag() {
@@ -262,7 +267,7 @@ public class CanvasViewController {
      */
     private void makeAndAddSpriteView(double x, double y) {
         SpriteView spView = myCanvas.getController().getComponentController().makeSpriteViewFromCopiedSprite(myCanvas);
-        this.add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
+        add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
         myCanvas.getController().selectSpriteView(spView);
         myEnvironment.getCurrentLevel().addSprite(spView.getSprite());
     }
@@ -297,4 +302,36 @@ public class CanvasViewController {
         }
     }
 
+    private void updateBackground() {
+        // TODO: 11/29/16 allow for tiling of multiple image paths, rather than just first
+        myBackground.getChildren().clear();
+        double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
+        double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
+        if (myEnvironment.getCurrentLevel().getBackground().getImagePaths().size() == 0) {
+            Rectangle rectangle = new Rectangle(0, 0, width, height);
+            rectangle.setFill(Color.BEIGE);
+            myBackground.getChildren().add(rectangle);
+        } else {
+            Image backgroundImage = new Image(myEnvironment.getCurrentLevel().getBackground().getImagePaths().get(0));
+            double adjustedWidth = height * (backgroundImage.getWidth() / backgroundImage.getHeight());
+            double usedWidth;
+            for (usedWidth = adjustedWidth; usedWidth < width; usedWidth += adjustedWidth) {
+                ImageView imageView = new ImageView(backgroundImage);
+                imageView.setPreserveRatio(true);
+                imageView.setFitWidth(adjustedWidth);
+                myBackground.getChildren().add(imageView);
+            }
+            ImageView imageView = new ImageView(backgroundImage);
+            imageView.setPreserveRatio(true);
+            imageView.setFitHeight(height);
+            imageView.setViewport(new Rectangle2D(0, 0,
+                    (1 - ((usedWidth - width) / adjustedWidth)) * backgroundImage.getWidth(),
+                    backgroundImage.getHeight()));
+            myBackground.getChildren().add(imageView);
+        }
+    }
+
+    public double convertToNearestBlockValue(double value) {
+        return Math.round(value / BLOCK_SIZE) * BLOCK_SIZE;
+    }
 }

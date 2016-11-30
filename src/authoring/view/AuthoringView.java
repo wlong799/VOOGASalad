@@ -11,7 +11,7 @@ import authoring.view.menu.GameMenuView;
 import javafx.scene.layout.GridPane;
 
 public class AuthoringView extends AbstractView {
-    private static final double MENU_HEIGHT = 35;
+    private static final double MENU_HEIGHT = 30;
     private static final double COMPONENT_HEIGHT = 250;
     private static final double INSPECTOR_WIDTH = 300;
     private static final double THRESHOLD_HEIGHT = 650;
