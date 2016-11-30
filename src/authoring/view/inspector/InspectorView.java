@@ -29,7 +29,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	private VBox widthBox;
 	private VBox heightBox;
 	private ScrollPane inspectorPane;
-	private CheckBox collideWithHerosCheckBox, collideWithEnemiesCheckBox, collideWithBlockCheckBox, applyPhysics;
+	private CheckBox herosCollisionCB, enemiesCollisionCB, blockCollisionCB, applyPhysics;
 	ComponentPhysicsSettings componentPhysicsSettings;
 	private ActionConfiguringView myActionView;
 	
@@ -95,8 +95,8 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		
 		initCheckBoxes();
 		
-		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox, collideWithHerosCheckBox,
-        		collideWithEnemiesCheckBox, collideWithBlockCheckBox, applyPhysics);
+		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox, herosCollisionCB,
+        		enemiesCollisionCB, blockCollisionCB, applyPhysics);
 		if (sprite instanceof Hero) {
 			configs.getChildren().add(myActionView.getUI());
 		}
@@ -124,20 +124,39 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	}
 	
 	private void initCheckBoxes() {
-    	collideWithHerosCheckBox = new CheckBox("Collide with Heros");
-    	collideWithEnemiesCheckBox = new CheckBox("Collide with Enemies");
-    	collideWithBlockCheckBox = new CheckBox("Collide with Blocks");
-    	applyPhysics = new CheckBox("Apply Physics");
-    	
-    	componentPhysicsSettings = new ComponentPhysicsSettings(sprite);
-    	
-    	collideWithHerosCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+		componentPhysicsSettings = new ComponentPhysicsSettings(sprite);
+		
+    	herosCollisionCB = new CheckBox("Collide with Heros");
+    	herosCollisionCB.setSelected(false);
+    	herosCollisionCB.selectedProperty().addListener(new ChangeListener<Boolean>() {
             public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
-            	componentPhysicsSettings.setCollisionOnHeros(new_val);
+            	componentPhysicsSettings.setCollisionSettingWithHeros(new_val);
             }
         });
     	
+    	enemiesCollisionCB = new CheckBox("Collide with Enemies");
+    	enemiesCollisionCB.setSelected(false);
+    	enemiesCollisionCB.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
+            	componentPhysicsSettings.setCollisionSettingWithEnemies(new_val);
+            }
+        });
     	
+    	blockCollisionCB = new CheckBox("Collide with Blocks");
+    	blockCollisionCB.setSelected(true);
+    	blockCollisionCB.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
+            	componentPhysicsSettings.setCollisionSettingWithBlock(new_val);
+            }
+        });
+    	
+    	applyPhysics = new CheckBox("Apply Physics");
+    	applyPhysics.setSelected(false);
+    	applyPhysics.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
+            	componentPhysicsSettings.makePhysicsApplicable(new_val);
+            }
+        });
     	
     }
 
