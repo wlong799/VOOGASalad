@@ -11,6 +11,7 @@ import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.GameObjectConstants;
 import game_object.core.Dimension;
+import game_object.core.Game;
 import game_object.core.ImageStyle;
 import game_object.core.Position;
 import game_object.core.Velocity;
@@ -22,6 +23,8 @@ import javafx.scene.input.KeyCode;
  * @author Jay
  */
 public class LevelGenerator {
+	
+	public static Game testGame = new Game();
 	
 	/**
 	 * A hero in the air, and a big chalk of block as ground.
@@ -37,9 +40,9 @@ public class LevelGenerator {
 		enemyImages.add(GameObjectConstants.ORANGE_MUSHROOM_FILE);
 		
 		ArrayList<String> blockImages = new ArrayList<>();
-		blockImages.add(GameObjectConstants.STONE_BLOCK_FILE);
+		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
 		
-		Level level = new Level();
+		Level level = new Level(testGame, "TestLevelA");
 		
 		level.setLevelDimension(new Dimension(2000, 800));
 		
@@ -81,16 +84,16 @@ public class LevelGenerator {
 		heroImages.add(GameObjectConstants.BLUE_SNAIL_RIGHT);
 		
 		ArrayList<String> blockImages = new ArrayList<>();
-		blockImages.add(GameObjectConstants.STONE_BLOCK_FILE);
+		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
 		
-		Level level = new Level();
+		Level level = new Level(testGame, "TestLevelB");
 		level.setLevelDimension(new Dimension(2000, 800));
 		
 		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(50, 0));
 		hero.setImageStyle(ImageStyle.FIT);
 		
-		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), blockImages);
+		StaticBlock ground = new StaticBlock(new Position(0, 600), new Dimension(2000, 200), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
 		
 		level.addSprite(hero);

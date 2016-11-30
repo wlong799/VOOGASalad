@@ -1,4 +1,4 @@
-package game_object.framework;
+package game_object.core;
 
 import java.util.ArrayList;
 import java.util.List;

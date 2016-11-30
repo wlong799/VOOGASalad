@@ -3,7 +3,7 @@ package authoring.view.menu.menu_element;
 import authoring.AuthoringController;
 import authoring.view.menu.AbstractGameMenuElement;
 import game_object.LevelGenerator;
-import game_object.framework.Game;
+import game_object.core.Game;
 
 /**
  * Adds a new game to the workspace.
