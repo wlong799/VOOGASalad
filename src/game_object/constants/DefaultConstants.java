@@ -2,8 +2,8 @@ package game_object.constants;
 
 public class DefaultConstants {
 	
-	public static final double SCREEN_WIDTH = 900;
-	public static final double SCREEN_HEIGHT = 600;
+	public static final double SCREEN_WIDTH = 1200;
+	public static final double SCREEN_HEIGHT = 700;
 	
 	public static final double MOVING_UNIT = 50;
 	public static final double JUMPING_UNIT = 100;
