@@ -8,7 +8,6 @@ import java.util.List;
  */
 public abstract class AbstractSprite implements ISprite {
 
-	private static Position staticPivotPosition;
 	protected Position myPosition;
 	protected Position myPreviousPosition;
 	protected List<String> myImagePaths;
@@ -96,25 +95,40 @@ public abstract class AbstractSprite implements ISprite {
 	
 	
 	/* ISpriteVisualization Implementations */
+	private String myPreviousImagePath;
+	private static Position staticPivotPosition;
+	private static Dimension staticPivotDimension;
+	
 	public static Position getStaticPivotPosition() {
 		return staticPivotPosition;
 	}
 	
+	public static void setStaticPivotDimension(Dimension pivotDimension) {
+		staticPivotDimension = pivotDimension;
+	}
+	
 	@Override
 	public String getImagePath() {
-		return getVelocity().getXVelocity() < 0 // face left
+		if (getVelocity().getXVelocity() != 0) {
+			myPreviousImagePath = getVelocity().getXVelocity() < 0 // face left
 				? myImagePaths.get(0)
 				: (
 					myImagePaths.size() < 2
 					? myImagePaths.get(0)
 					: myImagePaths.get(1)
 				);
+		} else {
+			if (myPreviousImagePath == null) {
+				myPreviousImagePath = myImagePaths.get(0);
+			}
+		}
+		return myPreviousImagePath;
 	}
 
 	@Override
 	public double getXForVisualization() {
 		return myPosition.getX() - staticPivotPosition.getX()
-			+ 200;
+			+ staticPivotDimension.getWidth() / 2;
 	}
 
 	@Override
