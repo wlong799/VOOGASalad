@@ -4,6 +4,7 @@ import java.io.File;
 
 import authoring.controller.CanvasViewController;
 import authoring.controller.ComponentController;
+import authoring.controller.chat.ChatController;
 import authoring.controller.run.TestGameController;
 import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
@@ -21,6 +22,7 @@ public class AuthoringController extends AbstractPublisher {
 	private CanvasViewController canvasViewController;
 	private ComponentController componentController;
 	private TestGameController testGameController;
+	private ChatController chatController;
 	private Marshaller marshaller;
 	
 	public AuthoringController(AuthorEnvironment environment) {
@@ -28,6 +30,7 @@ public class AuthoringController extends AbstractPublisher {
 		canvasViewController = new CanvasViewController();
 		componentController = new ComponentController();
 		testGameController = new TestGameController(this);
+		chatController = new ChatController();
 		marshaller = new Marshaller();
 	}
 	
@@ -41,6 +44,10 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public TestGameController getTestGameController() {
 		return testGameController;
+	}
+	
+	public ChatController getChatController() {
+		return chatController;
 	}
 	
 	public Marshaller getMarshaller() {
