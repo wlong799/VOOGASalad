@@ -14,6 +14,9 @@ public class DefaultConstants {
 	public static final int CHARACTER_MAX_HP = 100;
 	public static final int ENEMY_BODY_DAMAGE = 30;
 	
+	public static final int LEVEL_WIDTH = 2000;
+	public static final int LEVEL_HEIGHT = 800;
+	
 //	public static final int GROUND_BLOCK_CATEGORY_BIT_MASK = 1 << 3;
 //	public static final int FLOATING_BLOCK_CATEGORY_BIT_MASK = 1 << 4;
 	

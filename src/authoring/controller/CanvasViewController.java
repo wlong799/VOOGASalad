@@ -26,7 +26,6 @@ import javafx.scene.shape.Rectangle;
 /**
  * @author billyu
  *         Controller for canvas
- *         TODO: extract subcontrollers, this is too long
  */
 public class CanvasViewController {
     private static final double BLOCK_SIZE = 50;
@@ -227,8 +226,6 @@ public class CanvasViewController {
             spView.setDimensionHeight(dim.getHeight());
             spView.setDimensionWidth(dim.getWidth());
             add(spView, sp.getPosition().getX(), sp.getPosition().getY(), false);
-            //TODO extract component class to save default dimension height and width for a component
-            //avoid setting dimension with image width and height
         }
         updateBackground();
     }
