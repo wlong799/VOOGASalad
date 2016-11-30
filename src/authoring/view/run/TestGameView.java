@@ -2,6 +2,7 @@ package authoring.view.run;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
+import game_object.core.Dimension;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -40,15 +41,22 @@ public class TestGameView extends AbstractView {
 	@Override
 	protected void initUI() {
 		myStage = new Stage();
+		myStage.setResizable(false);
 		myGroup = new Group();
 		myRunningView = new TestGameRunningView(this.getController());
 		myConfiguringView = new TestGameConfiguringView(this.getController());
 		this.addSubViews(myRunningView, myConfiguringView);
 		myGroup.getChildren().addAll(myRunningView.getUI(), myConfiguringView.getUI());
-
-		myScene = new Scene(myGroup, 900, 600, Color.WHITE);
-		this.setWidth(900);
-		this.setHeight(600);
+		Dimension gameScreenSize = 
+				this.getController().getEnvironment().getCurrentGame().getScreenSize();
+		myScene = new Scene(
+			myGroup,
+			gameScreenSize.getWidth(),
+			gameScreenSize.getHeight(),
+			Color.WHITE
+		);
+		this.setWidth(gameScreenSize.getWidth());
+		this.setHeight(gameScreenSize.getHeight());
 		myScene.heightProperty().addListener((obv, oldVal, newVal) -> {
 			this.setHeight(newVal.doubleValue());
 			this.updateLayout();

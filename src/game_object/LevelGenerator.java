@@ -11,6 +11,7 @@ import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.GameObjectConstants;
 import game_object.core.Dimension;
+import game_object.core.Game;
 import game_object.core.ImageStyle;
 import game_object.core.Position;
 import game_object.core.Velocity;
@@ -22,6 +23,8 @@ import javafx.scene.input.KeyCode;
  * @author Jay
  */
 public class LevelGenerator {
+	
+	public static Game testGame = new Game();
 	
 	/**
 	 * A hero in the air, and a big chalk of block as ground.
@@ -39,9 +42,11 @@ public class LevelGenerator {
 		ArrayList<String> blockImages = new ArrayList<>();
 		blockImages.add(GameObjectConstants.STONE_BLOCK_FILE);
 		
-		Level level = new Level();
+		Level level = new Level(testGame, "TestLevelA");
 		
-		level.setLevelDimension(new Dimension(2000, 800));
+		level.getLevelDimension().setWidth(800);
+		level.getLevelDimension().setHeight(2000);
+		
 		
 		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(40, -80));
@@ -83,8 +88,9 @@ public class LevelGenerator {
 		ArrayList<String> blockImages = new ArrayList<>();
 		blockImages.add(GameObjectConstants.STONE_BLOCK_FILE);
 		
-		Level level = new Level();
-		level.setLevelDimension(new Dimension(2000, 800));
+		Level level = new Level(testGame, "TestLevelB");
+		level.getLevelDimension().setWidth(800);
+		level.getLevelDimension().setHeight(2000);
 		
 		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(50, 0));

@@ -2,6 +2,7 @@ package game_engine;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import game_engine.collision.AbstractCollisionEngine;
 import game_engine.collision.CollisionEngine;
@@ -11,57 +12,49 @@ import game_engine.physics.AbstractPhysicsEngine;
 import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
 import game_engine.physics.PhysicsParameterSetOptions;
-import game_engine.transition.AbstractTransitionManager;
-//import game_engine.transition.ITransitionManager;
 import game_engine.transition.WinStatus;
 import game_object.acting.KeyEvent;
+import game_object.background.Background;
+import game_object.character.Hero;
+import game_object.core.AbstractSprite;
 import game_object.core.ISprite;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
+import game_object.visualization.ISpriteVisualization;
 import goal.IGoal;
 import goal.time.TimeGoal;
 
 /**
+ * Game engine that takes a level as input
  * 
  * @author Charlie Wang
  */
 public class GameEngine implements IGameEngine {
 	private IPhysicsEngine myPhysicsEngine;
 	private ICollisionEngine myCollisionEngine;
-	//private ITransitionManager myTransitionManager;
 	private InputController myInputController;
 
 	private double myElapsedTime;
 
 	private Level myCurrentLevel;
 	private List<ISprite> mySprites;
-	// private List<Hero> myHeroes;
-	// private List<Enemy> myEnemies;
-	// private List<StaticBlock> myBlocks;
 	
 	//for suppressing log output
 	private boolean logSuppressed = false;
 
 	public GameEngine(Level level) {
 		myCurrentLevel = level;
-		myPhysicsEngine = new PhysicsEngineWithFriction();
+		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(level);
-		// myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		init();
 	}
 
-//	private void menu() {
-//		// TODO: pass all the objects in the menu level to the game player team
-//		// return: flag that its good to go (first level) (tentative)
-//		// might be dispensable
-//	}
-
-	@Override
-	public void init() {
+	private void init() {
 		setElements(myCurrentLevel);
+		myCurrentLevel.init();
 	}
 	
 	public void suppressLogDebug() {
@@ -95,12 +88,25 @@ public class GameEngine implements IGameEngine {
 		}
 		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
 				myCurrentLevel.getStaticBlocks());
-		//printOutput();
+		updateScrolling();
 		endCheck();
 	}
 
+	private void updateScrolling() {
+		Hero pivotHero = myCurrentLevel.getHeros().get(0);
+		if (pivotHero != null) {
+			AbstractSprite.getStaticPivotPosition().setX(pivotHero.getPosition().getX());
+			AbstractSprite.getStaticPivotPosition().setY(pivotHero.getPosition().getY());
+		}
+	}
+	
 	private void updateNewParameters(IPhysicsBody body) {
 		if (body.getAffectedByPhysics()) {
+//			double newX = myPhysicsEngine.calculateNewHorizontalPosition(body, myElapsedTime);
+//			double newY = myPhysicsEngine.calculateNewVerticalPosition(body, myElapsedTime);
+//			double newVx = myPhysicsEngine.calculateNewHorizontalVelocity(body, myElapsedTime);
+//			double newVy = myPhysicsEngine.calculateNewVerticalVelocity(body, myElapsedTime);
+//			myPhysicsEngine.updatePositionAndVelocity(newX, newVx, newY, newVy, body);
 			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
 			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
@@ -108,8 +114,8 @@ public class GameEngine implements IGameEngine {
 	}
 
 	@Override
-	public List<ISprite> getSprites() {
-		return mySprites;
+	public List<ISpriteVisualization> getSprites() {
+		return myCurrentLevel.getAllSpriteVisualizations();
 	}
 
 	private WinStatus checkWin() {
@@ -137,20 +143,12 @@ public class GameEngine implements IGameEngine {
 		return myElapsedTime;
 	}
 
-	public void setInputList(List<KeyEvent> list) {
-		myInputController.setInputList(list);
-	}
-
 	public void setPhysicsEngine(AbstractPhysicsEngine physicsEngine) {
 		myPhysicsEngine = physicsEngine;
 	}
 
 	public void setCollisionEngine(AbstractCollisionEngine collisionEngine) {
 		myCollisionEngine = collisionEngine;
-	}
-
-	public void setTransitionManager(AbstractTransitionManager transitionManager) {
-		//myTransitionManager = transitionManager;
 	}
 
 	public void setParameter(PhysicsParameterSetOptions parameter, double value) {
@@ -168,6 +166,16 @@ public class GameEngine implements IGameEngine {
 			System.out.println("vx = " + s.getVelocity().getXVelocity() + " ; vy = " + s.getVelocity().getYVelocity());
 		}
 		System.out.println();
+	}
+
+	@Override
+	public void setInputList(Set<KeyEvent> list) {
+		myInputController.setInputList(list);
+	}
+
+	@Override
+	public Background getBackground() {
+		return myCurrentLevel.getBackground();
 	}
 
 }
