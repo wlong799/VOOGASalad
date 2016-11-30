@@ -72,4 +72,9 @@ public class Hero extends AbstractCharacter implements IUpgrader, ITriggerable {
 		setMovingUnit(getMovingUnit()*(1+percent));
 	}
 	
+        public void changeSize(double multiplier) {
+            myDimension.setHeight(multiplier*myDimension.getHeight());
+            myDimension.setWidth(multiplier*myDimension.getWidth());
+        }	
+	
 }
