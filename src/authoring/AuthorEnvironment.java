@@ -68,7 +68,7 @@ public class AuthorEnvironment implements IAuthorEnvironment {
             throw new IllegalArgumentException("no current game");
         }
         currentGame.addLevel(level);
-        setCurrentLevel(currentGame.getAllLevels().size() - 1);
+        setCurrentLevel(currentGame.getAllLevelsReadOnly().size() - 1);
     }
 
     @Override
@@ -76,12 +76,13 @@ public class AuthorEnvironment implements IAuthorEnvironment {
         if (currentGame == null) {
             throw new IllegalArgumentException("no current game");
         }
-        numLevels.set(currentGame.getAllLevels().size());
-        if (index < 0 || index >= currentGame.getAllLevels().size()) {
+
+        numLevels.set(currentGame.getAllLevelsReadOnly().size());
+        if (index < 0 || index >= currentGame.getAllLevelsReadOnly().size()) {
             throw new IllegalArgumentException("index for level out of range");
         }
         currentLevelIndex.set(index);
-        currentLevel = currentGame.getAllLevels().get(index);
+        currentLevel = currentGame.getAllLevelsReadOnly().get(index);
     }
 
     @Override
@@ -92,10 +93,10 @@ public class AuthorEnvironment implements IAuthorEnvironment {
     public void deleteCurrentLevel() {
         Level level = getCurrentLevel();
         getCurrentGame().removeLevel(level);
-        if (getCurrentGame().getAllLevels().size() == 0) {
+        if (getCurrentGame().getAllLevelsReadOnly().size() == 0) {
             addLevel(LevelGenerator.getTestLevelB());
         }
-        setCurrentLevel(getCurrentGame().getAllLevels().size() - 1);
+        setCurrentLevel(getCurrentGame().getAllLevelsReadOnly().size() - 1);
     }
 
     public SimpleIntegerProperty getNumLevels() {
@@ -123,4 +124,6 @@ public class AuthorEnvironment implements IAuthorEnvironment {
     public void setLanguage(String lang) {
         // TODO Auto-generated method stub
     }
+
 }
+
