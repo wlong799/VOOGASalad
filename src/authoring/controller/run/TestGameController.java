@@ -1,9 +1,7 @@
 package authoring.controller.run;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import authoring.AuthoringController;
@@ -21,9 +19,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
 public class TestGameController {
@@ -107,7 +103,6 @@ public class TestGameController {
     }
 
     private void keyTriggers2Controls() {
-	    
 		if (hero == null) return;
 		myTestView.getScene().setOnKeyReleased(event-> {
 		    System.out.println(event.getCode() + " Remove");
