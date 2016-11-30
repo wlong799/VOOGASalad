@@ -100,6 +100,7 @@ public abstract class AbstractSprite implements ISprite {
 	private String myPreviousImagePath;
 	private static Position staticPivotPosition;
 	private static Dimension staticPivotDimension;
+	private double offset = 0;
 	
 	public static Position getStaticPivotPosition() {
 		return staticPivotPosition;
@@ -132,19 +133,18 @@ public abstract class AbstractSprite implements ISprite {
 		double staticX = staticPivotPosition.getX();
 		double myX = myPosition.getX();
 		double threshold = DefaultConstants.SCROLL_THRESHOLD;
-		if (staticX < threshold) {
-			return myX - staticX + threshold;
+		if (staticX + offset < threshold) {
+			offset += threshold - staticX - offset;
 		}
-		else if (staticPivotDimension.getWidth() - staticX < threshold) {
-			return myX - staticX + staticPivotDimension.getWidth() - threshold;
+		else if (staticX + offset > staticPivotDimension.getWidth() - threshold) {
+			offset -= staticX + offset - staticPivotDimension.getWidth() + threshold;
 		}
-		return myX;
+		return myX + offset;
 	}
 
 	@Override
 	public double getYForVisualization() {
-		return myPosition.getY();// - staticPivotPosition.getY()
-			//+ Screen.getPrimary().getVisualBounds().getHeight() / 2;
+		return myPosition.getY();
 	}
 
 	@Override
