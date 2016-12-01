@@ -47,7 +47,7 @@ public class Enemy extends AbstractCharacter {
 
 	@Override
 	public void onCollideWith(ICollisionBody otherSprite) {
-		ExceptionThrower.notYetSupported();
+		//ExceptionThrower.notYetSupported();
 	}
 	
 }

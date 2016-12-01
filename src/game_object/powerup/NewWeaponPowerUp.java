@@ -11,7 +11,7 @@ public class NewWeaponPowerUp extends PowerUp {
 
 	private Weapon myWeapon;
 	
-	protected NewWeaponPowerUp(Position position, Dimension dimension, List<String> imagePaths, Weapon w) {
+	public NewWeaponPowerUp(Position position, Dimension dimension, List<String> imagePaths, Weapon w) {
 		super(position, dimension, imagePaths);
 		myWeapon = w;
 	}
