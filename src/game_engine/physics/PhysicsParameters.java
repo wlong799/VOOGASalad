@@ -65,4 +65,25 @@ public class PhysicsParameters {
 	public double getMaxThreshold() {
 		return myMaxThreshold;
 	}
+
+	public void set(PhysicsParameterSetOptions option, double value) {
+		switch(option) {
+		case GRAVITY:
+			this.setGravity(value);
+			break;
+		case AIRFRICTION:
+			this.setAirFriction(value);
+			break;
+		case GROUNDFRICTION:
+			this.setGroundFriction(value);
+			break;
+		case MINTHRESHOLD:
+			this.setMinThreshold(value);
+			break;
+		case MAXTHRESHOLD:
+			this.setMaxThreshold(value);
+			break;
+		}
+	}
+	
 }
