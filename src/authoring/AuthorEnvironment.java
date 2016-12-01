@@ -123,4 +123,5 @@ public class AuthorEnvironment implements IAuthorEnvironment {
     public void setLanguage(String lang) {
         // TODO Auto-generated method stub
     }
+
 }

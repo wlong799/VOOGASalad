@@ -11,6 +11,7 @@ import game_object.background.Background;
 import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Game;
@@ -45,9 +46,11 @@ public class Level implements ILevelVisualization {
 		myEnemies = new ArrayList<>();
 		myStaticBlocks = new ArrayList<>();
 		myTriggers = new ArrayList<>();
-		myLevelDimension = new Dimension(0, 0);
+		myLevelDimension = new Dimension(DefaultConstants.LEVEL_WIDTH, 
+				DefaultConstants.LEVEL_HEIGHT);
 		myPhysicsParameters = new PhysicsParameters();
 		myGoals = new ArrayList<>();
+		myBackground = new Background();
 	}
 	
 	public String getId() {
