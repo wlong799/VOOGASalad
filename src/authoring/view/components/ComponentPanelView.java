@@ -38,7 +38,7 @@ public class ComponentPanelView extends AbstractView {
         myContent = new HBox();
         myContent.setAlignment(Pos.CENTER);
         myTabPane = new TabPane();
-        myTabPane.getStyleClass().add("data/css/style2.css");
+        //myTabPane.getStyleClass().add("data/css/style2.css");
 
         myButtonImageView = new ImageView(GameObjectConstants.UPLOAD);
         myButtonImageView.setPreserveRatio(true);
