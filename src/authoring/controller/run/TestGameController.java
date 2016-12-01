@@ -29,7 +29,6 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 public class TestGameController {
-
 	private AuthoringController myTopController;
 	private TestGameView myTestView;
 	private GameEngine myGameEngine;
