@@ -23,6 +23,10 @@ public interface ITransitionManager {
 	 * Actions to take when neither winning nor losing goal is triggered
 	 */
 	public void levelGoOn();
-	
+	/**
+	 * Check if you have won
+	 * @param ws
+	 * @return the level you need to go to
+	 */
 	public Level readWinStatus(WinStatus ws);
 }

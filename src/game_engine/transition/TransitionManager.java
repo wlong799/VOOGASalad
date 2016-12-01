@@ -30,7 +30,7 @@ public class TransitionManager extends AbstractTransitionManager {
 		}
 		return level;
 	}
-
+	
 	@Override
 	public Level levelGoOnReturn() {
 		return null;
