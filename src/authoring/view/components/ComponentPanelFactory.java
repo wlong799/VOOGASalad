@@ -47,9 +47,8 @@ public class ComponentPanelFactory {
                         {GameObjectConstants.BLACK_SQUARE_FILE, "Square", "a black square block."},
                         {GameObjectConstants.BLUE_LIGHT_FILE, "Blue Light", "a blue light block."},
                         {GameObjectConstants.BLUE_METAL_FILE, "Blue Metal", "a blue block made of metal."},
-                        {GameObjectConstants.CAUTION_ORANGE_FILE, "Caution", "a block with a caution patterns."},
-                        {GameObjectConstants.CAUTION_ORANGE2_FILE, "Caution II", "a block with a caution patterns."},
-                        {GameObjectConstants.CAUTION_FILE, "Caution III", "a block with a caution patterns."},
+                        {GameObjectConstants.CAUTION_ORANGE_FILE, "Caution", "a block with a caution patterns."}, 
+                        {GameObjectConstants.CAUTION_FILE, "Caution II", "a block with a caution patterns."},
                         {GameObjectConstants.DIAGONAL_METAL_FILE, "Diagonal", "a metal block with a diagonal patterns."},
                         {GameObjectConstants.DIAGONAL_WITH_BORDER_FILE, "Diagonal II", "a metal block with a diagonal patterns, except with a border."},
                         {GameObjectConstants.DIAGONAL_YELLOW_WITH_BORDER_FILE, "Diagonal III", "a yelow block with a diagonal patterns, except with a border."}

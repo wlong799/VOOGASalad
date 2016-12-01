@@ -143,6 +143,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
         });
     	
     	blockCollisionCB = new CheckBox("Collide with Blocks");
+    	componentPhysicsSettings.setCollisionSettingWithBlock(true);
     	blockCollisionCB.setSelected(true);
     	blockCollisionCB.selectedProperty().addListener(new ChangeListener<Boolean>() {
             public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
@@ -151,7 +152,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
         });
     	
     	applyPhysics = new CheckBox("Apply Physics");
-    	applyPhysics.setSelected(false);
+    	applyPhysics.setSelected(sprite.getAffectedByPhysics());
     	applyPhysics.selectedProperty().addListener(new ChangeListener<Boolean>() {
             public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
             	componentPhysicsSettings.makePhysicsApplicable(new_val);

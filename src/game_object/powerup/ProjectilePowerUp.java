@@ -13,7 +13,7 @@ public class ProjectilePowerUp extends PowerUp{
 
     @Override
     public void affect (IUpgrader u) {
-        u.setHasProjectile();
+        u.setHasProjectile(true);
     }
 
 }

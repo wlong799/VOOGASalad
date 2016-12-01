@@ -28,6 +28,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
+		myAffectedByPhysics = true;
 	}
 	
 	/* IMortal Implementations */
@@ -73,7 +74,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void setCurrentWeapon(Weapon currentWeapon) {
-		ExceptionThrower.notYetSupported();
 		myCurrentWeapon = currentWeapon;
 	}
 	
@@ -129,12 +129,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	/* ---IMover Implementations END---*/
 	
 	
-	/* IPhysicsBody Implementations */	
-	@Override
-	public boolean getAffectedByPhysics() {
-		return true;
-	}
-	
+	/* IPhysicsBody Implementations */		
 	@Override
 	public void setVelocity(Velocity velocity) {
 		myVelocity = velocity;

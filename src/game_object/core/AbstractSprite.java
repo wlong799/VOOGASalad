@@ -15,7 +15,10 @@ public abstract class AbstractSprite implements ISprite {
 	protected List<String> myImagePaths;
 	protected ImageStyle myImageStyle;
 	protected Dimension myDimension;
-
+	protected int myCategoryBitMask;
+	protected int myCollisionBitMask;
+	protected boolean myAffectedByPhysics;
+	
 	static {
 		staticPivotPosition = new Position(0, 0);
 	}
@@ -25,6 +28,9 @@ public abstract class AbstractSprite implements ISprite {
 		myDimension = dimension;
 		myImagePaths = imagePaths;
 		myImageStyle = ImageStyle.TRUE_SIZE;
+		myCategoryBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
+		myCollisionBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
+		myAffectedByPhysics = false;
 	}
 	
 	/* IBodyWithPosition Implementations */
@@ -75,23 +81,38 @@ public abstract class AbstractSprite implements ISprite {
 		return myImageStyle;
 	}
 
-	/* ICollisionBody Setter Implementations */
+	/* ICollisionBody Implementations */
 	@Override
-	public void setCollisionBitMask(int collisionBitMask) {
-		ExceptionThrower.notYetSupported();
+	public void setCategoryBitMask(int categoryBitMask) {
+		myCategoryBitMask = categoryBitMask;
 	}
 	
 	@Override
-	public void setCategoryBitMask(int categoryBitMask) {
-		ExceptionThrower.notYetSupported();
+	public int getCategoryBitMask() {
+		return myCategoryBitMask;
 	}
-	/* ---ICollisionBody Setter Implementations END--- */
+
+	@Override
+	public void setCollisionBitMask(int collisionBitMask) {
+		myCollisionBitMask = collisionBitMask;
+	}
+	
+	@Override
+	public int getCollisionBitMask() {
+		return myCollisionBitMask;
+	}
+	/* ---ICollisionBody Implementations END--- */
 	
 	
 	/* IPhysicsBody Setter Implementations */
 	@Override
+	public boolean getAffectedByPhysics() {
+		return myAffectedByPhysics;
+	}
+	
+	@Override
 	public void setAffectedByPhysics(boolean affectedByPhysics) {
-		ExceptionThrower.notYetSupported();
+		myAffectedByPhysics = affectedByPhysics;
 	}
 	/* ---IPhysicsBody Setter Implementations END--- */
 	
