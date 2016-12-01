@@ -35,10 +35,11 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 
 	@Override
 	public double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
+		System.out.println(myLevel.getPhysicsParameters().getGravity());
 		double vy = body.getVelocity().getYVelocity();
-		double newvy = vy + elapsedTime * myParams.getGravity();
-		if (Math.abs(newvy) > myParams.getMaxThreshold()) {
-			newvy = newvy > 0 ? myParams.getMaxThreshold() : -myParams.getMaxThreshold();
+		double newvy = vy + elapsedTime * myLevel.getPhysicsParameters().getGravity();
+		if (Math.abs(newvy) > myLevel.getPhysicsParameters().getMaxThreshold()) {
+			newvy = newvy > 0 ? myLevel.getPhysicsParameters().getMaxThreshold() : -myLevel.getPhysicsParameters().getMaxThreshold();
 		}
 		return newvy;
 	}
@@ -64,7 +65,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	@Override
 	public void setParameters(PhysicsParameterSetOptions option, double value) {
 		if (option == PhysicsParameterSetOptions.GRAVITY) {
-			myParams.setGravity(value);
+			myLevel.getPhysicsParameters().setGravity(value);
 		}
 	}
 }

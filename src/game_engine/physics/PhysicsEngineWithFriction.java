@@ -18,27 +18,26 @@ public class PhysicsEngineWithFriction extends PhysicsEngine {
 		double vx = body.getVelocity().getXVelocity();
 		double newvx = vx;
 		if (!existLeftRight) {
-			double friction = (body.getVelocity().getYVelocity() == 0) ? myParams.getGroundFriction()
-					: myParams.getAirFriction();
+			double friction = (body.getVelocity().getYVelocity() == 0) ? myLevel.getPhysicsParameters().getGroundFriction()
+					: myLevel.getPhysicsParameters().getAirFriction();
 			newvx = vx * (1 - friction);
 		}
-		if (Math.abs(newvx) < myParams.getMinThreshold()) {
+		if (Math.abs(newvx) < myLevel.getPhysicsParameters().getMinThreshold()) {
 			newvx = 0;
 		}
 		return newvx;
 	}
-
 	public void setParameters(PhysicsParameterSetOptions option, double value) {
 		if (option == PhysicsParameterSetOptions.GRAVITY) {
-			myParams.setGravity(value);
+			myLevel.getPhysicsParameters().setGravity(value);
 		} else if (option == PhysicsParameterSetOptions.AIRFRICTION) {
-			myParams.setAirFriction(value);
+			myLevel.getPhysicsParameters().setAirFriction(value);
 		} else if (option == PhysicsParameterSetOptions.GROUNDFRICTION) {
-			myParams.setGroundFriction(value);
+			myLevel.getPhysicsParameters().setGroundFriction(value);
 		} else if (option == PhysicsParameterSetOptions.MINTHRESHOLD) {
-			myParams.setMinThreshold(value);
+			myLevel.getPhysicsParameters().setMinThreshold(value);
 		} else if (option == PhysicsParameterSetOptions.MAXTHRESHOLD) {
-			myParams.setMaxThreshold(value);
+			myLevel.getPhysicsParameters().setMaxThreshold(value);
 		} else {
 			//
 		}
