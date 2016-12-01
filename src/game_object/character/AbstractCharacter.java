@@ -73,7 +73,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void setCurrentWeapon(Weapon currentWeapon) {
-		ExceptionThrower.notYetSupported();
 		myCurrentWeapon = currentWeapon;
 	}
 	
