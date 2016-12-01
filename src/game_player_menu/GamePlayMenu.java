@@ -1,5 +1,6 @@
 package game_player_menu;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,11 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
+/**
+ * @author samuelcurtis
+ *This class is responsible for displaying the initial GUI Menu and switching between scenes 
+ *from this menu to various games that may be played.
+ */
 public class GamePlayMenu implements IMenuInputListener {
 	private List<ItemDescription> myMenuItems;
 	private MenuSceneGenerator myMenuSceneGenerator;
@@ -23,7 +29,7 @@ public class GamePlayMenu implements IMenuInputListener {
 		myManager = gamePlayManager;
 		mySerializer = new Marshaller();
 		getItemDescriptions();
-		myMenuSceneGenerator = new HBoxMenu(this);
+		myMenuSceneGenerator = new HBoxMenu(this,s);
 		showMenu(s, myMenuSceneGenerator.getMenuScene(myMenuItems));
 	}
 
@@ -34,22 +40,27 @@ public class GamePlayMenu implements IMenuInputListener {
 
 	private void getItemDescriptions() {
 		myMenuItems = new ArrayList<ItemDescription>();
-		myMenuItems.add(new ItemDescription("test", "TestDescription", "blue_snail.png"));
-		myMenuItems.add(new ItemDescription("test", "TestDescription", "blue_snail.png"));
-		myMenuItems.add(new ItemDescription("test", "TestDescription", "blue_snail.png"));
-		myMenuItems.add(new ItemDescription("test", "TestDescription", "blue_snail.png"));
+		//myMenuItems.add(new ItemDescription("test2", "TestDescription", "blue_snail.png"));
+		//myMenuItems.add(new ItemDescription("test2", "TestDescription", "blue_snail.png"));
+		//myMenuItems.add(new ItemDescription("test2", "TestDescription", "blue_snail.png"));
+		//myMenuItems.add(new ItemDescription("test2", "TestDescription", "blue_snail.png"));
 	}
 
 	@Override
 	public void itemChosen(String name) {
 		try {
-			System.out.println("test");
-			Game game = mySerializer.loadGame("file:data/game/" + name + ".xml");
+			Game game = mySerializer.loadGame(name);
 			myManager.playGame(game);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void playGame(File f) {
+			Game game = mySerializer.loadGameFromFile(f);
+			myManager.playGame(game);
 	}
 	
 }

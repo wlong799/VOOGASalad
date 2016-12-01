@@ -4,6 +4,12 @@ package game_player_menu;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
+/**
+ * @author samuelcurtis
+ *This class is responsible for creating a singular pane representation of a name, description, and image
+ *so that they can be grouped together when displayed on the screen.
+ *
+ */
 public class PaneCreator implements DescriptionDisplayCreator{
 	
 	

@@ -14,12 +14,13 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 public class HBoxMenu extends MenuSceneGenerator{
 	private ResourceBundle myResources;
 	
-	public HBoxMenu(IMenuInputListener menuListener) {
-		super(menuListener);
+	public HBoxMenu(IMenuInputListener menuListener, Stage s) {
+		super(menuListener,s);
 		myResources = ResourceBundle.getBundle(RESOURCE_FOLDER);
 	}
 
