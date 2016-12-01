@@ -22,11 +22,12 @@ public class CollisionEngine extends AbstractCollisionEngine {
     private static final double COLLISION_THRESHOLD = 10.0;
 
     private boolean logSuppressed = false;
+    
 
     public void suppressLogDebug () {
         logSuppressed = true;
     }
-
+    
     @Override
     public void checkCollisions (List<Hero> heroes,
                                  List<Enemy> enemies,
@@ -56,7 +57,7 @@ public class CollisionEngine extends AbstractCollisionEngine {
             }
         }
     }
-
+    
     private void checkCharacterBlockCollisions (List<? extends ICharacter> characters,
                                                 List<StaticBlock> blocks) {
         for (ICharacter c : characters) {
