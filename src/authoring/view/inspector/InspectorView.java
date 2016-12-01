@@ -7,8 +7,6 @@ import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
 import game_object.character.Hero;
 import game_object.core.ISprite;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -19,7 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class InspectorView extends AbstractView implements ISubscriber {
-	
+
 	private SpriteView inspectedSpriteView;
 	private ISprite sprite;
 	private VBox configs;
@@ -30,9 +28,9 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	private VBox heightBox;
 	private ScrollPane inspectorPane;
 	private CheckBox herosCollisionCB, enemiesCollisionCB, blockCollisionCB, applyPhysics;
-	ComponentPhysicsSettings componentPhysicsSettings;
+	private ComponentPhysicsSettings componentPhysicsSettings;
 	private ActionConfiguringView myActionView;
-	
+
 	public interface ITextChangeHandler {
 		void handle(String newVal);
 	}
@@ -40,7 +38,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	public InspectorView(AuthoringController controller) {
 		super(controller);
 	}
-	
+
 	@Override
 	public void didUpdate(IPublisher target) {
 		if (target instanceof AuthoringController) {
@@ -48,7 +46,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 			updateUI();
 		}
 	}
-	
+
 	@Override
 	protected void initUI() {
 		this.getController().addSubscriber(this);
@@ -65,7 +63,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		inspectorPane.setPrefWidth(this.getWidth());
 		inspectorPane.setPrefHeight(this.getHeight());
 	}
-	
+
 	private void updateUI() {
 		configs.getChildren().clear();
 		sprite = inspectedSpriteView.getSprite();
@@ -92,16 +90,16 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		myActionView = new ActionConfiguringView(this.getController());
 		myActionView.setSprite(sprite);
 		this.addSubView(myActionView);
-		
+
 		initCheckBoxes();
-		
+
 		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox, herosCollisionCB,
-        		enemiesCollisionCB, blockCollisionCB, applyPhysics);
+				enemiesCollisionCB, blockCollisionCB, applyPhysics);
 		if (sprite instanceof Hero) {
 			configs.getChildren().add(myActionView.getUI());
 		}
 	}
-	
+
 	private VBox makeDoubleInputBox(String title, double defaultValue, 
 			ITextChangeHandler handler) {
 		VBox box = new VBox();
@@ -122,43 +120,34 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		});
 		return box;
 	}
-	
+
 	private void initCheckBoxes() {
 		componentPhysicsSettings = new ComponentPhysicsSettings(sprite);
-		
-    	herosCollisionCB = new CheckBox("Collide with Heros");
-    	herosCollisionCB.setSelected(false);
-    	herosCollisionCB.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
-            	componentPhysicsSettings.setCollisionSettingWithHeros(new_val);
-            }
-        });
-    	
-    	enemiesCollisionCB = new CheckBox("Collide with Enemies");
-    	enemiesCollisionCB.setSelected(false);
-    	enemiesCollisionCB.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
-            	componentPhysicsSettings.setCollisionSettingWithEnemies(new_val);
-            }
-        });
-    	
-    	blockCollisionCB = new CheckBox("Collide with Blocks");
-    	componentPhysicsSettings.setCollisionSettingWithBlock(true);
-    	blockCollisionCB.setSelected(true);
-    	blockCollisionCB.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
-            	componentPhysicsSettings.setCollisionSettingWithBlock(new_val);
-            }
-        });
-    	
-    	applyPhysics = new CheckBox("Apply Physics");
-    	applyPhysics.setSelected(sprite.getAffectedByPhysics());
-    	applyPhysics.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            public void changed(ObservableValue ov,Boolean old_val, Boolean new_val) {
-            	componentPhysicsSettings.makePhysicsApplicable(new_val);
-            }
-        });
-    	
-    }
+
+		herosCollisionCB = new CheckBox("Collide with Heros");
+		herosCollisionCB.selectedProperty().addListener((obv, old_val, new_val) -> {
+			componentPhysicsSettings.setCollisionSettingWithHeros(new_val);
+		});
+		herosCollisionCB.setSelected(sprite.getAffectedByPhysics());
+
+		enemiesCollisionCB = new CheckBox("Collide with Enemies");
+		enemiesCollisionCB.selectedProperty().addListener((obv, old_val, new_val) -> {
+			componentPhysicsSettings.setCollisionSettingWithEnemies(new_val);
+		});	
+		enemiesCollisionCB.setSelected(sprite.getAffectedByPhysics());
+
+		blockCollisionCB = new CheckBox("Collide with Blocks");
+		blockCollisionCB.selectedProperty().addListener((obv, old_val, new_val) -> {
+			componentPhysicsSettings.setCollisionSettingWithBlock(new_val);
+		});
+		blockCollisionCB.setSelected(sprite.getAffectedByPhysics());
+
+		applyPhysics = new CheckBox("Apply Physics");
+		applyPhysics.selectedProperty().addListener((obv, old_val, new_val) -> {
+			componentPhysicsSettings.makePhysicsApplicable(new_val);
+		});
+		applyPhysics.setSelected(sprite.getAffectedByPhysics());
+
+	}
 
 }
