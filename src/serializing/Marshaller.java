@@ -2,6 +2,7 @@ package serializing;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,6 +36,11 @@ public class Marshaller {
 			return (Game)mySerializer.fromXML(br);
 		}
 	}
+	
+	public Game loadGameFromFile(File f){
+		return (Game)mySerializer.fromXML(f);
+	}
+	
 	
 	public static void main(String[] args) {
 		String path = "file:data/game/test.xml";

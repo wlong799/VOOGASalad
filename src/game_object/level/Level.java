@@ -196,7 +196,7 @@ public class Level implements ILevelVisualization {
 		mySpriteVisualizations.addAll(allSprites);
 		AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
 	}
-
+	
 	@Override
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
 		return mySpriteVisualizations;
