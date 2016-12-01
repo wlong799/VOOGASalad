@@ -32,7 +32,7 @@ public class InputController implements IInputController {
 	public void executeInput() {
 		exist = false;
 		jumping = false;
-		if (myList != null || myList.size() != 0) {
+		if (myList != null && myList.size() != 0) {
 			for (KeyEvent event : myList) {
 				List<ActionTrigger> trigger = myLevel.getTriggersWithEvent(event);
 				for (ActionTrigger actionTrigger : trigger) {

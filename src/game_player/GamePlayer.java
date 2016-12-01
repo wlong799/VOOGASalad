@@ -10,8 +10,8 @@ import game_engine.GameEngine;
 import game_engine.GameEngine_Game;
 import game_object.LevelGenerator;
 import game_object.background.Background;
+import game_object.core.*;
 import game_object.core.ISprite;
-import game_object.framework.Game;
 import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
 import javafx.animation.AnimationTimer;
@@ -30,23 +30,29 @@ import game_object.acting.*;
  */
 public class GamePlayer implements IGamePlayer {
 	private Game myCurrentGame;
-	private GameEngine myGameEngine;
+	private GameEngine_Game myGameEngine;
 	private Stage myStage;
 	private Scene myScene;
-	private Pane myRoot;
+	private Group myRoot;
 	private Set<KeyEvent> myKeysPressed;
 	
 
 	public GamePlayer(Stage s, Game game){
-		myRoot = new Pane();
-		myScene = new Scene(myRoot);
+		Background testBckgrd = new Background();
+		ArrayList<String> imgPaths = new ArrayList<String>();
+		imgPaths.add("file:data/img/sprites/bush.png");
+		testBckgrd.setImgPaths(imgPaths);
+		game.getAllLevelsReadOnly().get(0).setBackground(testBckgrd);
+		myRoot = new Group();
+		myScene = new Scene(myRoot,2000,2000);
 		myStage = s;
 		myStage.setScene(myScene);
 		myKeysPressed = new HashSet<KeyEvent>();
 		myCurrentGame = game;
-		myGameEngine = new GameEngine(myCurrentGame.getAllLevels().get(0));
+		myGameEngine = new GameEngine_Game(game);
 		//setGame("");
 		setSceneKeyListener();
+		renderSprites();
 		start();
 	}
 
@@ -103,8 +109,8 @@ public class GamePlayer implements IGamePlayer {
 
 	private void renderSprites() {
 		myRoot.getChildren().clear();
-		//ImageView background = getBackGroundImage();
-		//myRoot.getChildren().add(background);
+		ImageView background = getBackGroundImage();
+		myRoot.getChildren().add(background);
 		for(ISpriteVisualization currentSprite : myGameEngine.getSprites()){
 			Image currentSpriteImage = new Image(currentSprite.getImagePath());
 			ImageView currentSpriteView = new ImageView(currentSpriteImage);
@@ -112,15 +118,22 @@ public class GamePlayer implements IGamePlayer {
 			currentSpriteView.setFitHeight(currentSprite.getWidthForVisualization());
 			currentSpriteView.setLayoutX(currentSprite.getXForVisualization());
 			currentSpriteView.setLayoutY(currentSprite.getYForVisualization());
+			//System.out.println(currentSpriteView.getFitWidth());
+			//System.out.println(currentSpriteView.getFitHeight());
 			myRoot.getChildren().add(currentSpriteView);
 		}
+		//myStage.show();
 	}
 	
 
 	private ImageView getBackGroundImage() {
 		Background imgPath = myGameEngine.getBackground();
+		System.out.println(imgPath.getImgPaths().get(0));
 		Image bckGrdImg = new Image(imgPath.getImgPaths().get(0));
-		return new ImageView(bckGrdImg);
+		ImageView test = new ImageView(bckGrdImg);
+		test.setFitWidth(myScene.getWidth());
+		test.setFitWidth(myScene.getHeight());
+		return test;
 	}
 
 	@Override

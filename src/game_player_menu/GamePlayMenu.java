@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import game_object.framework.Game;
+import game_object.core.*;
 import serializing.*;
 import game_player.GamePlayManager;
 import game_player.GamePlayer;

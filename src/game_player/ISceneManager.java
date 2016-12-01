@@ -1,6 +1,6 @@
 package game_player;
 
-import game_object.framework.Game;
+import game_object.core.*;
 
 public interface ISceneManager {
 	
