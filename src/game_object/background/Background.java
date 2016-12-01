@@ -9,14 +9,14 @@ import java.util.ArrayList;
  */
 public class Background {
 
-	private ArrayList<String> imgPaths;
+	private ArrayList<String> myImagePaths;
 
 	public ArrayList<String> getImgPaths() {
-		return imgPaths;
+		return myImagePaths;
 	}
 
 	public void setImgPaths(ArrayList<String> imgPaths) {
-		this.imgPaths = imgPaths;
+		this.myImagePaths = imgPaths;
 	}
 	
 }
