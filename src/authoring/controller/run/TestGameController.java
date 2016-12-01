@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
 import authoring.AuthoringController;
 import authoring.view.run.TestGameView;
 import game_engine.GameEngine;
@@ -25,100 +29,101 @@ import javafx.util.Duration;
 
 public class TestGameController {
 
-    private AuthoringController myTopController;
-    private TestGameView myTestView;
-    private GameEngine myGameEngine;
+	private AuthoringController myTopController;
+	private TestGameView myTestView;
+	private GameEngine myGameEngine;
 
-    private KeyFrame frame;
-    private Timeline animation;
+	private KeyFrame frame;
+	private Timeline animation;
 
-    private Level myLevel;
-    private Map<ISpriteVisualization, ImageView> spriteViewMap;
-    private Map<ISpriteVisualization, String> imagePathMap;
-    private Hero hero = null;
-    private Set<KeyEvent> currentlyPressedKeys;
+	private Level myLevel;
+	private Map<ISpriteVisualization, ImageView> spriteViewMap;
+	private Map<ISpriteVisualization, String> imagePathMap;
+	private Hero hero = null;
+	private Set<KeyEvent> currentlyPressedKeys;
 
-    public TestGameController (AuthoringController topController) {
-        myTopController = topController;
-        myTestView = new TestGameView(topController);
-    }
+	public TestGameController (AuthoringController topController) {
+		myTopController = topController;
+		myTestView = new TestGameView(topController);
+	}
 
-    public void showTestGame () {
-        myLevel = myTopController.getEnvironment().getCurrentLevel();
-        findHero();
-        myLevel.init();
-        myGameEngine = new GameEngine(myLevel);
-        myGameEngine.suppressLogDebug();
+	public void showTestGame () {
+		Level currentLevel = myTopController.getEnvironment().getCurrentLevel();
+		myLevel = copyLevel(currentLevel);
+		findHero();
+		myLevel.init();
+		myGameEngine = new GameEngine(myLevel);
+		myGameEngine.suppressLogDebug();
 
-        myTestView.clearSpriteViews();
-        spriteViewMap = new HashMap<>();
-        imagePathMap = new HashMap<>(); 
-        for (ISpriteVisualization sp : myLevel.getAllSpriteVisualizations()) {
-        	String imagePath = sp.getImagePath();
-            ImageView image = createNewImageViewForSprite(sp);
-            spriteViewMap.put(sp, image);
-            imagePathMap.put(sp, imagePath);
-            myTestView.addSpriteView(image);
-        }
-        currentlyPressedKeys = new HashSet<KeyEvent>();
-        frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
-                             new EventHandler<ActionEvent>() {
-                                 @Override
-                                 public void handle (ActionEvent event) {
-                                     myGameEngine.setInputList(currentlyPressedKeys);
-                                     myGameEngine.update(5.0 / 60.0);
-                                     for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
-                                    	 //TODO: need to take care the case where new sprites are created (projectiles e.g.)
-                                    	 if (!imagePathMap.get(sprite).equals(sprite.getImagePath())) {
-                                    		 // image path changed (e.g. facing changed)
-                                    		 imagePathMap.put(sprite, sprite.getImagePath());
-                                    		 spriteViewMap.get(sprite).setImage(new Image(sprite.getImagePath()));
-                                    	 }
-                                         spriteViewMap.get(sprite)
-                                                 .setX(sprite.getXForVisualization());
-                                         spriteViewMap.get(sprite)
-                                                 .setY(sprite.getYForVisualization());
-                                     }
-                                 }
-                             });
+		myTestView.clearSpriteViews();
+		spriteViewMap = new HashMap<>();
+		imagePathMap = new HashMap<>(); 
+		for (ISpriteVisualization sp : myLevel.getAllSpriteVisualizations()) {
+			String imagePath = sp.getImagePath();
+			ImageView image = createNewImageViewForSprite(sp);
+			spriteViewMap.put(sp, image);
+			imagePathMap.put(sp, imagePath);
+			myTestView.addSpriteView(image);
+		}
+		currentlyPressedKeys = new HashSet<KeyEvent>();
+		frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
+				new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				myGameEngine.setInputList(currentlyPressedKeys);
+				myGameEngine.update(5.0 / 60.0);
+				for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
+					//TODO: need to take care the case where new sprites are created (projectiles e.g.)
+					if (!imagePathMap.get(sprite).equals(sprite.getImagePath())) {
+						// image path changed (e.g. facing changed)
+						imagePathMap.put(sprite, sprite.getImagePath());
+						spriteViewMap.get(sprite).setImage(new Image(sprite.getImagePath()));
+					}
+					spriteViewMap.get(sprite)
+					.setX(sprite.getXForVisualization());
+					spriteViewMap.get(sprite)
+					.setY(sprite.getYForVisualization());
+				}
+			}
+		});
 
-        if (animation != null) {
-            animation.stop();
-        }
-        animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();
+		if (animation != null) {
+			animation.stop();
+		}
+		animation = new Timeline();
+		animation.setCycleCount(Timeline.INDEFINITE);
+		animation.getKeyFrames().add(frame);
+		animation.play();
 
-        keyTriggers2Controls();
-        myTestView.updateLayout();
-        myTestView.show();
-    }
-    
-    private ImageView createNewImageViewForSprite(ISpriteVisualization sprite) {
-    	String imagePath = sprite.getImagePath();
-        ImageView image = new ImageView(imagePath);
-        image.setX(sprite.getXForVisualization());
-        image.setY(sprite.getYForVisualization());
+		keyTriggers2Controls();
+		myTestView.updateLayout();
+		myTestView.show();
+	}
 
-        image.setFitWidth(sprite.getWidthForVisualization());
-        image.setFitHeight(sprite.getHeightForVisualization());
-        return image;
-    }
+	private ImageView createNewImageViewForSprite(ISpriteVisualization sprite) {
+		String imagePath = sprite.getImagePath();
+		ImageView image = new ImageView(imagePath);
+		image.setX(sprite.getXForVisualization());
+		image.setY(sprite.getYForVisualization());
 
-    public GameEngine getEngine () {
-        return myGameEngine;
-    }
+		image.setFitWidth(sprite.getWidthForVisualization());
+		image.setFitHeight(sprite.getHeightForVisualization());
+		return image;
+	}
 
-    private void findHero () {
-        for (ISprite sp : myLevel.getAllSprites()) {
-            if (sp instanceof Hero) {
-                hero = (Hero) sp;
-            }
-        }
-    }
+	public GameEngine getEngine () {
+		return myGameEngine;
+	}
 
-    private void keyTriggers2Controls() {
+	private void findHero () {
+		for (ISprite sp : myLevel.getAllSprites()) {
+			if (sp instanceof Hero) {
+				hero = (Hero) sp;
+			}
+		}
+	}
+
+	private void keyTriggers2Controls() {
 		if (hero == null) return;
 		myTestView.getScene().setOnKeyReleased(event-> {
 			for(ActionName name : ActionName.values()){
@@ -146,4 +151,10 @@ public class TestGameController {
 			}
 		});
 	}
+	
+	private Level copyLevel(Level level) {
+		XStream mySerializer = new XStream(new DomDriver());
+		return (Level)mySerializer.fromXML(mySerializer.toXML(level));
+	}
+	
 }
