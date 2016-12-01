@@ -8,4 +8,8 @@
 8. Heroes eat power-ups
 9. User defines the results of collision between heroes and enemies
 10. Bind keys to actions
-11. 
+11. User changes gravity in test game run
+12. User views prediction of movements of the hero
+13. User runs test game again
+14. User changes air friction in test game run
+15. User changes ground friction in test game run
