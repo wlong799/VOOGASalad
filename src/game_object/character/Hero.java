@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game_object.acting.ActionTrigger;
-import game_object.core.DefaultConstants;
+import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
@@ -41,8 +41,8 @@ public class Hero extends AbstractCharacter implements IUpgrader, ITriggerable {
 	public void onCollideWith(ICollisionBody otherBody) {
 		if (otherBody.getCategoryBitMask() == DefaultConstants.ENEMY_CATEGORY_BIT_MASK) {
 			assert(otherBody instanceof Enemy);
-			Enemy enemy = (Enemy) otherBody;
-			myCurrentHP -= enemy.getBodyDamage();
+			//Enemy enemy = (Enemy) otherBody;
+			getVelocity().setYVelocity(-100);
 		}
 	}
 	

@@ -2,8 +2,8 @@ package game_object.character;
 
 import java.util.List;
 
+import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
-import game_object.core.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
@@ -42,10 +42,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	@Override
 	public double getMaxHP() {
 		return myMaxHP;
-	}
-	
-	public void resetCurrentJumps(){
-	    myCurrentJumps=0;
 	}
 	
 	@Override
@@ -117,14 +113,18 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public void moveDown() {
 		ExceptionThrower.notYetSupported();
 	}
+	
+	@Override
+	public void resetCurrentJumps(){
+	    myCurrentJumps = 0;
+	}
 
 	@Override
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
-	         if(myCurrentJumps<getMaxNumberOfJumps()){
-	                myCurrentJumps++;
-	                System.out.println(myCurrentJumps);
-	                myVelocity.setYVelocity(-myJumpingUnit);
-	           }
+		if (myCurrentJumps < getMaxNumberOfJumps()) {
+			myCurrentJumps++;
+			myVelocity.setYVelocity(-myJumpingUnit);
+		}
 	}
 	/* ---IMover Implementations END---*/
 	

@@ -1,9 +1,7 @@
 package authoring.controller.run;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import authoring.AuthoringController;
@@ -18,7 +16,7 @@ import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 import game_object.character.Hero;
 import game_object.core.ISprite;
-import game_object.framework.Game;
+import game_object.core.Game;
 import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
 import javafx.animation.KeyFrame;
@@ -27,7 +25,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.util.Duration;
 
 public class TestGameController {
@@ -41,6 +38,7 @@ public class TestGameController {
 
     private Level myLevel;
     private Map<ISpriteVisualization, ImageView> spriteViewMap;
+    private Map<ISpriteVisualization, String> imagePathMap;
     private Hero hero = null;
     private Set<KeyEvent> currentlyPressedKeys;
 
@@ -74,7 +72,13 @@ public class TestGameController {
                                          initSpriteMap();
                                          findHero();
                                      }
-                                     for (ISpriteVisualization sprite : spriteViewMap.keySet()) {
+                                     for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
+                                    	 //TODO: need to take care the case where new sprites are created (projectiles e.g.)
+                                    	 if (!imagePathMap.get(sprite).equals(sprite.getImagePath())) {
+                                    		 // image path changed (e.g. facing changed)
+                                    		 imagePathMap.put(sprite, sprite.getImagePath());
+                                    		 spriteViewMap.get(sprite).setImage(new Image(sprite.getImagePath()));
+                                    	 }
                                          spriteViewMap.get(sprite)
                                                  .setX(sprite.getXForVisualization());
                                          spriteViewMap.get(sprite)
@@ -94,6 +98,17 @@ public class TestGameController {
         keyTriggers2Controls();
         myTestView.updateLayout();
         myTestView.show();
+    }
+    
+    private ImageView createNewImageViewForSprite(ISpriteVisualization sprite) {
+    	String imagePath = sprite.getImagePath();
+        ImageView image = new ImageView(imagePath);
+        image.setX(sprite.getXForVisualization());
+        image.setY(sprite.getYForVisualization());
+
+        image.setFitWidth(sprite.getWidthForVisualization());
+        image.setFitHeight(sprite.getHeightForVisualization());
+        return image;
     }
 
     public IGameEngine getEngine () {
@@ -122,54 +137,30 @@ public class TestGameController {
         }
     }
     private void keyTriggers2Controls() {
-	    
 		if (hero == null) return;
 		myTestView.getScene().setOnKeyReleased(event-> {
-		    System.out.println(event.getCode() + " Remove");
-		  for(ActionName name : ActionName.values()){
-		      ActionTrigger trigger = myLevel.getTriggerWithSpriteAndAction(hero, name);
-                      if (trigger == null) break;
-                      Event evt = trigger.getEvent();
-                      
-                      if (!(evt instanceof KeyEvent)) break;
-                      if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
-                          currentlyPressedKeys.remove((KeyEvent)evt);
-                          System.out.println(currentlyPressedKeys.size());
-                      }
-		  }
+			for(ActionName name : ActionName.values()){
+				ActionTrigger trigger = myLevel.getTriggerWithSpriteAndAction(hero, name);
+				if (trigger == null) break;
+				Event evt = trigger.getEvent();
+
+				if (!(evt instanceof KeyEvent)) break;
+				if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
+					currentlyPressedKeys.remove((KeyEvent)evt);
+				}
+			}
 		});
-		
+
 		myTestView.getScene().setOnKeyPressed(event -> {
 			for (ActionName name : ActionName.values()) {
 				ActionTrigger trigger = myLevel.getTriggerWithSpriteAndAction(hero, name);
 				if (trigger == null) break;
 				Event evt = trigger.getEvent();
-				
+
 				if (!(evt instanceof KeyEvent)) break;
 				if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
-				    currentlyPressedKeys.add((KeyEvent)evt);
+					currentlyPressedKeys.add((KeyEvent)evt);
 				}
-				/*
-				KeyCode code = ((KeyEvent) evt).getKeyCode();
-				if (event.getCode() == code) {
-					switch (name) {
-					case JUMP:
-						hero.jumpUp();
-						break;
-					case MOVE_LEFT:
-						hero.moveLeft();
-						break;
-					case MOVE_RIGHT:
-						hero.moveRight();
-						break;
-					case SHOOT:
-						//todo
-						break;
-					default:
-						break;
-					}
-
-				}*/
 			}
 		});
 	}

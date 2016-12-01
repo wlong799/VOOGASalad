@@ -10,7 +10,7 @@ import javafx.stage.FileChooser;
 public class SaveElement extends AbstractGameMenuElement {
 	
 	private FileChooser fileChooser;
-	private static final String MENU_NAME = "Save";
+	private static final String MENU_NAME = "Save Game";
 
     private SaveElement(AuthoringController controller) {
         super(MENU_NAME, controller);

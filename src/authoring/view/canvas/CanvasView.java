@@ -6,6 +6,7 @@ import authoring.constants.UIConstants;
 import authoring.controller.CanvasViewController;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Screen;
@@ -13,56 +14,47 @@ import javafx.stage.Screen;
 /**
  * Canvas AbstractView - editor UI
  * need refactor - extract resize, drag methods to a 'controller'
- * 		using composition
+ * using composition
  */
 public class CanvasView extends AbstractView {
 
-	private ScrollPane scrollPane;
-	private Group content; // holder for all SpriteViews
-	private Rectangle background;
-	
-	private CanvasViewController canvasViewController;
+    private ScrollPane scrollPane;
+    private Group content; // holder for all SpriteViews
+    private HBox background;
 
-	public CanvasView(AuthoringController controller) {
-		super(controller);
-	}
+    private CanvasViewController canvasViewController;
 
-	@Override
-	protected void initUI() {
-		content = new Group();
-		background = new Rectangle(
-				0,
-				0,
-				UIConstants.CANVAS_STARTING_WIDTH,
-				Screen.getPrimary().getVisualBounds().getHeight() -
-					UIConstants.BOTTOM_HEIGHT -
-					UIConstants.TOP_HEIGHT -
-					40);
-		background.setFill(Color.BEIGE);
-		content.getChildren().add(background);
-		scrollPane = new ScrollPane(content);
-		this.addUI(scrollPane);
-		CanvasAdjusterButtonsView canvasAdjusterButtonsView = new CanvasAdjusterButtonsView(getController());
-		addUI(canvasAdjusterButtonsView.getUI());
-		addSubView(canvasAdjusterButtonsView);
-		this.addSubView(new CanvasAdjusterButtonsView(this.getController()));
-		
-		canvasViewController = this.getController().getCanvasViewController();
-		canvasViewController.init(
-				this, scrollPane, content, background);
-	}
+    public CanvasView(AuthoringController controller) {
+        super(controller);
+    }
 
-	@Override
-	protected void updateLayoutSelf() {
-		scrollPane.setPrefHeight(this.getHeight());
-		scrollPane.setPrefWidth(this.getWidth());
-	}
+    @Override
+    protected void initUI() {
+        content = new Group();
+        background = new HBox();
+        background.setPrefWidth(UIConstants.CANVAS_STARTING_WIDTH);
+        background.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight() -
+                UIConstants.BOTTOM_HEIGHT - UIConstants.TOP_HEIGHT - 40);
+        Rectangle defaultBackground = new Rectangle(0, 0, UIConstants.CANVAS_STARTING_WIDTH,
+                Screen.getPrimary().getVisualBounds().getHeight() - UIConstants.BOTTOM_HEIGHT -
+                        UIConstants.TOP_HEIGHT - 40);
+        defaultBackground.setFill(Color.BEIGE);
+        background.getChildren().add(defaultBackground);
+        content.getChildren().add(background);
+        scrollPane = new ScrollPane(content);
+        addUI(scrollPane);
+        CanvasAdjusterButtonsView canvasAdjusterButtonsView = new CanvasAdjusterButtonsView(getController());
+        addUI(canvasAdjusterButtonsView.getUI());
+        addSubView(canvasAdjusterButtonsView);
 
-//	private boolean canAdjustScrollPane(SpriteView spView) {
-//		retrieveBackgroundSize();
-//		double x = spView.getPositionX();
-//		double y = spView.getPositionY();
-//		return 0 <= x && x <= bgWidth && 0 <= y && y <= bgHeight;
-//	}
+        canvasViewController = getController().getCanvasViewController();
+        canvasViewController.init(this, scrollPane, content, background);
+    }
+
+    @Override
+    protected void updateLayoutSelf() {
+        scrollPane.setPrefHeight(this.getHeight());
+        scrollPane.setPrefWidth(this.getWidth());
+    }
 
 }

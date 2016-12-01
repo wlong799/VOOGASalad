@@ -9,7 +9,7 @@ import game_object.acting.KeyEvent;
 import game_object.character.ICharacter;
 import game_object.character.IMover;
 import game_object.core.ISprite;
-import game_object.framework.Game;
+import game_object.core.Game;
 import game_object.level.Level;
 
 public class InputController implements IInputController {
@@ -43,7 +43,6 @@ public class InputController implements IInputController {
 					chooseAction(actionTrigger);
 				}
 			}
-			System.out.println(myJump);
 		}
 		myJump = jumping;
 	}
