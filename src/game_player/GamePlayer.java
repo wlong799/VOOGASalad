@@ -38,13 +38,8 @@ public class GamePlayer implements IGamePlayer {
 	
 
 	public GamePlayer(Stage s, Game game){
-		Background testBckgrd = new Background();
-		ArrayList<String> imgPaths = new ArrayList<String>();
-		imgPaths.add("file:data/img/sprites/bush.png");
-		testBckgrd.setImgPaths(imgPaths);
-		game.getAllLevelsReadOnly().get(0).setBackground(testBckgrd);
 		myRoot = new Group();
-		myScene = new Scene(myRoot,2000,2000);
+		myScene = new Scene(myRoot,game.getScreenSize().getWidth(),game.getScreenSize().getHeight());
 		myStage = s;
 		myStage.setScene(myScene);
 		myKeysPressed = new HashSet<KeyEvent>();
@@ -128,8 +123,8 @@ public class GamePlayer implements IGamePlayer {
 
 	private ImageView getBackGroundImage() {
 		Background imgPath = myGameEngine.getBackground();
-		System.out.println(imgPath.getImgPaths().get(0));
-		Image bckGrdImg = new Image(imgPath.getImgPaths().get(0));
+		System.out.println(imgPath.getImagePaths().get(0));
+		Image bckGrdImg = new Image(imgPath.getImagePaths().get(0));
 		ImageView test = new ImageView(bckGrdImg);
 		test.setFitWidth(myScene.getWidth());
 		test.setFitWidth(myScene.getHeight());
