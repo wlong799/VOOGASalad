@@ -115,6 +115,7 @@ public class TestGameController {
 	
 	public void setParameter(PhysicsParameterSetOptions option, double value) {
 		originalLevel.getPhysicsParameters().set(option, value);
+		runningLevel.getPhysicsParameters().set(option, value);
 	}
 
 	private void findHero () {
