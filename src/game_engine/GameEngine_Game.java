@@ -38,7 +38,8 @@ public class GameEngine_Game implements IGameEngine {
 	private int FPS;
 
 	public GameEngine_Game(Game game) {
-		myCurrentLevel = game.getFirstSceneAsLevel();
+		myCurrentLevel = game.getAllLevelsReadOnly().get(0);
+		myCurrentLevel.init();
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(myCurrentLevel);
