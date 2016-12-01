@@ -11,6 +11,7 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 import authoring.AuthoringController;
 import authoring.view.run.TestGameView;
 import game_engine.GameEngine;
+import game_engine.physics.PhysicsParameterSetOptions;
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
@@ -36,7 +37,8 @@ public class TestGameController {
 	private KeyFrame frame;
 	private Timeline animation;
 
-	private Level myLevel;
+	private Level runningLevel;
+	private Level originalLevel;
 	private Map<ISpriteVisualization, ImageView> spriteViewMap;
 	private Map<ISpriteVisualization, String> imagePathMap;
 	private Hero hero = null;
@@ -48,17 +50,17 @@ public class TestGameController {
 	}
 
 	public void showTestGame () {
-		Level currentLevel = myTopController.getEnvironment().getCurrentLevel();
-		myLevel = copyLevel(currentLevel);
+		originalLevel = myTopController.getEnvironment().getCurrentLevel();
+		runningLevel = copyLevel(originalLevel);
 		findHero();
-		myLevel.init();
-		myGameEngine = new GameEngine(myLevel);
+		runningLevel.init();
+		myGameEngine = new GameEngine(runningLevel);
 		myGameEngine.suppressLogDebug();
 
 		myTestView.clearSpriteViews();
 		spriteViewMap = new HashMap<>();
 		imagePathMap = new HashMap<>(); 
-		for (ISpriteVisualization sp : myLevel.getAllSpriteVisualizations()) {
+		for (ISpriteVisualization sp : runningLevel.getAllSpriteVisualizations()) {
 			String imagePath = sp.getImagePath();
 			ImageView image = createNewImageViewForSprite(sp);
 			spriteViewMap.put(sp, image);
@@ -110,13 +112,13 @@ public class TestGameController {
 		image.setFitHeight(sprite.getHeightForVisualization());
 		return image;
 	}
-
-	public GameEngine getEngine () {
-		return myGameEngine;
+	
+	public void setParameter(PhysicsParameterSetOptions option, double value) {
+		originalLevel.getPhysicsParameters().set(option, value);
 	}
 
 	private void findHero () {
-		for (ISprite sp : myLevel.getAllSprites()) {
+		for (ISprite sp : runningLevel.getAllSprites()) {
 			if (sp instanceof Hero) {
 				hero = (Hero) sp;
 			}
@@ -127,7 +129,7 @@ public class TestGameController {
 		if (hero == null) return;
 		myTestView.getScene().setOnKeyReleased(event-> {
 			for(ActionName name : ActionName.values()){
-				ActionTrigger trigger = myLevel.getTriggerWithSpriteAndAction(hero, name);
+				ActionTrigger trigger = runningLevel.getTriggerWithSpriteAndAction(hero, name);
 				if (trigger == null) break;
 				Event evt = trigger.getEvent();
 
@@ -140,7 +142,7 @@ public class TestGameController {
 
 		myTestView.getScene().setOnKeyPressed(event -> {
 			for (ActionName name : ActionName.values()) {
-				ActionTrigger trigger = myLevel.getTriggerWithSpriteAndAction(hero, name);
+				ActionTrigger trigger = runningLevel.getTriggerWithSpriteAndAction(hero, name);
 				if (trigger == null) break;
 				Event evt = trigger.getEvent();
 
