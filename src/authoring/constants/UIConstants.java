@@ -9,7 +9,7 @@ public class UIConstants {
 	//expand/shrink buttons
 	public static final double BOTTOM_HEIGHT = 200;
 	public static final double BUTTON_WIDTH = 50;
-	public static final double BUTTON_HEIGHT = 50;
+	public static final double BUTTON_HEIGHT = 35;
 	public static final double SCREEN_CHANGE_INTERVAL = 50;
 	
 	public static final double DRAG_SCROLL_THRESHOLD = 50;

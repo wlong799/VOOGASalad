@@ -2,6 +2,7 @@ package authoring.view.run;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
+import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -51,11 +52,11 @@ public class TestGameView extends AbstractView {
 				this.getController().getEnvironment().getCurrentGame().getScreenSize();
 		myScene = new Scene(
 			myGroup,
-			gameScreenSize.getWidth(),
+			gameScreenSize.getWidth() + DefaultConstants.TEST_CONFIGURE_WIDTH,
 			gameScreenSize.getHeight(),
 			Color.WHITE
 		);
-		this.setWidth(gameScreenSize.getWidth());
+		this.setWidth(gameScreenSize.getWidth() + DefaultConstants.TEST_CONFIGURE_WIDTH);
 		this.setHeight(gameScreenSize.getHeight());
 		myScene.heightProperty().addListener((obv, oldVal, newVal) -> {
 			this.setHeight(newVal.doubleValue());
@@ -70,9 +71,12 @@ public class TestGameView extends AbstractView {
 
 	@Override
 	protected void updateLayoutSelf() {
-		myRunningView.setSize(this.getWidth() - 200, this.getHeight());
-		myConfiguringView.setSize(200, this.getHeight());
-		myConfiguringView.setPositionX(this.getWidth() - 200);
+		myRunningView.setSize(
+				this.getWidth() - DefaultConstants.TEST_CONFIGURE_WIDTH, this.getHeight());
+		myConfiguringView.setSize(
+				DefaultConstants.TEST_CONFIGURE_WIDTH, this.getHeight());
+		myConfiguringView.setPositionX(
+				this.getWidth() - DefaultConstants.TEST_CONFIGURE_WIDTH);
 	}
 
 }

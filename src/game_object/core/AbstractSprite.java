@@ -2,6 +2,8 @@ package game_object.core;
 
 import java.util.List;
 
+import game_object.constants.DefaultConstants;
+
 /**
  * Base class for all sprites providing common functionalities.
  * @author Jay
@@ -98,6 +100,7 @@ public abstract class AbstractSprite implements ISprite {
 	private String myPreviousImagePath;
 	private static Position staticPivotPosition;
 	private static Dimension staticPivotDimension;
+	private double offset = 0;
 	
 	public static Position getStaticPivotPosition() {
 		return staticPivotPosition;
@@ -127,14 +130,21 @@ public abstract class AbstractSprite implements ISprite {
 
 	@Override
 	public double getXForVisualization() {
-		return myPosition.getX() - staticPivotPosition.getX()
-			+ staticPivotDimension.getWidth() / 2;
+		double staticX = staticPivotPosition.getX();
+		double myX = myPosition.getX();
+		double threshold = DefaultConstants.SCROLL_THRESHOLD;
+		if (staticX + offset < threshold) {
+			offset += threshold - staticX - offset;
+		}
+		else if (staticX + offset > staticPivotDimension.getWidth() - threshold) {
+			offset -= staticX + offset - staticPivotDimension.getWidth() + threshold;
+		}
+		return myX + offset;
 	}
 
 	@Override
 	public double getYForVisualization() {
-		return myPosition.getY();// - staticPivotPosition.getY()
-			//+ Screen.getPrimary().getVisualBounds().getHeight() / 2;
+		return myPosition.getY();
 	}
 
 	@Override
