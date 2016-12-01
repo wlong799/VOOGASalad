@@ -2,16 +2,16 @@ package authoring.view.menu.menu_element;
 
 import authoring.AuthoringController;
 import authoring.view.menu.AbstractGameMenuElement;
+import authoring.view.menu.GameAdder;
 
 /**
- * Adds a new level to the game
+ * Adds a new level to the game.
  *
  * @author Will Long
- * @version 11/17/16
+ * @version 11/28/16
  */
-public class NewLevelElement extends AbstractGameMenuElement{
+public class NewLevelElement extends AbstractGameMenuElement {
     private static final String MENU_NAME = "New Level";
-    // TODO: link this to resources file
 
     private NewLevelElement(AuthoringController controller) {
         super(MENU_NAME, controller);
@@ -19,6 +19,11 @@ public class NewLevelElement extends AbstractGameMenuElement{
 
     @Override
     protected void setFunctionality() {
-        myController.getEnvironment();
+    	GameAdder adder = new GameAdder();
+        myMenuItem.setOnAction(event -> {
+        	adder.addLevel(myController.getEnvironment());
+            myController.getCanvasViewController().refresh();
+        });
     }
+    
 }

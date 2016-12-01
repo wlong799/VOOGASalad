@@ -40,8 +40,7 @@ public class TestGameConfiguringView extends AbstractView {
 				50,//default 
 				1, 
 				(obv, oldVal, newVal) -> {
-			this.getController().getTestGameController().getEngine()
-				.setParameter(PhysicsParameterSetOptions.GRAVITY, newVal.doubleValue());
+			this.getController().getTestGameController().setParameter(PhysicsParameterSetOptions.GRAVITY, newVal.doubleValue());
 		});
 		SliderBox afBox = new SliderBox(
 				"Air Friction", 
@@ -50,8 +49,7 @@ public class TestGameConfiguringView extends AbstractView {
 				0,//default 
 				0.1, 
 				(obv, oldVal, newVal) -> {
-			this.getController().getTestGameController().getEngine()
-				.setParameter(PhysicsParameterSetOptions.AIRFRICTION, newVal.doubleValue());
+			this.getController().getTestGameController().setParameter(PhysicsParameterSetOptions.AIRFRICTION, newVal.doubleValue());
 		});
 		SliderBox gfBox = new SliderBox(
 				"Ground Friction", 
@@ -60,9 +58,9 @@ public class TestGameConfiguringView extends AbstractView {
 				0.1,//default 
 				0.1, 
 				(obv, oldVal, newVal) -> {
-			this.getController().getTestGameController().getEngine()
-				.setParameter(PhysicsParameterSetOptions.GROUNDFRICTION, newVal.doubleValue());
+			this.getController().getTestGameController().setParameter(PhysicsParameterSetOptions.GROUNDFRICTION, newVal.doubleValue());
 		});
+		gfBox.getBox().setFocusTraversable(false);
 		SliderBox tmaxBox = new SliderBox(
 				"Max Threshold", 
 				0, 
@@ -70,9 +68,9 @@ public class TestGameConfiguringView extends AbstractView {
 				1000,//default 
 				1000, 
 				(obv, oldVal, newVal) -> {
-			this.getController().getTestGameController().getEngine()
-				.setParameter(PhysicsParameterSetOptions.MAXTHRESHOLD, newVal.doubleValue());
+			this.getController().getTestGameController().setParameter(PhysicsParameterSetOptions.MAXTHRESHOLD, newVal.doubleValue());
 		});
+		tmaxBox.getBox().setFocusTraversable(false);
 		SliderBox tminBox = new SliderBox(
 				"Min Threshold", 
 				0, 
@@ -80,11 +78,15 @@ public class TestGameConfiguringView extends AbstractView {
 				1,//default 
 				1, 
 				(obv, oldVal, newVal) -> {
-			this.getController().getTestGameController().getEngine()
-				.setParameter(PhysicsParameterSetOptions.MINTHRESHOLD, newVal.doubleValue());
+			this.getController().getTestGameController().setParameter(PhysicsParameterSetOptions.MINTHRESHOLD, newVal.doubleValue());
 		});
+		tminBox.getBox().setFocusTraversable(false);
+		
 		myBox.getChildren().addAll(
 				gravityBox.getBox(), afBox.getBox(), gfBox.getBox(), tminBox.getBox(), tmaxBox.getBox());
+		myBox.getChildren().forEach(box->box.setFocusTraversable(true));
+		//myBox.requestFocus();
+		//myBox.getChildren().get(0).setDisable(true);
 	}
 
 }

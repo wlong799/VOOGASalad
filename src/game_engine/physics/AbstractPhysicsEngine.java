@@ -11,11 +11,12 @@ import game_object.simulation.IPhysicsBody;
  * @author Charlie Wang
  */
 public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
-	protected PhysicsParameters myParams;
 	protected boolean existLeftRight;
+	protected Level myLevel;
 
 	protected AbstractPhysicsEngine(Level level) {
-		myParams = level.getPhysicsParameters();
+		myLevel = level;
+		
 	}
 
 	public void updateHorizontalPositionAndVelocity(double newx, double newvx, IPhysicsBody body) {

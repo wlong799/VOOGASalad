@@ -6,6 +6,8 @@ import authoring.view.AbstractView;
 import game_object.constants.GameObjectConstants;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputDialog;
@@ -81,7 +83,9 @@ public class ComponentPanelView extends AbstractView {
         Tab newTab = new Tab(tabName);
         setTabStyle(newTab);
         newTab.setClosable(false);
-        newTab.setContent(componentListView.getUI());
+        final ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(componentListView.getUI());
+        newTab.setContent(scrollPane);
         myTabPane.getTabs().add(newTab);
         addSubView(componentListView);
     }
@@ -125,4 +129,5 @@ public class ComponentPanelView extends AbstractView {
         Optional<String> result = dialog.showAndWait();
         return result.isPresent() ? result.get() : null;
     }
+    
 }
