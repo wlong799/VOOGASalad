@@ -16,6 +16,7 @@ import game_object.core.ImageStyle;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.level.Level;
+import game_object.powerup.NewWeaponPowerUp;
 import javafx.scene.input.KeyCode;
 
 /**
@@ -28,7 +29,7 @@ public class LevelGenerator {
 	
 	/**
 	 * A hero in the air, and a big chalk of block as ground.
-	 * The hero can move left, right, and jump.
+	 * The hero can move left, right, jump, (and upon acquiring power-up, can shoot).
 	 * @return
 	 */
 	public static Level getTestLevelA() {
@@ -61,6 +62,8 @@ public class LevelGenerator {
 		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
 		
+		// NewWeaponPowerUp powerUp = new NewWeaponPowerUp(new Position(), dimension, imagePaths, w)
+		
 		level.addSprite(hero);
 		level.addSprite(enemy);
 		level.addSprite(ground);
@@ -69,10 +72,13 @@ public class LevelGenerator {
 		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
 		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
 		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
+		KeyEvent shootEvent = new KeyEvent(KeyCode.J);
+		
 		
 		level.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
 		level.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
 		level.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
+		level.getAllTriggers().add(new ActionTrigger(shootEvent, hero, ActionName.SHOOT));
 		return level;
 	}
 	
