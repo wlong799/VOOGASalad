@@ -6,6 +6,7 @@ import authoring.view.AbstractView;
 import game_object.constants.GameObjectConstants;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -128,4 +129,5 @@ public class ComponentPanelView extends AbstractView {
         Optional<String> result = dialog.showAndWait();
         return result.isPresent() ? result.get() : null;
     }
+    
 }

@@ -18,6 +18,7 @@ import javafx.stage.Screen;
  */
 public class CanvasView extends AbstractView {
 
+
     private ScrollPane scrollPane;
     private Group content; // holder for all SpriteViews
     private HBox background;
