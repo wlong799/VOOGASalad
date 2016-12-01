@@ -158,7 +158,9 @@ public class GameEngine implements IGameEngine {
 	private void executeInput() {
 		myInputController.executeInput();
 	}
-
+	/**
+	 * use for debugging the position and velocity of sprites
+	 */
 	public void printOutput() {
 		if (logSuppressed) return;
 		for (ISprite s : mySprites) {
