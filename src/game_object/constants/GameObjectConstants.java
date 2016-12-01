@@ -15,6 +15,7 @@ public class GameObjectConstants {
     public static final String STONE_BLOCK_FILE = "img/sprites/stone_block.png";
     public static final String BUSH_FILE = "img/sprites/bush.png";
     public static final String BRICK_FILE = "img/sprites/brick.png";
+    public static final String WEAPON_POWER_UP_FILE = "img/sprites/weapon_powerup.png";
 
     public static final Component BLUE_SNAIL = new Component(GameObjectType.HERO, BLUE_SNAIL_LEFT, BLUE_SNAIL_RIGHT, "Blue Snail", "A blue snail hero.");
     public static final Component ELIZA = new Component(GameObjectType.HERO, ELIZA_LEFT, ELIZA_RIGHT, "Eliza", "Eliza, a hero.");
@@ -24,6 +25,7 @@ public class GameObjectConstants {
     public static final Component STONE_BLOCK = new Component(GameObjectType.STATIC_BLOCK, STONE_BLOCK_FILE, "Stone", "A stony block.");
     public static final Component BUSH = new Component(GameObjectType.STATIC_BLOCK, BUSH_FILE, "Bush", "A bush block.");
     public static final Component BRICK = new Component(GameObjectType.STATIC_BLOCK, BRICK_FILE, "Brick", "A brick block.");
-
+    public static final Component WEAPON_POWER_UP = new Component(GameObjectType.WEAPON_POWER_UP, WEAPON_POWER_UP_FILE, "Weapon Power Up", "Power-up to acquire new weapon");
+    
     public static final String UPLOAD = "img/upload.png";
 }
