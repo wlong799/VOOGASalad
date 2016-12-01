@@ -13,12 +13,12 @@ import game_object.weapon.Weapon;
 
 public class Hero extends AbstractCharacter implements IUpgrader, ITriggerable {
 
-	private final int myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
-	private final int myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
-	private boolean hasProjectile = false;
-
+	private boolean myHasProjectile = false;
+	
 	public Hero(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
+		myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
+		myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 	}
 	
 	@Override
@@ -45,17 +45,6 @@ public class Hero extends AbstractCharacter implements IUpgrader, ITriggerable {
 			getVelocity().setYVelocity(-100);
 		}
 	}
-	
-	/* CollisionBody Getter Implementations */
-	@Override
-	public int getCategoryBitMask() {
-		return myCategoryBitMask;
-	}
-
-	@Override
-	public int getCollisionBitMask() {
-		return myCollisionBitMask;
-	}
 
 	/* Upgrader -- Not used for now*/
 	@Override
@@ -73,15 +62,19 @@ public class Hero extends AbstractCharacter implements IUpgrader, ITriggerable {
 		setMovingUnit(getMovingUnit()*(1+percent));
 	}
 	
-        public void changeSize(double multiplier) {
-            myDimension.setHeight(multiplier*myDimension.getHeight());
-            myDimension.setWidth(multiplier*myDimension.getWidth());
-        }	
+    public void changeSize(double multiplier) {
+        myDimension.setHeight(multiplier*myDimension.getHeight());
+        myDimension.setWidth(multiplier*myDimension.getWidth());
+    }	
         
-        public void setHasProjectile() {
-            hasProjectile = true;
-        }
-        
-        
+    @Override
+    public void setHasProjectile(boolean hasProjectile) {
+        myHasProjectile = hasProjectile;
+    }
+
+	@Override
+	public boolean getHasProjectile() {
+		return myHasProjectile;
+	}
 	
 }

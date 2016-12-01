@@ -20,6 +20,9 @@ public interface IUpgrader {
 	void changeSize(double multiplier);
 	
 	//gives ability to shoot projectile
-	void setHasProjectile();
+	void setHasProjectile(boolean hasProjectile);
+	
+	//get projectile state
+	boolean getHasProjectile();
 	
 }

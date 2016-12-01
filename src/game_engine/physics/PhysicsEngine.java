@@ -35,7 +35,6 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 
 	@Override
 	public double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
-		System.out.println(myLevel.getPhysicsParameters().getGravity());
 		double vy = body.getVelocity().getYVelocity();
 		double newvy = vy + elapsedTime * myLevel.getPhysicsParameters().getGravity();
 		if (Math.abs(newvy) > myLevel.getPhysicsParameters().getMaxThreshold()) {

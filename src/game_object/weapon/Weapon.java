@@ -4,6 +4,13 @@ public abstract class Weapon {
 
 	private double myDamage;
 	private ProjectileModel myProjectileModel;
+	private WeaponSide mySide;
+	
+	private Weapon(double damage, ProjectileModel model, WeaponSide side) {
+		myDamage = damage;
+		myProjectileModel = model;
+		mySide = side;
+	}
 	
 	public double getDamage() {
 		return myDamage;
@@ -16,6 +23,14 @@ public abstract class Weapon {
 	}
 	public void setProjectileModel(ProjectileModel projectileModel) {
 		myProjectileModel = projectileModel;
+	}
+
+	public WeaponSide getSide() {
+		return mySide;
+	}
+
+	public void setSide(WeaponSide side) {
+		mySide = side;
 	}
 	
 }
