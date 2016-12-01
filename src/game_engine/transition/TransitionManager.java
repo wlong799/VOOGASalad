@@ -1,6 +1,6 @@
 package game_engine.transition;
 
-import game_object.framework.Game;
+import game_object.core.Game;
 import game_object.level.Level;
 
 /**

@@ -11,7 +11,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import game_object.LevelGenerator;
-import game_object.framework.Game;
+import game_object.core.Game;
 
 public class Marshaller {
 	
@@ -44,7 +44,7 @@ public class Marshaller {
 		try {
 			test.saveGame(testGame, path);
 			testGame = test.loadGame(path);
-			System.out.println(testGame.getAllLevels().get(0).getAllSprites().size());
+			System.out.println(testGame.getAllLevelsReadOnly().get(0).getAllSprites().size());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
