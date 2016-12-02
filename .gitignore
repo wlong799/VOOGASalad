@@ -130,3 +130,4 @@ hs_err_pid*
 
 # test games
 test.xml
+data/game
