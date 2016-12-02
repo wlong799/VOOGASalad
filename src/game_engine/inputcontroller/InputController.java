@@ -9,6 +9,7 @@ import game_object.acting.KeyEvent;
 import game_object.character.ICharacter;
 import game_object.character.IMover;
 import game_object.core.ISprite;
+import game_object.core.Game;
 import game_object.level.Level;
 
 public class InputController implements IInputController {
@@ -16,11 +17,13 @@ public class InputController implements IInputController {
 	private Set<KeyEvent> myList;
 	private boolean myJump = false;
 	private boolean jumping;
-	private Level myLevel;
+	private Level myCurrentLevel;
+	private Game myGame;
 	private boolean exist;
 
-	public InputController(Level level) {
-		myLevel = level;
+	public InputController(Game game) {
+	    myGame = game;
+		myCurrentLevel = game.getCurrentLevel();
 	}
 
 	@Override
@@ -30,11 +33,12 @@ public class InputController implements IInputController {
 
 	@Override
 	public void executeInput() {
+	    myCurrentLevel = myGame.getCurrentLevel();
 		exist = false;
 		jumping = false;
 		if (myList != null && myList.size() != 0) {
 			for (KeyEvent event : myList) {
-				List<ActionTrigger> trigger = myLevel.getTriggersWithEvent(event);
+				List<ActionTrigger> trigger = myCurrentLevel.getTriggersWithEvent(event);
 				for (ActionTrigger actionTrigger : trigger) {
 					chooseAction(actionTrigger);
 				}
