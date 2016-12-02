@@ -1,23 +1,19 @@
 package authoring.view.components;
 
-import game_object.GameObjectType;
-import game_object.block.StaticBlock;
-import game_object.character.Enemy;
-import game_object.character.Hero;
-import game_object.character.IUpgrader;
-import game_object.core.Dimension;
-import game_object.core.ExceptionThrower;
-import game_object.core.ISprite;
-import game_object.core.Position;
-import game_object.powerup.NewWeaponPowerUp;
-import game_object.powerup.PowerUp;
-
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+import game_object.GameObjectType;
+import game_object.block.StaticBlock;
+import game_object.character.Enemy;
+import game_object.character.Hero;
+import game_object.core.Dimension;
+import game_object.core.ExceptionThrower;
+import game_object.core.ISprite;
+import game_object.core.Position;
+import game_object.powerup.NewWeaponPowerUp;
 
 /**
  * Component class provides a way for users to have editable game component templates to add to the environment. Each
