@@ -2,6 +2,7 @@ package authoring.controller.run;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,9 +31,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+/**
+ * @author billyu
+ * TODO: physics parameter settings
+ */
 public class TestGameController {
 	private TestGameView myTestView;
 	private GameEngine_Game myGameEngine;
+	private AuthoringController myTopController;
 
 	private KeyFrame frame;
 	private Timeline animation;
@@ -48,6 +54,7 @@ public class TestGameController {
 	private Set<KeyEvent> currentlyPressedKeys;
 
 	public TestGameController (AuthoringController topController) {
+		myTopController = topController;
 		myTestView = new TestGameView(topController);
 		currentlyPressedKeys = new HashSet<>();
 		spriteViewMap = new HashMap<>();
@@ -57,11 +64,13 @@ public class TestGameController {
 
 	public void showTestGame() {
 		originalGame = LevelGenerator.getTestGame();
+		//myTopController.getEnvironment().getCurrentGame();
 		runningGame = copyGame(originalGame);
 		myTestView.updateUI();
 		myGameEngine = new GameEngine_Game(runningGame);
 		myGameEngine.suppressLogDebug();
 		
+		initRunning2Origin();
 		clear();
 		initFrame();
 		initAnimation();
@@ -75,13 +84,22 @@ public class TestGameController {
 		runningLevel.getPhysicsParameters().set(option, value);
 	}
 	
+	private void initRunning2Origin() {
+		//TODO: does not work since here getting read only but game engine is not read only
+		List<Level> origin = originalGame.getAllLevelsReadOnly();
+		List<Level> running = runningGame.getAllLevelsReadOnly();
+		for (int i = 0; i < origin.size(); i++) {
+			running2origin.put(running.get(i), origin.get(i));
+		}
+		System.out.println(running2origin.size());
+	}
+	
 	private void clear() {
 		myTestView.clearSpriteViews();
 		hero = null;
 		currentlyPressedKeys.clear();
 		spriteViewMap.clear();
 		imagePathMap.clear();
-		running2origin.clear();
 	}
 	
 	private void initFrame() {
@@ -92,6 +110,8 @@ public class TestGameController {
 				Level currentLevel = runningGame.getCurrentLevel();
 				if (runningLevel != currentLevel) {
 					runningLevel = currentLevel;
+					originalLevel = running2origin.get(runningLevel);
+					System.out.println("original" + originalLevel);
 					clear();
 					initSpriteMap();
 					findHero();
@@ -107,6 +127,7 @@ public class TestGameController {
 	private void updatePositions() {
 		for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
 			//TODO: need to take care the case where new sprites are created (projectiles e.g.)
+			if (!spriteViewMap.containsKey(sprite)) continue;
 			if (!imagePathMap.containsKey(sprite)
 					|| !imagePathMap.get(sprite).equals(sprite.getImagePath())) {
 				// image path changed (e.g. facing changed)
