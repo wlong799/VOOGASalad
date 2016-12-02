@@ -39,7 +39,7 @@ public class PhysicsEngineWithFriction extends PhysicsEngine {
 		} else if (option == PhysicsParameterSetOptions.MAXTHRESHOLD) {
 			myLevel.getPhysicsParameters().setMaxThreshold(value);
 		} else {
-			//
+			return;
 		}
 	}
 }

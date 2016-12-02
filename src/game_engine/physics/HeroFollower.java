@@ -13,6 +13,7 @@ public class HeroFollower extends AbstractPhysicsEngine {
 
 	private List<ISprite> myHeroes;
 	private ISprite myHero;
+	private double scalarVelocity, scalarDistance;
 
 	public HeroFollower(Level level) {
 		super(level);
@@ -29,89 +30,67 @@ public class HeroFollower extends AbstractPhysicsEngine {
 		myHero = myHeroes.get(i);
 	}
 
-	@Override
-	public double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime) {
-		return 0;
+	public double calculateScalarVelocity(IPhysicsBody body, double elapsedTime) {
+		double scalarVelocity = Math
+				.sqrt(Math.pow(body.getVelocity().getXVelocity(), 2) + Math.pow(body.getVelocity().getYVelocity(), 2));
+		return scalarVelocity;
 	}
 
-	@Override
-	public double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
-		double rocketVelocity = Math
-				.sqrt(Math.pow(body.getVelocity().getXVelocity(), 2) + Math.pow(body.getVelocity().getYVelocity(), 2));
+	public double calculateDistance(IPhysicsBody body, double elapsedTime) {
 		double yDis = myHero.getPosition().getY() - body.getPosition().getY();
 		double xDis = myHero.getPosition().getX() - body.getPosition().getX();
 		double dis = Math.sqrt(Math.pow(yDis, 2) + Math.pow(xDis, 2));
-		double yVelocity = yDis/dis*rocketVelocity;
+		return dis;
+	}
+
+	@Override
+	public double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime) {
+		double y = body.getPosition().getY();
+		double vy = calculateNewVerticalVelocity(body, elapsedTime);
+		double newy = y + elapsedTime * vy;
+		return newy;
+	}
+	
+	@Override
+	public double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
+		double yDis = myHero.getPosition().getY() - body.getPosition().getY();
+		double yVelocity = yDis / scalarDistance * scalarVelocity;
 		return yVelocity;
 	}
 
 	@Override
-	public double calculateNewHorizontalPosition(IPhysicsBody sprite, double elapsedTime) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime) {
+		double x = body.getPosition().getX();
+		double vx = calculateNewHorizontalVelocity(body, elapsedTime);
+		double newx = x + elapsedTime * vx;
+		return newx;
 	}
 
 	@Override
-	public double calculateNewHorizontalVelocity(IPhysicsBody sprite, double elapsedTime) {
-		// TODO Auto-generated method stub
-		return 0;
+	public double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
+		double xDis = myHero.getPosition().getX() - body.getPosition().getX();
+		double xVelocity = xDis / scalarDistance * scalarVelocity;
+		return xVelocity;
 	}
 
 	@Override
 	public Position calculateNewPosition(IPhysicsBody body, double elapsedTime) {
-		// TODO Auto-generated method stub
-		return null;
+		double x = calculateNewHorizontalPosition(body, elapsedTime);
+		double y = calculateNewVerticalVelocity(body, elapsedTime);
+		return new Position(x, y);
 	}
 
 	@Override
 	public Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void updateHorizontalPositionAndVelocity(double newx, double newvx, IPhysicsBody body) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateVerticalPositionAndVelocity(double newy, double newvy, IPhysicsBody body) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updatePosition(Position position, IPhysicsBody body) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updateVelocity(Velocity velocity, IPhysicsBody body) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updatePositionAndVelocity(double newx, double newvx, double newy, double newvy, IPhysicsBody body) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void updatePositionAndVelocity(Position position, Velocity velocity, IPhysicsBody body) {
-		// TODO Auto-generated method stub
-
+		scalarVelocity = calculateScalarVelocity(body, elapsedTime);
+		scalarDistance = calculateDistance(body, elapsedTime);
+		double yV = calculateNewVerticalVelocity(body, elapsedTime);
+		double xV = calculateNewHorizontalVelocity(body, elapsedTime);
+		return new Velocity(xV, yV);
 	}
 
 	@Override
 	public void setParameters(PhysicsParameterSetOptions option, double value) {
-
-	}
-
-	@Override
-	public void setExisted(boolean exist) {
 		return;
 	}
 
