@@ -2,13 +2,26 @@ package network.server;
 
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
+import java.util.logging.Logger;
 
 import network.Connection;
 import network.exceptions.MessageCreationFailureException;
 import network.messages.Message;
 import network.messages.MessageType;
 
+/**
+ * The connection to client does the house keeping such that
+ * when the corresponding connection to server is closed either
+ * explicitly by the client or implicitly due to timeout, it removes
+ * itself from the connection pool and broadcast to the remaining clients
+ * about this departure. 
+ * 
+ * @author CharlesXu
+ */
 public class ConnectionToClient extends Connection {
+	
+	private static final Logger LOGGER =
+			Logger.getLogger( ConnectionToClient.class.getName() );
 	
 	private Coordinator coordinator;
 
@@ -28,7 +41,8 @@ public class ConnectionToClient extends Connection {
 			coordinator.broadcast(MessageType.USER_GONE_OFFLINE.build(
 					"User " + this.getUserName() + " disconnected"));
 		} catch (MessageCreationFailureException e) {
-			// trusted code
+			LOGGER.info("Connection to client " + this.getUserName() +
+					"failed to broadcast its departure");
 		}
 	}
 }

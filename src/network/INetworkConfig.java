@@ -1,6 +1,9 @@
 package network;
 
 /** 
+ * The server configuration that provides single point of update
+ * for the rest of the project.
+ * 
  * @author CharlesXu
  */
 public interface INetworkConfig {

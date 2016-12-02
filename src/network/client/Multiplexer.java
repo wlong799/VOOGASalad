@@ -9,6 +9,8 @@ import network.messages.Message;
 import network.messages.MessageType;
 
 /**
+ * The Multiplexer distribute incoming messages to the right
+ * message queue based on its type. 
  * @author CharlesXu
  */
 public class Multiplexer {

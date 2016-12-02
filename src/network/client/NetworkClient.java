@@ -25,7 +25,6 @@ public class NetworkClient implements INetworkClient{
 	private Queue<Message> nonBlockingIncomingBuffer;
 	private Multiplexer mux;
 	
-	// TODO cx15 gamePlayer information obj
 	private String userName;
 	
 	public NetworkClient(String userName) throws ServerDownException {
@@ -43,7 +42,9 @@ public class NetworkClient implements INetworkClient{
 	}
 	
 	/**
-	 * This method is non-blocking. 
+	 * Refers to INetworkClient for more information. 
+	 * 
+	 * <p>This method is non-blocking. 
 	 * 
 	 * <p>Our developers are not familiar with the parallel computing paradigm
 	 * in which a read from an empty synchronized buffer shall block the accessing

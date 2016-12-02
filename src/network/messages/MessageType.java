@@ -31,6 +31,12 @@ public enum MessageType {
 		this.className = className;
 	}
 	
+	/**
+	 * Create a Message of proper type that carries an optional payload.
+	 * @param payload the object to be enclosed by the message
+	 * @return The message that wraps the payload
+	 * @throws MessageCreationFailureException if reflections on Message subclass failed
+	 */
 	public Message build(Object... payload)
 			throws MessageCreationFailureException{
 		Message msg = null;
@@ -39,7 +45,6 @@ public enum MessageType {
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException
 				| ClassNotFoundException | ReflectionFoundNoMatchesException e) {
-			e.printStackTrace();
 			throw new MessageCreationFailureException();
 		}
 		return msg;

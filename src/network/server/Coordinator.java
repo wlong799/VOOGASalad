@@ -15,6 +15,7 @@ import network.messages.Message;
  * The central coordination service. Its main purpose is to observe
  * and define a global total order of messages and broadcast them 
  * to all participants/subscribers. 
+ * 
  * @author CharlesXu
  */
 public class Coordinator {

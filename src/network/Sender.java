@@ -10,8 +10,8 @@ import network.messages.Message;
 /**
  * The worker thread that tries to push messages in the outGoingBuffer
  * to server who is going to forward them to all subscribers
+ * 
  * @author CharlesXu
- *
  */
 public class Sender extends Thread {
 	

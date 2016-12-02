@@ -9,7 +9,7 @@ import network.messages.Message;
 import network.messages.MessageType;
 
 /**
- * The Client API for access to network to talk to 
+ * The Client API for access to the network to talk to 
  * other participants in the game
  * @author CharlesXu
  */
@@ -28,7 +28,7 @@ public interface INetworkClient extends INetworkConfig {
 	/**
 	 * Send the payload wrapped in a a message to all its peers
 	 * through the central server, auto serialization
-	 * @param payload the object ot be sent
+	 * @param payload the object to be sent
 	 * @param type specifies the type of message to be sent
 	 * @throws MessageCreationFailureException if MessageType unknown to the
 	 * 											current version of applicaiton

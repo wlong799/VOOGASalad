@@ -8,6 +8,11 @@ import network.exceptions.MessageCreationFailureException;
 import network.messages.Message;
 import network.messages.MessageType;
 
+/**
+ * The connection to server does a handshake with server to provide
+ * the userName of the client
+ * @author CharlesXu
+ */
 public class ConnectionToServer extends Connection {
 	
 	public ConnectionToServer(BlockingQueue<Message> incomingBuffer,
@@ -19,7 +24,7 @@ public class ConnectionToServer extends Connection {
 			// TODO cx15 duplicated names
 			send(MessageType.HANDSHAKE.build(userName));
 		} catch (MessageCreationFailureException e) {
-			// trusted code
+			this.close();
 		}
 	}
 

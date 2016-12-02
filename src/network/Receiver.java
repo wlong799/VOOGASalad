@@ -13,6 +13,7 @@ import network.server.Daemon;
 /**
  * The worker thread that reads from connection to server and 
  * put messages read into client supplied buffer.
+ * 
  * @author CharlesXu
  */
 public class Receiver extends Thread {

@@ -6,7 +6,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
-import network.exceptions.JeopardyException;
 import network.messages.Message;
 
 /**
@@ -20,9 +19,12 @@ import network.messages.Message;
  * relevant resources on server will be reclaimed and client must
  * reconnect before proceeding to read/write messages.
  * 
+ * <p> Each connection is identified by a userName which is attached
+ * to all the messages sent through the connection.
+ * 
  * @author CharlesXu
  */
-public class Connection {
+public abstract class Connection {
 	
 	private static final Logger LOGGER =
 			Logger.getLogger( Connection.class.getName() );

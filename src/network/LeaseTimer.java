@@ -9,6 +9,7 @@ import network.messages.MessageType;
  * A timer thread that periodically check and renew the session
  * lease to keep the connection alive unless failures or network
  * partition.
+ * 
  * @author CharlesXu
  */
 public class LeaseTimer extends Thread {
@@ -39,7 +40,8 @@ public class LeaseTimer extends Thread {
 				try {
 					connection.send(MessageType.DISCONNECT.build());
 				} catch (MessageCreationFailureException e) {
-					// trusted code
+					// trusted code but log this just in case
+					LOGGER.info("Lease Timer failed to create DISCONNECT message");
 				}
 				connection.close();
 			} else if (isLeaseHolder && timeElapsed > HALF_TTL_MILLIS) {
@@ -48,7 +50,8 @@ public class LeaseTimer extends Thread {
 					LOGGER.info("KeepAlive request sent");
 					Thread.sleep(HALF_TTL_MILLIS);
 				} catch (MessageCreationFailureException e) {
-					// trusted code
+					// trusted code but log this just in case
+					LOGGER.info("Lease Timer failed to create SESSION_LEASE message");
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 				}
