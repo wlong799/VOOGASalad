@@ -91,7 +91,6 @@ public class TestGameController {
 		for (int i = 0; i < origin.size(); i++) {
 			running2origin.put(running.get(i), origin.get(i));
 		}
-		System.out.println(running2origin.size());
 	}
 	
 	private void clear() {
@@ -111,7 +110,7 @@ public class TestGameController {
 				if (runningLevel != currentLevel) {
 					runningLevel = currentLevel;
 					originalLevel = running2origin.get(runningLevel);
-					System.out.println("original" + originalLevel);
+					System.out.println("original: " + originalLevel);
 					clear();
 					initSpriteMap();
 					findHero();

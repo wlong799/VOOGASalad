@@ -26,15 +26,26 @@ import javafx.scene.input.KeyCode;
  */
 public class LevelGenerator {
 	
-	private static Game testGame = new Game();
-
-	/**
-	 * A hero in the air, and a big chalk of block as ground.
-	 * The hero can move left, right, jump, (and upon acquiring power-up, can shoot).
-	 * @return
-	 */
-
+	private static Level levelA;
+	private static Level levelB;
+	private static Game game = new Game();
+	
 	public static Game getTestGame() {
+		if (game.getAllLevelsReadOnly().size() < 2) game = initTestGame();
+		return game;
+	}
+
+	public static Level getTestLevelA() {
+		if (levelA == null) levelA = initTestLevelA();
+		return levelA;
+	}
+	
+	public static Level getTestLevelB() {
+		if (levelB == null) levelB = initTestLevelB();
+		return levelB;
+	}
+	
+	private static Game initTestGame() {
 		Game game = new Game();
 		game.addLevel(getTestLevelA());
 		game.addLevel(getTestLevelB());
@@ -42,8 +53,13 @@ public class LevelGenerator {
 		game.setFirstSceneAsLevel(game.getCurrentLevel());
 		return game;
 	}
-	
-	public static Level getTestLevelA() {
+
+	/**
+	 * A hero in the air, and a big chalk of block as ground.
+	 * The hero can move left, right, jump, (and upon acquiring power-up, can shoot).
+	 * @return
+	 */
+	private static Level initTestLevelA() {
 		ArrayList<String> heroImages = new ArrayList<>();
 		heroImages.add(GameObjectConstants.BLUE_SNAIL_LEFT);
 		heroImages.add(GameObjectConstants.BLUE_SNAIL_RIGHT);
@@ -54,10 +70,10 @@ public class LevelGenerator {
 		ArrayList<String> blockImages = new ArrayList<>();
 		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
 
-		Level level = new Level(testGame, "TestLevelA");
+		levelA = new Level(game, "TestLevelA");
 
-		level.getLevelDimension().setWidth(800);
-		level.getLevelDimension().setHeight(2000);
+		levelA.getLevelDimension().setWidth(800);
+		levelA.getLevelDimension().setHeight(2000);
 
 
 		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 60), heroImages);
@@ -76,33 +92,33 @@ public class LevelGenerator {
 
 		// NewWeaponPowerUp powerUp = new NewWeaponPowerUp(new Position(), dimension, imagePaths, w)
 
-		level.addSprite(hero);
+		levelA.addSprite(hero);
 		//level.addSprite(enemy);
-		level.addSprite(ground);
-		level.addSprite(smackDown);
-		level.addSprite(goalBlock);
+		levelA.addSprite(ground);
+		levelA.addSprite(smackDown);
+		levelA.addSprite(goalBlock);
 		AbstractGoal goal = new ReachPointGoal(hero,new Position(400,450));
-		level.getAllGoals().add(goal);
-		level.setNextLevel(getTestLevelB());
+		levelA.getAllGoals().add(goal);
+		levelA.setNextLevel(getTestLevelB());
 
 		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
 		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
 		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
 		KeyEvent shootEvent = new KeyEvent(KeyCode.J);
 
-		level.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
-		level.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
-		level.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
-		level.getAllTriggers().add(new ActionTrigger(shootEvent, hero, ActionName.SHOOT));
-		level.init();
-		return level;
+		levelA.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
+		levelA.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
+		levelA.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
+		levelA.getAllTriggers().add(new ActionTrigger(shootEvent, hero, ActionName.SHOOT));
+		levelA.init();
+		return levelA;
 	}
 
 	/**
 	 * A hero in the air but with a xVelocity, and a big chalk of block as ground.
 	 * The hero can move left, right, and jump.
 	 */
-	public static Level getTestLevelB() {
+	private static Level initTestLevelB() {
 		ArrayList<String> heroImages = new ArrayList<>();
 		heroImages.add(GameObjectConstants.BLUE_SNAIL_LEFT);
 		heroImages.add(GameObjectConstants.BLUE_SNAIL_RIGHT);
@@ -110,9 +126,9 @@ public class LevelGenerator {
 		ArrayList<String> blockImages = new ArrayList<>();
 		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
 
-		Level level = new Level(testGame, "TestLevelB");
-		level.getLevelDimension().setWidth(2000);
-		level.getLevelDimension().setHeight(800);
+		levelB = new Level(game, "TestLevelB");
+		levelB.getLevelDimension().setWidth(2000);
+		levelB.getLevelDimension().setHeight(800);
 
 		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(50, 0));
@@ -121,18 +137,18 @@ public class LevelGenerator {
 		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 200), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
 
-		level.addSprite(hero);
-		level.addSprite(ground);
+		levelB.addSprite(hero);
+		levelB.addSprite(ground);
 
 		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
 		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
 		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
 
-		level.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
-		level.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
-		level.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
-		level.init();
-		return level;
+		levelB.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
+		levelB.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
+		levelB.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
+		levelB.init();
+		return levelB;
 	}
 	
 }
