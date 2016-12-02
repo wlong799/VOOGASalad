@@ -48,9 +48,11 @@ public class TestGameController {
 		myTestView = new TestGameView(topController);
 	}
 
+	//TODO: use GameEngine_Game instead of GameEngine
 	public void showTestGame () {
 		originalLevel = myTopController.getEnvironment().getCurrentLevel();
 		runningLevel = copyLevel(originalLevel);
+		myTestView.updateUI();
 		findHero();
 		runningLevel.init();
 		myGameEngine = new GameEngine(runningLevel);
@@ -113,6 +115,7 @@ public class TestGameController {
 	}
 	
 	public void setParameter(PhysicsParameterSetOptions option, double value) {
+		if (originalLevel == null || runningLevel == null) return;
 		originalLevel.getPhysicsParameters().set(option, value);
 		runningLevel.getPhysicsParameters().set(option, value);
 	}
