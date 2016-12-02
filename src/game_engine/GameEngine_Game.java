@@ -1,6 +1,5 @@
 package game_engine;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +22,6 @@ import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
 import goal.IGoal;
-import goal.time.TimeGoal;
 
 public class GameEngine_Game implements IGameEngine {
 
@@ -36,17 +34,24 @@ public class GameEngine_Game implements IGameEngine {
 	private double myElapsedTime;
 	private boolean runFlag = true;
 	private int FPS;
+	private boolean logSuppressed = false;
 
 	public GameEngine_Game(Game game) {
 		myCurrentLevel = game.getAllLevelsReadOnly().get(0);
+		game.setCurrentLevel(myCurrentLevel);
 		myCurrentLevel.init();
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
-		myInputController = new InputController(myCurrentLevel);
+		myInputController = new InputController(game);
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		FPS = 120;
 		myElapsedTime = 1.0 / FPS;
 		init();
+	}
+	
+	public void suppressLogDebug() {
+		logSuppressed  = true;
+		myCollisionEngine.suppressLogDebug();
 	}
 
 //	public void run() {
@@ -72,13 +77,18 @@ public class GameEngine_Game implements IGameEngine {
 
 	@Override
 	public void update(double elapsedTime) {
+	        
 		setElapsedTime(elapsedTime);
 		executeInput();
 		for (ISprite s : mySprites) {
 			updateNewParameters(s);
 		}
+		if (!logSuppressed) {
+			System.out.println(myCurrentLevel.getHeros().get(0));
+		}
 		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
 				myCurrentLevel.getStaticBlocks());
+		endCheck();
 	}
 
 	@Override
@@ -111,7 +121,14 @@ public class GameEngine_Game implements IGameEngine {
 	private void endCheck() {
 		WinStatus ws = checkWin();
 		if (ws != WinStatus.GO_ON) {
-			myCurrentLevel = myTransitionManager.readWinStatus(ws);
+			if (!logSuppressed) {
+				System.out.println("transition");
+				System.out.println(myCurrentLevel);
+				System.out.println(myCurrentLevel);
+			}
+		
+		    myCurrentLevel = myTransitionManager.readWinStatus(ws);
+			
 			if (myCurrentLevel == null) {
 				shutdown();
 			}
@@ -120,11 +137,12 @@ public class GameEngine_Game implements IGameEngine {
 	}
 
 	private WinStatus checkWin() {
-		List<IGoal> myGoals = new ArrayList<IGoal>();
+		List<IGoal> myGoals = myCurrentLevel.getAllGoals();
 		for (IGoal g : myGoals) {
-			if (g instanceof TimeGoal) {
+			
+		    /*if (g instanceof TimeGoal) {
 				((TimeGoal) g).setCurrentTime(0);
-			}
+			}*/
 			if (g.checkGoal()) {
 				return g.getResult();
 			}
