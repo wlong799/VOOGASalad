@@ -14,6 +14,8 @@ import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
 import game_object.acting.KeyEvent;
 import game_object.background.Background;
+import game_object.character.Hero;
+import game_object.core.AbstractSprite;
 import game_object.core.Game;
 import game_object.core.ISprite;
 import game_object.core.Position;
@@ -88,6 +90,7 @@ public class GameEngine_Game implements IGameEngine {
 		}
 		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
 				myCurrentLevel.getStaticBlocks());
+		updateScrolling();
 		endCheck();
 	}
 
@@ -104,6 +107,14 @@ public class GameEngine_Game implements IGameEngine {
 	@Override
 	public void setParameter(PhysicsParameterSetOptions option, double value) {
 		myPhysicsEngine.setParameters(option, value);
+	}
+	
+	private void updateScrolling() {
+		Hero pivotHero = myCurrentLevel.getHeros().get(0);
+		if (pivotHero != null) {
+			AbstractSprite.getStaticPivotPosition().setX(pivotHero.getPosition().getX());
+			AbstractSprite.getStaticPivotPosition().setY(pivotHero.getPosition().getY());
+		}
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {
