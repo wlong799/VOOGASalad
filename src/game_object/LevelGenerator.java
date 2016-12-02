@@ -72,8 +72,8 @@ public class LevelGenerator {
 
 		levelA = new Level(game, "TestLevelA");
 
-		levelA.getLevelDimension().setWidth(800);
-		levelA.getLevelDimension().setHeight(2000);
+		levelA.getLevelDimension().setWidth(2000);
+		levelA.getLevelDimension().setHeight(800);
 
 
 		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 60), heroImages);

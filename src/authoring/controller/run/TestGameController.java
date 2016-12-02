@@ -13,7 +13,6 @@ import authoring.AuthoringController;
 import authoring.view.run.TestGameView;
 import game_engine.GameEngine_Game;
 import game_engine.physics.PhysicsParameterSetOptions;
-import game_object.LevelGenerator;
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
@@ -63,8 +62,7 @@ public class TestGameController {
 	}
 
 	public void showTestGame() {
-		originalGame = LevelGenerator.getTestGame();
-		//myTopController.getEnvironment().getCurrentGame();
+		originalGame = myTopController.getEnvironment().getCurrentGame();
 		runningGame = copyGame(originalGame);
 		myTestView.updateUI();
 		myGameEngine = new GameEngine_Game(runningGame);
@@ -110,7 +108,6 @@ public class TestGameController {
 				if (runningLevel != currentLevel) {
 					runningLevel = currentLevel;
 					originalLevel = running2origin.get(runningLevel);
-					System.out.println("original: " + originalLevel);
 					clear();
 					initSpriteMap();
 					findHero();
@@ -189,7 +186,6 @@ public class TestGameController {
 				}
 			}
 		});
-
 		myTestView.getScene().setOnKeyPressed(event -> {
 			for (ActionName name : ActionName.values()) {
 				ActionTrigger trigger = runningLevel.getTriggerWithSpriteAndAction(hero, name);
