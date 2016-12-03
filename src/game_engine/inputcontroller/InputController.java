@@ -59,7 +59,6 @@ public class InputController implements IInputController {
 
 	private void chooseAction(ActionTrigger at) {
 		ISprite sprite = at.getSprite();
-		System.out.println(at.getActionName());
 		if (at.getActionName() == ActionName.MOVE_LEFT) {
 			IMover m = (IMover) sprite;
 			m.moveLeft();
@@ -90,17 +89,22 @@ public class InputController implements IInputController {
 	private void addProjectile(ICharacter character) {
 		Weapon weapon = character.getCurrentWeapon();
 		ProjectileModel pm = weapon.getProjectileModel();
-		String imgPath = pm.getImagePaths().get(0); // just take the first image, since getImgPaths return a List<String>
-		List<String> imgPaths = new ArrayList<String>();
-		imgPaths.add(imgPath);
-		Projectile p = new Projectile(new Position(character.getPosition().getX(), character.getPosition().getY()),
-				new Dimension(20, 20), imgPaths, pm);
+		//System.out.println(pm.isAffectedByGravity());
+		//List<String> imagePaths = pm.getImgPaths();
+		//TODO affected by gravity not working when shooting twice
+		//pm.setAffectedByGravity(false);
+		//Projectile p = new Projectile(new Position(character.getPosition().getX(), character.getPosition().getY()), new Dimension(20, 20), imagePaths, pm);
+		Projectile p = pm.newProjectileInstance(new Position(character.getPosition().getX(), character.getPosition().getY()),
+				new Dimension(20, 20));
+		p.setAffectedByPhysics(true);
+		p.getModel().setAffectedByGravity(false);
 		myCurrentLevel.getProjectiles().add(p);
 		myCurrentLevel.getAllSprites().add(p);
 		myCurrentLevel.getAllSpriteVisualizations().add(p);
+		//System.out.println(p.getModel().isAffectedByGravity());
 		//System.out.println(p.getPosition().getX() + " " + p.getPosition().getY() + " " + p.getVelocity().getXVelocity()
 		//		+ " " + p.getVelocity().getYVelocity());
-		System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
+		//System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
 	}
 
 	public boolean getInputExist() {
