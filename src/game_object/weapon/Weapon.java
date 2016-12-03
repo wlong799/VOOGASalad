@@ -11,6 +11,7 @@ public class Weapon {
 		myDamage = damage;
 		myProjectileModel = model;
 		mySide = side;
+		myProjectileModel.setSide(mySide);
 	}
 	
 	public double getDamage() {
