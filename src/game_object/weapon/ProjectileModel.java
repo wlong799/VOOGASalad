@@ -15,11 +15,21 @@ public class ProjectileModel {
 	private Velocity myInitalVelocity;
 	// is the projectile subject to gravity (so that the path will be a parabola)
 	private boolean myAffectedByGravity;
+	// is the projectile following hero? 
+	private boolean myFollowHero;
 	
 	public ProjectileModel(String imgPath, Velocity v, boolean affectedByGravity) {
 		myImgPath = imgPath;
 		myInitalVelocity = v;
 		myAffectedByGravity = affectedByGravity;
+		myFollowHero = false;
+	}
+	
+	public ProjectileModel(String imgPath, Velocity v, boolean affectedByGravity, boolean followHero) {
+		myImgPath = imgPath;
+		myInitalVelocity = v;
+		myAffectedByGravity = affectedByGravity;
+		myFollowHero = followHero;
 	}
 
 	public String getImgPath() {
@@ -44,8 +54,14 @@ public class ProjectileModel {
 
 	public void setAffectedByGravity(boolean affectedByGravity) {
 		myAffectedByGravity = affectedByGravity;
-	} 
-	
-	
+	}
+
+	public boolean isFollowHero() {
+		return myFollowHero;
+	}
+
+	public void setFollowHero(boolean followHero) {
+		myFollowHero = followHero;
+	}
 	
 }
