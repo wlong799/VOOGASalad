@@ -6,6 +6,7 @@ import game_object.acting.KeyEvent;
 import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.constants.DefaultConstants;
 import game_object.constants.GameObjectConstants;
 import game_object.core.Dimension;
 import game_object.core.Game;
@@ -73,14 +74,19 @@ public class LevelGenerator {
 		hero.setVelocity(new Velocity(40, -80));
 		hero.setImageStyle(ImageStyle.FIT);
 
+		ArrayList<String> bulletImgs = new ArrayList<>();
+		bulletImgs.add(GameObjectConstants.BULLET_FILE);
         ProjectileModel bulletModel = new ProjectileModel(
-				GameObjectConstants.BULLET_FILE, // image file
+				bulletImgs, // image file
 				new Velocity(10, 0), // initial velocity
 				false, // affected by gravity
 				true // follow hero
 				);
                 
-		Weapon heroWeapon = new Weapon(10, bulletModel, WeaponSide.HERO_SIDE);
+        int colBitMask = 
+        		DefaultConstants.BLOCK_CATEGORY_BIT_MASK | 
+        		DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
+		Weapon heroWeapon = new Weapon(10, bulletModel, colBitMask);
 		hero.setCurrentWeapon(heroWeapon);
 		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
