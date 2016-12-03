@@ -4,14 +4,13 @@ public class Weapon {
 
 	private double myDamage;
 	private ProjectileModel myProjectileModel;
-	private WeaponSide mySide;
+	private int myCollisionBitMask;
 	
-	public Weapon(double damage, ProjectileModel model, WeaponSide side) {
-		assert !(model.isFollowHero() && side.equals(WeaponSide.HERO_SIDE)) : "Follow Hero weapon must be ENEMY_SIDE";
+	public Weapon(double damage, ProjectileModel model, int collisionBitMask) {
 		myDamage = damage;
 		myProjectileModel = model;
-		mySide = side;
-		myProjectileModel.setSide(mySide);
+		myCollisionBitMask = collisionBitMask;
+		myProjectileModel.setCollisionBitMask(collisionBitMask);
 	}
 	
 	public double getDamage() {
@@ -27,12 +26,13 @@ public class Weapon {
 		myProjectileModel = projectileModel;
 	}
 
-	public WeaponSide getSide() {
-		return mySide;
+	public int getCollisionBitMask() {
+		return myCollisionBitMask;
 	}
 
-	public void setSide(WeaponSide side) {
-		mySide = side;
+	public void setCollisionBitMask(int collisionBitMask) {
+		myCollisionBitMask = collisionBitMask;
 	}
+
 	
 }
