@@ -25,6 +25,8 @@ public enum MessageType {
 	SESSION_LEASE ("network.messages.SessionLease"),
 	SESSION_LEASE_GRANTED ("network.messages.SessionLeaseGranted");
 	
+	// TODO cx15 lock and unicast
+	
 	private String className;
 	
 	private MessageType(String className) {

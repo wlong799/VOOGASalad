@@ -3,7 +3,7 @@ package network.client;
 import java.util.Queue;
 
 import network.INetworkConfig;
-import network.exceptions.JeopardyException;
+import network.exceptions.SessionExpiredException;
 import network.exceptions.MessageCreationFailureException;
 import network.messages.Message;
 import network.messages.MessageType;
@@ -21,9 +21,9 @@ public interface INetworkClient extends INetworkConfig {
 	 * empty queue if no new messages received.
 	 * @param type specifies the type of message to be read
 	 * @return a queue of messages in ordered by arrival time
-	 * @throws JeopardyException if lost connection to server
+	 * @throws SessionExpiredException if lost connection to server
 	 */
-	Queue<Message> read(MessageType type) throws JeopardyException;
+	Queue<Message> read(MessageType type) throws SessionExpiredException;
 	
 	/**
 	 * Send the payload wrapped in a a message to all its peers
@@ -32,10 +32,10 @@ public interface INetworkClient extends INetworkConfig {
 	 * @param type specifies the type of message to be sent
 	 * @throws MessageCreationFailureException if MessageType unknown to the
 	 * 											current version of applicaiton
-	 * @throws JeopardyException if lost connection to server
+	 * @throws SessionExpiredException if lost connection to server
 	 */
 	void broadcast(Object payload, MessageType type)
-			throws MessageCreationFailureException, JeopardyException;
+			throws MessageCreationFailureException, SessionExpiredException;
 	
 	/**
 	 * Disconnect from server and gracefully clean up

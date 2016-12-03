@@ -8,7 +8,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.Connection;
-import network.exceptions.JeopardyException;
+import network.exceptions.SessionExpiredException;
 import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;
@@ -30,7 +30,7 @@ public class NetworkClient implements INetworkClient{
 	public NetworkClient(String userName) throws ServerDownException {
 		this.userName = userName;
 		try {
-			socket = new Socket(DEV_SERVER_NAME, SERVER_PORT);
+			socket = new Socket(DEV_SERVER_NAME, DEV_SERVER_PORT);
 			inComingBuffer = new LinkedBlockingQueue<>();
 			connectionToServer = new ConnectionToServer(inComingBuffer, socket, true, userName);
 			nonBlockingIncomingBuffer = new LinkedList<>();
@@ -57,9 +57,9 @@ public class NetworkClient implements INetworkClient{
 	 * @return a queue of messages read ordered in time
 	 */
 	@Override
-	public Queue<Message> read(MessageType type) throws JeopardyException {
+	public Queue<Message> read(MessageType type) throws SessionExpiredException {
 		if (connectionToServer.isClosed()) {
-			throw new JeopardyException();
+			throw new SessionExpiredException();
 		}
 		Queue<Message> msgsReceived;
 		synchronized(nonBlockingIncomingBuffer) {
@@ -76,9 +76,9 @@ public class NetworkClient implements INetworkClient{
 	
 	@Override
 	public void broadcast(Object payload, MessageType type)
-			throws MessageCreationFailureException, JeopardyException {
+			throws MessageCreationFailureException, SessionExpiredException {
 		if (connectionToServer.isClosed()) {
-			throw new JeopardyException();
+			throw new SessionExpiredException();
 		}
 		signAndsend(type, payload);
 	}

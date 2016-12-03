@@ -25,6 +25,6 @@ The INetworkClient is the API provided by this infrastructure, and NetworkClient
 
 The ServerClientTest is a good example to see how the API is used. It runs multiple nodes on the same host.
 
-*Caviar* 
+*Caveat* 
 
-The daemon thread runs as long as server is up. If you get `Port number already in use` error, make sure you have kill the previous server instance. 
+The daemon thread runs as long as server is up. If you get `Port number already in use` error, make sure you have kill the previous server instance, or run your server at a different port by changing the `{dev, prod}Config.properties file`. 

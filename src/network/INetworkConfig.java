@@ -1,5 +1,7 @@
 package network;
 
+import java.util.ResourceBundle;
+
 /** 
  * The server configuration that provides single point of update
  * for the rest of the project.
@@ -8,11 +10,12 @@ package network;
  */
 public interface INetworkConfig {
 	
-	// ******** DEVELOPMENT ******** 
-	public static final String DEV_SERVER_NAME = "127.0.0.1";
+	final static ResourceBundle DEV = ResourceBundle.getBundle("network.devConfig");
+	final static ResourceBundle PROD = ResourceBundle.getBundle("network.devConfig");
 	
-	//  ******** PRODUCTION  ******** 
-	public static final String PROD_SERVER_NAME = "192.168.0.11";
-	public static final int SERVER_PORT = 9999;
+	public static final String DEV_SERVER_NAME = DEV.getString("ServerName");
+	public static final int DEV_SERVER_PORT = Integer.parseInt(DEV.getString("ServerPort"));
 	
+	public static final String PROD_SERVER_NAME = PROD.getString("ServerName");
+	public static final int PROD_SERVER_PORT = Integer.parseInt(PROD.getString("ServerPort"));
 }

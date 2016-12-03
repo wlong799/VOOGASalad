@@ -1,6 +1,8 @@
 package network.exceptions;
 
 /**
+ * Server is not listening on the port specified. Cannot establish
+ * connection between client and server. 
  * 
  * @author CharlesXu
  */
@@ -13,4 +15,8 @@ public class ServerDownException extends Exception{
 	public ServerDownException(String msg) {
 		super(msg);
 	}
+	
+	public ServerDownException(Throwable cause) {
+        super(cause);
+    }
 }

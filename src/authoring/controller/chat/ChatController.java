@@ -10,7 +10,7 @@ import javafx.event.EventHandler;
 import javafx.util.Duration;
 import network.client.INetworkClient;
 import network.client.NetworkClient;
-import network.exceptions.JeopardyException;
+import network.exceptions.SessionExpiredException;
 import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;
@@ -43,7 +43,7 @@ public class ChatController {
 	public void send(String chatMessage) {
 		try {
 			myClient.broadcast(chatMessage, MessageType.CHAT);
-		} catch (MessageCreationFailureException | JeopardyException e) {
+		} catch (MessageCreationFailureException | SessionExpiredException e) {
 			e.printStackTrace();
 		}
 	}
@@ -57,7 +57,7 @@ public class ChatController {
 				String chat = (String) msg.getPayload();
 				myView.appendText(msg.getSender() + ": " + chat);
 			}
-		} catch (JeopardyException e) {
+		} catch (SessionExpiredException e) {
 			e.printStackTrace();
 		}
 	}
