@@ -83,6 +83,10 @@ public class Level implements ILevelVisualization {
 	public PhysicsParameters getPhysicsParameters() {
 		return myPhysicsParameters;
 	}
+	
+	public void setPhysicsParameters(PhysicsParameters physicsParameters) {
+		myPhysicsParameters = physicsParameters;
+	}
 	/* --- Engine Settings END --- */
 	
 	/* Transitions. Note if getNextLevel() returns a non-null value,  getNextMenu() will be ignored. */

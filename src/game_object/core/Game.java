@@ -15,6 +15,7 @@ public class Game {
 	
 	private List<Level> myLevels;
 	private Dimension myScreenSize;
+	private int myFPS;
 
 	private Level myFirstSceneAsLevel;
 	//private TransitionMenu myFirstSceneAsMenu;
@@ -27,10 +28,22 @@ public class Game {
 			DefaultConstants.GAME_WIDTH,
 			DefaultConstants.GAME_HEIGHT
 		);
+		myFPS = 60;
 	}
 	
 	public Dimension getScreenSize() {
 		return myScreenSize;
+	}
+	
+	/**
+	 * FPS
+	 */
+	public void setFPS(int fPS) {
+		myFPS = fPS;
+	}
+	
+	public int getFPS() {
+		return myFPS;
 	}
 	
 	/**
