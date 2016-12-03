@@ -1,6 +1,6 @@
 package network.messages;
 
-import network.Connection;
+import network.core.Connection;
 
 public class HandShake extends SystemOperation<String> {
 

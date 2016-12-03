@@ -7,7 +7,7 @@ package network.exceptions;
  * 
  * @author CharlesXu
  */
-public class SessionExpiredException extends Exception {
+public class SessionExpiredException extends RuntimeException {
 
 	private static final long serialVersionUID = -3226542240801771473L;
 

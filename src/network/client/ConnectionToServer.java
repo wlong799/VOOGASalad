@@ -3,7 +3,7 @@ package network.client;
 import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 
-import network.Connection;
+import network.core.Connection;
 import network.exceptions.MessageCreationFailureException;
 import network.messages.Message;
 import network.messages.MessageType;

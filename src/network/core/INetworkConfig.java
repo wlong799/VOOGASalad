@@ -1,4 +1,4 @@
-package network;
+package network.core;
 
 import java.util.ResourceBundle;
 

@@ -1,7 +1,7 @@
 package network.messages;
 
-import network.Connection;
 import network.client.Multiplexer;
+import network.core.Connection;
 
 /**
  * Special type of message that corresponds to some privileged

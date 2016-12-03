@@ -7,8 +7,8 @@ import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import network.Connection;
 import network.exceptions.SessionExpiredException;
+import network.core.Connection;
 import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;

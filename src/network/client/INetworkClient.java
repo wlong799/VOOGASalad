@@ -2,8 +2,8 @@ package network.client;
 
 import java.util.Queue;
 
-import network.INetworkConfig;
 import network.exceptions.SessionExpiredException;
+import network.core.INetworkConfig;
 import network.exceptions.MessageCreationFailureException;
 import network.messages.Message;
 import network.messages.MessageType;

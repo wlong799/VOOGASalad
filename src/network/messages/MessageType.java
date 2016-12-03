@@ -47,7 +47,7 @@ public enum MessageType {
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException
 				| ClassNotFoundException | ReflectionFoundNoMatchesException e) {
-			throw new MessageCreationFailureException();
+			throw new MessageCreationFailureException(e);
 		}
 		return msg;
 	}

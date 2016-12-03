@@ -8,7 +8,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
-import network.Connection;
+import network.core.Connection;
 import network.messages.Message;
 
 /**

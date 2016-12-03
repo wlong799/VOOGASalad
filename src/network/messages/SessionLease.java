@@ -2,7 +2,7 @@ package network.messages;
 
 import java.util.logging.Logger;
 
-import network.Connection;
+import network.core.Connection;
 import network.exceptions.MessageCreationFailureException;
 
 public class SessionLease extends SystemOperation<String> {

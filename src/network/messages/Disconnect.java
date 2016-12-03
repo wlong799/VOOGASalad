@@ -1,6 +1,6 @@
 package network.messages;
 
-import network.Connection;
+import network.core.Connection;
 
 /**
  * Special type of message to terminal a connection. 

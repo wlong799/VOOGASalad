@@ -3,7 +3,7 @@ package network.server;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import network.INetworkConfig;
+import network.core.INetworkConfig;
 
 /**
  * The main entry to create and run a server instance. 

@@ -6,7 +6,7 @@ package network.exceptions;
  * 
  * @author CharlesXu
  */
-public class ServerDownException extends Exception{
+public class ServerDownException extends RuntimeException {
 
 	private static final long serialVersionUID = 7322465216127304356L;
 	
