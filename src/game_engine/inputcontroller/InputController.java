@@ -49,6 +49,7 @@ public class InputController implements IInputController {
 
 	private void chooseAction(ActionTrigger at) {
 		ISprite sprite = at.getSprite();
+		System.out.println(at.getActionName());
 		if (at.getActionName() == ActionName.MOVE_LEFT) {
 			IMover m = (IMover) sprite;
 			m.moveLeft();

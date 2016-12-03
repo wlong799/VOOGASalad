@@ -10,7 +10,7 @@ import game_object.level.Level;
  */
 public class TransitionManager extends AbstractTransitionManager {
 
-	Level myLevel;
+	private Level myLevel;
 
 	public TransitionManager(Game game, Level currentLevel) {
 		super(game);

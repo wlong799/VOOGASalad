@@ -13,14 +13,12 @@ import authoring.AuthoringController;
 import authoring.view.run.TestGameView;
 import game_engine.GameEngine_Game;
 import game_engine.physics.PhysicsParameterSetOptions;
-import game_object.LevelGenerator;
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 import game_object.character.Hero;
 import game_object.core.Game;
-import game_object.core.ISprite;
 import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
 import javafx.animation.KeyFrame;
@@ -50,7 +48,6 @@ public class TestGameController {
 	private Map<ISpriteVisualization, ImageView> spriteViewMap;
 	private Map<ISpriteVisualization, String> imagePathMap;
 	private Map<Level, Level> running2origin;
-	private Hero hero = null;
 	private Set<KeyEvent> currentlyPressedKeys;
 
 	public TestGameController (AuthoringController topController) {
@@ -63,13 +60,12 @@ public class TestGameController {
 	}
 
 	public void showTestGame() {
-		originalGame = LevelGenerator.getTestGame();
-		//myTopController.getEnvironment().getCurrentGame();
+		originalGame = myTopController.getEnvironment().getCurrentGame();
 		runningGame = copyGame(originalGame);
 		myTestView.updateUI();
 		myGameEngine = new GameEngine_Game(runningGame);
 		myGameEngine.suppressLogDebug();
-		
+
 		initRunning2Origin();
 		clear();
 		initFrame();
@@ -77,13 +73,13 @@ public class TestGameController {
 		myTestView.updateLayout();
 		myTestView.show();
 	}
-	
+
 	public void setParameter(PhysicsParameterSetOptions option, double value) {
 		if (originalLevel == null || runningLevel == null) return;
 		originalLevel.getPhysicsParameters().set(option, value);
 		runningLevel.getPhysicsParameters().set(option, value);
 	}
-	
+
 	private void initRunning2Origin() {
 		//TODO: does not work since here getting read only but game engine is not read only
 		List<Level> origin = originalGame.getAllLevelsReadOnly();
@@ -91,17 +87,15 @@ public class TestGameController {
 		for (int i = 0; i < origin.size(); i++) {
 			running2origin.put(running.get(i), origin.get(i));
 		}
-		System.out.println(running2origin.size());
 	}
-	
+
 	private void clear() {
 		myTestView.clearSpriteViews();
-		hero = null;
 		currentlyPressedKeys.clear();
 		spriteViewMap.clear();
 		imagePathMap.clear();
 	}
-	
+
 	private void initFrame() {
 		frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
 				new EventHandler<ActionEvent>() {
@@ -111,10 +105,8 @@ public class TestGameController {
 				if (runningLevel != currentLevel) {
 					runningLevel = currentLevel;
 					originalLevel = running2origin.get(runningLevel);
-					System.out.println("original" + originalLevel);
 					clear();
 					initSpriteMap();
-					findHero();
 					keyTriggers2Controls();
 				}
 				myGameEngine.setInputList(currentlyPressedKeys);
@@ -123,7 +115,7 @@ public class TestGameController {
 			}
 		});
 	}
-	
+
 	private void updatePositions() {
 		for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
 			//TODO: need to take care the case where new sprites are created (projectiles e.g.)
@@ -138,7 +130,7 @@ public class TestGameController {
 			spriteViewMap.get(sprite).setY(sprite.getYForVisualization());
 		}
 	}
-	
+
 	private void initAnimation() {
 		if (animation != null) {
 			animation.stop();
@@ -160,14 +152,6 @@ public class TestGameController {
 		return image;
 	}
 
-	private void findHero () {
-		for (ISprite sp : runningLevel.getAllSprites()) {
-			if (sp instanceof Hero) {
-				hero = (Hero) sp;
-			}
-		}
-	}
-
 	private void initSpriteMap() {
 		for (ISpriteVisualization sp : runningLevel.getAllSpriteVisualizations()) {
 			ImageView image = createNewImageViewForSprite(sp);
@@ -177,29 +161,31 @@ public class TestGameController {
 	}
 
 	private void keyTriggers2Controls() {
-		if (hero == null) return;
 		myTestView.getScene().setOnKeyReleased(event-> {
-			for(ActionName name : ActionName.values()){
-				ActionTrigger trigger = runningLevel.getTriggerWithSpriteAndAction(hero, name);
-				if (trigger == null) break;
-				Event evt = trigger.getEvent();
+			for (Hero hero : runningLevel.getHeros()) {
+				for(ActionName name : ActionName.values()) {
+					ActionTrigger trigger = runningLevel.getTriggerWithSpriteAndAction(hero, name);
+					if (trigger == null) break;
+					Event evt = trigger.getEvent();
 
-				if (!(evt instanceof KeyEvent)) break;
-				if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
-					currentlyPressedKeys.remove((KeyEvent)evt);
+					if (!(evt instanceof KeyEvent)) break;
+					if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
+						currentlyPressedKeys.remove((KeyEvent)evt);
+					}
 				}
 			}
 		});
-
 		myTestView.getScene().setOnKeyPressed(event -> {
-			for (ActionName name : ActionName.values()) {
-				ActionTrigger trigger = runningLevel.getTriggerWithSpriteAndAction(hero, name);
-				if (trigger == null) break;
-				Event evt = trigger.getEvent();
+			for (Hero hero : runningLevel.getHeros()) {
+				for (ActionName name : ActionName.values()) {
+					ActionTrigger trigger = runningLevel.getTriggerWithSpriteAndAction(hero, name);
+					if (trigger == null) break;
+					Event evt = trigger.getEvent();
 
-				if (!(evt instanceof KeyEvent)) break;
-				if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
-					currentlyPressedKeys.add((KeyEvent)evt);
+					if (!(evt instanceof KeyEvent)) break;
+					if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
+						currentlyPressedKeys.add((KeyEvent)evt);
+					}
 				}
 			}
 		});

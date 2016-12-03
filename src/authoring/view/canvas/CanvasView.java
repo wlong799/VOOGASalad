@@ -1,21 +1,15 @@
 package authoring.view.canvas;
 
 import authoring.AuthoringController;
-import authoring.view.AbstractView;
 import authoring.constants.UIConstants;
 import authoring.controller.CanvasViewController;
+import authoring.view.AbstractView;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Screen;
 
-/**
- * Canvas AbstractView - editor UI
- * need refactor - extract resize, drag methods to a 'controller'
- * using composition
- */
 public class CanvasView extends AbstractView {
 
 
@@ -34,11 +28,10 @@ public class CanvasView extends AbstractView {
         content = new Group();
         background = new HBox();
         background.setPrefWidth(UIConstants.CANVAS_STARTING_WIDTH);
-        background.setPrefHeight(Screen.getPrimary().getVisualBounds().getHeight() -
-                UIConstants.BOTTOM_HEIGHT - UIConstants.TOP_HEIGHT - 40);
-        Rectangle defaultBackground = new Rectangle(0, 0, UIConstants.CANVAS_STARTING_WIDTH,
-                Screen.getPrimary().getVisualBounds().getHeight() - UIConstants.BOTTOM_HEIGHT -
-                        UIConstants.TOP_HEIGHT - 40);
+        background.setPrefHeight(UIConstants.CANVAS_STARTING_HEIGHT);
+        Rectangle defaultBackground = new Rectangle(0, 0, 
+        		UIConstants.CANVAS_STARTING_WIDTH,
+        		UIConstants.CANVAS_STARTING_HEIGHT);
         defaultBackground.setFill(Color.BEIGE);
         background.getChildren().add(defaultBackground);
         content.getChildren().add(background);
