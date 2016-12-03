@@ -7,6 +7,7 @@ public class Weapon {
 	private WeaponSide mySide;
 	
 	public Weapon(double damage, ProjectileModel model, WeaponSide side) {
+		assert !(model.isFollowHero() && side.equals(WeaponSide.HERO_SIDE)) : "Follow Hero weapon must be ENEMY_SIDE";
 		myDamage = damage;
 		myProjectileModel = model;
 		mySide = side;
