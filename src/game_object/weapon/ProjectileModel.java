@@ -38,11 +38,11 @@ public class ProjectileModel {
 		myFollowHero = followHero;
 	}
 
-	public List<String> getImgPath() {
+	public List<String> getImgPaths() {
 		return myImgPaths;
 	}
 
-	public void setImgPath(List<String> imgPaths) {
+	public void setImgPaths(List<String> imgPaths) {
 		myImgPaths = imgPaths;
 	}
 
