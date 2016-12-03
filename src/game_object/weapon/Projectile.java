@@ -28,6 +28,7 @@ public class Projectile extends AbstractSprite {
 	public Projectile(Position position, Dimension dimension, List<String> imagePaths, ProjectileModel model) {
 		super(position, dimension, imagePaths);
 		myModel = model;
+		myVelocity = myModel.getInitalVelocity();
 	}
 	
 	public ProjectileModel getModel() {

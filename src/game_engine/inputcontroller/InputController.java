@@ -1,5 +1,6 @@
 package game_engine.inputcontroller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,9 +23,11 @@ public class InputController implements IInputController {
 	private Set<KeyEvent> myList;
 	private boolean myJump = false;
 	private boolean jumping;
+	private boolean myShoot = false;
+	private boolean shooting;
 	private Level myCurrentLevel;
 	private Game myGame;
-	private boolean exist;
+	private boolean myLeftRightExist;
 
 	public InputController(Game game) {
 		myGame = game;
@@ -39,8 +42,9 @@ public class InputController implements IInputController {
 	@Override
 	public void executeInput() {
 		myCurrentLevel = myGame.getCurrentLevel();
-		exist = false;
+		myLeftRightExist = false;
 		jumping = false;
+		shooting = false;
 		if (myList != null && myList.size() != 0) {
 			for (KeyEvent event : myList) {
 				List<ActionTrigger> trigger = myCurrentLevel.getTriggersWithEvent(event);
@@ -50,6 +54,7 @@ public class InputController implements IInputController {
 			}
 		}
 		myJump = jumping;
+		myShoot = shooting;
 	}
 
 	private void chooseAction(ActionTrigger at) {
@@ -58,24 +63,27 @@ public class InputController implements IInputController {
 		if (at.getActionName() == ActionName.MOVE_LEFT) {
 			IMover m = (IMover) sprite;
 			m.moveLeft();
-			exist = true;
+			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.MOVE_RIGHT) {
 			IMover m = (IMover) sprite;
 			m.moveRight();
-			exist = true;
+			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.JUMP) {
 			if (sprite.getVelocity().getYVelocity() == 0) {
 				myJump = false;
 			}
 			jumping = true;
 			IMover m = (IMover) sprite;
-		if (!myJump) {
+			if (!myJump) {
 				m.jumpUp();
 			}
 		} else if (at.getActionName() == ActionName.SHOOT) {
+			shooting = true;
 			ICharacter character = (ICharacter) sprite;
 			// c.shoot();
-			addProjectile(character);
+			if (!myShoot) {
+				addProjectile(character);
+			}
 		}
 	}
 
@@ -83,12 +91,19 @@ public class InputController implements IInputController {
 		Weapon weapon = character.getCurrentWeapon();
 		ProjectileModel pm = weapon.getProjectileModel();
 		String imgPath = pm.getImgPath();
+		List<String> imgPaths = new ArrayList<String>();
+		imgPaths.add(imgPath);
 		Projectile p = new Projectile(new Position(character.getPosition().getX(), character.getPosition().getY()),
-				new Dimension(5, 5), imgPath, pm);
+				new Dimension(20, 20), imgPaths, pm);
 		myCurrentLevel.getProjectiles().add(p);
+		myCurrentLevel.getAllSprites().add(p);
+		myCurrentLevel.getAllSpriteVisualizations().add(p);
+		//System.out.println(p.getPosition().getX() + " " + p.getPosition().getY() + " " + p.getVelocity().getXVelocity()
+		//		+ " " + p.getVelocity().getYVelocity());
+		System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
 	}
 
 	public boolean getInputExist() {
-		return exist;
+		return myLeftRightExist;
 	}
 }
