@@ -8,6 +8,7 @@ import authoring.controller.chat.ChatController;
 import authoring.controller.run.TestGameController;
 import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
+import game_engine.physics.PhysicsParameterSetOptions;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -78,6 +79,10 @@ public class AuthoringController extends AbstractPublisher {
 			if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
 				canvasViewController.delete(selectedSpriteView);
 			}
+			else if (event.getCode() == KeyCode.ESCAPE) {
+				selectedSpriteView = null;
+				this.notifySubscribers();
+			}
 		});
 		File f = new File("css/style.css");
 		scene.getStylesheets().clear();
@@ -86,6 +91,11 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public void setMouseCursor(Cursor type) {
 		myScene.setCursor(type);
+	}
+	
+	public void setParameter(PhysicsParameterSetOptions option, double value) {
+		testGameController.setParameter(option, value);
+		myEnvironment.getCurrentLevel().getPhysicsParameters().set(option, value);
 	}
 
 }

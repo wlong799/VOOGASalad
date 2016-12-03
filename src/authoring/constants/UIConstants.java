@@ -3,6 +3,7 @@ package authoring.constants;
 public class UIConstants {
 	
 	public static final double CANVAS_STARTING_WIDTH = 1500;
+	public static final double CANVAS_STARTING_HEIGHT = 800;
 	public static final double TOP_HEIGHT = 30;
 	public static final double RIGHT_WIDTH = 200;
 	

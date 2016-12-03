@@ -1,14 +1,11 @@
 package authoring.view.menu.menu_element;
 
+import java.io.File;
+
 import authoring.AuthoringController;
 import authoring.view.menu.AbstractGameMenuElement;
-import game_object.background.Background;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author rachelbransom

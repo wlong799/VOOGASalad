@@ -18,7 +18,7 @@ public class Hero extends AbstractCharacter implements IUpgrader, ITriggerable {
 	public Hero(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 		myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
-		myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
+		myCollisionBitMask = DefaultConstants.BLOCK_CATEGORY_BIT_MASK | DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 	}
 	
 	@Override

@@ -38,6 +38,10 @@ public class TestGameView extends AbstractView {
 	public void addSpriteView(ImageView spView) {
 		myRunningView.addSpriteView(spView);
 	}
+	
+	public void updateUI() {
+		myConfiguringView.updateUI();
+	}
 
 	@Override
 	protected void initUI() {

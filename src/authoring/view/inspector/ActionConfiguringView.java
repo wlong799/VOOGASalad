@@ -163,6 +163,8 @@ public class ActionConfiguringView extends AbstractView {
 			return KeyCode.LEFT;
 		case "right":
 			return KeyCode.RIGHT;
+		case "NONE":
+			return null;
 		default:
 			break;
 		}
