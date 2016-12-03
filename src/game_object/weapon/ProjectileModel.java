@@ -17,6 +17,7 @@ public class ProjectileModel {
 	private boolean myAffectedByGravity;
 	// is the projectile following hero? 
 	private boolean myFollowHero;
+	private WeaponSide mySide;
 	
 	public ProjectileModel(String imgPath, Velocity v, boolean affectedByGravity) {
 		myImgPath = imgPath;
@@ -63,5 +64,14 @@ public class ProjectileModel {
 	public void setFollowHero(boolean followHero) {
 		myFollowHero = followHero;
 	}
+
+	public WeaponSide getSide() {
+		return mySide;
+	}
+
+	public void setSide(WeaponSide side) {
+		mySide = side;
+	}
+	
 	
 }
