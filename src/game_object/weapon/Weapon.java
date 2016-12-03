@@ -1,12 +1,12 @@
 package game_object.weapon;
 
-public abstract class Weapon {
+public class Weapon {
 
 	private double myDamage;
 	private ProjectileModel myProjectileModel;
 	private WeaponSide mySide;
 	
-	private Weapon(double damage, ProjectileModel model, WeaponSide side) {
+	public Weapon(double damage, ProjectileModel model, WeaponSide side) {
 		myDamage = damage;
 		myProjectileModel = model;
 		mySide = side;
