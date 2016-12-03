@@ -89,22 +89,12 @@ public class InputController implements IInputController {
 	private void addProjectile(ICharacter character) {
 		Weapon weapon = character.getCurrentWeapon();
 		ProjectileModel pm = weapon.getProjectileModel();
-		//System.out.println(pm.isAffectedByGravity());
-		//List<String> imagePaths = pm.getImgPaths();
-		//TODO affected by gravity not working when shooting twice
-		//pm.setAffectedByGravity(false);
-		//Projectile p = new Projectile(new Position(character.getPosition().getX(), character.getPosition().getY()), new Dimension(20, 20), imagePaths, pm);
 		Projectile p = pm.newProjectileInstance(new Position(character.getPosition().getX(), character.getPosition().getY()),
 				new Dimension(20, 20));
-		p.setAffectedByPhysics(true);
-		p.getModel().setAffectedByGravity(false);
 		myCurrentLevel.getProjectiles().add(p);
 		myCurrentLevel.getAllSprites().add(p);
 		myCurrentLevel.getAllSpriteVisualizations().add(p);
-		//System.out.println(p.getModel().isAffectedByGravity());
-		//System.out.println(p.getPosition().getX() + " " + p.getPosition().getY() + " " + p.getVelocity().getXVelocity()
-		//		+ " " + p.getVelocity().getYVelocity());
-		//System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
+		System.out.println(myCurrentLevel.getAllSprites().size());
 	}
 
 	public boolean getInputExist() {

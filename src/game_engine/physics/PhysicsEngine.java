@@ -28,10 +28,6 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		}
 		return vx;
 	}
-
-	private double calculateNewHorizontalVelocityHelper(IPhysicsBody body, double elapsedTime) {
-		return 0;
-	}
 	
 	@Override
 	public double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime) {
@@ -46,8 +42,8 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		double newvy;
 		if (body instanceof Projectile) {
 			Projectile projectile = (Projectile) body;
-			System.out.println(projectile.getPosition().getY());
-			if (!projectile.getModel().isAffectedByGravity()) {
+			System.out.println(projectile.getPosition().getX()+" "+projectile.getPosition().getY());
+			if (!projectile.getAffectedByPhysics()) {
 				newvy = projectile.getModel().getInitalVelocity().getYVelocity();
 			} else {
 				newvy = calculateNewVerticalVelocityHelper(body, elapsedTime);

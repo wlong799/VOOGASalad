@@ -69,7 +69,7 @@ public class Level implements ILevelVisualization {
 		spriteList.addAll(myHeros);
 		spriteList.addAll(myEnemies);
 		spriteList.addAll(myStaticBlocks);
-		//spriteList.addAll(myProjectiles);
+		spriteList.addAll(myProjectiles);
 		//not working for game play
 		return spriteList;
 	}
