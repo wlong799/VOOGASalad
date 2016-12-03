@@ -40,6 +40,7 @@ public class GameEngine_Game implements IGameEngine {
 
 	public GameEngine_Game(Game game) {
 		myCurrentLevel = game.getAllLevelsReadOnly().get(0);
+		init();
 		game.setCurrentLevel(myCurrentLevel);
 		myCurrentLevel.init();
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
@@ -48,7 +49,6 @@ public class GameEngine_Game implements IGameEngine {
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		FPS = 120;
 		myElapsedTime = 1.0 / FPS;
-		init();
 	}
 	
 	public void suppressLogDebug() {
@@ -66,6 +66,7 @@ public class GameEngine_Game implements IGameEngine {
 
 	private void init() {
 		setElements(myCurrentLevel);
+		myCurrentLevel.init();
 	}
 
 	@Override

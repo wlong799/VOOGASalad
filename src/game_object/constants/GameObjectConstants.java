@@ -46,6 +46,7 @@ public class GameObjectConstants {
     public static final String WHEEL_FILE = "img/sprites/wheel.png";
     public static final String GIRL_FILE = "img/sprites/xmasgirl1.png";
     public static final String YELLOW_LIGHT_FILE = "img/sprites/yellow_light.png";
+    public static final String BULLET_FILE = "img/sprites/bullet.png";
 
     public static final Component BLUE_SNAIL = new Component(GameObjectType.HERO, BLUE_SNAIL_LEFT, BLUE_SNAIL_RIGHT, "Blue Snail", "A blue snail hero.");
     public static final Component ELIZA = new Component(GameObjectType.HERO, ELIZA_LEFT, ELIZA_RIGHT, "Eliza", "Eliza, a hero.");

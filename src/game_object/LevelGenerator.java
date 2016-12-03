@@ -18,6 +18,9 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import goal.AbstractGoal;
 import goal.position.ReachPointGoal;
+import game_object.weapon.ProjectileModel;
+import game_object.weapon.Weapon;
+import game_object.weapon.WeaponSide;
 import javafx.scene.input.KeyCode;
 
 /**
@@ -71,15 +74,18 @@ public class LevelGenerator {
 		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
 
 		levelA = new Level(game, "TestLevelA");
-
-		levelA.getLevelDimension().setWidth(2000);
-		levelA.getLevelDimension().setHeight(800);
-
-
+		
+		levelA.getLevelDimension().setWidth(800);
+		levelA.getLevelDimension().setHeight(2000);
+		
 		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(40, -80));
 		hero.setImageStyle(ImageStyle.FIT);
-
+		
+		ProjectileModel bulletModel = new ProjectileModel(GameObjectConstants.BULLET_FILE, new Velocity(10, 0), false);
+		Weapon heroWeapon = new Weapon(10, bulletModel, WeaponSide.HERO_SIDE);
+		hero.setCurrentWeapon(heroWeapon);
+		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
 		enemy.setImageStyle(ImageStyle.FIT);
 

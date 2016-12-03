@@ -18,6 +18,7 @@ import game_object.core.Game;
 import game_object.core.ISprite;
 import game_object.visualization.ILevelVisualization;
 import game_object.visualization.ISpriteVisualization;
+import game_object.weapon.Projectile;
 import goal.IGoal;
 
 /**
@@ -38,6 +39,7 @@ public class Level implements ILevelVisualization {
 	private List<Enemy> myEnemies;
 	private List<StaticBlock> myStaticBlocks;
 	private List<ActionTrigger> myTriggers;
+	private List<Projectile> myProjectiles;
 	
 	public Level(Game parentGame, String id) {
 		myParentGame = parentGame;
@@ -46,6 +48,7 @@ public class Level implements ILevelVisualization {
 		myEnemies = new ArrayList<>();
 		myStaticBlocks = new ArrayList<>();
 		myTriggers = new ArrayList<>();
+		myProjectiles = new ArrayList<>();
 		myLevelDimension = new Dimension(DefaultConstants.LEVEL_WIDTH, 
 				DefaultConstants.LEVEL_HEIGHT);
 		myPhysicsParameters = new PhysicsParameters();
@@ -66,6 +69,7 @@ public class Level implements ILevelVisualization {
 		spriteList.addAll(myHeros);
 		spriteList.addAll(myEnemies);
 		spriteList.addAll(myStaticBlocks);
+		spriteList.addAll(myProjectiles);
 		return spriteList;
 	}
 	
@@ -142,9 +146,21 @@ public class Level implements ILevelVisualization {
 	public List<StaticBlock> getStaticBlocks() {
 		return myStaticBlocks;
 	}
+	
+	
+	public List<Projectile> getProjectiles() {
+		return myProjectiles;
+	}
+
+	public void setProjectiles(List<Projectile> projectiles) {
+		myProjectiles = projectiles;
+	}
+	
+	
 	/* ---Accessors for background, characters and blocks END--- */
 
-	
+
+
 	/* Events and Triggers */
 	public List<ActionTrigger> getAllTriggers() {
 		return myTriggers;

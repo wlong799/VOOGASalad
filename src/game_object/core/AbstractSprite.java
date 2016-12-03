@@ -23,7 +23,7 @@ public abstract class AbstractSprite implements ISprite {
 		staticPivotPosition = new Position(0, 0);
 	}
 	
-	protected AbstractSprite(Position position, Dimension dimension, List<String> imagePaths) {
+	public AbstractSprite(Position position, Dimension dimension, List<String> imagePaths) {
 		myPosition = position;
 		myDimension = dimension;
 		myImagePaths = imagePaths;
