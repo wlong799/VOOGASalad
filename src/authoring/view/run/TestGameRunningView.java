@@ -2,7 +2,7 @@ package authoring.view.run;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
-import javafx.scene.image.ImageView;
+import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 
@@ -15,12 +15,8 @@ public class TestGameRunningView extends AbstractView {
 		super(controller);
 	}
 	
-	public void clearSpriteViews() {
-		myPane.getChildren().clear();
-	}
-	
-	public void addSpriteView(ImageView spView) {
-		myPane.getChildren().add(spView);
+	public void setRoot(Group root) {
+		myPane.getChildren().add(root);
 	}
 
 	@Override

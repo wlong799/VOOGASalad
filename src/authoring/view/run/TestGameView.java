@@ -6,7 +6,6 @@ import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -30,13 +29,9 @@ public class TestGameView extends AbstractView {
 	public Scene getScene() {
 		return myScene;
 	}
-
-	public void clearSpriteViews() {
-		myRunningView.clearSpriteViews();
-	}
-
-	public void addSpriteView(ImageView spView) {
-		myRunningView.addSpriteView(spView);
+	
+	public void setRunningRoot(Group root) {
+		myRunningView.setRoot(root);
 	}
 	
 	public void updateUI() {
