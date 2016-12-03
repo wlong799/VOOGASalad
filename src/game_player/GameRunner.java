@@ -103,7 +103,7 @@ public class GameRunner {
 	}
 
 	private void initFrame() {
-		frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
+		frame = new KeyFrame(Duration.millis(1000.0 / runningGame.getFPS()),
 				new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
@@ -117,7 +117,7 @@ public class GameRunner {
 					keyTriggers2Controls();
 				}
 				myGameEngine.setInputList(currentlyPressedKeys);
-				myGameEngine.update(5.0 / 60.0);
+				myGameEngine.update(5.0 / runningGame.getFPS());
 				updatePositions();
 			}
 		});
