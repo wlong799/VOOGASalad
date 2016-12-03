@@ -68,7 +68,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	
 	@Override
 	public Weapon getCurrentWeapon() {
-		ExceptionThrower.notYetSupported();
+		//ExceptionThrower.notYetSupported();
 		return myCurrentWeapon;
 	}
 
