@@ -73,10 +73,10 @@ public class LevelGenerator {
 		ArrayList<String> blockImages = new ArrayList<>();
 		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
 
-		Level level = new Level(game, "TestLevelA");
+		levelA = new Level(game, "TestLevelA");
 		
-		level.getLevelDimension().setWidth(800);
-		level.getLevelDimension().setHeight(2000);
+		levelA.getLevelDimension().setWidth(800);
+		levelA.getLevelDimension().setHeight(2000);
 		
 		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(40, -80));

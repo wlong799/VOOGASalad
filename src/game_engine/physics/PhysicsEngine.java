@@ -4,6 +4,7 @@ import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
+import game_object.weapon.Projectile;
 import game_object.weapon.Weapon;
 
 /**
@@ -41,10 +42,10 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	@Override
 	public double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
 		double newvy;
-		if (body instanceof Weapon) {
-			Weapon weapon = (Weapon) body;
-			if (!weapon.getProjectileModel().isAffectedByGravity()) {
-				newvy = weapon.getProjectileModel().getInitalVelocity().getYVelocity();
+		if (body instanceof Projectile) {
+			Projectile projectile = (Projectile) body;
+			if (!projectile.getModel().isAffectedByGravity()) {
+				newvy = projectile.getModel().getInitalVelocity().getYVelocity();
 			} else {
 				newvy = calculateNewVerticalVelocityHelper(body, elapsedTime);
 			}

@@ -9,8 +9,13 @@ import game_object.acting.KeyEvent;
 import game_object.character.ICharacter;
 import game_object.character.IMover;
 import game_object.core.ISprite;
+import game_object.core.Position;
+import game_object.core.Dimension;
 import game_object.core.Game;
 import game_object.level.Level;
+import game_object.weapon.Projectile;
+import game_object.weapon.ProjectileModel;
+import game_object.weapon.Weapon;
 
 public class InputController implements IInputController {
 
@@ -22,7 +27,7 @@ public class InputController implements IInputController {
 	private boolean exist;
 
 	public InputController(Game game) {
-	    myGame = game;
+		myGame = game;
 		myCurrentLevel = game.getCurrentLevel();
 	}
 
@@ -33,7 +38,7 @@ public class InputController implements IInputController {
 
 	@Override
 	public void executeInput() {
-	    myCurrentLevel = myGame.getCurrentLevel();
+		myCurrentLevel = myGame.getCurrentLevel();
 		exist = false;
 		jumping = false;
 		if (myList != null && myList.size() != 0) {
@@ -64,13 +69,23 @@ public class InputController implements IInputController {
 			}
 			jumping = true;
 			IMover m = (IMover) sprite;
-			if (!myJump) {
+		if (!myJump) {
 				m.jumpUp();
 			}
 		} else if (at.getActionName() == ActionName.SHOOT) {
-			ICharacter c = (ICharacter) sprite;
-			c.shoot();
+			ICharacter character = (ICharacter) sprite;
+			// c.shoot();
+			addProjectile(character);
 		}
+	}
+
+	private void addProjectile(ICharacter character) {
+		Weapon weapon = character.getCurrentWeapon();
+		ProjectileModel pm = weapon.getProjectileModel();
+		String imgPath = pm.getImgPath();
+		Projectile p = new Projectile(new Position(character.getPosition().getX(), character.getPosition().getY()),
+				new Dimension(5, 5), imgPath, pm);
+		myCurrentLevel.getProjectiles().add(p);
 	}
 
 	public boolean getInputExist() {
