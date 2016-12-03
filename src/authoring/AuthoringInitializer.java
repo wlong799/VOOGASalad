@@ -1,16 +1,12 @@
 package authoring;
 
-import java.io.IOException;
-
 import authoring.view.AuthoringView;
 import game_object.LevelGenerator;
 import game_object.core.Game;
-import game_object.level.Level;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import network.server.Coordinator;
 
 public class AuthoringInitializer {
 	
@@ -35,11 +31,6 @@ public class AuthoringInitializer {
 		
 		environment = initEnvironment();
 		
-		try {
-			new Coordinator(9999);
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
 		AuthoringController controller = new AuthoringController(environment);
 		authoringView = new AuthoringView(controller);
 		authoringView.setSize(width, height);
@@ -52,9 +43,7 @@ public class AuthoringInitializer {
 	}
 
 	private AuthorEnvironment initEnvironment() {
-		Game game = new Game();
-		Level testLevel = LevelGenerator.getTestLevelB();
-		game.addLevel(testLevel);
+		Game game = LevelGenerator.getTestGame();
 		AuthorEnvironment env = new AuthorEnvironment();
 		env.addGame(game);
 		env.setCurrentGame(0);

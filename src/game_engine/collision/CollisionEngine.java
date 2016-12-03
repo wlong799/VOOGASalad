@@ -66,7 +66,7 @@ public class CollisionEngine extends AbstractCollisionEngine {
                 double r = c.getPosition().getX() + c.getDimension().getWidth();
                 // System.out.println("Character right at " +r);
                 // System.out.println("Block at " + block.getPosition());
-                if ((c.getCategoryBitMask() & block.getCollisionBitMask()) != 0) {
+                if ((c.getCategoryBitMask() & block.getCollisionBitMask()) != 0 && ((block.getCategoryBitMask() & c.getCollisionBitMask()) != 0)) {
                     CollisionDirection collision = getCharacterCollision(c, block);
 
                     updateCharacterOnCollision(c, block, collision);
@@ -83,7 +83,9 @@ public class CollisionEngine extends AbstractCollisionEngine {
     private void updateCharacterOnCollision (ICharacter c,
                                              ISprite other,
                                              CollisionDirection collision) {
+       
         if (collision != CollisionDirection.NONE) {
+            //logSuppressed = false;
             if (!logSuppressed) {
                 System.out.println(collision);
                 System.out.println("Collision between " + c.toString() + " and " + other);
