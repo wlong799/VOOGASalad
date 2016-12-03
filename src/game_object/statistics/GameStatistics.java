@@ -20,10 +20,25 @@ public class GameStatistics {
 	public GameStatistics(Game game) {
 		myGame = game;
 		myValidFieldsMap = new HashMap<>();
+		enableAll();
 	}
 	
 	private Hero getHeroWithIndex(int index) {
 		return myGame.getCurrentLevel().getHeros().get(index);
+	}
+	
+	private void applyToAll(boolean valid) {
+		for (StatisticsField field : StatisticsField.values()) {
+			setValid(field, valid);
+		}
+	}
+	
+	public void enableAll() {
+		applyToAll(true);
+	}
+	
+	public void disableAll() {
+		applyToAll(false);
 	}
 	
 	public void setValid(StatisticsField field, boolean valid) {
