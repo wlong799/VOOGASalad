@@ -41,4 +41,8 @@ public class TransitionManager extends AbstractTransitionManager {
 		return null;
 	}
 
+	public void setLevel(Level level) {
+		myLevel = level;
+	}
+	
 }

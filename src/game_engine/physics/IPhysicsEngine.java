@@ -2,6 +2,7 @@ package game_engine.physics;
 
 import game_object.core.Position;
 import game_object.core.Velocity;
+import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 
 /**
@@ -105,4 +106,10 @@ public interface IPhysicsEngine {
 	 * @param exist
 	 */
 	public void setExisted(boolean exist);
+	
+	/**
+	 * Changes the level the physicsEngine is interacting with
+	 * @param level
+	 */
+	public void setLevel(Level level);
 }
