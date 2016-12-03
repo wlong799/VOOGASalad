@@ -81,8 +81,8 @@ public class GameRunner {
 		myGameEngine = new GameEngine_Game(runningGame);
 		myGameEngine.suppressLogDebug();
 
-		initRunning2Origin();
 		clear();
+		initRunning2Origin();
 		initFrame();
 		initAnimation();
 	}
