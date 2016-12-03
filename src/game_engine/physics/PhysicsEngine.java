@@ -4,6 +4,7 @@ import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
+import game_object.weapon.Weapon;
 
 /**
  * Engine that calculates all the velocity and position.
@@ -25,6 +26,10 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		return vx;
 	}
 
+	private double calculateNewHorizontalVelocityHelper(IPhysicsBody body, double elapsedTime) {
+		return 0;
+	}
+	
 	@Override
 	public double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime) {
 		double x = body.getPosition().getX();
@@ -35,14 +40,30 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 
 	@Override
 	public double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
-		double vy = body.getVelocity().getYVelocity();
-		double newvy = vy + elapsedTime * myLevel.getPhysicsParameters().getGravity();
-		if (Math.abs(newvy) > myLevel.getPhysicsParameters().getMaxThreshold()) {
-			newvy = newvy > 0 ? myLevel.getPhysicsParameters().getMaxThreshold() : -myLevel.getPhysicsParameters().getMaxThreshold();
+		double newvy;
+		if (body instanceof Weapon) {
+			Weapon weapon = (Weapon) body;
+			if (!weapon.getProjectileModel().isAffectedByGravity()) {
+				newvy = weapon.getProjectileModel().getInitalVelocity().getYVelocity();
+			} else {
+				newvy = calculateNewVerticalVelocityHelper(body, elapsedTime);
+			}
+		} else {
+			newvy = calculateNewVerticalVelocityHelper(body, elapsedTime);
 		}
 		return newvy;
 	}
 
+	private double calculateNewVerticalVelocityHelper(IPhysicsBody body, double elapsedTime) {
+		double vy = body.getVelocity().getYVelocity();
+		double newvy = vy + elapsedTime * myLevel.getPhysicsParameters().getGravity();
+		if (Math.abs(newvy) > myLevel.getPhysicsParameters().getMaxThreshold()) {
+			newvy = newvy > 0 ? myLevel.getPhysicsParameters().getMaxThreshold()
+					: -myLevel.getPhysicsParameters().getMaxThreshold();
+		}
+		return newvy;
+	}
+	
 	@Override
 	public double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime) {
 		double y = body.getPosition().getY();
