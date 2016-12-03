@@ -1,5 +1,7 @@
 package game_engine.physics;
 
+import game_object.character.Enemy;
+import game_object.character.Hero;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.level.Level;
@@ -44,6 +46,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		double newvy;
 		if (body instanceof Projectile) {
 			Projectile projectile = (Projectile) body;
+			System.out.println(projectile.getPosition().getY());
 			if (!projectile.getModel().isAffectedByGravity()) {
 				newvy = projectile.getModel().getInitalVelocity().getYVelocity();
 			} else {

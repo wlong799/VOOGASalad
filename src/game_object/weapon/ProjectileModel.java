@@ -1,5 +1,10 @@
 package game_object.weapon;
 
+import game_object.core.Position;
+
+import java.util.List;
+
+import game_object.core.Dimension;
 import game_object.core.Velocity;
 
 /**
@@ -11,34 +16,34 @@ import game_object.core.Velocity;
  */
 public class ProjectileModel {
 
-	private String myImgPath;
+	private List<String> myImgPaths;
 	private Velocity myInitalVelocity;
 	// is the projectile subject to gravity (so that the path will be a parabola)
 	private boolean myAffectedByGravity;
 	// is the projectile following hero? 
 	private boolean myFollowHero;
-	private WeaponSide mySide;
+	private int myCollisionBitMask;
 	
-	public ProjectileModel(String imgPath, Velocity v, boolean affectedByGravity) {
-		myImgPath = imgPath;
+	public ProjectileModel(List<String> imgPaths, Velocity v, boolean affectedByGravity) {
+		myImgPaths = imgPaths;
 		myInitalVelocity = v;
 		myAffectedByGravity = affectedByGravity;
 		myFollowHero = false;
 	}
 	
-	public ProjectileModel(String imgPath, Velocity v, boolean affectedByGravity, boolean followHero) {
-		myImgPath = imgPath;
+	public ProjectileModel(List<String> imgPaths, Velocity v, boolean affectedByGravity, boolean followHero) {
+		myImgPaths = imgPaths;
 		myInitalVelocity = v;
 		myAffectedByGravity = affectedByGravity;
 		myFollowHero = followHero;
 	}
 
-	public String getImgPath() {
-		return myImgPath;
+	public List<String> getImgPaths() {
+		return myImgPaths;
 	}
 
-	public void setImgPath(String imgPath) {
-		myImgPath = imgPath;
+	public void setImgPaths(List<String> imgPaths) {
+		myImgPaths = imgPaths;
 	}
 
 	public Velocity getInitalVelocity() {
@@ -65,13 +70,16 @@ public class ProjectileModel {
 		myFollowHero = followHero;
 	}
 
-	public WeaponSide getSide() {
-		return mySide;
+	public int getCollisionBitMask() {
+		return myCollisionBitMask;
 	}
 
-	public void setSide(WeaponSide side) {
-		mySide = side;
+	public void setCollisionBitMask(int collisionBitMask) {
+		myCollisionBitMask = collisionBitMask;
 	}
 	
+	public Projectile newProjectileInstance(Position position, Dimension dimension) {
+		return new Projectile(position, dimension, myImgPaths, this);
+	}
 	
 }

@@ -18,7 +18,8 @@ public class Enemy extends AbstractCharacter {
 		myCategoryBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 		myCollisionBitMask =
 			DefaultConstants.HERO_CATEGORY_BIT_MASK |
-			DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
+			DefaultConstants.BLOCK_CATEGORY_BIT_MASK | 
+			DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
 	}
 
 	public void setBodyDamage(double bodyDamage) {

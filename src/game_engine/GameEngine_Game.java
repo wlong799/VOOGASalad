@@ -23,6 +23,7 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
+import game_object.weapon.Projectile;
 import goal.IGoal;
 
 public class GameEngine_Game implements IGameEngine {
@@ -32,9 +33,7 @@ public class GameEngine_Game implements IGameEngine {
 	private ICollisionEngine myCollisionEngine;
 	private ITransitionManager myTransitionManager;
 	private InputController myInputController;
-	private List<ISprite> mySprites;
 	private double myElapsedTime;
-	private boolean runFlag = true;
 	private int FPS;
 	private boolean logSuppressed = false;
 
@@ -50,28 +49,28 @@ public class GameEngine_Game implements IGameEngine {
 		FPS = 120;
 		myElapsedTime = 1.0 / FPS;
 	}
-	
+
 	public void suppressLogDebug() {
-		logSuppressed  = true;
+		logSuppressed = true;
 		myCollisionEngine.suppressLogDebug();
 	}
 
-//	public void run() {
-//		while (runFlag == true) {
-//			update(myElapsedTime);
-//			draw();
-//			endCheck();
-//		}
-//	}
+	// public void run() {
+	// while (runFlag == true) {
+	// update(myElapsedTime);
+	// draw();
+	// endCheck();
+	// }
+	// }
 
 	private void init() {
-		setElements(myCurrentLevel);
+		// setElements(myCurrentLevel);
 		myCurrentLevel.init();
 	}
 
 	@Override
 	public void shutdown() {
-		runFlag = false;
+		return;
 	}
 
 	public void draw() {
@@ -80,17 +79,20 @@ public class GameEngine_Game implements IGameEngine {
 
 	@Override
 	public void update(double elapsedTime) {
-	        
+
 		setElapsedTime(elapsedTime);
 		executeInput();
-		for (ISprite s : mySprites) {
+		for (ISprite s : myCurrentLevel.getAllSprites()) {
 			updateNewParameters(s);
 		}
+		// System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
 		if (!logSuppressed) {
 			System.out.println(myCurrentLevel.getHeros().get(0));
 		}
 		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
-				myCurrentLevel.getStaticBlocks());
+				myCurrentLevel.getStaticBlocks()
+		// myCurrentLevel.getProjectiles(),
+		);
 		updateScrolling();
 		endCheck();
 	}
@@ -109,7 +111,7 @@ public class GameEngine_Game implements IGameEngine {
 	public void setParameter(PhysicsParameterSetOptions option, double value) {
 		myPhysicsEngine.setParameters(option, value);
 	}
-	
+
 	private void updateScrolling() {
 		Hero pivotHero = myCurrentLevel.getHeros().get(0);
 		if (pivotHero != null) {
@@ -121,14 +123,18 @@ public class GameEngine_Game implements IGameEngine {
 	private void updateNewParameters(IPhysicsBody body) {
 		if (body.getAffectedByPhysics()) {
 			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
+//			if (body instanceof Projectile) {
+//				Projectile projectile = (Projectile) body;
+//				System.out.println(projectile.getModel().isAffectedByGravity());
+//			}
 			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
 		}
 	}
 
-	private void setElements(Level level) {
-		mySprites = level.getAllSprites();
-	}
+	// private void setElements(Level level) {
+	// mySprites = level.getAllSprites();
+	// }
 
 	private void endCheck() {
 		WinStatus ws = checkWin();
@@ -138,8 +144,9 @@ public class GameEngine_Game implements IGameEngine {
 				System.out.println(myCurrentLevel);
 				System.out.println(myCurrentLevel);
 			}
-		
-		    myCurrentLevel = myTransitionManager.readWinStatus(ws);
+
+			myCurrentLevel = myTransitionManager.readWinStatus(ws);
+			myPhysicsEngine.setLevel(myCurrentLevel);
 			
 			if (myCurrentLevel == null) {
 				shutdown();
@@ -151,10 +158,10 @@ public class GameEngine_Game implements IGameEngine {
 	private WinStatus checkWin() {
 		List<IGoal> myGoals = myCurrentLevel.getAllGoals();
 		for (IGoal g : myGoals) {
-			
-		    /*if (g instanceof TimeGoal) {
-				((TimeGoal) g).setCurrentTime(0);
-			}*/
+
+			/*
+			 * if (g instanceof TimeGoal) { ((TimeGoal) g).setCurrentTime(0); }
+			 */
 			if (g.checkGoal()) {
 				return g.getResult();
 			}
