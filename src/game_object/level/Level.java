@@ -69,8 +69,7 @@ public class Level implements ILevelVisualization {
 		spriteList.addAll(myHeros);
 		spriteList.addAll(myEnemies);
 		spriteList.addAll(myStaticBlocks);
-		//spriteList.addAll(myProjectiles);
-		//not working for game play
+		spriteList.addAll(getRuntimeSprites());
 		return spriteList;
 	}
 	
@@ -156,15 +155,7 @@ public class Level implements ILevelVisualization {
 	public List<Projectile> getProjectiles() {
 		return myProjectiles;
 	}
-
-	public void setProjectiles(List<Projectile> projectiles) {
-		myProjectiles = projectiles;
-	}
-	
-	
 	/* ---Accessors for background, characters and blocks END--- */
-
-
 
 	/* Events and Triggers */
 	public List<ActionTrigger> getAllTriggers() {
@@ -204,23 +195,33 @@ public class Level implements ILevelVisualization {
 	/* ---Goals END--- */
 	
 	/* ILevelVisualization Implementations */
-	List<ISpriteVisualization> mySpriteVisualizations;
-	Hero pivotHero;
+	private List<ISpriteVisualization> myFixedSpriteVisualizations;
 	
 	@Override
 	public void init() {
-		mySpriteVisualizations = new ArrayList<>();
+		myFixedSpriteVisualizations = new ArrayList<>();
 		List<ISprite> allSprites = getAllSprites();
 		allSprites.sort((s1, s2) ->
 			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
 		);
-		mySpriteVisualizations.addAll(allSprites);
+		myFixedSpriteVisualizations.addAll(allSprites);
 		AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
 	}
 	
 	@Override
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
-		return mySpriteVisualizations;
+		List<ISpriteVisualization> visuals = new ArrayList<>();
+		visuals.addAll(myFixedSpriteVisualizations);
+		visuals.addAll(getRuntimeSprites());
+		return visuals;
 	}
 	/* ---ILevelVisualization Implementations END--- */
+	
+	/* private */
+	private List<ISprite> getRuntimeSprites() {
+		List<ISprite> runtimeSprites = new ArrayList<>();
+		runtimeSprites.addAll(myProjectiles);
+		return runtimeSprites;
+	}
+	/* private END--- */
 }
