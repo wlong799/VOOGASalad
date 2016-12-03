@@ -90,7 +90,7 @@ public class InputController implements IInputController {
 	private void addProjectile(ICharacter character) {
 		Weapon weapon = character.getCurrentWeapon();
 		ProjectileModel pm = weapon.getProjectileModel();
-		String imgPath = pm.getImgPaths().get(0); // just take the first image, since getImgPaths return a List<String>
+		String imgPath = pm.getImagePaths().get(0); // just take the first image, since getImgPaths return a List<String>
 		List<String> imgPaths = new ArrayList<String>();
 		imgPaths.add(imgPath);
 		Projectile p = new Projectile(new Position(character.getPosition().getX(), character.getPosition().getY()),
