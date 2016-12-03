@@ -1,6 +1,8 @@
 package game_engine.inputcontroller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
@@ -8,37 +10,51 @@ import game_object.acting.KeyEvent;
 import game_object.character.ICharacter;
 import game_object.character.IMover;
 import game_object.core.ISprite;
+import game_object.core.Position;
+import game_object.core.Dimension;
+import game_object.core.Game;
 import game_object.level.Level;
+import game_object.weapon.Projectile;
+import game_object.weapon.ProjectileModel;
+import game_object.weapon.Weapon;
 
 public class InputController implements IInputController {
 
-	private List<KeyEvent> myList;
-	private Level myLevel;
-	private boolean exist;
+	private Set<KeyEvent> myList;
+	private boolean myJump = false;
+	private boolean jumping;
+	private boolean myShoot = false;
+	private boolean shooting;
+	private Level myCurrentLevel;
+	private Game myGame;
+	private boolean myLeftRightExist;
 
-	public InputController(Level level) {
-		myLevel = level;
+	public InputController(Game game) {
+		myGame = game;
+		myCurrentLevel = game.getCurrentLevel();
 	}
 
 	@Override
-	public void setInputList(List<KeyEvent> list) {
+	public void setInputList(Set<KeyEvent> list) {
 		myList = list;
 	}
 
 	@Override
 	public void executeInput() {
-		exist = false;
-		KeyEvent event;
-		if (myList == null || myList.size() == 0) {
-			return;
+		myCurrentLevel = myGame.getCurrentLevel();
+		myLeftRightExist = false;
+		jumping = false;
+		shooting = false;
+		if (myList != null && myList.size() != 0) {
+			for (KeyEvent event : myList) {
+				List<ActionTrigger> trigger = myCurrentLevel.getTriggersWithEvent(event);
+				for (ActionTrigger actionTrigger : trigger) {
+					chooseAction(actionTrigger);
+				}
+			}
 		}
-		event = myList.get(0);
-		List<ActionTrigger> trigger = myLevel.getTriggersWithEvent(event);
-
-		for (ActionTrigger actionTrigger : trigger) {
-			chooseAction(actionTrigger);
-		}
-		// System.out.println(exist);
+		myJump = jumping;
+		myShoot = shooting;
 	}
 
 	private void chooseAction(ActionTrigger at) {
@@ -46,23 +62,52 @@ public class InputController implements IInputController {
 		if (at.getActionName() == ActionName.MOVE_LEFT) {
 			IMover m = (IMover) sprite;
 			m.moveLeft();
-			exist = true;
+			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.MOVE_RIGHT) {
 			IMover m = (IMover) sprite;
 			m.moveRight();
-			exist = true;
+			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.JUMP) {
-			IMover m = (IMover) sprite;
 			if (sprite.getVelocity().getYVelocity() == 0) {
+				myJump = false;
+			}
+			jumping = true;
+			IMover m = (IMover) sprite;
+			if (!myJump) {
 				m.jumpUp();
 			}
 		} else if (at.getActionName() == ActionName.SHOOT) {
-			ICharacter c = (ICharacter) sprite;
-			c.shoot();
+			shooting = true;
+			ICharacter character = (ICharacter) sprite;
+			// c.shoot();
+			if (!myShoot) {
+				addProjectile(character);
+			}
 		}
 	}
 
+	private void addProjectile(ICharacter character) {
+		Weapon weapon = character.getCurrentWeapon();
+		ProjectileModel pm = weapon.getProjectileModel();
+		//System.out.println(pm.isAffectedByGravity());
+		//List<String> imagePaths = pm.getImgPaths();
+		//TODO affected by gravity not working when shooting twice
+		//pm.setAffectedByGravity(false);
+		//Projectile p = new Projectile(new Position(character.getPosition().getX(), character.getPosition().getY()), new Dimension(20, 20), imagePaths, pm);
+		Projectile p = pm.newProjectileInstance(new Position(character.getPosition().getX(), character.getPosition().getY()),
+				new Dimension(20, 20));
+		p.setAffectedByPhysics(true);
+		p.getModel().setAffectedByGravity(false);
+		myCurrentLevel.getProjectiles().add(p);
+		myCurrentLevel.getAllSprites().add(p);
+		myCurrentLevel.getAllSpriteVisualizations().add(p);
+		//System.out.println(p.getModel().isAffectedByGravity());
+		//System.out.println(p.getPosition().getX() + " " + p.getPosition().getY() + " " + p.getVelocity().getXVelocity()
+		//		+ " " + p.getVelocity().getYVelocity());
+		//System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
+	}
+
 	public boolean getInputExist() {
-		return exist;
+		return myLeftRightExist;
 	}
 }

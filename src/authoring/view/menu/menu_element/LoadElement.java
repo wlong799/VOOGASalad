@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import authoring.AuthoringController;
 import authoring.view.menu.AbstractGameMenuElement;
-import game_object.framework.Game;
+import game_object.core.Game;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 
@@ -13,7 +13,7 @@ public class LoadElement extends AbstractGameMenuElement {
 	
 	private FileChooser fileChooser;
 	private static final String CHOOSER_TITLE = "Load Game File";
-	private static final String MENU_NAME = "Load";
+	private static final String MENU_NAME = "Load Game";
 
     private LoadElement(AuthoringController controller) {
         super(MENU_NAME, controller);

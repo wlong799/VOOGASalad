@@ -1,11 +1,15 @@
 package authoring.view.components;
 
+import java.io.File;
+import java.util.Optional;
+
 import authoring.AuthoringController;
 import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import game_object.constants.GameObjectConstants;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextInputDialog;
@@ -13,9 +17,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.util.Optional;
 
 public class ComponentPanelView extends AbstractView {
     private static final double LIST_WIDTH_RATIO = 0.9;
@@ -36,7 +37,6 @@ public class ComponentPanelView extends AbstractView {
         myContent = new HBox();
         myContent.setAlignment(Pos.CENTER);
         myTabPane = new TabPane();
-        myTabPane.getStyleClass().add("data/css/style2.css");
 
         myButtonImageView = new ImageView(GameObjectConstants.UPLOAD);
         myButtonImageView.setPreserveRatio(true);
@@ -81,7 +81,9 @@ public class ComponentPanelView extends AbstractView {
         Tab newTab = new Tab(tabName);
         setTabStyle(newTab);
         newTab.setClosable(false);
-        newTab.setContent(componentListView.getUI());
+        final ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(componentListView.getUI());
+        newTab.setContent(scrollPane);
         myTabPane.getTabs().add(newTab);
         addSubView(componentListView);
     }
@@ -125,4 +127,5 @@ public class ComponentPanelView extends AbstractView {
         Optional<String> result = dialog.showAndWait();
         return result.isPresent() ? result.get() : null;
     }
+    
 }

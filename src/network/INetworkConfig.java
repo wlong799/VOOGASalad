@@ -18,4 +18,5 @@ public interface INetworkConfig {
 	
 	public static final String PROD_SERVER_NAME = PROD.getString("ServerName");
 	public static final int PROD_SERVER_PORT = Integer.parseInt(PROD.getString("ServerPort"));
+	
 }

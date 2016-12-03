@@ -2,9 +2,10 @@ package authoring.view.run;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
+import game_object.constants.DefaultConstants;
+import game_object.core.Dimension;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -28,27 +29,34 @@ public class TestGameView extends AbstractView {
 	public Scene getScene() {
 		return myScene;
 	}
-
-	public void clearSpriteViews() {
-		myRunningView.clearSpriteViews();
+	
+	public void setRunningRoot(Group root) {
+		myRunningView.setRoot(root);
 	}
-
-	public void addSpriteView(ImageView spView) {
-		myRunningView.addSpriteView(spView);
+	
+	public void updateUI() {
+		myConfiguringView.updateUI();
 	}
 
 	@Override
 	protected void initUI() {
 		myStage = new Stage();
+		myStage.setResizable(false);
 		myGroup = new Group();
 		myRunningView = new TestGameRunningView(this.getController());
 		myConfiguringView = new TestGameConfiguringView(this.getController());
 		this.addSubViews(myRunningView, myConfiguringView);
 		myGroup.getChildren().addAll(myRunningView.getUI(), myConfiguringView.getUI());
-
-		myScene = new Scene(myGroup, 900, 600, Color.WHITE);
-		this.setWidth(900);
-		this.setHeight(600);
+		Dimension gameScreenSize = 
+				this.getController().getEnvironment().getCurrentGame().getScreenSize();
+		myScene = new Scene(
+			myGroup,
+			gameScreenSize.getWidth() + DefaultConstants.TEST_CONFIGURE_WIDTH,
+			gameScreenSize.getHeight(),
+			Color.WHITE
+		);
+		this.setWidth(gameScreenSize.getWidth() + DefaultConstants.TEST_CONFIGURE_WIDTH);
+		this.setHeight(gameScreenSize.getHeight());
 		myScene.heightProperty().addListener((obv, oldVal, newVal) -> {
 			this.setHeight(newVal.doubleValue());
 			this.updateLayout();
@@ -62,9 +70,12 @@ public class TestGameView extends AbstractView {
 
 	@Override
 	protected void updateLayoutSelf() {
-		myRunningView.setSize(this.getWidth() - 200, this.getHeight());
-		myConfiguringView.setSize(200, this.getHeight());
-		myConfiguringView.setPositionX(this.getWidth() - 200);
+		myRunningView.setSize(
+				this.getWidth() - DefaultConstants.TEST_CONFIGURE_WIDTH, this.getHeight());
+		myConfiguringView.setSize(
+				DefaultConstants.TEST_CONFIGURE_WIDTH, this.getHeight());
+		myConfiguringView.setPositionX(
+				this.getWidth() - DefaultConstants.TEST_CONFIGURE_WIDTH);
 	}
 
 }

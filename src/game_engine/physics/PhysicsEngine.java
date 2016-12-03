@@ -1,8 +1,13 @@
 package game_engine.physics;
 
+import game_object.character.Enemy;
+import game_object.character.Hero;
 import game_object.core.Position;
 import game_object.core.Velocity;
+import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
+import game_object.weapon.Projectile;
+import game_object.weapon.Weapon;
 
 /**
  * Engine that calculates all the velocity and position.
@@ -11,12 +16,12 @@ import game_object.simulation.IPhysicsBody;
  */
 public class PhysicsEngine extends AbstractPhysicsEngine {
 
-	public PhysicsEngine() {
-		super();
+	public PhysicsEngine(Level level) {
+		super(level);
 	}
 
 	@Override
-	protected double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
+	public double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
 		double vx = body.getVelocity().getXVelocity();
 		if (calculateNewVerticalVelocity(body, elapsedTime) == 0 && !existLeftRight) {
 			vx = 0;
@@ -24,8 +29,12 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		return vx;
 	}
 
+	private double calculateNewHorizontalVelocityHelper(IPhysicsBody body, double elapsedTime) {
+		return 0;
+	}
+	
 	@Override
-	protected double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime) {
+	public double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime) {
 		double x = body.getPosition().getX();
 		double vx = calculateNewHorizontalVelocity(body, elapsedTime);
 		double newx = x + elapsedTime * vx;
@@ -33,17 +42,34 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	}
 
 	@Override
-	protected double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
-		double vy = body.getVelocity().getYVelocity();
-		double newvy = vy + elapsedTime * myParams.getGravity();
-		if (Math.abs(newvy) > myParams.getMaxThreshold()) {
-			newvy = newvy > 0 ? myParams.getMaxThreshold() : -myParams.getMaxThreshold();
+	public double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
+		double newvy;
+		if (body instanceof Projectile) {
+			Projectile projectile = (Projectile) body;
+			System.out.println(projectile.getPosition().getY());
+			if (!projectile.getModel().isAffectedByGravity()) {
+				newvy = projectile.getModel().getInitalVelocity().getYVelocity();
+			} else {
+				newvy = calculateNewVerticalVelocityHelper(body, elapsedTime);
+			}
+		} else {
+			newvy = calculateNewVerticalVelocityHelper(body, elapsedTime);
 		}
 		return newvy;
 	}
 
+	private double calculateNewVerticalVelocityHelper(IPhysicsBody body, double elapsedTime) {
+		double vy = body.getVelocity().getYVelocity();
+		double newvy = vy + elapsedTime * myLevel.getPhysicsParameters().getGravity();
+		if (Math.abs(newvy) > myLevel.getPhysicsParameters().getMaxThreshold()) {
+			newvy = newvy > 0 ? myLevel.getPhysicsParameters().getMaxThreshold()
+					: -myLevel.getPhysicsParameters().getMaxThreshold();
+		}
+		return newvy;
+	}
+	
 	@Override
-	protected double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime) {
+	public double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime) {
 		double y = body.getPosition().getY();
 		double vy = calculateNewVerticalVelocity(body, elapsedTime);
 		double newy = y + elapsedTime * vy;
@@ -63,7 +89,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	@Override
 	public void setParameters(PhysicsParameterSetOptions option, double value) {
 		if (option == PhysicsParameterSetOptions.GRAVITY) {
-			myParams.setGravity(value);
+			myLevel.getPhysicsParameters().setGravity(value);
 		}
 	}
 }

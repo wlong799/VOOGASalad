@@ -15,6 +15,9 @@ public interface ICollisionEngine {
      */
     void checkCollisions(List<Hero> heroes, List<Enemy> enemies, List<StaticBlock> blocks);
     
+    /**
+     * disables log print statements 
+     */
     void suppressLogDebug();
     
 }

@@ -1,6 +1,6 @@
 package game_engine.transition;
 
-import game_object.framework.Game;
+import game_object.core.Game;
 import game_object.level.Level;
 
 /**
@@ -23,7 +23,7 @@ public abstract class AbstractTransitionManager implements ITransitionManager {
 			levelWon();
 		else if (ws == WinStatus.LOST)
 			levelLost();
-		else if (ws == WinStatus.GOON)
+		else if (ws == WinStatus.GO_ON)
 			levelGoOn();
 		
 		return returnLevel;

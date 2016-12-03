@@ -2,6 +2,8 @@ package game_object.core;
 
 import java.util.List;
 
+import game_object.constants.DefaultConstants;
+
 /**
  * Base class for all sprites providing common functionalities.
  * @author Jay
@@ -13,12 +15,22 @@ public abstract class AbstractSprite implements ISprite {
 	protected List<String> myImagePaths;
 	protected ImageStyle myImageStyle;
 	protected Dimension myDimension;
-
-	protected AbstractSprite(Position position, Dimension dimension, List<String> imagePaths) {
+	protected int myCategoryBitMask;
+	protected int myCollisionBitMask;
+	protected boolean myAffectedByPhysics;
+	
+	static {
+		staticPivotPosition = new Position(0, 0);
+	}
+	
+	public AbstractSprite(Position position, Dimension dimension, List<String> imagePaths) {
 		myPosition = position;
 		myDimension = dimension;
 		myImagePaths = imagePaths;
 		myImageStyle = ImageStyle.TRUE_SIZE;
+		myCategoryBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
+		myCollisionBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
+		myAffectedByPhysics = false;
 	}
 	
 	/* IBodyWithPosition Implementations */
@@ -69,59 +81,86 @@ public abstract class AbstractSprite implements ISprite {
 		return myImageStyle;
 	}
 
-	/* ICollisionBody Setter Implementations */
+	/* ICollisionBody Implementations */
 	@Override
-	public void setCollisionBitMask(int collisionBitMask) {
-		ExceptionThrower.notYetSupported();
+	public void setCategoryBitMask(int categoryBitMask) {
+		myCategoryBitMask = categoryBitMask;
 	}
 	
 	@Override
-	public void setCategoryBitMask(int categoryBitMask) {
-		ExceptionThrower.notYetSupported();
+	public int getCategoryBitMask() {
+		return myCategoryBitMask;
 	}
-	/* ---ICollisionBody Setter Implementations END--- */
+
+	@Override
+	public void setCollisionBitMask(int collisionBitMask) {
+		myCollisionBitMask = collisionBitMask;
+	}
+	
+	@Override
+	public int getCollisionBitMask() {
+		return myCollisionBitMask;
+	}
+	/* ---ICollisionBody Implementations END--- */
 	
 	
 	/* IPhysicsBody Setter Implementations */
 	@Override
+	public boolean getAffectedByPhysics() {
+		return myAffectedByPhysics;
+	}
+	
+	@Override
 	public void setAffectedByPhysics(boolean affectedByPhysics) {
-		ExceptionThrower.notYetSupported();
+		myAffectedByPhysics = affectedByPhysics;
 	}
 	/* ---IPhysicsBody Setter Implementations END--- */
 	
 	
 	/* ISpriteVisualization Implementations */
+	private String myPreviousImagePath;
+	private static Position staticPivotPosition;
+	private static Dimension staticPivotDimension;
+	private double offset = 0;
+	
+	public static Position getStaticPivotPosition() {
+		return staticPivotPosition;
+	}
+	
+	public static void setStaticPivotDimension(Dimension pivotDimension) {
+		staticPivotDimension = pivotDimension;
+	}
+	
 	@Override
 	public String getImagePath() {
-		return myImagePaths.get(0);
-	}
-	
-	@Override
-	public String getImagePathLeft() {
-		return myImagePaths.get(0);
-	}
-	
-	@Override
-	public String getImagePathRight() {
-		if (myImagePaths.size() < 2) {
-			return myImagePaths.get(0);
+		if (getVelocity().getXVelocity() != 0) {
+			myPreviousImagePath = getVelocity().getXVelocity() < 0 // face left
+				? myImagePaths.get(0)
+				: (
+					myImagePaths.size() < 2
+					? myImagePaths.get(0)
+					: myImagePaths.get(1)
+				);
+		} else {
+			if (myPreviousImagePath == null) {
+				myPreviousImagePath = myImagePaths.get(0);
+			}
 		}
-		return myImagePaths.get(1);
-	}
-	
-	@Override
-	public boolean facingLeft() {
-		return getVelocity().getXVelocity() < 0;
-	}
-	
-	@Override
-	public boolean facingRight() {
-		return getVelocity().getXVelocity() > 0;
+		return myPreviousImagePath;
 	}
 
 	@Override
 	public double getXForVisualization() {
-		return myPosition.getX();
+		double staticX = staticPivotPosition.getX();
+		double myX = myPosition.getX();
+		double threshold = DefaultConstants.SCROLL_THRESHOLD;
+		if (staticX + offset < threshold) {
+			offset += threshold - staticX - offset;
+		}
+		else if (staticX + offset > staticPivotDimension.getWidth() - threshold) {
+			offset -= staticX + offset - staticPivotDimension.getWidth() + threshold;
+		}
+		return myX + offset;
 	}
 
 	@Override

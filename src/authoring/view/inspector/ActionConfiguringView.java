@@ -121,11 +121,11 @@ public class ActionConfiguringView extends AbstractView {
 						currentLevel.getTriggerWithSpriteAndAction(sprite, action);
 				if (currentTrigger == null) {
 					currentTrigger = new ActionTrigger(new KeyEvent(null), sprite, action);
-					currentLevel.addTrigger(currentTrigger);
+					currentLevel.getAllTriggers().add(currentTrigger);
 				}
 				KeyCode code = getKeyDialog(currentTrigger);
 				if (code == null) {
-					currentLevel.removeTrigger(currentTrigger);
+					currentLevel.getAllTriggers().remove(currentTrigger);
 					myEntryMap.put(action.toString(), "None");
 				}
 				else {
@@ -155,16 +155,16 @@ public class ActionConfiguringView extends AbstractView {
 			return null;
 		}
 		switch(result.get()) {
+		case "up":
+			return KeyCode.UP;
+		case "down":
+			return KeyCode.DOWN;
+		case "left":
+			return KeyCode.LEFT;
+		case "right":
+			return KeyCode.RIGHT;
 		case "NONE":
 			return null;
-		case "UP":
-			return KeyCode.UP;
-		case "DOWN":
-			return KeyCode.DOWN;
-		case "LEFT":
-			return KeyCode.LEFT;
-		case "RIGHT":
-			return KeyCode.RIGHT;
 		default:
 			break;
 		}

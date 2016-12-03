@@ -4,15 +4,36 @@ import authoring.AuthoringController;
 import authoring.ui.SliderBox;
 import authoring.view.AbstractView;
 import game_engine.physics.PhysicsParameterSetOptions;
+import game_engine.physics.PhysicsParameters;
+import game_object.level.Level;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 
 public class TestGameConfiguringView extends AbstractView {
 	
 	private VBox myBox;
+	private SliderBox gravityBox;
+	private SliderBox afBox;
+	private SliderBox gfBox;
+	private SliderBox tmaxBox;
+	private SliderBox tminBox;
 
 	public TestGameConfiguringView(AuthoringController controller) {
 		super(controller);
+	}
+	
+	/**
+	 * updates physics value when there is a current level
+	 */
+	public void updateUI() {
+		Level current = this.getController().getEnvironment().getCurrentGame().getCurrentLevel();
+		if (current == null) return;
+		PhysicsParameters param = current.getPhysicsParameters();
+		gravityBox.setValue(param.getGravity());
+		afBox.setValue(param.getAirFriction());
+		gfBox.setValue(param.getGroundFriction());
+		tminBox.setValue(param.getMinThreshold());
+		tmaxBox.setValue(param.getMaxThreshold());
 	}
 	
 	@Override
@@ -32,59 +53,58 @@ public class TestGameConfiguringView extends AbstractView {
 	}
 	
 	private void fillInBox() {
-		//TODO: change set engine's parameter to change level's
-		SliderBox gravityBox = new SliderBox(
+		gravityBox = new SliderBox(
 				"Gravity", 
 				0, 
 				100, 
 				50,//default 
 				1, 
 				(obv, oldVal, newVal) -> {
-			this.getController().getTestGameController().getEngine()
-				.setParameter(PhysicsParameterSetOptions.GRAVITY, newVal.doubleValue());
+			this.getController().setParameter(PhysicsParameterSetOptions.GRAVITY, newVal.doubleValue());
 		});
-		SliderBox afBox = new SliderBox(
+		afBox = new SliderBox(
 				"Air Friction", 
 				0, 
 				1, 
 				0,//default 
 				0.1, 
 				(obv, oldVal, newVal) -> {
-			this.getController().getTestGameController().getEngine()
-				.setParameter(PhysicsParameterSetOptions.AIRFRICTION, newVal.doubleValue());
+			this.getController().setParameter(PhysicsParameterSetOptions.AIRFRICTION, newVal.doubleValue());
 		});
-		SliderBox gfBox = new SliderBox(
+		gfBox = new SliderBox(
 				"Ground Friction", 
 				0, 
 				1, 
 				0.1,//default 
 				0.1, 
 				(obv, oldVal, newVal) -> {
-			this.getController().getTestGameController().getEngine()
-				.setParameter(PhysicsParameterSetOptions.GROUNDFRICTION, newVal.doubleValue());
+			this.getController().setParameter(PhysicsParameterSetOptions.GROUNDFRICTION, newVal.doubleValue());
 		});
-		SliderBox tmaxBox = new SliderBox(
+		gfBox.getBox().setFocusTraversable(false);
+		tmaxBox = new SliderBox(
 				"Max Threshold", 
 				0, 
 				1000, 
 				1000,//default 
 				1000, 
 				(obv, oldVal, newVal) -> {
-			this.getController().getTestGameController().getEngine()
-				.setParameter(PhysicsParameterSetOptions.MAXTHRESHOLD, newVal.doubleValue());
+			this.getController().setParameter(PhysicsParameterSetOptions.MAXTHRESHOLD, newVal.doubleValue());
 		});
-		SliderBox tminBox = new SliderBox(
+		tmaxBox.getBox().setFocusTraversable(false);
+		tminBox = new SliderBox(
 				"Min Threshold", 
 				0, 
 				100, 
 				1,//default 
 				1, 
 				(obv, oldVal, newVal) -> {
-			this.getController().getTestGameController().getEngine()
-				.setParameter(PhysicsParameterSetOptions.MINTHRESHOLD, newVal.doubleValue());
+			this.getController().setParameter(PhysicsParameterSetOptions.MINTHRESHOLD, newVal.doubleValue());
 		});
+		tminBox.getBox().setFocusTraversable(false);
+		
 		myBox.getChildren().addAll(
 				gravityBox.getBox(), afBox.getBox(), gfBox.getBox(), tminBox.getBox(), tmaxBox.getBox());
+		myBox.getChildren().forEach(box->box.setFocusTraversable(true));
 	}
 
 }

@@ -11,10 +11,15 @@ import game_object.background.Background;
 import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.constants.DefaultConstants;
+import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
+import game_object.core.Game;
 import game_object.core.ISprite;
 import game_object.visualization.ILevelVisualization;
 import game_object.visualization.ISpriteVisualization;
+import game_object.weapon.Projectile;
+import goal.IGoal;
 
 /**
  * A class representing a level.
@@ -22,23 +27,41 @@ import game_object.visualization.ISpriteVisualization;
  */
 public class Level implements ILevelVisualization {
 
+	private final String myId;
+	private final Game myParentGame;
 	private Dimension myLevelDimension;
 	private Level myNextLevel;
 	private TransitionMenu myNextMenu;
 	private Background myBackground;
 	private PhysicsParameters myPhysicsParameters;
+	private List<IGoal> myGoals;
 	private List<Hero> myHeros;
 	private List<Enemy> myEnemies;
 	private List<StaticBlock> myStaticBlocks;
 	private List<ActionTrigger> myTriggers;
+	private List<Projectile> myProjectiles;
 	
-	public Level() {
+	public Level(Game parentGame, String id) {
+		myParentGame = parentGame;
+		myId = id;
 		myHeros = new ArrayList<>();
 		myEnemies = new ArrayList<>();
 		myStaticBlocks = new ArrayList<>();
 		myTriggers = new ArrayList<>();
-		myLevelDimension = new Dimension(0, 0);
+		myProjectiles = new ArrayList<>();
+		myLevelDimension = new Dimension(DefaultConstants.LEVEL_WIDTH, 
+				DefaultConstants.LEVEL_HEIGHT);
 		myPhysicsParameters = new PhysicsParameters();
+		myGoals = new ArrayList<>();
+		myBackground = new Background();
+	}
+	
+	public String getId() {
+		return myId;
+	}
+	
+	public Game getParentGame() {
+		return myParentGame;
 	}
 	
 	public List<ISprite> getAllSprites() {
@@ -46,14 +69,12 @@ public class Level implements ILevelVisualization {
 		spriteList.addAll(myHeros);
 		spriteList.addAll(myEnemies);
 		spriteList.addAll(myStaticBlocks);
+		//spriteList.addAll(myProjectiles);
+		//not working for game play
 		return spriteList;
 	}
 	
 	/* Level Dimensions */
-	public void setLevelDimension(Dimension levelDimension) {
-		myLevelDimension = levelDimension;
-	}
-	
 	public Dimension getLevelDimension() {
 		return myLevelDimension;
 	}
@@ -62,6 +83,10 @@ public class Level implements ILevelVisualization {
 	/* Engine Settings */
 	public PhysicsParameters getPhysicsParameters() {
 		return myPhysicsParameters;
+	}
+	
+	public void setPhysicsParameters(PhysicsParameters physicsParameters) {
+		myPhysicsParameters = physicsParameters;
 	}
 	/* --- Engine Settings END --- */
 	
@@ -86,50 +111,22 @@ public class Level implements ILevelVisualization {
 	/* Add/Remove specific sprites */
 	public void addSprite(ISprite sprite) {
 		if (sprite instanceof Hero) {
-			addHero((Hero)sprite);
-		}
-		else if (sprite instanceof Enemy) {
-			addEnemy((Enemy)sprite);
-		}
-		else if (sprite instanceof StaticBlock) {
-			addStaticBlock((StaticBlock)sprite);
+			myHeros.add((Hero)sprite);
+		} else if (sprite instanceof Enemy) {
+			myEnemies.add((Enemy)sprite);
+		} else if (sprite instanceof StaticBlock) {
+			myStaticBlocks.add((StaticBlock)sprite);
 		}
 	}
 	
 	public void removeSprite(ISprite sprite) {
 		if (sprite instanceof Hero) {
-			removeHero((Hero)sprite);
+			myHeros.remove((Hero)sprite);
+		} else if (sprite instanceof Enemy) {
+			myEnemies.remove((Enemy)sprite);
+		} else if (sprite instanceof StaticBlock) {
+			myStaticBlocks.remove((StaticBlock)sprite);
 		}
-		else if (sprite instanceof Enemy) {
-			removeEnemy((Enemy)sprite);
-		}
-		else if (sprite instanceof StaticBlock) {
-			removeStaticBlock((StaticBlock)sprite);
-		}
-	}
-	
-	public void addHero(Hero hero) {
-		myHeros.add(hero);
-	}
-	
-	public void removeHero(Hero hero) {
-		myHeros.remove(hero);
-	}
-	
-	public void addEnemy(Enemy enemy) {
-		myEnemies.add(enemy);
-	}
-	
-	public void removeEnemy(Enemy enemy) {
-		myEnemies.remove(enemy);
-	}
-
-	public void addStaticBlock(StaticBlock staticBlock) {
-		myStaticBlocks.add(staticBlock);
-	}
-	
-	public void removeStaticBlock(StaticBlock staticBlock) {
-		myStaticBlocks.remove(staticBlock);
 	}
 	/* ---Add/Remove specific sprites END--- */
 	
@@ -147,35 +144,31 @@ public class Level implements ILevelVisualization {
 		return myHeros;
 	}
 
-	public void setHeros(List<Hero> heros) {
-		myHeros = heros;
-	}
-
 	public List<Enemy> getEnemies() {
 		return myEnemies;
-	}
-
-	public void setEnemies(List<Enemy> enemies) {
-		myEnemies = enemies;
 	}
 
 	public List<StaticBlock> getStaticBlocks() {
 		return myStaticBlocks;
 	}
-
-	public void setStaticBlocks(List<StaticBlock> blocks) {
-		myStaticBlocks = blocks;
+	
+	
+	public List<Projectile> getProjectiles() {
+		return myProjectiles;
 	}
+
+	public void setProjectiles(List<Projectile> projectiles) {
+		myProjectiles = projectiles;
+	}
+	
+	
 	/* ---Accessors for background, characters and blocks END--- */
 
-	
+
+
 	/* Events and Triggers */
-	public void addTrigger(ActionTrigger trigger) {
-		myTriggers.add(trigger);
-	}
-	
-	public void removeTrigger(ActionTrigger trigger) {
-		myTriggers.remove(trigger);
+	public List<ActionTrigger> getAllTriggers() {
+		return myTriggers;
 	}
 	
 	public ActionTrigger getTriggerWithSpriteAndAction(
@@ -202,11 +195,17 @@ public class Level implements ILevelVisualization {
 		}
 		return triggersWithEvent;
 	}
-	/* ---Events and Triggers--- */
+	/* ---Events and Triggers END--- */
 
+	/* Goals */
+	public List<IGoal> getAllGoals() {
+		return myGoals;
+	}
+	/* ---Goals END--- */
 	
 	/* ILevelVisualization Implementations */
 	List<ISpriteVisualization> mySpriteVisualizations;
+	Hero pivotHero;
 	
 	@Override
 	public void init() {
@@ -216,12 +215,12 @@ public class Level implements ILevelVisualization {
 			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
 		);
 		mySpriteVisualizations.addAll(allSprites);
+		AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
 	}
-
+	
 	@Override
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
 		return mySpriteVisualizations;
 	}
 	/* ---ILevelVisualization Implementations END--- */
-	
 }

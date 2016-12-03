@@ -2,6 +2,7 @@ package game_engine.physics;
 
 import game_object.core.Position;
 import game_object.core.Velocity;
+import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 
 /**
@@ -10,24 +11,12 @@ import game_object.simulation.IPhysicsBody;
  * @author Charlie Wang
  */
 public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
-	protected PhysicsParameters myParams;
 	protected boolean existLeftRight;
+	protected Level myLevel;
 
-	protected AbstractPhysicsEngine() {
-		myParams = new PhysicsParameters();
+	protected AbstractPhysicsEngine(Level level) {
+		myLevel = level;
 	}
-
-	protected abstract double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime);
-
-	protected abstract double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime);
-
-	protected abstract double calculateNewHorizontalPosition(IPhysicsBody sprite, double elapsedTime);
-
-	protected abstract double calculateNewHorizontalVelocity(IPhysicsBody sprite, double elapsedTime);
-
-	public abstract Position calculateNewPosition(IPhysicsBody body, double elapsedTime);
-
-	public abstract Velocity calculateNewVelocity(IPhysicsBody body, double elapsedTime);
 
 	public void updateHorizontalPositionAndVelocity(double newx, double newvx, IPhysicsBody body) {
 		body.getPosition().setX(newx);
@@ -55,13 +44,16 @@ public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
 	}
 
 	public void updatePositionAndVelocity(Position position, Velocity velocity, IPhysicsBody body) {
-		if (body.getAffectedByPhysics()) {
-			updatePosition(position, body);
-			updateVelocity(velocity, body);
-		}
+		updatePosition(position, body);
+		updateVelocity(velocity, body);
+
 	}
-	
+
 	public void setExisted(boolean exist) {
 		existLeftRight = exist;
+	}
+	
+	public void setLevel(Level level) {
+		myLevel = level;
 	}
 }

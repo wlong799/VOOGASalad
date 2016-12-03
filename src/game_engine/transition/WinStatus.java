@@ -8,5 +8,5 @@ package game_engine.transition;
 public enum WinStatus {
 	WON,
 	LOST,
-	GOON;
+	GO_ON;
 }

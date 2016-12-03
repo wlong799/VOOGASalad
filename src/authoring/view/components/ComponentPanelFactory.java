@@ -25,7 +25,11 @@ public class ComponentPanelFactory {
         HERO("Heroes", GameObjectType.HERO, new String[][]
                 {
                         {GameObjectConstants.BLUE_SNAIL_LEFT, "Blue Snail", "A blue snail hero."},
-                        {GameObjectConstants.ELIZA_LEFT, "Eliza", "Eliza, a hero."}
+                        {GameObjectConstants.ELIZA_LEFT, "Eliza", "Eliza, a hero."},
+                        {GameObjectConstants.BOY_FILE, "Boy", "a boy avatar."},
+                        {GameObjectConstants.CINDERELLA_FILE, "Cinderella", "a cinderella avatar."},
+                        {GameObjectConstants.BOY2_FILE, "Boy II", "another boy avatar."}
+                        
                 }),
         ENEMY("Enemies", GameObjectType.ENEMY, new String[][]
                 {
@@ -37,7 +41,17 @@ public class ComponentPanelFactory {
                 {
                         {GameObjectConstants.STONE_BLOCK_FILE, "Stone", "A stony block."},
                         {GameObjectConstants.BUSH_FILE, "Bush", "A bush block."},
-                        {GameObjectConstants.BRICK_FILE, "Brick", "A brick block."}
+                        {GameObjectConstants.BRICK_FILE, "Brick", "A brick block."},
+                        {GameObjectConstants.BAR_FILE, "Bar", "a bar block."},
+                        {GameObjectConstants.BLACK_AND_GREY_FILE, "Black", "a block."},
+                        {GameObjectConstants.BLACK_SQUARE_FILE, "Square", "a black square block."},
+                        {GameObjectConstants.BLUE_LIGHT_FILE, "Blue Light", "a blue light block."},
+                        {GameObjectConstants.BLUE_METAL_FILE, "Blue Metal", "a blue block made of metal."},
+                        {GameObjectConstants.CAUTION_ORANGE_FILE, "Caution", "a block with a caution patterns."}, 
+                        {GameObjectConstants.CAUTION_FILE, "Caution II", "a block with a caution patterns."},
+                        {GameObjectConstants.DIAGONAL_METAL_FILE, "Diagonal", "a metal block with a diagonal patterns."},
+                        {GameObjectConstants.DIAGONAL_WITH_BORDER_FILE, "Diagonal II", "a metal block with a diagonal patterns, except with a border."},
+                        {GameObjectConstants.DIAGONAL_YELLOW_WITH_BORDER_FILE, "Diagonal III", "a yelow block with a diagonal patterns, except with a border."}
                 });
         private String myTabName;
         private GameObjectType myGameObjectType;
