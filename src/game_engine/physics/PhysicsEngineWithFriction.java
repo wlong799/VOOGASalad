@@ -2,6 +2,7 @@ package game_engine.physics;
 
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
+import game_object.weapon.Projectile;
 
 /**
  * Added air friction and ground friction to the model
@@ -25,8 +26,10 @@ public class PhysicsEngineWithFriction extends PhysicsEngine {
 		if (Math.abs(newvx) < myLevel.getPhysicsParameters().getMinThreshold()) {
 			newvx = 0;
 		}
+		//System.out.println(body.getVelocity().getXVelocity());
 		return newvx;
 	}
+	
 	public void setParameters(PhysicsParameterSetOptions option, double value) {
 		if (option == PhysicsParameterSetOptions.GRAVITY) {
 			myLevel.getPhysicsParameters().setGravity(value);

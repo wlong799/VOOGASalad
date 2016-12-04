@@ -2,6 +2,7 @@ package game_object.weapon;
 
 import java.util.List;
 
+import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Position;
@@ -29,6 +30,8 @@ public class Projectile extends AbstractSprite {
 		super(position, dimension, imagePaths);
 		myModel = model;
 		myVelocity = myModel.getInitalVelocity();
+		myCategoryBitMask = DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
+		myCollisionBitMask = model.getCollisionBitMask();
 	}
 	
 	public ProjectileModel getModel() {
@@ -61,26 +64,22 @@ public class Projectile extends AbstractSprite {
 
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
+		myCategoryBitMask = categoryBitMask;
 	}
 
 	@Override
 	public int getCategoryBitMask() {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
+		return myCategoryBitMask;
 	}
 
 	@Override
 	public void setCollisionBitMask(int collisionBitMask) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
+		myCollisionBitMask = collisionBitMask;
 	}
 
 	@Override
 	public int getCollisionBitMask() {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
+		return myCollisionBitMask;
 	}
 
 	@Override

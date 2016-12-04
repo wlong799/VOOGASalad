@@ -16,7 +16,6 @@ public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
 
 	protected AbstractPhysicsEngine(Level level) {
 		myLevel = level;
-		
 	}
 
 	public void updateHorizontalPositionAndVelocity(double newx, double newvx, IPhysicsBody body) {
@@ -52,5 +51,9 @@ public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
 
 	public void setExisted(boolean exist) {
 		existLeftRight = exist;
+	}
+	
+	public void setLevel(Level level) {
+		myLevel = level;
 	}
 }
