@@ -12,10 +12,16 @@ public class ServerDownException extends RuntimeException {
 	
 	public ServerDownException() {}
 	
+	/**
+     * Create an exception based on an issue in our code.
+     */
 	public ServerDownException(String msg) {
 		super(msg);
 	}
 	
+	/**
+     * Create an exception based on a caught exception with a different message.
+     */
 	public ServerDownException(Throwable cause) {
         super(cause);
     }

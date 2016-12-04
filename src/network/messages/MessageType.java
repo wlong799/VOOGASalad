@@ -1,10 +1,8 @@
 package network.messages;
 
-import java.lang.reflect.InvocationTargetException;
-
 import network.exceptions.MessageCreationFailureException;
-import network.exceptions.ReflectionFoundNoMatchesException;
-import network.utils.ReflectionUtils;
+import network.utils.Reflection;
+import network.utils.ReflectionException;
 
 /**
  * The Enumeration of all types of messages. It uses reflection
@@ -39,14 +37,13 @@ public enum MessageType {
 	 * @return The message that wraps the payload
 	 * @throws MessageCreationFailureException if reflections on Message subclass failed
 	 */
-	public Message build(Object... payload)
+	public Message build(Object ... payload)
 			throws MessageCreationFailureException{
 		Message msg = null;
 		try {
-			msg = (Message) ReflectionUtils.newInstanceOf(className, payload);
-		} catch (InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException
-				| ClassNotFoundException | ReflectionFoundNoMatchesException e) {
+			msg = (Message) Reflection.createInstance(className, payload);
+		} catch (ReflectionException e) {
+			e.printStackTrace();
 			throw new MessageCreationFailureException(e);
 		}
 		return msg;

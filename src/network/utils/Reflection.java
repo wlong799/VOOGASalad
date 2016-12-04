@@ -44,6 +44,9 @@ public class Reflection {
      * matching constructor.
      */
     public static Object createInstance (String name, Object... args) throws ReflectionException {
+    	if (args.length == 0) {
+    		return createInstance(name);
+    	}
         try {
             Class<?> c = Class.forName(name);
             for (Constructor<?> current : c.getDeclaredConstructors()) {

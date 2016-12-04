@@ -15,6 +15,11 @@ import network.messages.Message;
 import network.messages.MessageType;
 
 /** 
+ * An implementation of of the {@link INetworkClient} interface. Please refer to 
+ * {@link INetworkClient} for detailed API definition and documents. Additional 
+ * java document is included here to clarify its behavior given this particular
+ * implementation. 
+ * 
  * @author CharlesXu
  */
 public class NetworkClient implements INetworkClient{
@@ -24,13 +29,33 @@ public class NetworkClient implements INetworkClient{
 	private BlockingQueue<Message> inComingBuffer;
 	private Queue<Message> nonBlockingIncomingBuffer;
 	private Multiplexer mux;
-	
 	private String userName;
 	
+	/**
+	 * Default runs as development mode
+	 * @param userName used to identify all messages sent by this client
+	 * @throws ServerDownException if fail to connect to server
+	 * 								or server not listening on <tt>serverPort</tt>
+	 * 								or server rejects the connect request
+	 */
 	public NetworkClient(String userName) throws ServerDownException {
+		this(userName, true);
+	}
+	
+	/**
+	 * Allows users to specify whether to run in dev mode or prod mode
+	 * @param userName used to identify all messages sent by this client
+	 * @param devMode a boolean that is true if to run in dev mode
+	 * @throws ServerDownException if fail to connect to server
+	 * 								or server not listening on <tt>serverPort</tt>
+	 * 								or server rejects the connect request
+	 */
+	public NetworkClient(String userName, boolean devMode) throws ServerDownException {
+		String serverName = devMode ? DEV_SERVER_NAME : PROD_SERVER_NAME;
+		int serverPort = devMode ? DEV_SERVER_PORT : PROD_SERVER_PORT;
 		this.userName = userName;
 		try {
-			socket = new Socket(DEV_SERVER_NAME, DEV_SERVER_PORT);
+			socket = new Socket(serverName, serverPort);
 			inComingBuffer = new LinkedBlockingQueue<>();
 			connectionToServer = new ConnectionToServer(inComingBuffer, socket, true, userName);
 			nonBlockingIncomingBuffer = new LinkedList<>();
@@ -42,7 +67,7 @@ public class NetworkClient implements INetworkClient{
 	}
 	
 	/**
-	 * Refers to INetworkClient for more information. 
+	 * Refers to {@link INetworkClient#read(MessageType type)} for more information. 
 	 * 
 	 * <p>This method is non-blocking. 
 	 * 
@@ -74,6 +99,9 @@ public class NetworkClient implements INetworkClient{
 		return ret;
 	}
 	
+	/**
+	 * Refers to {@link INetworkClient#broadcast(Object payload, MessageType type)}
+	 */
 	@Override
 	public void broadcast(Object payload, MessageType type)
 			throws MessageCreationFailureException, SessionExpiredException {
@@ -104,7 +132,7 @@ public class NetworkClient implements INetworkClient{
 	
 	/**
 	 * This can NOT be extracted to another class. Passing the reference
-	 * <code>nonBlockingIncomingBuffer</code> to another class (like in constructor)
+	 * <tt>nonBlockingIncomingBuffer</tt> to another class (like in constructor)
 	 * creates extra copy to the same message queue. In that case, since NetworkClient.read()
 	 * empties this queue by have the reference point to a new Queue, the extra copy in another
 	 * class still points to old Queue. 

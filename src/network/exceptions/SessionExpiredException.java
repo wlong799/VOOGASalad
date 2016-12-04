@@ -13,10 +13,16 @@ public class SessionExpiredException extends RuntimeException {
 
 	public SessionExpiredException() {}
 	
+	/**
+     * Create an exception based on an issue in our code.
+     */
 	public SessionExpiredException(String msg) {
 		super(msg);
 	}
 	
+	/**
+     * Create an exception based on a caught exception with a different message.
+     */
 	public SessionExpiredException(Throwable cause) {
         super(cause);
     }

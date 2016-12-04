@@ -6,16 +6,22 @@ package network.exceptions;
  * 
  * @author CharlesXu
  */
-public class MessageCreationFailureException extends Exception {
+public class MessageCreationFailureException extends RuntimeException {
 
 	private static final long serialVersionUID = -1969195280505755385L;
 
 	public MessageCreationFailureException() {}
 	
+	/**
+     * Create an exception based on an issue in our code.
+     */
 	public MessageCreationFailureException(String msg) {
 		super(msg);
 	}
 	
+	/**
+     * Create an exception based on a caught exception with a different message.
+     */
 	public MessageCreationFailureException(Throwable cause) {
         super(cause);
     }
