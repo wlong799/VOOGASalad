@@ -3,7 +3,7 @@ package network.server;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import network.core.INetworkConfig;
+import network.core.ServerMode;
 
 /**
  * The main entry to create and run a server instance. 
@@ -16,7 +16,7 @@ public class ServerMain {
 	
 	public static void main(String[] args) {
 		try {
-			new Coordinator(INetworkConfig.DEV_SERVER_PORT);
+			new Coordinator(ServerMode.DEV.getServerPort());
 		} catch (IOException e) {
 			LOGGER.info("Ran out of file descriptor, maybe run the server later");
 			e.printStackTrace();

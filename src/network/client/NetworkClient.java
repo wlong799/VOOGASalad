@@ -9,20 +9,25 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import network.exceptions.SessionExpiredException;
 import network.core.Connection;
+import network.core.ServerMode;
 import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;
 import network.messages.MessageType;
 
 /** 
- * An implementation of of the {@link INetworkClient} interface. Please refer to 
- * {@link INetworkClient} for detailed API definition and documents. Additional 
- * java document is included here to clarify its behavior given this particular
- * implementation. 
+ * An implementation of of the {@link INetworkClient} interface.
+ * 
+ * All Communication channels are through TCP to ensure in-order 
+ * and reliable delivery.
+ * 
+ * Please refer to {@link INetworkClient} for detailed API definition
+ * and documents. Additional java document is included if necessary to
+ * clarify its behavior given this particular implementation. 
  * 
  * @author CharlesXu
  */
-public class NetworkClient implements INetworkClient{
+public class NetworkClient implements INetworkClient {
 	
 	private Socket socket;
 	private Connection connectionToServer;
@@ -39,7 +44,7 @@ public class NetworkClient implements INetworkClient{
 	 * 								or server rejects the connect request
 	 */
 	public NetworkClient(String userName) throws ServerDownException {
-		this(userName, true);
+		this(userName, ServerMode.DEV);
 	}
 	
 	/**
@@ -50,14 +55,14 @@ public class NetworkClient implements INetworkClient{
 	 * 								or server not listening on <tt>serverPort</tt>
 	 * 								or server rejects the connect request
 	 */
-	public NetworkClient(String userName, boolean devMode) throws ServerDownException {
-		String serverName = devMode ? DEV_SERVER_NAME : PROD_SERVER_NAME;
-		int serverPort = devMode ? DEV_SERVER_PORT : PROD_SERVER_PORT;
+	public NetworkClient(String userName, ServerMode mode)
+			throws ServerDownException {
 		this.userName = userName;
 		try {
-			socket = new Socket(serverName, serverPort);
+			socket = new Socket(mode.getServerName(), mode.getServerPort());
 			inComingBuffer = new LinkedBlockingQueue<>();
-			connectionToServer = new ConnectionToServer(inComingBuffer, socket, true, userName);
+			connectionToServer = new ConnectionToServer(
+					inComingBuffer, socket, true, userName);
 			nonBlockingIncomingBuffer = new LinkedList<>();
 			mux = new Multiplexer();
 			startReaderThread();
@@ -118,6 +123,9 @@ public class NetworkClient implements INetworkClient{
 		connectionToServer.send(msg);
 	}
 	
+	/**
+	 * Refers to {@link INetworkClient#disconnect()}
+	 */
 	@Override
 	public void disconnect() {
 		if (!connectionToServer.isClosed()) {

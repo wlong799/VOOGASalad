@@ -3,17 +3,17 @@ package network.client;
 import java.util.Queue;
 
 import network.exceptions.SessionExpiredException;
-import network.core.INetworkConfig;
 import network.exceptions.MessageCreationFailureException;
 import network.messages.Message;
 import network.messages.MessageType;
 
 /**
- * The Client API for access to the network to talk to 
- * other participants in the game
+ * The Client API for access to the network to talk to other participants 
+ * in the game.
+ * 
  * @author CharlesXu
  */
-public interface INetworkClient extends INetworkConfig {
+public interface INetworkClient {
 	
 	/**
 	 * Read all messages of the <code>messageType</code> that

@@ -14,19 +14,38 @@ import network.messages.MessageType;
  */
 public class LeaseTimer extends Thread {
 
-	public static final long TTL_MILLIS = 8000;
-	public static final long HALF_TTL_MILLIS = TTL_MILLIS / 2;
-	public static final long A_THIRD_TTL_MILLIS = TTL_MILLIS / 3;
+	public static final long DEAFUALT_TTL_MILLIS = 8000;
 	
 	private static final Logger LOGGER =
 			Logger.getLogger( LeaseTimer.class.getName() );
 
 	private Connection connection;
 	private boolean isLeaseHolder;
+	private final long TTL_MILLIS;
+	private final long HALF_TTL_MILLIS;
+	private final long THIRD_TTL_MILLIS;
 
+	/**
+	 * Uses default timeout value of 8 seconds
+	 * @param conn the connection that is leased under
+	 * @param isLeaseHolder true if responsible for lease renewal
+	 */
 	public LeaseTimer(Connection conn, boolean isLeaseHolder) {
+		this(conn, isLeaseHolder, DEAFUALT_TTL_MILLIS);
+	}
+	
+	/**
+	 * Allows user to specify the timeout in milliseconds
+	 * @param conn the connection that is leased under
+	 * @param isLeaseHolder true if responsible for lease renewal
+	 * @param TTL lease duration/freshness in milliseconds
+	 */
+	public LeaseTimer(Connection conn, boolean isLeaseHolder, long TTL) {
 		this.connection = conn;
 		this.isLeaseHolder = isLeaseHolder;
+		this.TTL_MILLIS = TTL;
+		this.HALF_TTL_MILLIS = TTL_MILLIS / 2;
+		this.THIRD_TTL_MILLIS = TTL_MILLIS / 3;
 	}
 
 	@Override
@@ -57,7 +76,7 @@ public class LeaseTimer extends Thread {
 				}
 			} else {
 				try {
-					Thread.sleep(A_THIRD_TTL_MILLIS);
+					Thread.sleep(THIRD_TTL_MILLIS);
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 				}
