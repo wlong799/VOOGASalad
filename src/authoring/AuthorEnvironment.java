@@ -35,9 +35,9 @@ public class AuthorEnvironment implements IAuthorEnvironment {
         if (index < 0 || index >= games.size()) {
             throw new IllegalArgumentException("index for level out of range");
         }
-        currentGameIndex.set(index);
         currentGame = games.get(index);
         setCurrentLevel(0);
+        currentGameIndex.set(index);
     }
 
     @Override
@@ -80,8 +80,8 @@ public class AuthorEnvironment implements IAuthorEnvironment {
         if (index < 0 || index >= currentGame.getAllLevelsReadOnly().size()) {
             throw new IllegalArgumentException("index for level out of range");
         }
-        currentLevelIndex.set(index);
         currentLevel = currentGame.getAllLevelsReadOnly().get(index);
+        currentLevelIndex.set(index);
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -52,8 +53,10 @@ public class GameRunner {
 	
 	private GameRunningView myView;
 	private Scene myScene;
+	
+	private Consumer<Level> myLevelChangeHandler;
 
-	public GameRunner(Scene s, Game game) {
+	public GameRunner(Scene s, Game game, Consumer<Level> levelChangeHandler) {
 		myScene = s;
 		originalGame = game;
 		currentlyPressedKeys = new HashSet<>();
@@ -61,6 +64,7 @@ public class GameRunner {
 		imagePathMap = new HashMap<>();
 		running2origin = new HashMap<>();
 		myView = new GameRunningView();
+		myLevelChangeHandler = levelChangeHandler;
 		init();
 	}
 	
@@ -110,6 +114,7 @@ public class GameRunner {
 				Level currentLevel = runningGame.getCurrentLevel();
 				if (runningLevel != currentLevel) {
 					runningLevel = currentLevel;
+					myLevelChangeHandler.accept(runningLevel);
 					originalLevel = running2origin.get(runningLevel);
 					clear();
 					initBackground();
