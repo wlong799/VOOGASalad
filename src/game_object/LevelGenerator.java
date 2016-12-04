@@ -18,7 +18,6 @@ import goal.AbstractGoal;
 import goal.position.ReachPointGoal;
 import game_object.weapon.ProjectileModel;
 import game_object.weapon.Weapon;
-import game_object.weapon.WeaponSide;
 import javafx.scene.input.KeyCode;
 /**
  * Use this generator to get a Level with some predefined sprites.
