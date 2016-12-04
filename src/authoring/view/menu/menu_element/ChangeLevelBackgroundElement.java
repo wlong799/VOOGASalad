@@ -25,6 +25,7 @@ public class ChangeLevelBackgroundElement extends AbstractGameMenuElement{
 			FileChooser fileChooser = new FileChooser();
 			fileChooser.setTitle("Choose Background Image");
         	File imageFile = fileChooser.showOpenDialog(new Stage());
+        	if (imageFile == null) return;
 			String imagePath = imageFile.toURI().toString();
 			myController.getEnvironment().getCurrentLevel().getBackground().clearImagePaths();
 			myController.getEnvironment().getCurrentLevel().getBackground().appendImagePath(imagePath);

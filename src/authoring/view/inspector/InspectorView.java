@@ -1,5 +1,6 @@
 package authoring.view.inspector;
 
+import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
 import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
@@ -40,6 +41,16 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		tabs = new TabPane();
 		inspectorSpriteView = new InspectorSpriteView(this.getController());
 		configureView = new TestGameConfiguringView(this.getController());
+		
+		AuthorEnvironment env = this.getController().getEnvironment();
+		env.getCurrentLevelIndex().addListener(obv -> {
+			configureView.setLevel(env.getCurrentLevel());
+		});
+		env.getCurrentGameIndex().addListener(obv -> {
+			configureView.setLevel(env.getCurrentLevel());
+		});
+		configureView.setLevel(env.getCurrentLevel());
+		
 		addViewsAsTab("Physics Settings", configureView);
 		addViewsAsTab("Sprite Inspector", inspectorSpriteView);
 	}

@@ -23,19 +23,19 @@ public class TestGameController {
 
 	public void showTestGame() {
 		Game currentGame = myTopController.getEnvironment().getCurrentGame();
-		myRunner = new GameRunner(myTestView.getScene(), currentGame);
+		myRunner = new GameRunner(myTestView.getScene(), currentGame, level -> myTestView.updateUI(level));
 		myTestView.setRunningRoot(myRunner.getRunningView().getViews());
-		myTestView.updateUI();
 		myTestView.updateLayout();
 		myTestView.show();
 	}
 
 	public void setParameter(PhysicsParameterSetOptions option, double value) {
+		if (myRunner == null) return;
 		Level original = myRunner.getOriginalLevel();
 		Level running = myRunner.getRunningLevel();
 		if (original == null || running == null) return;
-		original.getPhysicsParameters().set(option, value);
-		running.getPhysicsParameters().set(option, value);
+		myTopController.setParameter(original, option, value);
+		myTopController.setParameter(running, option, value);
 	}
 
 }

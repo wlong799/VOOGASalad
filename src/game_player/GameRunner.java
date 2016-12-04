@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -52,8 +53,10 @@ public class GameRunner {
 	
 	private GameRunningView myView;
 	private Scene myScene;
+	
+	private Consumer<Level> myLevelChangeHandler;
 
-	public GameRunner(Scene s, Game game) {
+	public GameRunner(Scene s, Game game, Consumer<Level> levelChangeHandler) {
 		myScene = s;
 		originalGame = game;
 		currentlyPressedKeys = new HashSet<>();
@@ -61,6 +64,7 @@ public class GameRunner {
 		imagePathMap = new HashMap<>();
 		running2origin = new HashMap<>();
 		myView = new GameRunningView();
+		myLevelChangeHandler = levelChangeHandler;
 		init();
 	}
 	
@@ -81,8 +85,8 @@ public class GameRunner {
 		myGameEngine = new GameEngine_Game(runningGame);
 		myGameEngine.suppressLogDebug();
 
-		initRunning2Origin();
 		clear();
+		initRunning2Origin();
 		initFrame();
 		initAnimation();
 	}
@@ -103,7 +107,7 @@ public class GameRunner {
 	}
 
 	private void initFrame() {
-		frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
+		frame = new KeyFrame(Duration.millis(1000.0 / runningGame.getFPS()),
 				new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
@@ -111,13 +115,14 @@ public class GameRunner {
 				if (runningLevel != currentLevel) {
 					runningLevel = currentLevel;
 					originalLevel = running2origin.get(runningLevel);
+					myLevelChangeHandler.accept(originalLevel);
 					clear();
 					initBackground();
 					initSpriteMap();
 					keyTriggers2Controls();
 				}
 				myGameEngine.setInputList(currentlyPressedKeys);
-				myGameEngine.update(5.0 / 60.0);
+				myGameEngine.update(5.0 / runningGame.getFPS());
 				updatePositions();
 			}
 		});
