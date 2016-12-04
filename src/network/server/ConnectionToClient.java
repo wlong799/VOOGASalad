@@ -33,6 +33,10 @@ public class ConnectionToClient extends Connection {
 		this.coordinator = coordinator;
 	}
 
+	/**
+	 * Remove the connection from the connection pool and send to all other clients
+	 * about the departure of this client
+	 */
 	@Override
 	public synchronized void close() {
 		super.close();

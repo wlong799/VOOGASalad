@@ -11,6 +11,7 @@ import network.messages.MessageType;
 /**
  * The connection to server does a handshake with server to provide
  * the userName of the client
+ * 
  * @author CharlesXu
  */
 public class ConnectionToServer extends Connection {

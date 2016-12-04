@@ -26,7 +26,7 @@ public enum MessageType {
 	// TODO cx15 lock and unicast
 	// TODO cx15 remove all TODOS on utils pkgs
 	
-	private String MORE_THAN_ONE_PAYLOAD =
+	private static final String MORE_THAN_ONE_PAYLOAD =
 			"Each Message can only carry zero or one payload";
 	
 	private String className;

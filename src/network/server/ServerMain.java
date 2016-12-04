@@ -20,8 +20,6 @@ public class ServerMain {
 		} catch (IOException e) {
 			LOGGER.info("Ran out of file descriptor, maybe run the server later");
 			e.printStackTrace();
-		} catch (InterruptedException e) {
-			Thread.currentThread().interrupt();
 		}
 	}
 

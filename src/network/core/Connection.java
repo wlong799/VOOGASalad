@@ -35,6 +35,14 @@ public abstract class Connection {
 	private long lastActiveMillis;
 	private String userName;
 	
+	/**
+	 * Create a connection with incoming and outgoing message buffers
+	 * and initialize sender and receiver threads to synchronously read
+	 * and write through the connected <tt>socket</tt>.
+	 * @param incomingBuffer Upper layer application provided receiver buffers
+	 * @param socket A successfully established socket to the counter party
+	 * @param isLeaseHolder if true the lease holder is responsible for lease renewal
+	 */
 	public Connection(BlockingQueue<Message> incomingBuffer, 
 					  Socket socket,
 					  boolean isLeaseHolder) {
@@ -42,11 +50,16 @@ public abstract class Connection {
 		this.outGoingBuffer = new LinkedBlockingQueue<>();
 		this.isClosed = false;
 		this.lastActiveMillis = System.currentTimeMillis();
-		new Receiver(socket, this, incomingBuffer).start();
-		new Sender(socket, this, outGoingBuffer).start();
+		new Receiver(this, incomingBuffer).start();
+		new Sender(this, outGoingBuffer).start();
 		new LeaseTimer(this, isLeaseHolder).start();
 	}
 	
+	/**
+	 * Send a message through the connection by placing it on
+	 * the outgoing/sender message buffer
+	 * @param msg the message to be sent
+	 */
 	public void send(Message msg) {
 		if (!isClosed) {
 			try {
@@ -57,23 +70,38 @@ public abstract class Connection {
 		}
 	}
 	
+	/**
+	 * Check if the connection is closed
+	 * @return true is connection is closed
+	 */
 	public synchronized boolean isClosed() {
 		return isClosed;
 	}
 	
+	/**
+	 * Get the time in millisecond when the last message is sent or received 
+	 * @return the last active time in millisecond
+	 */
 	public synchronized long getLastActiveMillis() {
 		return lastActiveMillis;
 	}
 
+	/**
+	 * Set the time in millisecond when the last message is sent or received 
+	 * @param lastActiveMillis a new value for the last active time in millisecond
+	 */
 	public synchronized void setLastActiveMillis(long lastActiveMillis) {
 		this.lastActiveMillis = lastActiveMillis;
 	}
 	
 	/**
-	 * Close the socket as connection to the party on the other side.
-	 * Reader and sender thread will exit. 
-	 * @throws IOException when try to close a socket that is
-	 * 		   already closed.
+	 * Close the connection by gracefully shut down and reclaim resources
+	 * and inform the counter party.
+	 * 
+	 * On our side, socket will be closed. 
+	 * Reader, sender, leaseTimer threads will exit. 
+	 * 
+	 * @throws IOException when try to close a socket that is already closed.
 	 */
 	public synchronized void close() {
 		if (!isClosed) {
@@ -89,10 +117,25 @@ public abstract class Connection {
 		}
 	}
 	
+	/**
+	 * @return the socket to the counter party.
+	 */
+	public Socket getSocket() {
+		return socket;
+	}
+	
+	/**
+	 * Update the userName of this connection
+	 * @param userName new user name of the connection
+	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
 	
+	/**
+	 * Get the userName of this connection
+	 * @return the userName of this connection
+	 */
 	public String getUserName() {
 		return userName;
 	}

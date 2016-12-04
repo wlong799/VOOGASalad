@@ -5,6 +5,10 @@ import java.util.logging.Logger;
 import network.core.Connection;
 import network.exceptions.MessageCreationFailureException;
 
+/**
+ * A renewal request for session lease. 
+ * @author CharlesXu
+ */
 public class SessionLease extends SystemOperation<String> {
 	
 	private static final Logger LOGGER =
@@ -16,6 +20,9 @@ public class SessionLease extends SystemOperation<String> {
 		super(sender, STRING_NAME);
 	}
 	
+	/**
+	 * Grant the renewal upon receipt of the request
+	 */
 	@Override
 	public void execute(Connection conn) {
 		conn.setLastActiveMillis(System.currentTimeMillis());

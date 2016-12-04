@@ -30,8 +30,9 @@ public interface INetworkClient {
 	 * through the central server, auto serialization
 	 * @param payload the object to be sent
 	 * @param type specifies the type of message to be sent
-	 * @throws MessageCreationFailureException if MessageType unknown to the
-	 * 											current version of applicaiton
+	 * @throws MessageCreationFailureException
+	 * 				if MessageType unknown to the current version of application
+	 * 				or if try to send more than one payload in a single message
 	 * @throws SessionExpiredException if lost connection to server
 	 */
 	void broadcast(Object payload, MessageType type)

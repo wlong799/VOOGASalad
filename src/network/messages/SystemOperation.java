@@ -17,11 +17,10 @@ public abstract class SystemOperation<T> extends AbstractMessage<T> {
 	
 	public SystemOperation() {}
 	
-	// TODO cx15 update jdoc for new param
-	
 	/**
 	 * Allows subclasses to pass its String representation to
 	 * implement a common toString method
+	 * @param sender the userName of the client that sends this message
 	 * @param toString String representation of the message
 	 */
 	public SystemOperation(String sender, String toString) {
@@ -30,6 +29,7 @@ public abstract class SystemOperation<T> extends AbstractMessage<T> {
 	
 	/**
 	 * Allow payload to be transmitted along with the message
+	 * @param sender the userName of the client that sends this message
 	 * @param payload extra information needed for the operation
 	 * @param toString String representation of the message
 	 */

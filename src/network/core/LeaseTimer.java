@@ -20,7 +20,7 @@ public class LeaseTimer extends Thread {
 			Logger.getLogger( LeaseTimer.class.getName() );
 
 	private Connection connection;
-	private boolean isLeaseHolder;
+	private final boolean isLeaseHolder;
 	private final long TTL_MILLIS;
 	private final long HALF_TTL_MILLIS;
 	private final long THIRD_TTL_MILLIS;

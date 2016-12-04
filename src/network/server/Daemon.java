@@ -34,7 +34,6 @@ public class Daemon extends Thread {
 			} catch (IOException e) {
 				// daemon keeps running in the hope that some connection will close soon
 				LOGGER.info("Daemon encounters IOException due to shortage of file descriptor");
-				e.printStackTrace();
 			}
 		}
     }
