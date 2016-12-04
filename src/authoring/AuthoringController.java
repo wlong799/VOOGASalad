@@ -99,6 +99,7 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public void setParameter(Level level, PhysicsParameterSetOptions option, double value) {
 		level.getPhysicsParameters().set(option, value);
+		this.notifySubscribers();
 	}
 
 }

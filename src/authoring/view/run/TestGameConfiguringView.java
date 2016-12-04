@@ -2,6 +2,8 @@ package authoring.view.run;
 
 import authoring.AuthoringController;
 import authoring.ui.SliderBox;
+import authoring.updating.IPublisher;
+import authoring.updating.ISubscriber;
 import authoring.view.AbstractView;
 import authoring.view.inspector.InspectorView;
 import game_engine.physics.PhysicsParameterSetOptions;
@@ -10,7 +12,7 @@ import game_object.level.Level;
 import javafx.geometry.Insets;
 import javafx.scene.layout.VBox;
 
-public class TestGameConfiguringView extends AbstractView {
+public class TestGameConfiguringView extends AbstractView implements ISubscriber {
 	
 	private VBox myBox;
 	private SliderBox gravityBox;
@@ -29,6 +31,13 @@ public class TestGameConfiguringView extends AbstractView {
 		this.updateUI();
 	}
 	
+	@Override
+	public void didUpdate(IPublisher target) {
+		if (target instanceof AuthoringController) {
+			this.updateUI();
+		}
+	}
+	
 	/**
 	 * updates physics value when there is a current level
 	 */
@@ -44,6 +53,7 @@ public class TestGameConfiguringView extends AbstractView {
 	
 	@Override
 	protected void initUI() {
+		this.getController().addSubscriber(this);
 		myBox = new VBox();
 		myBox.setSpacing(10);
 		myBox.setPadding(new Insets(5, 5, 5, 5));

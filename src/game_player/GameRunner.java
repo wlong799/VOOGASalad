@@ -114,8 +114,8 @@ public class GameRunner {
 				Level currentLevel = runningGame.getCurrentLevel();
 				if (runningLevel != currentLevel) {
 					runningLevel = currentLevel;
-					myLevelChangeHandler.accept(runningLevel);
 					originalLevel = running2origin.get(runningLevel);
+					myLevelChangeHandler.accept(originalLevel);
 					clear();
 					initBackground();
 					initSpriteMap();

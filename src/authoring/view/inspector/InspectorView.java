@@ -49,6 +49,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		env.getCurrentGameIndex().addListener(obv -> {
 			configureView.setLevel(env.getCurrentLevel());
 		});
+		configureView.setLevel(env.getCurrentLevel());
 		
 		addViewsAsTab("Physics Settings", configureView);
 		addViewsAsTab("Sprite Inspector", inspectorSpriteView);
