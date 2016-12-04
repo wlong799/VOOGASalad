@@ -99,10 +99,11 @@ public class LevelGenerator {
 				false // follow hero
 				);
                 
-		Weapon fastWeapon = new Weapon(10, bulletModel, colBitMask);
+		Weapon fastWeapon = new Weapon(10, fastModel, colBitMask);
 		ArrayList<String> fwpuImg = new ArrayList<String>();
-		
-		PowerUp fastWeaponPowerUp = new NewWeaponPowerUp(new Position(300, 100), new Dimension(20, 20), imagePaths, fastWeapon);
+		fwpuImg.add(GameObjectConstants.NEW_WEAPON_POWER_UP_FILE);
+		PowerUp fastWeaponPowerUp = new NewWeaponPowerUp(new Position(300, 100), new Dimension(20, 20), fwpuImg, fastWeapon);
+		levelA.addSprite(fastWeaponPowerUp);
 		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
 		enemy.setImageStyle(ImageStyle.FIT);
