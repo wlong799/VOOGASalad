@@ -15,7 +15,7 @@ Permission is granted to anyone to make or distribute copies of this source code
 
 ## How to
 
-In INetworkConfig, update the `PROD_SERVER_NAME` to the hostname of the machine on which you would like to deploy your server. You could also change `SERVER_PORT` to any available port > 1024 if you like. 
+In `devConfig.properties` and `prodConfig.properties`, update the server name to to the hostname of the machine on which you would like to deploy your server, and server port to the port number (>1024) that your server listens on.
 
 To start the server, run ServerMain.java.
 
