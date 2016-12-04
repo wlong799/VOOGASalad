@@ -14,11 +14,12 @@ import game_object.core.ImageStyle;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.level.Level;
+import game_object.powerup.NewWeaponPowerUp;
+import game_object.powerup.PowerUp;
 import goal.AbstractGoal;
 import goal.position.ReachPointGoal;
 import game_object.weapon.ProjectileModel;
 import game_object.weapon.Weapon;
-import game_object.weapon.WeaponSide;
 import javafx.scene.input.KeyCode;
 /**
  * Use this generator to get a Level with some predefined sprites.
@@ -80,7 +81,7 @@ public class LevelGenerator {
 				bulletImgs, // image file
 				new Velocity(10, 0), // initial velocity
 				false, // affected by gravity
-				true // follow hero
+				false // follow hero
 				);
                 
         int colBitMask = 
@@ -88,6 +89,21 @@ public class LevelGenerator {
         		DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 		Weapon heroWeapon = new Weapon(10, bulletModel, colBitMask);
 		hero.setCurrentWeapon(heroWeapon);
+		
+		bulletImgs.add(GameObjectConstants.BULLET_FILE);
+		// a very fast bullet model
+        ProjectileModel fastModel = new ProjectileModel(
+				bulletImgs, // image file
+				new Velocity(30, 0), // initial velocity
+				false, // affected by gravity
+				false // follow hero
+				);
+                
+		Weapon fastWeapon = new Weapon(10, fastModel, colBitMask);
+		ArrayList<String> fwpuImg = new ArrayList<String>();
+		fwpuImg.add(GameObjectConstants.NEW_WEAPON_POWER_UP_FILE);
+		PowerUp fastWeaponPowerUp = new NewWeaponPowerUp(new Position(300, 100), new Dimension(20, 20), fwpuImg, fastWeapon);
+		levelA.addSprite(fastWeaponPowerUp);
 		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
 		enemy.setImageStyle(ImageStyle.FIT);

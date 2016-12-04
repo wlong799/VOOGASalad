@@ -16,7 +16,7 @@ import game_object.core.Velocity;
  */
 public class ProjectileModel {
 
-	private List<String> myImgPaths;
+	private List<String> myImagePaths;
 	private Velocity myInitalVelocity;
 	// is the projectile subject to gravity (so that the path will be a parabola)
 	private boolean myAffectedByGravity;
@@ -24,26 +24,26 @@ public class ProjectileModel {
 	private boolean myFollowHero;
 	private int myCollisionBitMask;
 	
-	public ProjectileModel(List<String> imgPaths, Velocity v, boolean affectedByGravity) {
-		myImgPaths = imgPaths;
+	public ProjectileModel(List<String> imagePaths, Velocity v, boolean affectedByGravity) {
+		myImagePaths = imagePaths;
 		myInitalVelocity = v;
 		myAffectedByGravity = affectedByGravity;
 		myFollowHero = false;
 	}
 	
 	public ProjectileModel(List<String> imgPaths, Velocity v, boolean affectedByGravity, boolean followHero) {
-		myImgPaths = imgPaths;
+		myImagePaths = imgPaths;
 		myInitalVelocity = v;
 		myAffectedByGravity = affectedByGravity;
 		myFollowHero = followHero;
 	}
 
-	public List<String> getImgPaths() {
-		return myImgPaths;
+	public List<String> getImagePaths() {
+		return myImagePaths;
 	}
 
-	public void setImgPaths(List<String> imgPaths) {
-		myImgPaths = imgPaths;
+	public void setImagePaths(List<String> imgPaths) {
+		myImagePaths = imgPaths;
 	}
 
 	public Velocity getInitalVelocity() {
@@ -79,7 +79,7 @@ public class ProjectileModel {
 	}
 	
 	public Projectile newProjectileInstance(Position position, Dimension dimension) {
-		return new Projectile(position, dimension, myImgPaths, this);
+		return new Projectile(position, dimension, myImagePaths, this);
 	}
 	
 }
