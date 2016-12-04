@@ -8,16 +8,11 @@ public class HandShake extends SystemOperation<String> {
 	private static final String STRING_NAME = "Hand Shake";
 	
 	public HandShake(String userName) {
-		super(userName);
-	}
-	
-	@Override
-	public String toString() {
-		return STRING_NAME;
+		super(userName, STRING_NAME);
 	}
 
 	@Override
 	public void execute(Connection conn) {
-		conn.setUserName(getPayload());
+		conn.setUserName(this.getSender());
 	}
 }

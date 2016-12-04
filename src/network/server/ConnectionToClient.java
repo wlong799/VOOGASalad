@@ -38,8 +38,7 @@ public class ConnectionToClient extends Connection {
 		super.close();
 		coordinator.removeConnection(this);
 		try {
-			coordinator.broadcast(MessageType.USER_GONE_OFFLINE.build(
-					"User " + this.getUserName() + " disconnected"));
+			coordinator.broadcast(MessageType.USER_GONE_OFFLINE.build(this.getUserName()));
 		} catch (MessageCreationFailureException e) {
 			LOGGER.info("Connection to client " + this.getUserName() +
 					"failed to broadcast its departure");

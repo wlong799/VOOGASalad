@@ -118,8 +118,7 @@ public class NetworkClient implements INetworkClient {
 	
 	private void signAndsend(MessageType type, Object... payload)
 			throws MessageCreationFailureException {
-		Message msg = type.build(payload);
-		msg.setSender(userName);
+		Message msg = type.build(userName, payload);
 		connectionToServer.send(msg);
 	}
 	
@@ -141,9 +140,9 @@ public class NetworkClient implements INetworkClient {
 	/**
 	 * This can NOT be extracted to another class. Passing the reference
 	 * <tt>nonBlockingIncomingBuffer</tt> to another class (like in constructor)
-	 * creates extra copy to the same message queue. In that case, since NetworkClient.read()
-	 * empties this queue by have the reference point to a new Queue, the extra copy in another
-	 * class still points to old Queue. 
+	 * creates extra copy of reference to the same message queue. In that case, since
+	 * NetworkClient.read() empties this queue by have the reference point to a new Queue,
+	 * the extra copy in another class still points to old Queue. 
 	 * 
 	 * <p>One might propose a setter on that class to update its copy of the reference, but
 	 * operations to change the two references are NOT atomic, which is vulnerable especially 

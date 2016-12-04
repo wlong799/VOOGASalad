@@ -40,7 +40,9 @@ public class Receiver extends Thread {
 				ObjectInputStream objectInputStream =
 						new ObjectInputStream(socket.getInputStream());
 				Message msg = (Message) objectInputStream.readObject();
-				LOGGER.info("Receiver " + this.getId() + " received msg: " + msg);
+				LOGGER.info("Receiver " + this.getId() +
+							" received msg: " + msg + 
+							" from " + msg.getSender());
 				if (msg instanceof SystemOperation) {
 					((SystemOperation<?>)msg).execute(connection);
 				} else {

@@ -57,7 +57,8 @@ public class LeaseTimer extends Thread {
 			if (timeElapsed > TTL_MILLIS) {
 				LOGGER.info("Session Timeout");
 				try {
-					connection.send(MessageType.DISCONNECT.build());
+					connection.send(MessageType.DISCONNECT
+										.build(connection.getUserName()));
 				} catch (MessageCreationFailureException e) {
 					// trusted code but log this just in case
 					LOGGER.info("Lease Timer failed to create DISCONNECT message");
@@ -65,7 +66,8 @@ public class LeaseTimer extends Thread {
 				connection.close();
 			} else if (isLeaseHolder && timeElapsed > HALF_TTL_MILLIS) {
 				try {
-					connection.send(MessageType.SESSION_LEASE.build());
+					connection.send(MessageType.SESSION_LEASE
+										.build(connection.getUserName()));
 					LOGGER.info("KeepAlive request sent");
 					Thread.sleep(HALF_TTL_MILLIS);
 				} catch (MessageCreationFailureException e) {

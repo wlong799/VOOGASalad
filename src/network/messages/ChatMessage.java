@@ -9,10 +9,6 @@ public class ChatMessage extends AbstractMessage<String> {
 
 	private static final long serialVersionUID = -3340751700831119309L;
 	
-	public ChatMessage(String text) {
-		super(text);
-	}
-	
 	public ChatMessage(String sender, String text) {
 		super(sender, text);
 	}

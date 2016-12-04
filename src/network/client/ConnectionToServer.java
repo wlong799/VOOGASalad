@@ -20,6 +20,7 @@ public class ConnectionToServer extends Connection {
 							  boolean isLeaseHolder,
 							  String userName) {
 		super(incomingBuffer, socket, isLeaseHolder);
+		this.setUserName(userName);
 		try {
 			// TODO cx15 duplicated names
 			send(MessageType.HANDSHAKE.build(userName));

@@ -5,13 +5,10 @@ import network.client.Multiplexer;
 public class UserGoneOfflineMessage extends AbstractMessage<String> {
 
 	private static final long serialVersionUID = 267564981803032815L;
-
-	public UserGoneOfflineMessage(String text) {
-		super(text);
-	}
+	private static final String STRING_NAME = "Disconnect";
 	
-	public UserGoneOfflineMessage(String sender, String text) {
-		super(sender, text);
+	public UserGoneOfflineMessage(String sender) {
+		super(sender, STRING_NAME);
 	}
 
 	@Override

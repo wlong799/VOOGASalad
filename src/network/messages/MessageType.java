@@ -24,6 +24,10 @@ public enum MessageType {
 	SESSION_LEASE_GRANTED ("network.messages.SessionLeaseGranted");
 	
 	// TODO cx15 lock and unicast
+	// TODO cx15 remove all TODOS on utils pkgs
+	
+	private String MORE_THAN_ONE_PAYLOAD =
+			"Each Message can only carry zero or one payload";
 	
 	private String className;
 	
@@ -33,17 +37,21 @@ public enum MessageType {
 	
 	/**
 	 * Create a Message of proper type that carries an optional payload.
-	 * @param payload the object to be enclosed by the message
+	 * @param sender the userName of the client that sends the message
+	 * @param payload the optional object to be enclosed by the message
 	 * @return The message that wraps the payload
 	 * @throws MessageCreationFailureException if reflections on Message subclass failed
 	 */
-	public Message build(Object ... payload)
-			throws MessageCreationFailureException{
+	public Message build(String sender, Object ... payload)
+			throws MessageCreationFailureException {
 		Message msg = null;
 		try {
-			msg = (Message) Reflection.createInstance(className, payload);
+			if (payload.length == 0)
+				msg = (Message) Reflection.createInstance(className, sender);
+			else if (payload.length == 1)
+				msg = (Message) Reflection.createInstance(className, sender, payload[0]);
+			else throw new MessageCreationFailureException(MORE_THAN_ONE_PAYLOAD);
 		} catch (ReflectionException e) {
-			e.printStackTrace();
 			throw new MessageCreationFailureException(e);
 		}
 		return msg;

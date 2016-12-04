@@ -2,7 +2,7 @@ package network.exceptions;
 
 /**
  * Fail to create the message as instructed due to unknown message types
- * or parameter mismatch.
+ * or parameter mismatch or more than one payload in one message
  * 
  * @author CharlesXu
  */
