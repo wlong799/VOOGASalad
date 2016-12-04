@@ -77,7 +77,7 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	
 	@Override
-	public ImageStyle getImgStyle() {
+	public ImageStyle getImageStyle() {
 		return myImageStyle;
 	}
 

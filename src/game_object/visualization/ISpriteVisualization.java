@@ -25,6 +25,6 @@ public interface ISpriteVisualization {
 	
 	double getHeightForVisualization();
 	
-	ImageStyle getImgStyle();
+	ImageStyle getImageStyle();
 	
 }
