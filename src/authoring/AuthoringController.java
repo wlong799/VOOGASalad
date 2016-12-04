@@ -10,6 +10,7 @@ import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_object.level.Level;
+import game_player.image.ImageRenderer;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -26,6 +27,7 @@ public class AuthoringController extends AbstractPublisher {
 	private TestGameController testGameController;
 	private ChatController chatController;
 	private Marshaller marshaller;
+	private ImageRenderer renderer;
 	
 	public AuthoringController(AuthorEnvironment environment) {
 		myEnvironment = environment;
@@ -34,6 +36,7 @@ public class AuthoringController extends AbstractPublisher {
 		testGameController = new TestGameController(this);
 		chatController = new ChatController();
 		marshaller = new Marshaller();
+		renderer = new ImageRenderer();
 	}
 	
 	public CanvasViewController getCanvasViewController() {
@@ -54,6 +57,10 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public Marshaller getMarshaller() {
 		return marshaller;
+	}
+	
+	public ImageRenderer getRenderer() {
+		return renderer;
 	}
 	
 	public AuthorEnvironment getEnvironment() {

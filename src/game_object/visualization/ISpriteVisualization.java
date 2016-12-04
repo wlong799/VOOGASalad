@@ -1,5 +1,7 @@
 package game_object.visualization;
 
+import game_object.core.ImageStyle;
+
 /**
  * A front-end representation of a sprite.
  * Note that this might be very inefficient.
@@ -22,5 +24,7 @@ public interface ISpriteVisualization {
 	double getWidthForVisualization();
 	
 	double getHeightForVisualization();
+	
+	ImageStyle getImgStyle();
 	
 }

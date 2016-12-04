@@ -3,10 +3,8 @@ package authoring.view.canvas;
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import game_object.core.ISprite;
-import game_object.core.ImageStyle;
-import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 public class SpriteImageView extends AbstractView {
@@ -42,35 +40,9 @@ public class SpriteImageView extends AbstractView {
         myContent.setPrefWidth(getWidth());
         myContent.setPrefHeight(getHeight());
         myContent.getChildren().clear();
-        if (mySprite.getImgStyle() == ImageStyle.TILE) {
-            tileImages();
-        } else {
-            fitImage();
-        }
-    }
-
-    private void fitImage() {
-        ImageView imageView = new ImageView(myImage);
-        imageView.setFitHeight(getHeight());
-        imageView.setFitWidth(getWidth());
-        myContent.getChildren().add(imageView);
-    }
-
-    private void tileImages() {
-        double adjustedWidth = getHeight() * (myImage.getWidth() / myImage.getHeight());
-        double width;
-        for (width = adjustedWidth; width < getWidth(); width += adjustedWidth) {
-            ImageView imageView = new ImageView(myImage);
-            imageView.setPreserveRatio(true);
-            imageView.setFitWidth(adjustedWidth);
-            myContent.getChildren().add(imageView);
-        }
-        ImageView imageView = new ImageView(myImage);
-        imageView.setPreserveRatio(true);
-        imageView.setFitHeight(getHeight());
-        imageView.setViewport(new Rectangle2D(0, 0, (1 - ((width - getWidth()) / adjustedWidth)) * myImage.getWidth(),
-                myImage.getHeight()));
-        myContent.getChildren().add(imageView);
+        Node img = this.getController().getRenderer().
+        		render(myImage, mySprite.getImgStyle(), this.getWidth(), this.getHeight());
+        myContent.getChildren().add(img);
     }
 
     private void initImageAndSprite(String path) {
