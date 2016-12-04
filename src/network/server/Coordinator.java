@@ -54,7 +54,7 @@ public class Coordinator {
 	 * Add a new connection to the connection pool
 	 * @param conn the connection to be added
 	 */
-	public void addConnection(ConnectionToClient conn) {
+	public synchronized void addConnection(ConnectionToClient conn) {
 		connectionPool.add(conn);
 	}
 	
@@ -63,7 +63,7 @@ public class Coordinator {
 	 * @param conn the connection to be removed
 	 * @return true if the the connection pool contained the given connection
 	 */
-	public boolean removeConnection(Connection conn) {
+	public synchronized boolean removeConnection(Connection conn) {
 		return connectionPool.remove(conn);
 	}
 	
@@ -71,7 +71,7 @@ public class Coordinator {
 	 * Send the message to all connections in the pool
 	 * @param msg the message to be broadcast
 	 */
-	public void broadcast(Message msg) {
+	public synchronized void broadcast(Message msg) {
 		for (Connection conn : connectionPool) {
 			if (!conn.isClosed()) {
 				conn.send(msg);
