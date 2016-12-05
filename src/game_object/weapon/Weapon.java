@@ -22,4 +22,12 @@ public class Weapon extends AbstractSprite {
 
 	}
 
+	public WeaponModel getModel() {
+		return myModel;
+	}
+
+	public void setModel(WeaponModel model) {
+		myModel = model;
+	}
+	
 }

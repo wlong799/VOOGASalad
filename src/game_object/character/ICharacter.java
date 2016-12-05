@@ -13,4 +13,12 @@ public interface ICharacter extends ISprite, IMortal, IMover, IShooter {
 
 	void setCurrentWeapon(WeaponModel currentWeapon);
 	
+	double getWeaponDisplacementX();
+
+	void setWeaponDisplacementX(double weaponDisplacementX);
+
+	double getWeaponDisplacementY();
+
+	void setWeaponDisplacementY(double weaponDisplacementY);
+	
 }

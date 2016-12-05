@@ -8,6 +8,7 @@ import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.core.Velocity;
+import game_object.weapon.Weapon;
 import game_object.weapon.WeaponModel;
 
 /**
@@ -24,7 +25,12 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	private Velocity myVelocity = new Velocity(0, 0);
 	protected boolean myDead = false;
         protected int myCurrentJumps;
-	protected WeaponModel myCurrentWeapon;
+	protected Weapon myCurrentWeapon;
+	
+	// the following two fields define the weapon-holding position
+	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
+	private double myWeaponDisplacementX;
+	private double myWeaponDisplacementY;
 	
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
@@ -68,13 +74,12 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	
 	@Override
 	public WeaponModel getCurrentWeapon() {
-		//ExceptionThrower.notYetSupported();
-		return myCurrentWeapon;
+		return myCurrentWeapon.getModel();
 	}
 
 	@Override
 	public void setCurrentWeapon(WeaponModel currentWeapon) {
-		myCurrentWeapon = currentWeapon;
+		// myCurrentWeapon = currentWeapon;
 	}
 	
 	public double getMovingUnit() {
@@ -145,4 +150,22 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public int getMaxNumberOfJumps() {
 		return myMaxNumberOfJumps;
 	}
+
+	public double getWeaponDisplacementX() {
+		return myWeaponDisplacementX;
+	}
+
+	public void setWeaponDisplacementX(double weaponDisplacementX) {
+		myWeaponDisplacementX = weaponDisplacementX;
+	}
+
+	public double getWeaponDisplacementY() {
+		return myWeaponDisplacementY;
+	}
+
+	public void setWeaponDisplacementY(double weaponDisplacementY) {
+		myWeaponDisplacementY = weaponDisplacementY;
+	}
+	
+	
 }
