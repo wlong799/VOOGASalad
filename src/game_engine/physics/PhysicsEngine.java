@@ -40,7 +40,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		double newvy;
 		if (body instanceof Projectile) {
 			Projectile projectile = (Projectile) body;
-			System.out.println(projectile.getPosition().getX()+" "+projectile.getPosition().getY());
+			//System.out.println(projectile.getPosition().getX()+" "+projectile.getPosition().getY());
 			if (!projectile.getAffectedByPhysics()) {
 				newvy = projectile.getModel().getInitalVelocity().getYVelocity();
 			} else {

@@ -81,7 +81,7 @@ public class LevelGenerator {
 		bulletImgs.add(GameObjectConstants.BULLET_FILE);
         ProjectileModel bulletModel = new ProjectileModel(
 				bulletImgs, // image file
-				new Velocity(10, 0), // initial velocity
+				new Velocity(80, 0), // initial velocity
 				false, // affected by gravity
 				false // follow hero
 				);

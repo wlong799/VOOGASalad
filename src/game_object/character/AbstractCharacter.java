@@ -26,6 +26,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	protected boolean myDead = false;
         protected int myCurrentJumps;
 	protected WeaponSprite myCurrentWeapon;
+	private boolean myFacingLeft;
 	
 	// the following two fields define the weapon-holding position
 	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
@@ -170,5 +171,11 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		myWeaponDisplacementY = weaponDisplacementY;
 	}
 	
+	public void setFacingLeft(boolean left) {
+		myFacingLeft = left;
+	}
 	
+	public boolean isFacingLeft() {
+		return myFacingLeft;
+	}
 }
