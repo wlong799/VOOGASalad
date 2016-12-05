@@ -25,7 +25,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -122,29 +121,55 @@ public class GameRunner {
 					myLevelChangeHandler.accept(originalLevel);
 					clear();
 					initBackground();
-					initSpriteMap();
 					keyTriggers2Controls();
 				}
 				myGameEngine.setInputList(currentlyPressedKeys);
 				myGameEngine.update(5.0 / runningGame.getFPS());
-				updatePositions();
+				update();
 			}
 		});
 	}
 
-	private void updatePositions() {
+	private void update() {
 		for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
-			//TODO: need to take care the case where new sprites are created (projectiles e.g.)
-			if (!spriteViewMap.containsKey(sprite)) continue;
-			if (!imagePathMap.containsKey(sprite)
-					|| !imagePathMap.get(sprite).equals(sprite.getImagePath())) {
-				// image path changed (e.g. facing changed)
-				imagePathMap.put(sprite, sprite.getImagePath());
-				spriteViewMap.get(sprite).setImage(new Image(sprite.getImagePath()));
+			if (!spriteViewMap.containsKey(sprite)) {
+				//new sprite
+				addSpriteViewWithSprite(sprite);
+			} else {
+				//old friend sprites
+				if (!imagePathMap.containsKey(sprite)
+						|| !imagePathMap.get(sprite).equals(sprite.getImagePath())) {
+					// image path changed (e.g. facing changed)
+					imagePathMap.put(sprite, sprite.getImagePath());
+					myView.removeSpriteView(spriteViewMap.get(sprite));
+					addSpriteViewWithSprite(sprite);
+				}
 			}
 			spriteViewMap.get(sprite).setX(sprite.getXForVisualization());
 			spriteViewMap.get(sprite).setY(sprite.getYForVisualization());
 		}
+		//remove what's not returned from game engine
+		Set<ISpriteVisualization> removing = new HashSet<>(spriteViewMap.keySet());
+		removing.removeAll(myGameEngine.getSprites());
+		for (ISpriteVisualization sprite : removing) {
+			myView.removeSpriteView(spriteViewMap.get(sprite));
+			spriteViewMap.remove(sprite);
+		}
+	}
+	
+	private void addSpriteViewWithSprite(ISpriteVisualization sprite) {
+		ImageView image = createNewImageViewForSprite(sprite);
+		spriteViewMap.put(sprite, image);
+		myView.addSpriteView(image);
+	}
+	
+	private ImageView createNewImageViewForSprite(ISpriteVisualization sprite) {
+		Image image = new Image(sprite.getImagePath());
+		return myRenderer.render(
+				image, 
+				sprite.getImageStyle(), 
+				sprite.getWidthForVisualization(), 
+				sprite.getHeightForVisualization());
 	}
 	
 	private void initBackground() {
@@ -164,25 +189,6 @@ public class GameRunner {
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 		animation.play();
-	}
-
-	private ImageView createNewImageViewForSprite(ISpriteVisualization sprite) {
-		String imagePath = sprite.getImagePath();
-		ImageView image = new ImageView(imagePath);
-		image.setX(sprite.getXForVisualization());
-		image.setY(sprite.getYForVisualization());
-
-		image.setFitWidth(sprite.getWidthForVisualization());
-		image.setFitHeight(sprite.getHeightForVisualization());
-		return image;
-	}
-
-	private void initSpriteMap() {
-		for (ISpriteVisualization sp : runningLevel.getAllSpriteVisualizations()) {
-			ImageView image = createNewImageViewForSprite(sp);
-			spriteViewMap.put(sp, image);
-			myView.addSpriteView(image);
-		}
 	}
 
 	private void keyTriggers2Controls() {

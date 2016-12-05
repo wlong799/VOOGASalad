@@ -145,7 +145,7 @@ public class LevelGenerator {
 		levelB = new Level(game, "TestLevelB");
 		levelB.getLevelDimension().setWidth(2000);
 		levelB.getLevelDimension().setHeight(800);
-		Hero hero = new Hero(new Position(30, 30), new Dimension(40, 60), heroImages);
+		Hero hero = new Hero(new Position(30, 30), new Dimension(50, 50), heroImages);
 		hero.setVelocity(new Velocity(50, 0));
 		hero.setImageStyle(ImageStyle.FIT);
 		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 200), blockImages);
