@@ -18,6 +18,7 @@ public abstract class AbstractSprite implements ISprite {
 	protected int myCategoryBitMask;
 	protected int myCollisionBitMask;
 	protected boolean myAffectedByPhysics;
+	protected Velocity myVelocity;
 	
 	static {
 		staticPivotPosition = new Position(0, 0);
@@ -31,6 +32,7 @@ public abstract class AbstractSprite implements ISprite {
 		myCategoryBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
 		myCollisionBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
 		myAffectedByPhysics = false;
+		myVelocity = new Velocity(0, 0);
 	}
 	
 	/* IBodyWithPosition Implementations */
@@ -114,6 +116,16 @@ public abstract class AbstractSprite implements ISprite {
 	public void setAffectedByPhysics(boolean affectedByPhysics) {
 		myAffectedByPhysics = affectedByPhysics;
 	}
+	
+	@Override
+	public Velocity getVelocity() {
+		return myVelocity;
+	}
+
+	@Override
+	public void setVelocity(Velocity velocity) {
+		myVelocity = velocity;
+	}
 	/* ---IPhysicsBody Setter Implementations END--- */
 	
 	
@@ -133,7 +145,7 @@ public abstract class AbstractSprite implements ISprite {
 	
 	@Override
 	public String getImagePath() {
-		if (getVelocity().getXVelocity() != 0) {
+		if (getVelocity() != null && getVelocity().getXVelocity() != 0) {
 			myPreviousImagePath = getVelocity().getXVelocity() < 0 // face left
 				? myImagePaths.get(0)
 				: (
