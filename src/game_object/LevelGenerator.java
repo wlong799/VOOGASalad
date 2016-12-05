@@ -92,7 +92,7 @@ public class LevelGenerator {
         ArrayList<String> blueGunImgs = new ArrayList<>();
         blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_FILE);
 		WeaponModel heroWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
-		hero.setCurrentWeapon(heroWeapon);
+		hero.setCurrentWeapon(heroWeapon.newWeaponInstance(hero, new Dimension(5, 5)));
 		
 		bulletImgs.add(GameObjectConstants.BULLET_FILE);
 		// a very fast bullet model
@@ -108,7 +108,7 @@ public class LevelGenerator {
 		WeaponModel fastWeapon = new WeaponModel(redGunImgs, 10, fastModel, colBitMask);
 		ArrayList<String> fwpuImg = new ArrayList<String>();
 		fwpuImg.add(GameObjectConstants.NEW_WEAPON_POWER_UP_FILE);
-		PowerUp fastWeaponPowerUp = new NewWeaponPowerUp(new Position(300, 100), new Dimension(20, 20), fwpuImg, fastWeapon);
+		PowerUp fastWeaponPowerUp = new NewWeaponPowerUp(new Position(300, 100), new Dimension(20, 20), fwpuImg, fastWeapon, new Dimension(10, 10));
 		levelA.addSprite(fastWeaponPowerUp);
 		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);

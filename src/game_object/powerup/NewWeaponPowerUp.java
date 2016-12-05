@@ -10,15 +10,17 @@ import game_object.weapon.WeaponModel;
 public class NewWeaponPowerUp extends PowerUp {
 
 	private WeaponModel myWeapon;
+	private Dimension myDim;
 	
-	public NewWeaponPowerUp(Position position, Dimension dimension, List<String> imagePaths, WeaponModel w) {
-		super(position, dimension, imagePaths);
+	public NewWeaponPowerUp(Position position, Dimension powerUpIconDim, List<String> imagePaths, WeaponModel w, Dimension weaponDim) {
+		super(position, powerUpIconDim, imagePaths);
 		myWeapon = w;
+		myDim = weaponDim;
 	}
 	
 	@Override
 	public void affect(IUpgrader u) {
-		u.obtainWeapon(myWeapon);
+		u.obtainWeapon(myWeapon, myDim);
 	}
 
 }

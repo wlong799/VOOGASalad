@@ -76,13 +76,13 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	/* ---IMortal Implementations End--- */
 	
 	@Override
-	public WeaponModel getCurrentWeapon() {
-		return myCurrentWeapon.getModel();
+	public Weapon getCurrentWeapon() {
+		return myCurrentWeapon;
 	}
 
 	@Override
-	public void setCurrentWeapon(WeaponModel currentWeapon) {
-		// myCurrentWeapon = currentWeapon;
+	public void setCurrentWeapon(Weapon currentWeapon) {
+		myCurrentWeapon = currentWeapon;
 	}
 	
 	public double getMovingUnit() {

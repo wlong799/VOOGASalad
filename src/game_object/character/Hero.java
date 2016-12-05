@@ -43,8 +43,8 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 	}
 
 	@Override
-	public void obtainWeapon(WeaponModel w) {
-		setCurrentWeapon(w);
+	public void obtainWeapon(WeaponModel weaponModel, Dimension dim) {
+		setCurrentWeapon(weaponModel.newWeaponInstance(this, dim));
 	}
 
 	@Override
