@@ -35,6 +35,9 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 		myAffectedByPhysics = true;
+		// default displacement
+		myWeaponDisplacementX = dimension.getWidth();
+		myWeaponDisplacementY = 0;
 	}
 	
 	/* IMortal Implementations */
