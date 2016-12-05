@@ -18,8 +18,7 @@ public class Weapon extends AbstractSprite {
 
 	@Override
 	public void onCollideWith(ICollisionBody otherBody) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	public WeaponModel getModel() {

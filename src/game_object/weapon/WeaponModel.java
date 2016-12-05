@@ -51,5 +51,4 @@ public class WeaponModel {
 		return new Weapon(new Position(x+dx, y+dy, z+dz), dim, myImagePaths, this);
 	}
 
-	
 }
