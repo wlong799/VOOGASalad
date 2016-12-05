@@ -20,10 +20,12 @@ import game_object.character.Hero;
 import game_object.core.Game;
 import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
+import game_player.image.ImageRenderer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,6 +48,7 @@ public class GameRunner {
 	private Game runningGame;
 	private Level originalLevel;
 	private Level runningLevel;
+	
 	private Map<ISpriteVisualization, ImageView> spriteViewMap;
 	private Map<ISpriteVisualization, String> imagePathMap;
 	private Map<Level, Level> running2origin;
@@ -53,8 +56,8 @@ public class GameRunner {
 	
 	private GameRunningView myView;
 	private Scene myScene;
-	
 	private Consumer<Level> myLevelChangeHandler;
+	private ImageRenderer myRenderer;
 
 	public GameRunner(Scene s, Game game, Consumer<Level> levelChangeHandler) {
 		myScene = s;
@@ -65,6 +68,7 @@ public class GameRunner {
 		running2origin = new HashMap<>();
 		myView = new GameRunningView();
 		myLevelChangeHandler = levelChangeHandler;
+		myRenderer = new ImageRenderer();
 		init();
 	}
 	

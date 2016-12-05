@@ -28,7 +28,7 @@ public abstract class AbstractSprite implements ISprite {
 		myPosition = position;
 		myDimension = dimension;
 		myImagePaths = imagePaths;
-		myImageStyle = ImageStyle.TRUE_SIZE;
+		myImageStyle = ImageStyle.FIT;
 		myCategoryBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
 		myCollisionBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
 		myAffectedByPhysics = false;
@@ -79,7 +79,7 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	
 	@Override
-	public ImageStyle getImgStyle() {
+	public ImageStyle getImageStyle() {
 		return myImageStyle;
 	}
 
