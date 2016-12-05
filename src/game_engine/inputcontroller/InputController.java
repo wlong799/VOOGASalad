@@ -16,7 +16,7 @@ import game_object.core.Game;
 import game_object.level.Level;
 import game_object.weapon.Projectile;
 import game_object.weapon.ProjectileModel;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponModel;
 
 public class InputController implements IInputController {
 
@@ -87,7 +87,7 @@ public class InputController implements IInputController {
 	}
 
 	private void addProjectile(ICharacter character) {
-		Weapon weapon = character.getCurrentWeapon();
+		WeaponModel weapon = character.getCurrentWeapon();
 		ProjectileModel pm = weapon.getProjectileModel();
 		//System.out.println(pm.isAffectedByGravity());
 		//List<String> imagePaths = pm.getImgPaths();

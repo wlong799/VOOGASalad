@@ -19,7 +19,7 @@ import game_object.powerup.PowerUp;
 import goal.AbstractGoal;
 import goal.position.ReachPointGoal;
 import game_object.weapon.ProjectileModel;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponModel;
 import javafx.scene.input.KeyCode;
 /**
  * Use this generator to get a Level with some predefined sprites.
@@ -87,7 +87,7 @@ public class LevelGenerator {
         int colBitMask = 
         		DefaultConstants.BLOCK_CATEGORY_BIT_MASK | 
         		DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
-		Weapon heroWeapon = new Weapon(10, bulletModel, colBitMask);
+		WeaponModel heroWeapon = new WeaponModel(10, bulletModel, colBitMask);
 		hero.setCurrentWeapon(heroWeapon);
 		
 		bulletImgs.add(GameObjectConstants.BULLET_FILE);
@@ -99,7 +99,7 @@ public class LevelGenerator {
 				false // follow hero
 				);
                 
-		Weapon fastWeapon = new Weapon(10, fastModel, colBitMask);
+		WeaponModel fastWeapon = new WeaponModel(10, fastModel, colBitMask);
 		ArrayList<String> fwpuImg = new ArrayList<String>();
 		fwpuImg.add(GameObjectConstants.NEW_WEAPON_POWER_UP_FILE);
 		PowerUp fastWeaponPowerUp = new NewWeaponPowerUp(new Position(300, 100), new Dimension(20, 20), fwpuImg, fastWeapon);

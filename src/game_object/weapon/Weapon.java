@@ -1,38 +1,25 @@
 package game_object.weapon;
 
-public class Weapon {
+import java.util.List;
 
-	private double myDamage;
-	private ProjectileModel myProjectileModel;
-	private int myCollisionBitMask;
+import game_object.core.AbstractSprite;
+import game_object.core.Dimension;
+import game_object.core.Position;
+import game_object.simulation.ICollisionBody;
+
+public class Weapon extends AbstractSprite {
+
+	WeaponModel myModel;
 	
-	public Weapon(double damage, ProjectileModel model, int collisionBitMask) {
-		myDamage = damage;
-		myProjectileModel = model;
-		myCollisionBitMask = collisionBitMask;
-		myProjectileModel.setCollisionBitMask(collisionBitMask);
-	}
-	
-	public double getDamage() {
-		return myDamage;
-	}
-	public void setDamage(double damage) {
-		myDamage = damage;
-	}
-	public ProjectileModel getProjectileModel() {
-		return myProjectileModel;
-	}
-	public void setProjectileModel(ProjectileModel projectileModel) {
-		myProjectileModel = projectileModel;
+	public Weapon(Position position, Dimension dimension, List<String> imagePaths, WeaponModel model) {
+		super(position, dimension, imagePaths);
+		myModel = model;
 	}
 
-	public int getCollisionBitMask() {
-		return myCollisionBitMask;
+	@Override
+	public void onCollideWith(ICollisionBody otherBody) {
+		// TODO Auto-generated method stub
+
 	}
 
-	public void setCollisionBitMask(int collisionBitMask) {
-		myCollisionBitMask = collisionBitMask;
-	}
-
-	
 }

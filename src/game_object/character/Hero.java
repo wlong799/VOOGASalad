@@ -7,7 +7,7 @@ import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponModel;
 
 public class Hero extends AbstractCharacter implements IUpgrader {
 
@@ -43,7 +43,7 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 	}
 
 	@Override
-	public void obtainWeapon(Weapon w) {
+	public void obtainWeapon(WeaponModel w) {
 		setCurrentWeapon(w);
 	}
 
