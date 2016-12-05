@@ -15,7 +15,8 @@ import game_object.core.Game;
 import game_object.level.Level;
 import game_object.weapon.Projectile;
 import game_object.weapon.ProjectileModel;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponSprite;
+import game_object.weapon.WeaponModel;
 
 public class InputController implements IInputController {
 
@@ -86,8 +87,18 @@ public class InputController implements IInputController {
 	}
 
 	private void addProjectile(ICharacter character) {
-		Weapon weapon = character.getCurrentWeapon();
-		ProjectileModel pm = weapon.getProjectileModel();
+		// CHANGED BY YILUN
+		WeaponSprite weapon = character.getCurrentWeapon();
+		if(weapon==null || weapon.getModel()==null) return; // currently no weapon
+		ProjectileModel pm = weapon.getModel().getProjectileModel();
+		// END CHANGED BY YILUN
+		
+		//System.out.println(pm.isAffectedByGravity());
+		//List<String> imagePaths = pm.getImgPaths();
+		//TODO affected by gravity not working when shooting twice
+		//pm.setAffectedByGravity(false);
+		//Projectile p = new Projectile(new Position(character.getPosition().getX(), character.getPosition().getY()), new Dimension(20, 20), imagePaths, pm);
+
 		Projectile p = pm.newProjectileInstance(new Position(character.getPosition().getX(), character.getPosition().getY()),
 				new Dimension(20, 20));
 		myCurrentLevel.getProjectiles().add(p);

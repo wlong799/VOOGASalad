@@ -136,9 +136,7 @@ public class CanvasViewController {
         double x = event.getSceneX() - myCanvas.getPositionX();
         double y = event.getSceneY() - myCanvas.getPositionY();
         retrieveScrollPaneSize();
-        //if (canAdjustScrollPane(spView)) {
         adjustScrollPane(x, y);
-        //}
         this.setRelativePosition(
                 spView,
                 x - spView.getMouseOffset().getX(),

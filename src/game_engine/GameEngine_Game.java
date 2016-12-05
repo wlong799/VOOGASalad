@@ -23,7 +23,6 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
-import game_object.weapon.Projectile;
 import goal.IGoal;
 
 public class GameEngine_Game implements IGameEngine {
