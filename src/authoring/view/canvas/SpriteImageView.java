@@ -41,7 +41,7 @@ public class SpriteImageView extends AbstractView {
         myContent.setPrefHeight(getHeight());
         myContent.getChildren().clear();
         Node img = this.getController().getRenderer().
-        		render(myImage, mySprite.getImgStyle(), this.getWidth(), this.getHeight());
+        		render(myImage, mySprite.getImageStyle(), this.getWidth(), this.getHeight());
         myContent.getChildren().add(img);
     }
 
