@@ -1,6 +1,5 @@
 package game_engine.inputcontroller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -92,9 +91,6 @@ public class InputController implements IInputController {
 		Projectile p = pm.newProjectileInstance(new Position(character.getPosition().getX(), character.getPosition().getY()),
 				new Dimension(20, 20));
 		myCurrentLevel.getProjectiles().add(p);
-		myCurrentLevel.getAllSprites().add(p);
-		myCurrentLevel.getAllSpriteVisualizations().add(p);
-		System.out.println(myCurrentLevel.getAllSprites().size());
 	}
 
 	public boolean getInputExist() {
