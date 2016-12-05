@@ -16,7 +16,7 @@ import game_object.core.Game;
 import game_object.level.Level;
 import game_object.weapon.Projectile;
 import game_object.weapon.ProjectileModel;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponSprite;
 import game_object.weapon.WeaponModel;
 
 public class InputController implements IInputController {
@@ -89,7 +89,7 @@ public class InputController implements IInputController {
 
 	private void addProjectile(ICharacter character) {
 		// CHANGED BY YILUN
-		Weapon weapon = character.getCurrentWeapon();
+		WeaponSprite weapon = character.getCurrentWeapon();
 		if(weapon==null || weapon.getModel()==null) return; // currently no weapon
 		ProjectileModel pm = weapon.getModel().getProjectileModel();
 		// END CHANGED BY YILUN

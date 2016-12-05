@@ -8,7 +8,7 @@ import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.core.Velocity;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponSprite;
 import game_object.weapon.WeaponModel;
 
 /**
@@ -25,7 +25,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	private Velocity myVelocity = new Velocity(0, 0);
 	protected boolean myDead = false;
         protected int myCurrentJumps;
-	protected Weapon myCurrentWeapon;
+	protected WeaponSprite myCurrentWeapon;
 	
 	// the following two fields define the weapon-holding position
 	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
@@ -76,12 +76,12 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	/* ---IMortal Implementations End--- */
 	
 	@Override
-	public Weapon getCurrentWeapon() {
+	public WeaponSprite getCurrentWeapon() {
 		return myCurrentWeapon;
 	}
 
 	@Override
-	public void setCurrentWeapon(Weapon currentWeapon) {
+	public void setCurrentWeapon(WeaponSprite currentWeapon) {
 		myCurrentWeapon = currentWeapon;
 	}
 	
