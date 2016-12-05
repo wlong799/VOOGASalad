@@ -133,7 +133,7 @@ public abstract class AbstractSprite implements ISprite {
 	
 	@Override
 	public String getImagePath() {
-		if (getVelocity().getXVelocity() != 0) {
+		if (getVelocity() != null && getVelocity().getXVelocity() != 0) {
 			myPreviousImagePath = getVelocity().getXVelocity() < 0 // face left
 				? myImagePaths.get(0)
 				: (
