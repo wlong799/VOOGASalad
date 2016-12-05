@@ -5,7 +5,8 @@ public class DefaultConstants {
 	public static final double GAME_WIDTH = 900;
 	public static final double GAME_HEIGHT = 700;
 	public static final double TEST_CONFIGURE_WIDTH = 200;
-	public static final double SCROLL_THRESHOLD = 250;
+	public static final double X_SCROLL_THRESHOLD = 400;
+	public static final double Y_SCROLL_PERCENT = 4.0 / 7.0;
 	
 	public static final double MOVING_UNIT = 50;
 	public static final double JUMPING_UNIT = 100;

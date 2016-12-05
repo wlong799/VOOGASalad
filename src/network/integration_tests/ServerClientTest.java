@@ -3,7 +3,7 @@ package network.integration_tests;
 import java.io.IOException;
 
 import network.client.NetworkClient;
-import network.exceptions.JeopardyException;
+import network.exceptions.SessionExpiredException;
 import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;
@@ -55,7 +55,7 @@ public class ServerClientTest {
 			cor.shutdown();
 		} catch (IOException | ServerDownException |
 				InterruptedException | MessageCreationFailureException 
-				| JeopardyException e) {
+				| SessionExpiredException e) {
 			e.printStackTrace();
 		}
 	}

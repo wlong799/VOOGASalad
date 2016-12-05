@@ -18,19 +18,21 @@ public abstract class AbstractSprite implements ISprite {
 	protected int myCategoryBitMask;
 	protected int myCollisionBitMask;
 	protected boolean myAffectedByPhysics;
+	protected Velocity myVelocity;
 	
 	static {
 		staticPivotPosition = new Position(0, 0);
 	}
 	
-	public AbstractSprite(Position position, Dimension dimension, List<String> imagePaths) {
+	protected AbstractSprite(Position position, Dimension dimension, List<String> imagePaths) {
 		myPosition = position;
 		myDimension = dimension;
 		myImagePaths = imagePaths;
-		myImageStyle = ImageStyle.TRUE_SIZE;
+		myImageStyle = ImageStyle.FIT;
 		myCategoryBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
 		myCollisionBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
 		myAffectedByPhysics = false;
+		myVelocity = new Velocity(0, 0);
 	}
 	
 	/* IBodyWithPosition Implementations */
@@ -77,7 +79,7 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	
 	@Override
-	public ImageStyle getImgStyle() {
+	public ImageStyle getImageStyle() {
 		return myImageStyle;
 	}
 
@@ -114,14 +116,27 @@ public abstract class AbstractSprite implements ISprite {
 	public void setAffectedByPhysics(boolean affectedByPhysics) {
 		myAffectedByPhysics = affectedByPhysics;
 	}
+	
+	@Override
+	public Velocity getVelocity() {
+		return myVelocity;
+	}
+
+	@Override
+	public void setVelocity(Velocity velocity) {
+		myVelocity = velocity;
+	}
 	/* ---IPhysicsBody Setter Implementations END--- */
 	
 	
 	/* ISpriteVisualization Implementations */
-	private String myPreviousImagePath;
 	private static Position staticPivotPosition;
 	private static Dimension staticPivotDimension;
-	private double offset = 0;
+	private static double X_SCROLL_THRESHOLD = DefaultConstants.X_SCROLL_THRESHOLD;
+	private static double Y_SCROLL_PERCENT = DefaultConstants.Y_SCROLL_PERCENT;
+	
+	private String myPreviousImagePath;
+	private double myScrollOffset = 0;
 	
 	public static Position getStaticPivotPosition() {
 		return staticPivotPosition;
@@ -133,7 +148,7 @@ public abstract class AbstractSprite implements ISprite {
 	
 	@Override
 	public String getImagePath() {
-		if (getVelocity().getXVelocity() != 0) {
+		if (getVelocity() != null && getVelocity().getXVelocity() != 0) {
 			myPreviousImagePath = getVelocity().getXVelocity() < 0 // face left
 				? myImagePaths.get(0)
 				: (
@@ -153,19 +168,18 @@ public abstract class AbstractSprite implements ISprite {
 	public double getXForVisualization() {
 		double staticX = staticPivotPosition.getX();
 		double myX = myPosition.getX();
-		double threshold = DefaultConstants.SCROLL_THRESHOLD;
-		if (staticX + offset < threshold) {
-			offset += threshold - staticX - offset;
+		if (staticX + myScrollOffset < X_SCROLL_THRESHOLD) {
+			myScrollOffset += X_SCROLL_THRESHOLD - staticX - myScrollOffset;
+		} else if (staticX + myScrollOffset > staticPivotDimension.getWidth() - X_SCROLL_THRESHOLD) {
+			myScrollOffset -= staticX + myScrollOffset - staticPivotDimension.getWidth() + X_SCROLL_THRESHOLD;
 		}
-		else if (staticX + offset > staticPivotDimension.getWidth() - threshold) {
-			offset -= staticX + offset - staticPivotDimension.getWidth() + threshold;
-		}
-		return myX + offset;
+		return myX + myScrollOffset;
 	}
 
 	@Override
 	public double getYForVisualization() {
-		return myPosition.getY();
+		return myPosition.getY() - staticPivotPosition.getY() 
+				+ Y_SCROLL_PERCENT * staticPivotDimension.getHeight();
 	}
 
 	@Override

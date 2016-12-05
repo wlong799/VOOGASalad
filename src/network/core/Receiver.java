@@ -1,34 +1,36 @@
-package network;
+package network.core;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.net.Socket;
 import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
 import network.messages.Message;
 import network.messages.SystemOperation;
-import network.server.Daemon;
 
 /**
- * The worker thread that reads from connection to server and 
- * put messages read into client supplied buffer.
+ * The worker thread that reads from a connection and 
+ * put messages read into the incoming message buffer
+ * 
  * @author CharlesXu
  */
 public class Receiver extends Thread {
 	
 	private Connection connection;
-	private Socket socket;
 	private BlockingQueue<Message> inComingBuffer;
 	
 	private static final Logger LOGGER =
-			Logger.getLogger( Daemon.class.getName() );
+			Logger.getLogger( Receiver.class.getName() );
 	
-	public Receiver(Socket socket,
-					Connection conn,
+	/**
+	 * Create a receiver thread that synchronously read messages
+	 * coming into the connection
+	 * @param conn the connection to read from
+	 * @param inComingBuffer the destination buffer to store message read
+	 */
+	public Receiver(Connection conn,
 					BlockingQueue<Message> inComingBuffer) {
 		this.connection = conn;
-		this.socket = socket;
 		this.inComingBuffer = inComingBuffer;
 	}
 
@@ -37,9 +39,11 @@ public class Receiver extends Thread {
 		while (!connection.isClosed()) {
 			try {
 				ObjectInputStream objectInputStream =
-						new ObjectInputStream(socket.getInputStream());
+						new ObjectInputStream(connection.getSocket().getInputStream());
 				Message msg = (Message) objectInputStream.readObject();
-				LOGGER.info("Receiver " + this.getId() + " received msg: " + msg);
+				LOGGER.info("Receiver " + this.getId() +
+							" received msg: " + msg + 
+							" from " + msg.getSender());
 				if (msg instanceof SystemOperation) {
 					((SystemOperation<?>)msg).execute(connection);
 				} else {

@@ -32,6 +32,7 @@ public class Projectile extends AbstractSprite {
 		myVelocity = myModel.getInitalVelocity();
 		myCategoryBitMask = DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
 		myCollisionBitMask = model.getCollisionBitMask();
+		myPosition.setZ(Double.MAX_VALUE);
 	}
 	
 	public ProjectileModel getModel() {

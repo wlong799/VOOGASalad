@@ -22,5 +22,9 @@ public class GameRunningView {
 	public void addSpriteView(ImageView image) {
 		myRoot.getChildren().add(image);
 	}
+	
+	public void removeSpriteView(ImageView image) {
+		myRoot.getChildren().remove(image);
+	}
 
 }
