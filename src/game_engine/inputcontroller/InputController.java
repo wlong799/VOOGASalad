@@ -1,6 +1,5 @@
 package game_engine.inputcontroller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +15,8 @@ import game_object.core.Game;
 import game_object.level.Level;
 import game_object.weapon.Projectile;
 import game_object.weapon.ProjectileModel;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponSprite;
+import game_object.weapon.WeaponModel;
 
 public class InputController implements IInputController {
 
@@ -28,6 +28,7 @@ public class InputController implements IInputController {
 	private Level myCurrentLevel;
 	private Game myGame;
 	private boolean myLeftRightExist;
+	private boolean myLeft;
 
 	public InputController(Game game) {
 		myGame = game;
@@ -62,10 +63,12 @@ public class InputController implements IInputController {
 		if (at.getActionName() == ActionName.MOVE_LEFT) {
 			IMover m = (IMover) sprite;
 			m.moveLeft();
+			m.setFacingLeft(true);
 			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.MOVE_RIGHT) {
 			IMover m = (IMover) sprite;
 			m.moveRight();
+			m.setFacingLeft(false);
 			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.JUMP) {
 			if (sprite.getVelocity().getYVelocity() == 0) {
@@ -87,24 +90,23 @@ public class InputController implements IInputController {
 	}
 
 	private void addProjectile(ICharacter character) {
-		Weapon weapon = character.getCurrentWeapon();
-		ProjectileModel pm = weapon.getProjectileModel();
-		//System.out.println(pm.isAffectedByGravity());
-		//List<String> imagePaths = pm.getImgPaths();
-		//TODO affected by gravity not working when shooting twice
-		//pm.setAffectedByGravity(false);
-		//Projectile p = new Projectile(new Position(character.getPosition().getX(), character.getPosition().getY()), new Dimension(20, 20), imagePaths, pm);
-		Projectile p = pm.newProjectileInstance(new Position(character.getPosition().getX(), character.getPosition().getY()),
-				new Dimension(20, 20));
-		p.setAffectedByPhysics(true);
-		p.getModel().setAffectedByGravity(false);
+
+		WeaponSprite weapon = character.getCurrentWeapon();
+		if (weapon == null || weapon.getModel() == null)
+			return; // currently no weapon
+		ProjectileModel pm = weapon.getModel().getProjectileModel();
+
+		Projectile p = pm.newProjectileInstance(
+				new Position(character.getPosition().getX(),
+						character.getPosition().getY() + character.getDimension().getHeight() / 3.0),
+				new Dimension(10, 10));
+		if (character.isFacingLeft()) {
+			p.getVelocity().setXVelocity(-Math.abs(p.getVelocity().getXVelocity()));
+		} else {
+			p.getVelocity().setXVelocity(Math.abs(p.getVelocity().getXVelocity()));
+		}
+		//System.out.println(character.getPosition().getX()+" "+p.getPosition().getX());
 		myCurrentLevel.getProjectiles().add(p);
-		myCurrentLevel.getAllSprites().add(p);
-		myCurrentLevel.getAllSpriteVisualizations().add(p);
-		//System.out.println(p.getModel().isAffectedByGravity());
-		//System.out.println(p.getPosition().getX() + " " + p.getPosition().getY() + " " + p.getVelocity().getXVelocity()
-		//		+ " " + p.getVelocity().getYVelocity());
-		//System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
 	}
 
 	public boolean getInputExist() {
