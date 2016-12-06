@@ -29,7 +29,7 @@ public class LevelGenerator {
 	
 	private static Level levelA;
 	private static Level levelB;
-	private static Game game = new Game();
+	private static Game game = new Game("StaticGame");
 	
 	public static Game getTestGame() {
 		if (game.getAllLevelsReadOnly().size() < 2) game = initTestGame();
@@ -46,7 +46,7 @@ public class LevelGenerator {
 	}
 	
 	private static Game initTestGame() {
-		Game game = new Game();
+		Game game = new Game("AGeneratedGame");
 		game.addLevel(getTestLevelA());
 		game.addLevel(getTestLevelB());
 		game.setCurrentLevel(getTestLevelA());
