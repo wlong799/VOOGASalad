@@ -2,8 +2,6 @@ package authoring.view.inspector;
 
 import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
-import authoring.updating.IPublisher;
-import authoring.updating.ISubscriber;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
 import authoring.view.run.TestGameConfiguringView;
@@ -14,8 +12,12 @@ import javafx.scene.control.TabPane;
 import java.util.Observable;
 import java.util.Observer;
 
-public class InspectorView extends AbstractView implements ISubscriber, Observer {
-
+/**
+ * Inspector view allows users to edit various settings within the game environment, including overall game settings,
+ * level settings, component-wide settings, and individual sprite settings. The settings available depend on what
+ * element in the environment is currently selected.
+ */
+public class InspectorView extends AbstractView implements Observer {
     private TabPane tabs;
     private InspectorSpriteView inspectorSpriteView;
     private TestGameConfiguringView configureView;
@@ -31,17 +33,9 @@ public class InspectorView extends AbstractView implements ISubscriber, Observer
     }
 
     @Override
-    public void didUpdate(IPublisher target) {
-        if (target instanceof AuthoringController) {
-            inspectedSpriteView = ((AuthoringController) target).getSelectedSpriteView();
-            updateUI();
-        }
-    }
-
-    @Override
     protected void initUI() {
+        getController().addObserver(this);
         getController().getEnvironment().addObserver(this);
-        getController().addSubscriber(this);
         tabs = new TabPane();
         inspectorSpriteView = new InspectorSpriteView(this.getController());
         configureView = new TestGameConfiguringView(this.getController());
@@ -83,6 +77,12 @@ public class InspectorView extends AbstractView implements ISubscriber, Observer
 
     @Override
     public void update(Observable o, Object arg) {
-        configureView.setLevel(getController().getEnvironment().getCurrentLevel());
+        if (o instanceof AuthorEnvironment) {
+            configureView.setLevel(getController().getEnvironment().getCurrentLevel());
+        }
+        if (o instanceof AuthoringController) {
+            inspectedSpriteView = ((AuthoringController) o).getSelectedSpriteView();
+            updateUI();
+        }
     }
 }

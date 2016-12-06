@@ -1,12 +1,12 @@
 package authoring;
 
 import java.io.File;
+import java.util.Observable;
 
 import authoring.controller.CanvasViewController;
 import authoring.controller.ComponentController;
 import authoring.controller.chat.ChatController;
 import authoring.controller.run.TestGameController;
-import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_object.level.Level;
@@ -16,7 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import serializing.Marshaller;
 
-public class AuthoringController extends AbstractPublisher {
+public class AuthoringController extends Observable {
 	
 	private AuthorEnvironment myEnvironment;
 	private SpriteView selectedSpriteView;
@@ -74,7 +74,7 @@ public class AuthoringController extends AbstractPublisher {
 		}
 		spriteView.indicateSelection();
 		selectedSpriteView = spriteView;
-		this.notifySubscribers();
+		updateObservers();
 	}
 	
 	public SpriteView getSelectedSpriteView() {
@@ -91,7 +91,7 @@ public class AuthoringController extends AbstractPublisher {
 				if (selectedSpriteView != null) {
 					selectedSpriteView.indicateDeselection();
 					selectedSpriteView = null;
-					this.notifySubscribers();
+					updateObservers();
 				}
 			}
 		});
@@ -106,7 +106,12 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public void setParameter(Level level, PhysicsParameterSetOptions option, double value) {
 		level.getPhysicsParameters().set(option, value);
-		this.notifySubscribers();
+		updateObservers();
+	}
+
+	private void updateObservers() {
+		setChanged();
+		notifyObservers();
 	}
 
 }
