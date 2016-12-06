@@ -17,7 +17,6 @@ import java.util.Map;
  */
 public class ChangeLevelElement extends AbstractGameMenuElement {
     private static final String MENU_NAME = "Change Level";
-    private static final String LEVEL_PREFIX = "Level ";
 
     private ToggleGroup myToggleGroup;
     private Map<Integer, RadioMenuItem> myCurrentItems;
@@ -54,7 +53,8 @@ public class ChangeLevelElement extends AbstractGameMenuElement {
         myToggleGroup.getToggles().removeAll();
         myCurrentItems.clear();
         for (int i = 0; i < myController.getEnvironment().getNumLevels().get(); i++) {
-            RadioMenuItem radioMenuItem = new RadioMenuItem(LEVEL_PREFIX + (i + 1));
+            RadioMenuItem radioMenuItem = 
+            		new RadioMenuItem(myController.getEnvironment().getCurrentGame().getAllLevelsReadOnly().get(i).getId());
             radioMenuItem.setUserData(i);
             if (myController.getEnvironment().getCurrentLevelIndex().get() == i) {
                 radioMenuItem.setSelected(true);

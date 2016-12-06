@@ -95,5 +95,6 @@ public class AuthoringView extends AbstractView {
 			myChat.setSize(UIConstants.INSPECTOR_WIDTH, UIConstants.COMPONENT_HEIGHT);
 		}
 	}
+
 }
 
