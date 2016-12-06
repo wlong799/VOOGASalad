@@ -1,7 +1,8 @@
 package game_object.core;
 
 import java.util.List;
-
+import game_engine.physics.ConstantStrategy;
+import game_engine.physics.IPhysicsStrategy;
 import game_object.constants.DefaultConstants;
 
 /**
@@ -19,6 +20,7 @@ public abstract class AbstractSprite implements ISprite {
 	protected int myCollisionBitMask;
 	protected boolean myAffectedByPhysics;
 	protected Velocity myVelocity;
+	protected IPhysicsStrategy myPhysicsStrategy;
 	
 	static {
 		staticPivotPosition = new Position(0, 0);
@@ -33,6 +35,7 @@ public abstract class AbstractSprite implements ISprite {
 		myCollisionBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
 		myAffectedByPhysics = false;
 		myVelocity = new Velocity(0, 0);
+		myPhysicsStrategy = new ConstantStrategy();
 	}
 	
 	/* IBodyWithPosition Implementations */
@@ -107,6 +110,17 @@ public abstract class AbstractSprite implements ISprite {
 	
 	
 	/* IPhysicsBody Setter Implementations */
+	
+	@Override
+	public IPhysicsStrategy getPhysics(){
+	    return myPhysicsStrategy;
+	}
+	
+	@Override
+	public void setPhysics(IPhysicsStrategy physics){
+	    myPhysicsStrategy = physics;
+	}
+	
 	@Override
 	public boolean getAffectedByPhysics() {
 		return myAffectedByPhysics;

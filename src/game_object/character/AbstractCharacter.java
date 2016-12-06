@@ -1,7 +1,8 @@
 package game_object.character;
 
 import java.util.List;
-
+import game_engine.physics.GravityFrictionStrategy;
+import game_engine.physics.IPhysicsStrategy;
 import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
@@ -36,6 +37,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 		myAffectedByPhysics = true;
+		myPhysicsStrategy = new GravityFrictionStrategy();
 		// default displacement
 		myWeaponDisplacementX = dimension.getWidth();
 		myWeaponDisplacementY = 0;
@@ -148,6 +150,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public Velocity getVelocity() {
 		return myVelocity;
 	}
+	
 	/* ---IPhysicsBody Implementations END--- */	
 	
 	@Override
