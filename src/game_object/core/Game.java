@@ -14,7 +14,7 @@ import game_object.statistics.GameStatistics;
  */
 public class Game {
 	
-	private String myId;
+	private final String myId;
 	private List<Level> myLevels;
 	private Dimension myScreenSize;
 	private int myFPS;
@@ -36,8 +36,13 @@ public class Game {
 		myGameStats = new GameStatistics(this);
 	}
 	
+	/* Game basics */
 	public Dimension getScreenSize() {
 		return myScreenSize;
+	}
+	
+	public String getId() {
+		return myId;
 	}
 	
 	/* FPS setting */

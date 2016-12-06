@@ -145,6 +145,16 @@ public class Level implements ILevelVisualization {
 		myBackground = background;
 	}
 
+	/**
+	 * Use with caution.
+	 * Essentially make this level's myHeros list share the same reference with another level.
+	 * This will cause the original list to be garbage-collected.
+	 * @param level another level
+	 */
+	public void replaceAllHerosWithLevel(Level level) {
+		myHeros = level.getHeros();
+	}
+	
 	public List<Hero> getHeros() {
 		return myHeros;
 	}
