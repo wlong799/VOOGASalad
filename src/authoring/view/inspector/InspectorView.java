@@ -79,6 +79,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 
 	private void addViewsAsTab(String tabName, AbstractView view) {
 		Tab newTab = new Tab(tabName);
+		newTab.getStyleClass().add("tab");
 		newTab.setClosable(false);
 		newTab.setContent(view.getUI());
 		tabs.getTabs().add(newTab);

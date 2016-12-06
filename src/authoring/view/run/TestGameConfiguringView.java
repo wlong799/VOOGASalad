@@ -57,7 +57,7 @@ public class TestGameConfiguringView extends AbstractView implements ISubscriber
 		myBox = new VBox();
 		myBox.setSpacing(10);
 		myBox.setPadding(new Insets(5, 5, 5, 5));
-		myBox.setStyle("-fx-background-color: linen;");
+		//myBox.setStyle("-fx-background-color: linen;");
 		fillInBox();
 		this.addUI(myBox);
 	}
