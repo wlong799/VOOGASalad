@@ -9,7 +9,6 @@ import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.weapon.WeaponSprite;
-import game_object.weapon.WeaponModel;
 
 /**
  * A base class for all characters.
@@ -122,11 +121,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public void moveDown() {
 		ExceptionThrower.notYetSupported();
 	}
-	
-	@Override
-	public void resetCurrentJumps(){
-	    myCurrentJumps = 0;
-	}
 
 	@Override
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
@@ -134,6 +128,20 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 			myCurrentJumps++;
 			myVelocity.setYVelocity(-myJumpingUnit);
 		}
+	}
+	
+	@Override
+	public void resetCurrentJumps(){
+	    myCurrentJumps = 0;
+	}
+	
+	public void setMaxNumberOfJumps(int maxNumberOfJumps) {
+		myMaxNumberOfJumps = maxNumberOfJumps;
+	}
+	
+	@Override
+	public int getMaxNumberOfJumps() {
+		return myMaxNumberOfJumps;
 	}
 	/* ---IMover Implementations END---*/
 	
@@ -149,11 +157,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		return myVelocity;
 	}
 	/* ---IPhysicsBody Implementations END--- */	
-	
-	@Override
-	public int getMaxNumberOfJumps() {
-		return myMaxNumberOfJumps;
-	}
 
 	public double getWeaponDisplacementX() {
 		return myWeaponDisplacementX;
