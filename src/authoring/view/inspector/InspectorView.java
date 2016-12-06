@@ -5,6 +5,7 @@ import authoring.AuthoringController;
 import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
 import authoring.view.AbstractView;
+import authoring.view.IView;
 import authoring.view.canvas.SpriteView;
 import authoring.view.run.TestGameConfiguringView;
 import javafx.scene.Parent;
@@ -59,7 +60,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	protected void updateLayoutSelf() {
 		tabs.setPrefHeight(this.getHeight());
 		tabs.setPrefWidth(this.getWidth());
-		for (AbstractView subView : this.getSubViews()) {
+		for (IView subView : this.getSubViews()) {
 			subView.setWidth(this.getWidth());
 			subView.setHeight(this.getHeight() - 30);
 		}

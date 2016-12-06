@@ -12,14 +12,14 @@ import javafx.scene.Parent;
 /**
  * Abstract superclass for all other viewable elements in authoring environment GUI.
  */
-public abstract class AbstractView {
+public abstract class AbstractView implements IView {
     private static final String ILLEGAL_SUBVIEW_MESSAGE = "Child already has a parent view";
 
     private double myWidth, myHeight;
     private Group myUIRoot;
     private AuthoringController myController;
-    private List<AbstractView> mySubViews;
-    private AbstractView myParentView;
+    private List<IView> mySubViews;
+    private IView myParentView;
 
     public AbstractView(AuthoringController controller) {
         myUIRoot = new Group();
@@ -38,14 +38,10 @@ public abstract class AbstractView {
 
     public void updateLayout() {
         updateLayoutSelf();
-        mySubViews.forEach(AbstractView::updateLayout);
+        mySubViews.forEach(IView::updateLayout);
     }
 
-    protected List<AbstractView> getSubViews() {
-        return mySubViews;
-    }
-
-    public void addSubView(AbstractView view) {
+    public void addSubView(IView view) {
         if (view.getParentView() != null) {
             throw new IllegalArgumentException(ILLEGAL_SUBVIEW_MESSAGE);
         }
@@ -53,11 +49,11 @@ public abstract class AbstractView {
         view.setParentView(this);
     }
 
-    public void addSubViews(AbstractView... views) {
+    public void addSubViews(IView... views) {
         Arrays.stream(views).forEach(this::addSubView);
     }
 
-    public void removeSubView(AbstractView view) {
+    public void removeSubView(IView view) {
         if (view == null) {
             return;
         }
@@ -65,30 +61,14 @@ public abstract class AbstractView {
         view.setParentView(null);
     }
 
-    public AbstractView getParentView() {
+    public IView getParentView() {
         return myParentView;
     }
 
-    public void setParentView(AbstractView parent) {
+    public void setParentView(IView parent) {
         myParentView = parent;
     }
-
-    protected void addUI(Node node) {
-        myUIRoot.getChildren().add(node);
-    }
-
-    protected void addUIAll(Node... nodes) {
-        Arrays.stream(nodes).forEach(this::addUI);
-    }
-
-    protected void removeUI(Node node) {
-        myUIRoot.getChildren().remove(node);
-    }
-
-    protected void clearUI() {
-        myUIRoot.getChildren().clear();
-    }
-
+    
     public double getPositionX() {
         return myUIRoot.getLayoutX();
     }
@@ -126,7 +106,28 @@ public abstract class AbstractView {
         myHeight = height;
     }
 
+    protected void addUI(Node node) {
+        myUIRoot.getChildren().add(node);
+    }
+    
+    protected List<IView> getSubViews() {
+        return mySubViews;
+    }
+
+    protected void addUIAll(Node... nodes) {
+        Arrays.stream(nodes).forEach(this::addUI);
+    }
+
+    protected void removeUI(Node node) {
+        myUIRoot.getChildren().remove(node);
+    }
+
+    protected void clearUI() {
+        myUIRoot.getChildren().clear();
+    }
+
     protected abstract void initUI();
 
     protected abstract void updateLayoutSelf();
+    
 }
