@@ -32,7 +32,7 @@ public class GamePlayer implements IGamePlayer {
 	//This will eventually already take a game object in from a serializer
 	@Override
 	public void setGame(String gameName) {
-		myCurrentGame = new Game();
+		myCurrentGame = new Game(gameName);
 		//myGameEngine = new GameEngine_Game(myCurrentGame);
 	}
 

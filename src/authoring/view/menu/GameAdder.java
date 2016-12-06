@@ -10,7 +10,7 @@ import javafx.scene.control.TextInputDialog;
 public class GameAdder {
 	
 	public void addGame(AuthorEnvironment environment) {
-		Game game = new Game();
+		Game game = new Game("TODO:id");
 		game.addLevel(getNewLevel(game));
 		environment.addGame(game);
 	}

@@ -8,7 +8,7 @@ import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.core.Velocity;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponSprite;
 
 /**
  * A base class for all characters.
@@ -24,11 +24,20 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	private Velocity myVelocity = new Velocity(0, 0);
 	protected boolean myDead = false;
         protected int myCurrentJumps;
-	protected Weapon myCurrentWeapon;
+	protected WeaponSprite myCurrentWeapon;
+	private boolean myFacingLeft;
+	
+	// the following two fields define the weapon-holding position
+	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
+	private double myWeaponDisplacementX;
+	private double myWeaponDisplacementY;
 	
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 		myAffectedByPhysics = true;
+		// default displacement
+		myWeaponDisplacementX = dimension.getWidth();
+		myWeaponDisplacementY = 0;
 	}
 	
 	/* IMortal Implementations */
@@ -67,13 +76,12 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	/* ---IMortal Implementations End--- */
 	
 	@Override
-	public Weapon getCurrentWeapon() {
-		//ExceptionThrower.notYetSupported();
+	public WeaponSprite getCurrentWeapon() {
 		return myCurrentWeapon;
 	}
 
 	@Override
-	public void setCurrentWeapon(Weapon currentWeapon) {
+	public void setCurrentWeapon(WeaponSprite currentWeapon) {
 		myCurrentWeapon = currentWeapon;
 	}
 	
@@ -113,11 +121,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public void moveDown() {
 		ExceptionThrower.notYetSupported();
 	}
-	
-	@Override
-	public void resetCurrentJumps(){
-	    myCurrentJumps = 0;
-	}
 
 	@Override
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
@@ -125,6 +128,20 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 			myCurrentJumps++;
 			myVelocity.setYVelocity(-myJumpingUnit);
 		}
+	}
+	
+	@Override
+	public void resetCurrentJumps(){
+	    myCurrentJumps = 0;
+	}
+	
+	public void setMaxNumberOfJumps(int maxNumberOfJumps) {
+		myMaxNumberOfJumps = maxNumberOfJumps;
+	}
+	
+	@Override
+	public int getMaxNumberOfJumps() {
+		return myMaxNumberOfJumps;
 	}
 	/* ---IMover Implementations END---*/
 	
@@ -140,9 +157,28 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		return myVelocity;
 	}
 	/* ---IPhysicsBody Implementations END--- */	
+
+	public double getWeaponDisplacementX() {
+		return myWeaponDisplacementX;
+	}
+
+	public void setWeaponDisplacementX(double weaponDisplacementX) {
+		myWeaponDisplacementX = weaponDisplacementX;
+	}
+
+	public double getWeaponDisplacementY() {
+		return myWeaponDisplacementY;
+	}
+
+	public void setWeaponDisplacementY(double weaponDisplacementY) {
+		myWeaponDisplacementY = weaponDisplacementY;
+	}
 	
-	@Override
-	public int getMaxNumberOfJumps() {
-		return myMaxNumberOfJumps;
+	public void setFacingLeft(boolean left) {
+		myFacingLeft = left;
+	}
+	
+	public boolean isFacingLeft() {
+		return myFacingLeft;
 	}
 }

@@ -23,6 +23,7 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
+import game_object.weapon.Projectile;
 import goal.IGoal;
 
 public class GameEngine_Game implements IGameEngine {
@@ -120,12 +121,8 @@ public class GameEngine_Game implements IGameEngine {
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {
-		if (body.getAffectedByPhysics()) {
+		if (body.getAffectedByPhysics() || body instanceof Projectile) {
 			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
-//			if (body instanceof Projectile) {
-//				Projectile projectile = (Projectile) body;
-//				System.out.println(projectile.getModel().isAffectedByGravity());
-//			}
 			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
 		}
