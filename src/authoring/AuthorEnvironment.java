@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-import game_object.LevelGenerator;
 import game_object.core.Game;
 import game_object.level.Level;
 
 /**
  * AuthorEnvironment contains all of the games currently available for editing. It extends Observable so that
- * elements within the authoring environment know when they need to update.
+ * elements within the authoring environment know when they need to updateObservers.
  */
 public class AuthorEnvironment extends Observable implements IAuthorEnvironment {
     private List<Game> myAvailableGames;
@@ -51,10 +50,14 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
         myAvailableGames.remove(game);
         if (myAvailableGames.size() == 0) {
             myCurrentGame = null;
-            update();
+            updateObservers();
         } else {
             setCurrentGame(myAvailableGames.size() - 1);
         }
+    }
+
+    public List<Game> getAvailableGames() {
+        return myAvailableGames;
     }
 
     @Override
@@ -79,7 +82,17 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
             throw new IllegalArgumentException("Level index out of range: " + index);
         }
         myCurrentLevel = myCurrentGame.getAllLevelsReadOnly().get(index);
-        update();
+        updateObservers();
+    }
+
+    public void setCurrentLevel(Level level) {
+        if (myCurrentGame == null) {
+            throw new IllegalArgumentException("No game currently selected");
+        }
+        if (!myCurrentGame.getAllLevelsReadOnly().contains(level)) {
+            throw new IllegalArgumentException("Selected level is not available");
+        }
+        setCurrentLevel(myCurrentGame.getAllLevelsReadOnly().indexOf(level));
     }
 
     public Level getCurrentLevel() {
@@ -93,7 +106,7 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
         myCurrentGame.removeLevel(level);
         if (myCurrentGame.getAllLevelsReadOnly().size() == 0) {
             myCurrentLevel = null;
-            update();
+            updateObservers();
         } else {
             setCurrentLevel(myCurrentGame.getAllLevelsReadOnly().size() - 1);
         }
@@ -109,7 +122,7 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
         // TODO: 12/5/16 method does nothing
     }
 
-    private void update() {
+    private void updateObservers() {
         setChanged();
         notifyObservers();
     }

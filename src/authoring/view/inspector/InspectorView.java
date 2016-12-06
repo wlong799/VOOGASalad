@@ -11,78 +11,78 @@ import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
-public class InspectorView extends AbstractView implements ISubscriber {
+import java.util.Observable;
+import java.util.Observer;
 
-	private TabPane tabs;
-	private InspectorSpriteView inspectorSpriteView;
-	private TestGameConfiguringView configureView;
-	private SpriteView inspectedSpriteView;
-	
-	public InspectorView(AuthoringController controller) {
-		super(controller);
-	}
+public class InspectorView extends AbstractView implements ISubscriber, Observer {
 
-	@Override
-	public Parent getUI() {
-		return tabs;
-	}
-	
-	@Override
-	public void didUpdate(IPublisher target) {
-		if (target instanceof AuthoringController) {
-			inspectedSpriteView = ((AuthoringController) target).getSelectedSpriteView();
-			updateUI();
-		}
-	}
+    private TabPane tabs;
+    private InspectorSpriteView inspectorSpriteView;
+    private TestGameConfiguringView configureView;
+    private SpriteView inspectedSpriteView;
 
-	@Override
-	protected void initUI() {
-		this.getController().addSubscriber(this);
-		tabs = new TabPane();
-		inspectorSpriteView = new InspectorSpriteView(this.getController());
-		configureView = new TestGameConfiguringView(this.getController());
-		
-		AuthorEnvironment env = this.getController().getEnvironment();
-		env.getCurrentLevelIndex().addListener(obv -> {
-			configureView.setLevel(env.getCurrentLevel());
-		});
-		env.getCurrentGameIndex().addListener(obv -> {
-			configureView.setLevel(env.getCurrentLevel());
-		});
-		configureView.setLevel(env.getCurrentLevel());
-		
-		addViewsAsTab("Physics Settings", configureView);
-		addViewsAsTab("Sprite Inspector", inspectorSpriteView);
-	}
+    public InspectorView(AuthoringController controller) {
+        super(controller);
+    }
 
-	@Override
-	protected void updateLayoutSelf() {
-		tabs.setPrefHeight(this.getHeight());
-		tabs.setPrefWidth(this.getWidth());
-		for (AbstractView subView : this.getSubViews()) {
-			subView.setWidth(this.getWidth());
-			subView.setHeight(this.getHeight() - 30);
-		}
-	}
-	
-	private void updateUI() {
-		inspectorSpriteView.setInspectedSpriteView(inspectedSpriteView);
-		//CRITICAL: using raw index number here
-		//if anyone adds a new tab, notice the index change!!!
-		if (inspectedSpriteView == null) {
-			tabs.getSelectionModel().select(0);
-		}
-		else {
-			tabs.getSelectionModel().select(1);
-		}
-	}
+    @Override
+    public Parent getUI() {
+        return tabs;
+    }
 
-	private void addViewsAsTab(String tabName, AbstractView view) {
-		Tab newTab = new Tab(tabName);
-		newTab.setClosable(false);
-		newTab.setContent(view.getUI());
-		tabs.getTabs().add(newTab);
-		addSubView(view);
-	}
+    @Override
+    public void didUpdate(IPublisher target) {
+        if (target instanceof AuthoringController) {
+            inspectedSpriteView = ((AuthoringController) target).getSelectedSpriteView();
+            updateUI();
+        }
+    }
 
+    @Override
+    protected void initUI() {
+        getController().getEnvironment().addObserver(this);
+        getController().addSubscriber(this);
+        tabs = new TabPane();
+        inspectorSpriteView = new InspectorSpriteView(this.getController());
+        configureView = new TestGameConfiguringView(this.getController());
+
+        configureView.setLevel(getController().getEnvironment().getCurrentLevel());
+
+        addViewsAsTab("Physics Settings", configureView);
+        addViewsAsTab("Sprite Inspector", inspectorSpriteView);
+    }
+
+    @Override
+    protected void updateLayoutSelf() {
+        tabs.setPrefHeight(this.getHeight());
+        tabs.setPrefWidth(this.getWidth());
+        for (AbstractView subView : this.getSubViews()) {
+            subView.setWidth(this.getWidth());
+            subView.setHeight(this.getHeight() - 30);
+        }
+    }
+
+    private void updateUI() {
+        inspectorSpriteView.setInspectedSpriteView(inspectedSpriteView);
+        //CRITICAL: using raw index number here
+        //if anyone adds a new tab, notice the index change!!!
+        if (inspectedSpriteView == null) {
+            tabs.getSelectionModel().select(0);
+        } else {
+            tabs.getSelectionModel().select(1);
+        }
+    }
+
+    private void addViewsAsTab(String tabName, AbstractView view) {
+        Tab newTab = new Tab(tabName);
+        newTab.setClosable(false);
+        newTab.setContent(view.getUI());
+        tabs.getTabs().add(newTab);
+        addSubView(view);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        configureView.setLevel(getController().getEnvironment().getCurrentLevel());
+    }
 }

@@ -2,6 +2,7 @@ package authoring.view.menu.menu_element;
 
 import authoring.AuthoringController;
 import authoring.view.menu.AbstractGameMenuElement;
+import game_object.core.Game;
 
 /**
  * Close currently active game.
@@ -19,7 +20,8 @@ public class CloseGameElement extends AbstractGameMenuElement {
     @Override
     protected void setFunctionality() {
         myMenuItem.setOnAction(event -> {
-            myController.getEnvironment().removeGame();
+            Game game = myController.getEnvironment().getCurrentGame();
+            myController.getEnvironment().removeGame(game);
         });
     }
 }
