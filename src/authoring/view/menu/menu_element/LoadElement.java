@@ -30,7 +30,7 @@ public class LoadElement extends AbstractGameMenuElement {
 				String path = gameFile.toURI().toString();
 				try {
 					Game game = myController.getMarshaller().loadGame(path);
-					myController.getEnvironment().setCurrentGame(game);
+					myController.getEnvironment().addGame(game);
 					myController.getCanvasViewController().refresh();
 				} catch (IOException e1) {
 					e1.printStackTrace();

@@ -19,7 +19,7 @@ public class CloseGameElement extends AbstractGameMenuElement {
     @Override
     protected void setFunctionality() {
         myMenuItem.setOnAction(event -> {
-            myController.getEnvironment().closeCurrentGame();
+            myController.getEnvironment().removeGame();
         });
     }
 }
