@@ -330,6 +330,6 @@ public class CanvasViewController {
     }
 
     public double convertToNearestBlockValue(double value) {
-        return Math.round(value / BLOCK_SIZE) * BLOCK_SIZE;
+        return Math.max(Math.round(value / BLOCK_SIZE) * BLOCK_SIZE, BLOCK_SIZE);
     }
 }
