@@ -63,12 +63,15 @@ public class AuthorEnvironment implements IAuthorEnvironment {
     }
 
     @Override
-    public void addLevel(Level level) {
+    public boolean addLevel(Level level) {
         if (currentGame == null) {
             throw new IllegalArgumentException("no current game");
         }
-        currentGame.addLevel(level);
-        setCurrentLevel(currentGame.getAllLevelsReadOnly().size() - 1);
+        if (currentGame.addLevel(level)) {
+        	setCurrentLevel(currentGame.getAllLevelsReadOnly().size() - 1);
+        	return true;
+        }
+        return false;
     }
 
     @Override
