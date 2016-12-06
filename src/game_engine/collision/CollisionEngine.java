@@ -85,6 +85,8 @@ public class CollisionEngine extends AbstractCollisionEngine {
                                              CollisionDirection collision) {
        
         if (collision != CollisionDirection.NONE) {
+            
+            //c.onCollideWith(other);
             //logSuppressed = false;
             if (!logSuppressed) {
                 System.out.println(collision);
