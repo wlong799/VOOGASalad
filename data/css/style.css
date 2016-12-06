@@ -1,17 +1,117 @@
-.root {
-  -fx-background-color: black; 
-  -fx-padding: 10;
+.root * {
+    -fx-base: black; 
+    /*-fx-accent: lightgrey ;*/
+    -fx-default-button: white;
+    -fx-focus-color: white;
+    -fx-faint-focus-color: blue;
+    -fx-focused-text-base-color : ladder(
+            -fx-selection-bar,
+            -fx-light-text-color 45%,
+            -fx-dark-text-color 46%,
+            -fx-dark-text-color 59%,
+            -fx-mid-text-color 100%
+        );
+    -fx-focused-mark-color : -fx-focused-text-base-color ;  
+
+    -fx-font-family: verdana;  
+}
+
+.button {
+    -fx-background-color: white;
+    -fx-focus-color: blue;
+    -fx-border-color:  black;
+    -fx-border-width: 2
+}
+.send-button {
+    -fx-text-fill: black;
+}
+
+.slider .axis .axis-tick-mark, .slider .axis .axis-minor-tick-mark {
+    -fx-fill: null;
+    -fx-stroke: lightgrey;
+}
+
+.slider .axis {
+    -fx-tick-label-fill: lightgrey;
+}
+
+.scroll-bar .increment-button {
+  visibility: hidden;
+}
+.scroll-bar .decrement-button {
+  visibility: hidden;
+}
+
+.scroll-bar:vertical {
+  -fx-background-color: white;
+}
+.scroll-bar:horizontal {
+  -fx-background-color: white;
+}
+
+.check-box {
+    -fx-text-fill: black;
+}
+
+.scroll-bar .thumb {
+    -fx-background-color: black;
+}
+
+.scrollbar ::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+}
+
+.scrollbar::-webkit-scrollbar
+{
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+.scrollbar::-webkit-scrollbar-thumb
+{
+    background-color: #000000;
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: lightgrey;
+}
+
+.tab .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+}
+
+.tab:selected .tab-label { 
+    -fx-alignment: CENTER;
+    -fx-text-fill: black;
 }
 
 .menu-bar{
-  -fx-background-color: white;
+  -fx-background-color: black;
   -fx-border-color:  black;
  -fx-border-width: 2
 }
 
 .context-menu {
-  -fx-background-color: black;
-  -fx-text-fill: white;
+    -fx-background-color: grey;
+}
+
+.menu .label {
+    -fx-text-fill: white;
+     -fx-font-size: 20px;
 }
 
 .menu-item .label {
@@ -22,8 +122,61 @@
   -fx-text-fill: white;
 }
 
-.button:focused,
-.toggle-button:focused,
+.label {
+-fx-text-fill: black;
+}
+
+.table-view .column-header-background .label{
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+}
+.tab {
+    width: 650px;  
+    -fx-background-insets: 0 1 0 1,0,0;
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+}
+
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
+    -fx-focus-color: black;
+    -fx-faint-focus-color: black;
+}
+
+.tab-pane *.tab-header-background {
+    -fx-effect: innershadow(two-pass-box , transparent , 0, 0.0 , 0 , 0);
+}
+
+.scroll-pane > .viewport  {
+    -fx-text-fill: red;
+ -fx-background-color: rgb(243,243,243); 
+}
+
+.slider .thumb{
+    -fx-background-color: grey;
+    -fx-border-radius: 10;
+    -fx-border-color: black;
+}
+
+.slider .track{
+    -fx-background-color: rgb(20,20,20);
+}
+
+.slider .axis .axis-label{
+    -fx-text-fill: red;
+    -fx-font-size: 6pt;
+}
+
+
+.tablabel {
+    width: 650px;  
+    -fx-background-insets: 0 1 0 1,0,0;
+    -fx-alignment: CENTER;
+    -fx-text-fill: white;
+    -fx-background-color:black ;
+}
+
+/*.button:focused,
+.toggle-button:focused,*/
 .radio-button:focused > .radio,
 .check-box:focused > .box,
 .menu-button:focused,
@@ -87,7 +240,7 @@
         linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
     -fx-background-insets: 0, 1;
     -fx-background-radius: 3, 2;
-    -fx-prompt-text-fill: transparent;
+    -fx-prompt-text-fill: red;
 }
 
 .text-area:focused .content {

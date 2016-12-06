@@ -16,8 +16,8 @@ import network.exceptions.ServerDownException;
 
 public class ChatView extends AbstractView {
 
-	private static final double BUTTON_WIDTH = 50;
-	private static final double SENDING_HEIGHT = 50;
+	private static final double BUTTON_WIDTH = 60;
+	private static final double SENDING_HEIGHT = 40;
 
 	private TextFlow textFlow;
 	private ScrollPane scrollPane;
@@ -77,6 +77,7 @@ public class ChatView extends AbstractView {
 		sendingBox = new HBox();
 		textField = new TextField();
 		enterButton = new Button("Send");
+		enterButton.getStyleClass().add("send-button");
 		textField.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER) {
 				send();
