@@ -27,7 +27,7 @@ import javafx.scene.shape.Rectangle;
  * @author billyu
  *         Controller for canvas
  */
-public class CanvasViewController {
+public class CanvasController {
     private static final double BLOCK_SIZE = 50;
 
     private CanvasView myCanvas;

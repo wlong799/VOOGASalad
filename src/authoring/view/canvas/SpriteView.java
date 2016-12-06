@@ -48,7 +48,7 @@ public class SpriteView extends AbstractView {
 
     public void setAbsolutePositionZ(double z) {
         mySprite.getPosition().setZ(z);
-        getController().getCanvasViewController().reorderSpriteViewsWithPositionZ();
+        getController().getCanvasController().reorderSpriteViewsWithPositionZ();
     }
 
     public Position getMouseOffset() {
@@ -124,9 +124,9 @@ public class SpriteView extends AbstractView {
     }
 
     public void snapToGrid() {
-        setAbsolutePositionX(getController().getCanvasViewController().convertToNearestBlockValue(getPositionX()));
-        setAbsolutePositionY(getController().getCanvasViewController().convertToNearestBlockValue(getPositionY()));
-        setDimensionWidth(getController().getCanvasViewController().convertToNearestBlockValue(getWidth()));
-        setDimensionHeight(getController().getCanvasViewController().convertToNearestBlockValue(getHeight()));
+        setAbsolutePositionX(getController().getCanvasController().convertToNearestBlockValue(getPositionX()));
+        setAbsolutePositionY(getController().getCanvasController().convertToNearestBlockValue(getPositionY()));
+        setDimensionWidth(getController().getCanvasController().convertToNearestBlockValue(getWidth()));
+        setDimensionHeight(getController().getCanvasController().convertToNearestBlockValue(getHeight()));
     }
 }

@@ -2,6 +2,7 @@ package authoring.view.run;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
+import authoring.view.inspector.InspectorLevelView;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.level.Level;
@@ -17,7 +18,7 @@ public class TestGameView extends AbstractView {
 	private Group myGroup;
 
 	private TestGameRunningView myRunningView;
-	private TestGameConfiguringView myConfiguringView;
+	private InspectorLevelView myConfiguringView;
 
 	public TestGameView(AuthoringController controller) {
 		super(controller);
@@ -45,7 +46,7 @@ public class TestGameView extends AbstractView {
 		myStage.setResizable(false);
 		myGroup = new Group();
 		myRunningView = new TestGameRunningView(this.getController());
-		myConfiguringView = new TestGameConfiguringView(this.getController());
+		myConfiguringView = new InspectorLevelView(this.getController());
 		
 		this.addSubViews(myRunningView, myConfiguringView);
 		myGroup.getChildren().addAll(myRunningView.getUI(), myConfiguringView.getUI());

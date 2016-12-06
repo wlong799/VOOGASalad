@@ -1,9 +1,10 @@
-package authoring.view.run;
+package authoring.view.inspector;
 
 import authoring.AuthoringController;
 import authoring.ui.SliderBox;
 import authoring.view.AbstractView;
 import authoring.view.inspector.InspectorView;
+import authoring.view.run.TestGameView;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.physics.PhysicsParameters;
 import game_object.level.Level;
@@ -13,7 +14,7 @@ import javafx.scene.layout.VBox;
 import java.util.Observable;
 import java.util.Observer;
 
-public class TestGameConfiguringView extends AbstractView implements Observer {
+public class InspectorLevelView extends AbstractView implements Observer {
 
     private VBox myBox;
     private SliderBox gravityBox;
@@ -23,7 +24,7 @@ public class TestGameConfiguringView extends AbstractView implements Observer {
     private SliderBox tminBox;
     private Level myLevel;
 
-    public TestGameConfiguringView(AuthoringController controller) {
+    public InspectorLevelView(AuthoringController controller) {
         super(controller);
     }
 

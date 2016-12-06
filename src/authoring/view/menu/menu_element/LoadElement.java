@@ -31,7 +31,7 @@ public class LoadElement extends AbstractGameMenuElement {
 				try {
 					Game game = myController.getMarshaller().loadGame(path);
 					myController.getEnvironment().addGame(game);
-					myController.getCanvasViewController().refresh();
+					myController.getCanvasController().refresh();
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

@@ -2,6 +2,8 @@ package authoring.view.components;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
+import authoring.view.canvas.SpriteView;
+import game_object.core.ISprite;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -69,6 +71,7 @@ public class ComponentView extends AbstractView {
         myContentBox.setAlignment(Pos.CENTER);
 
         addUI(myContentBox);
+        setOnClick();
         setOnDrag();
     }
 
@@ -77,6 +80,14 @@ public class ComponentView extends AbstractView {
         text.setFont(new Font(fontSize));
         text.setTextAlignment(TextAlignment.CENTER);
         return text;
+    }
+
+    private void setOnClick() {
+        getUI().setOnMouseClicked(event -> {
+            SpriteView spriteView = new SpriteView(getController());
+            spriteView.setSprite(myComponent.getTemplateSprite());
+            getController().selectSpriteView(spriteView);
+        });
     }
 
     private void setOnDrag() {

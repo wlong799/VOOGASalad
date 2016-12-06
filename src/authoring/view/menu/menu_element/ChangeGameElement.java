@@ -35,7 +35,7 @@ public class ChangeGameElement extends AbstractGameMenuElement implements Observ
                 if (game != myController.getEnvironment().getCurrentGame()) {
                     myController.getEnvironment().setCurrentGame(game);
                     // TODO: 12/5/16 replace CanvasController to use Observer
-                    myController.getCanvasViewController().refresh();
+                    myController.getCanvasController().refresh();
                 }
             }
         });

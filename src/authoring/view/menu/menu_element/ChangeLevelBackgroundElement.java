@@ -29,7 +29,7 @@ public class ChangeLevelBackgroundElement extends AbstractGameMenuElement{
 			String imagePath = imageFile.toURI().toString();
 			myController.getEnvironment().getCurrentLevel().getBackground().clearImagePaths();
 			myController.getEnvironment().getCurrentLevel().getBackground().appendImagePath(imagePath);
-			myController.getCanvasViewController().refresh();
+			myController.getCanvasController().refresh();
 		});
 	}
 }

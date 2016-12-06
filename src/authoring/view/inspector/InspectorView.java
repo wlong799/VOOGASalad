@@ -4,8 +4,6 @@ import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
-import authoring.view.run.TestGameConfiguringView;
-import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
@@ -18,9 +16,13 @@ import java.util.Observer;
  * element in the environment is currently selected.
  */
 public class InspectorView extends AbstractView implements Observer {
-    private TabPane tabs;
-    private InspectorSpriteView inspectorSpriteView;
-    private TestGameConfiguringView configureView;
+    private TabPane tabPane;
+
+    private InspectorGameView gameInspector;
+    private InspectorLevelView levelInspector;
+    private InspectorComponentView componentInspector;
+    private InspectorSpriteView spriteInspector;
+
     private SpriteView inspectedSpriteView;
 
     public InspectorView(AuthoringController controller) {
@@ -28,61 +30,63 @@ public class InspectorView extends AbstractView implements Observer {
     }
 
     @Override
-    public Parent getUI() {
-        return tabs;
-    }
-
-    @Override
     protected void initUI() {
         getController().addObserver(this);
         getController().getEnvironment().addObserver(this);
-        tabs = new TabPane();
-        inspectorSpriteView = new InspectorSpriteView(this.getController());
-        configureView = new TestGameConfiguringView(this.getController());
 
-        configureView.setLevel(getController().getEnvironment().getCurrentLevel());
+        tabPane = new TabPane();
+        gameInspector = new InspectorGameView(getController());
+        levelInspector = new InspectorLevelView(getController());
+        componentInspector = new InspectorComponentView(getController());
+        spriteInspector = new InspectorSpriteView(getController());
 
-        addViewsAsTab("Physics Settings", configureView);
-        addViewsAsTab("Sprite Inspector", inspectorSpriteView);
+        levelInspector.setLevel(getController().getEnvironment().getCurrentLevel());
+
+        addViewsAsTab("Game", gameInspector);
+        addViewsAsTab("Level", levelInspector);
+        addViewsAsTab("Component", componentInspector);
+        addViewsAsTab("Sprite", spriteInspector);
+        addUI(tabPane);
     }
 
     @Override
     protected void updateLayoutSelf() {
-        tabs.setPrefHeight(this.getHeight());
-        tabs.setPrefWidth(this.getWidth());
-        for (AbstractView subView : this.getSubViews()) {
-            subView.setWidth(this.getWidth());
-            subView.setHeight(this.getHeight() - 30);
-        }
+        tabPane.setPrefHeight(getHeight());
+        tabPane.setPrefWidth(getWidth());
+        getSubViews().forEach(subView -> {
+            subView.setWidth(getWidth());
+            subView.setHeight(getHeight());
+        });
     }
 
     private void updateUI() {
-        inspectorSpriteView.setInspectedSpriteView(inspectedSpriteView);
+        spriteInspector.setInspectedSpriteView(inspectedSpriteView);
         //CRITICAL: using raw index number here
         //if anyone adds a new tab, notice the index change!!!
-        if (inspectedSpriteView == null) {
-            tabs.getSelectionModel().select(0);
+        // TODO: 12/5/16 FIX THIS TO WORK WITH NEW TABS
+        /*if (inspectedSpriteView == null) {
+            tabPane.getSelectionModel().select(0);
         } else {
-            tabs.getSelectionModel().select(1);
-        }
+            tabPane.getSelectionModel().select(1);
+        }*/
     }
 
     private void addViewsAsTab(String tabName, AbstractView view) {
         Tab newTab = new Tab(tabName);
         newTab.setClosable(false);
         newTab.setContent(view.getUI());
-        tabs.getTabs().add(newTab);
+        tabPane.getTabs().add(newTab);
         addSubView(view);
     }
 
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof AuthorEnvironment) {
-            configureView.setLevel(getController().getEnvironment().getCurrentLevel());
+            levelInspector.setLevel(getController().getEnvironment().getCurrentLevel());
         }
         if (o instanceof AuthoringController) {
             inspectedSpriteView = ((AuthoringController) o).getSelectedSpriteView();
-            updateUI();
         }
+        updateUI();
     }
 }

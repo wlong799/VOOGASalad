@@ -3,7 +3,7 @@ package authoring.view.canvas;
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import authoring.constants.UIConstants;
-import authoring.controller.CanvasViewController;
+import authoring.controller.CanvasController;
 import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -113,7 +113,7 @@ public class SpriteResizeView extends AbstractView {
     }
 
     private void setOnDrag() {
-        CanvasViewController canvasController = this.getController().getCanvasViewController();
+        CanvasController canvasController = this.getController().getCanvasController();
         CanvasView canvas = spView.getCanvasView();
         resizeSE.setOnMouseDragged(e -> {
             canvasController.onResizeSpriteView(

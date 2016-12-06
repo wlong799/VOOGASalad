@@ -3,7 +3,7 @@ package authoring;
 import java.io.File;
 import java.util.Observable;
 
-import authoring.controller.CanvasViewController;
+import authoring.controller.CanvasController;
 import authoring.controller.ComponentController;
 import authoring.controller.chat.ChatController;
 import authoring.controller.run.TestGameController;
@@ -22,7 +22,7 @@ public class AuthoringController extends Observable {
 	private SpriteView selectedSpriteView;
 	private Scene myScene;
 	
-	private CanvasViewController canvasViewController;
+	private CanvasController canvasController;
 	private ComponentController componentController;
 	private TestGameController testGameController;
 	private ChatController chatController;
@@ -31,7 +31,7 @@ public class AuthoringController extends Observable {
 	
 	public AuthoringController(AuthorEnvironment environment) {
 		myEnvironment = environment;
-		canvasViewController = new CanvasViewController();
+		canvasController = new CanvasController();
 		componentController = new ComponentController();
 		testGameController = new TestGameController(this);
 		chatController = new ChatController();
@@ -39,8 +39,8 @@ public class AuthoringController extends Observable {
 		renderer = new ImageRenderer();
 	}
 	
-	public CanvasViewController getCanvasViewController() {
-		return canvasViewController;
+	public CanvasController getCanvasController() {
+		return canvasController;
 	}
 	
 	public ComponentController getComponentController() {
@@ -85,7 +85,7 @@ public class AuthoringController extends Observable {
 		myScene = scene;
 		myScene.setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
-				canvasViewController.delete(selectedSpriteView);
+				canvasController.delete(selectedSpriteView);
 			}
 			else if (event.getCode() == KeyCode.ESCAPE) {
 				if (selectedSpriteView != null) {

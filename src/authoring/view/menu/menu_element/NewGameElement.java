@@ -22,7 +22,7 @@ public class NewGameElement extends AbstractGameMenuElement {
     	GameAdder adder = new GameAdder();
         myMenuItem.setOnAction(event -> {
         	adder.addGame(myController.getEnvironment());
-            myController.getCanvasViewController().refresh();
+            myController.getCanvasController().refresh();
         });
     }
 }

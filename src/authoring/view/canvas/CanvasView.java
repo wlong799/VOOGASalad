@@ -2,7 +2,7 @@ package authoring.view.canvas;
 
 import authoring.AuthoringController;
 import authoring.constants.UIConstants;
-import authoring.controller.CanvasViewController;
+import authoring.controller.CanvasController;
 import authoring.view.AbstractView;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
@@ -17,7 +17,7 @@ public class CanvasView extends AbstractView {
     private Group content; // holder for all SpriteViews
     private HBox background;
 
-    private CanvasViewController canvasViewController;
+    private CanvasController canvasController;
 
     public CanvasView(AuthoringController controller) {
         super(controller);
@@ -41,8 +41,8 @@ public class CanvasView extends AbstractView {
         addUI(canvasAdjusterButtonsView.getUI());
         addSubView(canvasAdjusterButtonsView);
 
-        canvasViewController = getController().getCanvasViewController();
-        canvasViewController.init(this, scrollPane, content, background);
+        canvasController = getController().getCanvasController();
+        canvasController.init(this, scrollPane, content, background);
     }
 
     @Override
