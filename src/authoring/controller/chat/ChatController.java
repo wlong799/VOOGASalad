@@ -2,6 +2,7 @@ package authoring.controller.chat;
 
 import java.util.Queue;
 
+import authoring.constants.UIConstants;
 import authoring.view.chat.ChatView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -23,7 +24,7 @@ public class ChatController {
 
 	public void init(ChatView view) {
 		myView = view;
-		KeyFrame frame = new KeyFrame(Duration.millis(100.0),
+		KeyFrame frame = new KeyFrame(Duration.millis(UIConstants.CHAT_FRAME_DURATION_MILLISECOND),
 				new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {

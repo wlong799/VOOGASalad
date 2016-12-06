@@ -2,6 +2,7 @@ package authoring.view.inspector;
 
 import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
+import authoring.constants.UIConstants;
 import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
 import authoring.view.AbstractView;
@@ -61,7 +62,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		tabs.setPrefWidth(this.getWidth());
 		for (AbstractView subView : this.getSubViews()) {
 			subView.setWidth(this.getWidth());
-			subView.setHeight(this.getHeight() - 30);
+			subView.setHeight(this.getHeight() - UIConstants.OVERLAP_PIXELS_WITH_CHAT);
 		}
 	}
 	

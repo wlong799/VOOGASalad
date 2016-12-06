@@ -1,6 +1,7 @@
 package authoring.view.run;
 
 import authoring.AuthoringController;
+import authoring.constants.UIConstants;
 import authoring.ui.SliderBox;
 import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
@@ -56,7 +57,7 @@ public class TestGameConfiguringView extends AbstractView implements ISubscriber
 		this.getController().addSubscriber(this);
 		myBox = new VBox();
 		myBox.setSpacing(10);
-		myBox.setPadding(new Insets(5, 5, 5, 5));
+		myBox.setPadding(new Insets(UIConstants.TEST_GAME_PADDING, UIConstants.TEST_GAME_PADDING, UIConstants.TEST_GAME_PADDING, UIConstants.TEST_GAME_PADDING));
 		//myBox.setStyle("-fx-background-color: linen;");
 		fillInBox();
 		this.addUI(myBox);
@@ -71,48 +72,48 @@ public class TestGameConfiguringView extends AbstractView implements ISubscriber
 	private void fillInBox() {
 		gravityBox = new SliderBox(
 				"Gravity", 
-				0, 
-				100, 
-				50,//default 
-				1, 
+				UIConstants.GRAVITY_SLIDER_MIN, 
+				UIConstants.GRAVITY_SLIDER_MAX, 
+				UIConstants.GRAVITY_DEFAULT_VALUE, 
+				UIConstants.GRAVITY_INTERVALS, 
 				(obv, oldVal, newVal) -> {
 			this.setParameter(PhysicsParameterSetOptions.GRAVITY, newVal.doubleValue());
 		});
 		afBox = new SliderBox(
 				"Air Friction", 
-				0, 
-				1, 
-				0,//default 
-				0.1, 
+				UIConstants.AIR_FRICTION_SLIDER_MIN, 
+				UIConstants.AIR_FRICTION_SLIDER_MAX, 
+				UIConstants.AIR_FRICTION_DEFAULT_VALUE, 
+				UIConstants.AIR_FRICTION_INTERVALS, 
 				(obv, oldVal, newVal) -> {
 			this.setParameter(PhysicsParameterSetOptions.AIRFRICTION, newVal.doubleValue());
 		});
 		gfBox = new SliderBox(
 				"Ground Friction", 
-				0, 
-				1, 
-				0.1,//default 
-				0.1, 
+				UIConstants.GROUND_FRICTION_SLIDER_MIN, 
+				UIConstants.GROUND_FRICTION_SLIDER_MAX, 
+				UIConstants.GROUND_FRICTION_DEFAULT_VALUE, 
+				UIConstants.GROUND_FRICTION_INTERVALS, 
 				(obv, oldVal, newVal) -> {
 			this.setParameter(PhysicsParameterSetOptions.GROUNDFRICTION, newVal.doubleValue());
 		});
 		gfBox.getBox().setFocusTraversable(false);
 		tmaxBox = new SliderBox(
 				"Max Threshold", 
-				0, 
-				1000, 
-				1000,//default 
-				1000, 
+				UIConstants.MAX_THRESHOLD_SLIDER_MIN,
+				UIConstants.MAX_THRESHOLD_SLIDER_MAX,
+				UIConstants.MAX_THRESHOLD_DEFAULT_VALUE,
+				UIConstants.MAX_THRESHOLD_INTERVALS,
 				(obv, oldVal, newVal) -> {
 			this.setParameter(PhysicsParameterSetOptions.MAXTHRESHOLD, newVal.doubleValue());
 		});
 		tmaxBox.getBox().setFocusTraversable(false);
 		tminBox = new SliderBox(
 				"Min Threshold", 
-				0, 
-				100, 
-				1,//default 
-				1, 
+				UIConstants.MIN_THRESHOLD_SLIDER_MIN,
+				UIConstants.MIN_THRESHOLD_SLIDER_MAX,
+				UIConstants.MIN_THRESHOLD_DEFAULT_VALUE,
+				UIConstants.MIN_THRESHOLD_INTERVALS,
 				(obv, oldVal, newVal) -> {
 			this.setParameter(PhysicsParameterSetOptions.MINTHRESHOLD, newVal.doubleValue());
 		});
