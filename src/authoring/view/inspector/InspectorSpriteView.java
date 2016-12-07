@@ -29,7 +29,7 @@ public class InspectorSpriteView extends AbstractView {
 	private CheckBox herosCollisionCB, enemiesCollisionCB, blockCollisionCB, applyPhysics;
 	private ComponentPhysicsSettings componentPhysicsSettings;
 	private ActionConfiguringView myActionView;
-	private ReachPointGoalConfiguringView reachPointGoal;
+	//private ReachPointGoalConfiguringView reachPointGoal;
 
 	public interface ITextChangeHandler {
 		void handle(String newVal);
@@ -93,16 +93,16 @@ public class InspectorSpriteView extends AbstractView {
 		myActionView.setSprite(sprite);
 		this.addSubView(myActionView);
 
-		reachPointGoal = new ReachPointGoalConfiguringView(this.getController());
-		reachPointGoal.setUpReachPointGoalCheckBox(sprite);
-		this.addSubView(reachPointGoal);
+		//reachPointGoal = new ReachPointGoalConfiguringView(this.getController());
+		//reachPointGoal.setUpReachPointGoalCheckBox(sprite);
+		//this.addSubView(reachPointGoal);
 		
 		initCheckBoxes();
 
 		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox, herosCollisionCB,
 				enemiesCollisionCB, blockCollisionCB, applyPhysics);
 		if (sprite instanceof IBlock) {
-			configs.getChildren().add(reachPointGoal.getUI());
+			//configs.getChildren().add(reachPointGoal.getUI());
 		}
 		if (sprite instanceof Hero) {
 			configs.getChildren().add(myActionView.getUI());
