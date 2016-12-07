@@ -103,7 +103,9 @@ public class InputController implements IInputController {
 		} else {
 			p.getVelocity().setXVelocity(Math.abs(p.getVelocity().getXVelocity()));
 		}
-		//System.out.println(character.getXForVisualization()+" "+p.getXForVisualization());
+		System.out.println(character.getPosition().getX()+" "+character.getXForVisualization());
+		System.out.println(p.getPosition().getX()+" "+p.getXForVisualization());
+		System.out.println();
 		myCurrentLevel.getProjectiles().add(p);
 	}
 
