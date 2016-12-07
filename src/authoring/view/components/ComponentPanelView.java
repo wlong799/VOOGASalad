@@ -7,7 +7,6 @@ import authoring.AuthoringController;
 import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import game_object.constants.GameObjectConstants;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -31,7 +30,6 @@ public class ComponentPanelView extends AbstractView {
     @Override
     protected void initUI() {
         myContent = new HBox();
-        myContent.setAlignment(Pos.CENTER);
         myTabPane = new TabPane();
         myButtonImageView = new ImageView(GameObjectConstants.UPLOAD);
         myButtonImageView.setPreserveRatio(true);
@@ -57,7 +55,7 @@ public class ComponentPanelView extends AbstractView {
         myTabPane.setPrefHeight(getHeight());
         getSubViews().forEach(subView -> {
             subView.setWidth(listWidth);
-            subView.setHeight(getHeight());
+            subView.setHeight(getHeight() - 30);
         });
 
         double newImageWidth = buttonWidth * UIConstants.BUTTON_WIDTH_RATIO;
@@ -78,6 +76,7 @@ public class ComponentPanelView extends AbstractView {
         newTab.setClosable(false);
         final ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(componentListView.getUI());
+        scrollPane.setFitToHeight(true);
         newTab.setContent(scrollPane);
         myTabPane.getTabs().add(newTab);
         addSubView(componentListView);

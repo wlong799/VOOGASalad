@@ -31,7 +31,6 @@ public class UIConstants {
 	public static final double INSPECTOR_WIDTH = 300;
 	public static final double THRESHOLD_HEIGHT = 650;
 	public static final double THRESHOLD_WIDTH = 1200;
-	public static final double PADDING = 10;
 	
 	//Chat
 	public static final double CHAT_FRAME_DURATION_MILLISECOND = 100;
