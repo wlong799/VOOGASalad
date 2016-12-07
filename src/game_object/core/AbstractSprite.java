@@ -1,6 +1,7 @@
 package game_object.core;
 
 import java.util.List;
+import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.ConstantStrategy;
 import game_engine.physics.IPhysicsStrategy;
 import game_object.block.StaticBlock;
@@ -93,22 +94,22 @@ public abstract class AbstractSprite implements ISprite {
 	/* ICollisionBody Implementations */
 	
 	@Override
-        public void onCollideWith(ICollisionBody otherBody){
-            otherBody.onCollideWith(this);
+        public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
+            otherBody.onCollideWith(this, collisionDirection);
         }
 	
 	@Override
-	public void onCollideWith(Hero h){
+	public void onCollideWith(Hero h, CollisionDirection collisionDirection){
 	    
 	}
 	
 	@Override
-	public void onCollideWith(Enemy e){
+	public void onCollideWith(Enemy e, CollisionDirection collisionDirection){
 	    
 	}
 	
 	@Override
-	public void onCollideWith(StaticBlock b){
+	public void onCollideWith(StaticBlock b, CollisionDirection collisionDirection){
 	    
 	}
 	

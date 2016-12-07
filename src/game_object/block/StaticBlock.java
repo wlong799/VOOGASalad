@@ -1,6 +1,7 @@
 package game_object.block;
 
 import java.util.List;
+import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
@@ -19,19 +20,19 @@ public class StaticBlock extends AbstractBlock {
 	}
 
     @Override
-    public void onCollideWith (Hero h) {
+    public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void onCollideWith (Enemy e) {
+    public void onCollideWith (Enemy e, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void onCollideWith (StaticBlock b) {
+    public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
         
     }

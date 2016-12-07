@@ -1,6 +1,7 @@
 package game_object.character;
 
 import java.util.List;
+import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_object.block.StaticBlock;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
@@ -60,19 +61,19 @@ public class Hero extends AbstractCharacter implements IUpgrader {
     }
 
     @Override
-    public void onCollideWith (Hero h) {
+    public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
         
     }
 
     @Override
-    public void onCollideWith (Enemy e) {
+    public void onCollideWith (Enemy e, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
         getVelocity().setYVelocity(-100);
     }
 
     @Override
-    public void onCollideWith (StaticBlock b) {
+    public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
         
     }
