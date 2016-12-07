@@ -11,7 +11,7 @@ public interface IBodyWithImage {
 
 	void setImagePaths(List<String> imagePaths);
 
-	ImageStyle getImgStyle();
+	ImageStyle getImageStyle();
 
 	void setImageStyle(ImageStyle imageStyle);
 	

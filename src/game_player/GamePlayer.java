@@ -23,7 +23,7 @@ public class GamePlayer implements IGamePlayer {
 	public GamePlayer(Stage s, Game game) {
 		myStage = s;
 		myScene = new Scene(new Group(), game.getScreenSize().getWidth(), game.getScreenSize().getHeight());
-		myRunner = new GameRunner(myScene, game);
+		myRunner = new GameRunner(myScene, game, level->{});
 		myScene.setRoot(myRunner.getRunningView().getViews());
 		myStage.setScene(myScene);
 		myStage.show();
@@ -32,7 +32,7 @@ public class GamePlayer implements IGamePlayer {
 	//This will eventually already take a game object in from a serializer
 	@Override
 	public void setGame(String gameName) {
-		myCurrentGame = new Game();
+		myCurrentGame = new Game(gameName);
 		//myGameEngine = new GameEngine_Game(myCurrentGame);
 	}
 

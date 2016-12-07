@@ -15,7 +15,7 @@ public class GameObjectConstants {
     public static final String STONE_BLOCK_FILE = "img/sprites/stone_block.png";
     public static final String BUSH_FILE = "img/sprites/bush.png";
     public static final String BRICK_FILE = "img/sprites/brick.png";
-    public static final String WEAPON_POWER_UP_FILE = "img/sprites/weapon_powerup.png";
+    // public static final String WEAPON_POWER_UP_FILE = "img/sprites/weapon_powerup.png";
     public static final String MARIO_GROUND_FILE = "img/sprites/mario_ground.png";
     public static final String BAR_FILE = "img/sprites/bar.png";
     public static final String BLACK_AND_GREY_FILE = "img/sprites/black_and_grey.png";
@@ -47,6 +47,9 @@ public class GameObjectConstants {
     public static final String GIRL_FILE = "img/sprites/xmasgirl1.png";
     public static final String YELLOW_LIGHT_FILE = "img/sprites/yellow_light.png";
     public static final String BULLET_FILE = "img/sprites/bullet.png";
+    public static final String NEW_WEAPON_POWER_UP_FILE = "img/sprites/new_weapon_powerup.png";
+    public static final String RED_GUN_WEAPON_FILE = "img/sprites/red_gun.png";
+    public static final String BLUE_GUN_WEAPON_FILE = "img/sprites/blue_gun.png";
 
     public static final Component BLUE_SNAIL = new Component(GameObjectType.HERO, BLUE_SNAIL_LEFT, BLUE_SNAIL_RIGHT, "Blue Snail", "A blue snail hero.");
     public static final Component ELIZA = new Component(GameObjectType.HERO, ELIZA_LEFT, ELIZA_RIGHT, "Eliza", "Eliza, a hero.");
@@ -56,7 +59,7 @@ public class GameObjectConstants {
     public static final Component STONE_BLOCK = new Component(GameObjectType.STATIC_BLOCK, STONE_BLOCK_FILE, "Stone", "A stony block.");
     public static final Component BUSH = new Component(GameObjectType.STATIC_BLOCK, BUSH_FILE, "Bush", "A bush block.");
     public static final Component BRICK = new Component(GameObjectType.STATIC_BLOCK, BRICK_FILE, "Brick", "A brick block.");
-    public static final Component WEAPON_POWER_UP = new Component(GameObjectType.WEAPON_POWER_UP, WEAPON_POWER_UP_FILE, "Weapon Power Up", "Power-up to acquire new weapon");
+    public static final Component NEW_WEAPON_POWER_UP = new Component(GameObjectType.WEAPON_POWER_UP, NEW_WEAPON_POWER_UP_FILE, "Weapon Power Up", "Power-up to acquire new weapon");
     public static final Component MARIO_GROUND = new Component(GameObjectType.STATIC_BLOCK, MARIO_GROUND_FILE, "Mario Ground", "the default ground in mario games");
     public static final Component BAR = new Component(GameObjectType.STATIC_BLOCK, BAR_FILE, "Bar Block", "a bar block.");
     public static final Component BLACK_AND_GREY = new Component(GameObjectType.STATIC_BLOCK, BLACK_AND_GREY_FILE, "Black and Grey Block", "a black and grey block.");

@@ -1,7 +1,7 @@
 package game_object.character;
 
 import game_object.core.ISprite;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponSprite;
 
 /**
  * Character interface
@@ -9,8 +9,16 @@ import game_object.weapon.Weapon;
  */
 public interface ICharacter extends ISprite, IMortal, IMover, IShooter {
 
-	Weapon getCurrentWeapon();
+	WeaponSprite getCurrentWeapon();
 
-	void setCurrentWeapon(Weapon currentWeapon);
+	void setCurrentWeapon(WeaponSprite currentWeapon);
+	
+	double getWeaponDisplacementX();
+
+	void setWeaponDisplacementX(double weaponDisplacementX);
+
+	double getWeaponDisplacementY();
+
+	void setWeaponDisplacementY(double weaponDisplacementY);
 	
 }
