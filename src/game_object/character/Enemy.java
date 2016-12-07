@@ -36,10 +36,24 @@ public class Enemy extends AbstractCharacter {
 	}
 
 	/* ICollisionBody Getter Implementations */
-	@Override
-	public void onCollideWith(ICollisionBody otherSprite) {
-		getVelocity().setXVelocity(10);
-	}
+
+    @Override
+    public void onCollideWith (Hero h) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onCollideWith (Enemy e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onCollideWith (StaticBlock b) {
+        // TODO Auto-generated method stub
+        
+    }
 	
 	
 }

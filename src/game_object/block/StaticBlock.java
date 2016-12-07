@@ -1,11 +1,11 @@
 package game_object.block;
 
 import java.util.List;
-
+import game_object.character.Enemy;
+import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.Position;
-import game_object.simulation.ICollisionBody;
 
 public class StaticBlock extends AbstractBlock {
 	
@@ -18,9 +18,22 @@ public class StaticBlock extends AbstractBlock {
 		myAffectedByPhysics = false;
 	}
 
-	@Override
-	public void onCollideWith(ICollisionBody otherBody) {
-		//TODO: 
-	}
+    @Override
+    public void onCollideWith (Hero h) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onCollideWith (Enemy e) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onCollideWith (StaticBlock b) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

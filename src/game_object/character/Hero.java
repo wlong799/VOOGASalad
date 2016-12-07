@@ -28,16 +28,6 @@ public class Hero extends AbstractCharacter implements IUpgrader {
         ExceptionThrower.notYetSupported();
     }
 
-    @Override
-    public void onCollideWith (ICollisionBody otherBody) {
-
-        if (otherBody.getCategoryBitMask() == DefaultConstants.ENEMY_CATEGORY_BIT_MASK) {
-            assert (otherBody instanceof Enemy);
-            // Enemy enemy = (Enemy) otherBody;
-            getVelocity().setYVelocity(-100);
-        }
-    }
-
     /* Upgrader -- Not used for now */
     @Override
     public void replenishHealth () {
@@ -67,6 +57,24 @@ public class Hero extends AbstractCharacter implements IUpgrader {
     @Override
     public boolean getHasProjectile () {
         return myHasProjectile;
+    }
+
+    @Override
+    public void onCollideWith (Hero h) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onCollideWith (Enemy e) {
+        // TODO Auto-generated method stub
+        getVelocity().setYVelocity(-100);
+    }
+
+    @Override
+    public void onCollideWith (StaticBlock b) {
+        // TODO Auto-generated method stub
+        
     }
 
 }

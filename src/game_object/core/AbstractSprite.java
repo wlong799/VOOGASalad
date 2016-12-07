@@ -3,7 +3,11 @@ package game_object.core;
 import java.util.List;
 import game_engine.physics.ConstantStrategy;
 import game_engine.physics.IPhysicsStrategy;
+import game_object.block.StaticBlock;
+import game_object.character.Enemy;
+import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
+import game_object.simulation.ICollisionBody;
 
 /**
  * Base class for all sprites providing common functionalities.
@@ -87,6 +91,27 @@ public abstract class AbstractSprite implements ISprite {
 	}
 
 	/* ICollisionBody Implementations */
+	
+	@Override
+        public void onCollideWith(ICollisionBody otherBody){
+            otherBody.onCollideWith(this);
+        }
+	
+	@Override
+	public void onCollideWith(Hero h){
+	    
+	}
+	
+	@Override
+	public void onCollideWith(Enemy e){
+	    
+	}
+	
+	@Override
+	public void onCollideWith(StaticBlock b){
+	    
+	}
+	
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {
 		myCategoryBitMask = categoryBitMask;
