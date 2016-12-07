@@ -12,9 +12,9 @@ import game_object.weapon.WeaponModel;
  * 
  * @author Charlie Wang
  */
-public class PhysicsEngine extends AbstractPhysicsEngine {
+public class PhysicsEngineWithoutFriction extends AbstractPhysicsEngine {
 
-	public PhysicsEngine(Level level) {
+	public PhysicsEngineWithoutFriction(Level level) {
 		super(level);
 	}
 
@@ -37,24 +37,8 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 
 	@Override
 	public double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
-		double newvy;
-		if (body instanceof Projectile) {
-			Projectile projectile = (Projectile) body;
-			//System.out.println(projectile.getPosition().getX()+" "+projectile.getPosition().getY());
-			if (!projectile.getAffectedByPhysics()) {
-				newvy = projectile.getModel().getInitalVelocity().getYVelocity();
-			} else {
-				newvy = calculateNewVerticalVelocityHelper(body, elapsedTime);
-			}
-		} else {
-			newvy = calculateNewVerticalVelocityHelper(body, elapsedTime);
-		}
-		return newvy;
-	}
-
-	private double calculateNewVerticalVelocityHelper(IPhysicsBody body, double elapsedTime) {
 		double vy = body.getVelocity().getYVelocity();
-		double newvy = vy + elapsedTime * myLevel.getPhysicsParameters().getGravity();
+		double newvy = body.getPhysics().calculateNewYVelocity(myLevel.getPhysicsParameters().getGravity(), vy, elapsedTime);//vy + elapsedTime * myLevel.getPhysicsParameters().getGravity();
 		if (Math.abs(newvy) > myLevel.getPhysicsParameters().getMaxThreshold()) {
 			newvy = newvy > 0 ? myLevel.getPhysicsParameters().getMaxThreshold()
 					: -myLevel.getPhysicsParameters().getMaxThreshold();

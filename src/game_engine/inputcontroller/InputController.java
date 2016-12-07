@@ -16,7 +16,6 @@ import game_object.level.Level;
 import game_object.weapon.Projectile;
 import game_object.weapon.ProjectileModel;
 import game_object.weapon.WeaponSprite;
-import game_object.weapon.WeaponModel;
 
 public class InputController implements IInputController {
 
@@ -28,7 +27,6 @@ public class InputController implements IInputController {
 	private Level myCurrentLevel;
 	private Game myGame;
 	private boolean myLeftRightExist;
-	private boolean myLeft;
 
 	public InputController(Game game) {
 		myGame = game;
@@ -105,7 +103,9 @@ public class InputController implements IInputController {
 		} else {
 			p.getVelocity().setXVelocity(Math.abs(p.getVelocity().getXVelocity()));
 		}
-		//System.out.println(character.getPosition().getX()+" "+p.getPosition().getX());
+		System.out.println(character.getPosition().getX()+" "+character.getXForVisualization());
+		System.out.println(p.getPosition().getX()+" "+p.getXForVisualization());
+		System.out.println();
 		myCurrentLevel.getProjectiles().add(p);
 	}
 

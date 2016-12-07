@@ -30,12 +30,6 @@ public abstract class PowerUp extends AbstractSprite {
 	}
 
 	@Override
-	public Velocity getVelocity() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void setVelocity(Velocity velocity) {
 		// TODO Auto-generated method stub
 		
