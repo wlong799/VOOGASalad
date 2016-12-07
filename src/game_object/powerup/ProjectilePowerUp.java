@@ -5,7 +5,7 @@ import game_object.character.IUpgrader;
 import game_object.core.Dimension;
 import game_object.core.Position;
 
-public class ProjectilePowerUp extends PowerUp{
+public class ProjectilePowerUp extends AbstractPowerUp{
 
     protected ProjectilePowerUp (Position position, Dimension dimension, List<String> imagePaths) {
         super(position, dimension, imagePaths);

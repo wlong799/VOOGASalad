@@ -6,7 +6,7 @@ import game_object.character.IUpgrader;
 import game_object.core.Dimension;
 import game_object.core.Position;
 
-public class ReplenishHealthPowerUp extends PowerUp {
+public class ReplenishHealthPowerUp extends AbstractPowerUp {
 
 
 	protected ReplenishHealthPowerUp(Position position, Dimension dimension, List<String> imagePaths) {
