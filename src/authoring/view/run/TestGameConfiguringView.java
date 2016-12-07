@@ -72,6 +72,7 @@ public class TestGameConfiguringView extends AbstractView implements ISubscriber
 	protected void updateLayoutSelf() {
 		myBox.setPrefWidth(this.getWidth());
 		myBox.setPrefHeight(this.getHeight());
+		myBox.setLayoutX(this.getPositionX());
 	}
 	
 	private void fillInBox() {
