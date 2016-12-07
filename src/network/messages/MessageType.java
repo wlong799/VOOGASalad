@@ -14,9 +14,17 @@ import network.utils.ReflectionException;
  */
 public enum MessageType {
 	
+	// TODO cx15 organzie the message package
+	
 	CHAT ("network.messages.ChatMessage"),
 	PLAYER_MODEL ("TODO"), // TODO cx15 broadcast the player model to all other players
 	USER_GONE_OFFLINE ("network.messages.UserGoneOfflineMessage"),
+	
+	SHARE ("TODO"),
+	GET_SHARED ("TODO"),
+	TRYLOCK ("TODO"), // TODO cx15 tell every one else they have it (to show the tooltip with uid), also each editable object must have some id
+	COMMIT ("TODO"), // TODO cx15 commit unlocks all resources, push new Game to all participants
+						// and dups their changed but uncommited objs onto the Game they received
 	
 	HANDSHAKE ("network.messages.HandShake"),
 	DISCONNECT ("network.messages.Disconnect"),
