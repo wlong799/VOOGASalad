@@ -41,6 +41,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	protected void initUI() {
 		this.getController().addSubscriber(this);
 		tabs = new TabPane();
+		setOnChangeTab();
 		inspectorSpriteView = new InspectorSpriteView(this.getController());
 		configureView = new TestGameConfiguringView(this.getController());
 		
@@ -86,6 +87,15 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		newTab.setContent(view.getUI());
 		tabs.getTabs().add(newTab);
 		addSubView(view);
+	}
+	
+	private void setOnChangeTab() {
+		tabs.getSelectionModel().selectedIndexProperty().addListener(
+				(ov, oldVal, newVal) -> {
+					if (newVal.intValue() == 0) {
+						this.getController().deselectSpriteViews();
+					}
+				});
 	}
 
 }

@@ -28,19 +28,23 @@ public abstract class AbstractView implements IView {
         initUI();
     }
 
+    @Override
     public Parent getUI() {
         return myUIRoot;
     }
 
+    @Override
     public AuthoringController getController() {
         return myController;
     }
 
+    @Override
     public void updateLayout() {
         updateLayoutSelf();
         mySubViews.forEach(IView::updateLayout);
     }
 
+    @Override
     public void addSubView(IView view) {
         if (view.getParentView() != null) {
             throw new IllegalArgumentException(ILLEGAL_SUBVIEW_MESSAGE);
@@ -49,10 +53,12 @@ public abstract class AbstractView implements IView {
         view.setParentView(this);
     }
 
+    @Override
     public void addSubViews(IView... views) {
         Arrays.stream(views).forEach(this::addSubView);
     }
 
+    @Override
     public void removeSubView(IView view) {
         if (view == null) {
             return;
@@ -61,46 +67,57 @@ public abstract class AbstractView implements IView {
         view.setParentView(null);
     }
 
+    @Override
     public IView getParentView() {
         return myParentView;
     }
 
+    @Override
     public void setParentView(IView parent) {
         myParentView = parent;
     }
     
+    @Override
     public double getPositionX() {
         return myUIRoot.getLayoutX();
     }
 
+    @Override
     public void setPositionX(double x) {
         myUIRoot.setLayoutX(x);
     }
 
+    @Override
     public double getPositionY() {
         return myUIRoot.getLayoutY();
     }
 
+    @Override
     public void setPositionY(double y) {
         myUIRoot.setLayoutY(y);
     }
 
+    @Override
     public double getWidth() {
         return myWidth;
     }
 
+    @Override
     public void setWidth(double width) {
         myWidth = width;
     }
 
+    @Override
     public double getHeight() {
         return myHeight;
     }
 
+    @Override
     public void setHeight(double height) {
         myHeight = height;
     }
 
+    @Override
     public void setSize(double width, double height) {
         myWidth = width;
         myHeight = height;
