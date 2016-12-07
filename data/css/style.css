@@ -1,9 +1,9 @@
 .root * {
-    -fx-base: black; 
+    -fx-base: #000044; 
     /*-fx-accent: lightgrey ;*/
-    -fx-default-button: white;
-    -fx-focus-color: white;
-    -fx-faint-focus-color: blue;
+    -fx-default-button: #C0C0C0;
+    -fx-focus-color: #C0C0C0;
+    -fx-faint-focus-color: #003366;
     -fx-focused-text-base-color : ladder(
             -fx-selection-bar,
             -fx-light-text-color 45%,
@@ -19,20 +19,20 @@
 .button {
     -fx-background-color: white;
     -fx-focus-color: blue;
-    -fx-border-color:  black;
+    -fx-border-color:  #003366;
     -fx-border-width: 2
 }
 .send-button {
-    -fx-text-fill: black;
+    -fx-text-fill: #000044;
 }
 
 .slider .axis .axis-tick-mark, .slider .axis .axis-minor-tick-mark {
     -fx-fill: null;
-    -fx-stroke: lightgrey;
+    -fx-stroke: #6699CC;
 }
 
 .slider .axis {
-    -fx-tick-label-fill: lightgrey;
+    -fx-tick-label-fill: #000044;
 }
 
 .scroll-bar .increment-button {
@@ -43,35 +43,22 @@
 }
 
 .scroll-bar:vertical {
-  -fx-background-color: white;
+  -fx-background-color: #C0C0C0;
 }
 .scroll-bar:horizontal {
-  -fx-background-color: white;
+  -fx-background-color: #C0C0C0;
 }
 
 .check-box {
-    -fx-text-fill: black;
+    -fx-text-fill: #000044;
+}
+
+.check-box .box {
+    -fx-border-color:  #6699CC;
 }
 
 .scroll-bar .thumb {
-    -fx-background-color: black;
-}
-
-.scrollbar ::-webkit-scrollbar-track
-{
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-    background-color: #F5F5F5;
-}
-
-.scrollbar::-webkit-scrollbar
-{
-    width: 6px;
-    background-color: #F5F5F5;
-}
-
-.scrollbar::-webkit-scrollbar-thumb
-{
-    background-color: #000000;
+    -fx-background-color: #6699CC;
 }
 
 .tab-pane .tab-header-area .tab-header-background {
@@ -85,61 +72,61 @@
 
 .tab-pane .tab:selected
 {
-    -fx-background-color: lightgrey;
+    -fx-background-color: #6699cc;
 }
 
 .tab .tab-label { 
     -fx-alignment: CENTER;
-    -fx-text-fill: white;
+    -fx-text-fill: #C0C0C0;
     -fx-font-size: 12px;
 }
 
 .tab:selected .tab-label { 
     -fx-alignment: CENTER;
-    -fx-text-fill: black;
+    -fx-text-fill: #000044;
 }
 
 .menu-bar{
-  -fx-background-color: black;
-  -fx-border-color:  black;
+  -fx-background-color: #000044;
+  -fx-border-color:  #000044;
  -fx-border-width: 2
 }
 
 .context-menu {
-    -fx-background-color: grey;
+    -fx-background-color: #003366;
 }
 
 .menu .label {
-    -fx-text-fill: white;
+    -fx-text-fill: #C0C0C0;
      -fx-font-size: 20px;
 }
 
 .menu-item .label {
-  -fx-text-fill: white;
+  -fx-text-fill: #C0C0C0;
 }
 
 .menu-item:focused .label {
-  -fx-text-fill: white;
+  -fx-text-fill: #C0C0C0;
 }
 
 .label {
--fx-text-fill: black;
+-fx-text-fill: #000044;
 }
 
 .table-view .column-header-background .label{
     -fx-background-color: transparent;
-    -fx-text-fill: white;
+    -fx-text-fill: #C0C0C0;
 }
 .tab {
     width: 650px;  
     -fx-background-insets: 0 1 0 1,0,0;
     -fx-alignment: CENTER;
-    -fx-text-fill: white;
+    -fx-text-fill: #C0C0C0;
 }
 
 .tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .focus-indicator {
-    -fx-focus-color: black;
-    -fx-faint-focus-color: black;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
 }
 
 .tab-pane *.tab-header-background {
@@ -147,14 +134,14 @@
 }
 
 .scroll-pane > .viewport  {
-    -fx-text-fill: red;
- -fx-background-color: rgb(243,243,243); 
+    -fx-background-color: rgb(240,235,255);
+    -fx-border-color:  #000044; 
 }
 
 .slider .thumb{
     -fx-background-color: grey;
     -fx-border-radius: 10;
-    -fx-border-color: black;
+    -fx-border-color: #000044;
 }
 
 .slider .track{
@@ -171,8 +158,8 @@
     width: 650px;  
     -fx-background-insets: 0 1 0 1,0,0;
     -fx-alignment: CENTER;
-    -fx-text-fill: white;
-    -fx-background-color:black ;
+    -fx-text-fill: #C0C0C0;
+    -fx-background-color:#000044 ;
 }
 
 /*.button:focused,
@@ -236,11 +223,16 @@
 .text-input:focused {
     -fx-highlight-fill: -fx-accent;
     -fx-highlight-text-fill: white;
+    -fx-text-fill: white;
     -fx-background-color: linear-gradient(to bottom, derive(-fx-text-box-border, -10%), -fx-text-box-border),
         linear-gradient(from 0px 0px to 0px 5px, derive(-fx-control-inner-background, -9%), -fx-control-inner-background);
     -fx-background-insets: 0, 1;
     -fx-background-radius: 3, 2;
     -fx-prompt-text-fill: red;
+}
+
+.text-input {
+    -fx-text-fill: white;
 }
 
 .text-area:focused .content {

@@ -52,6 +52,10 @@ public class ComponentPanelFactory {
                         {GameObjectConstants.DIAGONAL_METAL_FILE, "Diagonal", "a metal block with a diagonal patterns."},
                         {GameObjectConstants.DIAGONAL_WITH_BORDER_FILE, "Diagonal II", "a metal block with a diagonal patterns, except with a border."},
                         {GameObjectConstants.DIAGONAL_YELLOW_WITH_BORDER_FILE, "Diagonal III", "a yelow block with a diagonal patterns, except with a border."}
+                }),
+        POWER_UP("Power Up", GameObjectType.WEAPON_POWER_UP, new String[][]
+                {
+                       
                 });
         private String myTabName;
         private GameObjectType myGameObjectType;
