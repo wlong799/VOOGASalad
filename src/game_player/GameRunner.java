@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -19,6 +20,7 @@ import game_object.character.Hero;
 import game_object.core.Game;
 import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
+import game_player.image.ImageRenderer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
@@ -45,6 +47,7 @@ public class GameRunner {
 	private Game runningGame;
 	private Level originalLevel;
 	private Level runningLevel;
+	
 	private Map<ISpriteVisualization, ImageView> spriteViewMap;
 	private Map<ISpriteVisualization, String> imagePathMap;
 	private Map<Level, Level> running2origin;
@@ -52,8 +55,10 @@ public class GameRunner {
 	
 	private GameRunningView myView;
 	private Scene myScene;
+	private Consumer<Level> myLevelChangeHandler;
+	private ImageRenderer myRenderer;
 
-	public GameRunner(Scene s, Game game) {
+	public GameRunner(Scene s, Game game, Consumer<Level> levelChangeHandler) {
 		myScene = s;
 		originalGame = game;
 		currentlyPressedKeys = new HashSet<>();
@@ -61,6 +66,8 @@ public class GameRunner {
 		imagePathMap = new HashMap<>();
 		running2origin = new HashMap<>();
 		myView = new GameRunningView();
+		myLevelChangeHandler = levelChangeHandler;
+		myRenderer = new ImageRenderer();
 		init();
 	}
 	
@@ -81,8 +88,8 @@ public class GameRunner {
 		myGameEngine = new GameEngine_Game(runningGame);
 		myGameEngine.suppressLogDebug();
 
-		initRunning2Origin();
 		clear();
+		initRunning2Origin();
 		initFrame();
 		initAnimation();
 	}
@@ -103,7 +110,7 @@ public class GameRunner {
 	}
 
 	private void initFrame() {
-		frame = new KeyFrame(Duration.millis(1000.0 / 60.0),
+		frame = new KeyFrame(Duration.millis(1000.0 / runningGame.getFPS()),
 				new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
@@ -111,31 +118,58 @@ public class GameRunner {
 				if (runningLevel != currentLevel) {
 					runningLevel = currentLevel;
 					originalLevel = running2origin.get(runningLevel);
+					myLevelChangeHandler.accept(originalLevel);
 					clear();
 					initBackground();
-					initSpriteMap();
 					keyTriggers2Controls();
 				}
 				myGameEngine.setInputList(currentlyPressedKeys);
-				myGameEngine.update(5.0 / 60.0);
-				updatePositions();
+				myGameEngine.update(5.0 / runningGame.getFPS());
+				update();
 			}
 		});
 	}
 
-	private void updatePositions() {
+	private void update() {
 		for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
-			//TODO: need to take care the case where new sprites are created (projectiles e.g.)
-			if (!spriteViewMap.containsKey(sprite)) continue;
-			if (!imagePathMap.containsKey(sprite)
-					|| !imagePathMap.get(sprite).equals(sprite.getImagePath())) {
-				// image path changed (e.g. facing changed)
-				imagePathMap.put(sprite, sprite.getImagePath());
-				spriteViewMap.get(sprite).setImage(new Image(sprite.getImagePath()));
+			if (!spriteViewMap.containsKey(sprite)) {
+				//new sprite
+				addSpriteViewWithSprite(sprite);
+			} else {
+				//old friend sprites
+				if (!imagePathMap.containsKey(sprite)
+						|| !imagePathMap.get(sprite).equals(sprite.getImagePath())) {
+					// image path changed (e.g. facing changed)
+					imagePathMap.put(sprite, sprite.getImagePath());
+					myView.removeSpriteView(spriteViewMap.get(sprite));
+					addSpriteViewWithSprite(sprite);
+				}
 			}
 			spriteViewMap.get(sprite).setX(sprite.getXForVisualization());
 			spriteViewMap.get(sprite).setY(sprite.getYForVisualization());
 		}
+		//remove what's not returned from game engine
+		Set<ISpriteVisualization> removing = new HashSet<>(spriteViewMap.keySet());
+		removing.removeAll(myGameEngine.getSprites());
+		for (ISpriteVisualization sprite : removing) {
+			myView.removeSpriteView(spriteViewMap.get(sprite));
+			spriteViewMap.remove(sprite);
+		}
+	}
+	
+	private void addSpriteViewWithSprite(ISpriteVisualization sprite) {
+		ImageView image = createNewImageViewForSprite(sprite);
+		spriteViewMap.put(sprite, image);
+		myView.addSpriteView(image);
+	}
+	
+	private ImageView createNewImageViewForSprite(ISpriteVisualization sprite) {
+		Image image = new Image(sprite.getImagePath());
+		return myRenderer.render(
+				image, 
+				sprite.getImageStyle(), 
+				sprite.getWidthForVisualization(), 
+				sprite.getHeightForVisualization());
 	}
 	
 	private void initBackground() {
@@ -155,25 +189,6 @@ public class GameRunner {
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 		animation.play();
-	}
-
-	private ImageView createNewImageViewForSprite(ISpriteVisualization sprite) {
-		String imagePath = sprite.getImagePath();
-		ImageView image = new ImageView(imagePath);
-		image.setX(sprite.getXForVisualization());
-		image.setY(sprite.getYForVisualization());
-
-		image.setFitWidth(sprite.getWidthForVisualization());
-		image.setFitHeight(sprite.getHeightForVisualization());
-		return image;
-	}
-
-	private void initSpriteMap() {
-		for (ISpriteVisualization sp : runningLevel.getAllSpriteVisualizations()) {
-			ImageView image = createNewImageViewForSprite(sp);
-			spriteViewMap.put(sp, image);
-			myView.addSpriteView(image);
-		}
 	}
 
 	private void keyTriggers2Controls() {

@@ -16,6 +16,7 @@ public class TestGameRunningView extends AbstractView {
 	}
 	
 	public void setRoot(Group root) {
+		myPane.getChildren().clear();
 		myPane.getChildren().add(root);
 	}
 

@@ -14,4 +14,5 @@ public interface IMover {
 	void jumpUp();
 	int getMaxNumberOfJumps();
 	void resetCurrentJumps();
+	boolean isFacingLeft();
 }

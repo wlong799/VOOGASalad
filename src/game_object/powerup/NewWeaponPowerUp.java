@@ -5,20 +5,48 @@ import java.util.List;
 import game_object.character.IUpgrader;
 import game_object.core.Dimension;
 import game_object.core.Position;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponModel;
 
-public class NewWeaponPowerUp extends PowerUp {
+/**
+ * A powerup that will give character a new weapon
+ * @author Jay, Yilun
+ */
+public class NewWeaponPowerUp extends AbstractPowerUp {
 
-	private Weapon myWeapon;
+	private WeaponModel myWeaponModel;
+	private Dimension myWeaponDimension;
 	
-	public NewWeaponPowerUp(Position position, Dimension dimension, List<String> imagePaths, Weapon w) {
-		super(position, dimension, imagePaths);
-		myWeapon = w;
+	public NewWeaponPowerUp(
+		Position position,
+		Dimension powerUpIconDimension,
+		List<String> imagePaths,
+		WeaponModel weaponModel,
+		Dimension weaponDimension
+	) {
+		super(position, powerUpIconDimension, imagePaths);
+		myWeaponModel = weaponModel;
+		myWeaponDimension = weaponDimension;
+	}
+	
+	public void setWeaponModel(WeaponModel weaponModel) {
+		myWeaponModel = weaponModel;
+	}
+	
+	public WeaponModel getWeaponModel() {
+		return myWeaponModel;
+	}
+	
+	public void setWeaponDimension(Dimension weaponDimension) {
+		myWeaponDimension = weaponDimension;
+	}
+	
+	public Dimension getWeaponDimension() {
+		return myWeaponDimension;
 	}
 	
 	@Override
-	public void affect(IUpgrader u) {
-		u.obtainWeapon(myWeapon);
+	public void affect(IUpgrader upgrader) {
+		upgrader.obtainWeapon(myWeaponModel, myWeaponDimension);
 	}
 
 }

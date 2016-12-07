@@ -4,7 +4,6 @@ import java.util.List;
 
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
-import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
 
@@ -28,11 +27,6 @@ public class Enemy extends AbstractCharacter {
 	
 	public double getBodyDamage() {
 		return myBodyDamage;
-	}
-	
-	@Override
-	public void shoot() {
-		ExceptionThrower.notYetSupported();
 	}
 
 	/* ICollisionBody Getter Implementations */

@@ -14,6 +14,7 @@ import game_object.statistics.GameStatistics;
  */
 public class Game {
 	
+	private final String myId;
 	private List<Level> myLevels;
 	private Dimension myScreenSize;
 	private int myFPS;
@@ -24,7 +25,8 @@ public class Game {
 	
 	private Level myCurrentLevel;
 	
-	public Game() {
+	public Game(String id) {
+		myId = id;
 		myLevels = new ArrayList<>();
 		myScreenSize = new Dimension(
 			DefaultConstants.GAME_WIDTH,
@@ -34,8 +36,13 @@ public class Game {
 		myGameStats = new GameStatistics(this);
 	}
 	
+	/* Game basics */
 	public Dimension getScreenSize() {
 		return myScreenSize;
+	}
+	
+	public String getId() {
+		return myId;
 	}
 	
 	/* FPS setting */
