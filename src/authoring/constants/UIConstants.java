@@ -83,7 +83,7 @@ public class UIConstants {
     public static final double MAX_THRESHOLD_INTERVALS = 0.1;
     public static final double MIN_THRESHOLD_SLIDER_MIN = 0;
     public static final double MIN_THRESHOLD_SLIDER_MAX = 100;
-    public static final double MIN_THRESHOLD_DEFAULT_VALUE = 1;
+    public static final double MIN_THRESHOLD_DEFAULT_VALUE = 50;
     public static final double MIN_THRESHOLD_INTERVALS = 1;
 	
 }
