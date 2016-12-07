@@ -61,6 +61,11 @@ public class Hero extends AbstractCharacter implements IUpgrader {
     }
 
     @Override
+    public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
+        otherBody.onCollideWith(this, collisionDirection);
+    }
+    
+    @Override
     public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
         
@@ -72,10 +77,10 @@ public class Hero extends AbstractCharacter implements IUpgrader {
         getVelocity().setYVelocity(-100);
     }
 
+    
     @Override
     public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
-        // TODO Auto-generated method stub
-        
+        super.onCollideWith(b, collisionDirection);
     }
 
 }
