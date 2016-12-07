@@ -63,12 +63,10 @@ public class InputController implements IInputController {
 		if (at.getActionName() == ActionName.MOVE_LEFT) {
 			IMover m = (IMover) sprite;
 			m.moveLeft();
-			m.setFacingLeft(true);
 			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.MOVE_RIGHT) {
 			IMover m = (IMover) sprite;
 			m.moveRight();
-			m.setFacingLeft(false);
 			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.JUMP) {
 			if (sprite.getVelocity().getYVelocity() == 0) {

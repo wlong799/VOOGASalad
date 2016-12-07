@@ -7,6 +7,10 @@ import game_object.visualization.ISpriteVisualization;
 
 public interface ISprite extends IPhysicsBody, ICollisionBody, IBodyWithImage, ISpriteVisualization {
 
+	void setValid(boolean valid);
+	
 	boolean isValid();
+	
+	boolean isFacingLeft();
 	
 }

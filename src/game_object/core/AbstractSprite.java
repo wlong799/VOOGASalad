@@ -20,6 +20,7 @@ public abstract class AbstractSprite implements ISprite {
 	protected int myCollisionBitMask;
 	protected boolean myAffectedByPhysics;
 	protected Velocity myVelocity;
+	protected boolean myFacingLeft;
 	
 	static {
 		staticPivotPosition = new Position(0, 0);
@@ -34,9 +35,11 @@ public abstract class AbstractSprite implements ISprite {
 		myCollisionBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
 		myAffectedByPhysics = false;
 		myVelocity = new Velocity(0, 0);
+		myFacingLeft = false; //default to face right.
 	}
 	
 	/* General Setting */
+	@Override
 	public void setValid(boolean valid) {
 		myValid = valid;
 	}
@@ -44,6 +47,14 @@ public abstract class AbstractSprite implements ISprite {
 	@Override
 	public boolean isValid() {
 		return myValid;
+	}
+	
+	@Override
+	public boolean isFacingLeft() {
+		if (getVelocity() != null && getVelocity().getXVelocity() != 0) {
+			myFacingLeft = getVelocity().getXVelocity() < 0;
+		}
+		return myFacingLeft;
 	}
 	/* ---General Setting END--- */
 	
@@ -97,6 +108,7 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	/* ---IBodyWithImage Implementations END--- */
 
+	
 	/* ICollisionBody Implementations */
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {
@@ -149,7 +161,6 @@ public abstract class AbstractSprite implements ISprite {
 	private static double X_SCROLL_THRESHOLD = DefaultConstants.X_SCROLL_THRESHOLD;
 	private static double Y_SCROLL_PERCENT = DefaultConstants.Y_SCROLL_PERCENT;
 	
-	private String myPreviousImagePath;
 	private double myScrollOffset = 0;
 	
 	public static Position getStaticPivotPosition() {
@@ -162,20 +173,13 @@ public abstract class AbstractSprite implements ISprite {
 	
 	@Override
 	public String getImagePath() {
-		if (getVelocity() != null && getVelocity().getXVelocity() != 0) {
-			myPreviousImagePath = getVelocity().getXVelocity() < 0 // face left
+		return isFacingLeft() // face left
+			? myImagePaths.get(0)
+			: (
+				myImagePaths.size() < 2
 				? myImagePaths.get(0)
-				: (
-					myImagePaths.size() < 2
-					? myImagePaths.get(0)
-					: myImagePaths.get(1)
-				);
-		} else {
-			if (myPreviousImagePath == null) {
-				myPreviousImagePath = myImagePaths.get(0);
-			}
-		}
-		return myPreviousImagePath;
+				: myImagePaths.get(1)
+			);
 	}
 
 	@Override
