@@ -49,8 +49,8 @@ public class CollisionEngine extends AbstractCollisionEngine {
                     Boundary enemyBoundary = new Boundary(e.getPosition(), e.getDimension());
                     if (heroBoundary.overlaps(enemyBoundary)) {
                         CollisionDirection collision = getCharacterCollision(h, e);
-                        h.onCollideWith(e);
-                        e.onCollideWith(h);
+                        h.onCollideWith(e, null);
+                        e.onCollideWith(h, null);
                         updateCharacterOnCollision(h, e, collision);
                     }
                 }
@@ -167,7 +167,7 @@ public class CollisionEngine extends AbstractCollisionEngine {
 
     }
 
-    private enum CollisionDirection {
+    public enum CollisionDirection {
                                      TOP,
                                      BOTTOM,
                                      LEFT,
