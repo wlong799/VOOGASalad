@@ -15,6 +15,7 @@ public abstract class AbstractSprite implements ISprite {
 	protected List<String> myImagePaths;
 	protected ImageStyle myImageStyle;
 	protected Dimension myDimension;
+	protected boolean myValid;
 	protected int myCategoryBitMask;
 	protected int myCollisionBitMask;
 	protected boolean myAffectedByPhysics;
@@ -35,6 +36,17 @@ public abstract class AbstractSprite implements ISprite {
 		myVelocity = new Velocity(0, 0);
 	}
 	
+	/* General Setting */
+	public void setValid(boolean valid) {
+		myValid = valid;
+	}
+	
+	@Override
+	public boolean isValid() {
+		return myValid;
+	}
+	/* ---General Setting END--- */
+	
 	/* IBodyWithPosition Implementations */
 	@Override
 	public void setPosition(Position pos) {
@@ -51,6 +63,7 @@ public abstract class AbstractSprite implements ISprite {
 	public Position getPreviousPosition() {
 		return myPreviousPosition;
 	}
+	/* ---IBodyWithPosition Implementations END--- */
 	
 	/* IBodyWithImage Implementations */
 	@Override
@@ -82,6 +95,7 @@ public abstract class AbstractSprite implements ISprite {
 	public ImageStyle getImageStyle() {
 		return myImageStyle;
 	}
+	/* ---IBodyWithImage Implementations END--- */
 
 	/* ICollisionBody Implementations */
 	@Override
