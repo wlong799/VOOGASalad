@@ -89,8 +89,7 @@ public class GameEngine_Game implements IGameEngine {
 		if (!logSuppressed) {
 			System.out.println(myCurrentLevel.getHeros().get(0));
 		}
-		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
-				myCurrentLevel.getStaticBlocks()
+		myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites()
 		// myCurrentLevel.getProjectiles(),
 		);
 		updateScrolling();

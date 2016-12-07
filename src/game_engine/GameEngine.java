@@ -84,8 +84,7 @@ public class GameEngine implements IGameEngine {
 		for (ISprite s : mySprites) {
 			updateNewParameters(s);
 		}
-		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
-				myCurrentLevel.getStaticBlocks());
+		myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites());
 		updateScrolling();
 		endCheck();
 	}
