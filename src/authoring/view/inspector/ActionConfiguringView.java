@@ -41,7 +41,6 @@ public class ActionConfiguringView extends AbstractView {
 	}
 
 	public void setSprite(ISprite sprite) {
-		//TODO: use controller to do this
 		this.sprite = sprite;
 		myTableBox = unitTable();
 	}
