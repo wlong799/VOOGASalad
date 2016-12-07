@@ -153,8 +153,9 @@ public class Level implements ILevelVisualization {
 	 * This will cause the original list to be garbage-collected.
 	 * @param level another level
 	 */
-	public void replaceAllHerosWithLevel(Level level) {
+	public void replaceAllHerosAndTriggersWithLevel(Level level) {
 		myHeros = level.getHeros();
+		myTriggers = level.getAllTriggers();
 	}
 	
 	public List<Hero> getHeros() {
