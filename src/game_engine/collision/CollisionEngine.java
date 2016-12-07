@@ -29,12 +29,15 @@ public class CollisionEngine extends AbstractCollisionEngine {
     }
     
     @Override
-    public void checkCollisions (List<Hero> heroes,
-                                 List<Enemy> enemies,
-                                 List<StaticBlock> blocks) {
-        checkCharacterEnemyCollisions(heroes, enemies);
-        checkCharacterBlockCollisions(heroes, blocks);
-        checkCharacterBlockCollisions(enemies, blocks);
+    public void checkCollisions (List<ISprite> sprites) {
+        for(int i = 0; i < sprites.size()-1; i++){
+            for(int j = i+1; j < sprites.size();j++){
+                checkCollision()
+            }
+        }
+    }
+    
+    private void checkCollision(ISprite s1, ISprite s2){
     }
 
     /**
