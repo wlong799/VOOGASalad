@@ -8,6 +8,9 @@ import authoring.controller.chat.ChatController;
 import authoring.controller.run.TestGameController;
 import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
+import game_engine.physics.PhysicsParameterSetOptions;
+import game_object.level.Level;
+import game_player.image.ImageRenderer;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -24,6 +27,7 @@ public class AuthoringController extends AbstractPublisher {
 	private TestGameController testGameController;
 	private ChatController chatController;
 	private Marshaller marshaller;
+	private ImageRenderer renderer;
 	
 	public AuthoringController(AuthorEnvironment environment) {
 		myEnvironment = environment;
@@ -32,6 +36,7 @@ public class AuthoringController extends AbstractPublisher {
 		testGameController = new TestGameController(this);
 		chatController = new ChatController();
 		marshaller = new Marshaller();
+		renderer = new ImageRenderer();
 	}
 	
 	public CanvasViewController getCanvasViewController() {
@@ -52,6 +57,10 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public Marshaller getMarshaller() {
 		return marshaller;
+	}
+	
+	public ImageRenderer getRenderer() {
+		return renderer;
 	}
 	
 	public AuthorEnvironment getEnvironment() {
@@ -78,6 +87,13 @@ public class AuthoringController extends AbstractPublisher {
 			if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
 				canvasViewController.delete(selectedSpriteView);
 			}
+			else if (event.getCode() == KeyCode.ESCAPE) {
+				if (selectedSpriteView != null) {
+					selectedSpriteView.indicateDeselection();
+					selectedSpriteView = null;
+					this.notifySubscribers();
+				}
+			}
 		});
 		File f = new File("css/style.css");
 		scene.getStylesheets().clear();
@@ -86,6 +102,11 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public void setMouseCursor(Cursor type) {
 		myScene.setCursor(type);
+	}
+	
+	public void setParameter(Level level, PhysicsParameterSetOptions option, double value) {
+		level.getPhysicsParameters().set(option, value);
+		this.notifySubscribers();
 	}
 
 }

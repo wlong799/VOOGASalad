@@ -1,7 +1,8 @@
 package game_object.character;
 
 import java.util.List;
-
+import game_engine.collision.CollisionEngine.CollisionDirection;
+import game_object.block.StaticBlock;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
@@ -10,15 +11,16 @@ import game_object.simulation.ICollisionBody;
 
 public class Enemy extends AbstractCharacter {
 
-	private int myCategoryBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
-	private int myCollisionBitMask =
-			DefaultConstants.HERO_CATEGORY_BIT_MASK |
-			DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
 	// damage this enemy does to the hero if directly collided.
 	private double myBodyDamage = DefaultConstants.ENEMY_BODY_DAMAGE;
 	
 	public Enemy(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
+		myCategoryBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
+		myCollisionBitMask =
+			DefaultConstants.HERO_CATEGORY_BIT_MASK |
+			DefaultConstants.BLOCK_CATEGORY_BIT_MASK | 
+			DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
 	}
 
 	public void setBodyDamage(double bodyDamage) {
@@ -35,19 +37,24 @@ public class Enemy extends AbstractCharacter {
 	}
 
 	/* ICollisionBody Getter Implementations */
-	@Override
-	public int getCategoryBitMask() {
-		return myCategoryBitMask;
-	}
 
-	@Override
-	public int getCollisionBitMask() {
-		return myCollisionBitMask;
-	}
+    @Override
+    public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        
+    }
 
-	@Override
-	public void onCollideWith(ICollisionBody otherSprite) {
-		ExceptionThrower.notYetSupported();
-	}
+    @Override
+    public void onCollideWith (Enemy e, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        
+    }
+	
 	
 }

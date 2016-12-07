@@ -29,4 +29,6 @@ public interface ITransitionManager {
 	 * @return the level you need to go to
 	 */
 	public Level readWinStatus(WinStatus ws);
+	
+	public void setLevel(Level level);
 }

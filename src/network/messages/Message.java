@@ -6,16 +6,25 @@ import network.client.Multiplexer;
 
 /**
  * Defines a universal wrapper for any object as payload to be
- * sent through network
+ * sent through network. Objects sent are automatically flatten and
+ * reconstructed but is treated as a blob. Sender information is
+ * immutable and could only be retrieved.
+ * 
  * @author CharlesXu
  */
 public interface Message extends Serializable {
 
+	/**
+	 * Get the payload wrapped in the message
+	 * @return the payload object
+	 */
 	Object getPayload();
 	
+	/**
+	 * Get the sender of the message
+	 * @return the sender of the message
+	 */
 	String getSender();
-	
-	void setSender(String sender);
 	
 	/**
 	 * There are many types of messages and each type might be handled

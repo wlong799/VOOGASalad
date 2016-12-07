@@ -4,6 +4,8 @@ import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
+import game_object.weapon.Projectile;
+import game_object.weapon.WeaponModel;
 
 /**
  * Engine that calculates all the velocity and position.
@@ -24,7 +26,7 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 		}
 		return vx;
 	}
-
+	
 	@Override
 	public double calculateNewHorizontalPosition(IPhysicsBody body, double elapsedTime) {
 		double x = body.getPosition().getX();
@@ -36,13 +38,14 @@ public class PhysicsEngine extends AbstractPhysicsEngine {
 	@Override
 	public double calculateNewVerticalVelocity(IPhysicsBody body, double elapsedTime) {
 		double vy = body.getVelocity().getYVelocity();
-		double newvy = vy + elapsedTime * myLevel.getPhysicsParameters().getGravity();
+		double newvy = body.getPhysics().calculateNewYVelocity(myLevel.getPhysicsParameters().getGravity(), vy, elapsedTime);//vy + elapsedTime * myLevel.getPhysicsParameters().getGravity();
 		if (Math.abs(newvy) > myLevel.getPhysicsParameters().getMaxThreshold()) {
-			newvy = newvy > 0 ? myLevel.getPhysicsParameters().getMaxThreshold() : -myLevel.getPhysicsParameters().getMaxThreshold();
+			newvy = newvy > 0 ? myLevel.getPhysicsParameters().getMaxThreshold()
+					: -myLevel.getPhysicsParameters().getMaxThreshold();
 		}
 		return newvy;
 	}
-
+	
 	@Override
 	public double calculateNewVerticalPosition(IPhysicsBody body, double elapsedTime) {
 		double y = body.getPosition().getY();

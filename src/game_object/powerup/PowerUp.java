@@ -1,7 +1,7 @@
 package game_object.powerup;
 
 import java.util.List;
-
+import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_object.character.IUpgrader;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
@@ -27,12 +27,6 @@ public abstract class PowerUp extends AbstractSprite {
 	public boolean getAffectedByPhysics() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public Velocity getVelocity() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -66,7 +60,7 @@ public abstract class PowerUp extends AbstractSprite {
 	}
 
 	@Override
-	public void onCollideWith(ICollisionBody otherBody) {
+	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
 		// TODO Auto-generated method stub
 		
 	}

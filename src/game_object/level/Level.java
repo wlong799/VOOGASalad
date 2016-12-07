@@ -16,8 +16,10 @@ import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Game;
 import game_object.core.ISprite;
+import game_object.powerup.PowerUp;
 import game_object.visualization.ILevelVisualization;
 import game_object.visualization.ISpriteVisualization;
+import game_object.weapon.Projectile;
 import goal.IGoal;
 
 /**
@@ -38,6 +40,8 @@ public class Level implements ILevelVisualization {
 	private List<Enemy> myEnemies;
 	private List<StaticBlock> myStaticBlocks;
 	private List<ActionTrigger> myTriggers;
+	private List<Projectile> myProjectiles;
+	private List<PowerUp> myPowerUps;
 	
 	public Level(Game parentGame, String id) {
 		myParentGame = parentGame;
@@ -46,6 +50,8 @@ public class Level implements ILevelVisualization {
 		myEnemies = new ArrayList<>();
 		myStaticBlocks = new ArrayList<>();
 		myTriggers = new ArrayList<>();
+		myProjectiles = new ArrayList<>();
+		myPowerUps = new ArrayList<>();
 		myLevelDimension = new Dimension(DefaultConstants.LEVEL_WIDTH, 
 				DefaultConstants.LEVEL_HEIGHT);
 		myPhysicsParameters = new PhysicsParameters();
@@ -66,6 +72,8 @@ public class Level implements ILevelVisualization {
 		spriteList.addAll(myHeros);
 		spriteList.addAll(myEnemies);
 		spriteList.addAll(myStaticBlocks);
+		spriteList.addAll(myPowerUps);
+		spriteList.addAll(getRuntimeSprites());
 		return spriteList;
 	}
 	
@@ -78,6 +86,10 @@ public class Level implements ILevelVisualization {
 	/* Engine Settings */
 	public PhysicsParameters getPhysicsParameters() {
 		return myPhysicsParameters;
+	}
+	
+	public void setPhysicsParameters(PhysicsParameters physicsParameters) {
+		myPhysicsParameters = physicsParameters;
 	}
 	/* --- Engine Settings END --- */
 	
@@ -107,6 +119,8 @@ public class Level implements ILevelVisualization {
 			myEnemies.add((Enemy)sprite);
 		} else if (sprite instanceof StaticBlock) {
 			myStaticBlocks.add((StaticBlock)sprite);
+		} else if(sprite instanceof PowerUp) {
+			myPowerUps.add((PowerUp)sprite);
 		}
 	}
 	
@@ -142,9 +156,18 @@ public class Level implements ILevelVisualization {
 	public List<StaticBlock> getStaticBlocks() {
 		return myStaticBlocks;
 	}
+	
+	
+	public List<Projectile> getProjectiles() {
+		return myProjectiles;
+	}
+	
+	public List<PowerUp> getPowerUps() {
+		return myPowerUps;
+	}
+	
 	/* ---Accessors for background, characters and blocks END--- */
 
-	
 	/* Events and Triggers */
 	public List<ActionTrigger> getAllTriggers() {
 		return myTriggers;
@@ -183,23 +206,33 @@ public class Level implements ILevelVisualization {
 	/* ---Goals END--- */
 	
 	/* ILevelVisualization Implementations */
-	List<ISpriteVisualization> mySpriteVisualizations;
-	Hero pivotHero;
+	private List<ISpriteVisualization> myFixedSpriteVisualizations;
 	
 	@Override
 	public void init() {
-		mySpriteVisualizations = new ArrayList<>();
+		myFixedSpriteVisualizations = new ArrayList<>();
 		List<ISprite> allSprites = getAllSprites();
 		allSprites.sort((s1, s2) ->
 			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
 		);
-		mySpriteVisualizations.addAll(allSprites);
+		myFixedSpriteVisualizations.addAll(allSprites);
 		AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
 	}
-
+	
 	@Override
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
-		return mySpriteVisualizations;
+		List<ISpriteVisualization> visuals = new ArrayList<>();
+		visuals.addAll(myFixedSpriteVisualizations);
+		visuals.addAll(getRuntimeSprites());
+		return visuals;
 	}
 	/* ---ILevelVisualization Implementations END--- */
+	
+	/* private */
+	private List<ISprite> getRuntimeSprites() {
+		List<ISprite> runtimeSprites = new ArrayList<>();
+		runtimeSprites.addAll(myProjectiles);
+		return runtimeSprites;
+	}
+	/* private END--- */
 }

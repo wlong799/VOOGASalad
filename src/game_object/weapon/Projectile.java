@@ -1,7 +1,10 @@
 package game_object.weapon;
 
 import java.util.List;
-
+import game_engine.collision.CollisionEngine.CollisionDirection;
+import game_engine.physics.ConstantStrategy;
+import game_engine.physics.IPhysicsStrategy;
+import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Position;
@@ -25,9 +28,13 @@ public class Projectile extends AbstractSprite {
 	private ProjectileModel myModel;
 
 
-	protected Projectile(Position position, Dimension dimension, List<String> imagePaths, ProjectileModel model) {
+	public Projectile(Position position, Dimension dimension, List<String> imagePaths, ProjectileModel model) {
 		super(position, dimension, imagePaths);
 		myModel = model;
+		myVelocity = myModel.getInitalVelocity();
+		myCategoryBitMask = DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
+		myCollisionBitMask = model.getCollisionBitMask();
+		myPosition.setZ(Double.MAX_VALUE);
 	}
 	
 	public ProjectileModel getModel() {
@@ -60,33 +67,35 @@ public class Projectile extends AbstractSprite {
 
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
+		myCategoryBitMask = categoryBitMask;
 	}
 
 	@Override
 	public int getCategoryBitMask() {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
+		return myCategoryBitMask;
 	}
 
 	@Override
 	public void setCollisionBitMask(int collisionBitMask) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
+		myCollisionBitMask = collisionBitMask;
 	}
 
 	@Override
 	public int getCollisionBitMask() {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("Unimplemented");
+		return myCollisionBitMask;
 	}
 
 	@Override
-	public void onCollideWith(ICollisionBody otherBody) {
+	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
 		// TODO Auto-generated method stub
 		
 	}
+
+    @Override
+    public IPhysicsStrategy getPhysics () {
+        // TODO Auto-generated method stub
+        return new ConstantStrategy();
+    }
 
 	
 }

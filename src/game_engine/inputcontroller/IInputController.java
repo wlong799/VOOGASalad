@@ -1,6 +1,5 @@
 package game_engine.inputcontroller;
 
-import java.util.List;
 import java.util.Set;
 
 import game_object.acting.KeyEvent;
@@ -19,5 +18,9 @@ public interface IInputController {
 	 * determines what the given input does to the object and executes
 	 */
 	public abstract void executeInput();
-
+	
+	/**
+	 * @return whether left / right is pressed
+	 */
+	public boolean getInputExist();
 }

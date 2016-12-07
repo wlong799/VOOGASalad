@@ -6,6 +6,7 @@ import java.util.List;
 
 import game_object.constants.DefaultConstants;
 import game_object.level.Level;
+import game_object.statistics.GameStatistics;
 
 /**
  * A class representing a game.
@@ -15,6 +16,8 @@ public class Game {
 	
 	private List<Level> myLevels;
 	private Dimension myScreenSize;
+	private int myFPS;
+	private GameStatistics myGameStats;
 
 	private Level myFirstSceneAsLevel;
 	//private TransitionMenu myFirstSceneAsMenu;
@@ -27,10 +30,26 @@ public class Game {
 			DefaultConstants.GAME_WIDTH,
 			DefaultConstants.GAME_HEIGHT
 		);
+		myFPS = 60;
+		myGameStats = new GameStatistics(this);
 	}
 	
 	public Dimension getScreenSize() {
 		return myScreenSize;
+	}
+	
+	/* FPS setting */
+	public void setFPS(int fPS) {
+		myFPS = fPS;
+	}
+	
+	public int getFPS() {
+		return myFPS;
+	}
+	
+	/* Game Statistics */
+	public GameStatistics getGameStats() {
+		return myGameStats;
 	}
 	
 	/**

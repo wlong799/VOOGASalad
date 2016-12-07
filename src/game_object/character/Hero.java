@@ -1,87 +1,81 @@
 package game_object.character;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import game_object.acting.ActionTrigger;
+import game_engine.collision.CollisionEngine.CollisionDirection;
+import game_object.block.StaticBlock;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponModel;
 
-public class Hero extends AbstractCharacter implements IUpgrader, ITriggerable {
 
-	private final int myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
-	private final int myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
-	private boolean hasProjectile = false;
+public class Hero extends AbstractCharacter implements IUpgrader {
 
-	public Hero(Position position, Dimension dimension, List<String> imagePaths) {
-		super(position, dimension, imagePaths);
-	}
-	
-	@Override
-	public void shoot() {
-		ExceptionThrower.notYetSupported();
-	}
-	
-	@Override
-	public ArrayList<ActionTrigger> getActionTriggers() {
-		ExceptionThrower.notYetSupported();
-		return null;
-	}
+    private boolean myHasProjectile = false;
 
-	@Override
-	public void setActionTriggers(ArrayList<ActionTrigger> ats) {
-		ExceptionThrower.notYetSupported();
-	}
+    public Hero (Position position, Dimension dimension, List<String> imagePaths) {
+        super(position, dimension, imagePaths);
+        myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
+        myCollisionBitMask =
+                DefaultConstants.BLOCK_CATEGORY_BIT_MASK |
+                             DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
+                             DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
+    }
 
-	@Override
-	public void onCollideWith(ICollisionBody otherBody) {
-		if (otherBody.getCategoryBitMask() == DefaultConstants.ENEMY_CATEGORY_BIT_MASK) {
-			assert(otherBody instanceof Enemy);
-			//Enemy enemy = (Enemy) otherBody;
-			getVelocity().setYVelocity(-100);
-		}
-	}
-	
-	/* CollisionBody Getter Implementations */
-	@Override
-	public int getCategoryBitMask() {
-		return myCategoryBitMask;
-	}
+    @Override
+    public void shoot () {
+        ExceptionThrower.notYetSupported();
+    }
 
-	@Override
-	public int getCollisionBitMask() {
-		return myCollisionBitMask;
-	}
+    /* Upgrader -- Not used for now */
+    @Override
+    public void replenishHealth () {
+        setCurrentHP(getMaxHP());
+    }
 
-	/* Upgrader -- Not used for now*/
-	@Override
-	public void replenishHealth() {
-		setCurrentHP(getMaxHP());
-	}
+    @Override
+    public void obtainWeapon (WeaponModel weaponModel, Dimension dim) {
+        setCurrentWeapon(weaponModel.newWeaponInstance(this, dim));
+    }
 
-	@Override
-	public void obtainWeapon(Weapon w) {
-		setCurrentWeapon(w);
-	}
+    @Override
+    public void speedUp (double percent) {
+        setMovingUnit(getMovingUnit() * (1 + percent));
+    }
 
-	@Override
-	public void speedUp(double percent) {
-		setMovingUnit(getMovingUnit()*(1+percent));
-	}
-	
-        public void changeSize(double multiplier) {
-            myDimension.setHeight(multiplier*myDimension.getHeight());
-            myDimension.setWidth(multiplier*myDimension.getWidth());
-        }	
+    public void changeSize (double multiplier) {
+        myDimension.setHeight(multiplier * myDimension.getHeight());
+        myDimension.setWidth(multiplier * myDimension.getWidth());
+    }
+
+    @Override
+    public void setHasProjectile (boolean hasProjectile) {
+        myHasProjectile = hasProjectile;
+    }
+
+    @Override
+    public boolean getHasProjectile () {
+        return myHasProjectile;
+    }
+
+    @Override
+    public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
         
-        public void setHasProjectile() {
-            hasProjectile = true;
-        }
+    }
+
+    @Override
+    public void onCollideWith (Enemy e, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        getVelocity().setYVelocity(-100);
+    }
+
+    @Override
+    public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
         
-        
-	
+    }
+
 }

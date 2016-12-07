@@ -34,4 +34,9 @@ public class SliderBox {
 		box.getChildren().addAll(hud, slider);
 		return box;
 	}
+	
+	public void setValue(double value) {
+		slider.setValue(value);
+	}
+	
 }

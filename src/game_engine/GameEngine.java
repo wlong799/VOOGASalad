@@ -1,6 +1,5 @@
 package game_engine;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -48,7 +47,7 @@ public class GameEngine implements IGameEngine {
 		myCurrentLevel = level;
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
-		myInputController = new InputController(level);
+		//myInputController = new InputController(level);
 		init();
 	}
 
@@ -65,7 +64,6 @@ public class GameEngine implements IGameEngine {
 	private void endCheck() {
 		WinStatus ws = checkWin();
 		if (ws != WinStatus.GO_ON) {
-			// myCurrentLevel = myTransitionManager.readWinStatus(ws);
 			if (myCurrentLevel == null) {
 				shutdown();
 			}
@@ -119,7 +117,7 @@ public class GameEngine implements IGameEngine {
 	}
 
 	private WinStatus checkWin() {
-		List<IGoal> myGoals = new ArrayList<IGoal>();
+		List<IGoal> myGoals = myCurrentLevel.getAllGoals();//new ArrayList<IGoal>();
 		for (IGoal g : myGoals) {
 			if (g instanceof TimeGoal) {
 				((TimeGoal) g).setCurrentTime(0);

@@ -9,18 +9,28 @@ import game_object.acting.KeyEvent;
 import game_object.character.ICharacter;
 import game_object.character.IMover;
 import game_object.core.ISprite;
+import game_object.core.Position;
+import game_object.core.Dimension;
+import game_object.core.Game;
 import game_object.level.Level;
+import game_object.weapon.Projectile;
+import game_object.weapon.ProjectileModel;
+import game_object.weapon.WeaponSprite;
 
 public class InputController implements IInputController {
 
 	private Set<KeyEvent> myList;
 	private boolean myJump = false;
 	private boolean jumping;
-	private Level myLevel;
-	private boolean exist;
+	private boolean myShoot = false;
+	private boolean shooting;
+	private Level myCurrentLevel;
+	private Game myGame;
+	private boolean myLeftRightExist;
 
-	public InputController(Level level) {
-		myLevel = level;
+	public InputController(Game game) {
+		myGame = game;
+		myCurrentLevel = game.getCurrentLevel();
 	}
 
 	@Override
@@ -30,17 +40,20 @@ public class InputController implements IInputController {
 
 	@Override
 	public void executeInput() {
-		exist = false;
+		myCurrentLevel = myGame.getCurrentLevel();
+		myLeftRightExist = false;
 		jumping = false;
-		if (myList != null || myList.size() != 0) {
+		shooting = false;
+		if (myList != null && myList.size() != 0) {
 			for (KeyEvent event : myList) {
-				List<ActionTrigger> trigger = myLevel.getTriggersWithEvent(event);
+				List<ActionTrigger> trigger = myCurrentLevel.getTriggersWithEvent(event);
 				for (ActionTrigger actionTrigger : trigger) {
 					chooseAction(actionTrigger);
 				}
 			}
 		}
 		myJump = jumping;
+		myShoot = shooting;
 	}
 
 	private void chooseAction(ActionTrigger at) {
@@ -48,11 +61,13 @@ public class InputController implements IInputController {
 		if (at.getActionName() == ActionName.MOVE_LEFT) {
 			IMover m = (IMover) sprite;
 			m.moveLeft();
-			exist = true;
+			m.setFacingLeft(true);
+			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.MOVE_RIGHT) {
 			IMover m = (IMover) sprite;
 			m.moveRight();
-			exist = true;
+			m.setFacingLeft(false);
+			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.JUMP) {
 			if (sprite.getVelocity().getYVelocity() == 0) {
 				myJump = false;
@@ -63,12 +78,36 @@ public class InputController implements IInputController {
 				m.jumpUp();
 			}
 		} else if (at.getActionName() == ActionName.SHOOT) {
-			ICharacter c = (ICharacter) sprite;
-			c.shoot();
+			shooting = true;
+			ICharacter character = (ICharacter) sprite;
+			// c.shoot();
+			if (!myShoot) {
+				addProjectile(character);
+			}
 		}
 	}
 
+	private void addProjectile(ICharacter character) {
+
+		WeaponSprite weapon = character.getCurrentWeapon();
+		if (weapon == null || weapon.getModel() == null)
+			return; // currently no weapon
+		ProjectileModel pm = weapon.getModel().getProjectileModel();
+
+		Projectile p = pm.newProjectileInstance(
+				new Position(character.getPosition().getX(),
+						character.getPosition().getY() + character.getDimension().getHeight() / 3.0),
+				new Dimension(10, 10));
+		if (character.isFacingLeft()) {
+			p.getVelocity().setXVelocity(-Math.abs(p.getVelocity().getXVelocity()));
+		} else {
+			p.getVelocity().setXVelocity(Math.abs(p.getVelocity().getXVelocity()));
+		}
+		//System.out.println(character.getPosition().getX()+" "+p.getPosition().getX());
+		myCurrentLevel.getProjectiles().add(p);
+	}
+
 	public boolean getInputExist() {
-		return exist;
+		return myLeftRightExist;
 	}
 }
