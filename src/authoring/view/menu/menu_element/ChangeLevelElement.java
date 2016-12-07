@@ -17,7 +17,6 @@ import java.util.*;
  */
 public class ChangeLevelElement extends AbstractGameMenuElement implements Observer {
     private static final String MENU_NAME = "Change Level";
-    private static final String LEVEL_PREFIX = "Level ";
 
     private ToggleGroup myToggleGroup;
     private Map<Level, RadioMenuItem> myCurrentItems;

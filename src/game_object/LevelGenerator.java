@@ -19,7 +19,7 @@ import game_object.powerup.PowerUp;
 import goal.AbstractGoal;
 import goal.position.ReachPointGoal;
 import game_object.weapon.ProjectileModel;
-import game_object.weapon.Weapon;
+import game_object.weapon.WeaponModel;
 import javafx.scene.input.KeyCode;
 /**
  * Use this generator to get a Level with some predefined sprites.
@@ -29,7 +29,7 @@ public class LevelGenerator {
 	
 	private static Level levelA;
 	private static Level levelB;
-	private static Game game = new Game();
+	private static Game game = new Game("StaticGame");
 	
 	public static Game getTestGame() {
 		if (game.getAllLevelsReadOnly().size() < 2) game = initTestGame();
@@ -46,7 +46,7 @@ public class LevelGenerator {
 	}
 	
 	private static Game initTestGame() {
-		Game game = new Game();
+		Game game = new Game("AGeneratedGame");
 		game.addLevel(getTestLevelA());
 		game.addLevel(getTestLevelB());
 		game.setCurrentLevel(getTestLevelA());
@@ -74,12 +74,14 @@ public class LevelGenerator {
 		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 60), heroImages);
 		hero.setVelocity(new Velocity(40, -80));
 		hero.setImageStyle(ImageStyle.FIT);
+		hero.setWeaponDisplacementX(40);
+		hero.setWeaponDisplacementY(0);
 
 		ArrayList<String> bulletImgs = new ArrayList<>();
 		bulletImgs.add(GameObjectConstants.BULLET_FILE);
         ProjectileModel bulletModel = new ProjectileModel(
 				bulletImgs, // image file
-				new Velocity(10, 0), // initial velocity
+				new Velocity(80, 0), // initial velocity
 				false, // affected by gravity
 				false // follow hero
 				);
@@ -87,8 +89,10 @@ public class LevelGenerator {
         int colBitMask = 
         		DefaultConstants.BLOCK_CATEGORY_BIT_MASK | 
         		DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
-		Weapon heroWeapon = new Weapon(10, bulletModel, colBitMask);
-		hero.setCurrentWeapon(heroWeapon);
+        ArrayList<String> blueGunImgs = new ArrayList<>();
+        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_FILE);
+		WeaponModel heroWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
+		hero.setCurrentWeapon(heroWeapon.newWeaponInstance(hero, new Dimension(5, 5)));
 		
 		bulletImgs.add(GameObjectConstants.BULLET_FILE);
 		// a very fast bullet model
@@ -99,10 +103,12 @@ public class LevelGenerator {
 				false // follow hero
 				);
                 
-		Weapon fastWeapon = new Weapon(10, fastModel, colBitMask);
+        ArrayList<String> redGunImgs = new ArrayList<>();
+        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_FILE);
+		WeaponModel fastWeapon = new WeaponModel(redGunImgs, 10, fastModel, colBitMask);
 		ArrayList<String> fwpuImg = new ArrayList<String>();
 		fwpuImg.add(GameObjectConstants.NEW_WEAPON_POWER_UP_FILE);
-		PowerUp fastWeaponPowerUp = new NewWeaponPowerUp(new Position(300, 100), new Dimension(20, 20), fwpuImg, fastWeapon);
+		PowerUp fastWeaponPowerUp = new NewWeaponPowerUp(new Position(300, 100), new Dimension(20, 20), fwpuImg, fastWeapon, new Dimension(10, 10));
 		levelA.addSprite(fastWeaponPowerUp);
 		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);

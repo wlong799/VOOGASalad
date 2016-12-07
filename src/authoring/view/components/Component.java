@@ -73,9 +73,6 @@ public class Component {
         return myTemplateSprite.getImagePath();
     }
 
-    public ISprite getTemplateSprite() {
-        return myTemplateSprite;
-    }
 
     private ISprite createTemplateSpriteFromType(GameObjectType gameObjectType, List<String> imagePaths) {
         ISprite sprite = null;
@@ -90,7 +87,7 @@ public class Component {
                 sprite = new StaticBlock(new Position(0, 0), new Dimension(0, 0), imagePaths);
                 break;
             case WEAPON_POWER_UP:
-                sprite = new NewWeaponPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths, null);
+                sprite = new NewWeaponPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths, null, null);
                 break;
             case WEAPON_PROJECTILE:
                 ExceptionThrower.illegalArgs("Projectile should not be created directly inside authoring environment");

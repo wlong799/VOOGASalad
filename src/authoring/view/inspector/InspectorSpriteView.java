@@ -3,6 +3,7 @@ package authoring.view.inspector;
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
+import game_object.block.IBlock;
 import game_object.character.Hero;
 import game_object.core.ISprite;
 import javafx.geometry.Insets;
@@ -28,6 +29,7 @@ public class InspectorSpriteView extends AbstractView {
 	private CheckBox herosCollisionCB, enemiesCollisionCB, blockCollisionCB, applyPhysics;
 	private ComponentPhysicsSettings componentPhysicsSettings;
 	private ActionConfiguringView myActionView;
+	private ReachPointGoalConfiguringView reachPointGoal;
 
 	public interface ITextChangeHandler {
 		void handle(String newVal);
@@ -48,6 +50,7 @@ public class InspectorSpriteView extends AbstractView {
 		scrollPane = new ScrollPane();
 		scrollPane.setContent(configs);
 		scrollPane.setFitToWidth(true);
+		
 		this.addUI(scrollPane);
 		updateUI();
 	}
@@ -90,13 +93,21 @@ public class InspectorSpriteView extends AbstractView {
 		myActionView.setSprite(sprite);
 		this.addSubView(myActionView);
 
+		reachPointGoal = new ReachPointGoalConfiguringView(this.getController());
+		reachPointGoal.setUpReachPointGoalCheckBox(sprite);
+		this.addSubView(reachPointGoal);
+		
 		initCheckBoxes();
 
 		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox, herosCollisionCB,
 				enemiesCollisionCB, blockCollisionCB, applyPhysics);
+		if (sprite instanceof IBlock) {
+			configs.getChildren().add(reachPointGoal.getUI());
+		}
 		if (sprite instanceof Hero) {
 			configs.getChildren().add(myActionView.getUI());
 		}
+		
 	}
 
 	private VBox makeDoubleInputBox(String title, double defaultValue, 

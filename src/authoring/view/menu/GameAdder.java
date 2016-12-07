@@ -10,15 +10,15 @@ import javafx.scene.control.TextInputDialog;
 public class GameAdder {
 	
 	public void addGame(AuthorEnvironment environment) {
-		Game game = new Game();
+		Game game = new Game("TODO:id");
 		game.addLevel(getNewLevel(game));
 		environment.addGame(game);
 	}
 	
-	public void addLevel(AuthorEnvironment environment) {
+	public boolean addLevel(AuthorEnvironment environment) {
 		Game currentGame = environment.getCurrentGame();
 		Level newLevel = getNewLevel(currentGame);
-		environment.addLevel(newLevel);
+		return environment.addLevel(newLevel);
 	}
 	
 	private Level getNewLevel(Game game) {
@@ -33,7 +33,6 @@ public class GameAdder {
     	dialog.setHeaderText("Please input the ID of your new level");
     	dialog.setContentText("This is for a greater America.");
 
-    	// Traditional way to get the response value.
     	Optional<String> result = dialog.showAndWait();
     	if (result.isPresent()){
     		return result.get();

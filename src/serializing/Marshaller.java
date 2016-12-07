@@ -44,7 +44,7 @@ public class Marshaller {
 	
 	public static void main(String[] args) {
 		String path = "file:data/game/test.xml";
-		Game testGame = new Game();
+		Game testGame = new Game("MarshallerTestGame");
 		testGame.addLevel(LevelGenerator.getTestLevelA());
 		Marshaller test = new Marshaller();
 		try {

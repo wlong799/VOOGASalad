@@ -3,6 +3,7 @@ package authoring.view.inspector;
 import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
+import authoring.view.IView;
 import authoring.view.canvas.SpriteView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -73,6 +74,7 @@ public class InspectorView extends AbstractView implements Observer {
 
     private void addViewsAsTab(String tabName, AbstractView view) {
         Tab newTab = new Tab(tabName);
+        newTab.getStyleClass().add("tab");
         newTab.setClosable(false);
         newTab.setContent(view.getUI());
         tabPane.getTabs().add(newTab);

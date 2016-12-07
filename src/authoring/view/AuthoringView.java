@@ -100,5 +100,6 @@ public class AuthoringView extends AbstractView {
 			myChat.setSize(INSPECTOR_WIDTH, COMPONENT_HEIGHT);
 		}
 	}
+
 }
 

@@ -1,9 +1,11 @@
 package authoring.view.canvas;
 
 import authoring.AuthoringController;
-import authoring.view.AbstractView;
 import authoring.constants.UIConstants;
+
 import authoring.controller.CanvasController;
+import authoring.view.AbstractView;
+import authoring.view.IView;
 import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -27,7 +29,7 @@ public class SpriteResizeView extends AbstractView {
     }
 
     @Override
-    public void setParentView(AbstractView parent) {
+    public void setParentView(IView parent) {
         spView = (SpriteView) parent;
         initUI();
     }

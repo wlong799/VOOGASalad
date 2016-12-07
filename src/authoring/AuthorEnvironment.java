@@ -66,12 +66,15 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
     }
 
     @Override
-    public void addLevel(Level level) {
+    public boolean addLevel(Level level) {
         if (myCurrentGame == null) {
             throw new IllegalArgumentException("No game currently selected");
         }
-        myCurrentGame.addLevel(level);
-        setCurrentLevel(myCurrentGame.getAllLevelsReadOnly().size() - 1);
+        if (myCurrentGame.addLevel(level)) {
+        	setCurrentLevel(myCurrentGame.getAllLevelsReadOnly().size() - 1);
+        	return true;
+        }
+        return false;
     }
 
     public void setCurrentLevel(int index) {
