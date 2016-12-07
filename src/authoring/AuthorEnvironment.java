@@ -103,7 +103,7 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
     }
 
     public void removeLevel(Level level) {
-        if (!myAvailableGames.contains(level)) {
+        if (!myCurrentGame.getAllLevelsReadOnly().contains(level)) {
             throw new IllegalArgumentException("Selected level is not available");
         }
         myCurrentGame.removeLevel(level);

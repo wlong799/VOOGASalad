@@ -2,8 +2,8 @@ package authoring.view.inspector;
 
 import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
+import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
-import authoring.view.IView;
 import authoring.view.canvas.SpriteView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -56,7 +56,7 @@ public class InspectorView extends AbstractView implements Observer {
         tabPane.setPrefWidth(getWidth());
         getSubViews().forEach(subView -> {
             subView.setWidth(getWidth());
-            subView.setHeight(getHeight());
+            subView.setHeight(getHeight() - UIConstants.OVERLAP_PIXELS_WITH_CHAT);
         });
     }
 

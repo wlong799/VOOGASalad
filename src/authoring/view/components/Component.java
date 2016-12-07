@@ -61,6 +61,10 @@ public class Component {
         return sprite;
     }
 
+    public ISprite getTemplateSprite() {
+        return myTemplateSprite;
+    }
+
     public String getTitle() {
         return myTitle;
     }
@@ -72,7 +76,6 @@ public class Component {
     public String getImagePath() {
         return myTemplateSprite.getImagePath();
     }
-
 
     private ISprite createTemplateSpriteFromType(GameObjectType gameObjectType, List<String> imagePaths) {
         ISprite sprite = null;

@@ -32,7 +32,7 @@ public class CanvasView extends AbstractView {
         Rectangle defaultBackground = new Rectangle(0, 0, 
         		UIConstants.CANVAS_STARTING_WIDTH,
         		UIConstants.CANVAS_STARTING_HEIGHT);
-        defaultBackground.setFill(Color.BEIGE);
+        defaultBackground.setFill(Color.LIGHTCYAN);
         background.getChildren().add(defaultBackground);
         content.getChildren().add(background);
         scrollPane = new ScrollPane(content);

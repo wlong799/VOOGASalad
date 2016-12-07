@@ -33,8 +33,6 @@ public class ChangeLevelElement extends AbstractGameMenuElement implements Obser
                 Level level = (Level) myToggleGroup.getSelectedToggle().getUserData();
                 if (level != myController.getEnvironment().getCurrentLevel()) {
                     myController.getEnvironment().setCurrentLevel(level);
-                    // TODO: 12/5/16 replace CanvasController to use Observer
-                    myController.getCanvasController().refresh();
                 }
             }
         });

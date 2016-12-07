@@ -1,6 +1,7 @@
 package authoring.view.components;
 
 import authoring.AuthoringController;
+import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
 import game_object.core.ISprite;
@@ -20,11 +21,6 @@ import javafx.scene.text.TextAlignment;
  * the component, and its description.
  */
 public class ComponentView extends AbstractView {
-    private static final double IMAGE_HEIGHT_RATIO = 0.25;
-    private static final double IMAGE_WIDTH_RATIO = 0.5;
-    private static final double PADDING = 5;
-    private static final double TITLE_FONT_SIZE = 24;
-    private static final double DESCRIPTION_FONT_SIZE = 12;
 
     private VBox myContentBox;
     private ImageView myTemplateSpriteImageView;
@@ -48,8 +44,8 @@ public class ComponentView extends AbstractView {
         myContentBox.setPrefWidth(getWidth());
         myTitleText.setWrappingWidth(getWidth());
         myDescriptionText.setWrappingWidth(getWidth());
-        double newImageWidth = getWidth() * IMAGE_WIDTH_RATIO;
-        double newImageHeight = getHeight() * IMAGE_HEIGHT_RATIO;
+        double newImageWidth = getWidth() * UIConstants.IMAGE_WIDTH_RATIO;
+        double newImageHeight = getHeight() * UIConstants.IMAGE_HEIGHT_RATIO;
         if (myTemplateSpriteImageView.getImage().getWidth() / newImageWidth >
                 myTemplateSpriteImageView.getImage().getHeight() / newImageHeight) {
             myTemplateSpriteImageView.setFitHeight(0);
@@ -62,12 +58,12 @@ public class ComponentView extends AbstractView {
 
     @Override
     protected void initUI() {
-        myTitleText = createText(TITLE_FONT_SIZE);
-        myDescriptionText = createText(DESCRIPTION_FONT_SIZE);
+        myTitleText = createText(UIConstants.TITLE_FONT_SIZE);
+        myDescriptionText = createText(UIConstants.DESCRIPTION_FONT_SIZE);
         myTemplateSpriteImageView = new ImageView();
         myTemplateSpriteImageView.setPreserveRatio(true);
 
-        myContentBox = new VBox(PADDING, myTitleText, myTemplateSpriteImageView, myDescriptionText);
+        myContentBox = new VBox(UIConstants.COMPONENT_PADDING, myTitleText, myTemplateSpriteImageView, myDescriptionText);
         myContentBox.setAlignment(Pos.CENTER);
 
         addUI(myContentBox);

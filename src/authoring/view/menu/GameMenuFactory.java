@@ -24,7 +24,7 @@ public class GameMenuFactory {
         FILE("File", new String[]{"NewGameElement", "ChangeGameElement", "SeparatorMenuElement", "LoadElement",
                 "SaveElement", "SeparatorMenuElement", "CloseGameElement"}),
         LEVEL("Level", new String[]{"NewLevelElement", "ChangeLevelElement", "DeleteLevelElement",
-                "SeparatorMenuElement", "ChangeLevelBackgroundElement"}),
+                "SeparatorMenuElement", "ChangeLevelBackgroundElement", "SeparatorMenuElement", "SetLevelGoalElement"}),
         
         TEST("Test", new String[]{"RunElement"});
 

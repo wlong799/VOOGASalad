@@ -2,6 +2,8 @@ package authoring.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import authoring.AuthorEnvironment;
 import authoring.constants.UIConstants;
@@ -24,10 +26,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * @author billyu
- *         Controller for canvas
+ * @author billyu Controller for canvas
  */
-public class CanvasController {
+public class CanvasController implements Observer {
     private static final double BLOCK_SIZE = 50;
 
     private CanvasView myCanvas;
@@ -48,6 +49,7 @@ public class CanvasController {
         myContent = content;
         myBackground = background;
         myEnvironment = canvas.getController().getEnvironment();
+        myEnvironment.addObserver(this);
 
         spriteViews = new ArrayList<>();
         spViewComparator = new SpriteViewComparator();
@@ -307,7 +309,7 @@ public class CanvasController {
         double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
         if (myEnvironment.getCurrentLevel().getBackground().getImagePaths().size() == 0) {
             Rectangle rectangle = new Rectangle(0, 0, width, height);
-            rectangle.setFill(Color.BEIGE);
+            rectangle.setFill(Color.LIGHTCYAN);
             myBackground.getChildren().add(rectangle);
         } else {
             Image backgroundImage = new Image(myEnvironment.getCurrentLevel().getBackground().getImagePaths().get(0));
@@ -331,5 +333,10 @@ public class CanvasController {
 
     public double convertToNearestBlockValue(double value) {
         return Math.max(Math.round(value / BLOCK_SIZE) * BLOCK_SIZE, BLOCK_SIZE);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        refresh();
     }
 }

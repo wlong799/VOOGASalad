@@ -19,10 +19,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class ComponentPanelView extends AbstractView {
-    private static final double LIST_WIDTH_RATIO = 0.9;
-    private static final double BUTTON_HEIGHT_RATIO = 0.5;
-    private static final double BUTTON_WIDTH_RATIO = 0.5;
-
     private HBox myContent;
     private TabPane myTabPane;
     private Button myComponentCreationButton;
@@ -51,11 +47,11 @@ public class ComponentPanelView extends AbstractView {
 
     @Override
     protected void updateLayoutSelf() {
-        double listWidth = getWidth() * LIST_WIDTH_RATIO;
+        double listWidth = getWidth() * UIConstants.LIST_WIDTH_RATIO;
         double buttonWidth = getWidth() - listWidth;
         myContent.setPrefWidth(getWidth());
         myContent.setPrefHeight(getHeight());
-        myContent.setSpacing(buttonWidth * (BUTTON_WIDTH_RATIO / 2));
+        myContent.setSpacing(buttonWidth * (UIConstants.BUTTON_WIDTH_RATIO / 2));
 
         myTabPane.setPrefWidth(listWidth);
         myTabPane.setPrefHeight(getHeight());
@@ -64,8 +60,8 @@ public class ComponentPanelView extends AbstractView {
             subView.setHeight(getHeight());
         });
 
-        double newImageWidth = buttonWidth * BUTTON_WIDTH_RATIO;
-        double newImageHeight = getHeight() * BUTTON_HEIGHT_RATIO;
+        double newImageWidth = buttonWidth * UIConstants.BUTTON_WIDTH_RATIO;
+        double newImageHeight = getHeight() * UIConstants.BUTTON_HEIGHT_RATIO;
         if (myButtonImageView.getImage().getWidth() / newImageWidth >
                 myButtonImageView.getImage().getHeight() / newImageHeight) {
             myButtonImageView.setFitHeight(0);
@@ -78,23 +74,13 @@ public class ComponentPanelView extends AbstractView {
 
     public void addTab(String tabName, ComponentListView componentListView) {
         Tab newTab = new Tab(tabName);
-        setTabStyle(newTab);
+        newTab.getStyleClass().add("tab");
         newTab.setClosable(false);
         final ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(componentListView.getUI());
         newTab.setContent(scrollPane);
         myTabPane.getTabs().add(newTab);
         addSubView(componentListView);
-    }
-    
-    private void setTabStyle(Tab tab) {
-    	tab.setStyle(
-        		"-fx-background-insets: 0 1 0 1,0,0;"
-        		+"-fx-alignment: CENTER;"
-        		+"-fx-text-fill: #828282;"
-        		+ "-fx-font-size: 12px;"
-        		+ "-fx-font-weight: bold;"
-        		);
     }
 
     private void setComponentCreationButtonAction() {

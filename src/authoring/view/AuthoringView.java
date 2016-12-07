@@ -1,6 +1,7 @@
 package authoring.view;
 
 import authoring.AuthoringController;
+import authoring.constants.UIConstants;
 import authoring.view.canvas.CanvasView;
 import authoring.view.chat.ChatView;
 import authoring.view.components.ComponentPanelFactory;
@@ -11,12 +12,6 @@ import authoring.view.menu.GameMenuView;
 import javafx.scene.layout.GridPane;
 
 public class AuthoringView extends AbstractView {
-	private static final double MENU_HEIGHT = 30;
-	private static final double COMPONENT_HEIGHT = 250;
-	private static final double INSPECTOR_WIDTH = 300;
-	private static final double THRESHOLD_HEIGHT = 650;
-	private static final double THRESHOLD_WIDTH = 1200;
-	private static final double PADDING = 10;
 
 	private GridPane myGridContent;
 
@@ -33,8 +28,8 @@ public class AuthoringView extends AbstractView {
 	@Override
 	protected void initUI() {
 		myGridContent = new GridPane();
-		myGridContent.setHgap(PADDING);
-		myGridContent.setVgap(PADDING);
+		myGridContent.setHgap(UIConstants.PADDING);
+		myGridContent.setVgap(UIConstants.PADDING);
 
 		myGameMenu = GameMenuFactory.createGameMenuView(this.getController());
 		myCanvas = new CanvasView(this.getController());
@@ -54,7 +49,7 @@ public class AuthoringView extends AbstractView {
 
 	@Override
 	protected void updateLayoutSelf() {
-		if (getWidth() < THRESHOLD_WIDTH) {
+		if (getWidth() < UIConstants.THRESHOLD_WIDTH) {
 			myGridContent.getChildren().remove(myInspector.getUI());
 			GridPane.setColumnSpan(myCanvas.getUI(), 2);
 			GridPane.setColumnSpan(myComponents.getUI(), 2);
@@ -64,7 +59,7 @@ public class AuthoringView extends AbstractView {
 				GridPane.setColumnSpan(myCanvas.getUI(), 1);
 			}
 		}
-		if (getHeight() < THRESHOLD_HEIGHT) {
+		if (getHeight() < UIConstants.THRESHOLD_HEIGHT) {
 			myGridContent.getChildren().remove(myComponents.getUI());
 			GridPane.setRowSpan(myCanvas.getUI(), 2);
 			GridPane.setRowSpan(myInspector.getUI(), 2);
@@ -75,7 +70,7 @@ public class AuthoringView extends AbstractView {
 				GridPane.setRowSpan(myInspector.getUI(), 1);
 			}
 		}
-		if (getWidth() < THRESHOLD_WIDTH || getHeight() < THRESHOLD_HEIGHT) {
+		if (getWidth() < UIConstants.THRESHOLD_WIDTH || getHeight() < UIConstants.THRESHOLD_HEIGHT) {
 			myGridContent.getChildren().remove(myChat.getUI());
 		} else {
 			if (!myGridContent.getChildren().contains(myChat.getUI())) {
@@ -83,21 +78,21 @@ public class AuthoringView extends AbstractView {
 			}
 		}
 
-		double middleHeight = getHeight() < THRESHOLD_HEIGHT ? getHeight() - PADDING - MENU_HEIGHT :
-			getHeight() - MENU_HEIGHT - COMPONENT_HEIGHT - (2 * PADDING);
+		double middleHeight = getHeight() < UIConstants.THRESHOLD_HEIGHT ? getHeight() - UIConstants.PADDING - UIConstants.MENU_HEIGHT :
+			getHeight() - UIConstants.MENU_HEIGHT - UIConstants.COMPONENT_HEIGHT - (2 * UIConstants.PADDING);
 
-		myGameMenu.setSize(getWidth(), MENU_HEIGHT);
-		myCanvas.setSize(getWidth() < THRESHOLD_WIDTH ? getWidth() :
-			getWidth() - PADDING - INSPECTOR_WIDTH, middleHeight);
-		if (getWidth() >= THRESHOLD_WIDTH) {
-			myInspector.setSize(INSPECTOR_WIDTH, middleHeight);
-			myComponents.setSize(getWidth() - PADDING - INSPECTOR_WIDTH, COMPONENT_HEIGHT);
+		myGameMenu.setSize(getWidth(), UIConstants.MENU_HEIGHT);
+		myCanvas.setSize(getWidth() < UIConstants.THRESHOLD_WIDTH ? getWidth() :
+			getWidth() - UIConstants.PADDING - UIConstants.INSPECTOR_WIDTH, middleHeight);
+		if (getWidth() >= UIConstants.THRESHOLD_WIDTH) {
+			myInspector.setSize(UIConstants.INSPECTOR_WIDTH, middleHeight);
+			myComponents.setSize(getWidth() - UIConstants.PADDING - UIConstants.INSPECTOR_WIDTH, UIConstants.COMPONENT_HEIGHT);
 		}
 		else {
-			myComponents.setSize(getWidth(), COMPONENT_HEIGHT);
+			myComponents.setSize(getWidth(), UIConstants.COMPONENT_HEIGHT);
 		}
-		if (getWidth() >= THRESHOLD_WIDTH && getHeight() >= THRESHOLD_HEIGHT) {
-			myChat.setSize(INSPECTOR_WIDTH, COMPONENT_HEIGHT);
+		if (getWidth() >= UIConstants.THRESHOLD_WIDTH && getHeight() >= UIConstants.THRESHOLD_HEIGHT) {
+			myChat.setSize(UIConstants.INSPECTOR_WIDTH, UIConstants.COMPONENT_HEIGHT);
 		}
 	}
 
