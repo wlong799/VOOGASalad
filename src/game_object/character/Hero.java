@@ -4,7 +4,6 @@ import java.util.List;
 
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
-import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
 import game_object.weapon.WeaponModel;
@@ -20,11 +19,6 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 				DefaultConstants.BLOCK_CATEGORY_BIT_MASK | 
 				DefaultConstants.ENEMY_CATEGORY_BIT_MASK | 
 				DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
-	}
-	
-	@Override
-	public void shoot() {
-		ExceptionThrower.notYetSupported();
 	}
 
 	@Override

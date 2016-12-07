@@ -16,7 +16,7 @@ import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Game;
 import game_object.core.ISprite;
-import game_object.powerup.PowerUp;
+import game_object.powerup.IPowerUp;
 import game_object.visualization.ILevelVisualization;
 import game_object.visualization.ISpriteVisualization;
 import game_object.weapon.Projectile;
@@ -41,7 +41,7 @@ public class Level implements ILevelVisualization {
 	private List<StaticBlock> myStaticBlocks;
 	private List<ActionTrigger> myTriggers;
 	private List<Projectile> myProjectiles;
-	private List<PowerUp> myPowerUps;
+	private List<IPowerUp> myPowerUps;
 	
 	public Level(Game parentGame, String id) {
 		myParentGame = parentGame;
@@ -119,8 +119,8 @@ public class Level implements ILevelVisualization {
 			myEnemies.add((Enemy)sprite);
 		} else if (sprite instanceof StaticBlock) {
 			myStaticBlocks.add((StaticBlock)sprite);
-		} else if(sprite instanceof PowerUp) {
-			myPowerUps.add((PowerUp)sprite);
+		} else if(sprite instanceof IPowerUp) {
+			myPowerUps.add((IPowerUp)sprite);
 		}
 	}
 	
@@ -131,6 +131,8 @@ public class Level implements ILevelVisualization {
 			myEnemies.remove((Enemy)sprite);
 		} else if (sprite instanceof StaticBlock) {
 			myStaticBlocks.remove((StaticBlock)sprite);
+		} else if(sprite instanceof IPowerUp) {
+			myPowerUps.remove((IPowerUp)sprite);
 		}
 	}
 	/* ---Add/Remove specific sprites END--- */
@@ -151,8 +153,9 @@ public class Level implements ILevelVisualization {
 	 * This will cause the original list to be garbage-collected.
 	 * @param level another level
 	 */
-	public void replaceAllHerosWithLevel(Level level) {
+	public void replaceAllHerosAndTriggersWithLevel(Level level) {
 		myHeros = level.getHeros();
+		myTriggers = level.getAllTriggers();
 	}
 	
 	public List<Hero> getHeros() {
@@ -172,7 +175,7 @@ public class Level implements ILevelVisualization {
 		return myProjectiles;
 	}
 	
-	public List<PowerUp> getPowerUps() {
+	public List<IPowerUp> getPowerUps() {
 		return myPowerUps;
 	}
 	

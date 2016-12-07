@@ -5,18 +5,18 @@ import game_object.character.IUpgrader;
 import game_object.core.Dimension;
 import game_object.core.Position;
 
-public class ChangeSizePowerUp extends PowerUp{
+public class ChangeSizePowerUp extends AbstractPowerUp{
     
-    int multiplier;
+    private int myMultiplier;
     
-    protected ChangeSizePowerUp(Position position, Dimension dimension, List<String> imagePaths, int mult) {
+    public ChangeSizePowerUp(Position position, Dimension dimension, List<String> imagePaths, int multiplier) {
         super(position, dimension, imagePaths);
-        multiplier = mult;
+        myMultiplier = multiplier;
     }
 
     @Override
     public void affect(IUpgrader u) {
-            u.changeSize(multiplier);
+    	u.changeSize(myMultiplier);
     }
 
 }
