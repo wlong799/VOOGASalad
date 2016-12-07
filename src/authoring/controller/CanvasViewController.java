@@ -39,6 +39,7 @@ public class CanvasViewController {
     private double scHeight;
     private double bgWidth;
     private double bgHeight;
+    private boolean myDoesSnap;
     private SpriteViewComparator spViewComparator;
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
@@ -82,7 +83,9 @@ public class CanvasViewController {
             setAbsolutePosition(spView, x, y);
         }
         reorderSpriteViewsWithPositionZ();
-        spView.snapToGrid();
+        if (myDoesSnap) {
+        	spView.snapToGrid();
+        }
     }
 
     public void delete(SpriteView spView) {
@@ -331,4 +334,12 @@ public class CanvasViewController {
     public double convertToNearestBlockValue(double value) {
         return Math.max(Math.round(value / BLOCK_SIZE) * BLOCK_SIZE, BLOCK_SIZE);
     }
+
+	public void setSnapToGrid(boolean doesSnap) {
+		myDoesSnap = doesSnap;
+	}
+	
+	public boolean getSnapToGrid() {
+		return myDoesSnap;
+	}
 }

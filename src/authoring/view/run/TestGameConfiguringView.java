@@ -11,6 +11,7 @@ import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.physics.PhysicsParameters;
 import game_object.level.Level;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 
 public class TestGameConfiguringView extends AbstractView implements ISubscriber {
@@ -39,6 +40,11 @@ public class TestGameConfiguringView extends AbstractView implements ISubscriber
 		}
 	}
 	
+	@Override
+	public Parent getUI() {
+		return myBox;
+	}
+	
 	/**
 	 * updates physics value when there is a current level
 	 */
@@ -60,7 +66,6 @@ public class TestGameConfiguringView extends AbstractView implements ISubscriber
 		myBox.setPadding(new Insets(UIConstants.TEST_GAME_PADDING, UIConstants.TEST_GAME_PADDING, UIConstants.TEST_GAME_PADDING, UIConstants.TEST_GAME_PADDING));
 		//myBox.setStyle("-fx-background-color: linen;");
 		fillInBox();
-		this.addUI(myBox);
 	}
 
 	@Override

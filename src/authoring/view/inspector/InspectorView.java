@@ -8,7 +8,6 @@ import authoring.updating.ISubscriber;
 import authoring.view.AbstractView;
 import authoring.view.IView;
 import authoring.view.canvas.SpriteView;
-import authoring.view.run.TestGameConfiguringView;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -17,7 +16,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 
 	private TabPane tabs;
 	private InspectorSpriteView inspectorSpriteView;
-	private TestGameConfiguringView configureView;
+	private LevelSettingsView settingsView;
 	private SpriteView inspectedSpriteView;
 	
 	public InspectorView(AuthoringController controller) {
@@ -43,18 +42,18 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		tabs = new TabPane();
 		setOnChangeTab();
 		inspectorSpriteView = new InspectorSpriteView(this.getController());
-		configureView = new TestGameConfiguringView(this.getController());
+		settingsView = new LevelSettingsView(this.getController());
 		
 		AuthorEnvironment env = this.getController().getEnvironment();
 		env.getCurrentLevelIndex().addListener(obv -> {
-			configureView.setLevel(env.getCurrentLevel());
+			settingsView.setLevel(env.getCurrentLevel());
 		});
 		env.getCurrentGameIndex().addListener(obv -> {
-			configureView.setLevel(env.getCurrentLevel());
+			settingsView.setLevel(env.getCurrentLevel());
 		});
-		configureView.setLevel(env.getCurrentLevel());
+		settingsView.setLevel(env.getCurrentLevel());
 		
-		addViewsAsTab("Physics Settings", configureView);
+		addViewsAsTab("Settings", settingsView);
 		addViewsAsTab("Sprite Inspector", inspectorSpriteView);
 	}
 
