@@ -1,7 +1,7 @@
 package game_object.character;
 
 import java.util.List;
-
+import game_object.block.StaticBlock;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
@@ -40,5 +40,6 @@ public class Enemy extends AbstractCharacter {
 	public void onCollideWith(ICollisionBody otherSprite) {
 		getVelocity().setXVelocity(10);
 	}
+	
 	
 }
