@@ -9,6 +9,9 @@ import game_engine.transition.WinStatus;
  */
 public interface IGoal {
 	
+	/**
+	 * @return the type of the goal (time, health, position)
+	 */
 	public GoalType getGoalType();
 	
 	/**

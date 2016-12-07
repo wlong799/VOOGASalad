@@ -9,7 +9,7 @@ import game_object.weapon.Projectile;
  * 
  * @author Charlie Wang
  */
-public class PhysicsEngineWithFriction extends PhysicsEngine {
+public class PhysicsEngineWithFriction extends PhysicsEngineWithoutFriction {
 
 	public PhysicsEngineWithFriction(Level level) {
 		super(level);

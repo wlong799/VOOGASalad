@@ -12,9 +12,9 @@ import game_object.weapon.WeaponModel;
  * 
  * @author Charlie Wang
  */
-public class PhysicsEngine extends AbstractPhysicsEngine {
+public class PhysicsEngineWithoutFriction extends AbstractPhysicsEngine {
 
-	public PhysicsEngine(Level level) {
+	public PhysicsEngineWithoutFriction(Level level) {
 		super(level);
 	}
 
