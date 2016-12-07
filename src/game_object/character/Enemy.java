@@ -38,6 +38,10 @@ public class Enemy extends AbstractCharacter {
 
 	/* ICollisionBody Getter Implementations */
 
+	@Override
+        public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
+            otherBody.onCollideWith(this, collisionDirection);
+        }
     @Override
     public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
@@ -53,7 +57,7 @@ public class Enemy extends AbstractCharacter {
     @Override
     public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
-        
+        super.onCollideWith(b, collisionDirection);
     }
 	
 	
