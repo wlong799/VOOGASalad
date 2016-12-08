@@ -12,7 +12,7 @@ import authoring.view.canvas.SpriteView;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class InspectorView extends AbstractView implements ISubscriber {
 

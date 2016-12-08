@@ -14,7 +14,7 @@ import game_object.level.Level;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class TestGameConfiguringView extends AbstractView implements ISubscriber {
 	

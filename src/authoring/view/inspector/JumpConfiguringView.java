@@ -10,7 +10,7 @@ import game_object.core.ISprite;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class JumpConfiguringView extends AbstractView {
 	

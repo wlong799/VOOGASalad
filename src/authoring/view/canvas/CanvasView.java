@@ -10,7 +10,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class CanvasView extends AbstractView {
 

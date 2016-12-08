@@ -3,7 +3,7 @@ package authoring.ui;
 import java.util.ResourceBundle;
 
 import javafx.scene.control.Slider;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 /**
  * @author billyu

@@ -22,7 +22,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 /**
  * @author billyu Controller for canvas

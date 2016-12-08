@@ -9,7 +9,7 @@ import authoring.view.AbstractView;
 import game_object.GameObjectType;
 import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 /**
  * ComponentListView organizes multiple Components of the same GameObjectType within a single list, and provides options

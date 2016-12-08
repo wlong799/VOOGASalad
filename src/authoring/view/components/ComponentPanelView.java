@@ -16,7 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class ComponentPanelView extends AbstractView {
     private HBox myContent;

@@ -10,7 +10,7 @@ import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class SpriteResizeView extends AbstractView {
 

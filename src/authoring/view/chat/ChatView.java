@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import network.exceptions.ServerDownException;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class ChatView extends AbstractView {
 

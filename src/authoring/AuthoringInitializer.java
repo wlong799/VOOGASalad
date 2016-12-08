@@ -9,7 +9,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class AuthoringInitializer {
 	

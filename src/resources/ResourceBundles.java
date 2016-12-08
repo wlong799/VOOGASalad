@@ -1,4 +1,4 @@
-package resources.constants;
+package resources;
 
 import java.util.ResourceBundle;
 
@@ -9,4 +9,5 @@ public class ResourceBundles {
 	public final static ResourceBundle chatWindowProperties = ResourceBundle.getBundle("resources.constants/ChatWindow");
 	public final static ResourceBundle testGameProperties = ResourceBundle.getBundle("resources.constants/TestGameConfigurationView");
 	public final static ResourceBundle inspectorProperties = ResourceBundle.getBundle("resources.constants/Inspector");
+	public final static ResourceBundle languageProperties = ResourceBundle.getBundle("resources.languages/English");
 }

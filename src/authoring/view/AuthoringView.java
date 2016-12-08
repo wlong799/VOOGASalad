@@ -11,7 +11,7 @@ import authoring.view.inspector.InspectorView;
 import authoring.view.menu.GameMenuFactory;
 import authoring.view.menu.GameMenuView;
 import javafx.scene.layout.GridPane;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class AuthoringView extends AbstractView {
 

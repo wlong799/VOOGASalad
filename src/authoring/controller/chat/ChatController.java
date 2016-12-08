@@ -16,7 +16,7 @@ import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;
 import network.messages.MessageType;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class ChatController {
 	

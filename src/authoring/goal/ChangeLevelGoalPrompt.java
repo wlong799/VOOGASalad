@@ -17,7 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class ChangeLevelGoalPrompt {
 	private ScrollPane goalPane;
@@ -25,7 +25,7 @@ public class ChangeLevelGoalPrompt {
 	private VBox goalVBox;
 	private List<Node> goalConfigNodes = new ArrayList<>();
 	private AuthoringController myController;
-	private ResourceBundle goalPromptProperties;
+	private ResourceBundle goalPromptProperties;	
 
 	public ChangeLevelGoalPrompt(AuthoringController controller) {
 		goalPromptProperties = ResourceBundles.goalPromptProperties;

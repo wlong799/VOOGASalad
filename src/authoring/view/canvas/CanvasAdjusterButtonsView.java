@@ -7,7 +7,7 @@ import authoring.view.AbstractView;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class CanvasAdjusterButtonsView extends AbstractView {
 	

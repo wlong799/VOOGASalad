@@ -28,7 +28,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 public class ActionConfiguringView extends AbstractView {
 	

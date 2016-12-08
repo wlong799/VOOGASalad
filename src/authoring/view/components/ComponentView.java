@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
-import resources.constants.ResourceBundles;
+import resources.ResourceBundles;
 
 /**
  * ComponentView displays the important information from Component, including the template sprite's image, the title of
