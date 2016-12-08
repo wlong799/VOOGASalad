@@ -1,7 +1,9 @@
 package game_object.weapon;
 
 import java.util.List;
-
+import game_engine.collision.CollisionEngine.CollisionDirection;
+import game_engine.physics.ConstantStrategy;
+import game_engine.physics.IPhysicsStrategy;
 import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
@@ -84,10 +86,16 @@ public class Projectile extends AbstractSprite {
 	}
 
 	@Override
-	public void onCollideWith(ICollisionBody otherBody) {
+	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
 		// TODO Auto-generated method stub
 		
 	}
+
+    @Override
+    public IPhysicsStrategy getPhysics () {
+        // TODO Auto-generated method stub
+        return new ConstantStrategy();
+    }
 
 	
 }

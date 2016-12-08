@@ -21,8 +21,7 @@ public class PassTime extends TimeGoal{
 
 	@Override
 	public GoalType getGoalType() {
-		// TODO Auto-generated method stub
-		return null;
+		return GoalType.PASS_TIME;
 	}
 
 }
