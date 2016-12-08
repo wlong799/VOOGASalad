@@ -1,6 +1,7 @@
 package game_engine;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import game_engine.collision.CollisionEngine;
@@ -14,6 +15,7 @@ import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
 import game_object.acting.KeyEvent;
 import game_object.background.Background;
+import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.core.AbstractSprite;
 import game_object.core.Game;
@@ -38,8 +40,10 @@ public class GameEngine_Game implements IGameEngine {
 	private double myTotalTime;
 	private int myFPS;
 	private boolean logSuppressed = false;
+	private Random myRandom;
 
 	public GameEngine_Game(Game game) {
+		
 		myCurrentLevel = game.getAllLevelsReadOnly().get(0);
 		init();
 		game.setCurrentLevel(myCurrentLevel);
@@ -75,6 +79,10 @@ public class GameEngine_Game implements IGameEngine {
 		executeInput();
 		for (ISprite s : myCurrentLevel.getAllSprites()) {
 			updateNewParameters(s);
+			if (s instanceof Enemy) {
+				Enemy enemy = (Enemy) s;
+				updateEnemyBehavior(enemy);
+			}
 		}
 		// System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
 		if (!logSuppressed) {
@@ -89,11 +97,6 @@ public class GameEngine_Game implements IGameEngine {
 
 	public void updateTime() {
 		myTotalTime += 1.0 / myFPS;
-	}
-	
-	@Override
-	public List<ISpriteVisualization> getSprites() {
-		return myCurrentLevel.getAllSpriteVisualizations();
 	}
 
 	@Override
@@ -118,6 +121,10 @@ public class GameEngine_Game implements IGameEngine {
 		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
 		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 		myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
+	}
+	
+	private void updateEnemyBehavior(Enemy enemy) {
+		if)
 	}
 
 	private void endCheck() {
@@ -164,6 +171,11 @@ public class GameEngine_Game implements IGameEngine {
 	@Override
 	public Background getBackground() {
 		return myCurrentLevel.getBackground();
+	}
+	
+	@Override
+	public List<ISpriteVisualization> getSprites() {
+		return myCurrentLevel.getAllSpriteVisualizations();
 	}
 
 }

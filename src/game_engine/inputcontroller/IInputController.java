@@ -27,5 +27,5 @@ public interface IInputController {
 	/**
 	 * sets the current time; use for the random shooting of enemies
 	 */
-	public void setCurrentTime();
+	public void setCurrentTime(double time);
 }

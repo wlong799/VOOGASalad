@@ -27,6 +27,7 @@ public class InputController implements IInputController {
 	private boolean shooting;
 	private Level myCurrentLevel;
 	private Game myGame;
+	private double myCurrentTime;
 	private boolean myLeftRightExist;
 
 	public InputController(Game game) {
@@ -87,25 +88,13 @@ public class InputController implements IInputController {
 	}
 
 	private void addProjectile(ICharacter character) {
-
-		WeaponSprite weapon = character.getCurrentWeapon();
-		if (weapon == null || weapon.getModel() == null)
-			return; // currently no weapon
-		ProjectileModel pm = weapon.getModel().getProjectileModel();
-
-		Projectile p = pm.newProjectileInstance(
-				new Position(character.getPosition().getX(),
-						character.getPosition().getY() + character.getDimension().getHeight() / 3.0),
-				new Dimension(10, 10));
-		if (character.isFacingLeft()) {
-			p.getVelocity().setXVelocity(-Math.abs(p.getVelocity().getXVelocity()));
-		} else {
-			p.getVelocity().setXVelocity(Math.abs(p.getVelocity().getXVelocity()));
+		Projectile p = ProjectileManager.addProjectile(character);
+		if (p!=null) {
+			myCurrentLevel.getProjectiles().add(p);
+			System.out.println(character.getPosition().getX() + " " + character.getXForVisualization());
+			System.out.println(p.getPosition().getX() + " " + p.getXForVisualization());
+			System.out.println();
 		}
-		System.out.println(character.getPosition().getX() + " " + character.getXForVisualization());
-		System.out.println(p.getPosition().getX() + " " + p.getXForVisualization());
-		System.out.println();
-		myCurrentLevel.getProjectiles().add(p);
 	}
 
 	public boolean getInputExist() {
@@ -113,8 +102,7 @@ public class InputController implements IInputController {
 	}
 
 	@Override
-	public void setCurrentTime() {
-		// TODO Auto-generated method stub
-		
+	public void setCurrentTime(double time) {
+		myCurrentTime = time;
 	}
 }
