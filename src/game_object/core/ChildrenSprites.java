@@ -13,6 +13,11 @@ public class ChildrenSprites {
 
 	private boolean myChanged;
 	
+	public ChildrenSprites() {
+		mySprites = new ArrayList<>();
+		myChanged = false;
+	}
+	
 	public boolean addSprite(ISprite sprite) {
 		myChanged = true;
 		return mySprites.add(sprite);

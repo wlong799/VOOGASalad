@@ -32,7 +32,7 @@ public abstract class AbstractSprite implements ISprite {
 	protected Velocity myVelocity;
 	protected IPhysicsStrategy myPhysicsStrategy;
 	protected boolean myFacingLeft;
-	protected List<ISprite> myChildSprites;
+	protected ChildrenSprites myChildSprites;
 	
 	static {
 		staticPivotPosition = new Position(0, 0);
@@ -50,7 +50,7 @@ public abstract class AbstractSprite implements ISprite {
 		myPhysicsStrategy = new ConstantStrategy();
 		myValid = true;
 		myFacingLeft = false; //default to face right.
-		myChildSprites = new ArrayList<>();
+		myChildSprites = new ();
 	}
 	
 	/* General Setting */
