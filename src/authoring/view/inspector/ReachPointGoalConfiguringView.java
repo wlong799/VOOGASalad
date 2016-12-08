@@ -2,8 +2,9 @@ package authoring.view.inspector;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
-import game_object.character.ICharacter;
+import game_object.character.Hero;
 import game_object.core.ISprite;
+import game_object.level.Level;
 import goal.position.ReachPointGoal;
 import javafx.scene.Parent;
 import javafx.scene.control.CheckBox;
@@ -23,8 +24,11 @@ public class ReachPointGoalConfiguringView extends AbstractView {
 	public void setUpReachPointGoalCheckBox(ISprite sprite) {
 		reachPointCheckBox = new CheckBox("Assign sprite to be goal point of the level");
 		reachPointCheckBox.selectedProperty().addListener((ov, oldVal, newVal) -> {
-			ReachPointGoal reachGoal = new ReachPointGoal((ICharacter) sprite, sprite.getPosition());
-			myController.getEnvironment().getCurrentLevel().getAllGoals().add(reachGoal);
+			Level current = myController.getEnvironment().getCurrentLevel();
+			for (Hero hero : current.getHeros()) {
+				ReachPointGoal reachGoal = new ReachPointGoal(hero, sprite);
+				current.getAllGoals().add(reachGoal);
+			}
 		});
 
 		goalVBox = new VBox();
