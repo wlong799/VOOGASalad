@@ -1,4 +1,4 @@
-package authoring.ui;
+package authoring.settings;
 
 /**
  * Provides a simple way to handle events where a String has been changed and needs to be accessed.
