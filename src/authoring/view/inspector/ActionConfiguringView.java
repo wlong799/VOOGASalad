@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
@@ -27,6 +28,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import resources.constants.ResourceBundles;
 
 public class ActionConfiguringView extends AbstractView {
 	
@@ -35,6 +37,7 @@ public class ActionConfiguringView extends AbstractView {
 	private Map<String, String> myEntryMap;
 	private TableView<Map.Entry<String,String>> myTableView;
 	private ObservableList<Map.Entry<String, String>> myItems;
+	private ResourceBundle componentProperties;
 
 	public ActionConfiguringView(AuthoringController controller) {
 		super(controller);
@@ -52,6 +55,7 @@ public class ActionConfiguringView extends AbstractView {
 
 	@Override
 	protected void initUI() {
+		componentProperties = ResourceBundles.componentProperties;
 	}
 
 	@Override
@@ -61,7 +65,11 @@ public class ActionConfiguringView extends AbstractView {
 	private VBox unitTable(){
 		final VBox vbox = new VBox();
 		vbox.setSpacing(5);
-		vbox.setPadding((new Insets(5,5,5,5)));
+		vbox.setPadding((new Insets(
+				Double.parseDouble(componentProperties.getString("ACTION_CONFIGURING_PADDING")),
+				Double.parseDouble(componentProperties.getString("ACTION_CONFIGURING_PADDING")),
+				Double.parseDouble(componentProperties.getString("ACTION_CONFIGURING_PADDING")),
+				Double.parseDouble(componentProperties.getString("ACTION_CONFIGURING_PADDING")))));
 		vbox.getChildren().add(getInitialTableData());
 		return vbox;
 	}

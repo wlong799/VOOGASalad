@@ -39,8 +39,8 @@ public class ComponentPanelView extends AbstractView {
         myButtonImageView = new ImageView(GameObjectConstants.UPLOAD);
         myButtonImageView.setPreserveRatio(true);
         myComponentCreationButton = new Button();
-        myComponentCreationButton.setPrefHeight(Double.parseDouble(canvasProperties.getString("BOTTOM_HEIGHT")) + 50);
-        myComponentCreationButton.setPrefWidth(200);
+        myComponentCreationButton.setPrefHeight(Double.parseDouble(canvasProperties.getString("BOTTOM_HEIGHT")) + Double.parseDouble(canvasProperties.getString("CREATION_BUTTON_HEIGHT_ABOVE_BOTTOM")));
+        myComponentCreationButton.setPrefWidth(Double.parseDouble(canvasProperties.getString("CREATION_BUTTON_WIDTH")));
         myComponentCreationButton.setGraphic(myButtonImageView);
         setComponentCreationButtonAction();
 
@@ -54,13 +54,13 @@ public class ComponentPanelView extends AbstractView {
         double buttonWidth = getWidth() - listWidth;
         myContent.setPrefWidth(getWidth());
         myContent.setPrefHeight(getHeight());
-        myContent.setSpacing(buttonWidth * (Double.parseDouble(componentProperties.getString("BUTTON_WIDTH_RATIO")) / 2));
+        myContent.setSpacing(buttonWidth * (Double.parseDouble(componentProperties.getString("CONTENT_SPACING"))));
 
         myTabPane.setPrefWidth(listWidth);
         myTabPane.setPrefHeight(getHeight());
         getSubViews().forEach(subView -> {
             subView.setWidth(listWidth);
-            subView.setHeight(getHeight() - 30);
+            subView.setHeight(getHeight() - Double.parseDouble(componentProperties.getString("SUB_VIEW_HEIGHT_DIFFERENT")));
         });
 
         double newImageWidth = buttonWidth * Double.parseDouble(componentProperties.getString("BUTTON_WIDTH_RATIO"));

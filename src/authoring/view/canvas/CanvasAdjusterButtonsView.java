@@ -30,10 +30,10 @@ public class CanvasAdjusterButtonsView extends AbstractView {
 		screenTaller = new Button();
 		screenShorter = new Button();
 		
-		setButton(screenWider, 0, "img/wider.png");
-		setButton(screenNarrower, 1, "img/thinner.png");
-		setButton(screenTaller, 2, "img/taller.png");
-		setButton(screenShorter, 3, "img/shorter.png");
+		setButton(screenWider, Integer.parseInt(canvasProperties.getString("SCREEN_WIDER_POSITION")), "img/wider.png");
+		setButton(screenNarrower, Integer.parseInt(canvasProperties.getString("SCREEN_NARROWER_POSITION")), "img/thinner.png");
+		setButton(screenTaller, Integer.parseInt(canvasProperties.getString("SCREEN_TALLER_POSITION")), "img/taller.png");
+		setButton(screenShorter, Integer.parseInt(canvasProperties.getString("SCREEN_SHORTER_POSITION")), "img/shorter.png");
 		
 		this.addUIAll(screenWider, screenNarrower, screenTaller, screenShorter);
 		screenAdjusterButtonInit();

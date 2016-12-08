@@ -43,12 +43,11 @@ public class CanvasViewController {
     private boolean myDoesSnap;
     private SpriteViewComparator spViewComparator;
     private ResourceBundle canvasProperties;
-    private ResourceBundle componentProperties;
+  
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
         canvasProperties = ResourceBundles.canvasProperties;
-        componentProperties = ResourceBundles.componentProperties;
-    	
+       
     	myCanvas = canvas;
         myScrollPane = scrollPane;
         myContent = content;
