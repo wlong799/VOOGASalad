@@ -1,5 +1,6 @@
 package game_object.simulation;
 
+import game_engine.physics.IPhysicsStrategy;
 import game_object.core.Velocity;
 
 /**
@@ -15,5 +16,9 @@ public interface IPhysicsBody extends IBodyWithPosition {
 	Velocity getVelocity();
 
 	void setVelocity(Velocity velocity); 
+	
+	IPhysicsStrategy getPhysics();
+	
+	void setPhysics(IPhysicsStrategy physics);
 
 }

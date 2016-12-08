@@ -2,13 +2,14 @@ package authoring.view.components;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
-import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import game_object.GameObjectType;
 import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
+import resources.ResourceBundles;
 
 /**
  * ComponentListView organizes multiple Components of the same GameObjectType within a single list, and provides options
@@ -22,10 +23,12 @@ public class ComponentListView extends AbstractView {
     private GameObjectType myGameObjectType;
     private List<ComponentView> myComponentList;
     private HBox myComponentBox;
+    private ResourceBundle componentProperties;
 
     private ComponentListView(AuthoringController controller, GameObjectType gameObjectType) {
         super(controller);
         myGameObjectType = gameObjectType;
+        componentProperties = ResourceBundles.componentProperties;
     }
 
     public void addComponent(String imagePath, String title, String description) {
@@ -51,8 +54,8 @@ public class ComponentListView extends AbstractView {
     @Override
     protected void updateLayoutSelf() {
         getSubViews().forEach(subView -> {
-            subView.setHeight(getHeight() * UIConstants.COMPONENT_HEIGHT_RATIO);
-            subView.setWidth(Math.max(getWidth() / UIConstants.MAX_NUMBER_COMPONENTS_VIEWED, UIConstants.MIN_COMPONENT_WIDTH));
+            subView.setHeight(getHeight() * Double.parseDouble(componentProperties.getString("COMPONENT_HEIGHT_RATIO")));
+            subView.setWidth(Math.max(getWidth() / Double.parseDouble(componentProperties.getString("MAX_NUMBER_COMPONENTS_VIEWED")), Double.parseDouble(componentProperties.getString("MIN_COMPONENT_WIDTH"))));
         });
     }
 }

@@ -1,13 +1,17 @@
 package game_object.character;
 
 import java.util.List;
-
+import game_engine.collision.CollisionEngine.CollisionDirection;
+import game_engine.physics.GravityFrictionStrategy;
+import game_engine.physics.IPhysicsStrategy;
+import game_object.block.StaticBlock;
 import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.core.Velocity;
+import game_object.powerup.PowerUp;
 import game_object.weapon.WeaponSprite;
 
 /**
@@ -25,7 +29,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	protected boolean myDead = false;
         protected int myCurrentJumps;
 	protected WeaponSprite myCurrentWeapon;
-	private boolean myFacingLeft;
 	
 	// the following two fields define the weapon-holding position
 	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
@@ -35,10 +38,46 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 		myAffectedByPhysics = true;
+		myPhysicsStrategy = new GravityFrictionStrategy();
 		// default displacement
 		myWeaponDisplacementX = dimension.getWidth();
 		myWeaponDisplacementY = 0;
 	}
+	/*ICollisionBody Implementation*/
+	
+	@Override
+	public void onCollideWith(StaticBlock b, CollisionDirection collisionDirection){
+	    if (collisionDirection != CollisionDirection.NONE) {
+	            
+	            //c.onCollideWith(other);
+	            //logSuppressed = false;
+	            if (collisionDirection == CollisionDirection.TOP) {
+	                getPosition().setY(b.getPosition().getY() - getDimension().getHeight());
+	                getVelocity().setYVelocity(0);
+	                resetCurrentJumps();
+	            }
+	            else if (collisionDirection == CollisionDirection.BOTTOM) {
+	                getPosition().setY(b.getPosition()
+	                        .getY() + b.getDimension().getHeight());
+	                getVelocity().setYVelocity(0);
+	            }
+	            else if (collisionDirection == CollisionDirection.RIGHT) {
+	                getPosition().setX(b.getPosition().getX() +
+	                                     b.getDimension().getWidth());
+	                getVelocity().setXVelocity(0);
+	            }
+	            else if (collisionDirection == CollisionDirection.LEFT) {
+	                getPosition().setX(b.getPosition().getX() - getDimension().getWidth());
+	                getVelocity().setXVelocity(0);
+	            }
+	            else {
+	                // TODO: Implement corner collision handling
+	            }
+
+	        }
+	}
+	
+	
 	
 	/* IMortal Implementations */
 	@Override
@@ -123,6 +162,11 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	}
 
 	@Override
+	public void shoot() {
+		ExceptionThrower.notYetSupported();
+	}
+	
+	@Override
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
 		if (myCurrentJumps < getMaxNumberOfJumps()) {
 			myCurrentJumps++;
@@ -156,6 +200,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public Velocity getVelocity() {
 		return myVelocity;
 	}
+	
 	/* ---IPhysicsBody Implementations END--- */	
 
 	public double getWeaponDisplacementX() {
@@ -173,12 +218,5 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public void setWeaponDisplacementY(double weaponDisplacementY) {
 		myWeaponDisplacementY = weaponDisplacementY;
 	}
-	
-	public void setFacingLeft(boolean left) {
-		myFacingLeft = left;
-	}
-	
-	public boolean isFacingLeft() {
-		return myFacingLeft;
-	}
+
 }

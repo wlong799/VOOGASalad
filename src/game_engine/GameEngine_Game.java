@@ -25,6 +25,7 @@ import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
 import game_object.weapon.Projectile;
 import goal.IGoal;
+import goal.time.TimeGoal;
 
 public class GameEngine_Game implements IGameEngine {
 
@@ -34,7 +35,8 @@ public class GameEngine_Game implements IGameEngine {
 	private ITransitionManager myTransitionManager;
 	private InputController myInputController;
 	private double myElapsedTime;
-	private int FPS;
+	private double myTotalTime;
+	private int myFPS;
 	private boolean logSuppressed = false;
 
 	public GameEngine_Game(Game game) {
@@ -46,22 +48,14 @@ public class GameEngine_Game implements IGameEngine {
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(game);
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
-		FPS = 120;
-		myElapsedTime = 1.0 / FPS;
+		myFPS = game.getFPS();
+		myTotalTime = 0;
 	}
 
 	public void suppressLogDebug() {
 		logSuppressed = true;
 		myCollisionEngine.suppressLogDebug();
 	}
-
-	// public void run() {
-	// while (runFlag == true) {
-	// update(myElapsedTime);
-	// draw();
-	// endCheck();
-	// }
-	// }
 
 	private void init() {
 		// setElements(myCurrentLevel);
@@ -70,16 +64,13 @@ public class GameEngine_Game implements IGameEngine {
 
 	@Override
 	public void shutdown() {
+		//TODO
 		return;
-	}
-
-	public void draw() {
-
 	}
 
 	@Override
 	public void update(double elapsedTime) {
-
+		updateTime();
 		setElapsedTime(elapsedTime);
 		executeInput();
 		for (ISprite s : myCurrentLevel.getAllSprites()) {
@@ -89,14 +80,17 @@ public class GameEngine_Game implements IGameEngine {
 		if (!logSuppressed) {
 			System.out.println(myCurrentLevel.getHeros().get(0));
 		}
-		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
-				myCurrentLevel.getStaticBlocks()
+		myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites()
 		// myCurrentLevel.getProjectiles(),
 		);
 		updateScrolling();
 		endCheck();
 	}
 
+	public void updateTime() {
+		myTotalTime += 1.0 / myFPS;
+	}
+	
 	@Override
 	public List<ISpriteVisualization> getSprites() {
 		return myCurrentLevel.getAllSpriteVisualizations();
@@ -121,16 +115,10 @@ public class GameEngine_Game implements IGameEngine {
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {
-		if (body.getAffectedByPhysics() || body instanceof Projectile) {
-			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
-			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
-			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
-		}
+		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
+		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
+		myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
 	}
-
-	// private void setElements(Level level) {
-	// mySprites = level.getAllSprites();
-	// }
 
 	private void endCheck() {
 		WinStatus ws = checkWin();
@@ -143,7 +131,7 @@ public class GameEngine_Game implements IGameEngine {
 
 			myCurrentLevel = myTransitionManager.readWinStatus(ws);
 			myPhysicsEngine.setLevel(myCurrentLevel);
-			
+
 			if (myCurrentLevel == null) {
 				shutdown();
 			}
@@ -154,10 +142,10 @@ public class GameEngine_Game implements IGameEngine {
 	private WinStatus checkWin() {
 		List<IGoal> myGoals = myCurrentLevel.getAllGoals();
 		for (IGoal g : myGoals) {
+			if (g instanceof TimeGoal) {
+				((TimeGoal) g).setCurrentTime(myTotalTime);
+			}
 
-			/*
-			 * if (g instanceof TimeGoal) { ((TimeGoal) g).setCurrentTime(0); }
-			 */
 			if (g.checkGoal()) {
 				return g.getResult();
 			}

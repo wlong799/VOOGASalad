@@ -1,11 +1,11 @@
 package authoring.view.inspector.settings;
 
 import authoring.AuthoringController;
-import authoring.constants.UIConstants;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Slider;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
+import resources.ResourceBundles;
+
+import java.util.ResourceBundle;
 
 /**
  * Settings box that contains a slider and a text prompt.
@@ -16,12 +16,14 @@ public class SliderBoxView extends AbstractSettingsView {
     private String myTitle;
     private double myMin, myMax, myValue, myIncrement;
     private ChangeListener<Number> myListener;
+    private ResourceBundle myInspectorProperties;
 
     private Slider mySlider;
 
     public SliderBoxView(AuthoringController controller, String title, double min, double max, double value,
                          double increment, ChangeListener<Number> listener) {
         super(controller);
+        myInspectorProperties = ResourceBundles.inspectorProperties;
         myTitle = title;
         myMin = min;
         myMax = max;
@@ -49,8 +51,8 @@ public class SliderBoxView extends AbstractSettingsView {
         mySlider.setMin(myMin);
         mySlider.setMax(myMax);
         mySlider.setValue(myValue);
-        mySlider.setMajorTickUnit((myMax - myMin) / UIConstants.MAJOR_TICK_DIVISOR);
-        mySlider.setMinorTickCount((int) ((myMax - myMin) / UIConstants.MINOR_TICK_DIVISOR));
+        mySlider.setMajorTickUnit((myMax - myMin) / Double.parseDouble(myInspectorProperties.getString("MAJOR_TICK_DIVISOR")));
+        mySlider.setMinorTickCount((int) ((myMax - myMin) / Double.parseDouble(myInspectorProperties.getString("MINOR_TICK_DIVISOR"))));
         mySlider.setBlockIncrement(myIncrement);
         if (myListener != null) {
             mySlider.valueProperty().addListener(myListener);

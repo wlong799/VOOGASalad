@@ -1,5 +1,7 @@
 package authoring.view.chat;
 
+import java.util.ResourceBundle;
+
 import authoring.AuthoringController;
 import authoring.controller.chat.ChatController;
 import authoring.view.AbstractView;
@@ -13,11 +15,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import network.exceptions.ServerDownException;
+import resources.ResourceBundles;
 
 public class ChatView extends AbstractView {
-
-	private static final double BUTTON_WIDTH = 60;
-	private static final double SENDING_HEIGHT = 40;
 
 	private TextFlow textFlow;
 	private ScrollPane scrollPane;
@@ -26,6 +26,7 @@ public class ChatView extends AbstractView {
 	private HBox sendingBox;
 	private VBox all;
 	private ChatController myController;
+	private ResourceBundle chatWindowProperties;
 
 	private boolean hasName = false;
 
@@ -40,11 +41,13 @@ public class ChatView extends AbstractView {
 		newText.setFill(Color.BLACK);
 		textFlow.getChildren().add(newText);
 		textFlow.requestLayout();
-		scrollPane.setVvalue(1.0);
+		scrollPane.setVvalue(Double.parseDouble(chatWindowProperties.getString("SCROLL_PANE_VERTICAL_VALUE")));
 	}
 
 	@Override
 	protected void initUI() {
+		chatWindowProperties = ResourceBundles.chatWindowProperties;
+		
 		textFlow = new TextFlow();
 		textFlow.setMaxHeight(this.getHeight());
 		scrollPane = new ScrollPane(textFlow);
@@ -67,10 +70,10 @@ public class ChatView extends AbstractView {
 		all.setPrefWidth(getWidth());
 		all.setPrefHeight(getHeight());
 		scrollPane.setPrefWidth(getWidth());
-		scrollPane.setPrefHeight(getHeight() - SENDING_HEIGHT);
-		textField.setPrefWidth(this.getWidth() - BUTTON_WIDTH);
-		enterButton.setPrefWidth(BUTTON_WIDTH);
-		sendingBox.setPrefHeight(SENDING_HEIGHT);
+		scrollPane.setPrefHeight(getHeight() - Double.parseDouble(chatWindowProperties.getString("SENDING_HEIGHT")));
+		textField.setPrefWidth(this.getWidth() - Double.parseDouble(chatWindowProperties.getString("BUTTON_WIDTH")));
+		enterButton.setPrefWidth(Double.parseDouble(chatWindowProperties.getString("BUTTON_WIDTH")));
+		sendingBox.setPrefHeight(Double.parseDouble(chatWindowProperties.getString("SENDING_HEIGHT")));
 	}
 
 	private void initSendingBox() {

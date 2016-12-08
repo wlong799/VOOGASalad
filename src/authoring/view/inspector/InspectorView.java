@@ -1,12 +1,14 @@
 package authoring.view.inspector;
 
+import java.util.ResourceBundle;
+
 import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
-import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import resources.ResourceBundles;
 
 import java.util.Observable;
 import java.util.Observer;
@@ -22,6 +24,7 @@ public class InspectorView extends AbstractView implements Observer {
     private InspectorLevelView levelInspector;
     private InspectorComponentView componentInspector;
     private InspectorSpriteView spriteInspector;
+    private ResourceBundle inspectorProperties;
 
     private SpriteView inspectedSpriteView;
 
@@ -34,6 +37,8 @@ public class InspectorView extends AbstractView implements Observer {
     protected void initUI() {
         getController().addObserver(this);
         getController().getEnvironment().addObserver(this);
+
+        inspectorProperties = ResourceBundles.inspectorProperties;
 
         tabPane = new TabPane();
         gameInspector = new InspectorGameView(getController());
@@ -57,8 +62,8 @@ public class InspectorView extends AbstractView implements Observer {
         tabPane.setPrefHeight(getHeight());
         tabPane.setPrefWidth(getWidth());
         getSubViews().forEach(subView -> {
-            subView.setWidth(getWidth());
-            subView.setHeight(getHeight() - UIConstants.OVERLAP_PIXELS_WITH_CHAT);
+            subView.setWidth(this.getWidth());
+            subView.setHeight(this.getHeight() - Double.parseDouble(inspectorProperties.getString("OVERLAP_PIXELS_WITH_CHAT")));
         });
     }
 

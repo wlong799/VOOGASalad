@@ -1,7 +1,6 @@
 package authoring.view.inspector.settings;
 
 import authoring.AuthoringController;
-import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;

@@ -1,8 +1,8 @@
 package authoring.view.canvas;
 
-import authoring.AuthoringController;
-import authoring.constants.UIConstants;
+import java.util.ResourceBundle;
 
+import authoring.AuthoringController;
 import authoring.controller.CanvasController;
 import authoring.view.AbstractView;
 import authoring.view.IView;
@@ -10,6 +10,7 @@ import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import resources.ResourceBundles;
 
 public class SpriteResizeView extends AbstractView {
 
@@ -22,7 +23,7 @@ public class SpriteResizeView extends AbstractView {
     private Rectangle resizeSW;
     private Rectangle resizeSE;
     private SpriteView spView;
-    private static final double resize_unit = 5;
+    private ResourceBundle componentProperties;
 
     public SpriteResizeView(AuthoringController controller) {
         super(controller);
@@ -37,6 +38,7 @@ public class SpriteResizeView extends AbstractView {
     @Override
     protected void initUI() {
         if (spView == null) return;
+        componentProperties = ResourceBundles.componentProperties;
         initSelectionIndicator();
     }
 
@@ -50,14 +52,14 @@ public class SpriteResizeView extends AbstractView {
         borderS.setStartY(this.getHeight());
         borderS.setEndX(this.getWidth());
         borderS.setEndY(this.getHeight());
-        resizeNW.setLayoutX(-resize_unit / 2);
-        resizeNW.setLayoutY(-resize_unit / 2);
-        resizeNE.setLayoutX(this.getWidth() - resize_unit / 2);
-        resizeNE.setLayoutY(-resize_unit / 2);
-        resizeSW.setLayoutX(-resize_unit / 2);
-        resizeSW.setLayoutY(this.getHeight() - resize_unit / 2);
-        resizeSE.setLayoutX(this.getWidth() - resize_unit / 2);
-        resizeSE.setLayoutY(this.getHeight() - resize_unit / 2);
+        resizeNW.setLayoutX(-Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
+        resizeNW.setLayoutY(-Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
+        resizeNE.setLayoutX(this.getWidth() - Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
+        resizeNE.setLayoutY(-Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
+        resizeSW.setLayoutX(-Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
+        resizeSW.setLayoutY(this.getHeight() - Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
+        resizeSE.setLayoutX(this.getWidth() - Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
+        resizeSE.setLayoutY(this.getHeight() - Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
     }
 
     private void initSelectionIndicator() {
@@ -85,8 +87,8 @@ public class SpriteResizeView extends AbstractView {
     }
 
     private Rectangle initResizerRectangle() {
-        Rectangle result = new Rectangle(0, 0, resize_unit, resize_unit);
-        result.setStrokeWidth(UIConstants.RESIZER_STROKE_WIDTH);
+        Rectangle result = new Rectangle(0, 0, Double.parseDouble(componentProperties.getString("RESIZE_UNIT")), Double.parseDouble(componentProperties.getString("RESIZE_UNIT")));
+        result.setStrokeWidth(Double.parseDouble(componentProperties.getString("RESIZER_STROKE_WIDTH")));
         result.setStroke(Color.TRANSPARENT);
         return result;
     }

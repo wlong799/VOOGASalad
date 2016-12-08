@@ -1,7 +1,8 @@
 package authoring.view.components;
 
+import java.util.ResourceBundle;
+
 import authoring.AuthoringController;
-import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
 import game_object.core.ISprite;
@@ -15,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
+import resources.ResourceBundles;
 
 /**
  * ComponentView displays the important information from Component, including the template sprite's image, the title of
@@ -26,6 +28,7 @@ public class ComponentView extends AbstractView {
     private ImageView myTemplateSpriteImageView;
     private Text myTitleText, myDescriptionText;
     private Component myComponent;
+    private ResourceBundle componentProperties;
 
     public ComponentView(AuthoringController controller) {
         super(controller);
@@ -44,8 +47,8 @@ public class ComponentView extends AbstractView {
         myContentBox.setPrefWidth(getWidth());
         myTitleText.setWrappingWidth(getWidth());
         myDescriptionText.setWrappingWidth(getWidth());
-        double newImageWidth = getWidth() * UIConstants.IMAGE_WIDTH_RATIO;
-        double newImageHeight = getHeight() * UIConstants.IMAGE_HEIGHT_RATIO;
+        double newImageWidth = getWidth() * Double.parseDouble(componentProperties.getString("IMAGE_WIDTH_RATIO"));
+        double newImageHeight = getHeight() * Double.parseDouble(componentProperties.getString("IMAGE_HEIGHT_RATIO"));
         if (myTemplateSpriteImageView.getImage().getWidth() / newImageWidth >
                 myTemplateSpriteImageView.getImage().getHeight() / newImageHeight) {
             myTemplateSpriteImageView.setFitHeight(0);
@@ -58,12 +61,13 @@ public class ComponentView extends AbstractView {
 
     @Override
     protected void initUI() {
-        myTitleText = createText(UIConstants.TITLE_FONT_SIZE);
-        myDescriptionText = createText(UIConstants.DESCRIPTION_FONT_SIZE);
+    	componentProperties = ResourceBundles.componentProperties;
+    	myTitleText = createText(Double.parseDouble(componentProperties.getString("TITLE_FONT_SIZE")));
+        myDescriptionText = createText(Double.parseDouble(componentProperties.getString("DESCRIPTION_FONT_SIZE")));
         myTemplateSpriteImageView = new ImageView();
         myTemplateSpriteImageView.setPreserveRatio(true);
 
-        myContentBox = new VBox(UIConstants.COMPONENT_PADDING, myTitleText, myTemplateSpriteImageView, myDescriptionText);
+        myContentBox = new VBox(Double.parseDouble(componentProperties.getString("COMPONENT_PADDING")), myTitleText, myTemplateSpriteImageView, myDescriptionText);
         myContentBox.setAlignment(Pos.CENTER);
 
         addUI(myContentBox);

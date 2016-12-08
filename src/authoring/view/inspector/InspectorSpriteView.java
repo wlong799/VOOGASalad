@@ -5,6 +5,7 @@ import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
 import game_object.block.IBlock;
 import game_object.character.Hero;
+import game_object.constants.DefaultConstants;
 import game_object.core.ISprite;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
@@ -142,19 +143,19 @@ public class InspectorSpriteView extends AbstractView {
 		herosCollisionCB.selectedProperty().addListener((obv, old_val, new_val) -> {
 			componentPhysicsSettings.setCollisionSettingWithHeros(new_val);
 		});
-		herosCollisionCB.setSelected(sprite.getAffectedByPhysics());
+		herosCollisionCB.setSelected((sprite.getCollisionBitMask() & DefaultConstants.HERO_CATEGORY_BIT_MASK)!=0);
 
 		enemiesCollisionCB = new CheckBox("Collide with Enemies");
 		enemiesCollisionCB.selectedProperty().addListener((obv, old_val, new_val) -> {
 			componentPhysicsSettings.setCollisionSettingWithEnemies(new_val);
 		});	
-		enemiesCollisionCB.setSelected(sprite.getAffectedByPhysics());
+		enemiesCollisionCB.setSelected((sprite.getCollisionBitMask() & DefaultConstants.ENEMY_CATEGORY_BIT_MASK)!=0);
 
 		blockCollisionCB = new CheckBox("Collide with Blocks");
 		blockCollisionCB.selectedProperty().addListener((obv, old_val, new_val) -> {
 			componentPhysicsSettings.setCollisionSettingWithBlock(new_val);
 		});
-		blockCollisionCB.setSelected(sprite.getAffectedByPhysics());
+		blockCollisionCB.setSelected((sprite.getCollisionBitMask() & DefaultConstants.BLOCK_CATEGORY_BIT_MASK)!=0);
 
 		applyPhysics = new CheckBox("Apply Physics");
 		applyPhysics.selectedProperty().addListener((obv, old_val, new_val) -> {

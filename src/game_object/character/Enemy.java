@@ -1,10 +1,10 @@
 package game_object.character;
 
 import java.util.List;
-
+import game_engine.collision.CollisionEngine.CollisionDirection;
+import game_object.block.StaticBlock;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
-import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
 
@@ -29,16 +29,30 @@ public class Enemy extends AbstractCharacter {
 	public double getBodyDamage() {
 		return myBodyDamage;
 	}
-	
-	@Override
-	public void shoot() {
-		ExceptionThrower.notYetSupported();
-	}
 
 	/* ICollisionBody Getter Implementations */
+
 	@Override
-	public void onCollideWith(ICollisionBody otherSprite) {
-		getVelocity().setXVelocity(10);
-	}
+        public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
+            otherBody.onCollideWith(this, collisionDirection);
+        }
+    @Override
+    public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onCollideWith (Enemy e, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        super.onCollideWith(b, collisionDirection);
+    }
+	
 	
 }

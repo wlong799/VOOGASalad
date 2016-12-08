@@ -6,7 +6,7 @@ import game_object.character.IUpgrader;
 import game_object.core.Dimension;
 import game_object.core.Position;
 
-public class SpeedUpPowerUp extends PowerUp {
+public class SpeedUpPowerUp extends AbstractPowerUp {
 
 	private double mySpeedUpFactor;
 	

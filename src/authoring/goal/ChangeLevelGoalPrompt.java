@@ -2,9 +2,9 @@ package authoring.goal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
-import authoring.constants.UIConstants;
 import goal.time.PassTime;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -17,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 public class ChangeLevelGoalPrompt {
 	private ScrollPane goalPane;
@@ -24,14 +25,17 @@ public class ChangeLevelGoalPrompt {
 	private VBox goalVBox;
 	private List<Node> goalConfigNodes = new ArrayList<>();
 	private AuthoringController myController;
+	private ResourceBundle goalPromptProperties;	
 
 	public ChangeLevelGoalPrompt(AuthoringController controller) {
+		goalPromptProperties = ResourceBundles.goalPromptProperties;
+		
 		myController = controller;
 		goalStage = new Stage();
 		goalVBox = new VBox();
 		goalPane = new ScrollPane();
 		goalPane.setContent(goalVBox);
-		Scene goalScene = new Scene(goalPane, UIConstants.GOAL_PROMPT_FRAME_SIZE, UIConstants.GOAL_PROMPT_FRAME_SIZE);
+		Scene goalScene = new Scene(goalPane, Double.parseDouble(goalPromptProperties.getString("GOAL_PROMPT_FRAME_SIZE")), Double.parseDouble(goalPromptProperties.getString("GOAL_PROMPT_FRAME_SIZE")));
 		goalStage.setScene(goalScene);
 		goalStage.show();
 
@@ -79,7 +83,7 @@ public class ChangeLevelGoalPrompt {
 	}
 
 	private void handleTimeGoalSelected() {
-		Spinner<Double> dspinner = new Spinner<>(UIConstants.MIN_TIME_GOAL, UIConstants.MAX_TIME_GOAL, UIConstants.TIME_INITIAL, UIConstants.TIME_STEP);
+		Spinner<Double> dspinner = new Spinner<>(Double.parseDouble(goalPromptProperties.getString("MIN_TIME_GOAL")), Double.parseDouble(goalPromptProperties.getString("MAX_TIME_GOAL")), Double.parseDouble(goalPromptProperties.getString("TIME_INITIAL")),Double.parseDouble(goalPromptProperties.getString("TIME_STEP")));
 		
 		GridPane grid = new GridPane();
 		grid.setHgap(20);
