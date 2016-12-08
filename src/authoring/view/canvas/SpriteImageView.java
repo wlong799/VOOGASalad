@@ -4,6 +4,7 @@ import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import authoring.view.IView;
 import game_object.core.ISprite;
+import game_object.core.Position;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
@@ -59,12 +60,14 @@ public class SpriteImageView extends AbstractView {
     public void setDragMove() {
         this.getUI().setOnMousePressed(event -> {
             CanvasView canvas = mySpriteView.getCanvasView();
-            mySpriteView.getMouseOffset().setX(
+            mySpriteView.setMouseOffset(
+        		new Position(
+    				this.getController().getCanvasViewController()
+                    	.toAbsoluteX(event.getSceneX() - canvas.getPositionX()) - mySpriteView.getPositionX(),
                     this.getController().getCanvasViewController()
-                            .toAbsoluteX(event.getSceneX() - canvas.getPositionX()) - mySpriteView.getPositionX());
-            mySpriteView.getMouseOffset().setY(
-                    this.getController().getCanvasViewController()
-                            .toAbsoluteY(event.getSceneY() - canvas.getPositionY()) - mySpriteView.getPositionY());
+                    	.toAbsoluteY(event.getSceneY() - canvas.getPositionY()) - mySpriteView.getPositionY()
+        		)
+            );
         });
         this.getUI().setOnMouseDragged(event -> {
             this.getController().getCanvasViewController().onDragSpriteView(mySpriteView, event);

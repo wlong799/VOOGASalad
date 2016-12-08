@@ -38,12 +38,12 @@ public class SpriteView extends AbstractView {
 
     public void setAbsolutePositionX(double x) {
         setPositionX(x);
-        mySprite.getPosition().setX(x);
+        mySprite.setPosition(new Position(x,  mySprite.getPosition().getY()));
     }
 
     public void setAbsolutePositionY(double y) {
         setPositionY(y);
-        mySprite.getPosition().setY(y);
+        mySprite.setPosition(new Position(mySprite.getPosition().getX(), y));
     }
 
     public void setAbsolutePositionZ(double z) {
@@ -53,6 +53,10 @@ public class SpriteView extends AbstractView {
 
     public Position getMouseOffset() {
         return mouseOffset;
+    }
+    
+    public void setMouseOffset(Position offsetPosition) {
+    	mouseOffset = offsetPosition;
     }
 
     /**

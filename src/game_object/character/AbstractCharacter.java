@@ -44,6 +44,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void onCollideWith(Block b, CollisionDirection collisionDirection){
+
 		if (collisionDirection != CollisionDirection.NONE) {
 
 			//c.onCollideWith(other);
@@ -73,7 +74,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 		}
 	}
-
 
 
 	/* IMortal Implementations */
