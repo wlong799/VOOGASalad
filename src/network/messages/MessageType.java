@@ -17,22 +17,15 @@ public enum MessageType {
 	// TODO cx15 organzie the message package
 	
 	CHAT ("network.messages.ChatMessage"),
-	PLAYER_MODEL ("TODO"), // TODO cx15 broadcast the player model to all other players
 	USER_GONE_OFFLINE ("network.messages.UserGoneOfflineMessage"),
+	EDIT_ACTION ("TODO"), // TODO cx15
 	
-	SHARE ("TODO"),
-	GET_SHARED ("TODO"),
-	TRYLOCK ("TODO"), // TODO cx15 tell every one else they have it (to show the tooltip with uid), also each editable object must have some id
-	COMMIT ("TODO"), // TODO cx15 commit unlocks all resources, push new Game to all participants
-						// and dups their changed but uncommited objs onto the Game they received
-	
+	TRYLOCK ("TODO"), // TODO cx15
+	UNLOCK ("TODO"), // TODO cx15 
 	HANDSHAKE ("network.messages.HandShake"),
 	DISCONNECT ("network.messages.Disconnect"),
 	SESSION_LEASE ("network.messages.SessionLease"),
 	SESSION_LEASE_GRANTED ("network.messages.SessionLeaseGranted");
-	
-	// TODO cx15 lock and unicast
-	// TODO cx15 remove all TODOS on utils pkgs
 	
 	private static final String MORE_THAN_ONE_PAYLOAD =
 			"Each Message can only carry zero or one payload";
