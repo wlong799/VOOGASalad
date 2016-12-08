@@ -50,7 +50,7 @@ public abstract class AbstractSprite implements ISprite {
 		myPhysicsStrategy = new ConstantStrategy();
 		myValid = true;
 		myFacingLeft = false; //default to face right.
-		myChildSprites = new ();
+		myChildSprites = new ChildrenSprites();
 	}
 	
 	/* General Setting */
