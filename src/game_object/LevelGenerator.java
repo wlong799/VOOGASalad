@@ -16,8 +16,6 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.powerup.IPowerUp;
 import game_object.powerup.NewWeaponPowerUp;
-import goal.AbstractGoal;
-import goal.position.ReachPointGoal;
 import game_object.weapon.ProjectileModel;
 import game_object.weapon.WeaponModel;
 import javafx.scene.input.KeyCode;
