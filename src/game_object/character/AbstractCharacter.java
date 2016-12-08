@@ -47,22 +47,32 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public void onCollideWith(Block b, CollisionDirection collisionDirection){
 	    if (collisionDirection != CollisionDirection.NONE) {
             if (collisionDirection == CollisionDirection.TOP) {
-                getPosition().setY(b.getPosition().getY() - getDimension().getHeight());
+            	setPosition(new Position(
+        			getPosition().getX(),
+        			b.getPosition().getY() - getDimension().getHeight()
+        		));
                 getVelocity().setYVelocity(0);
                 resetCurrentJumps();
             }
             else if (collisionDirection == CollisionDirection.BOTTOM) {
-                getPosition().setY(b.getPosition()
-                        .getY() + b.getDimension().getHeight());
+                setPosition(new Position(
+                	getPosition().getX(),
+                	b.getPosition().getY() + b.getDimension().getHeight()
+                ));
                 getVelocity().setYVelocity(0);
             }
             else if (collisionDirection == CollisionDirection.RIGHT) {
-                getPosition().setX(b.getPosition().getX() +
-                                     b.getDimension().getWidth());
+                setPosition(new Position(
+            		b.getPosition().getX() + b.getDimension().getWidth(),
+            		getPosition().getY()
+                ));
                 getVelocity().setXVelocity(0);
             }
             else if (collisionDirection == CollisionDirection.LEFT) {
-                getPosition().setX(b.getPosition().getX() - getDimension().getWidth());
+            	setPosition(new Position(
+        			b.getPosition().getX() - getDimension().getWidth(),
+        			getPosition().getY()
+        		));
                 getVelocity().setXVelocity(0);
             }
             else {
