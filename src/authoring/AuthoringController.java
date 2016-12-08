@@ -6,6 +6,7 @@ import authoring.controller.CanvasViewController;
 import authoring.controller.ComponentController;
 import authoring.controller.chat.ChatController;
 import authoring.controller.run.TestGameController;
+import authoring.share.IDManager;
 import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
 import game_engine.physics.PhysicsParameterSetOptions;
@@ -28,6 +29,7 @@ public class AuthoringController extends AbstractPublisher {
 	private ChatController chatController;
 	private Marshaller marshaller;
 	private ImageRenderer renderer;
+	private IDManager idManager;
 	
 	public AuthoringController(AuthorEnvironment environment) {
 		myEnvironment = environment;
@@ -37,6 +39,7 @@ public class AuthoringController extends AbstractPublisher {
 		chatController = new ChatController();
 		marshaller = new Marshaller();
 		renderer = new ImageRenderer();
+		idManager = new IDManager(0);
 	}
 	
 	public CanvasViewController getCanvasViewController() {
@@ -61,6 +64,10 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public ImageRenderer getRenderer() {
 		return renderer;
+	}
+	
+	public IDManager getIDManager() {
+		return idManager;
 	}
 	
 	public AuthorEnvironment getEnvironment() {
@@ -97,7 +104,7 @@ public class AuthoringController extends AbstractPublisher {
 		});
 		File f = new File("css/style.css");
 		scene.getStylesheets().clear();
-		scene.getStylesheets().add(f.getPath());
+		//scene.getStylesheets().add(f.getPath());
 	}
 	
 	public void setMouseCursor(Cursor type) {
@@ -107,6 +114,10 @@ public class AuthoringController extends AbstractPublisher {
 	public void setParameter(Level level, PhysicsParameterSetOptions option, double value) {
 		level.getPhysicsParameters().set(option, value);
 		this.notifySubscribers();
+	}
+	
+	public SpriteView getSpriteViewWithID(long id) {
+		return this.getCanvasViewController().getSpriteViewWithID(id);
 	}
 
 }

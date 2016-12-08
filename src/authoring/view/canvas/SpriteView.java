@@ -9,14 +9,21 @@ import game_object.core.Position;
  * wrapper for Sprite in AuthEnv
  */
 public class SpriteView extends AbstractView {
+	
+	private long myID;
     private ISprite mySprite;
     private CanvasView myCanvas;
     private SpriteImageView spImageView;
     private SpriteResizeView spResizeView;
     private Position mouseOffset;
 
-    public SpriteView(AuthoringController controller) {
+    public SpriteView(AuthoringController controller, long id) {
         super(controller);
+        myID = id;
+    }
+    
+    public long getID() {
+    	return myID;
     }
 
     public void setSprite(ISprite sprite) {

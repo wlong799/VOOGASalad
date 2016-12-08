@@ -13,7 +13,9 @@ public class ComponentController {
     }
 
     public SpriteView makeSpriteViewFromCopiedSprite(CanvasView canvas) {
-        SpriteView spriteView = new SpriteView(canvas.getController());
+        SpriteView spriteView = new SpriteView(
+        		canvas.getController(), 
+        		canvas.getController().getIDManager().getNextID());
         spriteView.setSprite(myCurrentlyCopiedSprite);
         return spriteView;
     }
