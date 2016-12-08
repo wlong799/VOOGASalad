@@ -29,7 +29,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	protected boolean myDead = false;
         protected int myCurrentJumps;
 	protected WeaponSprite myCurrentWeapon;
-	private boolean myFacingLeft;
 	
 	// the following two fields define the weapon-holding position
 	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
@@ -163,6 +162,11 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	}
 
 	@Override
+	public void shoot() {
+		ExceptionThrower.notYetSupported();
+	}
+	
+	@Override
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
 		if (myCurrentJumps < getMaxNumberOfJumps()) {
 			myCurrentJumps++;
@@ -214,12 +218,5 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public void setWeaponDisplacementY(double weaponDisplacementY) {
 		myWeaponDisplacementY = weaponDisplacementY;
 	}
-	
-	public void setFacingLeft(boolean left) {
-		myFacingLeft = left;
-	}
-	
-	public boolean isFacingLeft() {
-		return myFacingLeft;
-	}
+
 }

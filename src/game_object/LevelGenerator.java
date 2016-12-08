@@ -14,8 +14,8 @@ import game_object.core.ImageStyle;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.level.Level;
+import game_object.powerup.IPowerUp;
 import game_object.powerup.NewWeaponPowerUp;
-import game_object.powerup.PowerUp;
 import goal.AbstractGoal;
 import goal.position.ReachPointGoal;
 import game_object.weapon.ProjectileModel;
@@ -108,7 +108,13 @@ public class LevelGenerator {
 		WeaponModel fastWeapon = new WeaponModel(redGunImgs, 10, fastModel, colBitMask);
 		ArrayList<String> fwpuImg = new ArrayList<String>();
 		fwpuImg.add(GameObjectConstants.NEW_WEAPON_POWER_UP_FILE);
-		PowerUp fastWeaponPowerUp = new NewWeaponPowerUp(new Position(300, 100), new Dimension(20, 20), fwpuImg, fastWeapon, new Dimension(10, 10));
+		IPowerUp fastWeaponPowerUp = new NewWeaponPowerUp(
+			new Position(300, 100),
+			new Dimension(20, 20),
+			fwpuImg,
+			fastWeapon,
+			new Dimension(10, 10)
+		);
 		levelA.addSprite(fastWeaponPowerUp);
 		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
@@ -143,27 +149,15 @@ public class LevelGenerator {
 	 * The hero can move left, right, and jump.
 	 */
 	private static Level initTestLevelB() {
-		ArrayList<String> heroImages = new ArrayList<>();
-		heroImages.add(GameObjectConstants.BLUE_SNAIL_LEFT);
-		heroImages.add(GameObjectConstants.BLUE_SNAIL_RIGHT);
 		ArrayList<String> blockImages = new ArrayList<>();
 		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
 		levelB = new Level(game, "TestLevelB");
 		levelB.getLevelDimension().setWidth(2000);
 		levelB.getLevelDimension().setHeight(800);
-		Hero hero = new Hero(new Position(30, 30), new Dimension(50, 50), heroImages);
-		hero.setVelocity(new Velocity(50, 0));
-		hero.setImageStyle(ImageStyle.FIT);
+		levelB.replaceAllHerosAndTriggersWithLevel(levelA);
 		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 200), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
-		levelB.addSprite(hero);
 		levelB.addSprite(ground);
-		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
-		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
-		KeyEvent spaceBarEvent = new KeyEvent(KeyCode.W);
-		levelB.getAllTriggers().add(new ActionTrigger(leftEvent, hero, ActionName.MOVE_LEFT));
-		levelB.getAllTriggers().add(new ActionTrigger(rightEvent, hero, ActionName.MOVE_RIGHT));
-		levelB.getAllTriggers().add(new ActionTrigger(spaceBarEvent, hero, ActionName.JUMP));
 		levelB.init();
 		return levelB;
 	}
