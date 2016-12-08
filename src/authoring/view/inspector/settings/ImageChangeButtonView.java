@@ -31,20 +31,24 @@ public class ImageChangeButtonView extends AbstractSettingsView {
         myHandler = handler;
     }
 
-    @Override
-    public void initializeSettings() {
+    public boolean setImageFilename(String imageFilename) {
         try {
-            myImageView.setImage(new Image(myImageFilename));
+            myImageView.setImage(new Image(imageFilename));
+            myImageFilename = imageFilename;
+            return true;
         } catch (RuntimeException e) {
             myImageView.setImage(null);
+            return false;
         }
+    }
+
+    @Override
+    public void initializeSettings() {
         myButton.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Choose New Image");
             File file = fileChooser.showOpenDialog(new Stage());
-            if (file != null) {
-                myImageFilename = file.toURI().toString();
-                myImageView.setImage(new Image(myImageFilename));
+            if (setImageFilename(file.toURI().toString())) {
                 myHandler.handle(myImageFilename);
             }
         });
