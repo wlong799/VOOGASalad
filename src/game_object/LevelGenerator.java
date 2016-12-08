@@ -130,8 +130,8 @@ public class LevelGenerator {
 		levelA.addSprite(ground);
 		levelA.addSprite(smackDown);
 		levelA.addSprite(goalBlock);
-		AbstractGoal goal = new ReachPointGoal(hero,new Position(400,450));
-		levelA.getAllGoals().add(goal);
+		//AbstractGoal goal = new ReachPointGoal(hero,new Position(400,450));
+		//levelA.getAllGoals().add(goal);
 		levelA.setNextLevel(getTestLevelB());
 		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
 		KeyEvent rightEvent = new KeyEvent(KeyCode.D);

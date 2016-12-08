@@ -1,7 +1,7 @@
 package game_object.weapon;
 
 import java.util.List;
-
+import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Position;
@@ -17,7 +17,7 @@ public class WeaponSprite extends AbstractSprite {
 	}
 
 	@Override
-	public void onCollideWith(ICollisionBody otherBody) {
+	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
 		
 	}
 
