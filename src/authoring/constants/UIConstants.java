@@ -31,7 +31,6 @@ public class UIConstants {
 	public static final double INSPECTOR_WIDTH = 300;
 	public static final double THRESHOLD_HEIGHT = 650;
 	public static final double THRESHOLD_WIDTH = 1200;
-	public static final double PADDING = 10;
 	
 	//Chat
 	public static final double CHAT_FRAME_DURATION_MILLISECOND = 100;
@@ -78,9 +77,9 @@ public class UIConstants {
     public static final double GROUND_FRICTION_DEFAULT_VALUE = 0;
     public static final double GROUND_FRICTION_INTERVALS = 0.1;
     public static final double MAX_THRESHOLD_SLIDER_MIN = 0;
-    public static final double MAX_THRESHOLD_SLIDER_MAX = 1;
-    public static final double MAX_THRESHOLD_DEFAULT_VALUE = 0;
-    public static final double MAX_THRESHOLD_INTERVALS = 0.1;
+    public static final double MAX_THRESHOLD_SLIDER_MAX = 1000;
+    public static final double MAX_THRESHOLD_DEFAULT_VALUE = 1000;
+    public static final double MAX_THRESHOLD_INTERVALS = 100;
     public static final double MIN_THRESHOLD_SLIDER_MIN = 0;
     public static final double MIN_THRESHOLD_SLIDER_MAX = 100;
     public static final double MIN_THRESHOLD_DEFAULT_VALUE = 1;

@@ -3,12 +3,14 @@ package authoring.view.inspector;
 import authoring.AuthoringController;
 import authoring.constants.UIConstants;
 import authoring.ui.SliderBox;
+import authoring.updating.IPublisher;
 import authoring.view.AbstractView;
 import authoring.view.run.TestGameView;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.physics.PhysicsParameters;
 import game_object.level.Level;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 
 import java.util.Observable;
@@ -30,13 +32,12 @@ public class InspectorLevelView extends AbstractView implements Observer {
 
     public void setLevel(Level level) {
         myLevel = level;
-        this.updateUI();
+        updateUI();
     }
 
-    public void update(Observable o, Object arg) {
-        if (o instanceof AuthoringController) {
-            updateUI();
-        }
+    @Override
+    public Parent getUI() {
+        return myBox;
     }
 
     /**
@@ -60,13 +61,13 @@ public class InspectorLevelView extends AbstractView implements Observer {
         myBox.setPadding(new Insets(UIConstants.TEST_GAME_PADDING, UIConstants.TEST_GAME_PADDING, UIConstants.TEST_GAME_PADDING, UIConstants.TEST_GAME_PADDING));
         //myBox.setStyle("-fx-background-color: linen;");
         fillInBox();
-        this.addUI(myBox);
     }
 
     @Override
     protected void updateLayoutSelf() {
         myBox.setPrefWidth(this.getWidth());
         myBox.setPrefHeight(this.getHeight());
+        myBox.setLayoutX(this.getPositionX());
     }
 
     private void fillInBox() {
@@ -132,4 +133,10 @@ public class InspectorLevelView extends AbstractView implements Observer {
         }
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof AuthoringController) {
+            updateUI();
+        }
+    }
 }

@@ -28,8 +28,6 @@ public class AuthoringView extends AbstractView {
 	@Override
 	protected void initUI() {
 		myGridContent = new GridPane();
-		myGridContent.setHgap(UIConstants.PADDING);
-		myGridContent.setVgap(UIConstants.PADDING);
 
 		myGameMenu = GameMenuFactory.createGameMenuView(this.getController());
 		myCanvas = new CanvasView(this.getController());
@@ -78,15 +76,15 @@ public class AuthoringView extends AbstractView {
 			}
 		}
 
-		double middleHeight = getHeight() < UIConstants.THRESHOLD_HEIGHT ? getHeight() - UIConstants.PADDING - UIConstants.MENU_HEIGHT :
-			getHeight() - UIConstants.MENU_HEIGHT - UIConstants.COMPONENT_HEIGHT - (2 * UIConstants.PADDING);
+		double middleHeight = getHeight() < UIConstants.THRESHOLD_HEIGHT ? getHeight() - - UIConstants.MENU_HEIGHT :
+			getHeight() - UIConstants.MENU_HEIGHT - UIConstants.COMPONENT_HEIGHT;
 
 		myGameMenu.setSize(getWidth(), UIConstants.MENU_HEIGHT);
 		myCanvas.setSize(getWidth() < UIConstants.THRESHOLD_WIDTH ? getWidth() :
-			getWidth() - UIConstants.PADDING - UIConstants.INSPECTOR_WIDTH, middleHeight);
+			getWidth() - UIConstants.INSPECTOR_WIDTH, middleHeight);
 		if (getWidth() >= UIConstants.THRESHOLD_WIDTH) {
 			myInspector.setSize(UIConstants.INSPECTOR_WIDTH, middleHeight);
-			myComponents.setSize(getWidth() - UIConstants.PADDING - UIConstants.INSPECTOR_WIDTH, UIConstants.COMPONENT_HEIGHT);
+			myComponents.setSize(getWidth() - UIConstants.INSPECTOR_WIDTH, UIConstants.COMPONENT_HEIGHT);
 		}
 		else {
 			myComponents.setSize(getWidth(), UIConstants.COMPONENT_HEIGHT);

@@ -41,6 +41,7 @@ public class CanvasController implements Observer {
     private double scHeight;
     private double bgWidth;
     private double bgHeight;
+    private boolean myDoesSnap;
     private SpriteViewComparator spViewComparator;
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
@@ -85,7 +86,9 @@ public class CanvasController implements Observer {
             setAbsolutePosition(spView, x, y);
         }
         reorderSpriteViewsWithPositionZ();
-        spView.snapToGrid();
+        if (myDoesSnap) {
+            spView.snapToGrid();
+        }
     }
 
     public void delete(SpriteView spView) {
@@ -338,5 +341,13 @@ public class CanvasController implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         refresh();
+    }
+
+    public void setSnapToGrid(boolean doesSnap) {
+        myDoesSnap = doesSnap;
+    }
+
+    public boolean getSnapToGrid() {
+        return myDoesSnap;
     }
 }

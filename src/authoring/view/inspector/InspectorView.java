@@ -18,7 +18,6 @@ import java.util.Observer;
  */
 public class InspectorView extends AbstractView implements Observer {
     private TabPane tabPane;
-
     private InspectorGameView gameInspector;
     private InspectorLevelView levelInspector;
     private InspectorComponentView componentInspector;
@@ -29,6 +28,7 @@ public class InspectorView extends AbstractView implements Observer {
     public InspectorView(AuthoringController controller) {
         super(controller);
     }
+
 
     @Override
     protected void initUI() {
@@ -47,6 +47,8 @@ public class InspectorView extends AbstractView implements Observer {
         addViewsAsTab("Level", levelInspector);
         addViewsAsTab("Component", componentInspector);
         addViewsAsTab("Sprite", spriteInspector);
+
+        setOnChangeTab();
         addUI(tabPane);
     }
 
@@ -79,6 +81,14 @@ public class InspectorView extends AbstractView implements Observer {
         newTab.setContent(view.getUI());
         tabPane.getTabs().add(newTab);
         addSubView(view);
+    }
+
+    private void setOnChangeTab() {
+        tabPane.getSelectionModel().selectedIndexProperty().addListener((ov, oldVal, newVal) -> {
+            if (newVal.intValue() == 0) {
+                this.getController().deselectSpriteViews();
+            }
+        });
     }
 
     @Override
