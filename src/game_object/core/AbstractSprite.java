@@ -1,5 +1,6 @@
 package game_object.core;
 
+import java.util.ArrayList;
 import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.ConstantStrategy;
@@ -8,6 +9,7 @@ import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
+import game_object.level.SpriteScavenger;
 import game_object.simulation.ICollisionBody;
 import game_object.powerup.IPowerUp;
 
@@ -17,6 +19,7 @@ import game_object.powerup.IPowerUp;
  */
 public abstract class AbstractSprite implements ISprite {
 
+	private static SpriteScavenger spriteScavenger;
 	protected Position myPosition;
 	protected Position myPreviousPosition;
 	protected List<String> myImagePaths;
@@ -29,7 +32,7 @@ public abstract class AbstractSprite implements ISprite {
 	protected Velocity myVelocity;
 	protected IPhysicsStrategy myPhysicsStrategy;
 	protected boolean myFacingLeft;
-
+	protected List<ISprite> myChildSprites;
 	
 	static {
 		staticPivotPosition = new Position(0, 0);
@@ -47,12 +50,24 @@ public abstract class AbstractSprite implements ISprite {
 		myPhysicsStrategy = new ConstantStrategy();
 		myValid = true;
 		myFacingLeft = false; //default to face right.
+		myChildSprites = new ArrayList<>();
 	}
 	
 	/* General Setting */
+	public static void setSpriteScavenger(SpriteScavenger spriteScavenger) {
+		AbstractSprite.spriteScavenger = spriteScavenger;
+	}
+	
+	public static SpriteScavenger getSpriteScavenger() {
+		return spriteScavenger;
+	}
+	
 	@Override
 	public void setValid(boolean valid) {
 		myValid = valid;
+		if (!valid) {
+			spriteScavenger.mark(this);
+		}
 	}
 	
 	@Override
@@ -66,6 +81,10 @@ public abstract class AbstractSprite implements ISprite {
 			myFacingLeft = getVelocity().getXVelocity() < 0;
 		}
 		return myFacingLeft;
+	}
+	
+	public List<ISprite> getChildSprites() {
+		return myChildSprites;
 	}
 	/* ---General Setting END--- */
 	
@@ -122,12 +141,12 @@ public abstract class AbstractSprite implements ISprite {
 	
 	/* ICollisionBody Implementations */
 	
-	@Override
-    public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
-        otherBody.onCollideWith(this, collisionDirection);
-    }
-	
 	/* Default implementation is to do nothing when you collide with these objects */
+	@Override
+	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
+		
+	}
+	
 	@Override
 	public void onCollideWith(Hero h, CollisionDirection collisionDirection){
 	    

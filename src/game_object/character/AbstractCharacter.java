@@ -7,7 +7,6 @@ import game_object.block.Block;
 import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
-import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.weapon.Weapon;
@@ -119,7 +118,9 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void setCurrentWeapon(Weapon currentWeapon) {
+		myChildSprites.remove(myCurrentWeapon);
 		myCurrentWeapon = currentWeapon;
+		myChildSprites.add(myCurrentWeapon);
 	}
 	
 	public double getMovingUnit() {
@@ -151,17 +152,14 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void moveUp() {
-		ExceptionThrower.notYetSupported();
 	}
 
 	@Override
 	public void moveDown() {
-		ExceptionThrower.notYetSupported();
 	}
 
 	@Override
 	public void shoot() {
-		ExceptionThrower.notYetSupported();
 	}
 	
 	@Override
