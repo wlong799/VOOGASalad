@@ -1,9 +1,12 @@
 package authoring.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import authoring.AuthorEnvironment;
+import authoring.AuthoringController;
 import authoring.constants.UIConstants;
 import authoring.view.canvas.CanvasView;
 import authoring.view.canvas.SpriteView;
@@ -30,8 +33,9 @@ import javafx.scene.shape.Rectangle;
 public class CanvasViewController {
     private static final double BLOCK_SIZE = 50;
 
+    private AuthoringController myController;
     private CanvasView myCanvas;
-    private List<SpriteView> spriteViews;
+    private Map<Long, SpriteView> spriteViews;
     private ScrollPane myScrollPane;
     private Group myContent; // holder for all SpriteViews
     private HBox myBackground;
@@ -43,13 +47,14 @@ public class CanvasViewController {
     private SpriteViewComparator spViewComparator;
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
-        myCanvas = canvas;
+        myController = canvas.getController();
+    	myCanvas = canvas;
         myScrollPane = scrollPane;
         myContent = content;
         myBackground = background;
         myEnvironment = canvas.getController().getEnvironment();
 
-        spriteViews = new ArrayList<>();
+        spriteViews = new HashMap<>();
         spViewComparator = new SpriteViewComparator();
         setOnDrag();
 
@@ -74,7 +79,7 @@ public class CanvasViewController {
      * @param relative if true, x and y are positions on screen instead of real positions
      */
     public void add(SpriteView spView, double x, double y, boolean relative) {
-        spriteViews.add(spView);
+        spriteViews.put(spView.getID(), spView);
         spView.setCanvasView(myCanvas);
         myContent.getChildren().add(spView.getUI());
         if (relative) {
@@ -86,6 +91,10 @@ public class CanvasViewController {
         spView.snapToGrid();
     }
 
+    /**
+     * @param spView to delete
+     * delete a SpriteView
+     */
     public void delete(SpriteView spView) {
         if (spView == null) return;
         spriteViews.remove(spView);
@@ -163,11 +172,14 @@ public class CanvasViewController {
     }
 
     public void reorderSpriteViewsWithPositionZ() {
-        spriteViews.sort(spViewComparator);
+    	List<SpriteView> views = spriteViews.values()
+    			.stream()
+    			.sorted(spViewComparator)
+    			.collect(Collectors.toList());
         double hValue = myScrollPane.getHvalue();
         double vValue = myScrollPane.getVvalue();
         clearSpriteViews(false);
-        for (SpriteView spView : spriteViews) {
+        for (SpriteView spView : views) {
             myContent.getChildren().add(spView.getUI());
         }
         myScrollPane.setHvalue(hValue);
@@ -210,6 +222,15 @@ public class CanvasViewController {
     public double toAbsoluteY(double y) {
         return myScrollPane.getVvalue() * (bgHeight - scHeight) + y;
     }
+    
+    public double convertToNearestBlockValue(double value) {
+        return Math.round(value / BLOCK_SIZE) * BLOCK_SIZE;
+    }
+    
+    //ID
+    public SpriteView getSpriteViewWithID(long id) {
+    	return spriteViews.get(id);
+    }
 
     private void initSpriteViews() {
         clearSpriteViews(true);
@@ -218,7 +239,10 @@ public class CanvasViewController {
             throw new RuntimeException("no current level for canvas");
         }
         for (ISprite sp : currentLevel.getAllSprites()) {
-            SpriteView spView = new SpriteView(myCanvas.getController());
+        	long newID = myController.getIDManager().getNextID();
+            SpriteView spView = new SpriteView(
+            		myCanvas.getController(), 
+            		newID);
             Dimension dim = new Dimension(sp.getDimension().getWidth(), sp.getDimension().getHeight());
             spView.setSprite(sp);
             spView.setDimensionHeight(dim.getHeight());
@@ -301,7 +325,6 @@ public class CanvasViewController {
     }
 
     private void updateBackground() {
-        // TODO: 11/29/16 allow for tiling of multiple image paths, rather than just first
         myBackground.getChildren().clear();
         double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
         double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
@@ -328,8 +351,5 @@ public class CanvasViewController {
             myBackground.getChildren().add(imageView);
         }
     }
-
-    public double convertToNearestBlockValue(double value) {
-        return Math.round(value / BLOCK_SIZE) * BLOCK_SIZE;
-    }
+    
 }

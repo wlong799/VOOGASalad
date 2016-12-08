@@ -114,14 +114,4 @@ public class AuthorEnvironment implements IAuthorEnvironment {
         return currentGameIndex;
     }
 
-    @Override
-    public void load() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public void setLanguage(String lang) {
-        // TODO Auto-generated method stub
-    }
-
 }
