@@ -2,7 +2,6 @@ package game_object.character;
 
 import game_object.core.ISprite;
 import game_object.weapon.WeaponSprite;
-import game_object.weapon.WeaponModel;
 
 /**
  * Character interface

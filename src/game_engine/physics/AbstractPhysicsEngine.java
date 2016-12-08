@@ -42,6 +42,7 @@ public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
 	}
 
 	public void updatePositionAndVelocity(Position position, Velocity velocity, IPhysicsBody body) {
+		
 		updatePosition(position, body);
 		updateVelocity(velocity, body);
 	}

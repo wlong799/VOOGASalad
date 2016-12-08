@@ -1,8 +1,15 @@
 package game_object.core;
 
 import java.util.List;
-
+import game_engine.collision.CollisionEngine.CollisionDirection;
+import game_engine.physics.ConstantStrategy;
+import game_engine.physics.IPhysicsStrategy;
+import game_object.block.StaticBlock;
+import game_object.character.Enemy;
+import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
+import game_object.powerup.PowerUp;
+import game_object.simulation.ICollisionBody;
 
 /**
  * Base class for all sprites providing common functionalities.
@@ -15,10 +22,14 @@ public abstract class AbstractSprite implements ISprite {
 	protected List<String> myImagePaths;
 	protected ImageStyle myImageStyle;
 	protected Dimension myDimension;
+	protected boolean myValid;
 	protected int myCategoryBitMask;
 	protected int myCollisionBitMask;
 	protected boolean myAffectedByPhysics;
 	protected Velocity myVelocity;
+	protected IPhysicsStrategy myPhysicsStrategy;
+	protected boolean myFacingLeft;
+
 	
 	static {
 		staticPivotPosition = new Position(0, 0);
@@ -33,7 +44,29 @@ public abstract class AbstractSprite implements ISprite {
 		myCollisionBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
 		myAffectedByPhysics = false;
 		myVelocity = new Velocity(0, 0);
+		myPhysicsStrategy = new ConstantStrategy();
+		myFacingLeft = false; //default to face right.
 	}
+	
+	/* General Setting */
+	@Override
+	public void setValid(boolean valid) {
+		myValid = valid;
+	}
+	
+	@Override
+	public boolean isValid() {
+		return myValid;
+	}
+	
+	@Override
+	public boolean isFacingLeft() {
+		if (getVelocity() != null && getVelocity().getXVelocity() != 0) {
+			myFacingLeft = getVelocity().getXVelocity() < 0;
+		}
+		return myFacingLeft;
+	}
+	/* ---General Setting END--- */
 	
 	/* IBodyWithPosition Implementations */
 	@Override
@@ -51,6 +84,7 @@ public abstract class AbstractSprite implements ISprite {
 	public Position getPreviousPosition() {
 		return myPreviousPosition;
 	}
+	/* ---IBodyWithPosition Implementations END--- */
 	
 	/* IBodyWithImage Implementations */
 	@Override
@@ -82,8 +116,38 @@ public abstract class AbstractSprite implements ISprite {
 	public ImageStyle getImageStyle() {
 		return myImageStyle;
 	}
+	/* ---IBodyWithImage Implementations END--- */
 
+	
 	/* ICollisionBody Implementations */
+	
+	@Override
+        public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
+            otherBody.onCollideWith(this, collisionDirection);
+        }
+	
+	/* Default implementation is to do nothing when you collide with these objects */
+	
+	@Override
+	public void onCollideWith(Hero h, CollisionDirection collisionDirection){
+	    
+	}
+	
+	@Override
+	public void onCollideWith(Enemy e, CollisionDirection collisionDirection){
+	    
+	}
+	
+	@Override
+	public void onCollideWith(StaticBlock b, CollisionDirection collisionDirection){
+	    
+	}
+	
+	@Override
+        public void onCollideWith(PowerUp p, CollisionDirection collisionDirection){
+           
+        }
+	
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {
 		myCategoryBitMask = categoryBitMask;
@@ -107,6 +171,17 @@ public abstract class AbstractSprite implements ISprite {
 	
 	
 	/* IPhysicsBody Setter Implementations */
+	
+	@Override
+	public IPhysicsStrategy getPhysics(){
+	    return myPhysicsStrategy;
+	}
+	
+	@Override
+	public void setPhysics(IPhysicsStrategy physics){
+	    myPhysicsStrategy = physics;
+	}
+	
 	@Override
 	public boolean getAffectedByPhysics() {
 		return myAffectedByPhysics;
@@ -135,7 +210,6 @@ public abstract class AbstractSprite implements ISprite {
 	private static double X_SCROLL_THRESHOLD = DefaultConstants.X_SCROLL_THRESHOLD;
 	private static double Y_SCROLL_PERCENT = DefaultConstants.Y_SCROLL_PERCENT;
 	
-	private String myPreviousImagePath;
 	private double myScrollOffset = 0;
 	
 	public static Position getStaticPivotPosition() {
@@ -148,20 +222,13 @@ public abstract class AbstractSprite implements ISprite {
 	
 	@Override
 	public String getImagePath() {
-		if (getVelocity() != null && getVelocity().getXVelocity() != 0) {
-			myPreviousImagePath = getVelocity().getXVelocity() < 0 // face left
+		return isFacingLeft() // face left
+			? myImagePaths.get(0)
+			: (
+				myImagePaths.size() < 2
 				? myImagePaths.get(0)
-				: (
-					myImagePaths.size() < 2
-					? myImagePaths.get(0)
-					: myImagePaths.get(1)
-				);
-		} else {
-			if (myPreviousImagePath == null) {
-				myPreviousImagePath = myImagePaths.get(0);
-			}
-		}
-		return myPreviousImagePath;
+				: myImagePaths.get(1)
+			);
 	}
 
 	@Override
