@@ -30,7 +30,7 @@ import goal.time.TimeGoal;
  * 
  * @author Charlie Wang
  */
-public class GameEngine implements IGameEngine {
+public class GameEngine_Level implements IGameEngine {
 	private IPhysicsEngine myPhysicsEngine;
 	private ICollisionEngine myCollisionEngine;
 	private InputController myInputController;
@@ -43,7 +43,7 @@ public class GameEngine implements IGameEngine {
 	//for suppressing log output
 	private boolean logSuppressed = false;
 
-	public GameEngine(Level level) {
+	public GameEngine_Level(Level level) {
 		myCurrentLevel = level;
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
@@ -84,8 +84,7 @@ public class GameEngine implements IGameEngine {
 		for (ISprite s : mySprites) {
 			updateNewParameters(s);
 		}
-		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
-				myCurrentLevel.getStaticBlocks());
+		myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites());
 		updateScrolling();
 		endCheck();
 	}

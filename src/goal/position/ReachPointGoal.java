@@ -3,31 +3,20 @@ package goal.position;
 import game_engine.collision.Boundary;
 import game_engine.transition.WinStatus;
 import game_object.character.ICharacter;
-import game_object.core.Dimension;
-import game_object.core.Position;
+import game_object.core.ISprite;
 import goal.GoalType;
 
 public class ReachPointGoal extends PositionGoal {
 
-	public ReachPointGoal(ICharacter character, Position pos) {
-		super(character, pos);
+	public ReachPointGoal(ICharacter character, ISprite sprite) {
+		super(character, sprite);
 	}
 
 	@Override
 	public boolean checkGoal() {
-	        Boundary charBoundary = new Boundary(myCharacter.getPosition(),myCharacter.getDimension());
-	        Boundary goalBoundary = new Boundary(myPos,new Dimension(0,0));
+		Boundary charBoundary = new Boundary(myCharacter.getPosition(),myCharacter.getDimension());
+		Boundary goalBoundary = new Boundary(myDestinationSprite.getPosition(),myDestinationSprite.getDimension());
 		return charBoundary.overlaps(goalBoundary);
-		/*
-	        double height = myCharacter.getDimension().getHeight();
-		double width = myCharacter.getDimension().getWidth();
-		double x = myCharacter.getPosition().getX();
-		double y = myCharacter.getPosition().getY();
-		return (myPos.getX() < x + width / 2 && 
-				myPos.getX() > x - width / 2 && 
-				myPos.getY() < y + height / 2 && 
-				myPos.getY() > x - height / 2);
-				*/
 	}
 	
 	@Override

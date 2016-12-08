@@ -1,5 +1,11 @@
 package game_object.simulation;
 
+import game_engine.collision.CollisionEngine.CollisionDirection;
+import game_object.block.StaticBlock;
+import game_object.character.Enemy;
+import game_object.character.Hero;
+import game_object.powerup.PowerUp;
+
 public interface ICollisionBody extends IBodyWithPosition {
 	
 	void setCategoryBitMask(int categoryBitMask);
@@ -10,5 +16,14 @@ public interface ICollisionBody extends IBodyWithPosition {
 	
 	int getCollisionBitMask();
 	
-	void onCollideWith(ICollisionBody otherBody);
+	void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection);
+	
+	void onCollideWith(Hero h, CollisionDirection collisionDirection);
+	
+	void onCollideWith(Enemy e, CollisionDirection collisionDirection);
+	
+	void onCollideWith(StaticBlock b, CollisionDirection collisionDirection);
+	
+	void onCollideWith(PowerUp p, CollisionDirection collisionDirection);
+	
 }
