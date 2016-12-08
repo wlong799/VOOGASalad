@@ -20,7 +20,8 @@ import game_object.weapon.WeaponSprite;
 public class InputController implements IInputController {
 
 	private Set<KeyEvent> myList;
-	private boolean myJump = false;
+	private boolean myJump = false; // getting rid of the problem that one key
+									// hit might exist in multiple frames
 	private boolean jumping;
 	private boolean myShoot = false;
 	private boolean shooting;
@@ -101,13 +102,19 @@ public class InputController implements IInputController {
 		} else {
 			p.getVelocity().setXVelocity(Math.abs(p.getVelocity().getXVelocity()));
 		}
-		System.out.println(character.getPosition().getX()+" "+character.getXForVisualization());
-		System.out.println(p.getPosition().getX()+" "+p.getXForVisualization());
+		System.out.println(character.getPosition().getX() + " " + character.getXForVisualization());
+		System.out.println(p.getPosition().getX() + " " + p.getXForVisualization());
 		System.out.println();
 		myCurrentLevel.getProjectiles().add(p);
 	}
 
 	public boolean getInputExist() {
 		return myLeftRightExist;
+	}
+
+	@Override
+	public void setCurrentTime() {
+		// TODO Auto-generated method stub
+		
 	}
 }

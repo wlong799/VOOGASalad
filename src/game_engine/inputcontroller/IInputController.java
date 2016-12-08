@@ -23,4 +23,9 @@ public interface IInputController {
 	 * @return whether left / right is pressed
 	 */
 	public boolean getInputExist();
+	
+	/**
+	 * sets the current time; use for the random shooting of enemies
+	 */
+	public void setCurrentTime();
 }
