@@ -1,5 +1,6 @@
 package game_object.core;
 
+import java.util.ArrayList;
 import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.ConstantStrategy;
@@ -31,7 +32,7 @@ public abstract class AbstractSprite implements ISprite {
 	protected Velocity myVelocity;
 	protected IPhysicsStrategy myPhysicsStrategy;
 	protected boolean myFacingLeft;
-
+	protected List<ISprite> myChildSprites;
 	
 	static {
 		staticPivotPosition = new Position(0, 0);
@@ -49,6 +50,7 @@ public abstract class AbstractSprite implements ISprite {
 		myPhysicsStrategy = new ConstantStrategy();
 		myValid = true;
 		myFacingLeft = false; //default to face right.
+		myChildSprites = new ArrayList<>();
 	}
 	
 	/* General Setting */
@@ -79,6 +81,10 @@ public abstract class AbstractSprite implements ISprite {
 			myFacingLeft = getVelocity().getXVelocity() < 0;
 		}
 		return myFacingLeft;
+	}
+	
+	public List<ISprite> getChildSprites() {
+		return myChildSprites;
 	}
 	/* ---General Setting END--- */
 	
@@ -135,12 +141,12 @@ public abstract class AbstractSprite implements ISprite {
 	
 	/* ICollisionBody Implementations */
 	
-	@Override
-    public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
-        otherBody.onCollideWith(this, collisionDirection);
-    }
-	
 	/* Default implementation is to do nothing when you collide with these objects */
+	@Override
+	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
+		
+	}
+	
 	@Override
 	public void onCollideWith(Hero h, CollisionDirection collisionDirection){
 	    

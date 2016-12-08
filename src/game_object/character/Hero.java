@@ -19,9 +19,10 @@ public class Hero extends AbstractCharacter implements IUpgrader {
         super(position, dimension, imagePaths);
         myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
         myCollisionBitMask =
-                DefaultConstants.BLOCK_CATEGORY_BIT_MASK |
-                             DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
-                             DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
+			DefaultConstants.BLOCK_CATEGORY_BIT_MASK |
+		    DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
+		    DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK |
+		    DefaultConstants.POWER_CATEGORY_BIT_MASK;
     }
 
     @Override
@@ -29,7 +30,7 @@ public class Hero extends AbstractCharacter implements IUpgrader {
         //ExceptionThrower.notYetSupported();
     }
 
-    /* Upgrader -- Not used for now */
+    /* Upgrader */
     @Override
     public void replenishHealth () {
         setCurrentHP(getMaxHP());
@@ -59,10 +60,10 @@ public class Hero extends AbstractCharacter implements IUpgrader {
     public boolean getHasProjectile () {
         return myHasProjectile;
     }
-
+    
     @Override
-    public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
-        otherBody.onCollideWith(this, collisionDirection);
+    public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
+    	otherBody.onCollideWith(this, collisionDirection);
     }
     
     @Override
@@ -83,6 +84,7 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 
     @Override
     public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection) {
+    	System.out.println("affected");
         p.affect(this);
     }
 
