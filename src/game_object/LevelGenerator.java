@@ -94,7 +94,7 @@ public class LevelGenerator {
 		WeaponModel heroWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
 		hero.setCurrentWeapon(heroWeapon.newWeaponInstance(hero, new Dimension(5, 5)));
 		
-		bulletImgs.add(GameObjectConstants.ORANGE_BULLET_FILE);
+		bulletImgs.add(GameObjectConstants.GREEN_BULLET_FILE);
 		// a very fast bullet model
         ProjectileModel fastModel = new ProjectileModel(
 				bulletImgs, // image file
