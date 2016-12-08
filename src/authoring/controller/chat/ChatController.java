@@ -1,8 +1,8 @@
 package authoring.controller.chat;
 
 import java.util.Queue;
+import java.util.ResourceBundle;
 
-import authoring.constants.UIConstants;
 import authoring.view.chat.ChatView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,15 +16,19 @@ import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;
 import network.messages.MessageType;
+import resources.constants.ResourceBundles;
 
 public class ChatController {
 	
 	private ChatView myView;
 	private INetworkClient myClient;
+	private ResourceBundle chatWindowProperties;
 
 	public void init(ChatView view) {
+		chatWindowProperties = ResourceBundles.chatWindowProperties;
+		
 		myView = view;
-		KeyFrame frame = new KeyFrame(Duration.millis(UIConstants.CHAT_FRAME_DURATION_MILLISECOND),
+		KeyFrame frame = new KeyFrame(Duration.millis(Double.parseDouble(chatWindowProperties.getString("CHAT_FRAME_DURATION_MILLISECOND"))),
 				new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {

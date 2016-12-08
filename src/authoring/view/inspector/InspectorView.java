@@ -1,8 +1,9 @@
 package authoring.view.inspector;
 
+import java.util.ResourceBundle;
+
 import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
-import authoring.constants.UIConstants;
 import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
 import authoring.view.AbstractView;
@@ -11,6 +12,7 @@ import authoring.view.canvas.SpriteView;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import resources.constants.ResourceBundles;
 
 public class InspectorView extends AbstractView implements ISubscriber {
 
@@ -18,6 +20,8 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	private InspectorSpriteView inspectorSpriteView;
 	private LevelSettingsView settingsView;
 	private SpriteView inspectedSpriteView;
+	private ResourceBundle inspectorProperties;
+
 	
 	public InspectorView(AuthoringController controller) {
 		super(controller);
@@ -38,6 +42,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 
 	@Override
 	protected void initUI() {
+		inspectorProperties = ResourceBundles.inspectorProperties;
 		this.getController().addSubscriber(this);
 		tabs = new TabPane();
 		setOnChangeTab();
@@ -63,7 +68,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 		tabs.setPrefWidth(this.getWidth());
 		for (IView subView : this.getSubViews()) {
 			subView.setWidth(this.getWidth());
-			subView.setHeight(this.getHeight() - UIConstants.OVERLAP_PIXELS_WITH_CHAT);
+			subView.setHeight(this.getHeight() - Double.parseDouble(inspectorProperties.getString("OVERLAP_PIXELS_WITH_CHAT")));
 		}
 	}
 	

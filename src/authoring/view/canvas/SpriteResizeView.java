@@ -1,5 +1,7 @@
 package authoring.view.canvas;
 
+import java.util.ResourceBundle;
+
 import authoring.AuthoringController;
 import authoring.constants.UIConstants;
 import authoring.controller.CanvasViewController;
@@ -9,6 +11,7 @@ import javafx.scene.Cursor;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
+import resources.constants.ResourceBundles;
 
 public class SpriteResizeView extends AbstractView {
 
@@ -22,6 +25,7 @@ public class SpriteResizeView extends AbstractView {
     private Rectangle resizeSE;
     private SpriteView spView;
     private static final double resize_unit = 5;
+    private ResourceBundle componentProperties;
 
     public SpriteResizeView(AuthoringController controller) {
         super(controller);
@@ -36,6 +40,7 @@ public class SpriteResizeView extends AbstractView {
     @Override
     protected void initUI() {
         if (spView == null) return;
+        componentProperties = ResourceBundles.componentProperties;
         initSelectionIndicator();
     }
 
@@ -85,7 +90,7 @@ public class SpriteResizeView extends AbstractView {
 
     private Rectangle initResizerRectangle() {
         Rectangle result = new Rectangle(0, 0, resize_unit, resize_unit);
-        result.setStrokeWidth(UIConstants.RESIZER_STROKE_WIDTH);
+        result.setStrokeWidth(Double.parseDouble(componentProperties.getString("RESIZER_STROKE_WIDTH")));
         result.setStroke(Color.TRANSPARENT);
         return result;
     }

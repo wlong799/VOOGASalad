@@ -2,9 +2,9 @@ package authoring.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import authoring.AuthorEnvironment;
-import authoring.constants.UIConstants;
 import authoring.view.canvas.CanvasView;
 import authoring.view.canvas.SpriteView;
 import authoring.view.canvas.SpriteViewComparator;
@@ -22,6 +22,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import resources.constants.ResourceBundles;
 
 /**
  * @author billyu Controller for canvas
@@ -41,9 +42,14 @@ public class CanvasViewController {
     private double bgHeight;
     private boolean myDoesSnap;
     private SpriteViewComparator spViewComparator;
+    private ResourceBundle canvasProperties;
+    private ResourceBundle componentProperties;
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
-        myCanvas = canvas;
+        canvasProperties = ResourceBundles.canvasProperties;
+        componentProperties = ResourceBundles.componentProperties;
+    	
+    	myCanvas = canvas;
         myScrollPane = scrollPane;
         myContent = content;
         myBackground = background;
@@ -178,28 +184,28 @@ public class CanvasViewController {
 
     public void expand() {
         double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
-        width += UIConstants.SCREEN_CHANGE_INTERVAL;
+        width += Double.parseDouble(canvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
         myEnvironment.getCurrentLevel().getLevelDimension().setWidth(width);
         updateBackground();
     }
 
     public void shrink() {
         double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
-        width -= UIConstants.SCREEN_CHANGE_INTERVAL;
+        width -= Double.parseDouble(canvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
         myEnvironment.getCurrentLevel().getLevelDimension().setWidth(width);
         updateBackground();
     }
 
     public void taller() {
         double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
-        height += UIConstants.SCREEN_CHANGE_INTERVAL;
+        height += Double.parseDouble(canvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
         myEnvironment.getCurrentLevel().getLevelDimension().setHeight(height);
         updateBackground();
     }
 
     public void shorter() {
         double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
-        height -= UIConstants.SCREEN_CHANGE_INTERVAL;
+        height -= Double.parseDouble(canvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
         myEnvironment.getCurrentLevel().getLevelDimension().setHeight(height);
         updateBackground();
     }
@@ -273,21 +279,21 @@ public class CanvasViewController {
     }
 
     private void adjustScrollPane(double x, double y) {
-        if (x < UIConstants.DRAG_SCROLL_THRESHOLD) {
+        if (x < Double.parseDouble(componentProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setHvalue(Math.max(0,
-                    myScrollPane.getHvalue() - UIConstants.SCROLL_VALUE_UNIT));
+                    myScrollPane.getHvalue() - Double.parseDouble(componentProperties.getString("SCROLL_VALUE_UNIT"))));
         }
-        if (scWidth - x < UIConstants.DRAG_SCROLL_THRESHOLD) {
+        if (scWidth - x < Double.parseDouble(componentProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setHvalue(Math.min(1,
-                    myScrollPane.getHvalue() + UIConstants.SCROLL_VALUE_UNIT));
+                    myScrollPane.getHvalue() + Double.parseDouble(componentProperties.getString("SCROLL_VALUE_UNIT"))));
         }
-        if (y < UIConstants.DRAG_SCROLL_THRESHOLD) {
+        if (y < Double.parseDouble(componentProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setVvalue(Math.max(0,
-                    myScrollPane.getVvalue() - UIConstants.SCROLL_VALUE_UNIT));
+                    myScrollPane.getVvalue() - Double.parseDouble(componentProperties.getString("SCROLL_VALUE_UNIT"))));
         }
-        if (scHeight - y < UIConstants.DRAG_SCROLL_THRESHOLD) {
+        if (scHeight - y < Double.parseDouble(componentProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setVvalue(Math.min(1,
-                    myScrollPane.getVvalue() + UIConstants.SCROLL_VALUE_UNIT));
+                    myScrollPane.getVvalue() + Double.parseDouble(componentProperties.getString("SCROLL_VALUE_UNIT"))));
         }
     }
 

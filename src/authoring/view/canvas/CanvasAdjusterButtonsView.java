@@ -1,11 +1,13 @@
 package authoring.view.canvas;
 
+import java.util.ResourceBundle;
+
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
-import authoring.constants.UIConstants;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import resources.constants.ResourceBundles;
 
 public class CanvasAdjusterButtonsView extends AbstractView {
 	
@@ -13,6 +15,7 @@ public class CanvasAdjusterButtonsView extends AbstractView {
 	private Button screenNarrower;
 	private Button screenTaller;
 	private Button screenShorter;
+	private ResourceBundle canvasProperties;
 
 	public CanvasAdjusterButtonsView(AuthoringController controller) {
 		super(controller);
@@ -20,6 +23,8 @@ public class CanvasAdjusterButtonsView extends AbstractView {
 
 	@Override
 	protected void initUI() {
+		canvasProperties = ResourceBundles.canvasProperties;
+		
 		screenWider = new Button();
 		screenNarrower = new Button();
 		screenTaller = new Button();
@@ -35,11 +40,11 @@ public class CanvasAdjusterButtonsView extends AbstractView {
 	}
 	
 	private void setButton(Button button, int multiplier, String path) {
-		button.setPrefWidth(UIConstants.BUTTON_WIDTH);
-		button.setLayoutX(UIConstants.BUTTON_WIDTH*multiplier);
+		button.setPrefWidth(Double.parseDouble(canvasProperties.getString("BUTTON_WIDTH")));
+		button.setLayoutX(Double.parseDouble(canvasProperties.getString("BUTTON_WIDTH"))*multiplier);
 		Image image = new Image(path);
 		button.setGraphic(new ImageView(image));
-		button.setPrefHeight(UIConstants.BUTTON_HEIGHT);
+		button.setPrefHeight(Double.parseDouble(canvasProperties.getString("BUTTON_HEIGHT")));
 	}
 
 	@Override

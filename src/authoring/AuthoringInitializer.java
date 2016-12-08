@@ -1,6 +1,7 @@
 package authoring;
 
-import authoring.constants.UIConstants;
+import java.util.ResourceBundle;
+
 import authoring.view.AuthoringView;
 import game_object.LevelGenerator;
 import game_object.core.Game;
@@ -8,6 +9,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import resources.constants.ResourceBundles;
 
 public class AuthoringInitializer {
 	
@@ -17,6 +19,7 @@ public class AuthoringInitializer {
 	private Scene scn;
 	private AuthoringView authoringView;
 	private AuthorEnvironment environment;
+	private ResourceBundle canvasProperties;
 	
 	public void init() {
 		String os = System.getProperty("os.name");
@@ -27,7 +30,8 @@ public class AuthoringInitializer {
 			height = primaryScreenBounds.getHeight();
 		}
 		else {
-			height = primaryScreenBounds.getHeight() - UIConstants.DISCREPANCY_BETWEEN_MAC_AND_WINDOWS_SCREEN;
+			canvasProperties = ResourceBundles.canvasProperties;
+			height = primaryScreenBounds.getHeight() - Double.parseDouble(canvasProperties.getString("DISCREPANCY_BETWEEN_MAC_AND_WINDOWS_SCREEN"));
 		}
 		
 		environment = initEnvironment();

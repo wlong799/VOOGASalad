@@ -1,7 +1,9 @@
 package authoring.ui;
 
-import authoring.constants.UIConstants;
+import java.util.ResourceBundle;
+
 import javafx.scene.control.Slider;
+import resources.constants.ResourceBundles;
 
 /**
  * @author billyu
@@ -11,8 +13,11 @@ import javafx.scene.control.Slider;
 public class ParamSlider {
 	
 	private double min, max, value, increment;
+	private ResourceBundle inspectorProperties;
 	
 	public ParamSlider (double min, double max, double value, double increment) {
+		inspectorProperties = ResourceBundles.inspectorProperties;
+		
 		this.min = min;
 		this.max = max;
 		this.value = value;
@@ -26,8 +31,8 @@ public class ParamSlider {
 		slider.setValue(value);
 		slider.setShowTickLabels(true);
 		slider.setShowTickMarks(true);
-		slider.setMajorTickUnit((max - min) / UIConstants.MAJOR_TICK_DIVISOR);
-		slider.setMinorTickCount((int) ((max - min) / UIConstants.MINOR_TICK_DIVISOR));
+		slider.setMajorTickUnit((max - min) / Double.parseDouble(inspectorProperties.getString("MAJOR_TICK_DIVISOR")));
+		slider.setMinorTickCount((int) ((max - min) / Double.parseDouble(inspectorProperties.getString("MINOR_TICK_DIVISOR"))));
 		slider.setBlockIncrement(increment);
 		return slider;
 	}
