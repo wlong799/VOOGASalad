@@ -21,9 +21,9 @@ public class StaticBlock extends AbstractBlock {
 	}
 
 	@Override
-        public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
-            otherBody.onCollideWith(this, collisionDirection);
-        }
+    public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
+        otherBody.onCollideWith(this, collisionDirection);
+    }
 	
     @Override
     public void onCollideWith (Hero h, CollisionDirection collisionDirection) {

@@ -3,7 +3,6 @@ package game_object.character;
 import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.GravityFrictionStrategy;
-import game_engine.physics.IPhysicsStrategy;
 import game_object.block.StaticBlock;
 import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
@@ -11,7 +10,6 @@ import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.core.Velocity;
-import game_object.powerup.PowerUp;
 import game_object.weapon.WeaponSprite;
 
 /**

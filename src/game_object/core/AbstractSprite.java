@@ -8,8 +8,8 @@ import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
-import game_object.powerup.PowerUp;
 import game_object.simulation.ICollisionBody;
+import game_object.powerup.IPowerUp;
 
 /**
  * Base class for all sprites providing common functionalities.
@@ -45,6 +45,7 @@ public abstract class AbstractSprite implements ISprite {
 		myAffectedByPhysics = false;
 		myVelocity = new Velocity(0, 0);
 		myPhysicsStrategy = new ConstantStrategy();
+		myValid = true;
 		myFacingLeft = false; //default to face right.
 	}
 	
@@ -122,12 +123,11 @@ public abstract class AbstractSprite implements ISprite {
 	/* ICollisionBody Implementations */
 	
 	@Override
-        public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
-            otherBody.onCollideWith(this, collisionDirection);
-        }
+    public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
+        otherBody.onCollideWith(this, collisionDirection);
+    }
 	
 	/* Default implementation is to do nothing when you collide with these objects */
-	
 	@Override
 	public void onCollideWith(Hero h, CollisionDirection collisionDirection){
 	    
@@ -144,9 +144,9 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	
 	@Override
-        public void onCollideWith(PowerUp p, CollisionDirection collisionDirection){
-           
-        }
+    public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection){
+       
+    }
 	
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {
