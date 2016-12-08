@@ -15,6 +15,6 @@ public interface ISprite extends IPhysicsBody, ICollisionBody, IBodyWithImage, I
 	
 	boolean isFacingLeft();
 	
-	List<ISprite> getChildSprites();
+	ChildrenSprites getChildSprites();
 	
 }

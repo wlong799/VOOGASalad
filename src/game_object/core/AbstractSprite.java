@@ -83,7 +83,7 @@ public abstract class AbstractSprite implements ISprite {
 		return myFacingLeft;
 	}
 	
-	public List<ISprite> getChildSprites() {
+	public ChildrenSprites getChildSprites() {
 		return myChildSprites;
 	}
 	/* ---General Setting END--- */
