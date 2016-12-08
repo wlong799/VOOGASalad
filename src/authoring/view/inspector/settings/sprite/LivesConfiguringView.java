@@ -10,8 +10,8 @@ import javafx.scene.control.Spinner;
 import resources.ResourceBundles;
 
 public class LivesConfiguringView extends AbstractView {
-	Spinner<Integer> lifeSpinner;
-	private ResourceBundle inspectorProperties;
+	Spinner<Integer> myLifeSpinner;
+	private ResourceBundle myInspectorProperties;
 	private ISprite myHero;
 	
 	public LivesConfiguringView(AuthoringController controller) {
@@ -24,14 +24,14 @@ public class LivesConfiguringView extends AbstractView {
 	
 	@Override
 	protected void initUI() {
-		inspectorProperties = ResourceBundles.inspectorProperties;
-		lifeSpinner = new Spinner<Integer>(
-				Integer.parseInt(inspectorProperties.getString("LIFE_MIN")),
-				Integer.parseInt(inspectorProperties.getString("LIFE_MAX")),
-				Integer.parseInt(inspectorProperties.getString("LIFE_DEFAULT")),
-				Integer.parseInt(inspectorProperties.getString("LIFE_INCREMENT"))
+		myInspectorProperties = ResourceBundles.inspectorProperties;
+		myLifeSpinner = new Spinner<Integer>(
+				Integer.parseInt(myInspectorProperties.getString("LIFE_MIN")),
+				Integer.parseInt(myInspectorProperties.getString("LIFE_MAX")),
+				Integer.parseInt(myInspectorProperties.getString("LIFE_DEFAULT")),
+				Integer.parseInt(myInspectorProperties.getString("LIFE_INCREMENT"))
 		);
-		lifeSpinner.valueProperty().addListener((obs, oldValue, newValue) -> 
+		myLifeSpinner.valueProperty().addListener((obs, oldValue, newValue) -> 
 			updateSpriteLives(newValue));
 	}
 

@@ -4,14 +4,14 @@ import game_object.constants.DefaultConstants;
 import game_object.core.ISprite;
 
 public class ComponentPhysicsSettings {
-	private ISprite sprite;
+	private ISprite mySprite;
 
 	public ComponentPhysicsSettings(ISprite spriteToSet) {
-		sprite = spriteToSet;
+		mySprite = spriteToSet;
 	}
 	
 	public void makePhysicsApplicable(boolean applyPhysics) {
-		sprite.setAffectedByPhysics(applyPhysics);
+		mySprite.setAffectedByPhysics(applyPhysics);
 	}
 
 	public void setCollisionSettingWithHeros(boolean shouldRegisterCollision) {
@@ -28,8 +28,8 @@ public class ComponentPhysicsSettings {
 	
 	private void setCollisionBitMask(int appropriateBitMask, boolean shouldRegisterCollision) {
 		int collisionBitMask = shouldRegisterCollision ? 
-				sprite.getCollisionBitMask() | appropriateBitMask
-				: sprite.getCollisionBitMask() & ~appropriateBitMask;
-		sprite.setCollisionBitMask(collisionBitMask);
+				mySprite.getCollisionBitMask() | appropriateBitMask
+				: mySprite.getCollisionBitMask() & ~appropriateBitMask;
+		mySprite.setCollisionBitMask(collisionBitMask);
 	}
 }

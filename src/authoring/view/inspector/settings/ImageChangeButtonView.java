@@ -21,7 +21,6 @@ public class ImageChangeButtonView extends AbstractSettingsView {
 
     private String myImageFilename;
     private ITextChangeHandler myHandler;
-
     private Button myButton;
     private ImageView myImageView;
 

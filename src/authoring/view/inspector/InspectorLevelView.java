@@ -12,11 +12,11 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 
 public class InspectorLevelView extends AbstractInspectorTabView {
-    private SliderBoxView gravityBox;
-    private SliderBoxView afBox;
-    private SliderBoxView gfBox;
-    private SliderBoxView tmaxBox;
-    private SliderBoxView tminBox;
+    private SliderBoxView myGravityBox;
+    private SliderBoxView myAirFrictionBox;
+    private SliderBoxView myGroundFrictionBox;
+    private SliderBoxView myThresholdMaxBox;
+    private SliderBoxView myThresholdMinBox;
     private Level myLevel;
     private ResourceBundle levelProperties;
 
@@ -37,11 +37,11 @@ public class InspectorLevelView extends AbstractInspectorTabView {
             return;
         }
         PhysicsParameters param = myLevel.getPhysicsParameters();
-        gravityBox.setValue(param.getGravity());
-        afBox.setValue(param.getAirFriction());
-        gfBox.setValue(param.getGroundFriction());
-        tminBox.setValue(param.getMinThreshold());
-        tmaxBox.setValue(param.getMaxThreshold());
+        myGravityBox.setValue(param.getGravity());
+        myAirFrictionBox.setValue(param.getAirFriction());
+        myGroundFrictionBox.setValue(param.getGroundFriction());
+        myThresholdMinBox.setValue(param.getMinThreshold());
+        myThresholdMaxBox.setValue(param.getMaxThreshold());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class InspectorLevelView extends AbstractInspectorTabView {
     }
 
     private void fillInBox() {
-        gravityBox = new SliderBoxView(
+        myGravityBox = new SliderBoxView(
                 getController(),
                 "Gravity",
                 Double.parseDouble(levelProperties.getString("GRAVITY_SLIDER_MIN")),
@@ -60,7 +60,7 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 Double.parseDouble(levelProperties.getString("GRAVITY_DEFAULT_VALUE")),
                 Double.parseDouble(levelProperties.getString("GRAVITY_INTERVALS")),
                 (obv, oldVal, newVal) -> setParameter(PhysicsParameterSetOptions.GRAVITY, newVal.doubleValue()));
-        afBox = new SliderBoxView(
+        myAirFrictionBox = new SliderBoxView(
                 getController(),
                 "Air Friction",
                 Double.parseDouble(levelProperties.getString("AIR_FRICTION_SLIDER_MIN")),
@@ -68,7 +68,7 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 Double.parseDouble(levelProperties.getString("AIR_FRICTION_DEFAULT_VALUE")),
                 Double.parseDouble(levelProperties.getString("AIR_FRICTION_INTERVALS")),
                 (obv, oldVal, newVal) -> setParameter(PhysicsParameterSetOptions.AIRFRICTION, newVal.doubleValue()));
-        gfBox = new SliderBoxView(
+        myGroundFrictionBox = new SliderBoxView(
                 getController(),
                 "Ground Friction",
                 Double.parseDouble(levelProperties.getString("GROUND_FRICTION_SLIDER_MIN")),
@@ -76,7 +76,7 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 Double.parseDouble(levelProperties.getString("GROUND_FRICTION_DEFAULT_VALUE")),
                 Double.parseDouble(levelProperties.getString("GROUND_FRICTION_INTERVALS")),
                 (obv, oldVal, newVal) -> setParameter(PhysicsParameterSetOptions.GROUNDFRICTION, newVal.doubleValue()));
-        tmaxBox = new SliderBoxView(
+        myThresholdMaxBox = new SliderBoxView(
                 getController(),
                 "Max Threshold",
                 Double.parseDouble(levelProperties.getString("MAX_THRESHOLD_SLIDER_MIN")),
@@ -84,7 +84,7 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 Double.parseDouble(levelProperties.getString("MAX_THRESHOLD_DEFAULT_VALUE")),
                 Double.parseDouble(levelProperties.getString("MAX_THRESHOLD_INTERVALS")),
                 (obv, oldVal, newVal) -> this.setParameter(PhysicsParameterSetOptions.MAXTHRESHOLD, newVal.doubleValue()));
-        tminBox = new SliderBoxView(
+        myThresholdMinBox = new SliderBoxView(
                 getController(),
                 "Min Threshold",
                 Double.parseDouble(levelProperties.getString("MIN_THRESHOLD_SLIDER_MIN")),
@@ -92,7 +92,7 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 Double.parseDouble(levelProperties.getString("MIN_THRESHOLD_DEFAULT_VALUE")),
                 Double.parseDouble(levelProperties.getString("MIN_THRESHOLD_INTERVALS")),
                 (obv, oldVal, newVal) -> this.setParameter(PhysicsParameterSetOptions.MINTHRESHOLD, newVal.doubleValue()));
-        addSettingsViews(gravityBox, afBox, gfBox, tmaxBox, tminBox);
+        addSettingsViews(myGravityBox, myAirFrictionBox, myGroundFrictionBox, myThresholdMaxBox, myThresholdMinBox);
     }
 
     private void setParameter(PhysicsParameterSetOptions option, double value) {

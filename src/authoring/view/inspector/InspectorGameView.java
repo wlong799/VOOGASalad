@@ -13,8 +13,8 @@ import java.util.Observable;
  * @author Will Long
  */
 public class InspectorGameView extends AbstractInspectorTabView {
-    private TextInputBoxView titleInputView, descriptionInputView;
-    private ImageChangeButtonView imageChangeButtonView;
+    private TextInputBoxView myTitleInputView, myDescriptionInputView;
+    private ImageChangeButtonView myImageChangeButtonView;
 
 
     public InspectorGameView(AuthoringController controller) {
@@ -25,17 +25,17 @@ public class InspectorGameView extends AbstractInspectorTabView {
     protected void initUI() {
         super.initUI();
         // TODO: 12/7/16 get title from current game
-        titleInputView = new TextInputBoxView(getController(), "Title", "", newValue -> {
+        myTitleInputView = new TextInputBoxView(getController(), "Title", "", newValue -> {
             // TODO: 12/7/16 set game title to new text
         });
-        imageChangeButtonView = new ImageChangeButtonView(getController(), "", newValue -> {
+        myImageChangeButtonView = new ImageChangeButtonView(getController(), "", newValue -> {
             // TODO: 12/7/16 fix this too
         });
         // TODO: 12/7/16 get description from current game
-        descriptionInputView = new TextInputBoxView(getController(), "Description", "", newValue -> {
+        myDescriptionInputView = new TextInputBoxView(getController(), "Description", "", newValue -> {
             // TODO: 12/7/16 set game description to new text
         });
-        addSettingsViews(titleInputView, imageChangeButtonView, descriptionInputView);
+        addSettingsViews(myTitleInputView, myImageChangeButtonView, myDescriptionInputView);
     }
 
     public void update(Observable o, Object arg) {

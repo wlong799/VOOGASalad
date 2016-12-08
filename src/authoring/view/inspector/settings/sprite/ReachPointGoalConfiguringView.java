@@ -12,8 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 public class ReachPointGoalConfiguringView extends AbstractView {
-	VBox goalVBox;
-	CheckBox reachPointCheckBox;
+	VBox myGoalVBox;
+	CheckBox myReachPointCheckBox;
 	AuthoringController myController;
 
 	public ReachPointGoalConfiguringView(AuthoringController controller) {
@@ -22,8 +22,8 @@ public class ReachPointGoalConfiguringView extends AbstractView {
 	}
 
 	public void setUpReachPointGoalCheckBox(ISprite sprite) {
-		reachPointCheckBox = new CheckBox("Assign sprite to be goal point of the level");
-		reachPointCheckBox.selectedProperty().addListener((ov, oldVal, newVal) -> {
+		myReachPointCheckBox = new CheckBox("Assign sprite to be goal point of the level");
+		myReachPointCheckBox.selectedProperty().addListener((ov, oldVal, newVal) -> {
 			Level current = myController.getEnvironment().getCurrentLevel();
 			for (Hero hero : current.getHeros()) {
 				ReachPointGoal reachGoal = new ReachPointGoal(hero, sprite);
@@ -31,15 +31,15 @@ public class ReachPointGoalConfiguringView extends AbstractView {
 			}
 		});
 
-		goalVBox = new VBox();
+		myGoalVBox = new VBox();
 		Label goalLevel = new Label("Goals");
-		goalLevel.setLabelFor(reachPointCheckBox);
-		goalVBox.getChildren().add(goalLevel);
-		goalVBox.getChildren().add(reachPointCheckBox);
+		goalLevel.setLabelFor(myReachPointCheckBox);
+		myGoalVBox.getChildren().add(goalLevel);
+		myGoalVBox.getChildren().add(myReachPointCheckBox);
 	}
 
 	public Parent getUI() {
-		return goalVBox;
+		return myGoalVBox;
 	}
 
 	@Override

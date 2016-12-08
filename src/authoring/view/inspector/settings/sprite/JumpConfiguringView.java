@@ -17,7 +17,7 @@ public class JumpConfiguringView extends AbstractView {
     private SliderBoxView numJumpBox;
     private SliderBoxView jumpUnitBox;
     private VBox myBox;
-    private ResourceBundle componentProperties;
+    private ResourceBundle myComponentProperties;
 
     public JumpConfiguringView(AuthoringController controller) {
         super(controller);
@@ -35,9 +35,9 @@ public class JumpConfiguringView extends AbstractView {
 
     @Override
     protected void initUI() {
-        componentProperties = ResourceBundles.componentProperties;
+        myComponentProperties = ResourceBundles.componentProperties;
         myBox = new VBox();
-        myBox.setPadding(new Insets(Double.parseDouble(componentProperties.getString("COMPONENT_PADDING"))));
+        myBox.setPadding(new Insets(Double.parseDouble(myComponentProperties.getString("COMPONENT_PADDING"))));
         updateLayout();
     }
 
@@ -49,20 +49,20 @@ public class JumpConfiguringView extends AbstractView {
         numJumpBox = new SliderBoxView(
                 getController(),
                 "Number of Jumps",
-                Double.parseDouble(componentProperties.getString("MIN_NUMBER_JUMPS")),
-                Double.parseDouble(componentProperties.getString("MAX_NUMBER_JUMPS")),
+                Double.parseDouble(myComponentProperties.getString("MIN_NUMBER_JUMPS")),
+                Double.parseDouble(myComponentProperties.getString("MAX_NUMBER_JUMPS")),
                 myHero.getMaxNumberOfJumps(),
-                Double.parseDouble(componentProperties.getString("JUMP_INCREMENT")),
+                Double.parseDouble(myComponentProperties.getString("JUMP_INCREMENT")),
                 (obv, oldVal, newVal) -> {
                     myHero.setMaxNumberOfJumps(newVal.intValue());
                 });
         jumpUnitBox = new SliderBoxView(
                 getController(),
                 "Jump Unit",
-                Double.parseDouble(componentProperties.getString("MIN_JUMP_UNIT")),
-                Double.parseDouble(componentProperties.getString("MAX_JUMP_UNIT")),
+                Double.parseDouble(myComponentProperties.getString("MIN_JUMP_UNIT")),
+                Double.parseDouble(myComponentProperties.getString("MAX_JUMP_UNIT")),
                 myHero.getJumpingUnit(),
-                Double.parseDouble(componentProperties.getString("JUMP_UNIT_INCREMENT")),
+                Double.parseDouble(myComponentProperties.getString("JUMP_UNIT_INCREMENT")),
                 (obv, oldVal, newVal) -> {
                     myHero.setJumpingUnit(newVal.doubleValue());
                 });

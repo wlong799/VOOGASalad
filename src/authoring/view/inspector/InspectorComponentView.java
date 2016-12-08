@@ -13,10 +13,10 @@ import javafx.scene.layout.VBox;
 
 public class InspectorComponentView extends AbstractView {
 
-	private ScrollPane scrollPane;
-	private SpriteView inspectedSpriteView;
-	private ISprite sprite;
-	private VBox configs;
+	private ScrollPane myScrollPane;
+	private SpriteView myInspectedSpriteView;
+	private ISprite mySprite;
+	private VBox myConfigsBox;
 	private ActionConfiguringView myActionView;
 	private PositionConfiguringView myPositionConfigurationView;
 	private PhysicsConfiguringView myPhysicsConfiguringView;
@@ -30,30 +30,30 @@ public class InspectorComponentView extends AbstractView {
 	}
 	
 	public void setInspectedSpriteView(SpriteView spView) {
-		this.inspectedSpriteView = spView;
+		myInspectedSpriteView = spView;
 		updateUI();
 	}
 
 	@Override
 	protected void initUI() {
-		configs = new VBox();
-		scrollPane = new ScrollPane();
-		scrollPane.setContent(configs);
-		scrollPane.setFitToWidth(true);
-		this.addUI(scrollPane);
+		myConfigsBox = new VBox();
+		myScrollPane = new ScrollPane();
+		myScrollPane.setContent(myConfigsBox);
+		myScrollPane.setFitToWidth(true);
+		this.addUI(myScrollPane);
 		updateUI();
 	}
 
 	@Override
 	protected void updateLayoutSelf() {
-		scrollPane.setPrefWidth(this.getWidth());
-		scrollPane.setPrefHeight(this.getHeight());
+		myScrollPane.setPrefWidth(this.getWidth());
+		myScrollPane.setPrefHeight(this.getHeight());
 	}
 
 	private void updateUI() {
-		configs.getChildren().clear();
+		myConfigsBox.getChildren().clear();
 		
-		if (inspectedSpriteView == null) {
+		if (myInspectedSpriteView == null) {
 			noComponentSelected();
 			return;
 		}
@@ -62,31 +62,31 @@ public class InspectorComponentView extends AbstractView {
 		addActionView();
 		addPhysicsConfiguringView();
 		
-		if (sprite instanceof Hero) {
-			configs.getChildren().add(myActionView.getUI());
+		if (mySprite instanceof Hero) {
+			myConfigsBox.getChildren().add(myActionView.getUI());
 		}
 	}
 	
 	private void noComponentSelected() {
 		Label noInspected = new Label("No Component Selected");
-		configs.getChildren().add(noInspected);
+		myConfigsBox.getChildren().add(noInspected);
 	}
 	
 	private void addPositionConfigurationView() {
 		myPositionConfigurationView = new PositionConfiguringView(this.getController());
-		myPositionConfigurationView.setSpriteView(inspectedSpriteView);
+		myPositionConfigurationView.setSpriteView(myInspectedSpriteView);
 		this.addSubView(myPositionConfigurationView);
 	}
 	
 	private void addActionView() {
 		myActionView = new ActionConfiguringView(this.getController());
-		myActionView.setSprite(sprite);
+		myActionView.setSprite(mySprite);
 		this.addSubView(myActionView);
 	}
 	
 	private void addPhysicsConfiguringView() {
 		myPhysicsConfiguringView = new PhysicsConfiguringView(this.getController());
-		myPhysicsConfiguringView.setSprite(sprite);
+		myPhysicsConfiguringView.setSprite(mySprite);
 		this.addSubView(myPhysicsConfiguringView);
 	}
 

@@ -19,14 +19,13 @@ import java.util.Observer;
  * element in the environment is currently selected.
  */
 public class InspectorView extends AbstractView implements Observer {
-    private TabPane tabPane;
-    private InspectorGameView gameInspector;
-    private InspectorLevelView levelInspector;
-    private InspectorComponentView componentInspector;
-    private InspectorSpriteView spriteInspector;
-    private ResourceBundle inspectorProperties;
-
-    private SpriteView inspectedSpriteView;
+    private TabPane myTabPane;
+    private InspectorGameView myGameInspector;
+    private InspectorLevelView myLevelInspector;
+    private InspectorComponentView myComponentInspector;
+    private InspectorSpriteView mySpriteInspector;
+    private ResourceBundle myInspectorProperties;
+    private SpriteView myInspectedSpriteView;
 
     public InspectorView(AuthoringController controller) {
         super(controller);
@@ -38,37 +37,37 @@ public class InspectorView extends AbstractView implements Observer {
         getController().addObserver(this);
         getController().getEnvironment().addObserver(this);
 
-        inspectorProperties = ResourceBundles.inspectorProperties;
+        myInspectorProperties = ResourceBundles.inspectorProperties;
 
-        tabPane = new TabPane();
-        gameInspector = new InspectorGameView(getController());
-        levelInspector = new InspectorLevelView(getController());
-        componentInspector = new InspectorComponentView(getController());
-        spriteInspector = new InspectorSpriteView(getController());
+        myTabPane = new TabPane();
+        myGameInspector = new InspectorGameView(getController());
+        myLevelInspector = new InspectorLevelView(getController());
+        myComponentInspector = new InspectorComponentView(getController());
+        mySpriteInspector = new InspectorSpriteView(getController());
 
-        levelInspector.setLevel(getController().getEnvironment().getCurrentLevel());
+        myLevelInspector.setLevel(getController().getEnvironment().getCurrentLevel());
 
-        addViewsAsTab("Game", gameInspector);
-        addViewsAsTab("Level", levelInspector);
-        addViewsAsTab("Component", componentInspector);
-        addViewsAsTab("Sprite", spriteInspector);
+        addViewsAsTab("Game", myGameInspector);
+        addViewsAsTab("Level", myLevelInspector);
+        addViewsAsTab("Component", myComponentInspector);
+        addViewsAsTab("Sprite", mySpriteInspector);
 
         setOnChangeTab();
-        addUI(tabPane);
+        addUI(myTabPane);
     }
 
     @Override
     protected void updateLayoutSelf() {
-        tabPane.setPrefHeight(getHeight());
-        tabPane.setPrefWidth(getWidth());
+        myTabPane.setPrefHeight(getHeight());
+        myTabPane.setPrefWidth(getWidth());
         getSubViews().forEach(subView -> {
             subView.setWidth(this.getWidth());
-            subView.setHeight(this.getHeight() - Double.parseDouble(inspectorProperties.getString("OVERLAP_PIXELS_WITH_CHAT")));
+            subView.setHeight(this.getHeight() - Double.parseDouble(myInspectorProperties.getString("OVERLAP_PIXELS_WITH_CHAT")));
         });
     }
 
     private void updateUI() {
-        spriteInspector.setInspectedSpriteView(inspectedSpriteView);
+        mySpriteInspector.setInspectedSpriteView(myInspectedSpriteView);
         //CRITICAL: using raw index number here
         //if anyone adds a new tab, notice the index change!!!
         // TODO: 12/5/16 FIX THIS TO WORK WITH NEW TABS
@@ -84,12 +83,12 @@ public class InspectorView extends AbstractView implements Observer {
         newTab.getStyleClass().add("tab");
         newTab.setClosable(false);
         newTab.setContent(view.getUI());
-        tabPane.getTabs().add(newTab);
+        myTabPane.getTabs().add(newTab);
         addSubView(view);
     }
 
     private void setOnChangeTab() {
-        tabPane.getSelectionModel().selectedIndexProperty().addListener((ov, oldVal, newVal) -> {
+        myTabPane.getSelectionModel().selectedIndexProperty().addListener((ov, oldVal, newVal) -> {
             if (newVal.intValue() == 0) {
                 this.getController().deselectSpriteViews();
             }
@@ -99,10 +98,10 @@ public class InspectorView extends AbstractView implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof AuthorEnvironment) {
-            levelInspector.setLevel(getController().getEnvironment().getCurrentLevel());
+            myLevelInspector.setLevel(getController().getEnvironment().getCurrentLevel());
         }
         if (o instanceof AuthoringController) {
-            inspectedSpriteView = ((AuthoringController) o).getSelectedSpriteView();
+            myInspectedSpriteView = ((AuthoringController) o).getSelectedSpriteView();
         }
         updateUI();
     }

@@ -28,7 +28,7 @@ public class ComponentView extends AbstractView {
     private ImageView myTemplateSpriteImageView;
     private Text myTitleText, myDescriptionText;
     private Component myComponent;
-    private ResourceBundle componentProperties;
+    private ResourceBundle myComponentProperties;
 
     public ComponentView(AuthoringController controller) {
         super(controller);
@@ -47,8 +47,8 @@ public class ComponentView extends AbstractView {
         myContentBox.setPrefWidth(getWidth());
         myTitleText.setWrappingWidth(getWidth());
         myDescriptionText.setWrappingWidth(getWidth());
-        double newImageWidth = getWidth() * Double.parseDouble(componentProperties.getString("IMAGE_WIDTH_RATIO"));
-        double newImageHeight = getHeight() * Double.parseDouble(componentProperties.getString("IMAGE_HEIGHT_RATIO"));
+        double newImageWidth = getWidth() * Double.parseDouble(myComponentProperties.getString("IMAGE_WIDTH_RATIO"));
+        double newImageHeight = getHeight() * Double.parseDouble(myComponentProperties.getString("IMAGE_HEIGHT_RATIO"));
         if (myTemplateSpriteImageView.getImage().getWidth() / newImageWidth >
                 myTemplateSpriteImageView.getImage().getHeight() / newImageHeight) {
             myTemplateSpriteImageView.setFitHeight(0);
@@ -61,13 +61,13 @@ public class ComponentView extends AbstractView {
 
     @Override
     protected void initUI() {
-    	componentProperties = ResourceBundles.componentProperties;
-    	myTitleText = createText(Double.parseDouble(componentProperties.getString("TITLE_FONT_SIZE")));
-        myDescriptionText = createText(Double.parseDouble(componentProperties.getString("DESCRIPTION_FONT_SIZE")));
+    	myComponentProperties = ResourceBundles.componentProperties;
+    	myTitleText = createText(Double.parseDouble(myComponentProperties.getString("TITLE_FONT_SIZE")));
+        myDescriptionText = createText(Double.parseDouble(myComponentProperties.getString("DESCRIPTION_FONT_SIZE")));
         myTemplateSpriteImageView = new ImageView();
         myTemplateSpriteImageView.setPreserveRatio(true);
 
-        myContentBox = new VBox(Double.parseDouble(componentProperties.getString("COMPONENT_PADDING")), myTitleText, myTemplateSpriteImageView, myDescriptionText);
+        myContentBox = new VBox(Double.parseDouble(myComponentProperties.getString("COMPONENT_PADDING")), myTitleText, myTemplateSpriteImageView, myDescriptionText);
         myContentBox.setAlignment(Pos.CENTER);
 
         addUI(myContentBox);

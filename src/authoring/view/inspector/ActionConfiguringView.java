@@ -32,19 +32,19 @@ import resources.ResourceBundles;
 
 public class ActionConfiguringView extends AbstractView {
 	
-	private ISprite sprite;
+	private ISprite mySprite;
 	private VBox myTableBox;
 	private Map<String, String> myEntryMap;
 	private TableView<Map.Entry<String,String>> myTableView;
 	private ObservableList<Map.Entry<String, String>> myItems;
-	private ResourceBundle componentProperties;
+	private ResourceBundle myComponentProperties;
 
 	public ActionConfiguringView(AuthoringController controller) {
 		super(controller);
 	}
 
 	public void setSprite(ISprite sprite) {
-		this.sprite = sprite;
+		mySprite = sprite;
 		myTableBox = unitTable();
 	}
 
@@ -55,7 +55,7 @@ public class ActionConfiguringView extends AbstractView {
 
 	@Override
 	protected void initUI() {
-		componentProperties = ResourceBundles.componentProperties;
+		myComponentProperties = ResourceBundles.componentProperties;
 	}
 
 	@Override
@@ -66,10 +66,10 @@ public class ActionConfiguringView extends AbstractView {
 		final VBox vbox = new VBox();
 		vbox.setSpacing(5);
 		vbox.setPadding((new Insets(
-				Double.parseDouble(componentProperties.getString("ACTION_CONFIGURING_PADDING")),
-				Double.parseDouble(componentProperties.getString("ACTION_CONFIGURING_PADDING")),
-				Double.parseDouble(componentProperties.getString("ACTION_CONFIGURING_PADDING")),
-				Double.parseDouble(componentProperties.getString("ACTION_CONFIGURING_PADDING")))));
+				Double.parseDouble(myComponentProperties.getString("ACTION_CONFIGURING_PADDING")),
+				Double.parseDouble(myComponentProperties.getString("ACTION_CONFIGURING_PADDING")),
+				Double.parseDouble(myComponentProperties.getString("ACTION_CONFIGURING_PADDING")),
+				Double.parseDouble(myComponentProperties.getString("ACTION_CONFIGURING_PADDING")))));
 		vbox.getChildren().add(getInitialTableData());
 		return vbox;
 	}
@@ -81,7 +81,7 @@ public class ActionConfiguringView extends AbstractView {
 		
 		for (ActionName name : ActionName.values()) {
 			Level currentLevel = this.getController().getEnvironment().getCurrentLevel();
-			ActionTrigger trigger = currentLevel.getTriggerWithSpriteAndAction(sprite, name);
+			ActionTrigger trigger = currentLevel.getTriggerWithSpriteAndAction(mySprite, name);
 			if (trigger == null) {
 				myEntryMap.put(name.toString(), "None");
 			}
@@ -125,9 +125,9 @@ public class ActionConfiguringView extends AbstractView {
 				ActionName action = ActionName.getActionWithName(entry.getKey());
 				Level currentLevel = this.getController().getEnvironment().getCurrentLevel();
 				ActionTrigger currentTrigger = 
-						currentLevel.getTriggerWithSpriteAndAction(sprite, action);
+						currentLevel.getTriggerWithSpriteAndAction(mySprite, action);
 				if (currentTrigger == null) {
-					currentTrigger = new ActionTrigger(new KeyEvent(null), sprite, action);
+					currentTrigger = new ActionTrigger(new KeyEvent(null), mySprite, action);
 					currentLevel.getAllTriggers().add(currentTrigger);
 				}
 				KeyCode code = getKeyDialog(currentTrigger);

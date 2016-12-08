@@ -14,7 +14,6 @@ public class TextInputBoxView extends AbstractSettingsView {
     private String myTitle;
     private String myText;
     private ITextChangeHandler myHandler;
-
     private TextField myTextField;
 
     public TextInputBoxView(AuthoringController controller, String title, String defaultText, ITextChangeHandler handler) {

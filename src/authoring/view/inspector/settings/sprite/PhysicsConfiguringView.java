@@ -11,8 +11,8 @@ import javafx.scene.layout.VBox;
 public class PhysicsConfiguringView extends AbstractView {
 	private ISprite mySprite;
 	private ComponentPhysicsSettings myComponentPhysicsSettings;
-	private VBox physicsSettingsBox;
-	private CheckBox herosToCollideCheckBox, enemiesToCollideCheckBox, blockToCollideCheckBox, toApplyPhysicsCheckBox;
+	private VBox myPhysicsSettingsBox;
+	private CheckBox myHerosToCollideCheckBox, myEnemiesToCollideCheckBox, myBlockToCollideCheckBox, myToApplyPhysicsCheckBox;
 
 	public PhysicsConfiguringView(AuthoringController controller) {
 		super(controller);
@@ -24,38 +24,38 @@ public class PhysicsConfiguringView extends AbstractView {
 	
 	@Override
 	public Parent getUI() {
-		return physicsSettingsBox;
+		return myPhysicsSettingsBox;
 	}
 
 	@Override
 	protected void initUI() {
 		myComponentPhysicsSettings = new ComponentPhysicsSettings(mySprite);
 
-		herosToCollideCheckBox = new CheckBox("Collide with Heros");
-		herosToCollideCheckBox.selectedProperty().addListener((obv, old_val, new_val) -> {
+		myHerosToCollideCheckBox = new CheckBox("Collide with Heros");
+		myHerosToCollideCheckBox.selectedProperty().addListener((obv, old_val, new_val) -> {
 			myComponentPhysicsSettings.setCollisionSettingWithHeros(new_val);
 		});
-		herosToCollideCheckBox.setSelected(mySprite.getAffectedByPhysics());
+		myHerosToCollideCheckBox.setSelected(mySprite.getAffectedByPhysics());
 
-		enemiesToCollideCheckBox = new CheckBox("Collide with Enemies");
-		enemiesToCollideCheckBox.selectedProperty().addListener((obv, old_val, new_val) -> {
+		myEnemiesToCollideCheckBox = new CheckBox("Collide with Enemies");
+		myEnemiesToCollideCheckBox.selectedProperty().addListener((obv, old_val, new_val) -> {
 			myComponentPhysicsSettings.setCollisionSettingWithEnemies(new_val);
 		});	
-		enemiesToCollideCheckBox.setSelected(mySprite.getAffectedByPhysics());
+		myEnemiesToCollideCheckBox.setSelected(mySprite.getAffectedByPhysics());
 
-		blockToCollideCheckBox = new CheckBox("Collide with Blocks");
-		blockToCollideCheckBox.selectedProperty().addListener((obv, old_val, new_val) -> {
+		myBlockToCollideCheckBox = new CheckBox("Collide with Blocks");
+		myBlockToCollideCheckBox.selectedProperty().addListener((obv, old_val, new_val) -> {
 			myComponentPhysicsSettings.setCollisionSettingWithBlock(new_val);
 		});
-		blockToCollideCheckBox.setSelected(mySprite.getAffectedByPhysics());
+		myBlockToCollideCheckBox.setSelected(mySprite.getAffectedByPhysics());
 
-		toApplyPhysicsCheckBox = new CheckBox("Apply Physics");
-		toApplyPhysicsCheckBox.selectedProperty().addListener((obv, old_val, new_val) -> {
+		myToApplyPhysicsCheckBox = new CheckBox("Apply Physics");
+		myToApplyPhysicsCheckBox.selectedProperty().addListener((obv, old_val, new_val) -> {
 			myComponentPhysicsSettings.makePhysicsApplicable(new_val);
 		});
-		toApplyPhysicsCheckBox.setSelected(mySprite.getAffectedByPhysics());
+		myToApplyPhysicsCheckBox.setSelected(mySprite.getAffectedByPhysics());
 		
-		physicsSettingsBox.getChildren().addAll(herosToCollideCheckBox, enemiesToCollideCheckBox, blockToCollideCheckBox,toApplyPhysicsCheckBox);
+		myPhysicsSettingsBox.getChildren().addAll(myHerosToCollideCheckBox, myEnemiesToCollideCheckBox, myBlockToCollideCheckBox,myToApplyPhysicsCheckBox);
 	}
 
 	@Override
