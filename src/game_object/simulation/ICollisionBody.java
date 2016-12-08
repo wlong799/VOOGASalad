@@ -1,10 +1,10 @@
 package game_object.simulation;
 
 import game_engine.collision.CollisionEngine.CollisionDirection;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
-import game_object.powerup.PowerUp;
+import game_object.powerup.IPowerUp;
 
 public interface ICollisionBody extends IBodyWithPosition {
 	
@@ -22,8 +22,8 @@ public interface ICollisionBody extends IBodyWithPosition {
 	
 	void onCollideWith(Enemy e, CollisionDirection collisionDirection);
 	
-	void onCollideWith(StaticBlock b, CollisionDirection collisionDirection);
+	void onCollideWith(Block b, CollisionDirection collisionDirection);
 	
-	void onCollideWith(PowerUp p, CollisionDirection collisionDirection);
+	void onCollideWith(IPowerUp p, CollisionDirection collisionDirection);
 	
 }

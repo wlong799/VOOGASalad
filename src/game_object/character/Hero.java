@@ -2,12 +2,11 @@ package game_object.character;
 
 import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
-import game_object.core.ExceptionThrower;
 import game_object.core.Position;
-import game_object.powerup.PowerUp;
+import game_object.powerup.IPowerUp;
 import game_object.simulation.ICollisionBody;
 import game_object.weapon.WeaponModel;
 
@@ -27,7 +26,7 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 
     @Override
     public void shoot () {
-        ExceptionThrower.notYetSupported();
+        //ExceptionThrower.notYetSupported();
     }
 
     /* Upgrader -- Not used for now */
@@ -67,26 +66,23 @@ public class Hero extends AbstractCharacter implements IUpgrader {
     }
     
     @Override
-    public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
-        // TODO Auto-generated method stub
+    public void onCollideWith(Hero h, CollisionDirection collisionDirection) {
         
     }
 
     @Override
-    public void onCollideWith (Enemy e, CollisionDirection collisionDirection) {
-        // TODO Auto-generated method stub
-        getVelocity().setYVelocity(-100);
+    public void onCollideWith(Enemy e, CollisionDirection collisionDirection) {
+    	
     }
 
     
     @Override
-    public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
+    public void onCollideWith(Block b, CollisionDirection collisionDirection) {
         super.onCollideWith(b, collisionDirection);
     }
 
     @Override
-    public void onCollideWith (PowerUp p, CollisionDirection collisionDirection) {
-        // TODO Auto-generated method stub
+    public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection) {
         p.affect(this);
     }
 

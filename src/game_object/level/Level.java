@@ -8,7 +8,7 @@ import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
 import game_object.background.Background;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
@@ -38,7 +38,7 @@ public class Level implements ILevelVisualization {
 	private List<IGoal> myGoals;
 	private List<Hero> myHeros;
 	private List<Enemy> myEnemies;
-	private List<StaticBlock> myStaticBlocks;
+	private List<Block> myStaticBlocks;
 	private List<ActionTrigger> myTriggers;
 	private List<Projectile> myProjectiles;
 	private List<IPowerUp> myPowerUps;
@@ -117,8 +117,8 @@ public class Level implements ILevelVisualization {
 			myHeros.add((Hero)sprite);
 		} else if (sprite instanceof Enemy) {
 			myEnemies.add((Enemy)sprite);
-		} else if (sprite instanceof StaticBlock) {
-			myStaticBlocks.add((StaticBlock)sprite);
+		} else if (sprite instanceof Block) {
+			myStaticBlocks.add((Block)sprite);
 		} else if(sprite instanceof IPowerUp) {
 			myPowerUps.add((IPowerUp)sprite);
 		}
@@ -129,8 +129,8 @@ public class Level implements ILevelVisualization {
 			myHeros.remove((Hero)sprite);
 		} else if (sprite instanceof Enemy) {
 			myEnemies.remove((Enemy)sprite);
-		} else if (sprite instanceof StaticBlock) {
-			myStaticBlocks.remove((StaticBlock)sprite);
+		} else if (sprite instanceof Block) {
+			myStaticBlocks.remove((Block)sprite);
 		} else if(sprite instanceof IPowerUp) {
 			myPowerUps.remove((IPowerUp)sprite);
 		}
@@ -166,7 +166,7 @@ public class Level implements ILevelVisualization {
 		return myEnemies;
 	}
 
-	public List<StaticBlock> getStaticBlocks() {
+	public List<Block> getStaticBlocks() {
 		return myStaticBlocks;
 	}
 	
