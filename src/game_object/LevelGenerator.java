@@ -16,8 +16,6 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.powerup.IPowerUp;
 import game_object.powerup.NewWeaponPowerUp;
-import goal.AbstractGoal;
-import goal.position.ReachPointGoal;
 import game_object.weapon.ProjectileModel;
 import game_object.weapon.WeaponModel;
 import javafx.scene.input.KeyCode;
@@ -72,7 +70,6 @@ public class LevelGenerator {
 		levelA.getLevelDimension().setHeight(800);
 		
 		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 60), heroImages);
-		hero.setVelocity(new Velocity(40, -80));
 		hero.setImageStyle(ImageStyle.FIT);
 		hero.setWeaponDisplacementX(40);
 		hero.setWeaponDisplacementY(0);

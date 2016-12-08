@@ -19,9 +19,10 @@ public class Hero extends AbstractCharacter implements IUpgrader {
         super(position, dimension, imagePaths);
         myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
         myCollisionBitMask =
-                DefaultConstants.BLOCK_CATEGORY_BIT_MASK |
-                             DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
-                             DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
+    		DefaultConstants.BLOCK_CATEGORY_BIT_MASK |
+    		DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
+            DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK |
+            DefaultConstants.POWER_CATEGORY_BIT_MASK;
     }
 
     @Override
@@ -75,7 +76,6 @@ public class Hero extends AbstractCharacter implements IUpgrader {
     	
     }
 
-    
     @Override
     public void onCollideWith(Block b, CollisionDirection collisionDirection) {
         super.onCollideWith(b, collisionDirection);

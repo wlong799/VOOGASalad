@@ -17,6 +17,7 @@ import game_object.powerup.IPowerUp;
  */
 public abstract class AbstractSprite implements ISprite {
 
+	private static boolean garbageCollectNeeded;
 	protected Position myPosition;
 	protected Position myPreviousPosition;
 	protected List<String> myImagePaths;
@@ -30,9 +31,9 @@ public abstract class AbstractSprite implements ISprite {
 	protected IPhysicsStrategy myPhysicsStrategy;
 	protected boolean myFacingLeft;
 
-	
 	static {
 		staticPivotPosition = new Position(0, 0);
+		garbageCollectNeeded = false;
 	}
 	
 	protected AbstractSprite(Position position, Dimension dimension, List<String> imagePaths) {
@@ -50,9 +51,17 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	
 	/* General Setting */
+	public static boolean isGarbageCollectNeeded() {
+		return garbageCollectNeeded;
+	}
+	
 	@Override
 	public void setValid(boolean valid) {
 		myValid = valid;
+		if (!valid) {
+			System.out.println("garbage");
+			garbageCollectNeeded = true;
+		}
 	}
 	
 	@Override
