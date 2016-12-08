@@ -44,35 +44,40 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void onCollideWith(Block b, CollisionDirection collisionDirection){
-
-		if (collisionDirection != CollisionDirection.NONE) {
-
-			//c.onCollideWith(other);
-			//logSuppressed = false;
-			if (collisionDirection == CollisionDirection.TOP) {
-				getPosition().setY(b.getPosition().getY() - getDimension().getHeight());
-				getVelocity().setYVelocity(0);
-				resetCurrentJumps();
-			}
-			else if (collisionDirection == CollisionDirection.BOTTOM) {
-				getPosition().setY(b.getPosition()
-						.getY() + b.getDimension().getHeight());
-				getVelocity().setYVelocity(0);
-			}
-			else if (collisionDirection == CollisionDirection.RIGHT) {
-				getPosition().setX(b.getPosition().getX() +
-						b.getDimension().getWidth());
-				getVelocity().setXVelocity(0);
-			}
-			else if (collisionDirection == CollisionDirection.LEFT) {
-				getPosition().setX(b.getPosition().getX() - getDimension().getWidth());
-				getVelocity().setXVelocity(0);
-			}
-			else {
-				// TODO: Implement corner collision handling
-			}
-
-		}
+	    if (collisionDirection != CollisionDirection.NONE) {
+            if (collisionDirection == CollisionDirection.TOP) {
+            	setPosition(new Position(
+        			getPosition().getX(),
+        			b.getPosition().getY() - getDimension().getHeight()
+        		));
+                getVelocity().setYVelocity(0);
+                resetCurrentJumps();
+            }
+            else if (collisionDirection == CollisionDirection.BOTTOM) {
+                setPosition(new Position(
+                	getPosition().getX(),
+                	b.getPosition().getY() + b.getDimension().getHeight()
+                ));
+                getVelocity().setYVelocity(0);
+            }
+            else if (collisionDirection == CollisionDirection.RIGHT) {
+                setPosition(new Position(
+            		b.getPosition().getX() + b.getDimension().getWidth(),
+            		getPosition().getY()
+                ));
+                getVelocity().setXVelocity(0);
+            }
+            else if (collisionDirection == CollisionDirection.LEFT) {
+            	setPosition(new Position(
+        			b.getPosition().getX() - getDimension().getWidth(),
+        			getPosition().getY()
+        		));
+                getVelocity().setXVelocity(0);
+            }
+            else {
+                // TODO: Implement corner collision handling
+            }
+        }
 	}
 
 
