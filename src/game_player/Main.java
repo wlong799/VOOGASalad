@@ -9,8 +9,6 @@ public class Main extends Application {
 		launch(args);
 	}
 	
-
-	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		GamePlayManager applicationManager = new GamePlayManager();

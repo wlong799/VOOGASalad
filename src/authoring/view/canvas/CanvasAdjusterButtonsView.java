@@ -47,7 +47,7 @@ public class CanvasAdjusterButtonsView extends AbstractView {
 	}
 	
 	private void screenAdjusterButtonInit(){
-		screenNarrower.setOnAction((event) -> {
+		screenNarrower.setOnMouseClicked((event) -> {
 			this.getController().getCanvasViewController().shrink();
 		});
 		screenWider.setOnAction((event) -> {

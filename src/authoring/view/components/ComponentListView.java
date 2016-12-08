@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import authoring.AuthoringController;
+import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import game_object.GameObjectType;
+import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
 
 /**
@@ -16,9 +18,6 @@ import javafx.scene.layout.HBox;
  * @version 11/21/16
  */
 public class ComponentListView extends AbstractView {
-    private static final int MAX_NUMBER_COMPONENTS_VIEWED = 10;
-    private static final double MIN_COMPONENT_WIDTH = 125;
-    private static final double COMPONENT_HEIGHT_RATIO = 0.9;
 
     private GameObjectType myGameObjectType;
     private List<ComponentView> myComponentList;
@@ -37,21 +36,23 @@ public class ComponentListView extends AbstractView {
         addSubView(componentView);
         myComponentBox.getChildren().add(componentView.getUI());
     }
+    
+    @Override
+    public Parent getUI() {
+    	return myComponentBox;
+    }
 
     @Override
     protected void initUI() {
         myComponentList = new ArrayList<>();
         myComponentBox = new HBox();
-        addUI(myComponentBox);
     }
 
     @Override
     protected void updateLayoutSelf() {
-        myComponentBox.setPrefWidth(getWidth());
-        myComponentBox.setPrefHeight(getHeight());
         getSubViews().forEach(subView -> {
-            subView.setHeight(getHeight() * COMPONENT_HEIGHT_RATIO);
-            subView.setWidth(Math.max(getWidth() / MAX_NUMBER_COMPONENTS_VIEWED, MIN_COMPONENT_WIDTH));
+            subView.setHeight(getHeight() * UIConstants.COMPONENT_HEIGHT_RATIO);
+            subView.setWidth(Math.max(getWidth() / UIConstants.MAX_NUMBER_COMPONENTS_VIEWED, UIConstants.MIN_COMPONENT_WIDTH));
         });
     }
 }

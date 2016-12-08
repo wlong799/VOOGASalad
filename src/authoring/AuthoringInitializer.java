@@ -1,5 +1,6 @@
 package authoring;
 
+import authoring.constants.UIConstants;
 import authoring.view.AuthoringView;
 import game_object.LevelGenerator;
 import game_object.core.Game;
@@ -26,7 +27,7 @@ public class AuthoringInitializer {
 			height = primaryScreenBounds.getHeight();
 		}
 		else {
-			height = primaryScreenBounds.getHeight() - 20;
+			height = primaryScreenBounds.getHeight() - UIConstants.DISCREPANCY_BETWEEN_MAC_AND_WINDOWS_SCREEN;
 		}
 		
 		environment = initEnvironment();

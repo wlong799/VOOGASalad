@@ -24,8 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * @author billyu
- *         Controller for canvas
+ * @author billyu Controller for canvas
  */
 public class CanvasViewController {
     private static final double BLOCK_SIZE = 50;
@@ -40,6 +39,7 @@ public class CanvasViewController {
     private double scHeight;
     private double bgWidth;
     private double bgHeight;
+    private boolean myDoesSnap;
     private SpriteViewComparator spViewComparator;
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
@@ -83,7 +83,9 @@ public class CanvasViewController {
             setAbsolutePosition(spView, x, y);
         }
         reorderSpriteViewsWithPositionZ();
-        spView.snapToGrid();
+        if (myDoesSnap) {
+        	spView.snapToGrid();
+        }
     }
 
     public void delete(SpriteView spView) {
@@ -307,7 +309,7 @@ public class CanvasViewController {
         double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
         if (myEnvironment.getCurrentLevel().getBackground().getImagePaths().size() == 0) {
             Rectangle rectangle = new Rectangle(0, 0, width, height);
-            rectangle.setFill(Color.BEIGE);
+            rectangle.setFill(Color.LIGHTCYAN);
             myBackground.getChildren().add(rectangle);
         } else {
             Image backgroundImage = new Image(myEnvironment.getCurrentLevel().getBackground().getImagePaths().get(0));
@@ -330,6 +332,14 @@ public class CanvasViewController {
     }
 
     public double convertToNearestBlockValue(double value) {
-        return Math.round(value / BLOCK_SIZE) * BLOCK_SIZE;
+        return Math.max(Math.round(value / BLOCK_SIZE) * BLOCK_SIZE, BLOCK_SIZE);
     }
+
+	public void setSnapToGrid(boolean doesSnap) {
+		myDoesSnap = doesSnap;
+	}
+	
+	public boolean getSnapToGrid() {
+		return myDoesSnap;
+	}
 }

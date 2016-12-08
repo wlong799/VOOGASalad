@@ -2,6 +2,7 @@ package authoring.view.canvas;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
+import authoring.view.IView;
 import game_object.core.ISprite;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -19,7 +20,7 @@ public class SpriteImageView extends AbstractView {
     }
 
     @Override
-    public void setParentView(AbstractView parent) {
+    public void setParentView(IView parent) {
         mySpriteView = (SpriteView) parent;
         mySprite = mySpriteView.getSprite();
         initUI();
