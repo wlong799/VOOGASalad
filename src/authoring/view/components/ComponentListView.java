@@ -7,6 +7,7 @@ import authoring.AuthoringController;
 import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import game_object.GameObjectType;
+import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
 
 /**
@@ -35,18 +36,20 @@ public class ComponentListView extends AbstractView {
         addSubView(componentView);
         myComponentBox.getChildren().add(componentView.getUI());
     }
+    
+    @Override
+    public Parent getUI() {
+    	return myComponentBox;
+    }
 
     @Override
     protected void initUI() {
         myComponentList = new ArrayList<>();
         myComponentBox = new HBox();
-        addUI(myComponentBox);
     }
 
     @Override
     protected void updateLayoutSelf() {
-        myComponentBox.setPrefWidth(getWidth());
-        myComponentBox.setPrefHeight(getHeight());
         getSubViews().forEach(subView -> {
             subView.setHeight(getHeight() * UIConstants.COMPONENT_HEIGHT_RATIO);
             subView.setWidth(Math.max(getWidth() / UIConstants.MAX_NUMBER_COMPONENTS_VIEWED, UIConstants.MIN_COMPONENT_WIDTH));
