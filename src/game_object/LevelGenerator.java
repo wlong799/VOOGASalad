@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.KeyEvent;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
@@ -119,11 +119,11 @@ public class LevelGenerator {
 		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
 		enemy.setImageStyle(ImageStyle.FIT);
-		StaticBlock smackDown = new StaticBlock(new Position(340, 50), new Dimension(100, 200), blockImages);
+		Block smackDown = new Block(new Position(340, 50), new Dimension(100, 200), blockImages);
 		smackDown.setImageStyle(ImageStyle.TILE);
-		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), blockImages);
+		Block ground = new Block(new Position(0, 500), new Dimension(2000, 500), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
-		StaticBlock goalBlock = new StaticBlock(new Position(400,450),new Dimension(50,50),blockImages);
+		Block goalBlock = new Block(new Position(400,450),new Dimension(50,50),blockImages);
 		// NewWeaponPowerUp powerUp = new NewWeaponPowerUp(new Position(), dimension, imagePaths, w)
 		levelA.addSprite(hero);
 		//level.addSprite(enemy);
@@ -155,7 +155,7 @@ public class LevelGenerator {
 		levelB.getLevelDimension().setWidth(2000);
 		levelB.getLevelDimension().setHeight(800);
 		levelB.replaceAllHerosAndTriggersWithLevel(levelA);
-		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 200), blockImages);
+		Block ground = new Block(new Position(0, 500), new Dimension(2000, 200), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
 		levelB.addSprite(ground);
 		levelB.init();

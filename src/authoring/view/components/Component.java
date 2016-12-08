@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import game_object.GameObjectType;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.core.Dimension;
@@ -77,27 +77,28 @@ public class Component {
         return myTemplateSprite.getImagePath();
     }
 
-    private ISprite createTemplateSpriteFromType(GameObjectType gameObjectType, List<String> imagePaths) {
-        ISprite sprite = null;
-        switch (gameObjectType) {
-            case ENEMY:
-                sprite = new Enemy(new Position(0, 0), new Dimension(0, 0), imagePaths);
-                break;
-            case HERO:
-                sprite = new Hero(new Position(0, 0), new Dimension(0, 0), imagePaths);
-                break;
-            case STATIC_BLOCK:
-                sprite = new StaticBlock(new Position(0, 0), new Dimension(0, 0), imagePaths);
-                break;
-            case WEAPON_POWER_UP:
-                sprite = new NewWeaponPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths, null, null);
-                break;
-            case WEAPON_PROJECTILE:
-                ExceptionThrower.illegalArgs("Projectile should not be created directly inside authoring environment");
-                break;
-            default:
-                break;
-        }
-        return sprite;
-    }
+	private ISprite createTemplateSpriteFromType(GameObjectType gameObjectType, List<String> imagePaths) {
+		ISprite sprite = null;
+		switch (gameObjectType) {
+		case ENEMY:
+			sprite = new Enemy(new Position(0, 0), new Dimension(0, 0), imagePaths);
+			break;
+		case HERO:
+			sprite = new Hero(new Position(0, 0), new Dimension(0, 0), imagePaths);
+			break;
+		case STATIC_BLOCK:
+			sprite = new Block(new Position(0, 0), new Dimension(0, 0), imagePaths);
+			break;
+		case WEAPON_POWER_UP:
+			sprite = new NewWeaponPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths, null, null);
+			break;
+		case WEAPON_PROJECTILE:
+			ExceptionThrower.illegalArgs("Projectile should not be created directly inside authoring environment");
+			break;
+		default:
+			break;
+		}
+		return sprite;
+	}
+
 }
