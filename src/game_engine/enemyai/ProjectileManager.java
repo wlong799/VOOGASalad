@@ -1,4 +1,4 @@
-package game_engine.inputcontroller;
+package game_engine.enemyai;
 
 import game_object.character.ICharacter;
 import game_object.core.Dimension;

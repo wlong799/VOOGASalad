@@ -12,6 +12,7 @@ import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.WinStatus;
+import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 import game_object.background.Background;
 import game_object.character.Hero;
@@ -168,7 +169,7 @@ public class GameEngine_Level implements IGameEngine {
 	}
 
 	@Override
-	public void setInputList(Set<KeyEvent> list) {
+	public void setInputList(Set<Event> list) {
 		myInputController.setInputList(list);
 	}
 
@@ -176,5 +177,6 @@ public class GameEngine_Level implements IGameEngine {
 	public Background getBackground() {
 		return myCurrentLevel.getBackground();
 	}
+
 
 }

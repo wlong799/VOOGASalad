@@ -13,6 +13,7 @@ import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
+import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 import game_object.background.Background;
 import game_object.character.Enemy;
@@ -43,7 +44,7 @@ public class GameEngine_Game implements IGameEngine {
 	private Random myRandom;
 
 	public GameEngine_Game(Game game) {
-		
+		myRandom = new Random();
 		myCurrentLevel = game.getAllLevelsReadOnly().get(0);
 		init();
 		game.setCurrentLevel(myCurrentLevel);
@@ -79,10 +80,6 @@ public class GameEngine_Game implements IGameEngine {
 		executeInput();
 		for (ISprite s : myCurrentLevel.getAllSprites()) {
 			updateNewParameters(s);
-			if (s instanceof Enemy) {
-				Enemy enemy = (Enemy) s;
-				updateEnemyBehavior(enemy);
-			}
 		}
 		// System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
 		if (!logSuppressed) {
@@ -100,7 +97,7 @@ public class GameEngine_Game implements IGameEngine {
 	}
 
 	@Override
-	public void setInputList(Set<KeyEvent> list) {
+	public void setInputList(Set<Event> list) {
 		myInputController.setInputList(list);
 	}
 
@@ -121,10 +118,6 @@ public class GameEngine_Game implements IGameEngine {
 		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
 		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
 		myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
-	}
-	
-	private void updateEnemyBehavior(Enemy enemy) {
-		if)
 	}
 
 	private void endCheck() {

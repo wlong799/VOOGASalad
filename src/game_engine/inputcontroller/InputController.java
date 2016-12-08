@@ -3,8 +3,10 @@ package game_engine.inputcontroller;
 import java.util.List;
 import java.util.Set;
 
+import game_engine.enemyai.ProjectileManager;
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
+import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 import game_object.character.ICharacter;
 import game_object.character.IMover;
@@ -19,7 +21,7 @@ import game_object.weapon.WeaponSprite;
 
 public class InputController implements IInputController {
 
-	private Set<KeyEvent> myList;
+	private Set<Event> myList;
 	private boolean myJump = false; // getting rid of the problem that one key
 									// hit might exist in multiple frames
 	private boolean jumping;
@@ -36,7 +38,7 @@ public class InputController implements IInputController {
 	}
 
 	@Override
-	public void setInputList(Set<KeyEvent> list) {
+	public void setInputList(Set<Event> list) {
 		myList = list;
 	}
 
@@ -47,7 +49,7 @@ public class InputController implements IInputController {
 		jumping = false;
 		shooting = false;
 		if (myList != null && myList.size() != 0) {
-			for (KeyEvent event : myList) {
+			for (Event event : myList) {
 				List<ActionTrigger> trigger = myCurrentLevel.getTriggersWithEvent(event);
 				for (ActionTrigger actionTrigger : trigger) {
 					chooseAction(actionTrigger);

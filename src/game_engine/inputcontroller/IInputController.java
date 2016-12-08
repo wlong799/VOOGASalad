@@ -2,6 +2,7 @@ package game_engine.inputcontroller;
 
 import java.util.Set;
 
+import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 /**
  * 
@@ -13,11 +14,12 @@ public interface IInputController {
 	 * set the key inputs for the character
 	 * @param list
 	 */
-	public abstract void setInputList(Set<KeyEvent> list);
+	public void setInputList(Set<Event> list);
+	
 	/**
 	 * determines what the given input does to the object and executes
 	 */
-	public abstract void executeInput();
+	public void executeInput();
 	
 	/**
 	 * @return whether left / right is pressed

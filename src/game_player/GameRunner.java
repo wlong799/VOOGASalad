@@ -51,7 +51,7 @@ public class GameRunner {
 	private Map<ISpriteVisualization, ImageView> spriteViewMap;
 	private Map<ISpriteVisualization, String> imagePathMap;
 	private Map<Level, Level> running2origin;
-	private Set<KeyEvent> currentlyPressedKeys;
+	private Set<Event> currentlyPressedKeys;
 	
 	private GameRunningView myView;
 	private Scene myScene;
