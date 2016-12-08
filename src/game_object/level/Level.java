@@ -1,9 +1,7 @@
 package game_object.level;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import game_engine.physics.PhysicsParameters;
 import game_object.acting.ActionName;
@@ -59,7 +57,6 @@ public class Level implements ILevelVisualization {
 		myPhysicsParameters = new PhysicsParameters();
 		myGoals = new ArrayList<>();
 		myBackground = new Background();
-		
 	}
 	
 	public String getId() {
@@ -72,9 +69,11 @@ public class Level implements ILevelVisualization {
 	
 	public List<ISprite> getAllSprites() {
 		List<ISprite> spriteList = new ArrayList<>();
-		for (List<? extends ISprite> list : getAllLists()) {
-			spriteList.addAll(list);
-		}
+		spriteList.addAll(myHeros);
+		spriteList.addAll(myEnemies);
+		spriteList.addAll(myStaticBlocks);
+		spriteList.addAll(myPowerUps);
+		spriteList.addAll(getRuntimeSprites());
 		return spriteList;
 	}
 	
@@ -126,8 +125,14 @@ public class Level implements ILevelVisualization {
 	}
 	
 	public void removeSprite(ISprite sprite) {
-		for (List<? extends ISprite> list : getAllLists()) {
-			list.remove(sprite);
+		if (sprite instanceof Hero) {
+			myHeros.remove((Hero)sprite);
+		} else if (sprite instanceof Enemy) {
+			myEnemies.remove((Enemy)sprite);
+		} else if (sprite instanceof Block) {
+			myStaticBlocks.remove((Block)sprite);
+		} else if(sprite instanceof IPowerUp) {
+			myPowerUps.remove((IPowerUp)sprite);
 		}
 	}
 	/* ---Add/Remove specific sprites END--- */
@@ -214,49 +219,33 @@ public class Level implements ILevelVisualization {
 	/* ---Goals END--- */
 	
 	/* ILevelVisualization Implementations */
+	private List<ISpriteVisualization> myFixedSpriteVisualizations;
+	
 	@Override
 	public void init() {
+		myFixedSpriteVisualizations = new ArrayList<>();
+		List<ISprite> allSprites = getAllSprites();
+		allSprites.sort((s1, s2) ->
+			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
+		);
+		myFixedSpriteVisualizations.addAll(allSprites);
 		AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
 	}
 	
 	@Override
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
-		if (AbstractSprite.isGarbageCollectNeeded()) {
-			cleanup();
-		}
-		List<ISprite> allSprites = getAllSprites();
-		allSprites.sort((s1, s2) ->
-			s1.getPosition().getZ() > s2.getPosition().getZ() ? -1 : 1
-		);
 		List<ISpriteVisualization> visuals = new ArrayList<>();
-		for (ISprite sprite : allSprites) {
-			if (sprite.isValid()) {
-				visuals.add(sprite);
-			}
-		}
+		visuals.addAll(myFixedSpriteVisualizations);
+		visuals.addAll(getRuntimeSprites());
 		return visuals;
 	}
 	/* ---ILevelVisualization Implementations END--- */
 	
-	/* private */	
-	private Set<List<? extends ISprite>> getAllLists() {
-		Set<List<? extends ISprite>> listSet = new HashSet<>();
-		listSet.add(myHeros);
-		listSet.add(myEnemies);
-		listSet.add(myStaticBlocks);
-		listSet.add(myPowerUps);
-		listSet.add(myProjectiles);
-		return listSet;
-	}
-	
-	private void cleanup() {
-		for (List<? extends ISprite> list : getAllLists()) {
-			for (ISprite sprite : list) {
-				if (!sprite.isValid()) {
-					list.remove(sprite);
-				}
-			}
-		}
+	/* private */
+	private List<ISprite> getRuntimeSprites() {
+		List<ISprite> runtimeSprites = new ArrayList<>();
+		runtimeSprites.addAll(myProjectiles);
+		return runtimeSprites;
 	}
 	/* private END--- */
 }
