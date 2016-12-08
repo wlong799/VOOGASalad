@@ -7,6 +7,7 @@ import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
+import game_object.powerup.PowerUp;
 import game_object.simulation.ICollisionBody;
 import game_object.weapon.WeaponModel;
 
@@ -81,6 +82,12 @@ public class Hero extends AbstractCharacter implements IUpgrader {
     @Override
     public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
         super.onCollideWith(b, collisionDirection);
+    }
+
+    @Override
+    public void onCollideWith (PowerUp p, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        p.affect(this);
     }
 
 }

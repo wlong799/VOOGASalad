@@ -8,6 +8,7 @@ import game_object.block.StaticBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
+import game_object.powerup.PowerUp;
 import game_object.simulation.ICollisionBody;
 
 /**
@@ -98,6 +99,8 @@ public abstract class AbstractSprite implements ISprite {
             otherBody.onCollideWith(this, collisionDirection);
         }
 	
+	/* Default implementation is to do nothing when you collide with these objects */
+	
 	@Override
 	public void onCollideWith(Hero h, CollisionDirection collisionDirection){
 	    
@@ -112,6 +115,11 @@ public abstract class AbstractSprite implements ISprite {
 	public void onCollideWith(StaticBlock b, CollisionDirection collisionDirection){
 	    
 	}
+	
+	@Override
+        public void onCollideWith(PowerUp p, CollisionDirection collisionDirection){
+           
+        }
 	
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {

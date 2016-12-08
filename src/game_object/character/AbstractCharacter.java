@@ -11,6 +11,7 @@ import game_object.core.Dimension;
 import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.core.Velocity;
+import game_object.powerup.PowerUp;
 import game_object.weapon.WeaponSprite;
 import game_object.weapon.WeaponModel;
 
@@ -77,6 +78,9 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	        }
 	}
+	
+	
+	
 	/* IMortal Implementations */
 	@Override
 	public void setMaxHP(int maxHP, boolean setCurrentHPtoMax) {

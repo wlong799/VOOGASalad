@@ -62,6 +62,8 @@ public abstract class PowerUp extends AbstractSprite {
 	@Override
 	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
 		// TODO Auto-generated method stub
+		otherBody.onCollideWith(this, collisionDirection);
+		//clear powerup
 		
 	}
 	
