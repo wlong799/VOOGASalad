@@ -3,6 +3,7 @@ package authoring.view.inspector;
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
+import authoring.view.inspector.settings.sprite.PositionConfiguringView;
 import game_object.character.Hero;
 import game_object.core.ISprite;
 import javafx.geometry.Insets;
@@ -28,6 +29,7 @@ public class InspectorComponentView extends AbstractView {
 	private CheckBox herosCollisionCB, enemiesCollisionCB, blockCollisionCB, applyPhysics;
 	private ComponentPhysicsSettings componentPhysicsSettings;
 	private ActionConfiguringView myActionView;
+	private PositionConfiguringView myPositionConfigurationView;
 
 	public interface ITextChangeHandler {
 		void handle(String newVal);
@@ -65,59 +67,22 @@ public class InspectorComponentView extends AbstractView {
 			configs.getChildren().add(noInspected);
 			return;
 		}
-		sprite = inspectedSpriteView.getSprite();
-		xBox = makeDoubleInputBox("Position X", sprite.getPosition().getX(), 
-				(newVal) -> {
-					inspectedSpriteView.setAbsolutePositionX(Double.parseDouble(newVal));
-				});
-		yBox = makeDoubleInputBox("Position Y", sprite.getPosition().getY(), 
-				(newVal) -> {
-					inspectedSpriteView.setAbsolutePositionY(Double.parseDouble(newVal));
-				});
-		zBox = makeDoubleInputBox("Position Z", sprite.getPosition().getZ(),
-				(newVal) -> {
-					inspectedSpriteView.setAbsolutePositionZ(Double.parseDouble(newVal));
-				});
-		widthBox = makeDoubleInputBox("Width", sprite.getDimension().getWidth(),
-				(newVal) -> {
-					inspectedSpriteView.setDimensionWidth(Double.parseDouble(newVal));
-				});
-		heightBox = makeDoubleInputBox("Height", sprite.getDimension().getHeight(),
-				(newVal) -> {
-					inspectedSpriteView.setDimensionHeight(Double.parseDouble(newVal));
-				});
+		
+		myPositionConfigurationView = new PositionConfiguringView(this.getController());
+		myPositionConfigurationView.setSpriteView(inspectedSpriteView);
+		this.addSubView(myPositionConfigurationView);
+		
 		myActionView = new ActionConfiguringView(this.getController());
 		myActionView.setSprite(sprite);
 		this.addSubView(myActionView);
 
 		initCheckBoxes();
 
-		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox, herosCollisionCB,
+		configs.getChildren().addAll(herosCollisionCB,
 				enemiesCollisionCB, blockCollisionCB, applyPhysics);
 		if (sprite instanceof Hero) {
 			configs.getChildren().add(myActionView.getUI());
 		}
-	}
-
-	private VBox makeDoubleInputBox(String title, double defaultValue, 
-			ITextChangeHandler handler) {
-		VBox box = new VBox();
-		Label label = new Label(title);
-		label.setFont(Font.font("Segoe UI Semibold"));
-		TextField tf = new TextField(defaultValue + "");
-		box.getChildren().addAll(label, tf);
-		box.setPadding(new Insets(5,5,5,5));
-		tf.setOnKeyPressed(event -> {
-			if (event.getCode() == KeyCode.ENTER) {
-				handler.handle(tf.getText());
-			}
-		});
-		tf.focusedProperty().addListener((obs, oldVal, newVal) -> {
-			if (!newVal) {
-				handler.handle(tf.getText());
-			}
-		});
-		return box;
 	}
 
 	private void initCheckBoxes() {

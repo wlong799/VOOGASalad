@@ -3,6 +3,8 @@ package authoring.view.inspector;
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
+import authoring.view.inspector.settings.sprite.JumpConfiguringView;
+import authoring.view.inspector.settings.sprite.ReachPointGoalConfiguringView;
 import game_object.block.IBlock;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;

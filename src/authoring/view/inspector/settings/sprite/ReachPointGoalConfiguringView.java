@@ -1,4 +1,4 @@
-package authoring.view.inspector;
+package authoring.view.inspector.settings.sprite;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
