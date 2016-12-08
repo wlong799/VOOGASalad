@@ -29,7 +29,7 @@ public class CollisionEngine extends AbstractCollisionEngine {
             for(int j = i+1; j < sprites.size();j++){
                 ISprite spriteA = sprites.get(i);      
                 ISprite spriteB = sprites.get(j);                
-                if ((spriteA.getCollisionBitMask() & spriteB.getCategoryBitMask()) != 0) {
+                if ((spriteA.getCollisionBitMask() & spriteB.getCategoryBitMask()) != 0 && (spriteB.getCollisionBitMask() & spriteA.getCategoryBitMask())!=0) {
                     Boundary heroBoundary = new Boundary(spriteA.getPosition(), spriteA.getDimension());
                     Boundary enemyBoundary = new Boundary(spriteB.getPosition(), spriteB.getDimension());
                     if (heroBoundary.overlaps(enemyBoundary)) {
