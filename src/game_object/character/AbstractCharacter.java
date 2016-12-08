@@ -3,16 +3,13 @@ package game_object.character;
 import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.GravityFrictionStrategy;
-import game_engine.physics.IPhysicsStrategy;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
-import game_object.core.ExceptionThrower;
 import game_object.core.Position;
 import game_object.core.Velocity;
-import game_object.powerup.PowerUp;
-import game_object.weapon.WeaponSprite;
+import game_object.weapon.Weapon;
 
 /**
  * A base class for all characters.
@@ -28,7 +25,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	private Velocity myVelocity = new Velocity(0, 0);
 	protected boolean myDead = false;
         protected int myCurrentJumps;
-	protected WeaponSprite myCurrentWeapon;
+	protected Weapon myCurrentWeapon;
 	
 	// the following two fields define the weapon-holding position
 	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
@@ -46,7 +43,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	/*ICollisionBody Implementation*/
 	
 	@Override
-	public void onCollideWith(StaticBlock b, CollisionDirection collisionDirection){
+	public void onCollideWith(Block b, CollisionDirection collisionDirection){
 	    if (collisionDirection != CollisionDirection.NONE) {
 	            
 	            //c.onCollideWith(other);
@@ -115,13 +112,15 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	/* ---IMortal Implementations End--- */
 	
 	@Override
-	public WeaponSprite getCurrentWeapon() {
+	public Weapon getCurrentWeapon() {
 		return myCurrentWeapon;
 	}
 
 	@Override
-	public void setCurrentWeapon(WeaponSprite currentWeapon) {
+	public void setCurrentWeapon(Weapon currentWeapon) {
+		myChildSprites.remove(myCurrentWeapon);
 		myCurrentWeapon = currentWeapon;
+		myChildSprites.add(myCurrentWeapon);
 	}
 	
 	public double getMovingUnit() {
@@ -153,17 +152,14 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void moveUp() {
-		ExceptionThrower.notYetSupported();
 	}
 
 	@Override
 	public void moveDown() {
-		ExceptionThrower.notYetSupported();
 	}
 
 	@Override
 	public void shoot() {
-		ExceptionThrower.notYetSupported();
 	}
 	
 	@Override

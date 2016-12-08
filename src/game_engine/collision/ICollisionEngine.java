@@ -1,7 +1,7 @@
 package game_engine.collision;
 
 import java.util.List;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.core.ISprite;
