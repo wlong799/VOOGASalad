@@ -46,7 +46,8 @@ public class GameObjectConstants {
     public static final String WHEEL_FILE = "img/sprites/wheel.png";
     public static final String GIRL_FILE = "img/sprites/xmasgirl1.png";
     public static final String YELLOW_LIGHT_FILE = "img/sprites/yellow_light.png";
-    public static final String BULLET_FILE = "img/sprites/bullet.png";
+    public static final String ORANGE_BULLET_FILE = "img/sprites/orange_bullet.png";
+    public static final String GREEN_BULLET_FILE = "img/sprites/green_bullet.png";
     public static final String NEW_WEAPON_POWER_UP_FILE = "img/sprites/new_weapon_powerup.png";
     public static final String RED_GUN_WEAPON_FILE = "img/sprites/red_gun.png";
     public static final String BLUE_GUN_WEAPON_FILE = "img/sprites/blue_gun.png";
