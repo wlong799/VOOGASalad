@@ -8,6 +8,7 @@ import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
+import game_object.level.SpriteScavenger;
 import game_object.simulation.ICollisionBody;
 import game_object.powerup.IPowerUp;
 
@@ -17,6 +18,7 @@ import game_object.powerup.IPowerUp;
  */
 public abstract class AbstractSprite implements ISprite {
 
+	private static SpriteScavenger spriteScavenger;
 	protected Position myPosition;
 	protected Position myPreviousPosition;
 	protected List<String> myImagePaths;
@@ -50,9 +52,20 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	
 	/* General Setting */
+	public static void setSpriteScavenger(SpriteScavenger spriteScavenger) {
+		AbstractSprite.spriteScavenger = spriteScavenger;
+	}
+	
+	public static SpriteScavenger getSpriteScavenger() {
+		return spriteScavenger;
+	}
+	
 	@Override
 	public void setValid(boolean valid) {
 		myValid = valid;
+		if (!valid) {
+			spriteScavenger.mark(this);
+		}
 	}
 	
 	@Override

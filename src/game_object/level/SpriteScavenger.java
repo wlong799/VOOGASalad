@@ -4,11 +4,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import game_object.core.ISprite;
-
 public class SpriteScavenger {
 	
-	private Set<ISprite> myScavengeSet;
+	private Set<Object> myScavengeSet;
 	
 	public SpriteScavenger() {
 		myScavengeSet = new HashSet<>();
@@ -18,12 +16,12 @@ public class SpriteScavenger {
 		return !myScavengeSet.isEmpty();
 	}
 	
-	public void mark(ISprite sprite) {
+	public void mark(Object sprite) {
 		myScavengeSet.add(sprite);
 	}
 	
-	public void scavengeList(List<? extends ISprite> list) {
-		for (ISprite sprite : myScavengeSet) {
+	public void scavengeList(List<? extends Object> list) {
+		for (Object sprite : myScavengeSet) {
 			list.remove(sprite);
 		}
 	}
