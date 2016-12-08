@@ -77,6 +77,14 @@ public class AuthoringController extends AbstractPublisher {
 		this.notifySubscribers();
 	}
 	
+	public void deselectSpriteViews() {
+		if (selectedSpriteView != null) {
+			selectedSpriteView.indicateDeselection();
+			selectedSpriteView = null;
+			this.notifySubscribers();
+		}
+	}
+	
 	public SpriteView getSelectedSpriteView() {
 		return selectedSpriteView;
 	}
@@ -88,11 +96,7 @@ public class AuthoringController extends AbstractPublisher {
 				canvasViewController.delete(selectedSpriteView);
 			}
 			else if (event.getCode() == KeyCode.ESCAPE) {
-				if (selectedSpriteView != null) {
-					selectedSpriteView.indicateDeselection();
-					selectedSpriteView = null;
-					this.notifySubscribers();
-				}
+				deselectSpriteViews();
 			}
 		});
 		File f = new File("css/style.css");

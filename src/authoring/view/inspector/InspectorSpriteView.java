@@ -3,6 +3,7 @@ package authoring.view.inspector;
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
+import game_object.block.IBlock;
 import game_object.character.Hero;
 import game_object.core.ISprite;
 import javafx.geometry.Insets;
@@ -26,8 +27,11 @@ public class InspectorSpriteView extends AbstractView {
 	private VBox widthBox;
 	private VBox heightBox;
 	private CheckBox herosCollisionCB, enemiesCollisionCB, blockCollisionCB, applyPhysics;
+	
 	private ComponentPhysicsSettings componentPhysicsSettings;
 	private ActionConfiguringView myActionView;
+	private JumpConfiguringView myJumpView;
+	private ReachPointGoalConfiguringView reachPointGoal;
 
 	public interface ITextChangeHandler {
 		void handle(String newVal);
@@ -48,6 +52,7 @@ public class InspectorSpriteView extends AbstractView {
 		scrollPane = new ScrollPane();
 		scrollPane.setContent(configs);
 		scrollPane.setFitToWidth(true);
+		
 		this.addUI(scrollPane);
 		updateUI();
 	}
@@ -60,6 +65,7 @@ public class InspectorSpriteView extends AbstractView {
 
 	private void updateUI() {
 		configs.getChildren().clear();
+		this.getSubViews().clear();
 		if (inspectedSpriteView == null) {
 			Label noInspected = new Label("No Component Selected");
 			configs.getChildren().add(noInspected);
@@ -86,17 +92,26 @@ public class InspectorSpriteView extends AbstractView {
 				(newVal) -> {
 					inspectedSpriteView.setDimensionHeight(Double.parseDouble(newVal));
 				});
-		myActionView = new ActionConfiguringView(this.getController());
-		myActionView.setSprite(sprite);
-		this.addSubView(myActionView);
-
 		initCheckBoxes();
 
 		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox, herosCollisionCB,
 				enemiesCollisionCB, blockCollisionCB, applyPhysics);
-		if (sprite instanceof Hero) {
-			configs.getChildren().add(myActionView.getUI());
+		
+		if (sprite instanceof IBlock) {
+			reachPointGoal = new ReachPointGoalConfiguringView(this.getController());
+			reachPointGoal.setUpReachPointGoalCheckBox(sprite);
+			this.addSubView(reachPointGoal);
+			configs.getChildren().add(reachPointGoal.getUI());
 		}
+		if (sprite instanceof Hero) {
+			myActionView = new ActionConfiguringView(this.getController());
+			myActionView.setSprite(sprite);
+			this.addSubView(myActionView);
+			myJumpView = new JumpConfiguringView(this.getController());
+			myJumpView.setSprite(sprite);
+			this.addSubView(myJumpView);
+			configs.getChildren().addAll(myActionView.getUI(), myJumpView.getUI());
+		}		
 	}
 
 	private VBox makeDoubleInputBox(String title, double defaultValue, 
