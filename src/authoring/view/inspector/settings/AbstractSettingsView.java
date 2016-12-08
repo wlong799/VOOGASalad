@@ -1,17 +1,15 @@
-package authoring.settings;
+package authoring.view.inspector.settings;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 /**
- * AbstractSettingsView provides the abstract superclass for generic settings elements to be used in various places within
- * authoring environment (e.g. inspector, menu). Each settings view is contained within a labeled VBox.
+ * AbstractSettingsView provides the abstract superclass for generic settings elements to be used in the inspector of
+ * authoring environment. Each settings view is contained within a labeled VBox.
  *
  * @author Will Long
  */

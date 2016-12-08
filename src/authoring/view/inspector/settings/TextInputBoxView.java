@@ -1,4 +1,4 @@
-package authoring.settings;
+package authoring.view.inspector.settings;
 
 import authoring.AuthoringController;
 import javafx.scene.control.TextField;
@@ -10,14 +10,14 @@ import javafx.scene.input.KeyCode;
  *
  * @author Will Long, Bill Yu
  */
-public class TextInputBox extends AbstractSettingsView {
+public class TextInputBoxView extends AbstractSettingsView {
     private String myTitle;
     private String myDefaultText;
     private ITextChangeHandler myHandler;
 
     private TextField myTextField;
 
-    public TextInputBox(AuthoringController controller, String title, String defaultText, ITextChangeHandler handler) {
+    public TextInputBoxView(AuthoringController controller, String title, String defaultText, ITextChangeHandler handler) {
         super(controller);
         myTitle = title;
         myDefaultText = defaultText;

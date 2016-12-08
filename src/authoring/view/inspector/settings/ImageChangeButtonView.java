@@ -1,10 +1,9 @@
-package authoring.settings;
+package authoring.view.inspector.settings;
 
 import authoring.AuthoringController;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -16,7 +15,7 @@ import java.io.File;
  *
  * @author Will Long
  */
-public class ImageChangeButton extends AbstractSettingsView {
+public class ImageChangeButtonView extends AbstractSettingsView {
     private static final String LABEL_TEXT = "Change Image";
     private static final double WIDTH_RATIO = 0.25;
 
@@ -26,7 +25,7 @@ public class ImageChangeButton extends AbstractSettingsView {
     private Button myButton;
     private ImageView myImageView;
 
-    public ImageChangeButton(AuthoringController controller, String defaultFilename, ITextChangeHandler handler) {
+    public ImageChangeButtonView(AuthoringController controller, String defaultFilename, ITextChangeHandler handler) {
         super(controller);
         myImageFilename = defaultFilename;
         myHandler = handler;

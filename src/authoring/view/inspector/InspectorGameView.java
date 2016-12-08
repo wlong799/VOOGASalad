@@ -1,57 +1,33 @@
 package authoring.view.inspector;
 
 import authoring.AuthoringController;
-import authoring.settings.ImageChangeButton;
-import authoring.settings.TextInputBox;
-import authoring.view.AbstractView;
-import javafx.geometry.Pos;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import authoring.view.inspector.settings.ImageChangeButtonView;
+import authoring.view.inspector.settings.TextInputBoxView;
 
 /**
- * Inspector view that allows for editing of game-wide settings.
+ * Inspector view that allows for editing of game-wide settings/metadata.
  *
  * @author Will Long
  */
-public class InspectorGameView extends AbstractView {
-    private ScrollPane myScrollPane;
-    private VBox myContent;
-
+public class InspectorGameView extends AbstractInspectorTabView {
     public InspectorGameView(AuthoringController controller) {
         super(controller);
     }
 
     @Override
     protected void initUI() {
-        myContent = new VBox();
-        myContent.setAlignment(Pos.CENTER);
-        myScrollPane = new ScrollPane();
-        myScrollPane.setContent(myContent);
-        myScrollPane.setFitToWidth(true);
-        addUI(myScrollPane);
-
+        super.initUI();
         // TODO: 12/7/16 get title from current game
-        TextInputBox titleInput = new TextInputBox(getController(), "Title", "", newValue -> {
+        TextInputBoxView titleInput = new TextInputBoxView(getController(), "Title", "", newValue -> {
             // TODO: 12/7/16 set game title to new text
         });
-        ImageChangeButton imageChangeButton = new ImageChangeButton(getController(), "", newValue -> {
+        ImageChangeButtonView imageChangeButtonView = new ImageChangeButtonView(getController(), "", newValue -> {
             // TODO: 12/7/16 fix this too
         });
         // TODO: 12/7/16 get description from current game
-        TextInputBox descriptionInput = new TextInputBox(getController(), "Description", "", newValue -> {
+        TextInputBoxView descriptionInput = new TextInputBoxView(getController(), "Description", "", newValue -> {
             // TODO: 12/7/16 set game description to new text
         });
-        titleInput.initializeSettings();
-        imageChangeButton.initializeSettings();
-        descriptionInput.initializeSettings();
-        addSubViews(titleInput, imageChangeButton, descriptionInput);
-        myContent.getChildren().addAll(titleInput.getUI(), imageChangeButton.getUI(), descriptionInput.getUI());
-    }
-
-    @Override
-    protected void updateLayoutSelf() {
-        myScrollPane.setPrefWidth(getWidth());
-        myScrollPane.setPrefHeight(getHeight());
-        getSubViews().forEach(subView -> subView.setWidth(getWidth()));
+        addSettingsViews(titleInput, imageChangeButtonView, descriptionInput);
     }
 }
