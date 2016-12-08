@@ -9,9 +9,9 @@ import game_object.core.Dimension;
 import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
 
-public class StaticBlock extends AbstractBlock {
+public class Block extends AbstractBlock {
 	
-	public StaticBlock(Position position, Dimension dimension, List<String> imagePaths) {
+	public Block(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 		myCategoryBitMask = DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
 		myCollisionBitMask =
@@ -38,7 +38,7 @@ public class StaticBlock extends AbstractBlock {
     }
 
     @Override
-    public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
+    public void onCollideWith (Block b, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
         
     }

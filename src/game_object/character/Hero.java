@@ -2,7 +2,7 @@ package game_object.character;
 
 import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.Position;
@@ -77,7 +77,7 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 
     
     @Override
-    public void onCollideWith(StaticBlock b, CollisionDirection collisionDirection) {
+    public void onCollideWith(Block b, CollisionDirection collisionDirection) {
         super.onCollideWith(b, collisionDirection);
     }
 

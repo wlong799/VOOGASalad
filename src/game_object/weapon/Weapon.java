@@ -7,11 +7,11 @@ import game_object.core.Dimension;
 import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
 
-public class WeaponSprite extends AbstractSprite {
+public class Weapon extends AbstractSprite {
 
 	WeaponModel myModel;
 	
-	public WeaponSprite(Position position, Dimension dimension, List<String> imagePaths, WeaponModel model) {
+	public Weapon(Position position, Dimension dimension, List<String> imagePaths, WeaponModel model) {
 		super(position, dimension, imagePaths);
 		myModel = model;
 	}

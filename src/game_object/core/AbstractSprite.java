@@ -4,7 +4,7 @@ import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.ConstantStrategy;
 import game_engine.physics.IPhysicsStrategy;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
@@ -139,7 +139,7 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	
 	@Override
-	public void onCollideWith(StaticBlock b, CollisionDirection collisionDirection){
+	public void onCollideWith(Block b, CollisionDirection collisionDirection){
 	    
 	}
 	
