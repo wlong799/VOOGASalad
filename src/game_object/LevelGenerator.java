@@ -70,7 +70,6 @@ public class LevelGenerator {
 		levelA.getLevelDimension().setHeight(800);
 		
 		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 60), heroImages);
-		hero.setVelocity(new Velocity(30, 0));
 		hero.setImageStyle(ImageStyle.FIT);
 		hero.setWeaponDisplacementX(40);
 		hero.setWeaponDisplacementY(0);

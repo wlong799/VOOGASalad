@@ -109,9 +109,8 @@ public class GameEngine_Game implements IGameEngine {
 	private void updateScrolling() {
 		Hero pivotHero = myCurrentLevel.getHeros().get(0);
 		if (pivotHero != null) {
-			AbstractSprite.setStaticPivotPosition(
-				new Position(pivotHero.getPosition().getX(), pivotHero.getPosition().getY())
-			);
+			AbstractSprite.getStaticPivotPosition().setX(pivotHero.getPosition().getX());
+			AbstractSprite.getStaticPivotPosition().setY(pivotHero.getPosition().getY());
 		}
 	}
 

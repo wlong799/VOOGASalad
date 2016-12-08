@@ -19,12 +19,12 @@ public abstract class AbstractPhysicsEngine implements IPhysicsEngine {
 	}
 
 	public void updateHorizontalPositionAndVelocity(double newx, double newvx, IPhysicsBody body) {
-		body.setPosition(new Position(newx, body.getPosition().getY()));
+		body.getPosition().setX(newx);
 		body.getVelocity().setXVelocity(newvx);
 	}
 
 	public void updateVerticalPositionAndVelocity(double newy, double newvy, IPhysicsBody body) {
-		body.setPosition(new Position(body.getPosition().getX(), newy));
+		body.getPosition().setY(newy);
 		body.getVelocity().setYVelocity(newvy);
 	}
 
