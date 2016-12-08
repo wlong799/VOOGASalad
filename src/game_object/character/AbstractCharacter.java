@@ -46,30 +46,36 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	@Override
 	public void onCollideWith(Block b, CollisionDirection collisionDirection){
 	    if (collisionDirection != CollisionDirection.NONE) {
-            if (collisionDirection == CollisionDirection.TOP) {
-                getPosition().setY(b.getPosition().getY() - getDimension().getHeight());
-                getVelocity().setYVelocity(0);
-                resetCurrentJumps();
-            }
-            else if (collisionDirection == CollisionDirection.BOTTOM) {
-                getPosition().setY(b.getPosition()
-                        .getY() + b.getDimension().getHeight());
-                getVelocity().setYVelocity(0);
-            }
-            else if (collisionDirection == CollisionDirection.RIGHT) {
-                getPosition().setX(b.getPosition().getX() +
-                                     b.getDimension().getWidth());
-                getVelocity().setXVelocity(0);
-            }
-            else if (collisionDirection == CollisionDirection.LEFT) {
-                getPosition().setX(b.getPosition().getX() - getDimension().getWidth());
-                getVelocity().setXVelocity(0);
-            }
-            else {
-                // TODO: Implement corner collision handling
-            }
-        }
+	            
+	            //c.onCollideWith(other);
+	            //logSuppressed = false;
+	            if (collisionDirection == CollisionDirection.TOP) {
+	                getPosition().setY(b.getPosition().getY() - getDimension().getHeight());
+	                getVelocity().setYVelocity(0);
+	                resetCurrentJumps();
+	            }
+	            else if (collisionDirection == CollisionDirection.BOTTOM) {
+	                getPosition().setY(b.getPosition()
+	                        .getY() + b.getDimension().getHeight());
+	                getVelocity().setYVelocity(0);
+	            }
+	            else if (collisionDirection == CollisionDirection.RIGHT) {
+	                getPosition().setX(b.getPosition().getX() +
+	                                     b.getDimension().getWidth());
+	                getVelocity().setXVelocity(0);
+	            }
+	            else if (collisionDirection == CollisionDirection.LEFT) {
+	                getPosition().setX(b.getPosition().getX() - getDimension().getWidth());
+	                getVelocity().setXVelocity(0);
+	            }
+	            else {
+	                // TODO: Implement corner collision handling
+	            }
+
+	        }
 	}
+	
+	
 	
 	/* IMortal Implementations */
 	@Override
