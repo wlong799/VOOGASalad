@@ -279,21 +279,21 @@ public class CanvasViewController {
     }
 
     private void adjustScrollPane(double x, double y) {
-        if (x < Double.parseDouble(componentProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
+        if (x < Double.parseDouble(canvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setHvalue(Math.max(0,
-                    myScrollPane.getHvalue() - Double.parseDouble(componentProperties.getString("SCROLL_VALUE_UNIT"))));
+                    myScrollPane.getHvalue() - Double.parseDouble(canvasProperties.getString("SCROLL_VALUE_UNIT"))));
         }
-        if (scWidth - x < Double.parseDouble(componentProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
+        if (scWidth - x < Double.parseDouble(canvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setHvalue(Math.min(1,
-                    myScrollPane.getHvalue() + Double.parseDouble(componentProperties.getString("SCROLL_VALUE_UNIT"))));
+                    myScrollPane.getHvalue() + Double.parseDouble(canvasProperties.getString("SCROLL_VALUE_UNIT"))));
         }
-        if (y < Double.parseDouble(componentProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
+        if (y < Double.parseDouble(canvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setVvalue(Math.max(0,
-                    myScrollPane.getVvalue() - Double.parseDouble(componentProperties.getString("SCROLL_VALUE_UNIT"))));
+                    myScrollPane.getVvalue() - Double.parseDouble(canvasProperties.getString("SCROLL_VALUE_UNIT"))));
         }
-        if (scHeight - y < Double.parseDouble(componentProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
+        if (scHeight - y < Double.parseDouble(canvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setVvalue(Math.min(1,
-                    myScrollPane.getVvalue() + Double.parseDouble(componentProperties.getString("SCROLL_VALUE_UNIT"))));
+                    myScrollPane.getVvalue() + Double.parseDouble(canvasProperties.getString("SCROLL_VALUE_UNIT"))));
         }
     }
 
