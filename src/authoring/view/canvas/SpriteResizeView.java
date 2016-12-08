@@ -3,7 +3,6 @@ package authoring.view.canvas;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
-import authoring.constants.UIConstants;
 import authoring.controller.CanvasViewController;
 import authoring.view.AbstractView;
 import authoring.view.IView;
