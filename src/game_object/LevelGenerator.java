@@ -78,7 +78,7 @@ public class LevelGenerator {
 		hero.setWeaponDisplacementY(0);
 
 		ArrayList<String> bulletImgs = new ArrayList<>();
-		bulletImgs.add(GameObjectConstants.BULLET_FILE);
+		bulletImgs.add(GameObjectConstants.ORANGE_BULLET_FILE);
         ProjectileModel bulletModel = new ProjectileModel(
 				bulletImgs, // image file
 				new Velocity(40, 0), // initial velocity
@@ -94,7 +94,7 @@ public class LevelGenerator {
 		WeaponModel heroWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
 		hero.setCurrentWeapon(heroWeapon.newWeaponInstance(hero, new Dimension(5, 5)));
 		
-		bulletImgs.add(GameObjectConstants.BULLET_FILE);
+		bulletImgs.add(GameObjectConstants.ORANGE_BULLET_FILE);
 		// a very fast bullet model
         ProjectileModel fastModel = new ProjectileModel(
 				bulletImgs, // image file
