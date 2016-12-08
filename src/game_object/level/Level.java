@@ -223,7 +223,6 @@ public class Level implements ILevelVisualization {
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
 		if (AbstractSprite.isGarbageCollectNeeded()) {
 			cleanup();
-			AbstractSprite.setGarbageCollectNeeded(false);
 		}
 		List<ISprite> allSprites = getAllSprites();
 		allSprites.sort((s1, s2) ->

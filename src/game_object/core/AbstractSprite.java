@@ -55,10 +55,6 @@ public abstract class AbstractSprite implements ISprite {
 		return garbageCollectNeeded;
 	}
 	
-	public static void setGarbageCollectNeeded(boolean garbageCollectNeeded) {
-		AbstractSprite.garbageCollectNeeded = garbageCollectNeeded;
-	}
-	
 	@Override
 	public void setValid(boolean valid) {
 		myValid = valid;
