@@ -166,4 +166,21 @@ public class NetworkClient implements INetworkClient {
 		};
 		reader.start();
 	}
+
+	@Override
+	public long getStartingSequenceNumber() throws SessionExpiredException {
+		// TODO cx15
+		return 0;
+	}
+
+	@Override
+	public String tryLock(long id) throws SessionExpiredException {
+		// TODO cx15
+		return null;
+	}
+
+	@Override
+	public void unlock(long id) throws SessionExpiredException {
+		// TODO cx15
+	}
 }

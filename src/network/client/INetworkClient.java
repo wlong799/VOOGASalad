@@ -26,7 +26,7 @@ public interface INetworkClient {
 	Queue<Message> read(MessageType type) throws SessionExpiredException;
 	
 	/**
-	 * Send the payload wrapped in a a message to all its peers
+	 * Send the payload wrapped in a message to all its peers
 	 * through the central server, auto serialization
 	 * @param payload the object to be sent
 	 * @param type specifies the type of message to be sent
@@ -42,4 +42,42 @@ public interface INetworkClient {
 	 * Disconnect from server and gracefully clean up
 	 */
 	void disconnect();
+	
+	/**
+	 * We uses partitioned name space for each client so that concurrent creation
+	 * of new sprite by different clients is guaranteed to have different
+	 * id/sequence number.
+	 * @return the starting sequence number of new sprite
+	 */
+	long getStartingSequenceNumber() throws SessionExpiredException;
+	
+	/**
+	 * A non-blocking request to acquire a lock on the sprite identified using
+	 * <tt>id</tt>. Server returns immediately the userName of the holder of the
+	 * lock in question. If such userName differs from that of the call issuer,
+	 * then he knows someone else has it and must not proceed with modification.
+	 * 
+	 * <p> The lock acquire request is done in polling fashion. No lock queue is
+	 * maintained. If a client's lock acquire request is rejected, he or she must
+	 * explicitly reissue the request at a later time to acquire the lock, i.e.
+	 * lock is not handed over to the next client in line. Server will not track
+	 * who the next client is. 
+	 * 
+	 * @param id identifies the sprite to be locked
+	 * @return the userName of the client that currently holding the lock
+	 * 			or <tt>null</tt> if the lock is free
+	 * @throws SessionExpiredException if lost connection to server
+	 */
+	String tryLock(long id) throws SessionExpiredException;
+	
+	/**
+	 * Release the lock on sprite held by the client. 
+	 * 
+	 * <p>If the lock on sprite is held by other client or if the lock is free,
+	 * this call is a no-op.
+	 * 
+	 * @param id identifies the sprite to be unlocked
+	 * @throws SessionExpiredException if lost connection to server
+	 */
+	void unlock(long id) throws SessionExpiredException;
 }
