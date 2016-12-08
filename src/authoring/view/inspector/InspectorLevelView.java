@@ -3,7 +3,6 @@ package authoring.view.inspector;
 import authoring.AuthoringController;
 import authoring.constants.UIConstants;
 import authoring.ui.SliderBox;
-import authoring.updating.IPublisher;
 import authoring.view.AbstractView;
 import authoring.view.run.TestGameView;
 import game_engine.physics.PhysicsParameterSetOptions;

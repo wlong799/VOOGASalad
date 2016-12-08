@@ -2,6 +2,7 @@ package authoring.view.run;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
+import authoring.view.inspector.InspectorLevelView;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.level.Level;

@@ -119,7 +119,7 @@ public class SpriteView extends AbstractView {
     private void setMouseClicked() {
         getUI().setOnMouseClicked(e -> {
             getController().selectSpriteView(this);
-            if (this.getController().getCanvasViewController().getSnapToGrid()) {
+            if (this.getController().getCanvasController().getSnapToGrid()) {
             	snapToGrid();
             }
         });
