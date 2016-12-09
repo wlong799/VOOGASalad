@@ -26,7 +26,10 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	protected boolean myDead = false;
 	protected int myCurrentJumps;
 	protected Weapon myCurrentWeapon;
-
+	protected boolean myJumping = false;
+	protected boolean myTempJumping;
+	protected boolean myShooting = false;
+	protected boolean myTempShooting;
 	// the following two fields define the weapon-holding position
 	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
 	private double myWeaponDisplacementX;
@@ -234,5 +237,39 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	public void setWeaponDisplacementY(double weaponDisplacementY) {
 		myWeaponDisplacementY = weaponDisplacementY;
 	}
+	
+	/* IMover's InputController part Implementations */	
+	public boolean isJumping() {
+		return myJumping;
+	}
+	
+	public void setJumping(boolean jumping) {
+		myJumping = jumping;
+	}
+	
+	public boolean isTempJumping() {
+		return myTempJumping;
+	}
+	
+	public void setTempJumping(boolean jumping) {
+		myTempJumping = jumping;
+	}
 
+	public boolean isShooting() {
+		return myShooting;
+	}
+	
+	public void setShooting(boolean Shooting) {
+		myShooting = Shooting;
+	}
+	
+	public boolean isTempShooting() {
+		return myTempShooting;
+	}
+	
+	public void setTempShooting(boolean Shooting) {
+		myTempShooting = Shooting;
+	}
+	
+	/* InputController Implementations END*/
 }

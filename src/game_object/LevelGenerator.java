@@ -16,8 +16,6 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.powerup.IPowerUp;
 import game_object.powerup.NewWeaponPowerUp;
-import goal.AbstractGoal;
-import goal.position.ReachPointGoal;
 import game_object.weapon.ProjectileModel;
 import game_object.weapon.WeaponModel;
 import javafx.scene.input.KeyCode;
@@ -118,7 +116,10 @@ public class LevelGenerator {
 		levelA.addSprite(fastWeaponPowerUp);
 		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
+		WeaponModel enemyWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
+		enemy.setCurrentWeapon(enemyWeapon.newWeaponInstance(enemy, new Dimension(5, 5)));
 		enemy.setImageStyle(ImageStyle.FIT);
+
 		Block smackDown = new Block(new Position(340, 50), new Dimension(100, 200), blockImages);
 		smackDown.setImageStyle(ImageStyle.TILE);
 		Block ground = new Block(new Position(0, 500), new Dimension(2000, 500), blockImages);
@@ -126,7 +127,7 @@ public class LevelGenerator {
 		Block goalBlock = new Block(new Position(400,450),new Dimension(50,50),blockImages);
 		// NewWeaponPowerUp powerUp = new NewWeaponPowerUp(new Position(), dimension, imagePaths, w)
 		levelA.addSprite(hero);
-		//level.addSprite(enemy);
+		levelA.addSprite(enemy);
 		levelA.addSprite(ground);
 		levelA.addSprite(smackDown);
 		levelA.addSprite(goalBlock);
