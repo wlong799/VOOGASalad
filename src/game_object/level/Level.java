@@ -69,13 +69,20 @@ public class Level implements ILevelVisualization {
 	}
 	
 	public List<ISprite> getAllSprites() {
+		cleanup();
 		List<ISprite> spriteList = new ArrayList<>();
 		spriteList.addAll(myHeros);
 		spriteList.addAll(myEnemies);
 		spriteList.addAll(myBlocks);
 		spriteList.addAll(myPowerUps);
 		spriteList.addAll(getRuntimeSprites());
-		return spriteList;
+		
+		List<ISprite> spriteListWithChildren = new ArrayList<>();
+		for (ISprite sprite : spriteList) {
+			spriteListWithChildren.addAll(sprite.getChildSprites().getSprites());
+		}
+		spriteListWithChildren.addAll(spriteList);
+		return spriteListWithChildren;
 	}
 	
 	/* Level Dimensions */
@@ -224,27 +231,21 @@ public class Level implements ILevelVisualization {
 	/* ---Goals END--- */
 	
 	/* ILevelVisualization Implementations */
-	private List<ISpriteVisualization> myFixedSpriteVisualizations;
-	
 	@Override
 	public void init() {
-		myFixedSpriteVisualizations = new ArrayList<>();
-		List<ISprite> allSprites = getAllSprites();
-		allSprites.sort((s1, s2) ->
-			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
-		);
-		myFixedSpriteVisualizations.addAll(allSprites);
 		AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
-		mySpriteScavenger = new SpriteScavenger();
-		AbstractSprite.setSpriteScavenger(mySpriteScavenger);
+		AbstractSprite.setSpriteScavenger(mySpriteScavenger = new SpriteScavenger());
 	}
 	
 	@Override
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
 		cleanup();
+		List<ISprite> allSprites = getAllSprites();
+		allSprites.sort((s1, s2) ->
+			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
+		);
 		List<ISpriteVisualization> visuals = new ArrayList<>();
-		visuals.addAll(myFixedSpriteVisualizations);
-		visuals.addAll(getRuntimeSprites());
+		visuals.addAll(allSprites);
 		return visuals;
 	}
 	/* ---ILevelVisualization Implementations END--- */
@@ -264,7 +265,6 @@ public class Level implements ILevelVisualization {
 			mySpriteScavenger.scavengeList(myProjectiles);
 			mySpriteScavenger.scavengeList(myPowerUps);
 			mySpriteScavenger.scavengeList(myBlocks);
-			mySpriteScavenger.scavengeList(myFixedSpriteVisualizations);
 			mySpriteScavenger.clear();
 		}
 	}
