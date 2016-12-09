@@ -1,6 +1,7 @@
 package authoring.view.inspector;
 
 import authoring.AuthoringController;
+import authoring.view.inspector.settings.EditSettingsView;
 import authoring.view.inspector.settings.SliderBoxView;
 import authoring.view.run.TestGameView;
 import game_engine.physics.PhysicsParameterSetOptions;
@@ -18,6 +19,7 @@ public class InspectorLevelView extends AbstractInspectorTabView {
     private SliderBoxView gfBox;
     private SliderBoxView tmaxBox;
     private SliderBoxView tminBox;
+    private EditSettingsView editSettings;
     private ResourceBundle levelProperties;
 
     public InspectorLevelView(AuthoringController controller) {
@@ -73,7 +75,8 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 Double.parseDouble(levelProperties.getString("MIN_THRESHOLD_DEFAULT_VALUE")),
                 Double.parseDouble(levelProperties.getString("MIN_THRESHOLD_INTERVALS")),
                 (obv, oldVal, newVal) -> this.setParameter(PhysicsParameterSetOptions.MINTHRESHOLD, newVal.doubleValue()));
-        addSettingsViews(gravityBox, afBox, gfBox, tmaxBox, tminBox);
+        editSettings = new EditSettingsView(getController());
+        addSettingsViews(gravityBox, afBox, gfBox, tmaxBox, tminBox, editSettings);
     }
 
     private void setParameter(PhysicsParameterSetOptions option, double value) {

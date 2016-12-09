@@ -1,8 +1,8 @@
 package authoring.view.inspector;
 
 import authoring.AuthoringController;
-import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
+import authoring.view.inspector.settings.JumpConfiguringView;
 import game_object.block.IBlock;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
@@ -15,8 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-
-import java.util.Observable;
 
 public class InspectorSpriteView extends AbstractInspectorTabView {
 

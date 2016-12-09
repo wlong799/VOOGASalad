@@ -1,4 +1,4 @@
-package authoring.view.inspector;
+package authoring.view.inspector.settings;
 
 import java.util.ResourceBundle;
 
