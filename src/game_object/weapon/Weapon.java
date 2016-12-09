@@ -9,7 +9,7 @@ import game_object.core.Position;
 
 public class Weapon extends AbstractSprite {
 
-	private static final double Z_POS_OFFSET_TO_OWNER = 1e-5;
+	private static final double Z_POS_OFFSET_TO_OWNER = 0.01f;
 	WeaponModel myModel;
 	ICharacter myOwner;
 	

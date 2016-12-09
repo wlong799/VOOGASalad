@@ -197,8 +197,12 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void setCurrentWeapon(Weapon currentWeapon) {
-		myChildSprites.removeSprite(myCurrentWeapon);
+		if (myCurrentWeapon != null) {
+			myCurrentWeapon.setOwner(null);
+			myChildSprites.removeSprite(myCurrentWeapon);
+		}
 		myCurrentWeapon = currentWeapon;
+		myCurrentWeapon.setOwner(this);
 		myChildSprites.addSprite(myCurrentWeapon);
 	}
 	
