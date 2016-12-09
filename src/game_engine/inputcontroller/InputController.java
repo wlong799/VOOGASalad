@@ -15,7 +15,7 @@ import game_object.core.Game;
 import game_object.level.Level;
 import game_object.weapon.Projectile;
 import game_object.weapon.ProjectileModel;
-import game_object.weapon.WeaponSprite;
+import game_object.weapon.Weapon;
 
 public class InputController implements IInputController {
 
@@ -87,7 +87,7 @@ public class InputController implements IInputController {
 
 	private void addProjectile(ICharacter character) {
 
-		WeaponSprite weapon = character.getCurrentWeapon();
+		Weapon weapon = character.getCurrentWeapon();
 		if (weapon == null || weapon.getModel() == null)
 			return; // currently no weapon
 		ProjectileModel pm = weapon.getModel().getProjectileModel();

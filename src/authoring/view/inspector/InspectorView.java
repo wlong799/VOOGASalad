@@ -2,11 +2,12 @@ package authoring.view.inspector;
 
 import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
+import authoring.constants.UIConstants;
 import authoring.updating.IPublisher;
 import authoring.updating.ISubscriber;
 import authoring.view.AbstractView;
+import authoring.view.IView;
 import authoring.view.canvas.SpriteView;
-import authoring.view.run.TestGameConfiguringView;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -15,7 +16,7 @@ public class InspectorView extends AbstractView implements ISubscriber {
 
 	private TabPane tabs;
 	private InspectorSpriteView inspectorSpriteView;
-	private TestGameConfiguringView configureView;
+	private LevelSettingsView settingsView;
 	private SpriteView inspectedSpriteView;
 	
 	public InspectorView(AuthoringController controller) {
@@ -39,19 +40,20 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	protected void initUI() {
 		this.getController().addSubscriber(this);
 		tabs = new TabPane();
+		setOnChangeTab();
 		inspectorSpriteView = new InspectorSpriteView(this.getController());
-		configureView = new TestGameConfiguringView(this.getController());
+		settingsView = new LevelSettingsView(this.getController());
 		
 		AuthorEnvironment env = this.getController().getEnvironment();
 		env.getCurrentLevelIndex().addListener(obv -> {
-			configureView.setLevel(env.getCurrentLevel());
+			settingsView.setLevel(env.getCurrentLevel());
 		});
 		env.getCurrentGameIndex().addListener(obv -> {
-			configureView.setLevel(env.getCurrentLevel());
+			settingsView.setLevel(env.getCurrentLevel());
 		});
-		configureView.setLevel(env.getCurrentLevel());
+		settingsView.setLevel(env.getCurrentLevel());
 		
-		addViewsAsTab("Physics Settings", configureView);
+		addViewsAsTab("Settings", settingsView);
 		addViewsAsTab("Sprite Inspector", inspectorSpriteView);
 	}
 
@@ -59,9 +61,9 @@ public class InspectorView extends AbstractView implements ISubscriber {
 	protected void updateLayoutSelf() {
 		tabs.setPrefHeight(this.getHeight());
 		tabs.setPrefWidth(this.getWidth());
-		for (AbstractView subView : this.getSubViews()) {
+		for (IView subView : this.getSubViews()) {
 			subView.setWidth(this.getWidth());
-			subView.setHeight(this.getHeight() - 30);
+			subView.setHeight(this.getHeight() - UIConstants.OVERLAP_PIXELS_WITH_CHAT);
 		}
 	}
 	
@@ -79,10 +81,20 @@ public class InspectorView extends AbstractView implements ISubscriber {
 
 	private void addViewsAsTab(String tabName, AbstractView view) {
 		Tab newTab = new Tab(tabName);
+		newTab.getStyleClass().add("tab");
 		newTab.setClosable(false);
 		newTab.setContent(view.getUI());
 		tabs.getTabs().add(newTab);
 		addSubView(view);
+	}
+	
+	private void setOnChangeTab() {
+		tabs.getSelectionModel().selectedIndexProperty().addListener(
+				(ov, oldVal, newVal) -> {
+					if (newVal.intValue() == 0) {
+						this.getController().deselectSpriteViews();
+					}
+				});
 	}
 
 }

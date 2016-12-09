@@ -1,5 +1,6 @@
 package authoring.ui;
 
+import authoring.constants.UIConstants;
 import javafx.scene.control.Slider;
 
 /**
@@ -25,8 +26,8 @@ public class ParamSlider {
 		slider.setValue(value);
 		slider.setShowTickLabels(true);
 		slider.setShowTickMarks(true);
-		slider.setMajorTickUnit((max - min) / 5);
-		slider.setMinorTickCount((int) ((max - min) / 50));
+		slider.setMajorTickUnit((max - min) / UIConstants.MAJOR_TICK_DIVISOR);
+		slider.setMinorTickCount((int) ((max - min) / UIConstants.MINOR_TICK_DIVISOR));
 		slider.setBlockIncrement(increment);
 		return slider;
 	}

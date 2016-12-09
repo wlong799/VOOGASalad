@@ -2,12 +2,11 @@ package game_object.character;
 
 import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
-import game_object.core.ExceptionThrower;
 import game_object.core.Position;
-import game_object.powerup.PowerUp;
+import game_object.powerup.IPowerUp;
 import game_object.simulation.ICollisionBody;
 import game_object.weapon.WeaponModel;
 
@@ -20,17 +19,18 @@ public class Hero extends AbstractCharacter implements IUpgrader {
         super(position, dimension, imagePaths);
         myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
         myCollisionBitMask =
-                DefaultConstants.BLOCK_CATEGORY_BIT_MASK |
-                             DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
-                             DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
+			DefaultConstants.BLOCK_CATEGORY_BIT_MASK |
+		    DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
+		    DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK |
+		    DefaultConstants.POWER_CATEGORY_BIT_MASK;
     }
 
     @Override
     public void shoot () {
-        ExceptionThrower.notYetSupported();
+        //ExceptionThrower.notYetSupported();
     }
 
-    /* Upgrader -- Not used for now */
+    /* Upgrader */
     @Override
     public void replenishHealth () {
         setCurrentHP(getMaxHP());
@@ -60,33 +60,31 @@ public class Hero extends AbstractCharacter implements IUpgrader {
     public boolean getHasProjectile () {
         return myHasProjectile;
     }
-
+    
     @Override
-    public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
-        otherBody.onCollideWith(this, collisionDirection);
+    public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
+    	otherBody.onCollideWith(this, collisionDirection);
     }
     
     @Override
-    public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
-        // TODO Auto-generated method stub
+    public void onCollideWith(Hero h, CollisionDirection collisionDirection) {
         
     }
 
     @Override
-    public void onCollideWith (Enemy e, CollisionDirection collisionDirection) {
-        // TODO Auto-generated method stub
-        getVelocity().setYVelocity(-100);
+    public void onCollideWith(Enemy e, CollisionDirection collisionDirection) {
+    	
     }
 
     
     @Override
-    public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
+    public void onCollideWith(Block b, CollisionDirection collisionDirection) {
         super.onCollideWith(b, collisionDirection);
     }
 
     @Override
-    public void onCollideWith (PowerUp p, CollisionDirection collisionDirection) {
-        // TODO Auto-generated method stub
+    public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection) {
+    	System.out.println("affected");
         p.affect(this);
     }
 

@@ -1,6 +1,8 @@
 package game_object.powerup;
 
 import java.util.List;
+
+import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_object.character.IUpgrader;
 import game_object.core.Dimension;
 import game_object.core.Position;
@@ -18,5 +20,11 @@ public class ChangeSizePowerUp extends AbstractPowerUp{
     public void affect(IUpgrader u) {
     	u.changeSize(myMultiplier);
     }
+
+	@Override
+	public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
