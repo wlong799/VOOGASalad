@@ -8,8 +8,8 @@ package game_object.core;
  */
 public class Position {
 	
-	private final double myX;
-	private final double myY;
+	private double myX;
+	private double myY;
 	private double myZ; // deals with front-to-back ordering of layers onscreen. Larger means more front.
 	
 	public Position(double x, double y) {
@@ -26,8 +26,16 @@ public class Position {
 		return myX;
 	}
 	
+	public void setX(double x) {
+		myX = x;
+	}
+	
 	public double getY() {
 		return myY;
+	}
+	
+	public void setY(double y) {
+		myY = y;
 	}
 	
 	public double getZ() {

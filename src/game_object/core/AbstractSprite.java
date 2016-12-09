@@ -235,10 +235,6 @@ public abstract class AbstractSprite implements ISprite {
 		return staticPivotPosition;
 	}
 	
-	public static void setStaticPivotPosition(Position pivotPosition) {
-		staticPivotPosition = pivotPosition;
-	}
-	
 	public static void setStaticPivotDimension(Dimension pivotDimension) {
 		staticPivotDimension = pivotDimension;
 	}
