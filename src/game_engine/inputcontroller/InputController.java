@@ -7,17 +7,12 @@ import game_engine.enemyai.ProjectileManager;
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
-import game_object.acting.KeyEvent;
 import game_object.character.ICharacter;
 import game_object.character.IMover;
 import game_object.core.ISprite;
-import game_object.core.Position;
-import game_object.core.Dimension;
 import game_object.core.Game;
 import game_object.level.Level;
 import game_object.weapon.Projectile;
-import game_object.weapon.ProjectileModel;
-import game_object.weapon.WeaponSprite;
 
 public class InputController implements IInputController {
 
