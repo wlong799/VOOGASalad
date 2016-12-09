@@ -1,5 +1,6 @@
 package game_object;
 import java.util.ArrayList;
+
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.KeyEvent;
@@ -16,8 +17,6 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.powerup.IPowerUp;
 import game_object.powerup.NewWeaponPowerUp;
-import goal.AbstractGoal;
-import goal.position.ReachPointGoal;
 import game_object.weapon.ProjectileModel;
 import game_object.weapon.WeaponModel;
 import javafx.scene.input.KeyCode;

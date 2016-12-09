@@ -10,6 +10,7 @@ import game_object.character.ICharacter;
 import game_object.character.IMover;
 import game_object.core.ISprite;
 import game_object.core.Position;
+import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Game;
 import game_object.level.Level;
