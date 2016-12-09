@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import game_engine.physics.PhysicsParameterSetOptions;
-import game_object.acting.KeyEvent;
+import game_object.acting.Event;
 import game_object.background.Background;
 import game_object.visualization.ISpriteVisualization;
 
@@ -37,7 +37,7 @@ public interface IGameEngine {
 	 * @param list
 	 *            The list of inputs the user is pressing
 	 */
-	public void setInputList(Set<KeyEvent> list);
+	public void setInputList(Set<Event> list);
 
 	/**
 	 * Change a physics parameter
