@@ -117,6 +117,17 @@
     -fx-background-color: transparent;
     -fx-text-fill: #C0C0C0;
 }
+
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}
+ 
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
+}
+.list-cell:empty {
+    -fx-background-color: transparent;
+}
 .tab {
     width: 650px;  
     -fx-background-insets: 0 1 0 1,0,0;
@@ -180,8 +191,6 @@
 .split-pane:focused,
 .list-view:focused,
 .tree-view:focused,
-.table-view:focused,
-.tree-table-view:focused,
 .html-editor:focused {
     -fx-background-color: -fx-box-border, -fx-control-inner-background;
     -fx-background-insets: 0, 1;

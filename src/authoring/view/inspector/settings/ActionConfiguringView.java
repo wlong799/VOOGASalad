@@ -15,6 +15,7 @@ import game_object.acting.ActionTrigger;
 import game_object.acting.KeyEvent;
 import game_object.core.ISprite;
 import game_object.level.Level;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -70,7 +71,6 @@ public class ActionConfiguringView extends AbstractSettingsView {
         column2.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue()));
 
         myTableView.getColumns().addAll(column1, column2);
-        myTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         myContent.getChildren().add(myTableView);
     }
 

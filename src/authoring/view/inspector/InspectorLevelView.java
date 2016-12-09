@@ -3,18 +3,27 @@ package authoring.view.inspector;
 import authoring.AuthoringController;
 import authoring.view.inspector.settings.CheckBoxView;
 import authoring.view.inspector.settings.SliderBoxView;
+import authoring.view.inspector.settings.TitledPaneView;
 import authoring.view.run.TestGameView;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.physics.PhysicsParameters;
 import game_object.level.Level;
+import javafx.geometry.Insets;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TitledPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import resources.ResourceBundles;
 
+import java.awt.Label;
 import java.util.ResourceBundle;
 
 public class InspectorLevelView extends AbstractInspectorTabView {
     private Level myLevel;
     private SliderBoxView myGravityBox, myAirFrictionBox, myGroundFrictionBox, myThresholdMaxBox, myThresholdMinBox;
     private CheckBoxView myGridSnapCheckBox;
+    private TitledPaneView goalPane;
+    
     private ResourceBundle myLevelProperties;
 
     public InspectorLevelView(AuthoringController controller) {
@@ -91,7 +100,10 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 (obv, oldVal, newVal) -> this.setParameter(PhysicsParameterSetOptions.MINTHRESHOLD, newVal.doubleValue()));
         myGridSnapCheckBox = new CheckBoxView(getController(), "Snap to Grid", getController().getCanvasController().getSnapToGrid(),
                 ((observable, oldValue, newValue) -> getController().getCanvasController().setSnapToGrid(newValue)));
-        addSettingsViews(myGravityBox, myAirFrictionBox, myGroundFrictionBox, myThresholdMaxBox, myThresholdMinBox, myGridSnapCheckBox);
+         
+        goalPane = new TitledPaneView(getController(), myLevel);
+        
+        addSettingsViews(myGravityBox, myAirFrictionBox, myGroundFrictionBox, myThresholdMaxBox, myThresholdMinBox, myGridSnapCheckBox, goalPane);
     }
 
     private void setParameter(PhysicsParameterSetOptions option, double value) {
@@ -101,4 +113,6 @@ public class InspectorLevelView extends AbstractInspectorTabView {
             getController().getTestGameController().setParameter(option, value);
         }
     }
+    
+ 
 }

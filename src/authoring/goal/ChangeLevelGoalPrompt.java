@@ -2,6 +2,7 @@ package authoring.goal;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
@@ -9,7 +10,10 @@ import goal.time.PassTime;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Spinner;
@@ -29,8 +33,17 @@ public class ChangeLevelGoalPrompt {
 
 	public ChangeLevelGoalPrompt(AuthoringController controller) {
 		myGoalPromptProperties = ResourceBundles.goalPromptProperties;
-		
 		myController = controller;
+		
+		if (!myController.getEnvironment().getCurrentLevel().getAllGoals().isEmpty()) {
+			goalAlreadyInPlace();
+			return;
+		}
+		initStage();
+	}
+	
+	private void initStage() {
+		
 		myGoalStage = new Stage();
 		myGoalVBox = new VBox();
 		myGoalPane = new ScrollPane();
@@ -38,8 +51,8 @@ public class ChangeLevelGoalPrompt {
 		Scene goalScene = new Scene(myGoalPane, Double.parseDouble(myGoalPromptProperties.getString("GOAL_PROMPT_FRAME_SIZE")), Double.parseDouble(myGoalPromptProperties.getString("GOAL_PROMPT_FRAME_SIZE")));
 		myGoalStage.setScene(goalScene);
 		myGoalStage.show();
-
 		levelTypeSelectorInit();
+		
 	}
 
 	private void levelTypeSelectorInit() {
@@ -108,5 +121,17 @@ public class ChangeLevelGoalPrompt {
 		Text notYetImplemented = new Text("To be implemented.");
 		myGoalConfigNodes.add(notYetImplemented);
 		myGoalVBox.getChildren().addAll(myGoalConfigNodes);
+	}
+	
+	private void goalAlreadyInPlace() {
+		Alert goalAlreadySetAlert = new Alert(AlertType.CONFIRMATION);
+		goalAlreadySetAlert.setTitle("Goal already in place!");
+		goalAlreadySetAlert.setContentText("If you continue, your previous goal will be overwritten. Do you wish to continue?");
+		Optional<ButtonType> result = goalAlreadySetAlert.showAndWait();
+
+		if ((result.isPresent()) && (result.get() == ButtonType.OK)) {
+			initStage();
+		}
+
 	}
 }
