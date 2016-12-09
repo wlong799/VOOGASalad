@@ -20,7 +20,7 @@ import java.util.ResourceBundle;
 public abstract class AbstractInspectorTabView extends AbstractView {
     private ScrollPane myScrollPane;
     private VBox myContent;
-    private ResourceBundle testGameProperties;
+    private ResourceBundle myTestGameProperties;
 
     public AbstractInspectorTabView(AuthoringController controller) {
         super(controller);
@@ -28,22 +28,25 @@ public abstract class AbstractInspectorTabView extends AbstractView {
 
     @Override
     protected void initUI() {
-        testGameProperties = ResourceBundles.testGameProperties;
+        myTestGameProperties = ResourceBundles.testGameProperties;
+
         myContent = new VBox();
-        myContent.setPadding(new Insets(Double.parseDouble(testGameProperties.getString("TEST_GAME_PADDING"))));
+        myContent.setPadding(new Insets(Double.parseDouble(myTestGameProperties.getString("TEST_GAME_PADDING"))));
         myContent.setAlignment(Pos.CENTER);
         myScrollPane = new ScrollPane();
         myScrollPane.setContent(myContent);
         myScrollPane.setFitToWidth(true);
+
         addUI(myScrollPane);
     }
 
     @Override
     protected void updateLayoutSelf() {
+        System.out.println("AY" + getWidth());
         myScrollPane.setPrefWidth(getWidth());
         myScrollPane.setPrefHeight(getHeight());
         myContent.setPrefWidth(getWidth());
-        getSubViews().forEach(subView -> subView.setWidth(getWidth() - 2 * Double.parseDouble(testGameProperties.getString("TEST_GAME_PADDING"))));
+        getSubViews().forEach(subView -> subView.setWidth(getWidth() - 10 * Double.parseDouble(myTestGameProperties.getString("TEST_GAME_PADDING"))));
     }
 
     protected void addSettingsView(AbstractSettingsView settingsView) {

@@ -19,14 +19,14 @@ import resources.ResourceBundles;
 
 public class ChatView extends AbstractView {
 
-	private TextFlow textFlow;
-	private ScrollPane scrollPane;
-	private TextField textField;
-	private Button enterButton;
-	private HBox sendingBox;
-	private VBox all;
+	private TextFlow myTextFlow;
+	private ScrollPane myScrollPane;
+	private TextField myTextField;
+	private Button myEnterButton;
+	private HBox mySendingBox;
+	private VBox myChatViewCollection;
 	private ChatController myController;
-	private ResourceBundle chatWindowProperties;
+	private ResourceBundle myChatWindowProperties;
 
 	private boolean hasName = false;
 
@@ -39,59 +39,59 @@ public class ChatView extends AbstractView {
 	public void appendText(String text) {
 		Text newText = new Text(text + "\n");
 		newText.setFill(Color.BLACK);
-		textFlow.getChildren().add(newText);
-		textFlow.requestLayout();
-		scrollPane.setVvalue(Double.parseDouble(chatWindowProperties.getString("SCROLL_PANE_VERTICAL_VALUE")));
+		myTextFlow.getChildren().add(newText);
+		myTextFlow.requestLayout();
+		myScrollPane.setVvalue(Double.parseDouble(myChatWindowProperties.getString("SCROLL_PANE_VERTICAL_VALUE")));
 	}
 
 	@Override
 	protected void initUI() {
-		chatWindowProperties = ResourceBundles.chatWindowProperties;
+		myChatWindowProperties = ResourceBundles.chatWindowProperties;
 		
-		textFlow = new TextFlow();
-		textFlow.setMaxHeight(this.getHeight());
-		scrollPane = new ScrollPane(textFlow);
-		scrollPane.setFitToWidth(true);
-		scrollPane.setPrefHeight(this.getHeight());
-		scrollPane.setStyle("-fx-background: rgb(255,255,255);");
+		myTextFlow = new TextFlow();
+		myTextFlow.setMaxHeight(this.getHeight());
+		myScrollPane = new ScrollPane(myTextFlow);
+		myScrollPane.setFitToWidth(true);
+		myScrollPane.setPrefHeight(this.getHeight());
+		myScrollPane.setStyle("-fx-background: rgb(255,255,255);");
 
 		initSendingBox();
 
-		all = new VBox();
-		all.getChildren().addAll(scrollPane, sendingBox);
+		myChatViewCollection = new VBox();
+		myChatViewCollection.getChildren().addAll(myScrollPane, mySendingBox);
 
-		this.addUI(all);
+		this.addUI(myChatViewCollection);
 
 		getName();
 	}
 
 	@Override
 	protected void updateLayoutSelf() {
-		all.setPrefWidth(getWidth());
-		all.setPrefHeight(getHeight());
-		scrollPane.setPrefWidth(getWidth());
-		scrollPane.setPrefHeight(getHeight() - Double.parseDouble(chatWindowProperties.getString("SENDING_HEIGHT")));
-		textField.setPrefWidth(this.getWidth() - Double.parseDouble(chatWindowProperties.getString("BUTTON_WIDTH")));
-		enterButton.setPrefWidth(Double.parseDouble(chatWindowProperties.getString("BUTTON_WIDTH")));
-		sendingBox.setPrefHeight(Double.parseDouble(chatWindowProperties.getString("SENDING_HEIGHT")));
+		myChatViewCollection.setPrefWidth(getWidth());
+		myChatViewCollection.setPrefHeight(getHeight());
+		myScrollPane.setPrefWidth(getWidth());
+		myScrollPane.setPrefHeight(getHeight() - Double.parseDouble(myChatWindowProperties.getString("SENDING_HEIGHT")));
+		myTextField.setPrefWidth(this.getWidth() - Double.parseDouble(myChatWindowProperties.getString("BUTTON_WIDTH")));
+		myEnterButton.setPrefWidth(Double.parseDouble(myChatWindowProperties.getString("BUTTON_WIDTH")));
+		mySendingBox.setPrefHeight(Double.parseDouble(myChatWindowProperties.getString("SENDING_HEIGHT")));
 	}
 
 	private void initSendingBox() {
-		sendingBox = new HBox();
-		textField = new TextField();
-		enterButton = new Button("Send");
-		enterButton.getStyleClass().add("send-button");
-		textField.setOnKeyPressed(e -> {
+		mySendingBox = new HBox();
+		myTextField = new TextField();
+		myEnterButton = new Button("Send");
+		myEnterButton.getStyleClass().add("send-button");
+		myTextField.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER) {
 				send();
 			}
 		});
-		enterButton.setOnAction(e -> send());
-		sendingBox.getChildren().addAll(textField, enterButton);
+		myEnterButton.setOnAction(e -> send());
+		mySendingBox.getChildren().addAll(myTextField, myEnterButton);
 	}
 
 	private void send() {
-		String current = textField.getText();
+		String current = myTextField.getText();
 		if (current.equals("")) {
 			return;
 		}
@@ -108,7 +108,7 @@ public class ChatView extends AbstractView {
 				e.printStackTrace();
 			}
 		}
-		textField.clear();
+		myTextField.clear();
 	}
 
 	private void getName() {

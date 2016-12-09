@@ -20,49 +20,49 @@ import serializing.Marshaller;
 public class AuthoringController extends Observable {
 
     private AuthorEnvironment myEnvironment;
-    private Component selectedComponent;
-    private SpriteView selectedSpriteView;
+    private Component mySelectedComponent;
+    private SpriteView mySelectedSpriteView;
     private Scene myScene;
 
-    private CanvasController canvasController;
-    private ComponentController componentController;
-    private TestGameController testGameController;
-    private ChatController chatController;
-    private Marshaller marshaller;
-    private ImageRenderer renderer;
+    private CanvasController myCanvasController;
+    private ComponentController myComponentController;
+    private TestGameController myTestGameController;
+    private ChatController myChatController;
+    private Marshaller myMarshaller;
+    private ImageRenderer myRenderer;
 
     public AuthoringController(AuthorEnvironment environment) {
         myEnvironment = environment;
-        canvasController = new CanvasController();
-        componentController = new ComponentController();
-        testGameController = new TestGameController(this);
-        chatController = new ChatController();
-        marshaller = new Marshaller();
-        renderer = new ImageRenderer();
+        myCanvasController = new CanvasController();
+        myComponentController = new ComponentController();
+        myTestGameController = new TestGameController(this);
+        myChatController = new ChatController();
+        myMarshaller = new Marshaller();
+        myRenderer = new ImageRenderer();
     }
 
     public CanvasController getCanvasController() {
-        return canvasController;
+        return myCanvasController;
     }
 
     public ComponentController getComponentController() {
-        return componentController;
+        return myComponentController;
     }
 
     public TestGameController getTestGameController() {
-        return testGameController;
+        return myTestGameController;
     }
 
     public ChatController getChatController() {
-        return chatController;
+        return myChatController;
     }
 
     public Marshaller getMarshaller() {
-        return marshaller;
+        return myMarshaller;
     }
 
     public ImageRenderer getRenderer() {
-        return renderer;
+        return myRenderer;
     }
 
     public AuthorEnvironment getEnvironment() {
@@ -74,12 +74,12 @@ public class AuthoringController extends Observable {
             return;
         }
         deselect();
-        selectedComponent = component;
+        mySelectedComponent = component;
         updateObservers();
     }
 
     public Component getSelectedComponent() {
-        return selectedComponent;
+        return mySelectedComponent;
     }
 
     public void selectSpriteView(SpriteView spriteView) {
@@ -88,20 +88,20 @@ public class AuthoringController extends Observable {
         }
         deselect();
         spriteView.indicateSelection();
-        selectedSpriteView = spriteView;
+        mySelectedSpriteView = spriteView;
         updateObservers();
     }
 
-    public SpriteView getSelectedSpriteView() {
-        return selectedSpriteView;
+    public SpriteView getMySelectedSpriteView() {
+        return mySelectedSpriteView;
     }
 
     private void deselect() {
-        if (selectedSpriteView != null) {
-            selectedSpriteView.indicateDeselection();
-            selectedSpriteView = null;
+        if (mySelectedSpriteView != null) {
+            mySelectedSpriteView.indicateDeselection();
+            mySelectedSpriteView = null;
         }
-        selectedComponent = null;
+        mySelectedComponent = null;
         updateObservers();
     }
 
@@ -109,7 +109,7 @@ public class AuthoringController extends Observable {
         myScene = scene;
         myScene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
-                canvasController.delete(selectedSpriteView);
+                myCanvasController.delete(mySelectedSpriteView);
             } else if (event.getCode() == KeyCode.ESCAPE) {
                 deselect();
             }

@@ -5,18 +5,18 @@ import java.util.Set;
 
 public abstract class AbstractPublisher implements IPublisher {
 
-    private Set<ISubscriber> subscribers;
+    private Set<ISubscriber> mySubscribers;
 
     public AbstractPublisher() {
-        subscribers = new HashSet<ISubscriber>();
+        mySubscribers = new HashSet<ISubscriber>();
     }
 
     public void addSubscriber(ISubscriber client) {
-        subscribers.add(client);
+        mySubscribers.add(client);
     }
 
     public void notifySubscribers() {
-        subscribers.stream().forEach(client -> client.didUpdate(this));
+        mySubscribers.stream().forEach(client -> client.didUpdate(this));
     }
 
 }

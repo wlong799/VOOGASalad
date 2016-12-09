@@ -12,7 +12,7 @@ import game_object.core.Game;
  */
 public class InspectorGameView extends AbstractInspectorTabView {
     private Game myGame;
-
+    
     private TextInputBoxView myTitleInputView, myDescriptionInputView;
     private ImageChangeButtonView myImageChangeButtonView;
 

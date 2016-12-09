@@ -14,16 +14,16 @@ import resources.ResourceBundles;
 
 public class SpriteResizeView extends AbstractView {
 
-    private Line borderN;
-    private Line borderW;
-    private Line borderS;
-    private Line borderE;
-    private Rectangle resizeNW;
-    private Rectangle resizeNE;
-    private Rectangle resizeSW;
-    private Rectangle resizeSE;
-    private SpriteView spView;
-    private ResourceBundle componentProperties;
+    private Line myNorthBorder;
+    private Line myWestBorder;
+    private Line mySouthBorder;
+    private Line myEastBorder;
+    private Rectangle myNorthWestResizer;
+    private Rectangle myNorthEastResizer;
+    private Rectangle mySouthWestResizer;
+    private Rectangle mySouthEastResizer;
+    private SpriteView mySpriteView;
+    private ResourceBundle myComponentProperties;
 
     public SpriteResizeView(AuthoringController controller) {
         super(controller);
@@ -31,35 +31,35 @@ public class SpriteResizeView extends AbstractView {
 
     @Override
     public void setParentView(IView parent) {
-        spView = (SpriteView) parent;
+        mySpriteView = (SpriteView) parent;
         initUI();
     }
 
     @Override
     protected void initUI() {
-        if (spView == null) return;
-        componentProperties = ResourceBundles.componentProperties;
+        if (mySpriteView == null) return;
+        myComponentProperties = ResourceBundles.componentProperties;
         initSelectionIndicator();
     }
 
     @Override
     protected void updateLayoutSelf() {
-        borderN.setEndX(this.getWidth());
-        borderW.setEndY(this.getHeight());
-        borderE.setStartX(this.getWidth());
-        borderE.setEndX(this.getWidth());
-        borderE.setEndY(this.getHeight());
-        borderS.setStartY(this.getHeight());
-        borderS.setEndX(this.getWidth());
-        borderS.setEndY(this.getHeight());
-        resizeNW.setLayoutX(-Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
-        resizeNW.setLayoutY(-Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
-        resizeNE.setLayoutX(this.getWidth() - Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
-        resizeNE.setLayoutY(-Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
-        resizeSW.setLayoutX(-Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
-        resizeSW.setLayoutY(this.getHeight() - Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
-        resizeSE.setLayoutX(this.getWidth() - Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
-        resizeSE.setLayoutY(this.getHeight() - Double.parseDouble(componentProperties.getString("RESIZE_UNIT_HALF")));
+        myNorthBorder.setEndX(this.getWidth());
+        myWestBorder.setEndY(this.getHeight());
+        myEastBorder.setStartX(this.getWidth());
+        myEastBorder.setEndX(this.getWidth());
+        myEastBorder.setEndY(this.getHeight());
+        mySouthBorder.setStartY(this.getHeight());
+        mySouthBorder.setEndX(this.getWidth());
+        mySouthBorder.setEndY(this.getHeight());
+        myNorthWestResizer.setLayoutX(-Double.parseDouble(myComponentProperties.getString("RESIZE_UNIT_HALF")));
+        myNorthWestResizer.setLayoutY(-Double.parseDouble(myComponentProperties.getString("RESIZE_UNIT_HALF")));
+        myNorthEastResizer.setLayoutX(this.getWidth() - Double.parseDouble(myComponentProperties.getString("RESIZE_UNIT_HALF")));
+        myNorthEastResizer.setLayoutY(-Double.parseDouble(myComponentProperties.getString("RESIZE_UNIT_HALF")));
+        mySouthWestResizer.setLayoutX(-Double.parseDouble(myComponentProperties.getString("RESIZE_UNIT_HALF")));
+        mySouthWestResizer.setLayoutY(this.getHeight() - Double.parseDouble(myComponentProperties.getString("RESIZE_UNIT_HALF")));
+        mySouthEastResizer.setLayoutX(this.getWidth() - Double.parseDouble(myComponentProperties.getString("RESIZE_UNIT_HALF")));
+        mySouthEastResizer.setLayoutY(this.getHeight() - Double.parseDouble(myComponentProperties.getString("RESIZE_UNIT_HALF")));
     }
 
     private void initSelectionIndicator() {
@@ -68,42 +68,42 @@ public class SpriteResizeView extends AbstractView {
     }
 
     private void initBorder() {
-        borderN = new Line();
-        borderS = new Line();
-        borderW = new Line();
-        borderE = new Line();
-        this.addUIAll(borderN, borderS, borderW, borderE);
+        myNorthBorder = new Line();
+        mySouthBorder = new Line();
+        myWestBorder = new Line();
+        myEastBorder = new Line();
+        this.addUIAll(myNorthBorder, mySouthBorder, myWestBorder, myEastBorder);
     }
 
     private void initResizers() {
-        resizeNW = initResizerRectangle();
-        resizeNE = initResizerRectangle();
-        resizeSW = initResizerRectangle();
-        resizeSE = initResizerRectangle();
-        this.addUIAll(resizeNW, resizeNE, resizeSW, resizeSE);
+        myNorthWestResizer = initResizerRectangle();
+        myNorthEastResizer = initResizerRectangle();
+        mySouthWestResizer = initResizerRectangle();
+        mySouthEastResizer = initResizerRectangle();
+        this.addUIAll(myNorthWestResizer, myNorthEastResizer, mySouthWestResizer, mySouthEastResizer);
         setOnHover();
-        setOnDishover(resizeNW, resizeNE, resizeSW, resizeSE);
+        setOnDishover(myNorthWestResizer, myNorthEastResizer, mySouthWestResizer, mySouthEastResizer);
         setOnDrag();
     }
 
     private Rectangle initResizerRectangle() {
-        Rectangle result = new Rectangle(0, 0, Double.parseDouble(componentProperties.getString("RESIZE_UNIT")), Double.parseDouble(componentProperties.getString("RESIZE_UNIT")));
-        result.setStrokeWidth(Double.parseDouble(componentProperties.getString("RESIZER_STROKE_WIDTH")));
+        Rectangle result = new Rectangle(0, 0, Double.parseDouble(myComponentProperties.getString("RESIZE_UNIT")), Double.parseDouble(myComponentProperties.getString("RESIZE_UNIT")));
+        result.setStrokeWidth(Double.parseDouble(myComponentProperties.getString("RESIZER_STROKE_WIDTH")));
         result.setStroke(Color.TRANSPARENT);
         return result;
     }
 
     private void setOnHover() {
-        resizeNW.setOnMouseEntered(e -> {
+        myNorthWestResizer.setOnMouseEntered(e -> {
             this.getController().setMouseCursor(Cursor.NW_RESIZE);
         });
-        resizeNE.setOnMouseEntered(e -> {
+        myNorthEastResizer.setOnMouseEntered(e -> {
             this.getController().setMouseCursor(Cursor.NE_RESIZE);
         });
-        resizeSW.setOnMouseEntered(e -> {
+        mySouthWestResizer.setOnMouseEntered(e -> {
             this.getController().setMouseCursor(Cursor.SW_RESIZE);
         });
-        resizeSE.setOnMouseEntered(e -> {
+        mySouthEastResizer.setOnMouseEntered(e -> {
             this.getController().setMouseCursor(Cursor.SE_RESIZE);
         });
     }
@@ -118,38 +118,38 @@ public class SpriteResizeView extends AbstractView {
 
     private void setOnDrag() {
         CanvasController canvasController = this.getController().getCanvasController();
-        CanvasView canvas = spView.getCanvasView();
-        resizeSE.setOnMouseDragged(e -> {
+        CanvasView canvas = mySpriteView.getCanvasView();
+        mySouthEastResizer.setOnMouseDragged(e -> {
             canvasController.onResizeSpriteView(
-                    spView,
-                    spView.getPositionX(),
-                    spView.getPositionY(),
+                    mySpriteView,
+                    mySpriteView.getPositionX(),
+                    mySpriteView.getPositionY(),
                     canvasController.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
                     canvasController.toAbsoluteY(e.getSceneY() - canvas.getPositionY()));
         });
-        resizeSW.setOnMouseDragged(e -> {
+        mySouthWestResizer.setOnMouseDragged(e -> {
             canvasController.onResizeSpriteView(
-                    spView,
+                    mySpriteView,
                     canvasController.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
-                    spView.getPositionY(),
-                    spView.getPositionX() + spView.getWidth(),
+                    mySpriteView.getPositionY(),
+                    mySpriteView.getPositionX() + mySpriteView.getWidth(),
                     canvasController.toAbsoluteY(e.getSceneY() - canvas.getPositionY()));
         });
-        resizeNE.setOnMouseDragged(e -> {
+        myNorthEastResizer.setOnMouseDragged(e -> {
             canvasController.onResizeSpriteView(
-                    spView,
-                    spView.getPositionX(),
+                    mySpriteView,
+                    mySpriteView.getPositionX(),
                     canvasController.toAbsoluteY(e.getSceneY() - canvas.getPositionY()),
                     canvasController.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
-                    spView.getPositionY() + spView.getHeight());
+                    mySpriteView.getPositionY() + mySpriteView.getHeight());
         });
-        resizeNW.setOnMouseDragged(e -> {
+        myNorthWestResizer.setOnMouseDragged(e -> {
             canvasController.onResizeSpriteView(
-                    spView,
+                    mySpriteView,
                     canvasController.toAbsoluteX(e.getSceneX() - canvas.getPositionX()),
                     canvasController.toAbsoluteY(e.getSceneY() - canvas.getPositionY()),
-                    spView.getPositionX() + spView.getWidth(),
-                    spView.getPositionY() + spView.getHeight());
+                    mySpriteView.getPositionX() + mySpriteView.getWidth(),
+                    mySpriteView.getPositionY() + mySpriteView.getHeight());
         });
     }
 }

@@ -22,13 +22,13 @@ public class ChatController {
 	
 	private ChatView myView;
 	private INetworkClient myClient;
-	private ResourceBundle chatWindowProperties;
+	private ResourceBundle myChatWindowProperties;
 
 	public void init(ChatView view) {
-		chatWindowProperties = ResourceBundles.chatWindowProperties;
+		myChatWindowProperties = ResourceBundles.chatWindowProperties;
 		
 		myView = view;
-		KeyFrame frame = new KeyFrame(Duration.millis(Double.parseDouble(chatWindowProperties.getString("CHAT_FRAME_DURATION_MILLISECOND"))),
+		KeyFrame frame = new KeyFrame(Duration.millis(Double.parseDouble(myChatWindowProperties.getString("CHAT_FRAME_DURATION_MILLISECOND"))),
 				new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {

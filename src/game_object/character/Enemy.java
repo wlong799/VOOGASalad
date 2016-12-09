@@ -2,7 +2,7 @@ package game_object.character;
 
 import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.Position;
@@ -33,13 +33,13 @@ public class Enemy extends AbstractCharacter {
 	/* ICollisionBody Getter Implementations */
 
 	@Override
-        public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
-            otherBody.onCollideWith(this, collisionDirection);
-        }
+    public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
+        otherBody.onCollideWith(this, collisionDirection);
+    }
+	
     @Override
     public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Enemy extends AbstractCharacter {
     }
 
     @Override
-    public void onCollideWith (StaticBlock b, CollisionDirection collisionDirection) {
+    public void onCollideWith (Block b, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
         super.onCollideWith(b, collisionDirection);
     }

@@ -17,11 +17,12 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
     private ISprite sprite;
 
     private ComponentPhysicsSettings componentPhysicsSettings;
-    private TextInputBoxView xBox, yBox, zBox, widthBox, heightBox;
-    private CheckBoxView herosCollisionCB, enemiesCollisionCB, blockCollisionCB, applyPhysicsCB,
-            reachPointCB;
-    private SliderBoxView numJumpBox, jumpUnitBox;
+    private TextInputBoxView myXBox, myYBox, myZBox, myWidthBox, myHeightBox;
+    private CheckBoxView myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
+            myApplyPhysicsCheckBox, myReachPointCheckBox;
+    private SliderBoxView myMaxJumpSlider, myJumpUnitSlider;
     private ActionConfiguringView myActionView;
+    private LivesConfiguringView myLivesConfiguringView;
 
     public InspectorSpriteView(AuthoringController controller) {
         super(controller);
@@ -33,36 +34,37 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
         }
         clearSettingsView();
 
-        xBox = new TextInputBoxView(getController(), "Position X", sprite.getPosition().getX() + "",
+        myXBox = new TextInputBoxView(getController(), "Position X", sprite.getPosition().getX() + "",
                 (newVal) -> spriteView.setAbsolutePositionX(Double.parseDouble(newVal)));
-        yBox = new TextInputBoxView(getController(), "Position Y", sprite.getPosition().getY() + "",
+        myYBox = new TextInputBoxView(getController(), "Position Y", sprite.getPosition().getY() + "",
                 (newVal) -> spriteView.setAbsolutePositionY(Double.parseDouble(newVal)));
-        zBox = new TextInputBoxView(getController(), "Position Z", sprite.getPosition().getZ() + "",
+        myZBox = new TextInputBoxView(getController(), "Position Z", sprite.getPosition().getZ() + "",
                 (newVal) -> spriteView.setAbsolutePositionZ(Double.parseDouble(newVal)));
-        widthBox = new TextInputBoxView(getController(), "Width", sprite.getDimension().getWidth() + "",
+        myWidthBox = new TextInputBoxView(getController(), "Width", sprite.getDimension().getWidth() + "",
                 (newVal) -> spriteView.setDimensionWidth(Double.parseDouble(newVal)));
-        heightBox = new TextInputBoxView(getController(), "Height", sprite.getDimension().getHeight() + "",
+        myHeightBox = new TextInputBoxView(getController(), "Height", sprite.getDimension().getHeight() + "",
                 (newVal) -> spriteView.setDimensionHeight(Double.parseDouble(newVal)));
 
 
         componentPhysicsSettings = new ComponentPhysicsSettings(sprite);
-        herosCollisionCB = new CheckBoxView(getController(), "Collide with Heros",
+        myHerosCollisionCheckBox = new CheckBoxView(getController(), "Collide with Heros",
                 (sprite.getCollisionBitMask() & DefaultConstants.HERO_CATEGORY_BIT_MASK) != 0,
                 (obv, old_val, new_val) -> componentPhysicsSettings.setCollisionSettingWithHeros(new_val));
-        enemiesCollisionCB = new CheckBoxView(getController(), "Collide with Enemies",
+        myEnemiesCollisionCheckBox = new CheckBoxView(getController(), "Collide with Enemies",
                 (sprite.getCollisionBitMask() & DefaultConstants.ENEMY_CATEGORY_BIT_MASK) != 0,
                 (obv, old_val, new_val) -> componentPhysicsSettings.setCollisionSettingWithEnemies(new_val));
-        blockCollisionCB = new CheckBoxView(getController(), "Collide with Blocks",
+        myBlockCollisionCheckBox = new CheckBoxView(getController(), "Collide with Blocks",
                 (sprite.getCollisionBitMask() & DefaultConstants.BLOCK_CATEGORY_BIT_MASK) != 0,
                 (obv, old_val, new_val) -> componentPhysicsSettings.setCollisionSettingWithBlock(new_val));
-        applyPhysicsCB = new CheckBoxView(getController(), "Apply Physics",
+        myApplyPhysicsCheckBox = new CheckBoxView(getController(), "Apply Physics",
                 sprite.getAffectedByPhysics(),
                 (obv, old_val, new_val) -> componentPhysicsSettings.makePhysicsApplicable(new_val));
-        addSettingsViews(xBox, yBox, zBox, widthBox, heightBox, herosCollisionCB, enemiesCollisionCB, blockCollisionCB,
-                applyPhysicsCB);
+
+        addSettingsViews(myXBox, myYBox, myZBox, myWidthBox, myHeightBox, myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
+                myApplyPhysicsCheckBox);
 
         if (sprite instanceof IBlock) {
-            reachPointCB = new CheckBoxView(getController(), "Assign sprite as goal point of level", false,
+            myReachPointCheckBox = new CheckBoxView(getController(), "Assign sprite as goal point of level", false,
                     (obv, oldVal, newVal) -> {
                         Level currentLevel = getController().getEnvironment().getCurrentLevel();
                         currentLevel.getHeros().forEach(hero -> {
@@ -70,12 +72,12 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                             currentLevel.getAllGoals().add(reachGoal);
                         });
                     });
-            addSettingsView(reachPointCB);
+            addSettingsView(myReachPointCheckBox);
         }
 
         if (sprite instanceof Hero) {
             myActionView = new ActionConfiguringView(getController(), sprite);
-            numJumpBox = new SliderBoxView(
+            myMaxJumpSlider = new SliderBoxView(
                     getController(),
                     "Number of Jumps",
                     Double.parseDouble(componentProperties.getString("MIN_NUMBER_JUMPS")),
@@ -83,7 +85,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     ((Hero) sprite).getMaxNumberOfJumps(),
                     Double.parseDouble(componentProperties.getString("JUMP_INCREMENT")),
                     (obv, oldVal, newVal) -> ((Hero) sprite).setMaxNumberOfJumps(newVal.intValue()));
-            jumpUnitBox = new SliderBoxView(
+            myJumpUnitSlider = new SliderBoxView(
                     getController(),
                     "Jump Unit",
                     Double.parseDouble(componentProperties.getString("MIN_JUMP_UNIT")),
@@ -91,7 +93,8 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     ((Hero) sprite).getJumpingUnit(),
                     Double.parseDouble(componentProperties.getString("JUMP_UNIT_INCREMENT")),
                     (obv, oldVal, newVal) -> ((Hero) sprite).setJumpingUnit(newVal.doubleValue()));
-            addSettingsViews(myActionView, numJumpBox, jumpUnitBox);
+            myLivesConfiguringView = new LivesConfiguringView(getController(), (Hero)sprite);
+            addSettingsViews(myActionView, myMaxJumpSlider, myJumpUnitSlider, myLivesConfiguringView);
         }
         updateLayout();
     }
