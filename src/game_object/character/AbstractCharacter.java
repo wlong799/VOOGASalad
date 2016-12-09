@@ -110,35 +110,27 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	}
 	/* ---IMortal Implementations End--- */
 
+	/* IMover Implementations */
 	@Override
-	public Weapon getCurrentWeapon() {
-		return myCurrentWeapon;
-	}
-
-	@Override
-	public void setCurrentWeapon(Weapon currentWeapon) {
-		myChildSprites.removeSprite(myCurrentWeapon);
-		myCurrentWeapon = currentWeapon;
-		myChildSprites.addSprite(myCurrentWeapon);
-	}
-
 	public double getMovingUnit() {
 		return myMovingUnit;
 	}
 
+	@Override
 	public void setMovingUnit(double movingUnit) {
 		myMovingUnit = movingUnit;
 	}
 
+	@Override
 	public double getJumpingUnit() {
 		return myJumpingUnit;
 	}
 
+	@Override
 	public void setJumpingUnit(double jumpingUnit) {
 		myJumpingUnit = jumpingUnit;
 	}
-
-	/* IMover Implementations */
+	
 	@Override
 	public void moveRight() {
 		myVelocity.setXVelocity(myMovingUnit);
@@ -174,6 +166,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		myCurrentJumps = 0;
 	}
 
+	@Override
 	public void setMaxNumberOfJumps(int maxNumberOfJumps) {
 		myMaxNumberOfJumps = maxNumberOfJumps;
 	}
@@ -197,7 +190,18 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	}
 
 	/* ---IPhysicsBody Implementations END--- */	
+	@Override
+	public Weapon getCurrentWeapon() {
+		return myCurrentWeapon;
+	}
 
+	@Override
+	public void setCurrentWeapon(Weapon currentWeapon) {
+		myChildSprites.removeSprite(myCurrentWeapon);
+		myCurrentWeapon = currentWeapon;
+		myChildSprites.addSprite(myCurrentWeapon);
+	}
+	
 	@Override
 	public double getWeaponX() {
 		if(myCurrentWeapon==null) // no weapon
@@ -211,6 +215,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		}
 	}
 
+	@Override
 	public void setWeaponDisplacementX(double weaponDisplacementX) {
 		myWeaponDisplacementX = weaponDisplacementX;
 	}
@@ -222,6 +227,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		return myWeaponDisplacementY + myPosition.getY();
 	}
 
+	@Override
 	public void setWeaponDisplacementY(double weaponDisplacementY) {
 		myWeaponDisplacementY = weaponDisplacementY;
 	}
