@@ -9,8 +9,8 @@ import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
 import game_object.character.ICharacter;
 import game_object.character.IMover;
-import game_object.core.ISprite;
 import game_object.core.Game;
+import game_object.core.ISprite;
 import game_object.level.Level;
 import game_object.weapon.Projectile;
 
@@ -86,11 +86,8 @@ public class InputController implements IInputController {
 
 	private void addProjectile(ICharacter character) {
 		Projectile p = ProjectileManager.addProjectile(character);
-		if (p!=null) {
+		if (p != null) {
 			myCurrentLevel.getProjectiles().add(p);
-			System.out.println(character.getPosition().getX() + " " + character.getXForVisualization());
-			System.out.println(p.getPosition().getX() + " " + p.getXForVisualization());
-			System.out.println();
 		}
 	}
 

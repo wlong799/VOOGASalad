@@ -2,12 +2,12 @@ package authoring.view.menu.menu_element;
 
 import authoring.AuthoringController;
 import authoring.view.menu.AbstractGameMenuElement;
+import game_object.core.Game;
 import javafx.scene.control.Menu;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Switch the currently active editable game.
@@ -15,12 +15,12 @@ import java.util.Map;
  * @author Will Long
  * @version 11/28/16
  */
-public class ChangeGameElement extends AbstractGameMenuElement {
+public class ChangeGameElement extends AbstractGameMenuElement implements Observer {
     private static final String MENU_NAME = "Change Game";
     private static final String GAME_PREFIX = "Game ";
 
     private ToggleGroup myToggleGroup;
-    private Map<Integer, RadioMenuItem> myCurrentItems;
+    private Map<Game, RadioMenuItem> myCurrentItems;
 
     private ChangeGameElement(AuthoringController controller) {
         super(MENU_NAME, controller);
@@ -28,21 +28,12 @@ public class ChangeGameElement extends AbstractGameMenuElement {
 
     @Override
     protected void setFunctionality() {
-        myController.getEnvironment().getNumGames().addListener(observable -> {
-            refreshAvailableGames();
-        });
-        myController.getEnvironment().getCurrentGameIndex().addListener((observable, oldValue, newValue) -> {
-            RadioMenuItem radioMenuItem = myCurrentItems.get(newValue.intValue());
-            if (radioMenuItem != null) {
-                myCurrentItems.get(newValue.intValue()).setSelected(true);
-            }
-        });
+        myController.getEnvironment().addObserver(this);
         myToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (myToggleGroup.getSelectedToggle() != null) {
-                int index = (int) newValue.getUserData();
-                if (index != myController.getEnvironment().getCurrentGameIndex().get()) {
-                    myController.getEnvironment().setCurrentGame(index);
-                    myController.getCanvasViewController().refresh();
+                Game game = (Game) myToggleGroup.getSelectedToggle().getUserData();
+                if (game != myController.getEnvironment().getCurrentGame()) {
+                    myController.getEnvironment().setCurrentGame(game);
                 }
             }
         });
@@ -52,14 +43,14 @@ public class ChangeGameElement extends AbstractGameMenuElement {
         ((Menu) myMenuItem).getItems().clear();
         myToggleGroup.getToggles().removeAll();
         myCurrentItems.clear();
-        for (int i = 0; i < myController.getEnvironment().getNumGames().get(); i++) {
+        List<Game> availableGames = myController.getEnvironment().getAvailableGames();
+        for (int i = 0; i < availableGames.size(); i++) {
+            Game game = availableGames.get(i);
+            // TODO: 12/5/16 Add game metadata and use name of game instead of index
             RadioMenuItem radioMenuItem = new RadioMenuItem(GAME_PREFIX + (i + 1));
-            radioMenuItem.setUserData(i);
-            if (myController.getEnvironment().getCurrentGameIndex().get() == i) {
-                radioMenuItem.setSelected(true);
-            }
+            radioMenuItem.setUserData(game);
             radioMenuItem.setToggleGroup(myToggleGroup);
-            myCurrentItems.put(i, radioMenuItem);
+            myCurrentItems.put(game, radioMenuItem);
             ((Menu) myMenuItem).getItems().add(radioMenuItem);
         }
     }
@@ -69,6 +60,15 @@ public class ChangeGameElement extends AbstractGameMenuElement {
         myMenuItem = new Menu(menuItemName);
         myToggleGroup = new ToggleGroup();
         myCurrentItems = new HashMap<>();
+        update(null, null);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
         refreshAvailableGames();
+        RadioMenuItem radioMenuItem = myCurrentItems.get(myController.getEnvironment().getCurrentGame());
+        if (radioMenuItem != null) {
+            radioMenuItem.setSelected(true);
+        }
     }
 }
