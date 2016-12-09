@@ -2,7 +2,9 @@ package authoring.view.inspector;
 
 import authoring.AuthoringController;
 import authoring.view.canvas.SpriteView;
+import authoring.view.inspector.settings.CheckBoxView;
 import authoring.view.inspector.settings.JumpConfiguringView;
+import authoring.view.inspector.settings.TextInputBoxView;
 import game_object.block.IBlock;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
@@ -17,151 +19,77 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class InspectorSpriteView extends AbstractInspectorTabView {
+    private SpriteView spriteView;
+    private ISprite sprite;
+    private TextInputBoxView xBox, yBox, zBox, widthBox, heightBox;
+    private CheckBoxView herosCollisionCB, enemiesCollisionCB, blockCollisionCB, applyPhysics;
 
-	private ScrollPane scrollPane;
-	private SpriteView inspectedSpriteView;
-	private ISprite sprite;
-	private VBox configs;
-	private VBox xBox;
-	private VBox yBox;
-	private VBox zBox;
-	private VBox widthBox;
-	private VBox heightBox;
-	private CheckBox herosCollisionCB, enemiesCollisionCB, blockCollisionCB, applyPhysics;
-	
-	private ComponentPhysicsSettings componentPhysicsSettings;
-	private ActionConfiguringView myActionView;
-	private JumpConfiguringView myJumpView;
-	private ReachPointGoalConfiguringView reachPointGoal;
+    private ComponentPhysicsSettings componentPhysicsSettings;
+    private ActionConfiguringView myActionView;
+    private JumpConfiguringView myJumpView;
+    private ReachPointGoalConfiguringView reachPointGoal;
 
-	public interface ITextChangeHandler {
-		void handle(String newVal);
-	}
+    public interface ITextChangeHandler {
+        void handle(String newVal);
+    }
 
-	public InspectorSpriteView(AuthoringController controller) {
-		super(controller);
-	}
-	
-	public void setInspectedSpriteView(SpriteView spView) {
-		this.inspectedSpriteView = spView;
-		updateUI();
-	}
+    public InspectorSpriteView(AuthoringController controller) {
+        super(controller);
+    }
 
-	@Override
-	protected void initUI() {
-		configs = new VBox();
-		scrollPane = new ScrollPane();
-		scrollPane.setContent(configs);
-		scrollPane.setFitToWidth(true);
-		
-		this.addUI(scrollPane);
-		updateUI();
-	}
+    private void updateUI() {
+        if (spriteView.getSprite() == null) {
+            return;
+        }
+        clearSettingsView();
 
-	@Override
-	protected void updateLayoutSelf() {
-		scrollPane.setPrefWidth(this.getWidth());
-		scrollPane.setPrefHeight(this.getHeight());
-	}
+        xBox = new TextInputBoxView(getController(), "Position X", "",
+                (newVal) -> spriteView.setAbsolutePositionX(Double.parseDouble(newVal)));
+        yBox = new TextInputBoxView(getController(), "Position Y", "",
+                (newVal) -> spriteView.setAbsolutePositionY(Double.parseDouble(newVal)));
+        zBox = new TextInputBoxView(getController(), "Position Z", "",
+                (newVal) -> spriteView.setAbsolutePositionZ(Double.parseDouble(newVal)));
+        widthBox = new TextInputBoxView(getController(), "Width", "",
+                (newVal) -> spriteView.setDimensionWidth(Double.parseDouble(newVal)));
+        heightBox = new TextInputBoxView(getController(), "Height", "",
+                (newVal) -> spriteView.setDimensionHeight(Double.parseDouble(newVal)));
 
-	private void updateUI() {
-		configs.getChildren().clear();
-		this.getSubViews().clear();
-		if (inspectedSpriteView == null) {
-			Label noInspected = new Label("No Component Selected");
-			configs.getChildren().add(noInspected);
-			return;
-		}
-		sprite = inspectedSpriteView.getSprite();
-		xBox = makeDoubleInputBox("Position X", sprite.getPosition().getX(), 
-				(newVal) -> {
-					inspectedSpriteView.setAbsolutePositionX(Double.parseDouble(newVal));
-				});
-		yBox = makeDoubleInputBox("Position Y", sprite.getPosition().getY(), 
-				(newVal) -> {
-					inspectedSpriteView.setAbsolutePositionY(Double.parseDouble(newVal));
-				});
-		zBox = makeDoubleInputBox("Position Z", sprite.getPosition().getZ(),
-				(newVal) -> {
-					inspectedSpriteView.setAbsolutePositionZ(Double.parseDouble(newVal));
-				});
-		widthBox = makeDoubleInputBox("Width", sprite.getDimension().getWidth(),
-				(newVal) -> {
-					inspectedSpriteView.setDimensionWidth(Double.parseDouble(newVal));
-				});
-		heightBox = makeDoubleInputBox("Height", sprite.getDimension().getHeight(),
-				(newVal) -> {
-					inspectedSpriteView.setDimensionHeight(Double.parseDouble(newVal));
-				});
-		initCheckBoxes();
 
-		configs.getChildren().addAll(xBox, yBox, zBox, widthBox, heightBox, herosCollisionCB,
-				enemiesCollisionCB, blockCollisionCB, applyPhysics);
-		
-		if (sprite instanceof IBlock) {
-			reachPointGoal = new ReachPointGoalConfiguringView(this.getController());
-			reachPointGoal.setUpReachPointGoalCheckBox(sprite);
-			this.addSubView(reachPointGoal);
-			configs.getChildren().add(reachPointGoal.getUI());
-		}
-		if (sprite instanceof Hero) {
-			myActionView = new ActionConfiguringView(this.getController());
-			myActionView.setSprite(sprite);
-			this.addSubView(myActionView);
-			myJumpView = new JumpConfiguringView(this.getController());
-			myJumpView.setSprite(sprite);
-			this.addSubView(myJumpView);
-			configs.getChildren().addAll(myActionView.getUI(), myJumpView.getUI());
-		}		
-	}
+        componentPhysicsSettings = new ComponentPhysicsSettings(sprite);
+        herosCollisionCB = new CheckBoxView(getController(), "Collide with Heros",
+                (sprite.getCollisionBitMask() & DefaultConstants.HERO_CATEGORY_BIT_MASK) != 0,
+                (obv, old_val, new_val) -> componentPhysicsSettings.setCollisionSettingWithHeros(new_val));
+        enemiesCollisionCB = new CheckBoxView(getController(), "Collide with Enemies",
+                (sprite.getCollisionBitMask() & DefaultConstants.ENEMY_CATEGORY_BIT_MASK) != 0,
+                (obv, old_val, new_val) -> componentPhysicsSettings.setCollisionSettingWithEnemies(new_val));
+        blockCollisionCB = new CheckBoxView(getController(), "Collide with Blocks",
+                (sprite.getCollisionBitMask() & DefaultConstants.BLOCK_CATEGORY_BIT_MASK) != 0,
+                (obv, old_val, new_val) -> componentPhysicsSettings.setCollisionSettingWithBlock(new_val));
+        applyPhysics = new CheckBoxView(getController(), "Apply Physics",
+                sprite.getAffectedByPhysics(),
+                (obv, old_val, new_val) -> componentPhysicsSettings.makePhysicsApplicable(new_val));
+        addSettingsViews(xBox, yBox, zBox, widthBox, heightBox, herosCollisionCB, enemiesCollisionCB, blockCollisionCB, applyPhysics);
 
-	private VBox makeDoubleInputBox(String title, double defaultValue, 
-			ITextChangeHandler handler) {
-		VBox box = new VBox();
-		Label label = new Label(title);
-		label.setFont(Font.font("Segoe UI Semibold"));
-		TextField tf = new TextField(defaultValue + "");
-		box.getChildren().addAll(label, tf);
-		box.setPadding(new Insets(5,5,5,5));
-		tf.setOnKeyPressed(event -> {
-			if (event.getCode() == KeyCode.ENTER) {
-				handler.handle(tf.getText());
-			}
-		});
-		tf.focusedProperty().addListener((obs, oldVal, newVal) -> {
-			if (!newVal) {
-				handler.handle(tf.getText());
-			}
-		});
-		return box;
-	}
 
-	private void initCheckBoxes() {
-		componentPhysicsSettings = new ComponentPhysicsSettings(sprite);
+        if (sprite instanceof IBlock) {
+            reachPointGoal = new ReachPointGoalConfiguringView(this.getController());
+            reachPointGoal.setUpReachPointGoalCheckBox(sprite);
+            this.addSubView(reachPointGoal);
+            configs.getChildren().add(reachPointGoal.getUI());
+        }
+        if (sprite instanceof Hero) {
+            myActionView = new ActionConfiguringView(this.getController());
+            myActionView.setSprite(sprite);
+            this.addSubView(myActionView);
+            myJumpView = new JumpConfiguringView(this.getController());
+            myJumpView.setSprite(sprite);
+            this.addSubView(myJumpView);
+            configs.getChildren().addAll(myActionView.getUI(), myJumpView.getUI());
+        }
+    }
 
-		herosCollisionCB = new CheckBox("Collide with Heros");
-		herosCollisionCB.selectedProperty().addListener((obv, old_val, new_val) -> {
-			componentPhysicsSettings.setCollisionSettingWithHeros(new_val);
-		});
-		herosCollisionCB.setSelected((sprite.getCollisionBitMask() & DefaultConstants.HERO_CATEGORY_BIT_MASK)!=0);
-
-		enemiesCollisionCB = new CheckBox("Collide with Enemies");
-		enemiesCollisionCB.selectedProperty().addListener((obv, old_val, new_val) -> {
-			componentPhysicsSettings.setCollisionSettingWithEnemies(new_val);
-		});	
-		enemiesCollisionCB.setSelected((sprite.getCollisionBitMask() & DefaultConstants.ENEMY_CATEGORY_BIT_MASK)!=0);
-
-		blockCollisionCB = new CheckBox("Collide with Blocks");
-		blockCollisionCB.selectedProperty().addListener((obv, old_val, new_val) -> {
-			componentPhysicsSettings.setCollisionSettingWithBlock(new_val);
-		});
-		blockCollisionCB.setSelected((sprite.getCollisionBitMask() & DefaultConstants.BLOCK_CATEGORY_BIT_MASK)!=0);
-
-		applyPhysics = new CheckBox("Apply Physics");
-		applyPhysics.selectedProperty().addListener((obv, old_val, new_val) -> {
-			componentPhysicsSettings.makePhysicsApplicable(new_val);
-		});
-		applyPhysics.setSelected(sprite.getAffectedByPhysics());
-	}
-
+    public void setSpriteView(SpriteView spView) {
+        spriteView = spView;
+        updateUI();
+    }
 }

@@ -1,7 +1,7 @@
 package authoring.view.inspector;
 
 import authoring.AuthoringController;
-import authoring.view.inspector.settings.EditSettingsView;
+import authoring.view.inspector.settings.CheckBoxView;
 import authoring.view.inspector.settings.SliderBoxView;
 import authoring.view.run.TestGameView;
 import game_engine.physics.PhysicsParameterSetOptions;
@@ -9,17 +9,12 @@ import game_engine.physics.PhysicsParameters;
 import game_object.level.Level;
 import resources.ResourceBundles;
 
-import java.util.Observable;
 import java.util.ResourceBundle;
 
 public class InspectorLevelView extends AbstractInspectorTabView {
     private Level myLevel;
-    private SliderBoxView gravityBox;
-    private SliderBoxView afBox;
-    private SliderBoxView gfBox;
-    private SliderBoxView tmaxBox;
-    private SliderBoxView tminBox;
-    private EditSettingsView editSettings;
+    private SliderBoxView gravityBox, afBox, gfBox, tmaxBox, tminBox;
+    private CheckBoxView editSettings;
     private ResourceBundle levelProperties;
 
     public InspectorLevelView(AuthoringController controller) {
@@ -75,7 +70,8 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 Double.parseDouble(levelProperties.getString("MIN_THRESHOLD_DEFAULT_VALUE")),
                 Double.parseDouble(levelProperties.getString("MIN_THRESHOLD_INTERVALS")),
                 (obv, oldVal, newVal) -> this.setParameter(PhysicsParameterSetOptions.MINTHRESHOLD, newVal.doubleValue()));
-        editSettings = new EditSettingsView(getController());
+        editSettings = new CheckBoxView(getController(), "Snap to Grid", getController().getCanvasController().getSnapToGrid(),
+                ((observable, oldValue, newValue) -> getController().getCanvasController().setSnapToGrid(newValue)));
         addSettingsViews(gravityBox, afBox, gfBox, tmaxBox, tminBox, editSettings);
     }
 

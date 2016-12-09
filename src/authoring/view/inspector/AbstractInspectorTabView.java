@@ -55,4 +55,10 @@ public abstract class AbstractInspectorTabView extends AbstractView {
     protected void addSettingsViews(AbstractSettingsView... settingsViews) {
         Arrays.stream(settingsViews).forEach(this::addSettingsView);
     }
+
+    protected void clearSettingsView() {
+        myContent.getChildren().clear();
+        getSubViews().forEach(subView -> subView.setParentView(null));
+        getSubViews().clear();
+    }
 }

@@ -2,7 +2,6 @@ package authoring.view.inspector;
 
 import java.util.ResourceBundle;
 
-import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
@@ -88,7 +87,7 @@ public class InspectorView extends AbstractView implements Observer {
         }
         if (selectedSpriteView != null) {
             addViewsAsTab("Sprite", spriteInspector);
-            spriteInspector.setInspectedSpriteView(selectedSpriteView);
+            spriteInspector.setSpriteView(selectedSpriteView);
         }
         tabPane.getSelectionModel().select(tabPane.getTabs().size()-1);
     }
