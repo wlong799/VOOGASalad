@@ -8,6 +8,7 @@ import authoring.controller.ComponentController;
 import authoring.controller.chat.ChatController;
 import authoring.controller.run.TestGameController;
 import authoring.view.canvas.SpriteView;
+import authoring.view.components.Component;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_object.level.Level;
 import game_player.image.ImageRenderer;
@@ -19,6 +20,7 @@ import serializing.Marshaller;
 public class AuthoringController extends Observable {
 
     private AuthorEnvironment myEnvironment;
+    private Component selectedComponent;
     private SpriteView selectedSpriteView;
     private Scene myScene;
 
@@ -67,26 +69,40 @@ public class AuthoringController extends Observable {
         return myEnvironment;
     }
 
-    public void selectSpriteView(SpriteView spriteView) {
-        if (spriteView == null) return;
-        if (selectedSpriteView != null) {
-            selectedSpriteView.indicateDeselection();
+    public void selectComponent(Component component) {
+        if (component == null) {
+            return;
         }
+        deselect();
+        selectedComponent = component;
+        updateObservers();
+    }
+
+    public Component getSelectedComponent() {
+        return selectedComponent;
+    }
+
+    public void selectSpriteView(SpriteView spriteView) {
+        if (spriteView == null) {
+            return;
+        }
+        deselect();
         spriteView.indicateSelection();
         selectedSpriteView = spriteView;
         updateObservers();
     }
 
-    public void deselectSpriteViews() {
+    public SpriteView getSelectedSpriteView() {
+        return selectedSpriteView;
+    }
+
+    private void deselect() {
         if (selectedSpriteView != null) {
             selectedSpriteView.indicateDeselection();
             selectedSpriteView = null;
-            updateObservers();
         }
-    }
-
-    public SpriteView getSelectedSpriteView() {
-        return selectedSpriteView;
+        selectedComponent = null;
+        updateObservers();
     }
 
     public void setScene(Scene scene) {
@@ -95,7 +111,7 @@ public class AuthoringController extends Observable {
             if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
                 canvasController.delete(selectedSpriteView);
             } else if (event.getCode() == KeyCode.ESCAPE) {
-                deselectSpriteViews();
+                deselect();
             }
         });
         File f = new File("css/style.css");

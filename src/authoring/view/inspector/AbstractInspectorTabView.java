@@ -10,7 +10,6 @@ import javafx.scene.layout.VBox;
 import resources.ResourceBundles;
 
 import java.util.Arrays;
-import java.util.Observer;
 import java.util.ResourceBundle;
 
 /**
@@ -18,7 +17,7 @@ import java.util.ResourceBundle;
  *
  * @author Will Long
  */
-public abstract class AbstractInspectorTabView extends AbstractView implements Observer {
+public abstract class AbstractInspectorTabView extends AbstractView {
     private ScrollPane myScrollPane;
     private VBox myContent;
     private ResourceBundle testGameProperties;
@@ -30,8 +29,6 @@ public abstract class AbstractInspectorTabView extends AbstractView implements O
     @Override
     protected void initUI() {
         testGameProperties = ResourceBundles.testGameProperties;
-        getController().addObserver(this);
-        getController().getEnvironment().addObserver(this);
         myContent = new VBox();
         myContent.setPadding(new Insets(Double.parseDouble(testGameProperties.getString("TEST_GAME_PADDING"))));
         myContent.setAlignment(Pos.CENTER);

@@ -16,7 +16,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class InspectorSpriteView extends AbstractView {
+import java.util.Observable;
+
+public class InspectorSpriteView extends AbstractInspectorTabView {
 
 	private ScrollPane scrollPane;
 	private SpriteView inspectedSpriteView;

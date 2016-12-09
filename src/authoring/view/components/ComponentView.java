@@ -1,11 +1,11 @@
 package authoring.view.components;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
-import authoring.view.canvas.SpriteView;
-import game_object.core.ISprite;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -22,7 +22,7 @@ import resources.ResourceBundles;
  * ComponentView displays the important information from Component, including the template sprite's image, the title of
  * the component, and its description.
  */
-public class ComponentView extends AbstractView {
+public class ComponentView extends AbstractView implements Observer {
 
     private VBox myContentBox;
     private ImageView myTemplateSpriteImageView;
@@ -35,10 +35,13 @@ public class ComponentView extends AbstractView {
     }
 
     public void setComponent(Component component) {
+        if (myComponent != null) {
+            myComponent.deleteObserver(this);
+        }
         myComponent = component;
-        myTemplateSpriteImageView.setImage(new Image(myComponent.getImagePath()));
-        myTitleText.setText(myComponent.getTitle());
-        myDescriptionText.setText(myComponent.getDescription());
+        myComponent.addObserver(this);
+        updateUI();
+
     }
 
     @Override
@@ -61,9 +64,9 @@ public class ComponentView extends AbstractView {
 
     @Override
     protected void initUI() {
-    	componentProperties = ResourceBundles.componentProperties;
-    	myTitleText = createText(Double.parseDouble(componentProperties.getString("TITLE_FONT_SIZE")));
-        myDescriptionText = createText(Double.parseDouble(componentProperties.getString("DESCRIPTION_FONT_SIZE")));
+        componentProperties = ResourceBundles.componentProperties;
+        myTitleText = createComponentText(Double.parseDouble(componentProperties.getString("TITLE_FONT_SIZE")));
+        myDescriptionText = createComponentText(Double.parseDouble(componentProperties.getString("DESCRIPTION_FONT_SIZE")));
         myTemplateSpriteImageView = new ImageView();
         myTemplateSpriteImageView.setPreserveRatio(true);
 
@@ -75,7 +78,13 @@ public class ComponentView extends AbstractView {
         setOnDrag();
     }
 
-    private Text createText(double fontSize) {
+    private void updateUI() {
+        myTemplateSpriteImageView.setImage(new Image(myComponent.getImagePath()));
+        myTitleText.setText(myComponent.getTitle());
+        myDescriptionText.setText(myComponent.getDescription());
+    }
+
+    private Text createComponentText(double fontSize) {
         Text text = new Text();
         text.setFont(new Font(fontSize));
         text.setTextAlignment(TextAlignment.CENTER);
@@ -83,18 +92,13 @@ public class ComponentView extends AbstractView {
     }
 
     private void setOnClick() {
-        getUI().setOnMouseClicked(event -> {
-            SpriteView spriteView = new SpriteView(getController());
-            spriteView.setSprite(myComponent.getTemplateSprite());
-            getController().selectSpriteView(spriteView);
-        });
+        getUI().setOnMouseClicked(event -> getController().selectComponent(myComponent));
     }
 
     private void setOnDrag() {
         AuthoringController controller = getController();
         getUI().setOnDragDetected(event -> {
             controller.getComponentController().setCurrentlyCopiedSprite(myComponent.copySpriteFromTemplate());
-
             Dragboard db = myTemplateSpriteImageView.startDragAndDrop(TransferMode.COPY);
             ClipboardContent content = new ClipboardContent();
             content.putImage(myTemplateSpriteImageView.getImage());
@@ -103,4 +107,10 @@ public class ComponentView extends AbstractView {
         });
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Component) {
+            updateUI();
+        }
+    }
 }

@@ -12,37 +12,18 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 
 public class InspectorLevelView extends AbstractInspectorTabView {
+    private Level myLevel;
     private SliderBoxView gravityBox;
     private SliderBoxView afBox;
     private SliderBoxView gfBox;
     private SliderBoxView tmaxBox;
     private SliderBoxView tminBox;
-    private Level myLevel;
     private ResourceBundle levelProperties;
 
     public InspectorLevelView(AuthoringController controller) {
         super(controller);
     }
 
-    public void setLevel(Level level) {
-        myLevel = level;
-        updateUI();
-    }
-
-    /**
-     * Updates physics value when there is a current level.
-     */
-    private void updateUI() {
-        if (myLevel == null) {
-            return;
-        }
-        PhysicsParameters param = myLevel.getPhysicsParameters();
-        gravityBox.setValue(param.getGravity());
-        afBox.setValue(param.getAirFriction());
-        gfBox.setValue(param.getGroundFriction());
-        tminBox.setValue(param.getMinThreshold());
-        tmaxBox.setValue(param.getMaxThreshold());
-    }
 
     @Override
     protected void initUI() {
@@ -103,10 +84,23 @@ public class InspectorLevelView extends AbstractInspectorTabView {
         }
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof AuthoringController) {
-            updateUI();
+    public void setLevel(Level level) {
+        myLevel = level;
+        updateUI();
+    }
+
+    /**
+     * Updates physics value when there is a current level.
+     */
+    private void updateUI() {
+        if (myLevel == null) {
+            return;
         }
+        PhysicsParameters param = myLevel.getPhysicsParameters();
+        gravityBox.setValue(param.getGravity());
+        afBox.setValue(param.getAirFriction());
+        gfBox.setValue(param.getGroundFriction());
+        tminBox.setValue(param.getMinThreshold());
+        tmaxBox.setValue(param.getMaxThreshold());
     }
 }
