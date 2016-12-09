@@ -200,11 +200,14 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public double getWeaponX() {
+		if(myCurrentWeapon==null) // no weapon
+			return myPosition.getX();
 		if(!myFacingLeft) {
-			return myWeaponDisplacementX;
+			return myPosition.getX()+myWeaponDisplacementX;
 		}
 		else {
-			return myWeaponDisplacementY;
+			double diffX = myCurrentWeapon.getDimension().getHeight()-(myDimension.getWidth()-myWeaponDisplacementX);
+			return myPosition.getX()-diffX;
 		}
 	}
 
@@ -214,7 +217,9 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public double getWeaponY() {
-		return myWeaponDisplacementX + myPosition.getY();
+		if(myCurrentWeapon==null) // no weapon
+			return myPosition.getY();
+		return myWeaponDisplacementY + myPosition.getY();
 	}
 
 	public void setWeaponDisplacementY(double weaponDisplacementY) {
