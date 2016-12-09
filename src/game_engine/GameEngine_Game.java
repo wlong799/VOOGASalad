@@ -6,6 +6,7 @@ import java.util.Set;
 
 import game_engine.collision.CollisionEngine;
 import game_engine.collision.ICollisionEngine;
+import game_engine.enemyai.EnemyController;
 import game_engine.inputcontroller.InputController;
 import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
@@ -13,11 +14,13 @@ import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
+import game_object.acting.ActionName;
 import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 import game_object.background.Background;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.character.IMover;
 import game_object.core.AbstractSprite;
 import game_object.core.Game;
 import game_object.core.ISprite;
@@ -37,6 +40,7 @@ public class GameEngine_Game implements IGameEngine {
 	private ICollisionEngine myCollisionEngine;
 	private ITransitionManager myTransitionManager;
 	private InputController myInputController;
+	private EnemyController myEnemyController;
 	private double myElapsedTime;
 	private double myTotalTime;
 	private int myFPS;
@@ -52,6 +56,7 @@ public class GameEngine_Game implements IGameEngine {
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(game);
+		myEnemyController = new EnemyController();
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		myFPS = game.getFPS();
 		myTotalTime = 0;
@@ -79,6 +84,11 @@ public class GameEngine_Game implements IGameEngine {
 		setElapsedTime(elapsedTime);
 		executeInput();
 		for (ISprite s : myCurrentLevel.getAllSprites()) {
+			if (s instanceof Enemy) {
+				IMover enemy = (IMover) s; 
+				Set<ActionName> list = myEnemyController.getActions(enemy);
+				myEnemyController.executeInput(enemy, list);
+			}
 			updateNewParameters(s);
 		}
 		// System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());

@@ -15,4 +15,12 @@ public interface IMover {
 	int getMaxNumberOfJumps();
 	void resetCurrentJumps();
 	boolean isFacingLeft();
+	boolean isJumping();
+	void setJumping(boolean jumping);
+	boolean isTempJumping();
+	void setTempJumping(boolean shooting);
+	boolean isShooting();
+	void setShooting(boolean jumping);
+	boolean isTempShooting();
+	void setTempShooting(boolean shooting);
 }

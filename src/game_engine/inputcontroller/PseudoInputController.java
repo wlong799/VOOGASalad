@@ -2,31 +2,30 @@ package game_engine.inputcontroller;
 
 import java.util.Set;
 
+import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 
 public class PseudoInputController implements IInputController{
 
+	private Set<Event> myList;
+	
 	@Override
-	public void setInputList(Set<Object> list) {
-		// TODO Auto-generated method stub
-		
+	public void setInputList(Set<Event> list) {
+		myList = list;
 	}
-
+	
 	@Override
 	public void executeInput() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public boolean getInputExist() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void setCurrentTime(double time) {
-		// TODO Auto-generated method stub
 		
 	}
 
