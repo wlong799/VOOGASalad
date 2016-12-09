@@ -24,19 +24,17 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	private int myMaxNumberOfJumps = DefaultConstants.MAX_JUMP;
 	private Velocity myVelocity = new Velocity(0, 0);
 	protected boolean myDead = false;
-        protected int myCurrentJumps;
+	protected int myCurrentJumps;
 	protected Weapon myCurrentWeapon;
-	
 	protected boolean myJumping = false;
 	protected boolean myTempJumping;
 	protected boolean myShooting = false;
 	protected boolean myTempShooting;
-	
 	// the following two fields define the weapon-holding position
 	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
 	private double myWeaponDisplacementX;
 	private double myWeaponDisplacementY;
-	
+
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 		myAffectedByPhysics = true;
@@ -46,7 +44,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		myWeaponDisplacementY = 0;
 	}
 	/*ICollisionBody Implementation*/
-	
+
 	@Override
 	public void onCollideWith(Block b, CollisionDirection collisionDirection){
 	    if (collisionDirection != CollisionDirection.NONE) {
@@ -78,9 +76,8 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	        }
 	}
-	
-	
-	
+
+
 	/* IMortal Implementations */
 	@Override
 	public void setMaxHP(int maxHP, boolean setCurrentHPtoMax) {
@@ -89,22 +86,22 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 			myCurrentHP = maxHP;
 		}
 	}
-	
+
 	@Override
 	public double getMaxHP() {
 		return myMaxHP;
 	}
-	
+
 	@Override
 	public void setCurrentHP(double currentHP) {
 		myCurrentHP = currentHP;
 	}
-	
+
 	@Override
 	public double getCurrentHP() {
 		return myCurrentHP;
 	}
-	
+
 	@Override
 	public void setDead(boolean dead) {
 		myDead = dead;
@@ -115,41 +112,33 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		return myDead || myCurrentHP <= 0;
 	}
 	/* ---IMortal Implementations End--- */
-	
-	@Override
-	public Weapon getCurrentWeapon() {
-		return myCurrentWeapon;
-	}
 
+	/* IMover Implementations */
 	@Override
-	public void setCurrentWeapon(Weapon currentWeapon) {
-		myChildSprites.remove(myCurrentWeapon);
-		myCurrentWeapon = currentWeapon;
-		myChildSprites.add(myCurrentWeapon);
-	}
-	
 	public double getMovingUnit() {
 		return myMovingUnit;
 	}
 
+	@Override
 	public void setMovingUnit(double movingUnit) {
 		myMovingUnit = movingUnit;
 	}
 
+	@Override
 	public double getJumpingUnit() {
 		return myJumpingUnit;
 	}
 
+	@Override
 	public void setJumpingUnit(double jumpingUnit) {
 		myJumpingUnit = jumpingUnit;
 	}
-
-	/* IMover Implementations */
+	
 	@Override
 	public void moveRight() {
 		myVelocity.setXVelocity(myMovingUnit);
 	}
-	
+
 	@Override
 	public void moveLeft() {
 		myVelocity.setXVelocity(-myMovingUnit);
@@ -166,7 +155,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	@Override
 	public void shoot() {
 	}
-	
+
 	@Override
 	public void jumpUp() { // jumping is simulated by given the sprite a upward (negative) velocity.
 		if (myCurrentJumps < getMaxNumberOfJumps()) {
@@ -174,53 +163,82 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 			myVelocity.setYVelocity(-myJumpingUnit);
 		}
 	}
-	
+
 	@Override
 	public void resetCurrentJumps(){
-	    myCurrentJumps = 0;
+		myCurrentJumps = 0;
 	}
-	
+
+	@Override
 	public void setMaxNumberOfJumps(int maxNumberOfJumps) {
 		myMaxNumberOfJumps = maxNumberOfJumps;
 	}
-	
+
 	@Override
 	public int getMaxNumberOfJumps() {
 		return myMaxNumberOfJumps;
 	}
 	/* ---IMover Implementations END---*/
-	
-	
+
+
 	/* IPhysicsBody Implementations */		
 	@Override
 	public void setVelocity(Velocity velocity) {
 		myVelocity = velocity;
 	}
-	
+
 	@Override
 	public Velocity getVelocity() {
 		return myVelocity;
 	}
-	
-	/* ---IPhysicsBody Implementations END--- */	
 
-	public double getWeaponDisplacementX() {
-		return myWeaponDisplacementX;
+	/* ---IPhysicsBody Implementations END--- */	
+	@Override
+	public Weapon getCurrentWeapon() {
+		return myCurrentWeapon;
 	}
 
+	@Override
+	public void setCurrentWeapon(Weapon currentWeapon) {
+		if (myCurrentWeapon != null) {
+			myCurrentWeapon.setOwner(null);
+			myChildSprites.removeSprite(myCurrentWeapon);
+		}
+		myCurrentWeapon = currentWeapon;
+		myCurrentWeapon.setOwner(this);
+		myChildSprites.addSprite(myCurrentWeapon);
+	}
+	
+	@Override
+	public double getWeaponX() {
+		if(myCurrentWeapon==null) // no weapon
+			return myPosition.getX();
+		if(!myFacingLeft) {
+			return myPosition.getX()+myWeaponDisplacementX;
+		} else {
+			double diffX = myCurrentWeapon.getDimension().getHeight()-(myDimension.getWidth()-myWeaponDisplacementX);
+			return myPosition.getX()-diffX;
+		}
+	}
+
+	@Override
 	public void setWeaponDisplacementX(double weaponDisplacementX) {
 		myWeaponDisplacementX = weaponDisplacementX;
 	}
 
-	public double getWeaponDisplacementY() {
-		return myWeaponDisplacementY;
+	@Override
+	public double getWeaponY() {
+		if(myCurrentWeapon==null) // no weapon
+			return myPosition.getY();
+		return myWeaponDisplacementY + myPosition.getY();
 	}
 
+	@Override
 	public void setWeaponDisplacementY(double weaponDisplacementY) {
 		myWeaponDisplacementY = weaponDisplacementY;
 	}
 	
-	/* InputController Implementations */	
+	/* IMover's InputController part Implementations */	
 	public boolean isJumping() {
 		return myJumping;
 	}
