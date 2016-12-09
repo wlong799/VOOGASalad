@@ -8,11 +8,8 @@ import game_object.acting.ActionTrigger;
 import game_object.acting.KeyEvent;
 import game_object.character.ICharacter;
 import game_object.character.IMover;
-import game_object.core.ISprite;
-import game_object.core.Position;
-import game_object.core.AbstractSprite;
-import game_object.core.Dimension;
 import game_object.core.Game;
+import game_object.core.ISprite;
 import game_object.level.Level;
 import game_object.weapon.Projectile;
 import game_object.weapon.ProjectileModel;
@@ -87,24 +84,12 @@ public class InputController implements IInputController {
 	}
 
 	private void addProjectile(ICharacter character) {
-
 		Weapon weapon = character.getCurrentWeapon();
-		if (weapon == null || weapon.getModel() == null)
+		if (weapon == null || weapon.getModel() == null) {
 			return; // currently no weapon
-		ProjectileModel pm = weapon.getModel().getProjectileModel();
-
-		Projectile p = pm.newProjectileInstance(
-				new Position(character.getPosition().getX(),
-						character.getPosition().getY() + character.getDimension().getHeight() / 3.0),
-				new Dimension(10, 10));
-		if (character.isFacingLeft()) {
-			p.getVelocity().setXVelocity(-Math.abs(p.getVelocity().getXVelocity()));
-		} else {
-			p.getVelocity().setXVelocity(Math.abs(p.getVelocity().getXVelocity()));
 		}
-		System.out.println(character.getPosition().getX()+" "+character.getXForVisualization());
-		System.out.println(p.getPosition().getX()+" "+p.getXForVisualization());
-		System.out.println();
+		ProjectileModel pm = weapon.getModel().getProjectileModel();
+		Projectile p = pm.newProjectileInstance(character);
 		myCurrentLevel.getProjectiles().add(p);
 	}
 

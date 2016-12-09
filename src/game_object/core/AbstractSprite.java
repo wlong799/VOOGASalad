@@ -277,6 +277,16 @@ public abstract class AbstractSprite implements ISprite {
 	public double getHeightForVisualization() {
 		return myDimension.getHeight();
 	}
+	
+	@Override
+	public double getScrollOffset() {
+		return myScrollOffset;
+	}
+	
+	protected void setScrollOffset(double offset) {
+		myScrollOffset = offset;
+	}
+	
 	/* ---ISpriteVisualization Implementations END--- */
 }
 

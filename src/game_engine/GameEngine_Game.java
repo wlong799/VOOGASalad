@@ -23,7 +23,6 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
-import game_object.weapon.Projectile;
 import goal.IGoal;
 import goal.time.TimeGoal;
 
@@ -76,7 +75,6 @@ public class GameEngine_Game implements IGameEngine {
 		for (ISprite s : myCurrentLevel.getAllSprites()) {
 			updateNewParameters(s);
 		}
-		// System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
 		if (!logSuppressed) {
 			System.out.println(myCurrentLevel.getHeros().get(0));
 		}
