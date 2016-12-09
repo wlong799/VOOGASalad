@@ -33,7 +33,7 @@ public class Coordinator {
 	private Vector<ConnectionToClient> connectionPool;
 	private BlockingQueue<Message> messageQueue;
 	private boolean hasStopped;
-	private Map<String, String> lockHolders;
+	private Map<Long, String> lockHolders;
 	
 	//TODO cx15 release lock if session expired
 	
@@ -60,7 +60,7 @@ public class Coordinator {
 	 * @param userName the request issuer
 	 * @return the userName of the client that currently holding the lock
 	 */
-	public String trylock(String id, String userName) {
+	public String trylock(Long id, String userName) {
 		if (!lockHolders.containsKey(id)) {
 			lockHolders.put(id, userName);
 		}
@@ -74,7 +74,7 @@ public class Coordinator {
 	 * @param id identifies the server object to be locked
 	 * @param userName the request issuer
 	 */
-	public void unlock(String id, String userName) {
+	public void unlock(Long id, String userName) {
 		if (!lockHolders.containsKey(id)) {
 			return;
 		}

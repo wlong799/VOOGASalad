@@ -53,15 +53,15 @@ public class ConnectionToClient extends Connection {
 	 * Refers to {@link Connection#trylock(String)}
 	 */
 	@Override
-	public String trylock(String id) {
-		return coordinator.trylock(id, this.getUserName());
+	public String trylock(Long id, String userName) {
+		return coordinator.trylock(id, userName);
 	}
 	
 	/**
 	 * Refers to {@link Connection#unlock(String)}
 	 */
 	@Override
-	public void unlock(String id) {
-		coordinator.unlock(id, this.getUserName());
+	public void unlock(Long id, String userName) {
+		coordinator.unlock(id, userName);
 	}
 }

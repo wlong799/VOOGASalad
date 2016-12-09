@@ -145,9 +145,10 @@ public abstract class Connection {
 	 * already held by other client, return the holder's userName.
 	 * 
 	 * @param id identifies the server object to be locked
+	 * @param userName the request issuer
 	 * @return the userName of the client that currently holding the lock
 	 */
-	public String trylock(String id) {
+	public String trylock(Long id, String userName) {
 		return null;
 	}
 	
@@ -156,8 +157,9 @@ public abstract class Connection {
 	 * If the lock is held by client different from the request issuer
 	 * or if the lock is free, this call is a no-op.
 	 * @param id identifies the server object to be locked
+	 * @param userName the request issuer
 	 */
-	public void unlock(String id) {
+	public void unlock(Long id, String userName) {
 		return;
 	}
 }
