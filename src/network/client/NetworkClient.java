@@ -14,6 +14,7 @@ import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;
 import network.messages.MessageType;
+import network.messages.application.LockResponseMessage;
 
 /** 
  * An implementation of of the {@link INetworkClient} interface.
@@ -28,6 +29,8 @@ import network.messages.MessageType;
  * @author CharlesXu
  */
 public class NetworkClient implements INetworkClient {
+	
+	private static final long DELAY = 100;
 	
 	private Socket socket;
 	private Connection connectionToServer;
@@ -169,18 +172,34 @@ public class NetworkClient implements INetworkClient {
 
 	@Override
 	public long getStartingSequenceNumber() throws SessionExpiredException {
-		// TODO cx15
+		// TODO cx15 and jdoc
 		return 0;
 	}
 
 	@Override
 	public String tryLock(long id) throws SessionExpiredException {
-		// TODO cx15
-		return null;
+		signAndsend(MessageType.TRYLOCK, id);
+		while (!connectionToServer.isClosed()) {
+			Queue<Message> q = read(MessageType.LOCK_RESPONSE);
+			if (q.isEmpty()){
+				try {
+					Thread.sleep(DELAY);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				}
+			} else {
+				LockResponseMessage reponse = (LockResponseMessage) q.poll();
+				return reponse.getPayload();
+			}
+		}
+		throw new SessionExpiredException();
 	}
 
 	@Override
 	public void unlock(long id) throws SessionExpiredException {
-		// TODO cx15
+		if (connectionToServer.isClosed()) {
+			throw new SessionExpiredException();
+		}
+		signAndsend(MessageType.UNLOCK, id);
 	}
 }

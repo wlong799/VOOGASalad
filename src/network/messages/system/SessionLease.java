@@ -1,9 +1,10 @@
-package network.messages;
+package network.messages.system;
 
 import java.util.logging.Logger;
 
 import network.core.Connection;
 import network.exceptions.MessageCreationFailureException;
+import network.messages.MessageType;
 
 /**
  * A renewal request for session lease. 

@@ -2,6 +2,8 @@ package network.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -15,6 +17,11 @@ import network.messages.Message;
  * and define a global total order of messages and broadcast them 
  * to all participants/subscribers. 
  * 
+ * <p> It also provides lock service, which is used to implement distributed
+ * pessimistic concurrency control especially for the shared editing feature
+ * to ensure single-copy semantics. Each lock could be held by at most one
+ * client and the current holder is recorded in <tt>lockHolders</tt>
+ * 
  * @author CharlesXu
  */
 public class Coordinator {
@@ -26,6 +33,9 @@ public class Coordinator {
 	private Vector<ConnectionToClient> connectionPool;
 	private BlockingQueue<Message> messageQueue;
 	private boolean hasStopped;
+	private Map<String, String> lockHolders;
+	
+	//TODO cx15 release lock if session expired
 	
 	/**
 	 * Create a coordinator by starting a daemon thread listening on
@@ -39,8 +49,38 @@ public class Coordinator {
 		connectionPool = new Vector<>();
 		messageQueue = new LinkedBlockingQueue<>();
 		hasStopped = false;
+		lockHolders = new HashMap<>();
         new Daemon(this).start();
         new Postman(this).start();
+	}
+	
+	/**
+	 * Acquire a lock on the object identified using <tt>id</tt>
+	 * @param id identifies the server object to be locked
+	 * @param userName the request issuer
+	 * @return the userName of the client that currently holding the lock
+	 */
+	public String trylock(String id, String userName) {
+		if (!lockHolders.containsKey(id)) {
+			lockHolders.put(id, userName);
+		}
+		return lockHolders.get(id);
+	}
+	
+	/**
+	 * Release the lock on the object identified using <tt>id</tt>.
+	 * If the lock is held by client different from the request issuer
+	 * or if the lock is free, this call is a no-op.
+	 * @param id identifies the server object to be locked
+	 * @param userName the request issuer
+	 */
+	public void unlock(String id, String userName) {
+		if (!lockHolders.containsKey(id)) {
+			return;
+		}
+		if (lockHolders.get(id).equals(userName)) {
+			lockHolders.remove(id);
+		}
 	}
 	
 	/**

@@ -65,7 +65,6 @@ public interface INetworkClient {
 	 * 
 	 * @param id identifies the sprite to be locked
 	 * @return the userName of the client that currently holding the lock
-	 * 			or <tt>null</tt> if the lock is free
 	 * @throws SessionExpiredException if lost connection to server
 	 */
 	String tryLock(long id) throws SessionExpiredException;

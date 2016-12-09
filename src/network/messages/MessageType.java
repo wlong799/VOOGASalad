@@ -14,18 +14,17 @@ import network.utils.ReflectionException;
  */
 public enum MessageType {
 	
-	// TODO cx15 organzie the message package
+	CHAT ("network.messages.application.ChatMessage"),
+	USER_GONE_OFFLINE ("network.messages.application.UserGoneOfflineMessage"),
+	ACTION ("TODO"), // TODO cx15
+	LOCK_RESPONSE ("TODO"), // TODO cx15
 	
-	CHAT ("network.messages.ChatMessage"),
-	USER_GONE_OFFLINE ("network.messages.UserGoneOfflineMessage"),
-	EDIT_ACTION ("TODO"), // TODO cx15
-	
-	TRYLOCK ("TODO"), // TODO cx15
+	TRYLOCK ("network.messages.system.Trylock"),
 	UNLOCK ("TODO"), // TODO cx15 
-	HANDSHAKE ("network.messages.HandShake"),
-	DISCONNECT ("network.messages.Disconnect"),
-	SESSION_LEASE ("network.messages.SessionLease"),
-	SESSION_LEASE_GRANTED ("network.messages.SessionLeaseGranted");
+	HANDSHAKE ("network.messages.system.HandShake"),
+	DISCONNECT ("network.messages.system.Disconnect"),
+	SESSION_LEASE ("network.messages.system.SessionLease"),
+	SESSION_LEASE_GRANTED ("network.messages.system.SessionLeaseGranted");
 	
 	private static final String MORE_THAN_ONE_PAYLOAD =
 			"Each Message can only carry zero or one payload";

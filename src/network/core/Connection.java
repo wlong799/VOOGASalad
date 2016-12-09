@@ -139,4 +139,25 @@ public abstract class Connection {
 	public String getUserName() {
 		return userName;
 	}
+	
+	/**
+	 * Acquire a lock on the object identified using <tt>id</tt>. If lock
+	 * already held by other client, return the holder's userName.
+	 * 
+	 * @param id identifies the server object to be locked
+	 * @return the userName of the client that currently holding the lock
+	 */
+	public String trylock(String id) {
+		return null;
+	}
+	
+	/**
+	 * Release the lock on the object identified using <tt>id</tt>.
+	 * If the lock is held by client different from the request issuer
+	 * or if the lock is free, this call is a no-op.
+	 * @param id identifies the server object to be locked
+	 */
+	public void unlock(String id) {
+		return;
+	}
 }

@@ -6,7 +6,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.logging.Logger;
 
 import network.messages.Message;
-import network.messages.SystemOperation;
+import network.messages.system.SystemOperation;
 
 /**
  * The worker thread that reads from a connection and 

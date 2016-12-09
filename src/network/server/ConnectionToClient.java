@@ -48,4 +48,20 @@ public class ConnectionToClient extends Connection {
 					"failed to broadcast its departure");
 		}
 	}
+	
+	/**
+	 * Refers to {@link Connection#trylock(String)}
+	 */
+	@Override
+	public String trylock(String id) {
+		return coordinator.trylock(id, this.getUserName());
+	}
+	
+	/**
+	 * Refers to {@link Connection#unlock(String)}
+	 */
+	@Override
+	public void unlock(String id) {
+		coordinator.unlock(id, this.getUserName());
+	}
 }
