@@ -5,6 +5,7 @@ import java.util.Set;
 
 import game_engine.collision.CollisionEngine;
 import game_engine.collision.ICollisionEngine;
+import game_engine.enemyai.EnemyController;
 import game_engine.inputcontroller.InputController;
 import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
@@ -12,9 +13,12 @@ import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
-import game_object.acting.KeyEvent;
+import game_object.acting.ActionName;
+import game_object.acting.Event;
 import game_object.background.Background;
+import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.character.IMover;
 import game_object.core.AbstractSprite;
 import game_object.core.Game;
 import game_object.core.ISprite;
@@ -23,7 +27,6 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
-import game_object.weapon.Projectile;
 import goal.IGoal;
 import goal.time.TimeGoal;
 
@@ -34,6 +37,7 @@ public class GameEngine_Game implements IGameEngine {
 	private ICollisionEngine myCollisionEngine;
 	private ITransitionManager myTransitionManager;
 	private InputController myInputController;
+	private EnemyController myEnemyController;
 	private double myElapsedTime;
 	private double myTotalTime;
 	private int myFPS;
@@ -47,6 +51,7 @@ public class GameEngine_Game implements IGameEngine {
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(game);
+		myEnemyController = new EnemyController(game);
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		myFPS = game.getFPS();
 		myTotalTime = 0;
@@ -72,8 +77,14 @@ public class GameEngine_Game implements IGameEngine {
 	public void update(double elapsedTime) {
 		updateTime();
 		setElapsedTime(elapsedTime);
-		executeInput();
+		executeInput(); //input for heroes
 		for (ISprite s : myCurrentLevel.getAllSprites()) {
+			//mimic enemy behavior; treat them as players
+			if (s instanceof Enemy) {
+				IMover enemy = (IMover) s; 
+				Set<ActionName> list = myEnemyController.getActions(enemy);
+				myEnemyController.executeInput(enemy, list);
+			}
 			updateNewParameters(s);
 		}
 		// System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
@@ -90,14 +101,9 @@ public class GameEngine_Game implements IGameEngine {
 	public void updateTime() {
 		myTotalTime += 1.0 / myFPS;
 	}
-	
-	@Override
-	public List<ISpriteVisualization> getSprites() {
-		return myCurrentLevel.getAllSpriteVisualizations();
-	}
 
 	@Override
-	public void setInputList(Set<KeyEvent> list) {
+	public void setInputList(Set<Event> list) {
 		myInputController.setInputList(list);
 	}
 
@@ -164,6 +170,11 @@ public class GameEngine_Game implements IGameEngine {
 	@Override
 	public Background getBackground() {
 		return myCurrentLevel.getBackground();
+	}
+	
+	@Override
+	public List<ISpriteVisualization> getSprites() {
+		return myCurrentLevel.getAllSpriteVisualizations();
 	}
 
 }

@@ -22,7 +22,6 @@ public class PhysicsEngineWithFriction extends PhysicsEngineWithoutFriction {
 			double friction = (body.getVelocity().getYVelocity() == 0) ? myLevel.getPhysicsParameters().getGroundFriction()
 					: myLevel.getPhysicsParameters().getAirFriction();
 			newvx = body.getPhysics().calculateNewXVelocity(friction, vx, elapsedTime);
-			
 		}
 		if (Math.abs(newvx) < myLevel.getPhysicsParameters().getMinThreshold()) {
 			newvx = 0;
