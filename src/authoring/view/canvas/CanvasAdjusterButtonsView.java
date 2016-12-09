@@ -10,11 +10,8 @@ import javafx.scene.image.ImageView;
 import resources.ResourceBundles;
 
 public class CanvasAdjusterButtonsView extends AbstractView {
-    private Button screenWider;
-    private Button screenNarrower;
-    private Button screenTaller;
-    private Button screenShorter;
-    private ResourceBundle canvasProperties;
+    private Button myScreenWiderButton, myScreenNarrowerButton, myScreenTallerButton, myScreenShorterButton;
+    private ResourceBundle myCanvasProperties;
 
     public CanvasAdjusterButtonsView(AuthoringController controller) {
         super(controller);
@@ -22,28 +19,28 @@ public class CanvasAdjusterButtonsView extends AbstractView {
 
     @Override
     protected void initUI() {
-        canvasProperties = ResourceBundles.canvasProperties;
+        myCanvasProperties = ResourceBundles.canvasProperties;
 
-        screenWider = new Button();
-        screenNarrower = new Button();
-        screenTaller = new Button();
-        screenShorter = new Button();
+        myScreenWiderButton = new Button();
+        myScreenNarrowerButton = new Button();
+        myScreenTallerButton = new Button();
+        myScreenShorterButton = new Button();
 
-        setButton(screenWider, Integer.parseInt(canvasProperties.getString("SCREEN_WIDER_POSITION")), "img/wider.png");
-        setButton(screenNarrower, Integer.parseInt(canvasProperties.getString("SCREEN_NARROWER_POSITION")), "img/thinner.png");
-        setButton(screenTaller, Integer.parseInt(canvasProperties.getString("SCREEN_TALLER_POSITION")), "img/taller.png");
-        setButton(screenShorter, Integer.parseInt(canvasProperties.getString("SCREEN_SHORTER_POSITION")), "img/shorter.png");
+        setButton(myScreenWiderButton, Integer.parseInt(myCanvasProperties.getString("SCREEN_WIDER_POSITION")), "img/wider.png");
+        setButton(myScreenNarrowerButton, Integer.parseInt(myCanvasProperties.getString("SCREEN_NARROWER_POSITION")), "img/thinner.png");
+        setButton(myScreenTallerButton, Integer.parseInt(myCanvasProperties.getString("SCREEN_TALLER_POSITION")), "img/taller.png");
+        setButton(myScreenShorterButton, Integer.parseInt(myCanvasProperties.getString("SCREEN_SHORTER_POSITION")), "img/shorter.png");
 
-        this.addUIAll(screenWider, screenNarrower, screenTaller, screenShorter);
+        this.addUIAll(myScreenWiderButton, myScreenNarrowerButton, myScreenTallerButton, myScreenShorterButton);
         screenAdjusterButtonInit();
     }
 
     private void setButton(Button button, int multiplier, String path) {
-        button.setPrefWidth(Double.parseDouble(canvasProperties.getString("BUTTON_WIDTH")));
-        button.setLayoutX(Double.parseDouble(canvasProperties.getString("BUTTON_WIDTH")) * multiplier);
+        button.setPrefWidth(Double.parseDouble(myCanvasProperties.getString("BUTTON_WIDTH")));
+        button.setLayoutX(Double.parseDouble(myCanvasProperties.getString("BUTTON_WIDTH")) * multiplier);
         Image image = new Image(path);
         button.setGraphic(new ImageView(image));
-        button.setPrefHeight(Double.parseDouble(canvasProperties.getString("BUTTON_HEIGHT")));
+        button.setPrefHeight(Double.parseDouble(myCanvasProperties.getString("BUTTON_HEIGHT")));
     }
 
     @Override
@@ -51,17 +48,17 @@ public class CanvasAdjusterButtonsView extends AbstractView {
     }
 
     private void screenAdjusterButtonInit() {
-        screenNarrower.setOnAction((event) -> {
+        myScreenNarrowerButton.setOnAction((event) -> {
             this.getController().getCanvasController().shrink();
 
         });
-        screenWider.setOnAction((event) -> {
+        myScreenWiderButton.setOnAction((event) -> {
             this.getController().getCanvasController().expand();
         });
-        screenTaller.setOnAction((event) -> {
+        myScreenTallerButton.setOnAction((event) -> {
             this.getController().getCanvasController().taller();
         });
-        screenShorter.setOnAction((event) -> {
+        myScreenShorterButton.setOnAction((event) -> {
             this.getController().getCanvasController().shorter();
         });
     }

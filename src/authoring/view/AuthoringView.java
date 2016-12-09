@@ -22,11 +22,11 @@ public class AuthoringView extends AbstractView {
 	private ComponentPanelView myComponents;
 	private CanvasView myCanvas;
 	private ChatView myChat;
-	private ResourceBundle canvasProperties;
+	private ResourceBundle myCanvasProperties;
 
 	public AuthoringView(AuthoringController controller) {
 		super(controller);
-		canvasProperties = ResourceBundles.canvasProperties;
+		myCanvasProperties = ResourceBundles.canvasProperties;
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class AuthoringView extends AbstractView {
 
 	@Override
 	protected void updateLayoutSelf() {
-		if (getWidth() < Double.parseDouble(canvasProperties.getString("THRESHOLD_WIDTH"))) {
+		if (getWidth() < Double.parseDouble(myCanvasProperties.getString("THRESHOLD_WIDTH"))) {
 			myGridContent.getChildren().remove(myInspector.getUI());
 			GridPane.setColumnSpan(myCanvas.getUI(), 2);
 			GridPane.setColumnSpan(myComponents.getUI(), 2);
@@ -61,7 +61,7 @@ public class AuthoringView extends AbstractView {
 				GridPane.setColumnSpan(myCanvas.getUI(), 1);
 			}
 		}
-		if (getHeight() < Double.parseDouble(canvasProperties.getString("THRESHOLD_HEIGHT"))) {
+		if (getHeight() < Double.parseDouble(myCanvasProperties.getString("THRESHOLD_HEIGHT"))) {
 			myGridContent.getChildren().remove(myComponents.getUI());
 			GridPane.setRowSpan(myCanvas.getUI(), 2);
 			GridPane.setRowSpan(myInspector.getUI(), 2);
@@ -72,7 +72,7 @@ public class AuthoringView extends AbstractView {
 				GridPane.setRowSpan(myInspector.getUI(), 1);
 			}
 		}
-		if (getWidth() < Double.parseDouble(canvasProperties.getString("THRESHOLD_WIDTH")) || getHeight() < Double.parseDouble(canvasProperties.getString("THRESHOLD_HEIGHT"))) {
+		if (getWidth() < Double.parseDouble(myCanvasProperties.getString("THRESHOLD_WIDTH")) || getHeight() < Double.parseDouble(myCanvasProperties.getString("THRESHOLD_HEIGHT"))) {
 			myGridContent.getChildren().remove(myChat.getUI());
 		} else {
 			if (!myGridContent.getChildren().contains(myChat.getUI())) {
@@ -80,21 +80,21 @@ public class AuthoringView extends AbstractView {
 			}
 		}
 
-		double middleHeight = getHeight() < Double.parseDouble(canvasProperties.getString("THRESHOLD_HEIGHT")) ? getHeight() - - Double.parseDouble(canvasProperties.getString("THRESHOLD_HEIGHT")) :
-			getHeight() - Double.parseDouble(canvasProperties.getString("MENU_HEIGHT")) - Double.parseDouble(canvasProperties.getString("COMPONENT_HEIGHT"));
+		double middleHeight = getHeight() < Double.parseDouble(myCanvasProperties.getString("THRESHOLD_HEIGHT")) ? getHeight() - - Double.parseDouble(myCanvasProperties.getString("THRESHOLD_HEIGHT")) :
+			getHeight() - Double.parseDouble(myCanvasProperties.getString("MENU_HEIGHT")) - Double.parseDouble(myCanvasProperties.getString("COMPONENT_HEIGHT"));
 
-		myGameMenu.setSize(getWidth(), Double.parseDouble(canvasProperties.getString("MENU_HEIGHT")));
-		myCanvas.setSize(getWidth() < Double.parseDouble(canvasProperties.getString("THRESHOLD_WIDTH")) ? getWidth() :
-			getWidth() - Double.parseDouble(canvasProperties.getString("INSPECTOR_WIDTH")), middleHeight);
-		if (getWidth() >= Double.parseDouble(canvasProperties.getString("THRESHOLD_WIDTH"))) {
-			myInspector.setSize(Double.parseDouble(canvasProperties.getString("INSPECTOR_WIDTH")), middleHeight);
-			myComponents.setSize(getWidth() - Double.parseDouble(canvasProperties.getString("INSPECTOR_WIDTH")), Double.parseDouble(canvasProperties.getString("COMPONENT_HEIGHT")));
+		myGameMenu.setSize(getWidth(), Double.parseDouble(myCanvasProperties.getString("MENU_HEIGHT")));
+		myCanvas.setSize(getWidth() < Double.parseDouble(myCanvasProperties.getString("THRESHOLD_WIDTH")) ? getWidth() :
+			getWidth() - Double.parseDouble(myCanvasProperties.getString("INSPECTOR_WIDTH")), middleHeight);
+		if (getWidth() >= Double.parseDouble(myCanvasProperties.getString("THRESHOLD_WIDTH"))) {
+			myInspector.setSize(Double.parseDouble(myCanvasProperties.getString("INSPECTOR_WIDTH")), middleHeight);
+			myComponents.setSize(getWidth() - Double.parseDouble(myCanvasProperties.getString("INSPECTOR_WIDTH")), Double.parseDouble(myCanvasProperties.getString("COMPONENT_HEIGHT")));
 		}
 		else {
-			myComponents.setSize(getWidth(), Double.parseDouble(canvasProperties.getString("COMPONENT_HEIGHT")));
+			myComponents.setSize(getWidth(), Double.parseDouble(myCanvasProperties.getString("COMPONENT_HEIGHT")));
 		}
-		if (getWidth() >= Double.parseDouble(canvasProperties.getString("THRESHOLD_WIDTH")) && getHeight() >= Double.parseDouble(canvasProperties.getString("THRESHOLD_HEIGHT"))) {
-			myChat.setSize(Double.parseDouble(canvasProperties.getString("INSPECTOR_WIDTH")), Double.parseDouble(canvasProperties.getString("COMPONENT_HEIGHT")));
+		if (getWidth() >= Double.parseDouble(myCanvasProperties.getString("THRESHOLD_WIDTH")) && getHeight() >= Double.parseDouble(myCanvasProperties.getString("THRESHOLD_HEIGHT"))) {
+			myChat.setSize(Double.parseDouble(myCanvasProperties.getString("INSPECTOR_WIDTH")), Double.parseDouble(myCanvasProperties.getString("COMPONENT_HEIGHT")));
 		}
 	}
 

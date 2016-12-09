@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Observable;
 
 import game_object.GameObjectType;
 import game_object.block.Block;
@@ -22,7 +23,7 @@ import game_object.powerup.NewWeaponPowerUp;
  */
 // TODO: 11/21/16 Make a way to edit the template sprite
 // TODO: 11/21/16 Make a way to link all previously created sprites and update them as well 
-public class Component {
+public class Component extends Observable {
     private static final String COPY_ERROR = "Error when copying from template sprite.";
 
     private ISprite myTemplateSprite;
@@ -61,44 +62,61 @@ public class Component {
         return sprite;
     }
 
-    public ISprite getTemplateSprite() {
-        return myTemplateSprite;
+    public void setTitle(String title) {
+        myTitle = title;
+        updateObservers();
     }
 
     public String getTitle() {
         return myTitle;
     }
 
+    public void setDescription(String description) {
+        myDescription = description;
+        updateObservers();
+    }
+
     public String getDescription() {
         return myDescription;
+    }
+
+    public void setImagePath(String imagePath) {
+        List<String> imagePaths = new ArrayList<>();
+        imagePaths.add(imagePath);
+        myTemplateSprite.setImagePaths(imagePaths);
+        updateObservers();
     }
 
     public String getImagePath() {
         return myTemplateSprite.getImagePath();
     }
 
-	private ISprite createTemplateSpriteFromType(GameObjectType gameObjectType, List<String> imagePaths) {
-		ISprite sprite = null;
-		switch (gameObjectType) {
-		case ENEMY:
-			sprite = new Enemy(new Position(0, 0), new Dimension(0, 0), imagePaths);
-			break;
-		case HERO:
-			sprite = new Hero(new Position(0, 0), new Dimension(0, 0), imagePaths);
-			break;
-		case STATIC_BLOCK:
-			sprite = new Block(new Position(0, 0), new Dimension(0, 0), imagePaths);
-			break;
-		case WEAPON_POWER_UP:
-			sprite = new NewWeaponPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths, null, null);
-			break;
-		case WEAPON_PROJECTILE:
-			ExceptionThrower.illegalArgs("Projectile should not be created directly inside authoring environment");
-			break;
-		default:
-			break;
-		}
-		return sprite;
-	}
+    private ISprite createTemplateSpriteFromType(GameObjectType gameObjectType, List<String> imagePaths) {
+        ISprite sprite = null;
+        switch (gameObjectType) {
+            case ENEMY:
+                sprite = new Enemy(new Position(0, 0), new Dimension(0, 0), imagePaths);
+                break;
+            case HERO:
+                sprite = new Hero(new Position(0, 0), new Dimension(0, 0), imagePaths);
+                break;
+            case STATIC_BLOCK:
+                sprite = new Block(new Position(0, 0), new Dimension(0, 0), imagePaths);
+                break;
+            case WEAPON_POWER_UP:
+                sprite = new NewWeaponPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths, null, null);
+                break;
+            case WEAPON_PROJECTILE:
+                ExceptionThrower.illegalArgs("Projectile should not be created directly inside authoring environment");
+                break;
+            default:
+                break;
+        }
+        return sprite;
+    }
 
+    private void updateObservers() {
+        setChanged();
+        notifyObservers();
+    }
 }

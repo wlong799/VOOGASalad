@@ -1,10 +1,11 @@
 package authoring.view.components;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
-import authoring.view.canvas.SpriteView;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,23 +22,26 @@ import resources.ResourceBundles;
  * ComponentView displays the important information from Component, including the template sprite's image, the title of
  * the component, and its description.
  */
-public class ComponentView extends AbstractView {
+public class ComponentView extends AbstractView implements Observer {
 
     private VBox myContentBox;
     private ImageView myTemplateSpriteImageView;
     private Text myTitleText, myDescriptionText;
     private Component myComponent;
-    private ResourceBundle componentProperties;
+    private ResourceBundle myComponentProperties;
 
     public ComponentView(AuthoringController controller) {
         super(controller);
     }
 
     public void setComponent(Component component) {
+        if (myComponent != null) {
+            myComponent.deleteObserver(this);
+        }
         myComponent = component;
-        myTemplateSpriteImageView.setImage(new Image(myComponent.getImagePath()));
-        myTitleText.setText(myComponent.getTitle());
-        myDescriptionText.setText(myComponent.getDescription());
+        myComponent.addObserver(this);
+        updateUI();
+
     }
 
     @Override
@@ -46,8 +50,8 @@ public class ComponentView extends AbstractView {
         myContentBox.setPrefWidth(getWidth());
         myTitleText.setWrappingWidth(getWidth());
         myDescriptionText.setWrappingWidth(getWidth());
-        double newImageWidth = getWidth() * Double.parseDouble(componentProperties.getString("IMAGE_WIDTH_RATIO"));
-        double newImageHeight = getHeight() * Double.parseDouble(componentProperties.getString("IMAGE_HEIGHT_RATIO"));
+        double newImageWidth = getWidth() * Double.parseDouble(myComponentProperties.getString("IMAGE_WIDTH_RATIO"));
+        double newImageHeight = getHeight() * Double.parseDouble(myComponentProperties.getString("IMAGE_HEIGHT_RATIO"));
         if (myTemplateSpriteImageView.getImage().getWidth() / newImageWidth >
                 myTemplateSpriteImageView.getImage().getHeight() / newImageHeight) {
             myTemplateSpriteImageView.setFitHeight(0);
@@ -60,13 +64,14 @@ public class ComponentView extends AbstractView {
 
     @Override
     protected void initUI() {
-    	componentProperties = ResourceBundles.componentProperties;
-    	myTitleText = createText(Double.parseDouble(componentProperties.getString("TITLE_FONT_SIZE")));
-        myDescriptionText = createText(Double.parseDouble(componentProperties.getString("DESCRIPTION_FONT_SIZE")));
+    	myComponentProperties = ResourceBundles.componentProperties;
+    	myTitleText = createComponentText(Double.parseDouble(myComponentProperties.getString("TITLE_FONT_SIZE")));
+        myDescriptionText = createComponentText(Double.parseDouble(myComponentProperties.getString("DESCRIPTION_FONT_SIZE")));
+
         myTemplateSpriteImageView = new ImageView();
         myTemplateSpriteImageView.setPreserveRatio(true);
 
-        myContentBox = new VBox(Double.parseDouble(componentProperties.getString("COMPONENT_PADDING")), myTitleText, myTemplateSpriteImageView, myDescriptionText);
+        myContentBox = new VBox(Double.parseDouble(myComponentProperties.getString("COMPONENT_PADDING")), myTitleText, myTemplateSpriteImageView, myDescriptionText);
         myContentBox.setAlignment(Pos.CENTER);
 
         addUI(myContentBox);
@@ -74,7 +79,13 @@ public class ComponentView extends AbstractView {
         setOnDrag();
     }
 
-    private Text createText(double fontSize) {
+    private void updateUI() {
+        myTemplateSpriteImageView.setImage(new Image(myComponent.getImagePath()));
+        myTitleText.setText(myComponent.getTitle());
+        myDescriptionText.setText(myComponent.getDescription());
+    }
+
+    private Text createComponentText(double fontSize) {
         Text text = new Text();
         text.setFont(new Font(fontSize));
         text.setTextAlignment(TextAlignment.CENTER);
@@ -82,18 +93,13 @@ public class ComponentView extends AbstractView {
     }
 
     private void setOnClick() {
-        getUI().setOnMouseClicked(event -> {
-            SpriteView spriteView = new SpriteView(getController());
-            spriteView.setSprite(myComponent.getTemplateSprite());
-            getController().selectSpriteView(spriteView);
-        });
+        getUI().setOnMouseClicked(event -> getController().selectComponent(myComponent));
     }
 
     private void setOnDrag() {
         AuthoringController controller = getController();
         getUI().setOnDragDetected(event -> {
             controller.getComponentController().setCurrentlyCopiedSprite(myComponent.copySpriteFromTemplate());
-
             Dragboard db = myTemplateSpriteImageView.startDragAndDrop(TransferMode.COPY);
             ClipboardContent content = new ClipboardContent();
             content.putImage(myTemplateSpriteImageView.getImage());
@@ -102,4 +108,10 @@ public class ComponentView extends AbstractView {
         });
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof Component) {
+            updateUI();
+        }
+    }
 }

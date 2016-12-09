@@ -30,25 +30,24 @@ import resources.ResourceBundles;
  * @author billyu Controller for canvas
  */
 public class CanvasController implements Observer {
-    private static final double BLOCK_SIZE = 50;
 
     private CanvasView myCanvas;
-    private List<SpriteView> spriteViews;
+    private List<SpriteView> mySpriteViews;
     private ScrollPane myScrollPane;
     private Group myContent; // holder for all SpriteViews
     private HBox myBackground;
     private AuthorEnvironment myEnvironment;
-    private double scWidth;
-    private double scHeight;
-    private double bgWidth;
-    private double bgHeight;
+    private double mySceneWidth;
+    private double mySceneHeight;
+    private double myBackgroundWidth;
+    private double myBackgroundHeight;
     private boolean myDoesSnap;
-    private SpriteViewComparator spViewComparator;
-    private ResourceBundle canvasProperties;
+    private SpriteViewComparator mySpriteViewComparator;
+    private ResourceBundle myCanvasProperties;
   
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
-        canvasProperties = ResourceBundles.canvasProperties;
+        myCanvasProperties = ResourceBundles.canvasProperties;
        
     	myCanvas = canvas;
         myScrollPane = scrollPane;
@@ -57,8 +56,8 @@ public class CanvasController implements Observer {
         myEnvironment = canvas.getController().getEnvironment();
         myEnvironment.addObserver(this);
 
-        spriteViews = new ArrayList<>();
-        spViewComparator = new SpriteViewComparator();
+        mySpriteViews = new ArrayList<>();
+        mySpriteViewComparator = new SpriteViewComparator();
         setOnDrag();
 
         initSpriteViews();
@@ -82,7 +81,7 @@ public class CanvasController implements Observer {
      * @param relative if true, x and y are positions on screen instead of real positions
      */
     public void add(SpriteView spView, double x, double y, boolean relative) {
-        spriteViews.add(spView);
+        mySpriteViews.add(spView);
         spView.setCanvasView(myCanvas);
         myContent.getChildren().add(spView.getUI());
         if (relative) {
@@ -98,7 +97,7 @@ public class CanvasController implements Observer {
 
     public void delete(SpriteView spView) {
         if (spView == null) return;
-        spriteViews.remove(spView);
+        mySpriteViews.remove(spView);
         myEnvironment.getCurrentLevel().removeSprite(spView.getSprite());
         this.reorderSpriteViewsWithPositionZ();
     }
@@ -115,12 +114,12 @@ public class CanvasController implements Observer {
         retrieveScrollPaneSize();
         retrieveBackgroundSize();
         double newx = 0, newy = 0;
-        if (scWidth > bgWidth) {
+        if (mySceneWidth > myBackgroundWidth) {
             newx = x;
         } else {
             newx = toAbsoluteX(x);
         }
-        if (scHeight > bgHeight) {
+        if (mySceneHeight > myBackgroundHeight) {
             newy = y;
         } else {
             newy = toAbsoluteY(y);
@@ -173,11 +172,11 @@ public class CanvasController implements Observer {
     }
 
     public void reorderSpriteViewsWithPositionZ() {
-        spriteViews.sort(spViewComparator);
+        mySpriteViews.sort(mySpriteViewComparator);
         double hValue = myScrollPane.getHvalue();
         double vValue = myScrollPane.getVvalue();
         clearSpriteViews(false);
-        for (SpriteView spView : spriteViews) {
+        for (SpriteView spView : mySpriteViews) {
             myContent.getChildren().add(spView.getUI());
         }
         myScrollPane.setHvalue(hValue);
@@ -186,39 +185,39 @@ public class CanvasController implements Observer {
 
     public void expand() {
         double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
-        width += Double.parseDouble(canvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
+        width += Double.parseDouble(myCanvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
         myEnvironment.getCurrentLevel().getLevelDimension().setWidth(width);
         updateBackground();
     }
 
     public void shrink() {
         double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
-        width -= Double.parseDouble(canvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
+        width -= Double.parseDouble(myCanvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
         myEnvironment.getCurrentLevel().getLevelDimension().setWidth(width);
         updateBackground();
     }
 
     public void taller() {
         double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
-        height += Double.parseDouble(canvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
+        height += Double.parseDouble(myCanvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
         myEnvironment.getCurrentLevel().getLevelDimension().setHeight(height);
         updateBackground();
     }
 
     public void shorter() {
         double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
-        height -= Double.parseDouble(canvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
+        height -= Double.parseDouble(myCanvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
         myEnvironment.getCurrentLevel().getLevelDimension().setHeight(height);
         updateBackground();
     }
 
     // relative positions to absolute
     public double toAbsoluteX(double x) {
-        return myScrollPane.getHvalue() * (bgWidth - scWidth) + x;
+        return myScrollPane.getHvalue() * (myBackgroundWidth - mySceneWidth) + x;
     }
 
     public double toAbsoluteY(double y) {
-        return myScrollPane.getVvalue() * (bgHeight - scHeight) + y;
+        return myScrollPane.getVvalue() * (myBackgroundHeight - mySceneHeight) + y;
     }
 
     private void initSpriteViews() {
@@ -239,13 +238,13 @@ public class CanvasController implements Observer {
     }
 
     private void retrieveScrollPaneSize() {
-        scWidth = myScrollPane.getViewportBounds().getWidth();
-        scHeight = myScrollPane.getViewportBounds().getHeight();
+        mySceneWidth = myScrollPane.getViewportBounds().getWidth();
+        mySceneHeight = myScrollPane.getViewportBounds().getHeight();
     }
 
     private void retrieveBackgroundSize() {
-        bgWidth = myBackground.getWidth();
-        bgHeight = myBackground.getHeight();
+        myBackgroundWidth = myBackground.getWidth();
+        myBackgroundHeight = myBackground.getHeight();
     }
 
     private void setOnDrag() {
@@ -281,21 +280,21 @@ public class CanvasController implements Observer {
     }
 
     private void adjustScrollPane(double x, double y) {
-        if (x < Double.parseDouble(canvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
+        if (x < Double.parseDouble(myCanvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setHvalue(Math.max(0,
-                    myScrollPane.getHvalue() - Double.parseDouble(canvasProperties.getString("SCROLL_VALUE_UNIT"))));
+                    myScrollPane.getHvalue() - Double.parseDouble(myCanvasProperties.getString("SCROLL_VALUE_UNIT"))));
         }
-        if (scWidth - x < Double.parseDouble(canvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
+        if (mySceneWidth - x < Double.parseDouble(myCanvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setHvalue(Math.min(1,
-                    myScrollPane.getHvalue() + Double.parseDouble(canvasProperties.getString("SCROLL_VALUE_UNIT"))));
+                    myScrollPane.getHvalue() + Double.parseDouble(myCanvasProperties.getString("SCROLL_VALUE_UNIT"))));
         }
-        if (y < Double.parseDouble(canvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
+        if (y < Double.parseDouble(myCanvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setVvalue(Math.max(0,
-                    myScrollPane.getVvalue() - Double.parseDouble(canvasProperties.getString("SCROLL_VALUE_UNIT"))));
+                    myScrollPane.getVvalue() - Double.parseDouble(myCanvasProperties.getString("SCROLL_VALUE_UNIT"))));
         }
-        if (scHeight - y < Double.parseDouble(canvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
+        if (mySceneHeight - y < Double.parseDouble(myCanvasProperties.getString("DRAG_SCROLL_THRESHOLD"))) {
             myScrollPane.setVvalue(Math.min(1,
-                    myScrollPane.getVvalue() + Double.parseDouble(canvasProperties.getString("SCROLL_VALUE_UNIT"))));
+                    myScrollPane.getVvalue() + Double.parseDouble(myCanvasProperties.getString("SCROLL_VALUE_UNIT"))));
         }
     }
 
@@ -306,7 +305,7 @@ public class CanvasController implements Observer {
         myContent.getChildren().clear();
         myContent.getChildren().add(myBackground);
         if (data) {
-            spriteViews.clear();
+            mySpriteViews.clear();
         }
     }
 
@@ -340,7 +339,7 @@ public class CanvasController implements Observer {
     }
 
     public double convertToNearestBlockValue(double value) {
-        return Math.max(Math.round(value / BLOCK_SIZE) * BLOCK_SIZE, BLOCK_SIZE);
+        return Math.max(Math.round(value / Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE"))) * Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE")), Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE")));
     }
 
     @Override

@@ -16,7 +16,6 @@ public class TestGameView extends AbstractView {
 	private Stage myStage;
 	private Scene myScene;
 	private Group myGroup;
-
 	private TestGameRunningView myRunningView;
 	private InspectorLevelView myConfiguringView;
 

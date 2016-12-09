@@ -23,12 +23,12 @@ public class ComponentListView extends AbstractView {
     private GameObjectType myGameObjectType;
     private List<ComponentView> myComponentList;
     private HBox myComponentBox;
-    private ResourceBundle componentProperties;
+    private ResourceBundle myComponentProperties;
 
     private ComponentListView(AuthoringController controller, GameObjectType gameObjectType) {
         super(controller);
         myGameObjectType = gameObjectType;
-        componentProperties = ResourceBundles.componentProperties;
+        myComponentProperties = ResourceBundles.componentProperties;
     }
 
     public void addComponent(String imagePath, String title, String description) {
@@ -54,8 +54,8 @@ public class ComponentListView extends AbstractView {
     @Override
     protected void updateLayoutSelf() {
         getSubViews().forEach(subView -> {
-            subView.setHeight(getHeight() * Double.parseDouble(componentProperties.getString("COMPONENT_HEIGHT_RATIO")));
-            subView.setWidth(Math.max(getWidth() / Double.parseDouble(componentProperties.getString("MAX_NUMBER_COMPONENTS_VIEWED")), Double.parseDouble(componentProperties.getString("MIN_COMPONENT_WIDTH"))));
+            subView.setHeight(getHeight() * Double.parseDouble(myComponentProperties.getString("COMPONENT_HEIGHT_RATIO")));
+            subView.setWidth(Math.max(getWidth() / Double.parseDouble(myComponentProperties.getString("MAX_NUMBER_COMPONENTS_VIEWED")), Double.parseDouble(myComponentProperties.getString("MIN_COMPONENT_WIDTH"))));
         });
     }
 }

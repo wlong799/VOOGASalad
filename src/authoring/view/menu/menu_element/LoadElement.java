@@ -11,21 +11,21 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public class LoadElement extends AbstractGameMenuElement {
 	
-	private FileChooser fileChooser;
+	private FileChooser myFileChooser;
 	private static final String CHOOSER_TITLE = "Load Game File";
 	private static final String MENU_NAME = "Load Game";
 
     private LoadElement(AuthoringController controller) {
         super(MENU_NAME, controller);
-        fileChooser = new FileChooser();
+        myFileChooser = new FileChooser();
     }
 
 	@Override
 	protected void setFunctionality() {
 		myMenuItem.setOnAction(e -> {
-			fileChooser.setTitle(CHOOSER_TITLE);
-			fileChooser.getExtensionFilters().addAll(new ExtensionFilter("xml files", "*.xml"));
-			File gameFile = fileChooser.showOpenDialog(null);
+			myFileChooser.setTitle(CHOOSER_TITLE);
+			myFileChooser.getExtensionFilters().addAll(new ExtensionFilter("xml files", "*.xml"));
+			File gameFile = myFileChooser.showOpenDialog(null);
 			if (gameFile != null) {
 				String path = gameFile.toURI().toString();
 				try {

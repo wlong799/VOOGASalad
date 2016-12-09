@@ -8,6 +8,7 @@ import authoring.controller.ComponentController;
 import authoring.controller.chat.ChatController;
 import authoring.controller.run.TestGameController;
 import authoring.view.canvas.SpriteView;
+import authoring.view.components.Component;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_object.level.Level;
 import game_player.image.ImageRenderer;
@@ -19,83 +20,98 @@ import serializing.Marshaller;
 public class AuthoringController extends Observable {
 
     private AuthorEnvironment myEnvironment;
-    private SpriteView selectedSpriteView;
+    private Component mySelectedComponent;
+    private SpriteView mySelectedSpriteView;
     private Scene myScene;
 
-    private CanvasController canvasController;
-    private ComponentController componentController;
-    private TestGameController testGameController;
-    private ChatController chatController;
-    private Marshaller marshaller;
-    private ImageRenderer renderer;
+    private CanvasController myCanvasController;
+    private ComponentController myComponentController;
+    private TestGameController myTestGameController;
+    private ChatController myChatController;
+    private Marshaller myMarshaller;
+    private ImageRenderer myRenderer;
 
     public AuthoringController(AuthorEnvironment environment) {
         myEnvironment = environment;
-        canvasController = new CanvasController();
-        componentController = new ComponentController();
-        testGameController = new TestGameController(this);
-        chatController = new ChatController();
-        marshaller = new Marshaller();
-        renderer = new ImageRenderer();
+        myCanvasController = new CanvasController();
+        myComponentController = new ComponentController();
+        myTestGameController = new TestGameController(this);
+        myChatController = new ChatController();
+        myMarshaller = new Marshaller();
+        myRenderer = new ImageRenderer();
     }
 
     public CanvasController getCanvasController() {
-        return canvasController;
+        return myCanvasController;
     }
 
     public ComponentController getComponentController() {
-        return componentController;
+        return myComponentController;
     }
 
     public TestGameController getTestGameController() {
-        return testGameController;
+        return myTestGameController;
     }
 
     public ChatController getChatController() {
-        return chatController;
+        return myChatController;
     }
 
     public Marshaller getMarshaller() {
-        return marshaller;
+        return myMarshaller;
     }
 
     public ImageRenderer getRenderer() {
-        return renderer;
+        return myRenderer;
     }
 
     public AuthorEnvironment getEnvironment() {
         return myEnvironment;
     }
 
-    public void selectSpriteView(SpriteView spriteView) {
-        if (spriteView == null) return;
-        if (selectedSpriteView != null) {
-            selectedSpriteView.indicateDeselection();
+    public void selectComponent(Component component) {
+        if (component == null) {
+            return;
         }
-        spriteView.indicateSelection();
-        selectedSpriteView = spriteView;
+        deselect();
+        mySelectedComponent = component;
         updateObservers();
     }
 
-    public void deselectSpriteViews() {
-        if (selectedSpriteView != null) {
-            selectedSpriteView.indicateDeselection();
-            selectedSpriteView = null;
-            updateObservers();
+    public Component getSelectedComponent() {
+        return mySelectedComponent;
+    }
+
+    public void selectSpriteView(SpriteView spriteView) {
+        if (spriteView == null) {
+            return;
         }
+        deselect();
+        spriteView.indicateSelection();
+        mySelectedSpriteView = spriteView;
+        updateObservers();
     }
 
     public SpriteView getSelectedSpriteView() {
-        return selectedSpriteView;
+        return mySelectedSpriteView;
+    }
+
+    private void deselect() {
+        if (mySelectedSpriteView != null) {
+            mySelectedSpriteView.indicateDeselection();
+            mySelectedSpriteView = null;
+        }
+        mySelectedComponent = null;
+        updateObservers();
     }
 
     public void setScene(Scene scene) {
         myScene = scene;
         myScene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
-                canvasController.delete(selectedSpriteView);
+                myCanvasController.delete(mySelectedSpriteView);
             } else if (event.getCode() == KeyCode.ESCAPE) {
-                deselectSpriteViews();
+                deselect();
             }
         });
         File f = new File("css/style.css");

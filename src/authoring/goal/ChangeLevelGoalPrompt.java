@@ -20,24 +20,24 @@ import javafx.stage.Stage;
 import resources.ResourceBundles;
 
 public class ChangeLevelGoalPrompt {
-	private ScrollPane goalPane;
-	private Stage goalStage;
-	private VBox goalVBox;
-	private List<Node> goalConfigNodes = new ArrayList<>();
+	private ScrollPane myGoalPane;
+	private Stage myGoalStage;
+	private VBox myGoalVBox;
+	private List<Node> myGoalConfigNodes = new ArrayList<>();
 	private AuthoringController myController;
-	private ResourceBundle goalPromptProperties;	
+	private ResourceBundle myGoalPromptProperties;	
 
 	public ChangeLevelGoalPrompt(AuthoringController controller) {
-		goalPromptProperties = ResourceBundles.goalPromptProperties;
+		myGoalPromptProperties = ResourceBundles.goalPromptProperties;
 		
 		myController = controller;
-		goalStage = new Stage();
-		goalVBox = new VBox();
-		goalPane = new ScrollPane();
-		goalPane.setContent(goalVBox);
-		Scene goalScene = new Scene(goalPane, Double.parseDouble(goalPromptProperties.getString("GOAL_PROMPT_FRAME_SIZE")), Double.parseDouble(goalPromptProperties.getString("GOAL_PROMPT_FRAME_SIZE")));
-		goalStage.setScene(goalScene);
-		goalStage.show();
+		myGoalStage = new Stage();
+		myGoalVBox = new VBox();
+		myGoalPane = new ScrollPane();
+		myGoalPane.setContent(myGoalVBox);
+		Scene goalScene = new Scene(myGoalPane, Double.parseDouble(myGoalPromptProperties.getString("GOAL_PROMPT_FRAME_SIZE")), Double.parseDouble(myGoalPromptProperties.getString("GOAL_PROMPT_FRAME_SIZE")));
+		myGoalStage.setScene(goalScene);
+		myGoalStage.show();
 
 		levelTypeSelectorInit();
 	}
@@ -48,29 +48,29 @@ public class ChangeLevelGoalPrompt {
 
 		Button reachPointButton = new Button("Reach Point");
 		reachPointButton.setOnAction((event) -> {
-			goalVBox.getChildren().removeAll(goalConfigNodes);
-			goalConfigNodes.clear();
+			myGoalVBox.getChildren().removeAll(myGoalConfigNodes);
+			myGoalConfigNodes.clear();
 			handleReachPointSelected();
 		});
 
 		Button beatBossButton = new Button("Beat Boss");
 		beatBossButton.setOnAction((event) -> {
-			goalVBox.getChildren().removeAll(goalConfigNodes);
-			goalConfigNodes.clear();
+			myGoalVBox.getChildren().removeAll(myGoalConfigNodes);
+			myGoalConfigNodes.clear();
 			handleBeatBossGoalSelected();
 		});
 
 		Button beatTimeButton = new Button("Beat Time");
 		beatTimeButton.setOnAction((event) -> {
-			goalVBox.getChildren().removeAll(goalConfigNodes);
-			goalConfigNodes.clear();
+			myGoalVBox.getChildren().removeAll(myGoalConfigNodes);
+			myGoalConfigNodes.clear();
 			handleTimeGoalSelected();
 		});
 
-		goalVBox.getChildren().add(selectGoalLabel);
-		goalVBox.getChildren().add(beatTimeButton);
-		goalVBox.getChildren().add(beatBossButton);
-		goalVBox.getChildren().add(reachPointButton);
+		myGoalVBox.getChildren().add(selectGoalLabel);
+		myGoalVBox.getChildren().add(beatTimeButton);
+		myGoalVBox.getChildren().add(beatBossButton);
+		myGoalVBox.getChildren().add(reachPointButton);
 	}
 
 	private void handleReachPointSelected() {
@@ -78,12 +78,12 @@ public class ChangeLevelGoalPrompt {
 				+ "To set a block to be the goal, simply click on it and check the box in the "
 				+ "sprite inspector tab labeled 'Assign sprite to be goal point of the level'.");
 		
-		goalConfigNodes.add(instructionText);
-		goalVBox.getChildren().addAll(goalConfigNodes);
+		myGoalConfigNodes.add(instructionText);
+		myGoalVBox.getChildren().addAll(myGoalConfigNodes);
 	}
 
 	private void handleTimeGoalSelected() {
-		Spinner<Double> dspinner = new Spinner<>(Double.parseDouble(goalPromptProperties.getString("MIN_TIME_GOAL")), Double.parseDouble(goalPromptProperties.getString("MAX_TIME_GOAL")), Double.parseDouble(goalPromptProperties.getString("TIME_INITIAL")),Double.parseDouble(goalPromptProperties.getString("TIME_STEP")));
+		Spinner<Double> dspinner = new Spinner<>(Double.parseDouble(myGoalPromptProperties.getString("MIN_TIME_GOAL")), Double.parseDouble(myGoalPromptProperties.getString("MAX_TIME_GOAL")), Double.parseDouble(myGoalPromptProperties.getString("TIME_INITIAL")),Double.parseDouble(myGoalPromptProperties.getString("TIME_STEP")));
 		
 		GridPane grid = new GridPane();
 		grid.setHgap(20);
@@ -96,17 +96,17 @@ public class ChangeLevelGoalPrompt {
 		applyTimeGoal.setOnAction((event) -> {
 			PassTime timeGoal = new PassTime(dspinner.getValue());
 			myController.getEnvironment().getCurrentLevel().getAllGoals().add(timeGoal);
-			goalStage.close();
+			myGoalStage.close();
 		});
 		grid.add(applyTimeGoal, 1, 2);
 		
-		goalConfigNodes.add(grid);
-		goalVBox.getChildren().addAll(goalConfigNodes);
+		myGoalConfigNodes.add(grid);
+		myGoalVBox.getChildren().addAll(myGoalConfigNodes);
 	}
 
 	private void handleBeatBossGoalSelected() {
 		Text notYetImplemented = new Text("To be implemented.");
-		goalConfigNodes.add(notYetImplemented);
-		goalVBox.getChildren().addAll(goalConfigNodes);
+		myGoalConfigNodes.add(notYetImplemented);
+		myGoalVBox.getChildren().addAll(myGoalConfigNodes);
 	}
 }
