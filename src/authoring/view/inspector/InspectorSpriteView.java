@@ -28,11 +28,18 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
         super(controller);
     }
 
+    @Override
+    protected void initUI() {
+        super.initUI();
+        addSettingsView(new NullSettingsView(getController()));
+    }
+
     private void updateUI() {
+        clearSettingsView();
         if (spriteView == null || (sprite = spriteView.getSprite()) == null) {
+            addSettingsView(new NullSettingsView(getController()));
             return;
         }
-        clearSettingsView();
 
         myXBox = new TextInputBoxView(getController(), "Position X", sprite.getPosition().getX() + "",
                 (newVal) -> spriteView.setAbsolutePositionX(Double.parseDouble(newVal)));
@@ -93,7 +100,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     ((Hero) sprite).getJumpingUnit(),
                     Double.parseDouble(componentProperties.getString("JUMP_UNIT_INCREMENT")),
                     (obv, oldVal, newVal) -> ((Hero) sprite).setJumpingUnit(newVal.doubleValue()));
-            myLivesConfiguringView = new LivesConfiguringView(getController(), (Hero)sprite);
+            myLivesConfiguringView = new LivesConfiguringView(getController(), (Hero) sprite);
             addSettingsViews(myActionView, myMaxJumpSlider, myJumpUnitSlider, myLivesConfiguringView);
         }
         updateLayout();

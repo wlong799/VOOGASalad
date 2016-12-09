@@ -42,7 +42,6 @@ public abstract class AbstractInspectorTabView extends AbstractView {
 
     @Override
     protected void updateLayoutSelf() {
-        System.out.println("AY" + getWidth());
         myScrollPane.setPrefWidth(getWidth());
         myScrollPane.setPrefHeight(getHeight());
         myContent.setPrefWidth(getWidth());

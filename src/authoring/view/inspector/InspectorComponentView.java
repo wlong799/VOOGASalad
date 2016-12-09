@@ -3,6 +3,7 @@ package authoring.view.inspector;
 import authoring.AuthoringController;
 import authoring.view.components.Component;
 import authoring.view.inspector.settings.ImageChangeButtonView;
+import authoring.view.inspector.settings.NullSettingsView;
 import authoring.view.inspector.settings.TextInputBoxView;
 
 /**
@@ -29,7 +30,7 @@ public class InspectorComponentView extends AbstractInspectorTabView {
                 myComponent.setImagePath(newValue));
         myDescriptionInputView = new TextInputBoxView(getController(), "Description", "", newValue ->
                 myComponent.setDescription(newValue));
-        addSettingsViews(myTitleInputView, myImageChangeButtonView, myDescriptionInputView);
+        addSettingsViews(new NullSettingsView(getController()));
     }
 
     public void setComponent(Component component) {
@@ -38,11 +39,14 @@ public class InspectorComponentView extends AbstractInspectorTabView {
     }
 
     private void updateUI() {
+        clearSettingsView();
         if (myComponent == null) {
+            addSettingsView(new NullSettingsView(getController()));
             return;
         }
         myTitleInputView.setText(myComponent.getTitle());
         myImageChangeButtonView.setImageFilename(myComponent.getImagePath());
         myDescriptionInputView.setText(myComponent.getDescription());
+        addSettingsViews(myTitleInputView, myImageChangeButtonView, myDescriptionInputView);
     }
 }

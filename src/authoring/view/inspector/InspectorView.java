@@ -50,6 +50,11 @@ public class InspectorView extends AbstractView implements Observer {
         myComponentInspector = new InspectorComponentView(getController());
         mySpriteInspector = new InspectorSpriteView(getController());
 
+        addViewsAsTab("Game", myGameInspector);
+        addViewsAsTab("Level", myLevelInspector);
+        addViewsAsTab("Component", myComponentInspector);
+        addViewsAsTab("Sprite", mySpriteInspector);
+
         addUI(myTabPane);
     }
 
@@ -65,27 +70,20 @@ public class InspectorView extends AbstractView implements Observer {
     }
 
     private void updateUI() {
-        myTabPane.getTabs().clear();
-        getSubViews().forEach(subView -> subView.setParentView(null));
-        getSubViews().clear();
-        if (selectedGame != null) {
-            addViewsAsTab("Game", myGameInspector);
-            myGameInspector.setGame(selectedGame);
+        myGameInspector.setGame(selectedGame);
+        myLevelInspector.setLevel(selectedLevel);
+        myComponentInspector.setComponent(selectedComponent);
+        mySpriteInspector.setSpriteView(selectedSpriteView);
+/*
+        int index = myTabPane.getSelectionModel().getSelectedIndex();
+        if (selectedComponent == null && selectedSpriteView == null && (index == 2 || index == 3)) {
+            myTabPane.getSelectionModel().select(1);
+        } else if (selectedComponent != null && index == 3) {
+            myTabPane.getSelectionModel().select(2);
+        } else if (selectedSpriteView != null && index == 2) {
+            myTabPane.getSelectionModel().select(3);
         }
-        if (selectedLevel != null) {
-            addViewsAsTab("Level", myLevelInspector);
-            myLevelInspector.setLevel(selectedLevel);
-        }
-        if (selectedComponent != null) {
-            addViewsAsTab("Component", myComponentInspector);
-            myComponentInspector.setComponent(selectedComponent);
-        }
-        if (selectedSpriteView != null) {
-            addViewsAsTab("Sprite", mySpriteInspector);
-            mySpriteInspector.setSpriteView(selectedSpriteView);
-        }
-        myTabPane.getSelectionModel().select(myTabPane.getTabs().size() - 1);
-        updateLayout();
+        */
     }
 
     private void addViewsAsTab(String tabName, AbstractView view) {
@@ -102,8 +100,7 @@ public class InspectorView extends AbstractView implements Observer {
         selectedGame = getController().getEnvironment().getCurrentGame();
         selectedLevel = getController().getEnvironment().getCurrentLevel();
         selectedComponent = getController().getSelectedComponent();
-        selectedSpriteView = getController().getMySelectedSpriteView();
-
+        selectedSpriteView = getController().getSelectedSpriteView();
         updateUI();
     }
 }

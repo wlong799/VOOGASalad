@@ -92,7 +92,7 @@ public class AuthoringController extends Observable {
         updateObservers();
     }
 
-    public SpriteView getMySelectedSpriteView() {
+    public SpriteView getSelectedSpriteView() {
         return mySelectedSpriteView;
     }
 
