@@ -5,7 +5,6 @@ import java.util.Set;
 
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_object.acting.Event;
-import game_object.acting.KeyEvent;
 import game_object.background.Background;
 import game_object.visualization.ISpriteVisualization;
 

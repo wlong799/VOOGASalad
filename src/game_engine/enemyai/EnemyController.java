@@ -7,17 +7,20 @@ import java.util.Set;
 import game_object.acting.ActionName;
 import game_object.character.ICharacter;
 import game_object.character.IMover;
+import game_object.core.Game;
 
 public class EnemyController implements IEnemyController {
 
 	private static final double JUMPPROB = 0.01;
-	private static final double SHOOTPROB = 0.01;
+	private static final double SHOOTPROB = 0.02;
 	private static final double CHANGEDIRECTIONPROB = 0.01;
 	private static final int RANDOMCAP = 10000;
 	private Random myRandom;
+	private Game myGame;
 
-	public EnemyController() {
+	public EnemyController(Game game) {
 		myRandom = new Random();
+		myGame = game;
 	}
 
 	@Override
@@ -48,7 +51,7 @@ public class EnemyController implements IEnemyController {
 			else if (e == ActionName.MOVE_RIGHT) enemy.moveRight();
 			else if (e == ActionName.SHOOT) {
 				ICharacter character = (ICharacter) enemy;
-				ProjectileManager.addProjectile(character);
+				myGame.getCurrentLevel().getProjectiles().add(ProjectileManager.addProjectile(character));
 			}
 		}
 	}

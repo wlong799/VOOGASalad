@@ -1,7 +1,6 @@
 package game_engine;
 
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import game_engine.collision.CollisionEngine;
@@ -16,7 +15,6 @@ import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
 import game_object.acting.ActionName;
 import game_object.acting.Event;
-import game_object.acting.KeyEvent;
 import game_object.background.Background;
 import game_object.character.Enemy;
 import game_object.character.Hero;
@@ -29,7 +27,6 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
-import game_object.weapon.Projectile;
 import goal.IGoal;
 import goal.time.TimeGoal;
 
@@ -45,10 +42,8 @@ public class GameEngine_Game implements IGameEngine {
 	private double myTotalTime;
 	private int myFPS;
 	private boolean logSuppressed = false;
-	private Random myRandom;
 
 	public GameEngine_Game(Game game) {
-		myRandom = new Random();
 		myCurrentLevel = game.getAllLevelsReadOnly().get(0);
 		init();
 		game.setCurrentLevel(myCurrentLevel);
@@ -56,7 +51,7 @@ public class GameEngine_Game implements IGameEngine {
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(game);
-		myEnemyController = new EnemyController();
+		myEnemyController = new EnemyController(game);
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		myFPS = game.getFPS();
 		myTotalTime = 0;
@@ -82,8 +77,9 @@ public class GameEngine_Game implements IGameEngine {
 	public void update(double elapsedTime) {
 		updateTime();
 		setElapsedTime(elapsedTime);
-		executeInput();
+		executeInput(); //input for heroes
 		for (ISprite s : myCurrentLevel.getAllSprites()) {
+			//mimic enemy behavior; treat them as players
 			if (s instanceof Enemy) {
 				IMover enemy = (IMover) s; 
 				Set<ActionName> list = myEnemyController.getActions(enemy);

@@ -13,7 +13,6 @@ import game_engine.physics.PhysicsEngineWithFriction;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.WinStatus;
 import game_object.acting.Event;
-import game_object.acting.KeyEvent;
 import game_object.background.Background;
 import game_object.character.Hero;
 import game_object.core.AbstractSprite;
