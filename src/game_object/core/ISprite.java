@@ -1,7 +1,5 @@
 package game_object.core;
 
-import java.util.List;
-
 import game_object.simulation.IBodyWithImage;
 import game_object.simulation.ICollisionBody;
 import game_object.simulation.IPhysicsBody;
@@ -15,6 +13,6 @@ public interface ISprite extends IPhysicsBody, ICollisionBody, IBodyWithImage, I
 	
 	boolean isFacingLeft();
 	
-	ChildrenSprites getChildSprites();
+	ChildSprites getChildSprites();
 	
 }

@@ -204,7 +204,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 			return myWeaponDisplacementX;
 		}
 		else {
-			return myWeaponDisplacementX;
+			return myWeaponDisplacementY;
 		}
 	}
 

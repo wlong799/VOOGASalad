@@ -7,13 +7,13 @@ import java.util.*;
  * @author Yilun
  *
  */
-public class ChildrenSprites {
+public class ChildSprites {
 
 	private List<ISprite> mySprites;
 
 	private boolean myChanged;
 	
-	public ChildrenSprites() {
+	public ChildSprites() {
 		mySprites = new ArrayList<>();
 		myChanged = false;
 	}
