@@ -38,8 +38,6 @@ public class Coordinator {
 	private Map<Long, String> lockHolders;
 	private int monoCount;
 	
-	//TODO cx15 release lock if session expired
-	
 	/**
 	 * Create a coordinator by starting a daemon thread listening on
 	 * <tt>port</tt> and a postman thread to deliver all message received
@@ -95,7 +93,8 @@ public class Coordinator {
 	}
 
 	/**
-	 * Add a new connection to the connection pool
+	 * Add a new connection to the connection pool, and reply to the client
+	 * its starting id
 	 * @param conn the connection to be added
 	 */
 	public synchronized void addConnection(ConnectionToClient conn) {
@@ -108,11 +107,15 @@ public class Coordinator {
 	}
 	
 	/**
-	 * Remove a new connection from the connection pool
+	 * Remove a new connection from the connection pool, remove all
+	 * the locks held by this client.
 	 * @param conn the connection to be removed
 	 * @return true if the the connection pool contained the given connection
 	 */
 	public synchronized boolean removeConnection(Connection conn) {
+		for (long id : lockHolders.keySet()) {
+			unlock(id, conn.getUserName());
+		}
 		return connectionPool.remove(conn);
 	}
 	

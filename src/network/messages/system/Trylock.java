@@ -15,6 +15,7 @@ public class Trylock extends SystemOperation<Long> {
 	/**
 	 * Create a Trylock message signed with sender's userName
 	 * @param sender the userName of the sender
+	 * @param id identifies the object to be locked
 	 */
 	public Trylock(String sender, Long id) {
 		super(sender, id, STRING_NAME);
