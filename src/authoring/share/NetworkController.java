@@ -24,7 +24,7 @@ public class NetworkController {
 	public void initClientWithName(String name) throws ServerDownException {
 		myName = name;
 		myClient = new NetworkClient(name);
-		myIDManager = new IDManager(myClient.getStartingSequenceNumber());
+		myIDManager = new IDManager(myClient.getNextSequenceNumber());
 	}
 	
 	public String getMyName() {

@@ -105,8 +105,11 @@ public class ShareEditController {
 			Queue<Message> q = myNetworkController.getClient().read(MessageType.ACTION);
 			while (!q.isEmpty()) {
 				Message msg = q.poll();
-				IAction chat = (IAction) msg.getPayload();
-				chat.apply(myAuthoringController);
+				if (msg.getSender().equals(myNetworkController.getMyName())) {
+					continue;
+				}
+				IAction action = (IAction) msg.getPayload();
+				action.apply(myAuthoringController);
 			}
 		} catch (SessionExpiredException e) {
 			System.out.println("session expired");
