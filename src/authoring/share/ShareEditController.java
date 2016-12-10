@@ -13,7 +13,6 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.util.Duration;
-import network.exceptions.ServerDownException;
 import network.exceptions.SessionExpiredException;
 import network.messages.Message;
 import network.messages.MessageType;
@@ -23,9 +22,10 @@ public class ShareEditController {
 	private AuthoringController myAuthoringController;
 	private NetworkController myNetworkController;
 	
-	public ShareEditController(NetworkController networkController, AuthoringController authoringController) throws ServerDownException {
+	public ShareEditController(NetworkController networkController, AuthoringController authoringController) {
 		myNetworkController = networkController;
 		myAuthoringController = authoringController;
+		init();
 	}
 	
 	/**
@@ -82,7 +82,7 @@ public class ShareEditController {
 		myNetworkController.getClient().broadcast(moveAction, MessageType.ACTION);
 	}
 	
-	public void init() {
+	private void init() {
 		KeyFrame frame = new KeyFrame(Duration.millis(100.0),
 				new EventHandler<ActionEvent>() {
 			@Override
@@ -97,6 +97,7 @@ public class ShareEditController {
 	}
 	
 	private void read() {
+		if (!hasClient()) return;
 		try {
 			Queue<Message> q = myNetworkController.getClient().read(MessageType.ACTION);
 			while (!q.isEmpty()) {
