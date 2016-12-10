@@ -35,6 +35,7 @@ public class Weapon extends AbstractSprite {
 		if (myOwner == null) {
 			return myPosition;
 		}
+		myFacingLeft = myOwner.isFacingLeft();
 		return new Position(
 			myOwner.getWeaponX(),
 			myOwner.getWeaponY(),

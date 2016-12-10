@@ -30,6 +30,7 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
+import game_object.weapon.Projectile;
 import goal.IGoal;
 import goal.time.TimeGoal;
 
@@ -89,7 +90,10 @@ public class GameEngine_Game implements IGameEngine {
 				IMover enemy = (IMover) s; 
 				Set<ActionName> list = myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
 				myEnemyController.executeInput(enemy, list);
-				myCurrentLevel.getProjectiles().addAll(myEnemyController.getNewProjectiles());
+				List<Projectile> plist = myEnemyController.getNewProjectiles();
+				for (Projectile p : plist) {
+					myCurrentLevel.addSprite(p);
+				}
 			}
 			updateNewParameters(s);
 		}
