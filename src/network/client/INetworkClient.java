@@ -46,10 +46,12 @@ public interface INetworkClient {
 	/**
 	 * We uses partitioned name space for each client so that concurrent creation
 	 * of new sprite by different clients is guaranteed to have different
-	 * id/sequence number.
-	 * @return the starting sequence number of new sprite
+	 * id/sequence number. A network client will keep track of the lowest unused
+	 * sequence number in a client's partition space, and calling this method
+	 * returns that unique sequence number.
+	 * @return the next unique sequence number for a new sprite
 	 */
-	long getStartingSequenceNumber() throws SessionExpiredException;
+	long getNextSequenceNumber() throws SessionExpiredException;
 	
 	/**
 	 * A non-blocking request to acquire a lock on the sprite identified using

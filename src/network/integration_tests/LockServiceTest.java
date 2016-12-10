@@ -36,7 +36,7 @@ public class LockServiceTest {
 			Thread.sleep(DELAY_MILLIS);
 			holder = c2.tryLock(ID_1);
 			System.out.println(USER_B + " should now be able to hold the lock: " + holder);
-			System.out.println("Should get 1000: " + c1.getStartingSequenceNumber());
+			System.out.println("Should get 1000: " + c1.getNextSequenceNumber());
 			cor.shutdown();
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();

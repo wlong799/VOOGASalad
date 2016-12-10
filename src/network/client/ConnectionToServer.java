@@ -28,7 +28,6 @@ public class ConnectionToServer extends Connection {
 		this.setUserName(userName);
 		startingSeqNo = -1L;
 		try {
-			// TODO cx15 duplicated names
 			send(MessageType.HANDSHAKE.build(userName));
 		} catch (MessageCreationFailureException e) {
 			this.close();

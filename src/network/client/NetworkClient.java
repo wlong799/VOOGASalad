@@ -38,6 +38,7 @@ public class NetworkClient implements INetworkClient {
 	private Queue<Message> nonBlockingIncomingBuffer;
 	private Multiplexer mux;
 	private String userName;
+	private long seqno;
 	
 	/**
 	 * Default runs as development mode
@@ -68,6 +69,7 @@ public class NetworkClient implements INetworkClient {
 					inComingBuffer, socket, true, userName);
 			nonBlockingIncomingBuffer = new LinkedList<>();
 			mux = new Multiplexer();
+			seqno = Long.MIN_VALUE;
 			startReaderThread();
 		} catch (IOException e) {
 			throw new ServerDownException();
@@ -172,13 +174,18 @@ public class NetworkClient implements INetworkClient {
 
 	/**
 	 * This call is blocking until server has returned the assigned
-	 * starting sequence number.
+	 * starting sequence number. Invoking this method gives the caller
+	 * that lowest available sequence number and internally increments
+	 * it by one to ensure no collision. Also thread safe.
 	 * 
-	 * <p>See also {@link INetworkClient#getStartingSequenceNumber()}
+	 * <p>See also {@link INetworkClient#getNextSequenceNumber()}
 	 */
 	@Override
-	public long getStartingSequenceNumber() throws SessionExpiredException {
-		return connectionToServer.getStartingSequenceNumber();
+	public synchronized long getNextSequenceNumber() throws SessionExpiredException {
+		if (seqno < 0) {
+			seqno = connectionToServer.getStartingSequenceNumber();
+		}
+		return seqno++;
 	}
 
 	/**

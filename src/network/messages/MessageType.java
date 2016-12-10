@@ -16,7 +16,7 @@ public enum MessageType {
 	
 	CHAT ("network.messages.application.ChatMessage"),
 	USER_GONE_OFFLINE ("network.messages.application.UserGoneOfflineMessage"),
-	ACTION (">>>>>>>>>>>>>>>>>TODO"), // TODO cx15
+	ACTION ("network.messages.application.ActionMessage"),
 	LOCK_RESPONSE ("network.messages.application.LockResponseMessage"),
 	
 	TRYLOCK ("network.messages.system.Trylock"),
