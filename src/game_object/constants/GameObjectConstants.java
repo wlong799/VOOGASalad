@@ -5,6 +5,7 @@ import game_object.GameObjectType;
 
 public class GameObjectConstants {
 
+	public static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla purus nulla, lacinia a arcu eu, egestas tincidunt turpis. Vestibulum imperdiet, purus sit amet fringilla blandit, arcu ante maximus ipsum, tincidunt gravida arcu orci et ligula. Mauris in massa dignissim, tincidunt erat non, elementum turpis. Donec aliquam arcu quam, sit amet iaculis nibh pretium in. Proin volutpat tempus ipsum ut porta. Cras eu lorem non metus dignissim porttitor. Mauris tempus ex et finibus eleifend. Sed mattis ultricies neque et dictum. Suspendisse non velit dapibus, auctor justo eu, eleifend eros.";
     public static final String BLUE_SNAIL_LEFT = "img/sprites/blue_snail_left.png";
     public static final String BLUE_SNAIL_RIGHT = "img/sprites/blue_snail_right.png";
     public static final String ELIZA_LEFT = "img/sprites/eliza_left.png";
@@ -49,8 +50,10 @@ public class GameObjectConstants {
     public static final String ORANGE_BULLET_FILE = "img/sprites/orange_bullet.png";
     public static final String GREEN_BULLET_FILE = "img/sprites/green_bullet.png";
     public static final String NEW_WEAPON_POWER_UP_FILE = "img/sprites/new_weapon_powerup.png";
-    public static final String RED_GUN_WEAPON_FILE = "img/sprites/red_gun.png";
-    public static final String BLUE_GUN_WEAPON_FILE = "img/sprites/blue_gun.png";
+    public static final String RED_GUN_WEAPON_RIGHT_FILE = "img/sprites/red_gun_right.png";
+    public static final String RED_GUN_WEAPON_LEFT_FILE = "img/sprites/red_gun_left.png";
+    public static final String BLUE_GUN_WEAPON_RIGHT_FILE = "img/sprites/blue_gun_right.png";
+    public static final String BLUE_GUN_WEAPON_LEFT_FILE = "img/sprites/blue_gun_left.png";
 
     public static final Component BLUE_SNAIL = new Component(GameObjectType.HERO, BLUE_SNAIL_LEFT, BLUE_SNAIL_RIGHT, "Blue Snail", "A blue snail hero.");
     public static final Component ELIZA = new Component(GameObjectType.HERO, ELIZA_LEFT, ELIZA_RIGHT, "Eliza", "Eliza, a hero.");
