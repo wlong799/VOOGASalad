@@ -224,4 +224,11 @@ public class NetworkClient implements INetworkClient {
 		}
 		signAndsend(MessageType.UNLOCK, id);
 	}
+	
+	/**
+	 * @return the client user name
+	 */
+	public String getUserName() {
+		return userName;
+	}
 }

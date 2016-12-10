@@ -1,6 +1,6 @@
 package network.messages.application;
 
-import authoring.share.IAction;
+import authoring.share.action.IAction;
 import network.client.Multiplexer;
 import network.messages.AbstractMessage;
 import network.messages.Message;
