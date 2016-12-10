@@ -1,4 +1,4 @@
-package authoring.share;
+package authoring.share.action;
 
 import authoring.AuthoringController;
 import authoring.share.exception.ShareEditException;

@@ -2,6 +2,7 @@ package authoring.view.chat;
 
 import authoring.AuthoringController;
 import authoring.controller.chat.ChatController;
+import authoring.share.NetworkController;
 import authoring.view.AbstractView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -25,13 +26,15 @@ public class ChatView extends AbstractView {
 	private Button enterButton;
 	private HBox sendingBox;
 	private VBox all;
+	private NetworkController myNetworkController;
 	private ChatController myController;
 
 	private boolean hasName = false;
 
 	public ChatView(AuthoringController controller) {
 		super(controller);
-		myController = controller.getChatController();
+		myNetworkController = controller.getNetworkController();
+		myController = myNetworkController.getChatController();
 		myController.init(this);
 	}
 
@@ -97,11 +100,11 @@ public class ChatView extends AbstractView {
 		else {
 			hasName = true;
 			try {
-				myController.initClientWithName(current);
+				myNetworkController.initClientWithName(current);
 				this.appendText("Oh hellooooo " + current);
 				this.appendText("Start chatting now!!");
 			} catch (ServerDownException e) {
-				e.printStackTrace();
+				this.appendText("Server Down");
 			}
 		}
 		textField.clear();

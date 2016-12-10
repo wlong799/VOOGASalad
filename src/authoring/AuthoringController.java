@@ -4,9 +4,9 @@ import java.io.File;
 
 import authoring.controller.CanvasViewController;
 import authoring.controller.ComponentController;
-import authoring.controller.chat.ChatController;
 import authoring.controller.run.TestGameController;
-import authoring.share.IDManager;
+import authoring.share.NetworkController;
+import authoring.share.exception.ShareEditException;
 import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
 import game_engine.physics.PhysicsParameterSetOptions;
@@ -15,7 +15,6 @@ import game_player.image.ImageRenderer;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import serializing.Marshaller;
 
 public class AuthoringController extends AbstractPublisher {
 	
@@ -26,20 +25,16 @@ public class AuthoringController extends AbstractPublisher {
 	private CanvasViewController canvasViewController;
 	private ComponentController componentController;
 	private TestGameController testGameController;
-	private ChatController chatController;
-	private Marshaller marshaller;
 	private ImageRenderer renderer;
-	private IDManager idManager;
+	private NetworkController myNetworkController;
 	
 	public AuthoringController(AuthorEnvironment environment) {
 		myEnvironment = environment;
 		canvasViewController = new CanvasViewController();
 		componentController = new ComponentController();
 		testGameController = new TestGameController(this);
-		chatController = new ChatController();
-		marshaller = new Marshaller();
 		renderer = new ImageRenderer();
-		idManager = new IDManager(0);
+		myNetworkController = new NetworkController(this);
 	}
 	
 	public CanvasViewController getCanvasViewController() {
@@ -54,34 +49,49 @@ public class AuthoringController extends AbstractPublisher {
 		return testGameController;
 	}
 	
-	public ChatController getChatController() {
-		return chatController;
-	}
-	
-	public Marshaller getMarshaller() {
-		return marshaller;
-	}
-	
 	public ImageRenderer getRenderer() {
 		return renderer;
 	}
 	
-	public IDManager getIDManager() {
-		return idManager;
+	public NetworkController getNetworkController() {
+		return myNetworkController;
 	}
 	
 	public AuthorEnvironment getEnvironment() {
 		return myEnvironment;
 	}
 	
-	public void selectSpriteView(SpriteView spriteView) {
-		if (spriteView == null) return;
-		if (selectedSpriteView != null) {
-			selectedSpriteView.indicateDeselection();
+	/**
+	 * @param spriteView SpriteView to be selected
+	 * first tries to lock the SpriteView from server
+	 * if not granted, does nothing and notifies the user
+	 */
+	public void selectSpriteView(SpriteView spView) {
+		if (spView == null || spView == selectedSpriteView) return;
+		try {
+			myNetworkController.getShareEditor().select(spView);
+			this.deselectSpriteView(false);
+			spView.indicateSelection();
+			selectedSpriteView = spView;
+			this.notifySubscribers();
+		} catch (ShareEditException e) {
+			System.out.println("already selected by " + e.getMessage());
 		}
-		spriteView.indicateSelection();
-		selectedSpriteView = spriteView;
-		this.notifySubscribers();
+	}
+	
+	/**
+	 * @param notify specifies if the subscribers (frontend UI) should update
+	 * deselects the sprite view visually and unlocks it at the server
+	 */
+	public void deselectSpriteView(boolean notify) {
+		if (selectedSpriteView != null) {
+			myNetworkController.getShareEditor().unlock(selectedSpriteView);
+			selectedSpriteView.indicateDeselection();
+			selectedSpriteView = null;
+			if (notify) {
+				this.notifySubscribers();
+			}
+		}
 	}
 	
 	public SpriteView getSelectedSpriteView() {
@@ -92,19 +102,15 @@ public class AuthoringController extends AbstractPublisher {
 		myScene = scene;
 		myScene.setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
-				canvasViewController.delete(selectedSpriteView);
+				canvasViewController.delete(selectedSpriteView, true);
 			}
 			else if (event.getCode() == KeyCode.ESCAPE) {
-				if (selectedSpriteView != null) {
-					selectedSpriteView.indicateDeselection();
-					selectedSpriteView = null;
-					this.notifySubscribers();
-				}
+				this.deselectSpriteView(true);
 			}
 		});
 		File f = new File("css/style.css");
 		scene.getStylesheets().clear();
-		//scene.getStylesheets().add(f.getPath());
+		scene.getStylesheets().add(f.getPath());
 	}
 	
 	public void setMouseCursor(Cursor type) {
