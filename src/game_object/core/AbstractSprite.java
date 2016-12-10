@@ -11,6 +11,7 @@ import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
 import game_object.level.SpriteScavenger;
 import game_object.simulation.ICollisionBody;
+import game_object.weapon.Projectile;
 import game_object.powerup.IPowerUp;
 
 /**
@@ -166,6 +167,11 @@ public abstract class AbstractSprite implements ISprite {
     public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection){
        
     }
+	
+	@Override
+	public void onCollideWith(Projectile p, CollisionDirection collisionDirection){
+	    //Do nothing
+	}
 	
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {
