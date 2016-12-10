@@ -1,6 +1,5 @@
 package game_object.core;
 
-import java.util.ArrayList;
 import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.ConstantStrategy;
@@ -33,7 +32,7 @@ public abstract class AbstractSprite implements ISprite {
 	protected Velocity myVelocity;
 	protected IPhysicsStrategy myPhysicsStrategy;
 	protected boolean myFacingLeft;
-	protected List<ISprite> myChildSprites;
+	protected ChildSprites myChildSprites;
 	
 	static {
 		staticPivotPosition = new Position(0, 0);
@@ -51,7 +50,7 @@ public abstract class AbstractSprite implements ISprite {
 		myPhysicsStrategy = new ConstantStrategy();
 		myValid = true;
 		myFacingLeft = false; //default to face right.
-		myChildSprites = new ArrayList<>();
+		myChildSprites = new ChildSprites();
 	}
 	
 	/* General Setting */
@@ -84,7 +83,7 @@ public abstract class AbstractSprite implements ISprite {
 		return myFacingLeft;
 	}
 	
-	public List<ISprite> getChildSprites() {
+	public ChildSprites getChildSprites() {
 		return myChildSprites;
 	}
 	/* ---General Setting END--- */
@@ -283,6 +282,16 @@ public abstract class AbstractSprite implements ISprite {
 	public double getHeightForVisualization() {
 		return myDimension.getHeight();
 	}
+	
+	@Override
+	public double getScrollOffset() {
+		return myScrollOffset;
+	}
+	
+	protected void setScrollOffset(double offset) {
+		myScrollOffset = offset;
+	}
+	
 	/* ---ISpriteVisualization Implementations END--- */
 }
 

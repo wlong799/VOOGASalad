@@ -60,14 +60,14 @@ public class SpriteImageView extends AbstractView {
         this.getUI().setOnMousePressed(event -> {
             CanvasView canvas = mySpriteView.getCanvasView();
             mySpriteView.getMouseOffset().setX(
-                    this.getController().getCanvasViewController()
+                    this.getController().getCanvasController()
                             .toAbsoluteX(event.getSceneX() - canvas.getPositionX()) - mySpriteView.getPositionX());
             mySpriteView.getMouseOffset().setY(
-                    this.getController().getCanvasViewController()
+                    this.getController().getCanvasController()
                             .toAbsoluteY(event.getSceneY() - canvas.getPositionY()) - mySpriteView.getPositionY());
         });
         this.getUI().setOnMouseDragged(event -> {
-            this.getController().getCanvasViewController().onDragSpriteView(mySpriteView, event);
+            this.getController().getCanvasController().onDragSpriteView(mySpriteView, event);
         });
     }
 

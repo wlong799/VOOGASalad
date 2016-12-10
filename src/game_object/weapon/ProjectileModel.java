@@ -1,10 +1,9 @@
 package game_object.weapon;
 
-import game_object.core.Position;
-
 import java.util.List;
 
-import game_object.core.Dimension;
+import game_object.character.ICharacter;
+import game_object.core.Position;
 import game_object.core.Velocity;
 
 /**
@@ -78,8 +77,12 @@ public class ProjectileModel {
 		myCollisionBitMask = collisionBitMask;
 	}
 	
-	public Projectile newProjectileInstance(Position position, Dimension dimension) {
-		return new Projectile(position, dimension, myImagePaths, this);
+	public Projectile newProjectileInstance(ICharacter character) {
+		return new Projectile(
+				character, 
+				new Position(character.getPosition().getX(), character.getPosition().getY()),
+				myImagePaths, 
+				this);
 	}
 	
 }

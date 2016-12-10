@@ -2,129 +2,131 @@ package authoring;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
-import game_object.LevelGenerator;
 import game_object.core.Game;
 import game_object.level.Level;
-import javafx.beans.property.SimpleIntegerProperty;
 
-public class AuthorEnvironment implements IAuthorEnvironment {
-
-    private List<Game> games;
-    private Game currentGame;
-    private Level currentLevel;
-    private SimpleIntegerProperty numLevels, currentLevelIndex, numGames, currentGameIndex;
+/**
+ * AuthorEnvironment contains all of the games currently available for editing. It extends Observable so that
+ * elements within the authoring environment know when they need to updateObservers.
+ */
+public class AuthorEnvironment extends Observable implements IAuthorEnvironment {
+    private List<Game> myAvailableGames;
+    private Game myCurrentGame;
+    private Level myCurrentLevel;
 
     public AuthorEnvironment() {
-        games = new ArrayList<>();
-        numLevels = new SimpleIntegerProperty();
-        currentLevelIndex = new SimpleIntegerProperty();
-        numGames = new SimpleIntegerProperty();
-        currentGameIndex = new SimpleIntegerProperty();
+        myAvailableGames = new ArrayList<>();
     }
 
     @Override
     public void addGame(Game game) {
-        games.add(game);
-        setCurrentGame(games.size() - 1);
+        myAvailableGames.add(game);
+        setCurrentGame(game);
     }
 
     @Override
     public void setCurrentGame(int index) {
-        numGames.set(games.size());
-        if (index < 0 || index >= games.size()) {
-            throw new IllegalArgumentException("index for level out of range");
+        if (index < 0 || index >= myAvailableGames.size()) {
+            throw new IllegalArgumentException("Game index out of range: " + index);
         }
-        currentGame = games.get(index);
+        myCurrentGame = myAvailableGames.get(index);
         setCurrentLevel(0);
-        currentGameIndex.set(index);
     }
 
     @Override
     public void setCurrentGame(Game game) {
-        if (!games.contains(game)) {
-            addGame(game);
+        if (!myAvailableGames.contains(game)) {
+            throw new IllegalArgumentException("Selected game is not available");
+        }
+        setCurrentGame(myAvailableGames.indexOf(game));
+    }
+
+    public void removeGame(Game game) {
+        if (!myAvailableGames.contains(game)) {
+            throw new IllegalArgumentException("Selected game is not available");
+        }
+        myAvailableGames.remove(game);
+        if (myAvailableGames.size() == 0) {
+            myCurrentGame = null;
+            updateObservers();
         } else {
-            setCurrentGame(games.indexOf(game));
+            setCurrentGame(myAvailableGames.size() - 1);
         }
     }
 
-    public void closeCurrentGame() {
-        games.remove(getCurrentGame());
-        if (games.size() == 0) {
-            System.exit(0);
-        }
-        setCurrentGame(games.size() - 1);
+    public List<Game> getAvailableGames() {
+        return myAvailableGames;
     }
 
     @Override
     public Game getCurrentGame() {
-        return currentGame;
+        return myCurrentGame;
     }
 
     @Override
     public boolean addLevel(Level level) {
-        if (currentGame == null) {
-            throw new IllegalArgumentException("no current game");
+        if (myCurrentGame == null) {
+            throw new IllegalArgumentException("No game currently selected");
         }
-        if (currentGame.addLevel(level)) {
-        	setCurrentLevel(currentGame.getAllLevelsReadOnly().size() - 1);
+        if (myCurrentGame.addLevel(level)) {
+        	setCurrentLevel(myCurrentGame.getAllLevelsReadOnly().size() - 1);
         	return true;
         }
         return false;
     }
 
-    @Override
     public void setCurrentLevel(int index) {
-        if (currentGame == null) {
-            throw new IllegalArgumentException("no current game");
+        if (myCurrentGame == null) {
+            throw new IllegalArgumentException("No game currently selected");
         }
-        numLevels.set(currentGame.getAllLevelsReadOnly().size());
-        if (index < 0 || index >= currentGame.getAllLevelsReadOnly().size()) {
-            throw new IllegalArgumentException("index for level out of range");
+        if (index < 0 || index >= myCurrentGame.getAllLevelsReadOnly().size()) {
+            throw new IllegalArgumentException("Level index out of range: " + index);
         }
-        currentLevel = currentGame.getAllLevelsReadOnly().get(index);
-        currentLevelIndex.set(index);
+        myCurrentLevel = myCurrentGame.getAllLevelsReadOnly().get(index);
+        updateObservers();
     }
 
-    @Override
+    public void setCurrentLevel(Level level) {
+        if (myCurrentGame == null) {
+            throw new IllegalArgumentException("No game currently selected");
+        }
+        if (!myCurrentGame.getAllLevelsReadOnly().contains(level)) {
+            throw new IllegalArgumentException("Selected level is not available");
+        }
+        setCurrentLevel(myCurrentGame.getAllLevelsReadOnly().indexOf(level));
+    }
+
     public Level getCurrentLevel() {
-        return currentLevel;
+        return myCurrentLevel;
     }
 
-    public void deleteCurrentLevel() {
-        Level level = getCurrentLevel();
-        getCurrentGame().removeLevel(level);
-        if (getCurrentGame().getAllLevelsReadOnly().size() == 0) {
-            addLevel(LevelGenerator.getTestLevelB());
+    public void removeLevel(Level level) {
+        if (!myCurrentGame.getAllLevelsReadOnly().contains(level)) {
+            throw new IllegalArgumentException("Selected level is not available");
         }
-        setCurrentLevel(getCurrentGame().getAllLevelsReadOnly().size() - 1);
-    }
-
-    public SimpleIntegerProperty getNumLevels() {
-        return numLevels;
-    }
-
-    public SimpleIntegerProperty getCurrentLevelIndex() {
-        return currentLevelIndex;
-    }
-
-    public SimpleIntegerProperty getNumGames() {
-        return numGames;
-    }
-
-    public SimpleIntegerProperty getCurrentGameIndex() {
-        return currentGameIndex;
+        myCurrentGame.removeLevel(level);
+        if (myCurrentGame.getAllLevelsReadOnly().size() == 0) {
+            myCurrentLevel = null;
+            updateObservers();
+        } else {
+            setCurrentLevel(myCurrentGame.getAllLevelsReadOnly().size() - 1);
+        }
     }
 
     @Override
     public void load() {
-        // TODO Auto-generated method stub
+        // TODO: 12/5/16 method does nothing
     }
 
     @Override
     public void setLanguage(String lang) {
-        // TODO Auto-generated method stub
+        // TODO: 12/5/16 method does nothing
     }
 
+    private void updateObservers() {
+        setChanged();
+        notifyObservers();
+    }
 }
