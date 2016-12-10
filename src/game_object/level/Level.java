@@ -12,10 +12,12 @@ import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
+import game_object.constants.GameObjectConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Game;
 import game_object.core.ISprite;
+import game_object.core.Position;
 import game_object.powerup.IPowerUp;
 import game_object.visualization.ILevelVisualization;
 import game_object.visualization.ISpriteVisualization;
@@ -233,8 +235,12 @@ public class Level implements ILevelVisualization {
 	/* ILevelVisualization Implementations */
 	@Override
 	public void init() {
+		if (myHeros.size() == 0) {
+			myHeros.add(Hero.generateDefaultHero());
+		}
 		AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
-		AbstractSprite.setSpriteScavenger(mySpriteScavenger = new SpriteScavenger());
+		mySpriteScavenger = AbstractSprite.getSpriteScavenger();
+		mySpriteScavenger.setBorderDimension(myParentGame.getScreenSize());
 	}
 	
 	@Override
@@ -258,15 +264,11 @@ public class Level implements ILevelVisualization {
 	}
 	
 	private void cleanup() {
-		if (mySpriteScavenger.scavengingNeeded()) {
-			//I intentionally made this verbose just for my own sanity.
-			mySpriteScavenger.scavengeList(myHeros);
-			mySpriteScavenger.scavengeList(myEnemies);
-			mySpriteScavenger.scavengeList(myProjectiles);
-			mySpriteScavenger.scavengeList(myPowerUps);
-			mySpriteScavenger.scavengeList(myBlocks);
-			mySpriteScavenger.clear();
-		}
+		//I intentionally made this verbose just for my own sanity.
+		mySpriteScavenger.scavengeList(myEnemies);
+		mySpriteScavenger.scavengeList(myProjectiles);
+		mySpriteScavenger.scavengeList(myPowerUps);
+		mySpriteScavenger.scavengeList(myBlocks);
 	}
 	/* private END--- */
 }
