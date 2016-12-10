@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import authoring.AuthorEnvironment;
 import authoring.AuthoringController;
 import authoring.constants.UIConstants;
+import authoring.share.ShareEditController;
 import authoring.view.canvas.CanvasView;
 import authoring.view.canvas.SpriteView;
 import authoring.view.canvas.SpriteViewComparator;
@@ -34,6 +35,7 @@ public class CanvasViewController {
     private static final double BLOCK_SIZE = 50;
 
     private AuthoringController myController;
+    private ShareEditController myShareEditor;
     private CanvasView myCanvas;
     private Map<Long, SpriteView> spriteViews;
     private ScrollPane myScrollPane;
@@ -48,6 +50,7 @@ public class CanvasViewController {
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
         myController = canvas.getController();
+        myShareEditor = myController.getNetworkController().getShareEditor();
     	myCanvas = canvas;
         myScrollPane = scrollPane;
         myContent = content;
@@ -68,27 +71,17 @@ public class CanvasViewController {
     public void refresh() {
         initSpriteViews();
     }
-
+    
     /**
-     * method to add a SpriteView to canvas
-     * used for drag and drop from components view
-     *
-     * @param spView
      * @param x
-     * @param y
-     * @param relative if true, x and y are positions on screen instead of real positions
+     * @param y x and y are positions relative to screen
      */
-    public void add(SpriteView spView, double x, double y, boolean relative) {
-        spriteViews.put(spView.getID(), spView);
-        spView.setCanvasView(myCanvas);
-        myContent.getChildren().add(spView.getUI());
-        if (relative) {
-            setRelativePosition(spView, x, y);
-        } else {
-            setAbsolutePosition(spView, x, y);
-        }
-        reorderSpriteViewsWithPositionZ();
-        spView.snapToGrid();
+    public void makeAndAddSpriteView(double x, double y) {
+        SpriteView spView = myCanvas.getController().getComponentController().makeSpriteViewFromCopiedSprite(myCanvas);
+        myEnvironment.getCurrentLevel().addSprite(spView.getSprite());
+        // pass to network
+        add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
+        myCanvas.getController().selectSpriteView(spView);
     }
 
     /**
@@ -100,6 +93,8 @@ public class CanvasViewController {
         spriteViews.remove(spView);
         myEnvironment.getCurrentLevel().removeSprite(spView.getSprite());
         this.reorderSpriteViewsWithPositionZ();
+        
+        // pass the action via network
     }
 
     /**
@@ -124,17 +119,21 @@ public class CanvasViewController {
         } else {
             newy = toAbsoluteY(y);
         }
-        setAbsolutePosition(spView, newx, newy);
+        setAbsolutePosition(spView, newx, newy, true);
     }
 
     /**
      * @param spView
      * @param x
      * @param y      x and y are absolute
+     * @param share if the action should be passed to network
      */
-    public void setAbsolutePosition(SpriteView spView, double x, double y) {
+    public void setAbsolutePosition(SpriteView spView, double x, double y, boolean share) {
         spView.setAbsolutePositionX(x);
         spView.setAbsolutePositionY(y);
+        if (share) {
+        	myShareEditor.move(spView, x, y);
+        }
     }
 
     public void setAbsolutePositionZ(SpriteView spView, double z) {
@@ -166,7 +165,7 @@ public class CanvasViewController {
                                    double endX,
                                    double endY) {
         if (startX > endX || startY > endY) return;
-        this.setAbsolutePosition(spView, startX, startY);
+        this.setAbsolutePosition(spView, startX, startY, true);
         spView.setDimensionWidth(endX - startX);
         spView.setDimensionHeight(endY - startY);
     }
@@ -239,7 +238,7 @@ public class CanvasViewController {
             throw new RuntimeException("no current level for canvas");
         }
         for (ISprite sp : currentLevel.getAllSprites()) {
-        	long newID = myController.getIDManager().getNextID();
+        	long newID = myController.getNetworkController().getIDManager().getNextID();
             SpriteView spView = new SpriteView(
             		myCanvas.getController(), 
             		newID);
@@ -282,16 +281,28 @@ public class CanvasViewController {
             event.consume();
         });
     }
-
+    
     /**
+     * method to add a SpriteView to canvas
+     * purely frontend (does not modify current level)
+     * used for drag and drop from components view
+     *
+     * @param spView
      * @param x
-     * @param y x and y are positions relative to screen
+     * @param y
+     * @param relative if true, x and y are positions on screen instead of real positions
      */
-    private void makeAndAddSpriteView(double x, double y) {
-        SpriteView spView = myCanvas.getController().getComponentController().makeSpriteViewFromCopiedSprite(myCanvas);
-        add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
-        myCanvas.getController().selectSpriteView(spView);
-        myEnvironment.getCurrentLevel().addSprite(spView.getSprite());
+    private void add(SpriteView spView, double x, double y, boolean relative) {
+        spriteViews.put(spView.getID(), spView);
+        spView.setCanvasView(myCanvas);
+        myContent.getChildren().add(spView.getUI());
+        if (relative) {
+            setRelativePosition(spView, x, y);
+        } else {
+            setAbsolutePosition(spView, x, y, true);
+        }
+        reorderSpriteViewsWithPositionZ();
+        spView.snapToGrid();
     }
 
     private void adjustScrollPane(double x, double y) {

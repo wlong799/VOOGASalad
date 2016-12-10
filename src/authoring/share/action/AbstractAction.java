@@ -1,4 +1,4 @@
-package authoring.share;
+package authoring.share.action;
 
 public abstract class AbstractAction implements IAction {
 	
