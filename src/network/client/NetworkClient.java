@@ -170,12 +170,24 @@ public class NetworkClient implements INetworkClient {
 		reader.start();
 	}
 
+	/**
+	 * This call is blocking until server has returned the assigned
+	 * starting sequence number.
+	 * 
+	 * <p>See also {@link INetworkClient#getStartingSequenceNumber()}
+	 */
 	@Override
 	public long getStartingSequenceNumber() throws SessionExpiredException {
-		// TODO cx15 and jdoc
-		return 0;
+		return connectionToServer.getStartingSequenceNumber();
 	}
 
+	/**
+	 * Refers to {@link INetworkClient#tryLock(long)}
+	 * 
+	 * <p> This call returns as soon as response from server is received.
+	 * In the worst case when the server failed, it is blocked for as long
+	 * as the remaining lease with the server. 
+	 */
 	@Override
 	public String tryLock(long id) throws SessionExpiredException {
 		signAndsend(MessageType.TRYLOCK, id);
@@ -195,6 +207,9 @@ public class NetworkClient implements INetworkClient {
 		throw new SessionExpiredException();
 	}
 
+	/**
+	 * Refers to {@link INetworkClient#unlock(long)}
+	 */
 	@Override
 	public void unlock(long id) throws SessionExpiredException {
 		if (connectionToServer.isClosed()) {

@@ -16,12 +16,13 @@ public enum MessageType {
 	
 	CHAT ("network.messages.application.ChatMessage"),
 	USER_GONE_OFFLINE ("network.messages.application.UserGoneOfflineMessage"),
-	ACTION ("TODO"), // TODO cx15
+	ACTION (">>>>>>>>>>>>>>>>>TODO"), // TODO cx15
 	LOCK_RESPONSE ("network.messages.application.LockResponseMessage"),
 	
 	TRYLOCK ("network.messages.system.Trylock"),
 	UNLOCK ("network.messages.system.Unlock"),
 	HANDSHAKE ("network.messages.system.HandShake"),
+	SET_STARTING_ID ("network.messages.system.SetStartingID"),
 	DISCONNECT ("network.messages.system.Disconnect"),
 	SESSION_LEASE ("network.messages.system.SessionLease"),
 	SESSION_LEASE_GRANTED ("network.messages.system.SessionLeaseGranted");

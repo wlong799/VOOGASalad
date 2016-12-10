@@ -5,7 +5,13 @@ import java.io.IOException;
 import network.client.NetworkClient;
 import network.server.Coordinator;
 
-// TODO cx15 JDOC
+/**
+ * This is an integration test that runs multiple clients on the 
+ * same node to serialize their requests for lock and unlock, to test
+ * if the behavior is the same as defined by the API.
+ * 
+ * @author CharlesXu
+ */
 public class LockServiceTest {
 	
 	public static final int PORT = 9999;
@@ -30,6 +36,7 @@ public class LockServiceTest {
 			Thread.sleep(DELAY_MILLIS);
 			holder = c2.tryLock(ID_1);
 			System.out.println(USER_B + " should now be able to hold the lock: " + holder);
+			System.out.println("Should get 1000: " + c1.getStartingSequenceNumber());
 			cor.shutdown();
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();

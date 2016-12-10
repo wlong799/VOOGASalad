@@ -162,4 +162,23 @@ public abstract class Connection {
 	public void unlock(Long id, String userName) {
 		return;
 	}
+	
+	/**
+	 * To avoid duplicate id on sprite, the id name space is partitioned such
+	 * that for any two clients their id name spaces are totally disjoint. The
+	 * starting sequence number marks the start of collision-free id that is
+	 * available for the client. 
+	 * @return the starting id for new sprite
+	 */
+	public long getStartingSequenceNumber() {
+		return 0L;
+	}
+	
+	/**
+	 * Allow server to set the starting id remotely. 
+	 * 
+	 * <p>See also {@link Connection#getStartingSequenceNumber()}
+	 * @param seqno the starting id to store locally
+	 */
+	public void setStartingSequenceNumber(long seqno) {}
 }

@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 
 import network.core.Connection;
 import network.messages.Message;
+import network.messages.MessageType;
 
 /**
  * The central coordination service. Its main purpose is to observe
@@ -28,12 +29,14 @@ public class Coordinator {
 	
 	private static final Logger LOGGER =
 			Logger.getLogger( Coordinator.class.getName() );
+	private static final long NAME_SPACE_PARTITION_SIZE = 1000L;
 	
 	private ServerSocket serverSocket;
 	private Vector<ConnectionToClient> connectionPool;
 	private BlockingQueue<Message> messageQueue;
 	private boolean hasStopped;
 	private Map<Long, String> lockHolders;
+	private int monoCount;
 	
 	//TODO cx15 release lock if session expired
 	
@@ -50,6 +53,7 @@ public class Coordinator {
 		messageQueue = new LinkedBlockingQueue<>();
 		hasStopped = false;
 		lockHolders = new HashMap<>();
+		monoCount = 0;
         new Daemon(this).start();
         new Postman(this).start();
 	}
@@ -60,7 +64,7 @@ public class Coordinator {
 	 * @param userName the request issuer
 	 * @return the userName of the client that currently holding the lock
 	 */
-	public String trylock(Long id, String userName) {
+	public synchronized String trylock(Long id, String userName) {
 		if (!lockHolders.containsKey(id)) {
 			lockHolders.put(id, userName);
 		}
@@ -74,7 +78,7 @@ public class Coordinator {
 	 * @param id identifies the server object to be locked
 	 * @param userName the request issuer
 	 */
-	public void unlock(Long id, String userName) {
+	public synchronized void unlock(Long id, String userName) {
 		if (!lockHolders.containsKey(id)) {
 			return;
 		}
@@ -96,6 +100,11 @@ public class Coordinator {
 	 */
 	public synchronized void addConnection(ConnectionToClient conn) {
 		connectionPool.add(conn);
+		monoCount++;
+		conn.send(MessageType.SET_STARTING_ID.build(
+						Coordinator.class.getName(),
+						monoCount * NAME_SPACE_PARTITION_SIZE)
+		);
 	}
 	
 	/**
