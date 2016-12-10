@@ -97,5 +97,11 @@ public class Projectile extends AbstractSprite {
         return new ConstantStrategy();
     }
 
+    @Override
+    public void onCollideWith (Projectile p, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        
+    }
+
 	
 }
