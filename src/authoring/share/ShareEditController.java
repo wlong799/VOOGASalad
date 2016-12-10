@@ -3,6 +3,7 @@ package authoring.share;
 import java.util.Queue;
 
 import authoring.AuthoringController;
+import authoring.share.action.AddSpriteAction;
 import authoring.share.action.IAction;
 import authoring.share.action.MoveSpriteAction;
 import authoring.share.exception.ShareEditException;
@@ -51,10 +52,14 @@ public class ShareEditController {
 	
 	/**
 	 * @param spView SpriteView to be added
+	 * @param x position x
+	 * @param y position y
 	 * send an add action to the server
 	 */
-	public void add(SpriteView spView) {
+	public void add(SpriteView spView, double x, double y) {
 		if (!hasClient()) return;
+		IAction addAction = new AddSpriteAction(spView, x, y);
+		myNetworkController.getClient().broadcast(addAction, MessageType.ACTION);
 	}
 	
 	/**
@@ -73,7 +78,7 @@ public class ShareEditController {
 	 */
 	public void move(SpriteView spView, double newX, double newY) {
 		if (!hasClient()) return;
-		IAction moveAction = new MoveSpriteAction(spView.getID(), newY, newY);
+		IAction moveAction = new MoveSpriteAction(spView.getID(), newX, newY);
 		myNetworkController.getClient().broadcast(moveAction, MessageType.ACTION);
 	}
 	

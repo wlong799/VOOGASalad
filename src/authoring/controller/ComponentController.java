@@ -11,6 +11,10 @@ public class ComponentController {
     public void setCurrentlyCopiedSprite(ISprite sprite) {
         myCurrentlyCopiedSprite = sprite;
     }
+    
+    public ISprite getCurrentlyCopiedSprite() {
+    	return myCurrentlyCopiedSprite;
+    }
 
     public SpriteView makeSpriteViewFromCopiedSprite(CanvasView canvas) {
         SpriteView spriteView = new SpriteView(

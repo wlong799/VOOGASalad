@@ -15,7 +15,6 @@ import game_player.image.ImageRenderer;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import serializing.Marshaller;
 
 public class AuthoringController extends AbstractPublisher {
 	
@@ -26,7 +25,6 @@ public class AuthoringController extends AbstractPublisher {
 	private CanvasViewController canvasViewController;
 	private ComponentController componentController;
 	private TestGameController testGameController;
-	private Marshaller marshaller;
 	private ImageRenderer renderer;
 	private NetworkController myNetworkController;
 	
@@ -35,7 +33,6 @@ public class AuthoringController extends AbstractPublisher {
 		canvasViewController = new CanvasViewController();
 		componentController = new ComponentController();
 		testGameController = new TestGameController(this);
-		marshaller = new Marshaller();
 		renderer = new ImageRenderer();
 		myNetworkController = new NetworkController(this);
 	}
@@ -50,10 +47,6 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public TestGameController getTestGameController() {
 		return testGameController;
-	}
-	
-	public Marshaller getMarshaller() {
-		return marshaller;
 	}
 	
 	public ImageRenderer getRenderer() {
