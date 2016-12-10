@@ -76,7 +76,7 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 
     @Override
     public void onCollideWith(Enemy e, CollisionDirection collisionDirection) {
-    	
+    	this.getVelocity().setYVelocity(-100);
     }
 
     
