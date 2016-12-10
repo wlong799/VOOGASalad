@@ -4,30 +4,35 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import game_object.core.Dimension;
+import game_object.core.ISprite;
+import game_object.core.Position;
+
 public class SpriteScavenger {
 	
-	private Set<Object> myScavengeSet;
+	private static final double BORDER_OFFSET = 500;
+	private Dimension myBorderDimension;
 	
-	public SpriteScavenger() {
-		myScavengeSet = new HashSet<>();
+	public void setBorderDimension(Dimension borderDimension) {
+		myBorderDimension = borderDimension;
 	}
 	
-	public boolean scavengingNeeded() {
-		return !myScavengeSet.isEmpty();
-	}
-	
-	public void mark(Object sprite) {
-		myScavengeSet.add(sprite);
-	}
-	
-	public void scavengeList(List<? extends Object> list) {
-		for (Object sprite : myScavengeSet) {
-			list.remove(sprite);
+	public void scavengeList(List<? extends ISprite> list) {
+		Set<ISprite> removeSet = new HashSet<>();
+		for (ISprite sprite : list) {
+			if (!sprite.isValid() || isOutOfBoundary(sprite)) {
+				removeSet.add(sprite);
+			}
 		}
+		list.removeAll(removeSet);
 	}
 	
-	public void clear() {
-		myScavengeSet.clear();
+	private boolean isOutOfBoundary(ISprite sprite) {
+		Position pos = sprite.getPosition();
+		return pos.getX() < 0 - BORDER_OFFSET
+			|| pos.getX() > myBorderDimension.getWidth() + BORDER_OFFSET
+			|| pos.getY() < 0 - BORDER_OFFSET
+			|| pos.getY() > myBorderDimension.getHeight() + BORDER_OFFSET;
 	}
 	
 }
