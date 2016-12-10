@@ -1,18 +1,28 @@
 package authoring.view.inspector.settings;
 
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Map.Entry;
 
 import authoring.AuthoringController;
+import game_object.acting.ActionName;
+import game_object.acting.ActionTrigger;
+import game_object.acting.KeyEvent;
 import game_object.level.Level;
 import goal.time.PassTime;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import resources.ResourceBundles;
 
 public class TitledPaneView extends AbstractSettingsView {
@@ -37,7 +47,8 @@ public class TitledPaneView extends AbstractSettingsView {
 	@Override
 	public void initializeSettings() {
 		initializeTimeGoalTitledPane();
-		myContent.getChildren().add(myTimeGoalTitledPane);
+		initializePointGoalTitledPane();
+		myContent.getChildren().addAll(myTimeGoalTitledPane, myPointGoalTitledPane);
 	}
 	
 	private void initializeTimeGoalTitledPane() {
@@ -55,6 +66,7 @@ public class TitledPaneView extends AbstractSettingsView {
 		grid.add(dspinner, 0, 2);
 	
 		Button applyTimeGoal = new Button("Apply Time Goal");
+		applyTimeGoal.getStyleClass().add("goalButton");
 		applyTimeGoal.setOnAction((event) -> {
 			PassTime timeGoal = new PassTime(dspinner.getValue());
 			myLevel.getAllGoals().add(timeGoal);
@@ -65,11 +77,39 @@ public class TitledPaneView extends AbstractSettingsView {
 	}
 	
 	private void initializePointGoalTitledPane() {
-		
-	}
+		TableView<Map.Entry<String, String>> pointGoals = new TableView<>();
+		TableColumn<Map.Entry<String, String>, String> column1 = new TableColumn<>("Hero");
+        column1.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
+        TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>("Goal");
+        column2.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue()));
+        
+        pointGoals.getColumns().addAll(column1, column2);
+        myContent.getChildren().add(pointGoals);
+        myPointGoalTitledPane = new TitledPane("Point Goal", pointGoals);
 	
-	private void initializeBeatBossGoalTitledPane() {
-		
+//        pointGoals.setOnMousePressed(event -> {
+//            if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+//                Entry<String, String> entry = pointGoals.getSelectionModel().getSelectedItem();
+//                Level currentLevel = this.getController().getEnvironment().getCurrentLevel();
+//                ActionTrigger currentTrigger =
+//                        currentLevel.getTriggerWithSpriteAndAction(mySprite, action);
+//                if (currentTrigger == null) {
+//                    currentTrigger = new ActionTrigger(new KeyEvent(null), mySprite, action);
+//                    currentLevel.getAllTriggers().add(currentTrigger);
+//                }
+//                KeyCode code = getKeyDialog(currentTrigger);
+//                if (code == null) {
+//                    currentLevel.getAllTriggers().remove(currentTrigger);
+//                    myEntryMap.put(action.toString(), "None");
+//                } else {
+//                    currentTrigger.setEvent(new KeyEvent(code));
+//                    myEntryMap.put(action.toString(), code.toString());
+//                }
+//                myItems.clear();
+//                myItems.addAll(myEntryMap.entrySet());
+//            }
+//        });
+	
 	}
 
 }
