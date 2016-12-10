@@ -40,16 +40,16 @@ public class GamePlayMenu implements IMenuInputListener {
 
 	private void getItemDescriptions() {
 		myMenuItems = new ArrayList<ItemDescription>();
-		//myMenuItems.add(new ItemDescription("test2", "TestDescription", "blue_snail.png"));
-		//myMenuItems.add(new ItemDescription("test2", "TestDescription", "blue_snail.png"));
-		//myMenuItems.add(new ItemDescription("test2", "TestDescription", "blue_snail.png"));
-		//myMenuItems.add(new ItemDescription("test2", "TestDescription", "blue_snail.png"));
+		myMenuItems.add(new ItemDescription("data/game/test2.xml", "TestDescription", "blue_snail.png"));
+		myMenuItems.add(new ItemDescription("data/game/test2.xml", "TestDescription", "blue_snail.png"));
+		myMenuItems.add(new ItemDescription("data/game/test2.xml", "TestDescription", "blue_snail.png"));
+		myMenuItems.add(new ItemDescription("data/game/test2.xml", "TestDescription", "blue_snail.png"));
 	}
 
 	@Override
 	public void itemChosen(String name) {
 		try {
-			Game game = mySerializer.loadGame(name);
+			Game game = mySerializer.loadGame("file:" + name);
 			myManager.playGame(game);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

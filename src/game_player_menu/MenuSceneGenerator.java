@@ -57,8 +57,8 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
         root.setTop(instructions);
 		myMenuScene = new Scene(root);
 		setMenuCSS();
-		//root.setCenter(layoutDescriptions(menuItems));
-		root.setCenter(loadGameButton());
+		root.setCenter(layoutDescriptions(menuItems));
+		//root.setCenter(loadGameButton());
 		return myMenuScene;
 	}
 	
