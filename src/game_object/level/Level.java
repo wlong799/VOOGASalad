@@ -1,6 +1,7 @@
 package game_object.level;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import game_engine.physics.PhysicsParameters;
@@ -171,24 +172,24 @@ public class Level implements ILevelVisualization {
 	}
 	
 	public List<Hero> getHeros() {
-		return myHeros;
+		return Collections.unmodifiableList(myHeros);
 	}
 
 	public List<Enemy> getEnemies() {
-		return myEnemies;
+		return Collections.unmodifiableList(myEnemies);
 	}
 
 	public List<Block> getStaticBlocks() {
-		return myBlocks;
+		return Collections.unmodifiableList(myBlocks);
 	}
 	
 	
 	public List<Projectile> getProjectiles() {
-		return myProjectiles;
+		return Collections.unmodifiableList(myProjectiles);
 	}
 	
 	public List<IPowerUp> getPowerUps() {
-		return myPowerUps;
+		return Collections.unmodifiableList(myPowerUps);
 	}
 	
 	/* ---Accessors for background, characters and blocks END--- */
@@ -243,7 +244,6 @@ public class Level implements ILevelVisualization {
 	
 	@Override
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
-		cleanup();
 		List<ISprite> allSprites = getAllSprites();
 		allSprites.sort((s1, s2) ->
 			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
