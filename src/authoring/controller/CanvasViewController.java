@@ -88,15 +88,15 @@ public class CanvasViewController {
 
     /**
      * @param spView to delete
+     * @param share if the add action should be passed to the network
      * delete a SpriteView
      */
-    public void delete(SpriteView spView) {
+    public void delete(SpriteView spView, boolean share) {
         if (spView == null) return;
         spriteViews.remove(spView);
         myEnvironment.getCurrentLevel().removeSprite(spView.getSprite());
         this.reorderSpriteViewsWithPositionZ();
-        
-        // pass the action via network
+        myShareEditor.remove(spView);
     }
 
     /**

@@ -102,7 +102,7 @@ public class AuthoringController extends AbstractPublisher {
 		myScene = scene;
 		myScene.setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
-				canvasViewController.delete(selectedSpriteView);
+				canvasViewController.delete(selectedSpriteView, true);
 			}
 			else if (event.getCode() == KeyCode.ESCAPE) {
 				this.deselectSpriteView(true);

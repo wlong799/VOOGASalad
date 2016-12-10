@@ -6,6 +6,7 @@ import authoring.AuthoringController;
 import authoring.share.action.AddSpriteAction;
 import authoring.share.action.IAction;
 import authoring.share.action.MoveSpriteAction;
+import authoring.share.action.RemoveSpriteAction;
 import authoring.share.exception.ShareEditException;
 import authoring.view.canvas.SpriteView;
 import javafx.animation.KeyFrame;
@@ -68,6 +69,8 @@ public class ShareEditController {
 	 */
 	public void remove(SpriteView spView) {
 		if (!hasClient()) return;
+		IAction removeAction = new RemoveSpriteAction(spView.getID());
+		myNetworkController.getClient().broadcast(removeAction, MessageType.ACTION);
 	}
 	
 	/**
