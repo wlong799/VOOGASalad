@@ -56,7 +56,7 @@ public class GameEngine_Game implements IGameEngine {
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(game);
 		myEnemyControllerFactory = new EnemyControllerFactory();
-		myEnemyController = myEnemyControllerFactory.createEnemyController(EnemyLevelTypes.MEDIUM);
+		myEnemyController = myEnemyControllerFactory.createEnemyController(EnemyLevelTypes.HARD);
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		myFPS = game.getFPS();
 		myTotalTime = 0;
@@ -87,8 +87,9 @@ public class GameEngine_Game implements IGameEngine {
 			//mimic enemy behavior; treat them as players
 			if (s instanceof Enemy) {
 				IMover enemy = (IMover) s; 
-				Set<ActionName> list = myEnemyController.getActions(enemy);
+				Set<ActionName> list = myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
 				myEnemyController.executeInput(enemy, list);
+				myCurrentLevel.getProjectiles().addAll(myEnemyController.getNewProjectiles());
 			}
 			updateNewParameters(s);
 		}

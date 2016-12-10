@@ -18,23 +18,29 @@ public class MediumEnemyController extends AbstractEnemyController {
 	}
 
 	@Override
-	public Set<ActionName> getActions(IMover enemy) {
+	public Set<ActionName> getActions(IMover enemy, IMover Hero) {
 		Set<ActionName> set = new HashSet<ActionName>();
 		
+		//whether to jump
 		double jumpProb = myRandom.nextInt(RANDOMCAP);
 		if (jumpProb < RANDOMCAP * JUMPPROB) {
 			set.add(ActionName.JUMP);
 		}
-		double jumpProb2 = myRandom.nextInt(RANDOMCAP);
-		if (jumpProb2 < RANDOMCAP * CHANGEDIRECTIONPROB) {
+		
+		//whether to move
+		double changeDirectionProb = myRandom.nextInt(RANDOMCAP);
+		if (changeDirectionProb < RANDOMCAP * CHANGEDIRECTIONPROB) {
 			set.add(enemy.isFacingLeft()?ActionName.MOVE_RIGHT:ActionName.MOVE_LEFT); 
 		} else {
 			set.add(enemy.isFacingLeft()?ActionName.MOVE_LEFT:ActionName.MOVE_RIGHT); 
 		}
-		double jumpProb3 = myRandom.nextInt(RANDOMCAP);
-		if (jumpProb3 < RANDOMCAP * SHOOTPROB) {
+		
+		//whether to shoot
+		double shootProb = myRandom.nextInt(RANDOMCAP);
+		if (shootProb < RANDOMCAP * SHOOTPROB) {
 			set.add(ActionName.SHOOT);
 		}
+		
 		return set;
 	}
 
