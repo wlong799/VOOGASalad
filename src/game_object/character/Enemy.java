@@ -7,6 +7,7 @@ import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
+import game_object.weapon.Projectile;
 
 public class Enemy extends AbstractCharacter {
 
@@ -51,7 +52,18 @@ public class Enemy extends AbstractCharacter {
     @Override
     public void onCollideWith (Block b, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
-        super.onCollideWith(b, collisionDirection);
+        //super.onCollideWith(b, collisionDirection);
+        if(collisionDirection == CollisionDirection.LEFT || collisionDirection == CollisionDirection.RIGHT){
+            getVelocity().setXVelocity(-getVelocity().getXVelocity());
+        }
+    }
+
+    @Override
+    public void onCollideWith (Projectile p, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        
+        // die?
+        //p.getModel().
     }
 	
 	
