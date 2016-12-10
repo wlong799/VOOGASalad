@@ -20,22 +20,20 @@ public class NewLevelElement extends AbstractGameMenuElement {
 
     @Override
     protected void setFunctionality() {
-    	GameAdder adder = new GameAdder();
+        GameAdder adder = new GameAdder();
         myMenuItem.setOnAction(event -> {
-        	if (adder.addLevel(myController.getEnvironment())) {
-        		myController.getCanvasViewController().refresh();
-        	}
-        	else {
-        		showDuplicateIDError();
-        	}
+            if (adder.addLevel(myController.getEnvironment())) {
+            } else {
+                showDuplicateIDError();
+            }
         });
     }
-    
+
     private void showDuplicateIDError() {
-    	DialogFactory.showErrorDialog(
-    			"Error", 
-    			"Error adding level", 
-    			"The ID you input is already used by another level"
-    	);
+        DialogFactory.showErrorDialog(
+                "Error",
+                "Error adding level",
+                "The ID you input is already used by another level"
+        );
     }
 }

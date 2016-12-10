@@ -1,6 +1,7 @@
 package authoring;
 
-import authoring.constants.UIConstants;
+import java.util.ResourceBundle;
+
 import authoring.view.AuthoringView;
 import game_object.LevelGenerator;
 import game_object.core.Game;
@@ -8,37 +9,40 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 public class AuthoringInitializer {
 	
-	private Rectangle2D primaryScreenBounds;
-	private double width;
-	private double height;
-	private Scene scn;
-	private AuthoringView authoringView;
-	private AuthorEnvironment environment;
+	private Rectangle2D myPrimaryScreenBounds;
+	private double myWidth;
+	private double myHeight;
+	private Scene myScene;
+	private AuthoringView myAuthoringView;
+	private AuthorEnvironment myEnvironment;
+	private ResourceBundle myCanvasProperties;
 	
 	public void init() {
 		String os = System.getProperty("os.name");
-		primaryScreenBounds = Screen.getPrimary().getVisualBounds();
-		height = 0;
-		width = primaryScreenBounds.getWidth();
+		myPrimaryScreenBounds = Screen.getPrimary().getVisualBounds();
+		myHeight = 0;
+		myWidth = myPrimaryScreenBounds.getWidth();
 		if (os.contains("Windows")) {
-			height = primaryScreenBounds.getHeight();
+			myHeight = myPrimaryScreenBounds.getHeight();
 		}
 		else {
-			height = primaryScreenBounds.getHeight() - UIConstants.DISCREPANCY_BETWEEN_MAC_AND_WINDOWS_SCREEN;
+			myCanvasProperties = ResourceBundles.canvasProperties;
+			myHeight = myPrimaryScreenBounds.getHeight() - Double.parseDouble(myCanvasProperties.getString("DISCREPANCY_BETWEEN_MAC_AND_WINDOWS_SCREEN"));
 		}
 		
-		environment = initEnvironment();
+		myEnvironment = initEnvironment();
 		
-		AuthoringController controller = new AuthoringController(environment);
-		authoringView = new AuthoringView(controller);
-		authoringView.setSize(width, height);
-		authoringView.updateLayout();
+		AuthoringController controller = new AuthoringController(myEnvironment);
+		myAuthoringView = new AuthoringView(controller);
+		myAuthoringView.setSize(myWidth, myHeight);
+		myAuthoringView.updateLayout();
 		
-		scn = initScene();
-		controller.setScene(scn);
+		myScene = initScene();
+		controller.setScene(myScene);
 		
 		initStage();
 	}
@@ -53,25 +57,25 @@ public class AuthoringInitializer {
 	}
 
 	private Scene initScene() {
-		Scene scn = new Scene(authoringView.getUI(), width, height);
+		Scene scn = new Scene(myAuthoringView.getUI(), myWidth, myHeight);
 		
 		scn.widthProperty().addListener((val, oldWidth, newWidth) -> {
-			authoringView.setWidth(newWidth.doubleValue());
-			authoringView.updateLayout();
+			myAuthoringView.setWidth(newWidth.doubleValue());
+			myAuthoringView.updateLayout();
 		});
 		scn.heightProperty().addListener((val, oldHeight, newHeight) -> {
-			authoringView.setHeight(newHeight.doubleValue());
-			authoringView.updateLayout();
+			myAuthoringView.setHeight(newHeight.doubleValue());
+			myAuthoringView.updateLayout();
 		});
 		return scn;
 	}
 
 	private void initStage() {
 		Stage stage = new Stage();
-		stage.setX(primaryScreenBounds.getMinX());
-		stage.setY(primaryScreenBounds.getMinY());
-		stage.setWidth(width);
-		stage.setScene(scn);
+		stage.setX(myPrimaryScreenBounds.getMinX());
+		stage.setY(myPrimaryScreenBounds.getMinY());
+		stage.setWidth(myWidth);
+		stage.setScene(myScene);
 		stage.show();
 	}
 

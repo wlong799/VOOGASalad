@@ -2,9 +2,9 @@ package authoring.view.components;
 
 import java.io.File;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
-import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import game_object.constants.GameObjectConstants;
 import javafx.scene.control.Button;
@@ -16,12 +16,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 public class ComponentPanelView extends AbstractView {
     private HBox myContent;
     private TabPane myTabPane;
     private Button myComponentCreationButton;
     private ImageView myButtonImageView;
+    private ResourceBundle myComponentProperties;
+    private ResourceBundle myCanvasProperties;
 
     private ComponentPanelView(AuthoringController controller) {
         super(controller);
@@ -29,13 +32,15 @@ public class ComponentPanelView extends AbstractView {
 
     @Override
     protected void initUI() {
+    	myComponentProperties = ResourceBundles.componentProperties;
+    	myCanvasProperties = ResourceBundles.canvasProperties;
         myContent = new HBox();
         myTabPane = new TabPane();
         myButtonImageView = new ImageView(GameObjectConstants.UPLOAD);
         myButtonImageView.setPreserveRatio(true);
         myComponentCreationButton = new Button();
-        myComponentCreationButton.setPrefHeight(UIConstants.BOTTOM_HEIGHT + 50);
-        myComponentCreationButton.setPrefWidth(200);
+        myComponentCreationButton.setPrefHeight(Double.parseDouble(myCanvasProperties.getString("BOTTOM_HEIGHT")) + Double.parseDouble(myCanvasProperties.getString("CREATION_BUTTON_HEIGHT_ABOVE_BOTTOM")));
+        myComponentCreationButton.setPrefWidth(Double.parseDouble(myCanvasProperties.getString("CREATION_BUTTON_WIDTH")));
         myComponentCreationButton.setGraphic(myButtonImageView);
         setComponentCreationButtonAction();
 
@@ -45,21 +50,21 @@ public class ComponentPanelView extends AbstractView {
 
     @Override
     protected void updateLayoutSelf() {
-        double listWidth = getWidth() * UIConstants.LIST_WIDTH_RATIO;
+        double listWidth = getWidth() * Double.parseDouble(myComponentProperties.getString("LIST_WIDTH_RATIO"));
         double buttonWidth = getWidth() - listWidth;
         myContent.setPrefWidth(getWidth());
         myContent.setPrefHeight(getHeight());
-        myContent.setSpacing(buttonWidth * (UIConstants.BUTTON_WIDTH_RATIO / 2));
+        myContent.setSpacing(buttonWidth * (Double.parseDouble(myComponentProperties.getString("CONTENT_SPACING"))));
 
         myTabPane.setPrefWidth(listWidth);
         myTabPane.setPrefHeight(getHeight());
         getSubViews().forEach(subView -> {
             subView.setWidth(listWidth);
-            subView.setHeight(getHeight() - 30);
+            subView.setHeight(getHeight() - Double.parseDouble(myComponentProperties.getString("SUB_VIEW_HEIGHT_DIFFERENT")));
         });
 
-        double newImageWidth = buttonWidth * UIConstants.BUTTON_WIDTH_RATIO;
-        double newImageHeight = getHeight() * UIConstants.BUTTON_HEIGHT_RATIO;
+        double newImageWidth = buttonWidth * Double.parseDouble(myComponentProperties.getString("BUTTON_WIDTH_RATIO"));
+        double newImageHeight = getHeight() * Double.parseDouble(myComponentProperties.getString("BUTTON_HEIGHT_RATIO"));
         if (myButtonImageView.getImage().getWidth() / newImageWidth >
                 myButtonImageView.getImage().getHeight() / newImageHeight) {
             myButtonImageView.setFitHeight(0);

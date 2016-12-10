@@ -9,11 +9,12 @@ import game_object.core.Position;
  * wrapper for Sprite in AuthEnv
  */
 public class SpriteView extends AbstractView {
+	
     private ISprite mySprite;
     private CanvasView myCanvas;
-    private SpriteImageView spImageView;
-    private SpriteResizeView spResizeView;
-    private Position mouseOffset;
+    private SpriteImageView mySpriteImageView;
+    private SpriteResizeView mySpriteResizeView;
+    private Position myMouseOffset;
 
     public SpriteView(AuthoringController controller) {
         super(controller);
@@ -48,11 +49,11 @@ public class SpriteView extends AbstractView {
 
     public void setAbsolutePositionZ(double z) {
         mySprite.getPosition().setZ(z);
-        getController().getCanvasViewController().reorderSpriteViewsWithPositionZ();
+        getController().getCanvasController().reorderSpriteViewsWithPositionZ();
     }
 
     public Position getMouseOffset() {
-        return mouseOffset;
+        return myMouseOffset;
     }
 
     /**
@@ -74,20 +75,20 @@ public class SpriteView extends AbstractView {
     }
 
     public void indicateSelection() {
-        this.removeSubView(spResizeView);
-        if (spResizeView != null) {
-            removeUI(spResizeView.getUI());
+        this.removeSubView(mySpriteResizeView);
+        if (mySpriteResizeView != null) {
+            removeUI(mySpriteResizeView.getUI());
         }
-        spResizeView = new SpriteResizeView(this.getController());
-        addUI(spResizeView.getUI());
-        addSubView(spResizeView);
+        mySpriteResizeView = new SpriteResizeView(this.getController());
+        addUI(mySpriteResizeView.getUI());
+        addSubView(mySpriteResizeView);
         updateLayout();
     }
 
     public void indicateDeselection() {
-        this.removeSubView(spResizeView);
-        if (spResizeView != null) {
-            removeUI(spResizeView.getUI());
+        this.removeSubView(mySpriteResizeView);
+        if (mySpriteResizeView != null) {
+            removeUI(mySpriteResizeView.getUI());
         }
     }
 
@@ -95,40 +96,40 @@ public class SpriteView extends AbstractView {
     protected void initUI() {
         if (mySprite == null) return;
 
-        spImageView = new SpriteImageView(this.getController());
-        addUI(spImageView.getUI());
-        addSubView(spImageView);
-        this.setHeight(spImageView.getHeight());
-        this.setWidth(spImageView.getWidth());
+        mySpriteImageView = new SpriteImageView(this.getController());
+        addUI(mySpriteImageView.getUI());
+        addSubView(mySpriteImageView);
+        this.setHeight(mySpriteImageView.getHeight());
+        this.setWidth(mySpriteImageView.getWidth());
 
         setMouseClicked();
-        spImageView.setDragMove();
-        mouseOffset = new Position(0, 0);
+        mySpriteImageView.setDragMove();
+        myMouseOffset = new Position(0, 0);
     }
 
     @Override
     protected void updateLayoutSelf() {
-        spImageView.setWidth(getWidth());
-        spImageView.setHeight(getHeight());
-        if (spResizeView != null) {
-            spResizeView.setWidth(getWidth());
-            spResizeView.setHeight(getHeight());
+        mySpriteImageView.setWidth(getWidth());
+        mySpriteImageView.setHeight(getHeight());
+        if (mySpriteResizeView != null) {
+            mySpriteResizeView.setWidth(getWidth());
+            mySpriteResizeView.setHeight(getHeight());
         }
     }
 
     private void setMouseClicked() {
         getUI().setOnMouseClicked(e -> {
             getController().selectSpriteView(this);
-            if (this.getController().getCanvasViewController().getSnapToGrid()) {
+            if (this.getController().getCanvasController().getSnapToGrid()) {
             	snapToGrid();
             }
         });
     }
 
     public void snapToGrid() {
-        setAbsolutePositionX(getController().getCanvasViewController().convertToNearestBlockValue(getPositionX()));
-        setAbsolutePositionY(getController().getCanvasViewController().convertToNearestBlockValue(getPositionY()));
-        setDimensionWidth(getController().getCanvasViewController().convertToNearestBlockValue(getWidth()));
-        setDimensionHeight(getController().getCanvasViewController().convertToNearestBlockValue(getHeight()));
+        setAbsolutePositionX(getController().getCanvasController().convertToNearestBlockValue(getPositionX()));
+        setAbsolutePositionY(getController().getCanvasController().convertToNearestBlockValue(getPositionY()));
+        setDimensionWidth(getController().getCanvasController().convertToNearestBlockValue(getWidth()));
+        setDimensionHeight(getController().getCanvasController().convertToNearestBlockValue(getHeight()));
     }
 }

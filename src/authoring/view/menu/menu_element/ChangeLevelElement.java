@@ -2,12 +2,12 @@ package authoring.view.menu.menu_element;
 
 import authoring.AuthoringController;
 import authoring.view.menu.AbstractGameMenuElement;
+import game_object.level.Level;
 import javafx.scene.control.Menu;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.control.ToggleGroup;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Switch the currently active editable level.
@@ -15,11 +15,11 @@ import java.util.Map;
  * @author Will Long
  * @version 11/28/16
  */
-public class ChangeLevelElement extends AbstractGameMenuElement {
+public class ChangeLevelElement extends AbstractGameMenuElement implements Observer {
     private static final String MENU_NAME = "Change Level";
 
     private ToggleGroup myToggleGroup;
-    private Map<Integer, RadioMenuItem> myCurrentItems;
+    private Map<Level, RadioMenuItem> myCurrentItems;
 
     private ChangeLevelElement(AuthoringController controller) {
         super(MENU_NAME, controller);
@@ -27,40 +27,27 @@ public class ChangeLevelElement extends AbstractGameMenuElement {
 
     @Override
     protected void setFunctionality() {
-        myController.getEnvironment().getNumLevels().addListener(observable -> {
-            refreshAvailableLevels();
-        });
-        myController.getEnvironment().getCurrentLevelIndex().addListener((observable, oldValue, newValue) -> {
-            RadioMenuItem radioMenuItem = myCurrentItems.get(newValue.intValue());
-            if (radioMenuItem != null) {
-                myCurrentItems.get(newValue.intValue()).setSelected(true);
-            }
-        });
+        myController.getEnvironment().addObserver(this);
         myToggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             if (myToggleGroup.getSelectedToggle() != null) {
-                int index = (int) newValue.getUserData();
-                if (index != myController.getEnvironment().getCurrentLevelIndex().get()) {
-                    myController.getEnvironment().setCurrentLevel(index);
-                    myController.getCanvasViewController().refresh();
+                Level level = (Level) myToggleGroup.getSelectedToggle().getUserData();
+                if (level != myController.getEnvironment().getCurrentLevel()) {
+                    myController.getEnvironment().setCurrentLevel(level);
                 }
             }
         });
-        refreshAvailableLevels();
     }
 
     private void refreshAvailableLevels() {
         ((Menu) myMenuItem).getItems().clear();
         myToggleGroup.getToggles().removeAll();
         myCurrentItems.clear();
-        for (int i = 0; i < myController.getEnvironment().getNumLevels().get(); i++) {
-            RadioMenuItem radioMenuItem = 
-            		new RadioMenuItem(myController.getEnvironment().getCurrentGame().getAllLevelsReadOnly().get(i).getId());
-            radioMenuItem.setUserData(i);
-            if (myController.getEnvironment().getCurrentLevelIndex().get() == i) {
-                radioMenuItem.setSelected(true);
-            }
+        List<Level> availableLevels = myController.getEnvironment().getCurrentGame().getAllLevelsReadOnly();
+        for (Level level : availableLevels) {
+            RadioMenuItem radioMenuItem = new RadioMenuItem(level.getId());
+            radioMenuItem.setUserData(level);
             radioMenuItem.setToggleGroup(myToggleGroup);
-            myCurrentItems.put(i, radioMenuItem);
+            myCurrentItems.put(level, radioMenuItem);
             ((Menu) myMenuItem).getItems().add(radioMenuItem);
         }
     }
@@ -70,5 +57,15 @@ public class ChangeLevelElement extends AbstractGameMenuElement {
         myMenuItem = new Menu(menuItemName);
         myToggleGroup = new ToggleGroup();
         myCurrentItems = new HashMap<>();
+        update(null, null);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        refreshAvailableLevels();
+        RadioMenuItem radioMenuItem = myCurrentItems.get(myController.getEnvironment().getCurrentLevel());
+        if (radioMenuItem != null) {
+            radioMenuItem.setSelected(true);
+        }
     }
 }

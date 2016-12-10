@@ -87,7 +87,6 @@ public class GameEngine_Game implements IGameEngine {
 			}
 			updateNewParameters(s);
 		}
-		// System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
 		if (!logSuppressed) {
 			System.out.println(myCurrentLevel.getHeros().get(0));
 		}
