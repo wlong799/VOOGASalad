@@ -10,13 +10,13 @@ public class NetworkController {
 	private AuthoringController myAuthoringController;
 	private String myName;
 	private NetworkClient myClient;
-	private IDManager idManager;
+	private IDManager myIDManager;
 	private ShareEditController shareEditor;
 	private ChatController chatController;
 	
 	public NetworkController(AuthoringController authoringController) {
 		myAuthoringController = authoringController;
-		idManager = new IDManager(0);
+		myIDManager = new IDManager(0);
 		chatController = new ChatController(this);
 		shareEditor = new ShareEditController(this, myAuthoringController);
 	}
@@ -24,6 +24,7 @@ public class NetworkController {
 	public void initClientWithName(String name) throws ServerDownException {
 		myName = name;
 		myClient = new NetworkClient(name);
+		myIDManager = new IDManager(myClient.getStartingSequenceNumber());
 	}
 	
 	public String getMyName() {
@@ -35,7 +36,7 @@ public class NetworkController {
 	}
 	
 	public IDManager getIDManager() {
-		return idManager;
+		return myIDManager;
 	}
 	
 	public ShareEditController getShareEditor() {
