@@ -55,7 +55,7 @@ public class ActionConfiguringView extends AbstractSettingsView {
             }
         }
         myItems = FXCollections.observableArrayList(myEntryMap.entrySet());
-        myTableView = new TableView<>(myItems);
+        myTableView.setItems(myItems);
         setTableActions();
     }
 
@@ -71,6 +71,7 @@ public class ActionConfiguringView extends AbstractSettingsView {
 
         myTableView.getColumns().addAll(column1, column2);
         myTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        myContent.getChildren().add(myTableView);
     }
 
     @Override
