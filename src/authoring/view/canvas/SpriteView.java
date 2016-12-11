@@ -15,6 +15,7 @@ public class SpriteView extends AbstractView {
     private CanvasView myCanvas;
     private SpriteImageView mySpriteImageView;
     private SpriteResizeView mySpriteResizeView;
+    private SpriteNameView mySpriteNameView;
     private Position myMouseOffset;
 
     public SpriteView(AuthoringController controller, long id) {
@@ -107,14 +108,19 @@ public class SpriteView extends AbstractView {
             removeUI(mySpriteResizeView.getUI());
         }
     }
+    
+    public void setEditor(String name) {
+    	mySpriteNameView.setName(name);
+    }
 
     @Override
     protected void initUI() {
         if (mySprite == null) return;
 
         mySpriteImageView = new SpriteImageView(this.getController());
-        addUI(mySpriteImageView.getUI());
-        addSubView(mySpriteImageView);
+        mySpriteNameView = new SpriteNameView(this.getController());
+        addUIAll(mySpriteImageView.getUI(), mySpriteNameView.getUI());
+        addSubViews(mySpriteImageView, mySpriteNameView);
         this.setHeight(mySpriteImageView.getHeight());
         this.setWidth(mySpriteImageView.getWidth());
 
@@ -127,6 +133,8 @@ public class SpriteView extends AbstractView {
     protected void updateLayoutSelf() {
         mySpriteImageView.setWidth(getWidth());
         mySpriteImageView.setHeight(getHeight());
+        mySpriteNameView.setPositionX(0);
+        mySpriteNameView.setPositionY(-20);
         if (mySpriteResizeView != null) {
             mySpriteResizeView.setWidth(getWidth());
             mySpriteResizeView.setHeight(getHeight());

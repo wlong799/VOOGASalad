@@ -88,6 +88,7 @@ public class AuthoringController extends Observable {
 			myNetworkController.getShareEditor().select(spView);
 			spView.indicateSelection();
 			selectedSpriteView = spView;
+			spView.setEditor(myNetworkController.getMyName());
 			this.updateObservers();
 		} catch (ShareEditException e) {
 			System.out.println("already selected by " + e.getMessage());
@@ -102,11 +103,29 @@ public class AuthoringController extends Observable {
 		if (selectedSpriteView != null) {
 			myNetworkController.getShareEditor().unlock(selectedSpriteView);
 			selectedSpriteView.indicateDeselection();
+			selectedSpriteView.setEditor("");
 			selectedSpriteView = null;
 			if (notify) {
 				this.updateObservers();
 			}
 		}
+	}
+	
+	/**
+	 * @param spView selected by another user
+	 * @param name the editor's name
+	 */
+	public void selectSpriteViewFromNetwork(SpriteView spView, String name) {
+		spView.setEditor(name);
+	}
+	
+	/**
+	 * @param spView to be selected
+	 * de-selects sprite view by removing the name tag above
+	 * received only from network
+	 */
+	public void deselectSpriteViewFromNetwork(SpriteView spView) {
+		spView.setEditor("");
 	}
 	
 	public SpriteView getSelectedSpriteView() {
