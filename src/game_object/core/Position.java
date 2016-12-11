@@ -21,6 +21,10 @@ public class Position {
 		this(x, y);
 		myZ = z;
 	}
+	
+	public static Position getCopiedInstance(Position position) {
+		return new Position(position.getX(), position.getY(), position.getZ());
+	}
 
 	public double getX() {
 		return myX;

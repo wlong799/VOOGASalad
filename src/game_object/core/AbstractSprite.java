@@ -29,6 +29,7 @@ public abstract class AbstractSprite implements ISprite {
 	protected int myCollisionBitMask;
 	protected boolean myAffectedByPhysics;
 	protected Velocity myVelocity;
+	protected Velocity myPreviousVelocity;
 	protected IPhysicsStrategy myPhysicsStrategy;
 	protected boolean myFacingLeft;
 	protected ChildSprites myChildSprites;
@@ -84,7 +85,6 @@ public abstract class AbstractSprite implements ISprite {
 	/* IBodyWithPosition Implementations */
 	@Override
 	public void setPosition(Position pos) {
-		myPreviousPosition = myPosition;
 		myPosition = pos;
 	}
 	
@@ -94,8 +94,13 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	
 	@Override
+	public void setPreviousPosition(Position previousPosition) {
+		myPreviousPosition = previousPosition;
+	}
+	
+	@Override
 	public Position getPreviousPosition() {
-		return myPreviousPosition;
+		return myPreviousPosition == null ? getPosition() : myPreviousPosition;
 	}
 	/* ---IBodyWithPosition Implementations END--- */
 	
@@ -212,6 +217,16 @@ public abstract class AbstractSprite implements ISprite {
 	@Override
 	public void setVelocity(Velocity velocity) {
 		myVelocity = velocity;
+	}
+	
+	@Override
+	public Velocity getPreviousVelocity() {
+		return myPreviousVelocity == null ? getVelocity() : myPreviousVelocity;
+	}
+	
+	@Override
+	public void setPreviousVelocity(Velocity previousVelocity) {
+		myPreviousVelocity = previousVelocity;
 	}
 	/* ---IPhysicsBody Setter Implementations END--- */
 	
