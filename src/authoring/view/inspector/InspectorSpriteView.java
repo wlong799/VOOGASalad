@@ -26,7 +26,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
     private ComponentPhysicsSettings componentPhysicsSettings;
     private TextInputBoxView myXBox, myYBox, myZBox, myWidthBox, myHeightBox, myVelocityXBox, myVelocityYBox;
     private CheckBoxView myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
-            myApplyPhysicsCheckBox, myReachPointCheckBox, enemyHasAIBox;
+            myApplyPhysicsCheckBox, myReachPointCheckBox, enemyHasAIBox, myBounceHBox, myBounceVBox;
     private SliderBoxView myMaxJumpSlider, myJumpUnitSlider, myDamageSlider;
     private ActionConfiguringView myActionView;
     private LivesConfiguringView myLivesConfiguringView;
@@ -93,13 +93,14 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
         }
 
         if (sprite instanceof Hero) {
+        	Hero hero = (Hero) sprite;
             myActionView = new ActionConfiguringView(getController(), sprite);
             myMaxJumpSlider = new SliderBoxView(
                     getController(),
                     "Number of Jumps",
                     Double.parseDouble(componentProperties.getString("MIN_NUMBER_JUMPS")),
                     Double.parseDouble(componentProperties.getString("MAX_NUMBER_JUMPS")),
-                    ((Hero) sprite).getMaxNumberOfJumps(),
+                    hero.getMaxNumberOfJumps(),
                     Double.parseDouble(componentProperties.getString("JUMP_INCREMENT")),
                     (obv, oldVal, newVal) -> ((Hero) sprite).setMaxNumberOfJumps(newVal.intValue()));
             myJumpUnitSlider = new SliderBoxView(
@@ -107,7 +108,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     "Jump Unit",
                     Double.parseDouble(componentProperties.getString("MIN_JUMP_UNIT")),
                     Double.parseDouble(componentProperties.getString("MAX_JUMP_UNIT")),
-                    ((Hero) sprite).getJumpingUnit(),
+                    hero.getJumpingUnit(),
                     Double.parseDouble(componentProperties.getString("JUMP_UNIT_INCREMENT")),
                     (obv, oldVal, newVal) -> ((Hero) sprite).setJumpingUnit(newVal.doubleValue()));
             myDamageSlider = new SliderBoxView(
@@ -115,11 +116,28 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     "Damage by Projectile",
                     Double.parseDouble(componentProperties.getString("MIN_DAMAGE")),
                     Double.parseDouble(componentProperties.getString("MAX_DAMAGE")),
-                    ((Hero) sprite).getAttackByProjectileStrategy().getDamage(),
+                    hero.getAttackByProjectileStrategy().getDamage(),
                     Double.parseDouble(componentProperties.getString("DAMAGE_INCREMENT")),
-                    (obv, oldVal, newVal) -> ((Hero) sprite).getAttackByProjectileStrategy().setDamageFromAllDirection(newVal.doubleValue()));
-            myLivesConfiguringView = new LivesConfiguringView(getController(), (Hero) sprite);
-            addSettingsViews(myActionView, myMaxJumpSlider, myJumpUnitSlider, myLivesConfiguringView, myDamageSlider);
+                    (obv, oldVal, newVal) -> hero.getAttackByProjectileStrategy().setDamageFromAllDirection(newVal.doubleValue()));
+            myLivesConfiguringView = new LivesConfiguringView(getController(), hero);
+            myBounceHBox = new CheckBoxView(
+            		getController(), 
+            		"Bounce Horizontally", 
+            		hero.getCollideWithBlockStrategy().getHorizontalBounce(),
+                    (obv, oldVal, newVal) -> hero.getCollideWithBlockStrategy().setHorizontalBounce(newVal));
+            myBounceVBox = new CheckBoxView(
+            		getController(), 
+            		"Bounce Vertically", 
+            		hero.getCollideWithBlockStrategy().getVerticalBounce(),
+                    (obv, oldVal, newVal) -> hero.getCollideWithBlockStrategy().setVerticalBounce(newVal));
+            addSettingsViews(
+            		myActionView, 
+            		myMaxJumpSlider, 
+            		myJumpUnitSlider, 
+            		myDamageSlider, 
+            		myLivesConfiguringView,
+            		myBounceHBox,
+            		myBounceVBox);
         }
         
         if (sprite instanceof Enemy) {
