@@ -15,6 +15,7 @@ import game_object.simulation.ICollisionBody;
 public class Enemy extends AbstractCharacter {
 
 	private static final long serialVersionUID = -6360150217648638907L;
+	private boolean myHasAI = false;
 	private List<ICollisionStrategy<Enemy, Hero>> myHeroStrategyList;
     private AttackCollisionStrategy<Enemy, Hero> myAttackByHeroCollisionStrategy;
     private MotionCollisionStrategy<Enemy, Hero> myPushByHeroCollsionStrategy;
@@ -29,18 +30,26 @@ public class Enemy extends AbstractCharacter {
 		setupDefaultStrategy();
 	}
 	
-	 private void setupDefaultStrategy() {
-        myAttackByHeroCollisionStrategy = new AttackCollisionStrategy<>();
-        myPushByHeroCollsionStrategy = new MotionCollisionStrategy<>();
-        myHeroStrategyList = new ArrayList<>();
-        myHeroStrategyList.add(myAttackByHeroCollisionStrategy);
-        myHeroStrategyList.add(myPushByHeroCollsionStrategy);
-    	myAttackByHeroCollisionStrategy.setTopDamage(DefaultConstants.HERO_BODY_DAMAGE);
-    	myAttackByHeroCollisionStrategy.setBottomDamage(DefaultConstants.HERO_BODY_DAMAGE);
-    	myPushByHeroCollsionStrategy.setHorizontalBounce(true);
-    	myPushByHeroCollsionStrategy.setVerticalBounce(true);
-    }
+	private void setupDefaultStrategy() {
+		myAttackByHeroCollisionStrategy = new AttackCollisionStrategy<>();
+	    myPushByHeroCollsionStrategy = new MotionCollisionStrategy<>();
+	    myHeroStrategyList = new ArrayList<>();
+	    myHeroStrategyList.add(myAttackByHeroCollisionStrategy);
+	    myHeroStrategyList.add(myPushByHeroCollsionStrategy);
+		myAttackByHeroCollisionStrategy.setTopDamage(DefaultConstants.HERO_BODY_DAMAGE);
+		myAttackByHeroCollisionStrategy.setBottomDamage(DefaultConstants.HERO_BODY_DAMAGE);
+		myPushByHeroCollsionStrategy.setHorizontalBounce(true);
+		myPushByHeroCollsionStrategy.setVerticalBounce(true);
+	}
 	 
+	public void setHasAI(boolean hasAI) {
+		myHasAI = hasAI;
+	}
+	
+	public boolean hasAI() {
+		return myHasAI;
+	}
+	
 	/* Collision Strategies */
 	public AttackCollisionStrategy<Enemy, Hero> getAttackByHeroCollisionStrategy() {
 		return myAttackByHeroCollisionStrategy;
