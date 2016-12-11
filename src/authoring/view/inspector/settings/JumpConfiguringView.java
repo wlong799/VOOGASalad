@@ -53,7 +53,6 @@ public class JumpConfiguringView extends AbstractView {
 
     private void initSliders() {
     	infiniteJumps = new CheckBox(myLanguageResourceBundle.getString("infiniteJumps"));
-    	System.out.print("HERE");
     	infiniteJumps.selectedProperty().addListener(new ChangeListener<Boolean>() {
 			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
 				myHero.setMaxNumberOfJumps(Integer.MAX_VALUE);
