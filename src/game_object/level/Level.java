@@ -235,6 +235,7 @@ public class Level implements ILevelVisualization {
 	
 	/* ILevelVisualization Implementations */
 	private List<ISpriteVisualization> mySpriteVisuals = new ArrayList<>();
+	
 	@Override
 	public void init() {
 		if (myHeros.size() == 0) {
@@ -255,15 +256,12 @@ public class Level implements ILevelVisualization {
 			sprite.setPreviousPosition(Position.getCopiedInstance(sprite.getPosition()));
 			sprite.setPreviousVelocity(Velocity.getCopiedInstance(sprite.getVelocity()));
 		}
+		mySpriteVisuals.clear();
+		mySpriteVisuals.addAll(allSprites);
 	}
 	
 	@Override
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
-		List<ISprite> allSprites = getAllSprites();
-		allSprites.sort((s1, s2) ->
-			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
-		);
-		mySpriteVisuals.addAll(allSprites);
 		return mySpriteVisuals;
 	}
 	/* ---ILevelVisualization Implementations END--- */
