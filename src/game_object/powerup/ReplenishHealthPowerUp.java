@@ -8,8 +8,7 @@ import game_object.core.Position;
 
 public class ReplenishHealthPowerUp extends AbstractPowerUp {
 
-
-	protected ReplenishHealthPowerUp(Position position, Dimension dimension, List<String> imagePaths) {
+	public ReplenishHealthPowerUp(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 	}
 
