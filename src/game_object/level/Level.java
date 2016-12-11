@@ -47,6 +47,7 @@ public class Level implements ILevelVisualization {
 	private List<IPowerUp> myPowerUps;
 	private SpriteScavenger mySpriteScavenger;
 	
+
 	public Level(Game parentGame, String id) {
 		myParentGame = parentGame;
 		myId = id;
@@ -61,6 +62,10 @@ public class Level implements ILevelVisualization {
 		myPhysicsParameters = new PhysicsParameters();
 		myGoals = new ArrayList<>();
 		myBackground = new Background();
+	}
+
+	public double getTotalScore() {
+		return myHeros.get(0).getTotalScore();
 	}
 	
 	public String getId() {
