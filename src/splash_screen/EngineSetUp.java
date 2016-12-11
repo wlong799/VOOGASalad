@@ -13,6 +13,13 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -25,15 +32,15 @@ public class EngineSetUp {
 	private VBox box;
 	
 	public EngineSetUp() throws IOException {
-		Label title = new Label(languageProperties.getString("voogasalad"));
-		title.setFont(new Font(20));
+		Image splashImage = new Image("img/splash.png");
+		ImageView splashIV = new ImageView (splashImage);
 		
 		box = new VBox();
 		box.setAlignment(Pos.CENTER);
 		box.setSpacing(50);
+		box.setBackground(new Background(new BackgroundImage(splashImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
 		
 		box.getChildren().addAll(
-				title,
 				initLanguageComboBox(),
 				initAuthoringButton(),
 				initPlayerButton());
@@ -62,13 +69,19 @@ public class EngineSetUp {
 	}
 	
 	private Button initAuthoringButton() {
-		Button button = new Button(languageProperties.getString("authoring"));
+		Image createImage = new Image("img/create.png");
+		ImageView createIV = new ImageView (createImage);
+		Button button = new Button();
+		button.setGraphic(createIV);
 		button.setOnAction(e -> new AuthoringInitializer().init(languagesFilePathBeginning + languagesComboBox.getValue()));
 		return button;
 	}
 	
 	private Button initPlayerButton() {
-		Button button = new Button(languageProperties.getString("player"));
+		Image playImage = new Image("img/play.png");
+		ImageView playIV = new ImageView (playImage);
+		Button button = new Button();
+		button.setGraphic(playIV);
 		button.setOnAction(e -> {
 			GamePlayManager applicationManager = new GamePlayManager();
 			applicationManager.start(new Stage());

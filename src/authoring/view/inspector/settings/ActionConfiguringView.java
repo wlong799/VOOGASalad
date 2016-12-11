@@ -67,6 +67,7 @@ public class ActionConfiguringView extends AbstractSettingsView {
     protected void initUI() {
         super.initUI();
         myTableView = new TableView<>();
+        
         TableColumn<Map.Entry<String, String>, String> column1 = new TableColumn<>(myLanguageResourceBundle.getString("actionType"));
         column1.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
         TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>(myLanguageResourceBundle.getString("keyInput"));
