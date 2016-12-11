@@ -1,6 +1,8 @@
 package game_object.core;
 
-public class Dimension {
+import java.io.Serializable;
+
+public class Dimension implements Serializable {
 
 	private double myWidth;
 	private double myHeight;

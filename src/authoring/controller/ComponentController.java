@@ -16,11 +16,10 @@ public class ComponentController {
     	return myCurrentlyCopiedSprite;
     }
 
-    public SpriteView makeSpriteViewFromCopiedSprite(CanvasView canvas) {
-        SpriteView spriteView = new SpriteView(
-        		canvas.getController(), 
-        		canvas.getController().getNetworkController().getIDManager().getNextID());
-        spriteView.setSprite(myCurrentlyCopiedSprite);
+    public SpriteView makeSpriteViewFromSprite(
+    		CanvasView canvas, ISprite sprite, long id) {
+        SpriteView spriteView = new SpriteView(canvas.getController(), id);
+        spriteView.setSprite(sprite);
         return spriteView;
     }
 }

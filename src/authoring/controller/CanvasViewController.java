@@ -77,13 +77,17 @@ public class CanvasViewController {
      * @param y x and y are positions relative to screen
      * @param share if the add action should be passed to the network
      */
-    public void addSpriteView(SpriteView spView, double x, double y, boolean share) {
-        myEnvironment.getCurrentLevel().addSprite(spView.getSprite());
+    public void addSpriteView(ISprite sprite, double x, double y, long id, boolean share) {
+    	SpriteView spView = myController.getComponentController().makeSpriteViewFromSprite(
+    			myCanvas,
+    			sprite,
+    			id);
+        myEnvironment.getCurrentLevel().addSprite(sprite);
         if (share) {
         	myShareEditor.add(spView, x, y);
         }
         add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
-        myCanvas.getController().selectSpriteView(spView);
+        //myCanvas.getController().selectSpriteView(spView);
     }
 
     /**
@@ -278,8 +282,12 @@ public class CanvasViewController {
             if (db.hasImage()) {
                 double x = event.getSceneX() - myCanvas.getPositionX();
                 double y = event.getSceneY() - myCanvas.getPositionY();
-                SpriteView spView = myCanvas.getController().getComponentController().makeSpriteViewFromCopiedSprite(myCanvas);
-                addSpriteView(spView, x, y, true);
+                ISprite copiedSprite = myController.getComponentController().getCurrentlyCopiedSprite();
+                SpriteView spView = myController.getComponentController().makeSpriteViewFromSprite(
+                		myCanvas, 
+                		copiedSprite, 
+                		myController.getNetworkController().getIDManager().getNextID());
+                addSpriteView(copiedSprite, x, y, spView.getID(), true);
                 success = true;
             }
             event.setDropCompleted(success);
