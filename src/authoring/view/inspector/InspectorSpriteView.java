@@ -27,7 +27,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
     private ComponentPhysicsSettings componentPhysicsSettings;
     private TextInputBoxView myXBox, myYBox, myZBox, myWidthBox, myHeightBox, myVelocityXBox, myVelocityYBox;
     private CheckBoxView myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
-            myApplyPhysicsCheckBox, myReachPointCheckBox, enemyHasAIBox, myBounceHBox, myBounceVBox;
+            myApplyPhysicsCheckBox, myReachPointCheckBox, enemyHasAIBox, myBounceHBox, myBounceVBox, myPushedHBox, myPushedVBox;
     private SliderBoxView myMaxJumpSlider, myJumpUnitSlider, myDamageSlider;
     private ActionConfiguringView myActionView;
     private LivesConfiguringView myLivesConfiguringView;
@@ -114,18 +114,52 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     Double.parseDouble(componentProperties.getString("JUMP_UNIT_INCREMENT")),
                     (obv, oldVal, newVal) -> ((Hero) sprite).setJumpingUnit(newVal.doubleValue()));
             myLivesConfiguringView = new LivesConfiguringView(getController(), hero);
+            myPushedHBox = new CheckBoxView(
+            		getController(), 
+            		"Pushed by Enemy Horizontally", 
+            		hero.getPushByEnemyCollsionStrategy().getHorizontalBounce(),
+                    (obv, oldVal, newVal) -> {
+                        hero.getPushByEnemyCollsionStrategy().setHorizontalBounce(newVal);
+                    });
+            myPushedVBox = new CheckBoxView(
+            		getController(), 
+            		"Pushed by Enemy Vertically", 
+            		hero.getPushByEnemyCollsionStrategy().getVerticalBounce(),
+                    (obv, oldVal, newVal) -> {
+                        hero.getPushByEnemyCollsionStrategy().setVerticalBounce(newVal);;
+                    });
             addSettingsViews(
             		myActionView, 
             		myMaxJumpSlider, 
             		myJumpUnitSlider,
-            		myLivesConfiguringView);
+            		myLivesConfiguringView,
+            		myPushedHBox,
+            		myPushedVBox);
         }
         
         if (sprite instanceof Enemy) {
+        	Enemy enemy = (Enemy) sprite;
         	enemyHasAIBox = new CheckBoxView(getController(), "Has AI",
-                    ((Enemy) sprite).hasAI(),
+        			enemy.hasAI(),
                     (obv, old_val, new_val) -> ((Enemy)sprite).setHasAI(new_val));
-        	addSettingsView(enemyHasAIBox);
+        	myPushedHBox = new CheckBoxView(
+            		getController(), 
+            		"Pushed by Hero Horizontally", 
+            		enemy.getPushByHeroCollsionStrategy().getHorizontalBounce(),
+                    (obv, oldVal, newVal) -> {
+                    	enemy.getPushByHeroCollsionStrategy().setHorizontalBounce(newVal);
+                    });
+            myPushedVBox = new CheckBoxView(
+            		getController(), 
+            		"Pushed by Hero Vertically", 
+            		enemy.getPushByHeroCollsionStrategy().getVerticalBounce(),
+                    (obv, oldVal, newVal) -> {
+                    	enemy.getPushByHeroCollsionStrategy().setVerticalBounce(newVal);;
+                    });
+        	addSettingsViews(
+        			enemyHasAIBox,
+        			myPushedHBox,
+        			myPushedVBox);
         }
         
         if (sprite instanceof ICharacter) {
