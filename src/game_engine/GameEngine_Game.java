@@ -14,6 +14,7 @@ import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.random.RandomGenerationController;
+import game_engine.random.RandomSpriteCluster;
 import game_engine.random.SpriteInfo;
 import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
@@ -75,11 +76,17 @@ public class GameEngine_Game implements IGameEngine {
 	    List<String> imagePaths = new ArrayList<String>();
 	    imagePaths.add(GameObjectConstants.BLUE_METAL_FILE);
 	    Dimension dim = new Dimension(100, 100);
-	    SpriteInfo si = new SpriteInfo(Block.class,imagePaths,dim);
+	    RandomSpriteCluster rsc = new RandomSpriteCluster(0,500,5);
+	    SpriteInfo si = new SpriteInfo(Block.class,imagePaths,dim,new Position(0,0));
+	    SpriteInfo bottomSi = new SpriteInfo(Block.class, imagePaths,dim, new Position(0,300));
 	    sprites.add(si);
-	    myGenerator = new RandomGenerationController(myCurrentLevel,sprites,5);
-	    myGenerator.setGenerationMetrics(0, 0, myCurrentLevel.getBoundary().getDimension().getHeight());
+	    sprites.add(bottomSi);
+	    sprites.forEach(s -> rsc.addSprite(s));
+	    List<RandomSpriteCluster> clusters = new ArrayList<RandomSpriteCluster>();
+	    clusters.add(rsc);
+	    myGenerator = new RandomGenerationController(myCurrentLevel,clusters);
 	}
+	
 	public void suppressLogDebug() {
 		logSuppressed = true;
 		myCollisionEngine.suppressLogDebug();
