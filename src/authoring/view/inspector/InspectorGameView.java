@@ -53,7 +53,7 @@ public class InspectorGameView extends AbstractInspectorTabView {
         		EnemyLevelTypes.HARD.toString()));
         myDifficultyBox = new ComboBoxSettingsView(
                 getController(),
-                "Enemy Difficulty",
+                myLanguageResourceBundle.getString("enemyDifficulty"),
                 currentGame.getEnemyDifficulty().toString(),
                 difficulties,
                 (obv, oldVal, newVal) -> {
