@@ -1,10 +1,12 @@
 package authoring.view.components;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Observable;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import game_object.GameObjectType;
 import game_object.block.Block;
@@ -15,6 +17,8 @@ import game_object.core.ExceptionThrower;
 import game_object.core.ISprite;
 import game_object.core.Position;
 import game_object.powerup.NewWeaponPowerUp;
+import game_object.powerup.ReplenishHealthPowerUp;
+import game_object.powerup.SpeedUpPowerUp;
 
 /**
  * Component class provides a way for users to have editable game component templates to add to the environment. Each
@@ -24,18 +28,10 @@ import game_object.powerup.NewWeaponPowerUp;
 // TODO: 11/21/16 Make a way to edit the template sprite
 // TODO: 11/21/16 Make a way to link all previously created sprites and update them as well 
 public class Component extends Observable {
-    private static final String COPY_ERROR = "Error when copying from template sprite.";
 
     private ISprite myTemplateSprite;
     private String myTitle;
     private String myDescription;
-
-    public Component(GameObjectType gameObjectType, String imagePathLeft, String imagePathRight, String title, String description) {
-        List<String> imagePaths = new ArrayList<String>(Arrays.asList(imagePathLeft, imagePathRight));
-        myTemplateSprite = createTemplateSpriteFromType(gameObjectType, imagePaths);
-        myTitle = title;
-        myDescription = description;
-    }
 
     public Component(GameObjectType gameObjectType, String imagePath, String title, String description) {
         List<String> imagePaths = new ArrayList<String>(Arrays.asList(imagePath));
@@ -45,21 +41,8 @@ public class Component extends Observable {
     }
 
     public ISprite copySpriteFromTemplate() {
-        ISprite sprite = null;
-        try {
-            Constructor<? extends ISprite> spriteConstructor = myTemplateSprite.getClass().getConstructor(
-                    Position.class, Dimension.class, List.class);
-            Position oldPos = myTemplateSprite.getPosition();
-            Position newPos = new Position(oldPos.getX(), oldPos.getY(), oldPos.getZ());
-            Dimension oldDim = myTemplateSprite.getDimension();
-            Dimension newDim = new Dimension(oldDim.getWidth(), oldDim.getHeight());
-            List<String> newImagePaths = new ArrayList<>(myTemplateSprite.getImagePaths());
-            sprite = spriteConstructor.newInstance(newPos, newDim, newImagePaths);
-        } catch (Exception e) {
-            System.out.println(COPY_ERROR);
-            e.printStackTrace();
-        }
-        return sprite;
+    	XStream mySerializer = new XStream(new DomDriver());
+		return (ISprite)mySerializer.fromXML(mySerializer.toXML(myTemplateSprite));
     }
 
     public void setTitle(String title) {
@@ -105,6 +88,12 @@ public class Component extends Observable {
                 break;
             case WEAPON_POWER_UP:
                 sprite = new NewWeaponPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths, null, null);
+                break;
+            case SPEED_POWER_UP:
+                sprite = new SpeedUpPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths, 2);
+                break;
+            case HEALTH_POWER_UP:
+                sprite = new ReplenishHealthPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths);
                 break;
             case WEAPON_PROJECTILE:
                 ExceptionThrower.illegalArgs("Projectile should not be created directly inside authoring environment");

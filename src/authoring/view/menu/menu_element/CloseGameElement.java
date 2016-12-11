@@ -11,10 +11,9 @@ import game_object.core.Game;
  * @version 11/28/16
  */
 public class CloseGameElement extends AbstractGameMenuElement {
-    private static final String MENU_NAME = "Close Game";
 
     private CloseGameElement(AuthoringController controller) {
-        super(MENU_NAME, controller);
+        super(controller.getEnvironment().getLanguageResourceBundle().getString("closeGame"), controller);
     }
 
     @Override

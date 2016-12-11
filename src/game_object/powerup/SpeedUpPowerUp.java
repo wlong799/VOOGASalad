@@ -10,7 +10,7 @@ public class SpeedUpPowerUp extends AbstractPowerUp {
 
 	private double mySpeedUpFactor;
 	
-	protected SpeedUpPowerUp(Position position, Dimension dimension, List<String> imagePaths, double speedUpFactor) {
+	public SpeedUpPowerUp(Position position, Dimension dimension, List<String> imagePaths, double speedUpFactor) {
 		super(position, dimension, imagePaths);
 		mySpeedUpFactor = speedUpFactor;
 	}

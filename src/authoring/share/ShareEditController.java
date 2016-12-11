@@ -9,6 +9,7 @@ import authoring.share.action.MoveSpriteAction;
 import authoring.share.action.RemoveSpriteAction;
 import authoring.share.action.ResizeSpriteAction;
 import authoring.share.exception.ShareEditException;
+import authoring.ui.DialogFactory;
 import authoring.view.canvas.SpriteView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -120,13 +121,11 @@ public class ShareEditController {
 				if (msg.getSender().equals(myNetworkController.getMyName())) {
 					continue;
 				}
-				System.out.println(msg.getSender());
-				System.out.println(myNetworkController.getMyName());
 				IAction action = (IAction) msg.getPayload();
 				action.apply(myAuthoringController);
 			}
 		} catch (SessionExpiredException e) {
-			System.out.println("session expired");
+			DialogFactory.showSessionExpired();
 		} catch (ShareEditException e) {
 			System.out.println(e.getMessage());
 		}

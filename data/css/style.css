@@ -61,6 +61,29 @@
     -fx-background-color: #6699CC;
 }
 
+.titled-pane > .title 
+{
+-fx-background-color: -fx-box-border, -fx-inner-border, -fx-body-color;
+-fx-background-insets: 0, 1, 2;
+-fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+-fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
+}
+
+.titled-pane 
+{
+-fx-text-fill: white;
+}
+
+.titled-pane > *.content 
+{
+-fx-background-color: white;
+ }
+
+.goalButton
+{
+    -fx-text-fill: black;
+}
+
 .tab-pane .tab-header-area .tab-header-background {
     -fx-opacity: 0;
 }
@@ -116,6 +139,17 @@
 .table-view .column-header-background .label{
     -fx-background-color: transparent;
     -fx-text-fill: #C0C0C0;
+}
+
+.table-row-cell:empty {
+    -fx-background-color: transparent;
+}
+ 
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0px;
+}
+.list-cell:empty {
+    -fx-background-color: transparent;
 }
 .tab {
     width: 650px;  
@@ -180,8 +214,6 @@
 .split-pane:focused,
 .list-view:focused,
 .tree-view:focused,
-.table-view:focused,
-.tree-table-view:focused,
 .html-editor:focused {
     -fx-background-color: -fx-box-border, -fx-control-inner-background;
     -fx-background-insets: 0, 1;

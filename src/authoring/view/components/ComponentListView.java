@@ -33,7 +33,16 @@ public class ComponentListView extends AbstractView {
 
     public void addComponent(String imagePath, String title, String description) {
         Component component = new Component(myGameObjectType, imagePath, title, description);
-        ComponentView componentView = new ComponentView(getController());
+        add(component);
+    }
+    
+    public void addComponent(String imagePath, String title, String description, GameObjectType type) {
+        Component component = new Component(type, imagePath, title, description);
+        add(component);
+    }
+    
+    public void add(Component component) {
+    	ComponentView componentView = new ComponentView(getController());
         componentView.setComponent(component);
         myComponentList.add(componentView);
         addSubView(componentView);

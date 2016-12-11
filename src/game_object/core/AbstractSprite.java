@@ -235,13 +235,7 @@ public abstract class AbstractSprite implements ISprite {
 	
 	@Override
 	public String getImagePath() {
-		return isFacingLeft() // face left
-			? myImagePaths.get(0)
-			: (
-				myImagePaths.size() < 2
-				? myImagePaths.get(0)
-				: myImagePaths.get(1)
-			);
+		return myImagePaths.get(0);
 	}
 
 	@Override
