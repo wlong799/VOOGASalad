@@ -1,7 +1,5 @@
 package authoring;
 
-import java.io.IOException;
-
 import authoring.view.AuthoringView;
 import game_object.LevelGenerator;
 import game_object.core.Game;
@@ -9,7 +7,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import network.server.Coordinator;
 
 public class AuthoringInitializer {
 	
@@ -21,12 +18,6 @@ public class AuthoringInitializer {
 	private AuthorEnvironment environment;
 	
 	public void init() {
-		try {
-			new Coordinator(9999);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		String os = System.getProperty("os.name");
 		primaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		height = 0;
