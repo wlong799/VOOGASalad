@@ -3,9 +3,11 @@ package splash_screen;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringInitializer;
+import authoring.ui.DialogFactory;
 import game_player.GamePlayManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -77,7 +79,18 @@ public class EngineSetUp {
 		ImageView createIV = new ImageView (createImage);
 		Button button = new Button();
 		button.setGraphic(createIV);
-		button.setOnAction(e -> new AuthoringInitializer().init(languagesFilePathBeginning + languagesComboBox.getValue()));
+		button.setOnAction(e -> {
+			try {
+				new AuthoringInitializer().init(languagesFilePathBeginning + languagesComboBox.getValue());
+			}
+			catch(MissingResourceException r) {
+				DialogFactory dialogBox = new DialogFactory();
+				DialogFactory.showErrorDialog(
+						languageProperties.getString("stop"), 
+						languageProperties.getString("noLanguage"), 
+						languageProperties.getString("tryAgain"));
+			}});
+		
 		grid.add(button, 2, 30);
 	}
 	

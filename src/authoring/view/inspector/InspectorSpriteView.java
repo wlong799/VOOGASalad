@@ -82,7 +82,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                 myApplyPhysicsCheckBox);
 
         if (sprite instanceof IBlock) {
-            myReachPointCheckBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("goal"), false,
+            myReachPointCheckBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("assignGoal"), false,
                     (obv, oldVal, newVal) -> {
                         Level currentLevel = getController().getEnvironment().getCurrentLevel();
                         currentLevel.getHeros().forEach(hero -> {
