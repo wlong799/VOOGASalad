@@ -166,8 +166,8 @@ public class GameRunner {
 		Background background = myGameEngine.getBackground();
 		if (background.getImagePaths().size() < 1) return;
 		ImageView bckGrdImg = new ImageView(background.getImagePaths().get(0));
-		bckGrdImg.setFitWidth(runningLevel.getBoundary().getDimension().getWidth());
-		bckGrdImg.setFitWidth(runningLevel.getBoundary().getDimension().getHeight());
+		bckGrdImg.setFitWidth(runningLevel.getDimension().getWidth());
+		bckGrdImg.setFitWidth(runningLevel.getDimension().getHeight());
 		myView.addSpriteView(bckGrdImg);
 	}
 

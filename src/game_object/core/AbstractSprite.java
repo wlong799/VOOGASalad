@@ -267,6 +267,7 @@ public abstract class AbstractSprite implements ISprite {
 		} else if (staticX + myScrollOffset > staticPivotDimension.getWidth() - X_SCROLL_THRESHOLD) {
 			myScrollOffset -= staticX + myScrollOffset - staticPivotDimension.getWidth() + X_SCROLL_THRESHOLD;
 		}
+		
 		return myX + myScrollOffset;
 	}
 

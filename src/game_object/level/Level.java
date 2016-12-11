@@ -34,6 +34,7 @@ public class Level implements ILevelVisualization {
 	private final String myId;
 	private final Game myParentGame;
 	private Boundary myBoundary;
+	private Dimension myDimension;
 	private Level myNextLevel;
 	private TransitionMenu myNextMenu;
 	private Background myBackground;
@@ -57,7 +58,9 @@ public class Level implements ILevelVisualization {
 		myProjectiles = new ArrayList<>();
 		myPowerUps = new ArrayList<>();
 		myBoundary = new Boundary(new Position(0,0), new Dimension(DefaultConstants.LEVEL_WIDTH, 
-				DefaultConstants.LEVEL_HEIGHT));
+		                                                           DefaultConstants.LEVEL_HEIGHT));
+		myDimension = new Dimension(DefaultConstants.LEVEL_WIDTH, 
+		                           DefaultConstants.LEVEL_HEIGHT);
 		myPhysicsParameters = new PhysicsParameters();
 		myGoals = new ArrayList<>();
 		myBackground = new Background();
@@ -89,6 +92,11 @@ public class Level implements ILevelVisualization {
 	}
 	
 	/* Level Dimensions */
+	public Dimension getDimension(){
+	    return myDimension;
+	}
+	
+	/* Level Boundary */
 	public Boundary getBoundary() {
 		return myBoundary;
 	}
@@ -256,6 +264,7 @@ public class Level implements ILevelVisualization {
 			sprite.setPreviousPosition(Position.getCopiedInstance(sprite.getPosition()));
 			sprite.setPreviousVelocity(Velocity.getCopiedInstance(sprite.getVelocity()));
 		}
+		myBoundary.getPosition().setX(myHeros.get(0).getScrollOffset());
 		mySpriteVisuals.clear();
 		mySpriteVisuals.addAll(allSprites);
 	}
@@ -264,6 +273,7 @@ public class Level implements ILevelVisualization {
 	public List<ISpriteVisualization> getAllSpriteVisualizations() {
 		return mySpriteVisuals;
 	}
+	
 	/* ---ILevelVisualization Implementations END--- */
 	
 	/* private */
