@@ -15,6 +15,7 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
     private List<Game> myAvailableGames;
     private Game myCurrentGame;
     private Level myCurrentLevel;
+    private String resourceLanguageFilePath;
 
     public AuthorEnvironment() {
         myAvailableGames = new ArrayList<>();
@@ -63,6 +64,14 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
     @Override
     public Game getCurrentGame() {
         return myCurrentGame;
+    }
+    
+    public String getResourceFilePath() {
+    	return resourceLanguageFilePath;
+    }
+    
+    public void setResourceFilePath(String filePath) {
+    	resourceLanguageFilePath = filePath;
     }
 
     @Override

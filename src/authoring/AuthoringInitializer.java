@@ -20,12 +20,14 @@ public class AuthoringInitializer {
 	private AuthoringView myAuthoringView;
 	private AuthorEnvironment myEnvironment;
 	private ResourceBundle myCanvasProperties;
+	private String myLanguageFilePath; 
 	
-	public void init() {
+	public void init(String filePath) {
 		String os = System.getProperty("os.name");
 		myPrimaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		myHeight = 0;
 		myWidth = myPrimaryScreenBounds.getWidth();
+		myLanguageFilePath = filePath;
 		if (os.contains("Windows")) {
 			myHeight = myPrimaryScreenBounds.getHeight();
 		}
