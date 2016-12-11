@@ -39,6 +39,7 @@ public class ActionConfiguringView extends AbstractSettingsView {
 
     @Override
     public void initializeSettings() {
+    	myTableView.getItems().clear();
         for (ActionName name : ActionName.values()) {
             Level currentLevel = this.getController().getEnvironment().getCurrentLevel();
             ActionTrigger trigger = currentLevel.getTriggerWithSpriteAndAction(mySprite, name);
@@ -63,7 +64,7 @@ public class ActionConfiguringView extends AbstractSettingsView {
         column1.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
         TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>(myLanguageResourceBundle.getString("keyInput"));
         column2.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue()));
-
+        
         myTableView.getColumns().addAll(column1, column2);
         myTableView.setPrefHeight(200);
         myContent.getChildren().add(myTableView);
