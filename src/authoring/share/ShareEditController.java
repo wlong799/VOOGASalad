@@ -108,6 +108,8 @@ public class ShareEditController {
 				if (msg.getSender().equals(myNetworkController.getMyName())) {
 					continue;
 				}
+				System.out.println(msg.getSender());
+				System.out.println(myNetworkController.getMyName());
 				IAction action = (IAction) msg.getPayload();
 				action.apply(myAuthoringController);
 			}

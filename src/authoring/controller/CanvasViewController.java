@@ -93,10 +93,12 @@ public class CanvasViewController {
      */
     public void delete(SpriteView spView, boolean share) {
         if (spView == null) return;
-        spriteViews.remove(spView);
+        spriteViews.remove(spView.getID());
         myEnvironment.getCurrentLevel().removeSprite(spView.getSprite());
         this.reorderSpriteViewsWithPositionZ();
-        myShareEditor.remove(spView);
+        if (share) {
+        	myShareEditor.remove(spView);
+        }
     }
 
     /**

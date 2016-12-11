@@ -68,9 +68,9 @@ public class AuthoringController extends AbstractPublisher {
 	 */
 	public void selectSpriteView(SpriteView spView) {
 		if (spView == null || spView == selectedSpriteView) return;
+		this.deselectSpriteView(false);
 		try {
 			myNetworkController.getShareEditor().select(spView);
-			this.deselectSpriteView(false);
 			spView.indicateSelection();
 			selectedSpriteView = spView;
 			this.notifySubscribers();
