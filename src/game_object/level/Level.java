@@ -61,6 +61,7 @@ public class Level implements ILevelVisualization {
         myPowerUps = new ArrayList<>();
         myBoundary = new Boundary(new Position(0, 0), new Dimension(this.myParentGame.getScreenSize().getWidth(),
                                                                     this.myParentGame.getScreenSize().getHeight()));
+        System.out.println(this.myParentGame.getScreenSize().getWidth());
         myDimension = new Dimension(0,
                                     0);
         myPhysicsParameters = new PhysicsParameters();
@@ -300,8 +301,8 @@ public class Level implements ILevelVisualization {
 
     private void cleanup () {
         // I intentionally made this verbose just for my own sanity.
-        System.out.println(myDimension.getWidth());
-        System.out.println(myHeros.get(0).getPosition().getX());
+        //System.out.println(myDimension.getWidth());
+        //System.out.println(myHeros.get(0).getPosition().getX());
         mySpriteScavenger.setBorderDimension(myDimension);
         mySpriteScavenger.scavengeList(myEnemies);
         mySpriteScavenger.scavengeList(myProjectiles);

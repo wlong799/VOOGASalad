@@ -156,8 +156,8 @@ public class LevelGenerator {
 		ArrayList<String> blockImages = new ArrayList<>();
 		blockImages.add(GameObjectConstants.MARIO_GROUND_FILE);
 		levelB = new Level(game, "TestLevelB");
-		levelB.getBoundary().getDimension().setWidth(2000);
-		levelB.getBoundary().getDimension().setHeight(800);
+		levelB.getBoundary().getDimension().setWidth(game.getScreenSize().getWidth());
+		levelB.getBoundary().getDimension().setHeight(game.getScreenSize().getHeight());
 		levelB.replaceAllHerosAndTriggersWithLevel(levelA);
 		Block ground = new Block(new Position(0, 500), new Dimension(2000, 200), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
