@@ -3,7 +3,7 @@ package game_object.level;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import game_engine.collision.Boundary;
 import game_engine.physics.PhysicsParameters;
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
@@ -33,7 +33,7 @@ public class Level implements ILevelVisualization {
 
 	private final String myId;
 	private final Game myParentGame;
-	private Dimension myLevelDimension;
+	private Boundary myBoundary;
 	private Level myNextLevel;
 	private TransitionMenu myNextMenu;
 	private Background myBackground;
@@ -56,8 +56,8 @@ public class Level implements ILevelVisualization {
 		myTriggers = new ArrayList<>();
 		myProjectiles = new ArrayList<>();
 		myPowerUps = new ArrayList<>();
-		myLevelDimension = new Dimension(DefaultConstants.LEVEL_WIDTH, 
-				DefaultConstants.LEVEL_HEIGHT);
+		myBoundary = new Boundary(new Position(0,0), new Dimension(DefaultConstants.LEVEL_WIDTH, 
+				DefaultConstants.LEVEL_HEIGHT));
 		myPhysicsParameters = new PhysicsParameters();
 		myGoals = new ArrayList<>();
 		myBackground = new Background();
@@ -89,8 +89,8 @@ public class Level implements ILevelVisualization {
 	}
 	
 	/* Level Dimensions */
-	public Dimension getLevelDimension() {
-		return myLevelDimension;
+	public Boundary getBoundary() {
+		return myBoundary;
 	}
 	/* ---Level Dimensions END ---*/
 	
