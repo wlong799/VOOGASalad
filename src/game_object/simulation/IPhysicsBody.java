@@ -12,13 +12,17 @@ public interface IPhysicsBody extends IBodyWithPosition {
 	void setAffectedByPhysics(boolean affectedByPhysics);
 	
 	boolean getAffectedByPhysics();
-	
-	Velocity getVelocity();
 
 	void setVelocity(Velocity velocity); 
 	
-	IPhysicsStrategy getPhysics();
+	Velocity getVelocity();
+	
+	void setPreviousVelocity(Velocity velocity);
+	
+	Velocity getPreviousVelocity();
 	
 	void setPhysics(IPhysicsStrategy physics);
+	
+	IPhysicsStrategy getPhysics();
 
 }

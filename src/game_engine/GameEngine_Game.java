@@ -103,7 +103,7 @@ public class GameEngine_Game implements IGameEngine {
 		myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites()
 		// myCurrentLevel.getProjectiles(),
 		);
-		updateScrolling();
+		updateLevel();
 		endCheck();
 	}
 
@@ -121,12 +121,13 @@ public class GameEngine_Game implements IGameEngine {
 		myPhysicsEngine.setParameters(option, value);
 	}
 
-	private void updateScrolling() {
+	private void updateLevel() {
 		Hero pivotHero = myCurrentLevel.getHeros().get(0);
 		if (pivotHero != null) {
 			AbstractSprite.getStaticPivotPosition().setX(pivotHero.getPosition().getX());
 			AbstractSprite.getStaticPivotPosition().setY(pivotHero.getPosition().getY());
 		}
+		myCurrentLevel.update();
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {
