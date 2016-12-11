@@ -279,7 +279,7 @@ public class Level implements ILevelVisualization {
             sprite.setPreviousPosition(Position.getCopiedInstance(sprite.getPosition()));
             sprite.setPreviousVelocity(Velocity.getCopiedInstance(sprite.getVelocity()));
         }
-        myBoundary.getPosition().setX(myHeros.get(0).getScrollOffset());
+        myBoundary.getPosition().setX(-myHeros.get(0).getScrollOffset());
         mySpriteVisuals.clear();
         mySpriteVisuals.addAll(allSprites);
     }
@@ -300,8 +300,6 @@ public class Level implements ILevelVisualization {
 
     private void cleanup () {
         // I intentionally made this verbose just for my own sanity.
-        System.out.println(myDimension.getWidth());
-        System.out.println(myHeros.get(0).getPosition().getX());
         mySpriteScavenger.setBorderDimension(myDimension);
         mySpriteScavenger.scavengeList(myEnemies);
         mySpriteScavenger.scavengeList(myProjectiles);

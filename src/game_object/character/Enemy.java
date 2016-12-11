@@ -92,8 +92,12 @@ public class Enemy extends AbstractCharacter {
     }
 	
     public void onCollideWith(Hero h, CollisionDirection collisionDirection) {
+        System.out.println(collisionDirection);
+        
     	for (ICollisionStrategy<Enemy, Hero> strategy : myHeroStrategyList) {
+    	    System.out.println(strategy.isValid());
     		if (strategy.isValid()) {
+    		    
     			strategy.applyCollision(this, h, collisionDirection);
     		}
     	}

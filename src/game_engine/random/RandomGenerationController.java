@@ -10,11 +10,11 @@ import game_object.level.Level;
 
 
 public class RandomGenerationController {
-
+    private static final double OFFSET = 100;
     private Level myLevel;
     private List<SpriteInfo> myRepeated;
     private double myRepeatTime, myCurrentTime, myXRange, myYRange;
-
+    
     public RandomGenerationController (Level level,
                                        List<SpriteInfo> toRepeat,
                                        double repeatTime) {
@@ -30,8 +30,6 @@ public class RandomGenerationController {
     }
 
     public void generateSprites (double elapsedTime) {
-        System.out.println("Current time: " + myCurrentTime);
-        System.out.println("Repeat time: " + myRepeatTime);
         myCurrentTime += elapsedTime;
         if (myCurrentTime >= myRepeatTime) {
             myCurrentTime = 0;
@@ -40,8 +38,6 @@ public class RandomGenerationController {
     }
 
     private void generateSprites () {
-        System.out.println("Generate sprite");
-        System.out.println(myRepeated.get(0));
         for (SpriteInfo si : myRepeated) {
             Class<? extends ISprite> c = si.getSpriteClass();
             List<String> imagePaths = si.getImagePaths();
@@ -49,11 +45,13 @@ public class RandomGenerationController {
             try {
                 Constructor<? extends ISprite> ctor =
                         c.getConstructor(Position.class, Dimension.class, List.class);
-                double xPos = new Random().nextDouble()*myXRange;
+                double xPos = new Random().nextDouble()*myXRange + myLevel.getBoundary().right() + OFFSET;
+                System.out.println("my level boundary right " + myLevel.getBoundary().right());
+                System.out.println("X POS " + xPos);
                 double yPos = new Random().nextDouble()*myYRange;
                 Position position = new Position(xPos, yPos);
                 ISprite sprite = ctor.newInstance(position, new Dimension(dim.getHeight(),dim.getWidth()), imagePaths);
-                System.out.println("added new sprite");
+                
                 myLevel.addSprite(sprite);
                 
             }
