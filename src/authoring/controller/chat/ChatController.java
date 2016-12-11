@@ -3,17 +3,15 @@ package authoring.controller.chat;
 import java.util.Queue;
 import java.util.ResourceBundle;
 
+import authoring.share.NetworkController;
 import authoring.view.chat.ChatView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.util.Duration;
-import network.client.INetworkClient;
-import network.client.NetworkClient;
-import network.exceptions.SessionExpiredException;
 import network.exceptions.MessageCreationFailureException;
-import network.exceptions.ServerDownException;
+import network.exceptions.SessionExpiredException;
 import network.messages.Message;
 import network.messages.MessageType;
 import resources.ResourceBundles;
@@ -21,12 +19,15 @@ import resources.ResourceBundles;
 public class ChatController {
 	
 	private ChatView myView;
-	private INetworkClient myClient;
+	private NetworkController myNetworkController;
 	private ResourceBundle myChatWindowProperties;
+	
+	public ChatController(NetworkController networkController) {
+		myNetworkController = networkController;
+		myChatWindowProperties = ResourceBundles.chatWindowProperties;
+	}
 
 	public void init(ChatView view) {
-		myChatWindowProperties = ResourceBundles.chatWindowProperties;
-		
 		myView = view;
 		KeyFrame frame = new KeyFrame(Duration.millis(Double.parseDouble(myChatWindowProperties.getString("CHAT_FRAME_DURATION_MILLISECOND"))),
 				new EventHandler<ActionEvent>() {
@@ -41,29 +42,25 @@ public class ChatController {
 		animation.play();
 	}
 	
-	public void initClientWithName(String name) throws ServerDownException {
-		myClient = new NetworkClient(name);
-	}
-	
 	public void send(String chatMessage) {
 		try {
-			myClient.broadcast(chatMessage, MessageType.CHAT);
+			myNetworkController.getClient().broadcast(chatMessage, MessageType.CHAT);
 		} catch (MessageCreationFailureException | SessionExpiredException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	private void read() {
-		if (myClient == null) return;
+		if (myNetworkController.getClient() == null) return;
 		try {
-			Queue<Message> q = myClient.read(MessageType.CHAT);
+			Queue<Message> q = myNetworkController.getClient().read(MessageType.CHAT);
 			while (!q.isEmpty()) {
 				Message msg = q.poll();
 				String chat = (String) msg.getPayload();
 				myView.appendText(msg.getSender() + ": " + chat);
 			}
 		} catch (SessionExpiredException e) {
-			e.printStackTrace();
+			//TODO billyu: show user prompt
 		}
 	}
 	

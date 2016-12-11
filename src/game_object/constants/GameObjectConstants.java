@@ -2,6 +2,8 @@ package game_object.constants;
 
 public class GameObjectConstants {
 
+	public static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla purus nulla, lacinia a arcu eu, egestas tincidunt turpis. Vestibulum imperdiet, purus sit amet fringilla blandit, arcu ante maximus ipsum, tincidunt gravida arcu orci et ligula. Mauris in massa dignissim, tincidunt erat non, elementum turpis. Donec aliquam arcu quam, sit amet iaculis nibh pretium in. Proin volutpat tempus ipsum ut porta. Cras eu lorem non metus dignissim porttitor. Mauris tempus ex et finibus eleifend. Sed mattis ultricies neque et dictum. Suspendisse non velit dapibus, auctor justo eu, eleifend eros.";
+
     public static final String BLUE_SNAIL_FILE = "img/sprites/blue_snail_left.png";
     public static final String ELIZA_FILE = "img/sprites/eliza_left.png";
     public static final String ORANGE_MUSHROOM_FILE = "img/sprites/orange_mushroom.png";
@@ -51,6 +53,10 @@ public class GameObjectConstants {
     // weapon
     public static final String RED_GUN_WEAPON_FILE = "img/sprites/red_gun.png";
     public static final String BLUE_GUN_WEAPON_FILE = "img/sprites/blue_gun.png";
+    public static final String RED_GUN_WEAPON_RIGHT_FILE = "img/sprites/red_gun_right.png";
+    public static final String RED_GUN_WEAPON_LEFT_FILE = "img/sprites/red_gun_left.png";
+    public static final String BLUE_GUN_WEAPON_RIGHT_FILE = "img/sprites/blue_gun_right.png";
+    public static final String BLUE_GUN_WEAPON_LEFT_FILE = "img/sprites/blue_gun_left.png";
 
     public static final String UPLOAD = "img/upload.png";
 }

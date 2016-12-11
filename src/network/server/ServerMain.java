@@ -19,7 +19,6 @@ public class ServerMain {
 			new Coordinator(ServerMode.DEV.getServerPort());
 		} catch (IOException e) {
 			LOGGER.info("Ran out of file descriptor, maybe run the server later");
-			e.printStackTrace();
 		}
 	}
 

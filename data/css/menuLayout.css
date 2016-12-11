@@ -47,6 +47,12 @@ http://fxexperience.com/2011/12/styling-fx-buttons-with-css/
     -fx-fill: #7EA0B7;
 }
 
+.scrollPane {
+    -fx-background: #5d5e60;
+    -fx-fill: #5d5e60;
+
+}
+
 .vbox {
 /*    -fx-background-image: url("graphics/arrow_t_up_right.png");
     -fx-background-size: 96, 205;

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import game_object.constants.DefaultConstants;
+import game_object.constants.GameObjectConstants;
 import game_object.level.Level;
 import game_object.statistics.GameStatistics;
 
@@ -15,6 +16,8 @@ import game_object.statistics.GameStatistics;
 public class Game {
 	
 	private final String myId;
+	private String myImagePath;
+	private String myDescription;
 	private List<Level> myLevels;
 	private Dimension myScreenSize;
 	private int myFPS;
@@ -34,6 +37,13 @@ public class Game {
 		);
 		myFPS = 60;
 		myGameStats = new GameStatistics(this);
+		initDefaultGameInfo();
+	}
+	
+	/* mock */
+	private void initDefaultGameInfo() {
+		myImagePath = GameObjectConstants.BLUE_SNAIL_FILE;
+		myDescription = GameObjectConstants.LOREM_IPSUM;
 	}
 	
 	/* Game basics */
@@ -43,6 +53,22 @@ public class Game {
 	
 	public String getId() {
 		return myId;
+	}
+	
+	public void setDescription(String description) {
+		myDescription = description;
+	}
+	
+	public String getDescription() {
+		return myDescription;
+	}
+	
+	public void setImagePath(String imagePath) {
+		myImagePath = imagePath;
+	}
+	
+	public String getImagePath() {
+		return myImagePath;
 	}
 	
 	/* FPS setting */

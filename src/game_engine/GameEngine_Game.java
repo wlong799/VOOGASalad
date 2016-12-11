@@ -5,7 +5,10 @@ import java.util.Set;
 
 import game_engine.collision.CollisionEngine;
 import game_engine.collision.ICollisionEngine;
-import game_engine.enemyai.EnemyController;
+import game_engine.enemyai.EnemyControllerFactory;
+import game_engine.enemyai.EnemyLevelTypes;
+import game_engine.enemyai.IEnemyController;
+import game_engine.enemyai.IEnemyControllerFactory;
 import game_engine.inputcontroller.InputController;
 import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
@@ -27,6 +30,7 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
+import game_object.weapon.Projectile;
 import goal.IGoal;
 import goal.time.TimeGoal;
 
@@ -37,7 +41,8 @@ public class GameEngine_Game implements IGameEngine {
 	private ICollisionEngine myCollisionEngine;
 	private ITransitionManager myTransitionManager;
 	private InputController myInputController;
-	private EnemyController myEnemyController;
+	private IEnemyController myEnemyController;
+	private IEnemyControllerFactory myEnemyControllerFactory;
 	private double myElapsedTime;
 	private double myTotalTime;
 	private int myFPS;
@@ -51,7 +56,8 @@ public class GameEngine_Game implements IGameEngine {
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(game);
-		myEnemyController = new EnemyController(game);
+		myEnemyControllerFactory = new EnemyControllerFactory();
+		myEnemyController = myEnemyControllerFactory.createEnemyController(EnemyLevelTypes.HARD);
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		myFPS = game.getFPS();
 		myTotalTime = 0;
@@ -82,8 +88,12 @@ public class GameEngine_Game implements IGameEngine {
 			//mimic enemy behavior; treat them as players
 			if (s instanceof Enemy) {
 				IMover enemy = (IMover) s; 
-				Set<ActionName> list = myEnemyController.getActions(enemy);
+				Set<ActionName> list = myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
 				myEnemyController.executeInput(enemy, list);
+				List<Projectile> plist = myEnemyController.getNewProjectiles();
+				for (Projectile p : plist) {
+					myCurrentLevel.addSprite(p);
+				}
 			}
 			updateNewParameters(s);
 		}
