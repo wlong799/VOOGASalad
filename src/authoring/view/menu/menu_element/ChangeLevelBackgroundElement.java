@@ -13,17 +13,14 @@ import javafx.stage.Stage;
  */
 public class ChangeLevelBackgroundElement extends AbstractGameMenuElement{
 
-	private static final String MENU_NAME = "Change Level Background";
-
 	protected ChangeLevelBackgroundElement(AuthoringController controller) {
-		super(MENU_NAME, controller);
+		super(controller.getEnvironment().getLanguageResourceBundle().getString("changeLevelBackground"), controller);
 	}
 
 	@Override
 	protected void setFunctionality() {
 		myMenuItem.setOnAction(event -> {
 			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle("Choose Background Image");
         	File imageFile = fileChooser.showOpenDialog(new Stage());
         	if (imageFile == null) return;
 			String imagePath = imageFile.toURI().toString();
