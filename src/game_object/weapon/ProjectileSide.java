@@ -1,6 +1,6 @@
 package game_object.weapon;
 
-public enum WeaponSide {
+public enum ProjectileSide {
 
 	HERO_SIDE, ENEMY_SIDE;
 	

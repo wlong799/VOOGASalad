@@ -87,7 +87,7 @@ public class InputController implements IInputController {
 	private void addProjectile(ICharacter character) {
 		Projectile p = ProjectileManager.addProjectile(character);
 		if (p != null) {
-			myCurrentLevel.getProjectiles().add(p);
+			myCurrentLevel.addSprite(p);
 		}
 	}
 

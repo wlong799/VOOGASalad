@@ -1,16 +1,18 @@
 package game_object.core;
 
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for holding children sprites 
  * @author Yilun
  *
  */
-public class ChildSprites {
+public class ChildSprites implements Serializable {
 
+	private static final long serialVersionUID = -893579088475848584L;
 	private List<ISprite> mySprites;
-
 	private boolean myChanged;
 	
 	public ChildSprites() {

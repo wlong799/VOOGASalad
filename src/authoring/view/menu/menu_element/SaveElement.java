@@ -6,6 +6,7 @@ import java.io.IOException;
 import authoring.AuthoringController;
 import authoring.view.menu.AbstractGameMenuElement;
 import javafx.stage.FileChooser;
+import serializing.Marshaller;
 
 public class SaveElement extends AbstractGameMenuElement {
 	
@@ -24,7 +25,7 @@ public class SaveElement extends AbstractGameMenuElement {
 			if (saveFile != null) {
 				String path = saveFile.toURI().toString();
 				try {
-					myController.getMarshaller().saveGame(myController.getEnvironment().getCurrentGame(), path);
+					Marshaller.saveGame(myController.getEnvironment().getCurrentGame(), path);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

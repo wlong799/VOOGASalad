@@ -2,6 +2,8 @@ package network.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -9,11 +11,17 @@ import java.util.logging.Logger;
 
 import network.core.Connection;
 import network.messages.Message;
+import network.messages.MessageType;
 
 /**
  * The central coordination service. Its main purpose is to observe
  * and define a global total order of messages and broadcast them 
  * to all participants/subscribers. 
+ * 
+ * <p> It also provides lock service, which is used to implement distributed
+ * pessimistic concurrency control especially for the shared editing feature
+ * to ensure single-copy semantics. Each lock could be held by at most one
+ * client and the current holder is recorded in <tt>lockHolders</tt>
  * 
  * @author CharlesXu
  */
@@ -21,11 +29,14 @@ public class Coordinator {
 	
 	private static final Logger LOGGER =
 			Logger.getLogger( Coordinator.class.getName() );
+	private static final long NAME_SPACE_PARTITION_SIZE = 1000L;
 	
 	private ServerSocket serverSocket;
 	private Vector<ConnectionToClient> connectionPool;
 	private BlockingQueue<Message> messageQueue;
 	private boolean hasStopped;
+	private Map<Long, String> lockHolders;
+	private int monoCount;
 	
 	/**
 	 * Create a coordinator by starting a daemon thread listening on
@@ -39,8 +50,39 @@ public class Coordinator {
 		connectionPool = new Vector<>();
 		messageQueue = new LinkedBlockingQueue<>();
 		hasStopped = false;
+		lockHolders = new HashMap<>();
+		monoCount = 0;
         new Daemon(this).start();
         new Postman(this).start();
+	}
+	
+	/**
+	 * Acquire a lock on the object identified using <tt>id</tt>
+	 * @param id identifies the server object to be locked
+	 * @param userName the request issuer
+	 * @return the userName of the client that currently holding the lock
+	 */
+	public synchronized String trylock(Long id, String userName) {
+		if (!lockHolders.containsKey(id)) {
+			lockHolders.put(id, userName);
+		}
+		return lockHolders.get(id);
+	}
+	
+	/**
+	 * Release the lock on the object identified using <tt>id</tt>.
+	 * If the lock is held by client different from the request issuer
+	 * or if the lock is free, this call is a no-op.
+	 * @param id identifies the server object to be locked
+	 * @param userName the request issuer
+	 */
+	public synchronized void unlock(Long id, String userName) {
+		if (!lockHolders.containsKey(id)) {
+			return;
+		}
+		if (lockHolders.get(id).equals(userName)) {
+			lockHolders.remove(id);
+		}
 	}
 	
 	/**
@@ -51,19 +93,29 @@ public class Coordinator {
 	}
 
 	/**
-	 * Add a new connection to the connection pool
+	 * Add a new connection to the connection pool, and reply to the client
+	 * its starting id
 	 * @param conn the connection to be added
 	 */
 	public synchronized void addConnection(ConnectionToClient conn) {
 		connectionPool.add(conn);
+		monoCount++;
+		conn.send(MessageType.SET_STARTING_ID.build(
+						Coordinator.class.getName(),
+						monoCount * NAME_SPACE_PARTITION_SIZE)
+		);
 	}
 	
 	/**
-	 * Remove a new connection from the connection pool
+	 * Remove a new connection from the connection pool, remove all
+	 * the locks held by this client.
 	 * @param conn the connection to be removed
 	 * @return true if the the connection pool contained the given connection
 	 */
 	public synchronized boolean removeConnection(Connection conn) {
+		for (long id : lockHolders.keySet()) {
+			unlock(id, conn.getUserName());
+		}
 		return connectionPool.remove(conn);
 	}
 	

@@ -18,7 +18,8 @@ import game_object.powerup.IPowerUp;
  */
 public abstract class AbstractSprite implements ISprite {
 
-	private static SpriteScavenger spriteScavenger;
+	private static final long serialVersionUID = -5935430491986661297L;
+	private static SpriteScavenger staticSpriteScavenger;
 	protected Position myPosition;
 	protected Position myPreviousPosition;
 	protected List<String> myImagePaths;
@@ -35,6 +36,7 @@ public abstract class AbstractSprite implements ISprite {
 	
 	static {
 		staticPivotPosition = new Position(0, 0);
+		staticSpriteScavenger = new SpriteScavenger();
 	}
 	
 	protected AbstractSprite(Position position, Dimension dimension, List<String> imagePaths) {
@@ -53,20 +55,13 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	
 	/* General Setting */
-	public static void setSpriteScavenger(SpriteScavenger spriteScavenger) {
-		AbstractSprite.spriteScavenger = spriteScavenger;
-	}
-	
 	public static SpriteScavenger getSpriteScavenger() {
-		return spriteScavenger;
+		return staticSpriteScavenger;
 	}
 	
 	@Override
 	public void setValid(boolean valid) {
 		myValid = valid;
-		if (!valid) {
-			spriteScavenger.mark(this);
-		}
 	}
 	
 	@Override

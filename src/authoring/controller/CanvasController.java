@@ -1,12 +1,16 @@
 package authoring.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import authoring.AuthorEnvironment;
+import authoring.AuthoringController;
+import authoring.share.ShareEditController;
 import authoring.view.canvas.CanvasView;
 import authoring.view.canvas.SpriteView;
 import authoring.view.canvas.SpriteViewComparator;
@@ -31,8 +35,10 @@ import resources.ResourceBundles;
  */
 public class CanvasController implements Observer {
 
+    private AuthoringController myController;
+    private ShareEditController myShareEditor;
     private CanvasView myCanvas;
-    private List<SpriteView> mySpriteViews;
+    private Map<Long, SpriteView> spriteViews;
     private ScrollPane myScrollPane;
     private Group myContent; // holder for all SpriteViews
     private HBox myBackground;
@@ -46,10 +52,12 @@ public class CanvasController implements Observer {
     private ResourceBundle myCanvasProperties;
     private ResourceBundle myLanguageProperties;
   
+    private static final double BLOCK_SIZE = 50;
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
+        myController = canvas.getController();
+        myShareEditor = myController.getNetworkController().getShareEditor();
         myCanvasProperties = ResourceBundles.canvasProperties;
-       
     	myCanvas = canvas;
         myScrollPane = scrollPane;
         myContent = content;
@@ -58,7 +66,7 @@ public class CanvasController implements Observer {
         myEnvironment.addObserver(this);
         myLanguageProperties = myEnvironment.getLanguageResourceBundle();
 
-        mySpriteViews = new ArrayList<>();
+        spriteViews = new HashMap<>();
         mySpriteViewComparator = new SpriteViewComparator();
         setOnDrag();
 
@@ -72,36 +80,37 @@ public class CanvasController implements Observer {
     public void refresh() {
         initSpriteViews();
     }
-
+    
     /**
-     * method to add a SpriteView to canvas
-     * used for drag and drop from components view
-     *
-     * @param spView
      * @param x
-     * @param y
-     * @param relative if true, x and y are positions on screen instead of real positions
+     * @param y x and y are positions relative to screen
+     * @param share if the add action should be passed to the network
      */
-    public void add(SpriteView spView, double x, double y, boolean relative) {
-        mySpriteViews.add(spView);
-        spView.setCanvasView(myCanvas);
-        myContent.getChildren().add(spView.getUI());
-        if (relative) {
-            setRelativePosition(spView, x, y);
-        } else {
-            setAbsolutePosition(spView, x, y);
+    public void addSpriteView(ISprite sprite, double x, double y, long id, boolean share) {
+    	SpriteView spView = myController.getComponentController().makeSpriteViewFromSprite(
+    			myCanvas,
+    			sprite,
+    			id);
+        myEnvironment.getCurrentLevel().addSprite(sprite);
+        if (share) {
+        	myShareEditor.add(spView, x, y);
         }
-        reorderSpriteViewsWithPositionZ();
-        if (myDoesSnap) {
-            spView.snapToGrid();
-        }
+        add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
     }
 
-    public void delete(SpriteView spView) {
+    /**
+     * @param spView to delete
+     * @param share if the add action should be passed to the network
+     * delete a SpriteView
+     */
+    public void delete(SpriteView spView, boolean share) {
         if (spView == null) return;
-        mySpriteViews.remove(spView);
+        spriteViews.remove(spView.getID());
         myEnvironment.getCurrentLevel().removeSprite(spView.getSprite());
         this.reorderSpriteViewsWithPositionZ();
+        if (share) {
+        	myShareEditor.remove(spView);
+        }
     }
 
     /**
@@ -126,17 +135,21 @@ public class CanvasController implements Observer {
         } else {
             newy = toAbsoluteY(y);
         }
-        setAbsolutePosition(spView, newx, newy);
+        setAbsolutePosition(spView, newx, newy, true);
     }
 
     /**
      * @param spView
      * @param x
      * @param y      x and y are absolute
+     * @param share if the action should be passed to network
      */
-    public void setAbsolutePosition(SpriteView spView, double x, double y) {
+    public void setAbsolutePosition(SpriteView spView, double x, double y, boolean share) {
         spView.setAbsolutePositionX(x);
         spView.setAbsolutePositionY(y);
+        if (share) {
+        	myShareEditor.move(spView, x, y);
+        }
     }
 
     public void setAbsolutePositionZ(SpriteView spView, double z) {
@@ -168,17 +181,20 @@ public class CanvasController implements Observer {
                                    double endX,
                                    double endY) {
         if (startX > endX || startY > endY) return;
-        this.setAbsolutePosition(spView, startX, startY);
-        spView.setDimensionWidth(endX - startX);
-        spView.setDimensionHeight(endY - startY);
+        this.setAbsolutePosition(spView, startX, startY, true);
+        spView.setDimensionWidth(endX - startX, true);
+        spView.setDimensionHeight(endY - startY, true);
     }
 
     public void reorderSpriteViewsWithPositionZ() {
-        mySpriteViews.sort(mySpriteViewComparator);
+    	List<SpriteView> views = spriteViews.values()
+    			.stream()
+    			.sorted(mySpriteViewComparator)
+    			.collect(Collectors.toList());
         double hValue = myScrollPane.getHvalue();
         double vValue = myScrollPane.getVvalue();
         clearSpriteViews(false);
-        for (SpriteView spView : mySpriteViews) {
+        for (SpriteView spView : views) {
             myContent.getChildren().add(spView.getUI());
         }
         myScrollPane.setHvalue(hValue);
@@ -221,6 +237,15 @@ public class CanvasController implements Observer {
     public double toAbsoluteY(double y) {
         return myScrollPane.getVvalue() * (myBackgroundHeight - mySceneHeight) + y;
     }
+    
+    public double convertToNearestBlockValue(double value) {
+        return Math.round(value / BLOCK_SIZE) * BLOCK_SIZE;
+    }
+    
+    //ID
+    public SpriteView getSpriteViewWithID(long id) {
+    	return spriteViews.get(id);
+    }
 
     private void initSpriteViews() {
         clearSpriteViews(true);
@@ -229,11 +254,14 @@ public class CanvasController implements Observer {
             throw new RuntimeException(myLanguageProperties.getString("noLevel"));
         }
         for (ISprite sp : currentLevel.getAllSprites()) {
-            SpriteView spView = new SpriteView(myCanvas.getController());
+        	long newID = myController.getNetworkController().getIDManager().getNextID();
+            SpriteView spView = new SpriteView(
+            		myCanvas.getController(), 
+            		newID);
             Dimension dim = new Dimension(sp.getDimension().getWidth(), sp.getDimension().getHeight());
             spView.setSprite(sp);
-            spView.setDimensionHeight(dim.getHeight());
-            spView.setDimensionWidth(dim.getWidth());
+            spView.setDimensionHeight(dim.getHeight(), false);
+            spView.setDimensionWidth(dim.getWidth(), false);
             add(spView, sp.getPosition().getX(), sp.getPosition().getY(), false);
         }
         updateBackground();
@@ -262,23 +290,42 @@ public class CanvasController implements Observer {
             if (db.hasImage()) {
                 double x = event.getSceneX() - myCanvas.getPositionX();
                 double y = event.getSceneY() - myCanvas.getPositionY();
-                makeAndAddSpriteView(x, y);
+                ISprite copiedSprite = myController.getComponentController().getCurrentlyCopiedSprite();
+                SpriteView spView = myController.getComponentController().makeSpriteViewFromSprite(
+                		myCanvas, 
+                		copiedSprite, 
+                		myController.getNetworkController().getIDManager().getNextID());
+                addSpriteView(copiedSprite, x, y, spView.getID(), true);
                 success = true;
             }
             event.setDropCompleted(success);
             event.consume();
         });
     }
-
+    
     /**
+     * method to add a SpriteView to canvas
+     * purely frontend (does not modify current level)
+     * used for drag and drop from components view
+     *
+     * @param spView
      * @param x
-     * @param y x and y are positions relative to screen
+     * @param y
+     * @param relative if true, x and y are positions on screen instead of real positions
      */
-    private void makeAndAddSpriteView(double x, double y) {
-        SpriteView spView = myCanvas.getController().getComponentController().makeSpriteViewFromCopiedSprite(myCanvas);
-        add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
-        myCanvas.getController().selectSpriteView(spView);
-        myEnvironment.getCurrentLevel().addSprite(spView.getSprite());
+    private void add(SpriteView spView, double x, double y, boolean relative) {
+        spriteViews.put(spView.getID(), spView);
+        spView.setCanvasView(myCanvas);
+        myContent.getChildren().add(spView.getUI());
+        if (relative) {
+            setRelativePosition(spView, x, y);
+        } else {
+            setAbsolutePosition(spView, x, y, true);
+        }
+        reorderSpriteViewsWithPositionZ();
+        if (myDoesSnap) {
+            spView.snapToGrid();
+        }
     }
 
     private void adjustScrollPane(double x, double y) {
@@ -307,12 +354,11 @@ public class CanvasController implements Observer {
         myContent.getChildren().clear();
         myContent.getChildren().add(myBackground);
         if (data) {
-            mySpriteViews.clear();
+            spriteViews.clear();
         }
     }
 
     private void updateBackground() {
-        // TODO: 11/29/16 allow for tiling of multiple image paths, rather than just first
         myBackground.getChildren().clear();
         double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
         double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
@@ -340,13 +386,6 @@ public class CanvasController implements Observer {
         }
     }
 
-    public double convertToNearestBlockValue(double value) {
-        return Math.max(
-        		Math.round(
-        				value / Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE"))) 
-        		* Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE")), 
-        		Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE")));
-    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -360,4 +399,5 @@ public class CanvasController implements Observer {
     public boolean getSnapToGrid() {
         return myDoesSnap;
     }
+    
 }

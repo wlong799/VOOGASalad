@@ -89,7 +89,8 @@ public class LevelGenerator {
         		DefaultConstants.BLOCK_CATEGORY_BIT_MASK | 
         		DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
         ArrayList<String> blueGunImgs = new ArrayList<>();
-        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_FILE);
+        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_RIGHT_FILE);
+        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_LEFT_FILE);
 		WeaponModel heroWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
 		hero.setCurrentWeapon(heroWeapon.newWeaponInstance(hero, new Dimension(20, 20)));
 		
@@ -103,7 +104,8 @@ public class LevelGenerator {
 				);
                 
         ArrayList<String> redGunImgs = new ArrayList<>();
-        redGunImgs.add(GameObjectConstants.RED_GUN_WEAPON_FILE);
+        redGunImgs.add(GameObjectConstants.RED_GUN_WEAPON_RIGHT_FILE);
+        redGunImgs.add(GameObjectConstants.RED_GUN_WEAPON_LEFT_FILE);
 		WeaponModel fastWeapon = new WeaponModel(redGunImgs, 10, fastModel, colBitMask);
 		ArrayList<String> fwpuImg = new ArrayList<String>();
 		fwpuImg.add(GameObjectConstants.NEW_WEAPON_POWER_UP_FILE);

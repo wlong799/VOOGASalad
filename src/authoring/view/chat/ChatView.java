@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
 import authoring.controller.chat.ChatController;
+import authoring.share.NetworkController;
 import authoring.view.AbstractView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -19,6 +20,7 @@ import resources.ResourceBundles;
 
 public class ChatView extends AbstractView {
 
+	private NetworkController myNetworkController;
 	private TextFlow myTextFlow;
 	private ScrollPane myScrollPane;
 	private TextField myTextField;
@@ -33,7 +35,8 @@ public class ChatView extends AbstractView {
 
 	public ChatView(AuthoringController controller) {
 		super(controller);
-		myController = controller.getChatController();
+		myNetworkController = controller.getNetworkController();
+		myController = myNetworkController.getChatController();
 		myController.init(this);
 		
 	}
@@ -104,11 +107,11 @@ public class ChatView extends AbstractView {
 		else {
 			hasName = true;
 			try {
-				myController.initClientWithName(current);
-				this.appendText(myLanguageResourceFile.getString("hello") + current);
-				this.appendText(myLanguageResourceFile.getString("startChatting"));
+				myNetworkController.initClientWithName(current);
+				this.appendText("Oh hellooooo " + current);
+				this.appendText("Start chatting now!!");
 			} catch (ServerDownException e) {
-				e.printStackTrace();
+				this.appendText("Server Down");
 			}
 		}
 		myTextField.clear();

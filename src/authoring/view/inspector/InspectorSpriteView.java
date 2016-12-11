@@ -51,10 +51,12 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                 (newVal) -> spriteView.setAbsolutePositionY(Double.parseDouble(newVal)));
         myZBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("posZ"), sprite.getPosition().getZ() + "",
                 (newVal) -> spriteView.setAbsolutePositionZ(Double.parseDouble(newVal)));
+
+      
         myWidthBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("width"), sprite.getDimension().getWidth() + "",
-                (newVal) -> spriteView.setDimensionWidth(Double.parseDouble(newVal)));
+                (newVal) -> spriteView.setDimensionWidth(Double.parseDouble(newVal), true));
         myHeightBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("height"), sprite.getDimension().getHeight() + "",
-                (newVal) -> spriteView.setDimensionHeight(Double.parseDouble(newVal)));
+                (newVal) -> spriteView.setDimensionHeight(Double.parseDouble(newVal), true));
 
 
         componentPhysicsSettings = new ComponentPhysicsSettings(sprite);
@@ -114,4 +116,5 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
         spriteView = spView;
         updateUI();
     }
+    
 }
