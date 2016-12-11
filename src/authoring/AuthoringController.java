@@ -30,6 +30,7 @@ public class AuthoringController extends Observable {
     private ChatController myChatController;
     private Marshaller myMarshaller;
     private ImageRenderer myRenderer;
+    private String CSS_FILE = "css/style.css";
 
     public AuthoringController(AuthorEnvironment environment) {
         myEnvironment = environment;
@@ -114,7 +115,7 @@ public class AuthoringController extends Observable {
                 deselect();
             }
         });
-        File f = new File("css/style.css");
+        File f = new File(CSS_FILE);
         scene.getStylesheets().clear();
         scene.getStylesheets().add(f.getPath());
     }

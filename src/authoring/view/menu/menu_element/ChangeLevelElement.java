@@ -16,13 +16,12 @@ import java.util.*;
  * @version 11/28/16
  */
 public class ChangeLevelElement extends AbstractGameMenuElement implements Observer {
-    private static final String MENU_NAME = "Change Level";
 
     private ToggleGroup myToggleGroup;
     private Map<Level, RadioMenuItem> myCurrentItems;
 
     private ChangeLevelElement(AuthoringController controller) {
-        super(MENU_NAME, controller);
+        super(controller.getEnvironment().getLanguageResourceBundle().getString("changeLevel"), controller);
     }
 
     @Override

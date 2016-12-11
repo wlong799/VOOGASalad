@@ -27,6 +27,7 @@ public class InspectorView extends AbstractView implements Observer {
     private InspectorComponentView myComponentInspector;
     private InspectorSpriteView mySpriteInspector;
     private ResourceBundle myInspectorProperties;
+    private ResourceBundle myLanguageResourceBundle;
 
     private Game selectedGame;
     private Level selectedLevel;
@@ -42,6 +43,7 @@ public class InspectorView extends AbstractView implements Observer {
         getController().addObserver(this);
         getController().getEnvironment().addObserver(this);
 
+        myLanguageResourceBundle = getController().getEnvironment().getLanguageResourceBundle();
         myInspectorProperties = ResourceBundles.inspectorProperties;
 
         myTabPane = new TabPane();
@@ -50,10 +52,10 @@ public class InspectorView extends AbstractView implements Observer {
         myComponentInspector = new InspectorComponentView(getController());
         mySpriteInspector = new InspectorSpriteView(getController());
 
-        addViewsAsTab("Game", myGameInspector);
-        addViewsAsTab("Level", myLevelInspector);
-        addViewsAsTab("Component", myComponentInspector);
-        addViewsAsTab("Sprite", mySpriteInspector);
+        addViewsAsTab(myLanguageResourceBundle.getString("game"), myGameInspector);
+        addViewsAsTab(myLanguageResourceBundle.getString("level"), myLevelInspector);
+        addViewsAsTab(myLanguageResourceBundle.getString("component"), myComponentInspector);
+        addViewsAsTab(myLanguageResourceBundle.getString("sprite"), mySpriteInspector);
 
         addUI(myTabPane);
     }

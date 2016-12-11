@@ -2,6 +2,7 @@ package authoring.view.components;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
 import game_object.GameObjectType;
@@ -21,47 +22,48 @@ public class ComponentPanelFactory {
      * element in the enum represents a specific tab to add to the view. This includes the tab name, the GameObjectType
      * it contains, and information necessary to create a few default options.
      */
+	private static ResourceBundle myLanguageResourceBundle;
     private enum ComponentPanelInfo {
-        HERO("Heroes", GameObjectType.HERO, new String[][]
+        HERO(myLanguageResourceBundle.getString("heroes"), GameObjectType.HERO, new String[][]
                 {
-                        {GameObjectConstants.BLUE_SNAIL_FILE, "Blue Snail", "A blue snail hero."},
-                        {GameObjectConstants.ELIZA_FILE, "Eliza", "Eliza, a hero."},
-                        {GameObjectConstants.BOY_FILE, "Boy", "a boy avatar."},
-                        {GameObjectConstants.CINDERELLA_FILE, "Cinderella", "a cinderella avatar."},
-                        {GameObjectConstants.BOY2_FILE, "Boy II", "another boy avatar."}
-                        
+                        {GameObjectConstants.BLUE_SNAIL_FILE, myLanguageResourceBundle.getString("blueSnail"), myLanguageResourceBundle.getString("blueSnailDescription")},
+                        {GameObjectConstants.ELIZA_FILE, myLanguageResourceBundle.getString("eliza"), myLanguageResourceBundle.getString("elizaDescription")},
+                        {GameObjectConstants.BOY_FILE, myLanguageResourceBundle.getString("boy"), myLanguageResourceBundle.getString("boyDescription")},
+                        {GameObjectConstants.CINDERELLA_FILE, myLanguageResourceBundle.getString("cinderella"), myLanguageResourceBundle.getString("cinderellaDescription")},
+                        {GameObjectConstants.BOY2_FILE, myLanguageResourceBundle.getString("boy2"), myLanguageResourceBundle.getString("boy2Description")}
                 }),
-        ENEMY("Enemies", GameObjectType.ENEMY, new String[][]
+        ENEMY(myLanguageResourceBundle.getString("enemies"), GameObjectType.ENEMY, new String[][]
                 {
-                        {GameObjectConstants.ORANGE_MUSHROOM_FILE, "Orange Mushroom", "An orange mushroom hero."},
-                        {GameObjectConstants.RIBBON_PIG_FILE, "Ribbon Pig", "A ribbon pig hero."},
-                        {GameObjectConstants.SLIME_FILE, "Slime", "A slime hero."}
+                        {GameObjectConstants.ORANGE_MUSHROOM_FILE, myLanguageResourceBundle.getString("mushroom"), myLanguageResourceBundle.getString("mushroomDescription")},
+                        {GameObjectConstants.RIBBON_PIG_FILE, myLanguageResourceBundle.getString("pig"), myLanguageResourceBundle.getString("pigDescription")},
+                        {GameObjectConstants.SLIME_FILE, myLanguageResourceBundle.getString("slime"), myLanguageResourceBundle.getString("slimeHero")}
                 }),
-        STATIC_BLOCK("Blocks", GameObjectType.STATIC_BLOCK, new String[][]
+        STATIC_BLOCK(myLanguageResourceBundle.getString("blocks"), GameObjectType.STATIC_BLOCK, new String[][]
                 {
-                        {GameObjectConstants.STONE_BLOCK_FILE, "Stone", "A stony block."},
-                        {GameObjectConstants.BUSH_FILE, "Bush", "A bush block."},
-                        {GameObjectConstants.BRICK_FILE, "Brick", "A brick block."},
-                        {GameObjectConstants.BAR_FILE, "Bar", "a bar block."},
-                        {GameObjectConstants.BLACK_AND_GREY_FILE, "Black", "a block."},
-                        {GameObjectConstants.BLACK_SQUARE_FILE, "Square", "a black square block."},
-                        {GameObjectConstants.BLUE_LIGHT_FILE, "Blue Light", "a blue light block."},
-                        {GameObjectConstants.BLUE_METAL_FILE, "Blue Metal", "a blue block made of metal."},
-                        {GameObjectConstants.CAUTION_ORANGE_FILE, "Caution", "a block with a caution patterns."}, 
-                        {GameObjectConstants.CAUTION_FILE, "Caution II", "a block with a caution patterns."},
-                        {GameObjectConstants.DIAGONAL_METAL_FILE, "Diagonal", "a metal block with a diagonal patterns."},
-                        {GameObjectConstants.DIAGONAL_WITH_BORDER_FILE, "Diagonal II", "a metal block with a diagonal patterns, except with a border."},
-                        {GameObjectConstants.DIAGONAL_YELLOW_WITH_BORDER_FILE, "Diagonal III", "a yelow block with a diagonal patterns, except with a border."}
+        				{GameObjectConstants.STONE_BLOCK_FILE, myLanguageResourceBundle.getString("stone"), myLanguageResourceBundle.getString("stoneDescription")},
+        				{GameObjectConstants.BUSH_FILE, myLanguageResourceBundle.getString("bush"), myLanguageResourceBundle.getString("bushDescription")},
+        				{GameObjectConstants.BRICK_FILE, myLanguageResourceBundle.getString("brick"), myLanguageResourceBundle.getString("brickDescription")},
+        				{GameObjectConstants.BAR_FILE, myLanguageResourceBundle.getString("bar"), myLanguageResourceBundle.getString("barDescription")},
+        				{GameObjectConstants.BLACK_AND_GREY_FILE, myLanguageResourceBundle.getString("blackAndGrey"), myLanguageResourceBundle.getString("blackAndGreyDescription")},
+        				{GameObjectConstants.BLACK_SQUARE_FILE, myLanguageResourceBundle.getString("square"), myLanguageResourceBundle.getString("squareDescription")},
+        				{GameObjectConstants.BLUE_LIGHT_FILE, myLanguageResourceBundle.getString("blueLight"), myLanguageResourceBundle.getString("blueLightDescription")},
+        				{GameObjectConstants.BLUE_METAL_FILE, myLanguageResourceBundle.getString("blueMetal"), myLanguageResourceBundle.getString("blueMetalDescription")},
+        				{GameObjectConstants.CAUTION_ORANGE_FILE, myLanguageResourceBundle.getString("cautionOrange"), myLanguageResourceBundle.getString("cautionOrangeDescription")}, 
+        				{GameObjectConstants.CAUTION_FILE, myLanguageResourceBundle.getString("cautionOrange2"), myLanguageResourceBundle.getString("cautionOrange2Description")},
+        				{GameObjectConstants.DIAGONAL_METAL_FILE, myLanguageResourceBundle.getString("diagonal"), myLanguageResourceBundle.getString("diagonalDescription")},
+        				{GameObjectConstants.DIAGONAL_WITH_BORDER_FILE, myLanguageResourceBundle.getString("diagonalBorder"),myLanguageResourceBundle.getString("diagonalBorderDescription")},
+        				{GameObjectConstants.DIAGONAL_YELLOW_WITH_BORDER_FILE, myLanguageResourceBundle.getString("diagonalYellow"), myLanguageResourceBundle.getString("diagonalYellowDescription")}
                 }),
         POWER_UP("Power Up", GameObjectType.WEAPON_POWER_UP, new String[][]
                 {
-        			{GameObjectConstants.NEW_WEAPON_POWER_UP_FILE, "Weapon", "Gives the player a weapon", GameObjectType.WEAPON_POWER_UP.toString()},
-        			{GameObjectConstants.SPEEDUP_POWER_UP_FILE, "Speed Up", "Speeds the player up", GameObjectType.SPEED_POWER_UP.toString()},
-        			{GameObjectConstants.HEALTH_POWER_UP_FILE, "Replenish Health", "Heals the player", GameObjectType.HEALTH_POWER_UP.toString()}
+        			{GameObjectConstants.NEW_WEAPON_POWER_UP_FILE, myLanguageResourceBundle.getString("weapon"), myLanguageResourceBundle.getString("weaponDescription"), GameObjectType.WEAPON_POWER_UP.toString()},
+        			{GameObjectConstants.SPEEDUP_POWER_UP_FILE, myLanguageResourceBundle.getString("speedup"), myLanguageResourceBundle.getString("speedupDescription"), GameObjectType.SPEED_POWER_UP.toString()},
+        			{GameObjectConstants.HEALTH_POWER_UP_FILE, myLanguageResourceBundle.getString("health"), myLanguageResourceBundle.getString("healthDescription"), GameObjectType.HEALTH_POWER_UP.toString()}
                 });
         private String myTabName;
         private GameObjectType myGameObjectType;
         private String[][] myComponentInfo;
+        
 
         ComponentPanelInfo(String tabName, GameObjectType gameObjectType, String[][] componentInfo) {
             myTabName = tabName;
@@ -84,13 +86,14 @@ public class ComponentPanelFactory {
 
     public static ComponentPanelView createComponentPanelView(AuthoringController controller) {
         ComponentPanelView componentPanelView;
+        myLanguageResourceBundle = controller.getEnvironment().getLanguageResourceBundle();
         try {
             Constructor<ComponentPanelView> componentPanelViewConstructor =
                     ComponentPanelView.class.getDeclaredConstructor(AuthoringController.class);
             componentPanelViewConstructor.setAccessible(true);
             componentPanelView = componentPanelViewConstructor.newInstance(controller);
         } catch (Exception e) {
-            System.err.println("Reflection error.");
+            System.err.println(myLanguageResourceBundle.getString("reflectionError"));
             e.printStackTrace();
             return null;
         }
@@ -114,7 +117,7 @@ public class ComponentPanelFactory {
             componentListView = componentListViewConstructor.newInstance(controller,
                     componentPanelInfo.getGameObjectType());
         } catch (Exception e) {
-            System.err.println("Reflection error.");
+            System.err.println(myLanguageResourceBundle.getString("reflectionError"));
             e.printStackTrace();
             return null;
         }

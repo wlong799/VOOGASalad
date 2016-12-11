@@ -44,6 +44,7 @@ public class CanvasController implements Observer {
     private boolean myDoesSnap;
     private SpriteViewComparator mySpriteViewComparator;
     private ResourceBundle myCanvasProperties;
+    private ResourceBundle myLanguageProperties;
   
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
@@ -55,6 +56,7 @@ public class CanvasController implements Observer {
         myBackground = background;
         myEnvironment = canvas.getController().getEnvironment();
         myEnvironment.addObserver(this);
+        myLanguageProperties = myEnvironment.getLanguageResourceBundle();
 
         mySpriteViews = new ArrayList<>();
         mySpriteViewComparator = new SpriteViewComparator();
@@ -224,7 +226,7 @@ public class CanvasController implements Observer {
         clearSpriteViews(true);
         Level currentLevel = myEnvironment.getCurrentLevel();
         if (currentLevel == null) {
-            throw new RuntimeException("no current level for canvas");
+            throw new RuntimeException(myLanguageProperties.getString("noLevel"));
         }
         for (ISprite sp : currentLevel.getAllSprites()) {
             SpriteView spView = new SpriteView(myCanvas.getController());
@@ -339,7 +341,11 @@ public class CanvasController implements Observer {
     }
 
     public double convertToNearestBlockValue(double value) {
-        return Math.max(Math.round(value / Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE"))) * Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE")), Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE")));
+        return Math.max(
+        		Math.round(
+        				value / Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE"))) 
+        		* Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE")), 
+        		Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE")));
     }
 
     @Override

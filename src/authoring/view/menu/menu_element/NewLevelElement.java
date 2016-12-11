@@ -1,5 +1,7 @@
 package authoring.view.menu.menu_element;
 
+import java.util.ResourceBundle;
+
 import authoring.AuthoringController;
 import authoring.ui.DialogFactory;
 import authoring.view.menu.AbstractGameMenuElement;
@@ -12,10 +14,9 @@ import authoring.view.menu.GameAdder;
  * @version 11/28/16
  */
 public class NewLevelElement extends AbstractGameMenuElement {
-    private static final String MENU_NAME = "New Level";
 
     private NewLevelElement(AuthoringController controller) {
-        super(MENU_NAME, controller);
+        super(controller.getEnvironment().getLanguageResourceBundle().getString("newLevel"), controller);
     }
 
     @Override
@@ -30,10 +31,11 @@ public class NewLevelElement extends AbstractGameMenuElement {
     }
 
     private void showDuplicateIDError() {
-        DialogFactory.showErrorDialog(
-                "Error",
-                "Error adding level",
-                "The ID you input is already used by another level"
+        ResourceBundle rs = myController.getEnvironment().getLanguageResourceBundle();
+    	DialogFactory.showErrorDialog(
+                rs.getString("error"),
+                rs.getString("errorAdding"),
+                rs.getString("alreadyUsed")
         );
     }
 }

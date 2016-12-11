@@ -1,5 +1,7 @@
 package authoring.view.inspector;
 
+import java.util.ResourceBundle;
+
 import authoring.AuthoringController;
 import authoring.view.inspector.settings.ImageChangeButtonView;
 import authoring.view.inspector.settings.TextInputBoxView;
@@ -15,6 +17,7 @@ public class InspectorGameView extends AbstractInspectorTabView {
     
     private TextInputBoxView myTitleInputView, myDescriptionInputView;
     private ImageChangeButtonView myImageChangeButtonView;
+    private ResourceBundle myLanguageResourceBundle;
 
     public InspectorGameView(AuthoringController controller) {
         super(controller);
@@ -23,15 +26,16 @@ public class InspectorGameView extends AbstractInspectorTabView {
     @Override
     protected void initUI() {
         super.initUI();
+        myLanguageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
         // TODO: 12/7/16 get title from current game
-        myTitleInputView = new TextInputBoxView(getController(), "Title", "", newValue -> {
+        myTitleInputView = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("title"), "", newValue -> {
             // TODO: 12/7/16 set game title to new text
         });
         myImageChangeButtonView = new ImageChangeButtonView(getController(), "", newValue -> {
             // TODO: 12/7/16 fix this too
         });
         // TODO: 12/7/16 get description from current game
-        myDescriptionInputView = new TextInputBoxView(getController(), "Description", "", newValue -> {
+        myDescriptionInputView = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("description"), "", newValue -> {
             // TODO: 12/7/16 set game description to new text
         });
         addSettingsViews(myTitleInputView, myImageChangeButtonView, myDescriptionInputView);
