@@ -68,6 +68,7 @@ public class LevelGenerator {
 		
 
                 levelA.getBoundary().getDimension().setWidth(game.getScreenSize().getWidth());
+                System.out.println(game.getScreenSize().getWidth());
                 levelA.getBoundary().getDimension().setHeight(game.getScreenSize().getHeight());
 		
 		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 40), heroImages);
