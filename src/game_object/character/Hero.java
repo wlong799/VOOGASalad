@@ -2,8 +2,11 @@ package game_object.character;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import game_engine.collision.CollisionEngine.CollisionDirection;
-import game_object.block.Block;
+import game_object.collision.AttackCollisionStrategy;
+import game_object.collision.ICollisionStrategy;
+import game_object.collision.MotionCollisionStrategy;
 import game_object.constants.DefaultConstants;
 import game_object.constants.GameObjectConstants;
 import game_object.core.Dimension;
@@ -15,8 +18,10 @@ import game_object.weapon.WeaponModel;
 
 public class Hero extends AbstractCharacter implements IUpgrader {
 
-    private boolean myHasProjectile = false;
-
+    private List<ICollisionStrategy<Hero, Enemy>> myEnemyStrategyList;
+    private AttackCollisionStrategy<Hero, Enemy> myAttackByEnemyCollisionStrategy;
+    private MotionCollisionStrategy<Hero, Enemy> myPushByEnemyCollsionStrategy;
+    
     public Hero (Position position, Dimension dimension, List<String> imagePaths) {
         super(position, dimension, imagePaths);
         myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
@@ -25,12 +30,29 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 		    DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
 		    DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK |
 		    DefaultConstants.POWER_CATEGORY_BIT_MASK;
+        setupDefaultStrategy();
     }
-
-    @Override
-    public void shoot () {
-        //ExceptionThrower.notYetSupported();
+    
+    private void setupDefaultStrategy() {
+        myAttackByEnemyCollisionStrategy = new AttackCollisionStrategy<>();
+        myPushByEnemyCollsionStrategy = new MotionCollisionStrategy<>();
+        myEnemyStrategyList = new ArrayList<>();
+        myEnemyStrategyList.add(myAttackByEnemyCollisionStrategy);
+        myEnemyStrategyList.add(myPushByEnemyCollsionStrategy);
+    	myAttackByEnemyCollisionStrategy.setRightDamage(DefaultConstants.ENEMY_BODY_DAMAGE);
+    	myAttackByEnemyCollisionStrategy.setLeftDamage(DefaultConstants.ENEMY_BODY_DAMAGE);
+    	myPushByEnemyCollsionStrategy.setHorizontalBounce(true);
+    	myPushByEnemyCollsionStrategy.setVerticalBounce(true);
     }
+    
+    /* Collision Strategies */
+    public AttackCollisionStrategy<Hero, Enemy> getAttackByEnemyCollisionStrategy() {
+		return myAttackByEnemyCollisionStrategy;
+	}
+    
+    public MotionCollisionStrategy<Hero, Enemy> getPushByEnemyCollsionStrategy() {
+		return myPushByEnemyCollsionStrategy;
+	}
 
     /* Upgrader */
     @Override
@@ -47,41 +69,19 @@ public class Hero extends AbstractCharacter implements IUpgrader {
     public void speedUp (double percent) {
         setMovingUnit(getMovingUnit() * (1 + percent));
     }
-
-    public void changeSize (double multiplier) {
-        myDimension.setHeight(multiplier * myDimension.getHeight());
-        myDimension.setWidth(multiplier * myDimension.getWidth());
-    }
-
-    @Override
-    public void setHasProjectile (boolean hasProjectile) {
-        myHasProjectile = hasProjectile;
-    }
-
-    @Override
-    public boolean getHasProjectile () {
-        return myHasProjectile;
-    }
     
     @Override
     public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
     	otherBody.onCollideWith(this, collisionDirection.opposite());
     }
-    
-    @Override
-    public void onCollideWith(Hero h, CollisionDirection collisionDirection) {
-        
-    }
 
     @Override
     public void onCollideWith(Enemy e, CollisionDirection collisionDirection) {
-    	
-    }
-
-    
-    @Override
-    public void onCollideWith(Block b, CollisionDirection collisionDirection) {
-        super.onCollideWith(b, collisionDirection);
+    	for (ICollisionStrategy<Hero, Enemy> strategy : myEnemyStrategyList) {
+    		if (strategy.isValid()) {
+    			strategy.applyCollision(this, e, collisionDirection);
+    		}
+    	}
     }
 
     @Override
@@ -101,4 +101,5 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 			heroImages
 		);
     }
+    
 }
