@@ -1,6 +1,9 @@
-package network.messages;
+package network.messages.application;
 
 import network.client.Multiplexer;
+import network.messages.AbstractMessage;
+import network.messages.Message;
+import network.messages.MessageType;
 
 /**
  * Tells other clients about the departure of a client so they could

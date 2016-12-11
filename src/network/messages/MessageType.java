@@ -14,17 +14,18 @@ import network.utils.ReflectionException;
  */
 public enum MessageType {
 	
-	CHAT ("network.messages.ChatMessage"),
-	PLAYER_MODEL ("TODO"), // TODO cx15 broadcast the player model to all other players
-	USER_GONE_OFFLINE ("network.messages.UserGoneOfflineMessage"),
+	CHAT ("network.messages.application.ChatMessage"),
+	USER_GONE_OFFLINE ("network.messages.application.UserGoneOfflineMessage"),
+	ACTION ("network.messages.application.ActionMessage"),
+	LOCK_RESPONSE ("network.messages.application.LockResponseMessage"),
 	
-	HANDSHAKE ("network.messages.HandShake"),
-	DISCONNECT ("network.messages.Disconnect"),
-	SESSION_LEASE ("network.messages.SessionLease"),
-	SESSION_LEASE_GRANTED ("network.messages.SessionLeaseGranted");
-	
-	// TODO cx15 lock and unicast
-	// TODO cx15 remove all TODOS on utils pkgs
+	TRYLOCK ("network.messages.system.Trylock"),
+	UNLOCK ("network.messages.system.Unlock"),
+	HANDSHAKE ("network.messages.system.HandShake"),
+	SET_STARTING_ID ("network.messages.system.SetStartingID"),
+	DISCONNECT ("network.messages.system.Disconnect"),
+	SESSION_LEASE ("network.messages.system.SessionLease"),
+	SESSION_LEASE_GRANTED ("network.messages.system.SessionLeaseGranted");
 	
 	private static final String MORE_THAN_ONE_PAYLOAD =
 			"Each Message can only carry zero or one payload";

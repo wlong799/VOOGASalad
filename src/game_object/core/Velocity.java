@@ -1,11 +1,14 @@
 package game_object.core;
 
+import java.io.Serializable;
+
 /**
  * A class representing 2D velocity.
  * @author Jay
  */
-public class Velocity {
+public class Velocity implements Serializable {
 	
+	private static final long serialVersionUID = -2347135187672813813L;
 	private double myXVelocity, myYVelocity;
 	
 	public Velocity(double xVelocity, double yVelocity) {

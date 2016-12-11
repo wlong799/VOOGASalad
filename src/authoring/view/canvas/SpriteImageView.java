@@ -58,6 +58,7 @@ public class SpriteImageView extends AbstractView {
 
     public void setDragMove() {
         this.getUI().setOnMousePressed(event -> {
+        	this.getController().selectSpriteView(mySpriteView);
             CanvasView canvas = mySpriteView.getCanvasView();
             mySpriteView.getMouseOffset().setX(
                     this.getController().getCanvasController()
