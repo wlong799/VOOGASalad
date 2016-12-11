@@ -5,6 +5,7 @@ import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.powerup.IPowerUp;
+import game_object.weapon.Projectile;
 
 public interface ICollisionBody extends IPhysicsBody {
 	
@@ -25,15 +26,7 @@ public interface ICollisionBody extends IPhysicsBody {
 	void onCollideWith(Block b, CollisionDirection collisionDirection);
 	
 	void onCollideWith(IPowerUp p, CollisionDirection collisionDirection);
-//	
-//	List<ICollisionStrategy<? extends ICollisionBody, Enemy>> getEnemyCollisionStrategies();
-//	
-//	List<ICollisionStrategy<? extends ICollisionBody, Hero>> getHeroCollisionStrategies();
-//	
-//	List<ICollisionStrategy<? extends ICollisionBody, Block>> getBlockCollisionStrategies();
-//	
-//	List<ICollisionStrategy<? extends ICollisionBody, IPowerUp>> getPowerUpCollisionStrategies();
-//	
-//	List<ICollisionStrategy<? extends ICollisionBody, Projectile>> getProjectileCollisionStrategies();
+
+	void onCollideWith(Projectile p, CollisionDirection collisionDirection);
 	
 }
