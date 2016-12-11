@@ -60,7 +60,7 @@ public class ChatController {
 				myView.appendText(msg.getSender() + ": " + chat);
 			}
 		} catch (SessionExpiredException e) {
-			System.out.println("session expired");
+			//TODO billyu: show user prompt
 		}
 	}
 	
