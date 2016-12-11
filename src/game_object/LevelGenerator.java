@@ -80,7 +80,7 @@ public class LevelGenerator {
 		slowBulletImgs.add(GameObjectConstants.ORANGE_BULLET_FILE);
         ProjectileModel bulletModel = new ProjectileModel(
 				slowBulletImgs, // image file
-				new Velocity(40, 0), // initial velocity
+				new Velocity(80, 0), // initial velocity
 				false, // affected by gravity
 				false // follow hero
 				);
@@ -99,7 +99,7 @@ public class LevelGenerator {
 		// a very fast bullet model
         ProjectileModel fastModel = new ProjectileModel(
         		fastBulletImgs, // image file
-				new Velocity(100, 0), // initial velocity
+				new Velocity(150, 0), // initial velocity
 				false, // affected by gravity
 				false // follow hero
 				);
