@@ -4,6 +4,7 @@ import java.util.Queue;
 import java.util.ResourceBundle;
 
 import authoring.share.NetworkController;
+import authoring.ui.DialogFactory;
 import authoring.view.chat.ChatView;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -60,7 +61,7 @@ public class ChatController {
 				myView.appendText(msg.getSender() + ": " + chat);
 			}
 		} catch (SessionExpiredException e) {
-			//TODO billyu: show user prompt
+			DialogFactory.showSessionExpired();
 		}
 	}
 	
