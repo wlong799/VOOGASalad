@@ -2,6 +2,7 @@ package authoring;
 
 import java.io.File;
 import java.util.Observable;
+import java.util.ResourceBundle;
 
 import authoring.controller.CanvasController;
 import authoring.controller.ComponentController;
@@ -29,9 +30,12 @@ public class AuthoringController extends Observable {
 	private TestGameController testGameController;
 	private ImageRenderer renderer;
 	private NetworkController myNetworkController;
+	private String CSS_FILE = "css/style.css";
+	private ResourceBundle myLanguagesResourceBundle;
 	
 	public AuthoringController(AuthorEnvironment environment) {
 		myEnvironment = environment;
+		myLanguagesResourceBundle = environment.getLanguageResourceBundle();
 		canvasController = new CanvasController();
 		componentController = new ComponentController();
 		testGameController = new TestGameController(this);
@@ -91,7 +95,7 @@ public class AuthoringController extends Observable {
 			spView.setEditor(myNetworkController.getMyName());
 			this.updateObservers();
 		} catch (ShareEditException e) {
-			System.out.println("already selected by " + e.getMessage());
+			System.out.println(myLanguagesResourceBundle.getString("selected") + e.getMessage());
 		}
 	}
 	
@@ -142,7 +146,7 @@ public class AuthoringController extends Observable {
 				this.deselectSpriteView(true);
 			}
 		});
-		File f = new File("css/style.css");
+		File f = new File(CSS_FILE);
 		scene.getStylesheets().clear();
 		scene.getStylesheets().add(f.getPath());
 	}

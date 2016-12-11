@@ -50,7 +50,8 @@ public class CanvasController implements Observer {
     private boolean myDoesSnap;
     private SpriteViewComparator mySpriteViewComparator;
     private ResourceBundle myCanvasProperties;
-    
+    private ResourceBundle myLanguageProperties;
+  
     private static final double BLOCK_SIZE = 50;
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
@@ -62,6 +63,7 @@ public class CanvasController implements Observer {
         myContent = content;
         myBackground = background;
         myEnvironment = canvas.getController().getEnvironment();
+        myLanguageProperties = canvas.getController().getEnvironment().getLanguageResourceBundle();
         myEnvironment.addObserver(this);
 
         spriteViews = new HashMap<>();
@@ -249,7 +251,7 @@ public class CanvasController implements Observer {
         clearSpriteViews(true);
         Level currentLevel = myEnvironment.getCurrentLevel();
         if (currentLevel == null) {
-            throw new RuntimeException("no current level for canvas");
+            throw new RuntimeException(myLanguageProperties.getString("noLevel"));
         }
         for (ISprite sp : currentLevel.getAllSprites()) {
         	long newID = myController.getNetworkController().getIDManager().getNextID();

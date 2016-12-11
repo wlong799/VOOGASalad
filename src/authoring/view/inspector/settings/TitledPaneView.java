@@ -67,7 +67,7 @@ public class TitledPaneView extends AbstractSettingsView {
 		});
 		grid.add(applyTimeGoal, 0, 3);
 		
-		myTimeGoalTitledPane = new TitledPane(myLanguageResourceBundle.getString("timeGoal"), grid);
+		myTimeGoalTitledPane = new TitledPane(myLanguageResourceBundle.getString("timeGoalTitle"), grid);
 	}
 	
 	private void initializePointGoalTitledPane() {
