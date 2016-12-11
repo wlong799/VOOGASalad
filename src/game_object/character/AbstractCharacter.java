@@ -4,6 +4,7 @@ import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.GravityFrictionStrategy;
 import game_object.block.Block;
+import game_object.collision.MotionCollisionStrategy;
 import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
@@ -26,10 +27,12 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	protected boolean myDead = false;
 	protected int myCurrentJumps;
 	protected Weapon myCurrentWeapon;
-	protected boolean myJumping = false;
+	protected boolean myJumping;
 	protected boolean myTempJumping;
-	protected boolean myShooting = false;
+	protected boolean myShooting;
 	protected boolean myTempShooting;
+	protected MotionCollisionStrategy<ICharacter, Block> myStrategyOnCollisionWithBlock;
+	
 	// the following two fields define the weapon-holding position
 	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
 	private double myWeaponDisplacementX;
@@ -39,43 +42,22 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		super(position, dimension, imagePaths);
 		myAffectedByPhysics = true;
 		myPhysicsStrategy = new GravityFrictionStrategy();
-		// default displacement
+		myStrategyOnCollisionWithBlock = new MotionCollisionStrategy<>();
 		myWeaponDisplacementX = dimension.getWidth();
 		myWeaponDisplacementY = 0;
 	}
+	
 	/*ICollisionBody Implementation*/
-
+	@Override
+	public MotionCollisionStrategy<ICharacter, Block> getStrategyOnCollisionWithBlock() {
+		return myStrategyOnCollisionWithBlock;
+	}
+	
 	@Override
 	public void onCollideWith(Block b, CollisionDirection collisionDirection){
-	    if (collisionDirection != CollisionDirection.NONE) {
-	            
-	            //c.onCollideWith(other);
-	            //logSuppressed = false;
-	            if (collisionDirection == CollisionDirection.BOTTOM) {
-	                getPosition().setY(b.getPosition().getY() - getDimension().getHeight());
-	                getVelocity().setYVelocity(0);
-	                resetCurrentJumps();
-	            }
-	            else if (collisionDirection == CollisionDirection.TOP) {
-	                getPosition().setY(b.getPosition()
-	                        .getY() + b.getDimension().getHeight());
-	                getVelocity().setYVelocity(0);
-	            }
-	            else if (collisionDirection == CollisionDirection.LEFT) {
-	                getPosition().setX(b.getPosition().getX() +
-	                                     b.getDimension().getWidth());
-	                getVelocity().setXVelocity(0);
-	            }
-	            else if (collisionDirection == CollisionDirection.RIGHT) {
-	                getPosition().setX(b.getPosition().getX() - getDimension().getWidth());
-	                getVelocity().setXVelocity(0);
-	            }
-	            else {
-	                // TODO: Implement corner collision handling
-	            }
-
-	        }
+		getStrategyOnCollisionWithBlock().applyCollision(this, b, collisionDirection);
 	}
+	/* ---ICollisionBody Implementation END--- */
 
 
 	/* IMortal Implementations */
@@ -95,6 +77,9 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	@Override
 	public void setCurrentHP(double currentHP) {
 		myCurrentHP = currentHP;
+		if (currentHP < 0) {
+			setValid(false);
+		}
 	}
 
 	@Override
