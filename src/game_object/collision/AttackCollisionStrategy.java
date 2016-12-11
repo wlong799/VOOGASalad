@@ -41,6 +41,10 @@ public class AttackCollisionStrategy<A extends ICharacter, B extends ICollisionB
 		myCornerDamage = cornerDamage;
 	}
 	
+	public double getDamage() {
+		return myLeftDamage;
+	}
+	
 	@Override
 	public void applyCollision(A a, B b, CollisionDirection collisionDirection) {
 		double damage = 0;
@@ -64,6 +68,5 @@ public class AttackCollisionStrategy<A extends ICharacter, B extends ICollisionB
 		}
 		a.setCurrentHP(a.getCurrentHP() - damage);
 	}
-
 
 }

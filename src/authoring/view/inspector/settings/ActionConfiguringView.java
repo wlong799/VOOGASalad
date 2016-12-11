@@ -22,23 +22,24 @@ import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
+import resources.ResourceBundles;
 
 public class ActionConfiguringView extends AbstractSettingsView {
     private ISprite mySprite;
     private Map<String, String> myEntryMap;
     private TableView<Map.Entry<String, String>> myTableView;
     private ObservableList<Map.Entry<String, String>> myItems;
-    private ResourceBundle myLanguageResourceBundle;
+    private static ResourceBundle myLanguageResourceBundle = ResourceBundles.languageProperties;;
 
     public ActionConfiguringView(AuthoringController controller, ISprite sprite) {
         super(controller);
         mySprite = sprite;
         myEntryMap = new HashMap<>();
-        myLanguageResourceBundle = controller.getEnvironment().getLanguageResourceBundle();
     }
 
     @Override
     public void initializeSettings() {
+    	myTableView.getItems().clear();
         for (ActionName name : ActionName.values()) {
             Level currentLevel = this.getController().getEnvironment().getCurrentLevel();
             ActionTrigger trigger = currentLevel.getTriggerWithSpriteAndAction(mySprite, name);
@@ -54,16 +55,18 @@ public class ActionConfiguringView extends AbstractSettingsView {
     }
 
     @SuppressWarnings("unchecked")
-    @Override
+	@Override
     protected void initUI() {
-        super.initUI();
+    	super.initUI();
         myTableView = new TableView<>();
+        
         TableColumn<Map.Entry<String, String>, String> column1 = new TableColumn<>(myLanguageResourceBundle.getString("actionType"));
         column1.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
         TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>(myLanguageResourceBundle.getString("keyInput"));
         column2.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue()));
-
+        
         myTableView.getColumns().addAll(column1, column2);
+        myTableView.setPrefHeight(200);
         myContent.getChildren().add(myTableView);
     }
 

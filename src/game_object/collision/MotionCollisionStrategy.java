@@ -18,6 +18,14 @@ public class MotionCollisionStrategy<A extends ICollisionBody, B extends ICollis
 		myVerticalBounce = verticalBounce;
 	}
 	
+	public boolean getHorizontalBounce() {
+		return myHorizontalBounce;
+	}
+	
+	public boolean getVerticalBounce() {
+		return myVerticalBounce;
+	}
+	
 	@Override
 	public void applyCollision(A a, B b, CollisionDirection collisionDirection) {
 		switch (collisionDirection) {

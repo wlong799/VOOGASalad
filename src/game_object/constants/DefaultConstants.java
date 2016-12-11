@@ -25,7 +25,6 @@ public class DefaultConstants {
 	public static final double HERO_BODY_DAMAGE = 50;
 	public static final double PROJECTILE_DAMAGE = 100;
 	
-	
 	public static final int LEVEL_WIDTH = 10000;
 	public static final int LEVEL_HEIGHT = 1200;
 	

@@ -4,10 +4,12 @@ import java.util.Queue;
 
 import authoring.AuthoringController;
 import authoring.share.action.AddSpriteAction;
+import authoring.share.action.DeselectSpriteAction;
 import authoring.share.action.IAction;
 import authoring.share.action.MoveSpriteAction;
 import authoring.share.action.RemoveSpriteAction;
 import authoring.share.action.ResizeSpriteAction;
+import authoring.share.action.SelectSpriteAction;
 import authoring.share.exception.ShareEditException;
 import authoring.ui.DialogFactory;
 import authoring.view.canvas.SpriteView;
@@ -41,6 +43,8 @@ public class ShareEditController {
 		if (holderName != null && !holderName.equals(myNetworkController.getMyName())) {
 			throw new ShareEditException(holderName);
 		}
+		IAction selectAction = new SelectSpriteAction(spView.getID(), myNetworkController.getMyName());
+		myNetworkController.getClient().broadcast(selectAction, MessageType.ACTION);
 	}
 	
 	/**
@@ -50,6 +54,8 @@ public class ShareEditController {
 	 */
 	public void unlock(SpriteView spView) {
 		if (!hasClient()) return;
+		IAction deselectAction = new DeselectSpriteAction(spView.getID());
+		myNetworkController.getClient().broadcast(deselectAction, MessageType.ACTION);
 		myNetworkController.getClient().unlock(spView.getID());
 	}
 	
