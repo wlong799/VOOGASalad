@@ -15,18 +15,13 @@ import game_object.acting.ActionTrigger;
 import game_object.acting.KeyEvent;
 import game_object.core.ISprite;
 import game_object.level.Level;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.VBox;
-import javafx.util.Callback;
 import resources.ResourceBundles;
 
 public class ActionConfiguringView extends AbstractSettingsView {

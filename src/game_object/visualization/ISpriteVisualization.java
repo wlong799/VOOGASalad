@@ -28,5 +28,7 @@ public interface ISpriteVisualization {
 	ImageStyle getImageStyle();
 	
 	double getScrollOffset();
+	
+	boolean isFacingLeft();
 		
 }
