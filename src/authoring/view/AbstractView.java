@@ -3,6 +3,7 @@ package authoring.view;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
 import javafx.scene.Group;
@@ -13,18 +14,21 @@ import javafx.scene.Parent;
  * Abstract superclass for all other viewable elements in authoring environment GUI.
  */
 public abstract class AbstractView implements IView {
-    private static final String ILLEGAL_SUBVIEW_MESSAGE = "Child already has a parent view";
+    private static String ILLEGAL_SUBVIEW_MESSAGE;
 
     private double myWidth, myHeight;
     private Group myUIRoot;
     private AuthoringController myController;
     private List<IView> mySubViews;
     private IView myParentView;
+    protected ResourceBundle myLanguageResourceBundle; 
 
     public AbstractView(AuthoringController controller) {
         myUIRoot = new Group();
         mySubViews = new ArrayList<>();
         myController = controller;
+        ILLEGAL_SUBVIEW_MESSAGE = controller.getEnvironment().getLanguageResourceBundle().getString("childWithParent");
+        myLanguageResourceBundle = controller.getEnvironment().getLanguageResourceBundle();
         initUI();
     }
 

@@ -16,6 +16,7 @@ public class InspectorComponentView extends AbstractInspectorTabView {
 
     private TextInputBoxView myTitleInputView, myDescriptionInputView;
     private ImageChangeButtonView myImageChangeButtonView;
+ 
 
     public InspectorComponentView(AuthoringController controller) {
         super(controller);
@@ -24,11 +25,12 @@ public class InspectorComponentView extends AbstractInspectorTabView {
     @Override
     protected void initUI() {
         super.initUI();
-        myTitleInputView = new TextInputBoxView(getController(), "Title", "", newValue ->
+        
+        myTitleInputView = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("title"), "", newValue ->
                 myComponent.setTitle(newValue));
         myImageChangeButtonView = new ImageChangeButtonView(getController(), "", newValue ->
                 myComponent.setImagePath(newValue));
-        myDescriptionInputView = new TextInputBoxView(getController(), "Description", "", newValue ->
+        myDescriptionInputView = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("description"), "", newValue ->
                 myComponent.setDescription(newValue));
         addSettingsViews(new NullSettingsView(getController()));
     }

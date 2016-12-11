@@ -20,6 +20,7 @@ import resources.ResourceBundles;
 
 public class ChatView extends AbstractView {
 
+	private static final ResourceBundle languageProperties = ResourceBundles.languageProperties;
 	private NetworkController myNetworkController;
 	private TextFlow myTextFlow;
 	private ScrollPane myScrollPane;
@@ -82,7 +83,7 @@ public class ChatView extends AbstractView {
 	private void initSendingBox() {
 		mySendingBox = new HBox();
 		myTextField = new TextField();
-		myEnterButton = new Button("Send");
+		myEnterButton = new Button(languageProperties.getString("send"));
 		myEnterButton.getStyleClass().add("send-button");
 		myTextField.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER) {
@@ -105,17 +106,17 @@ public class ChatView extends AbstractView {
 			hasName = true;
 			try {
 				myNetworkController.initClientWithName(current);
-				this.appendText("Oh hellooooo " + current);
-				this.appendText("Start chatting now!!");
+				this.appendText(languageProperties.getString("hello") + current);
+				this.appendText(languageProperties.getString("startChatting"));
 			} catch (ServerDownException e) {
-				this.appendText("Server Down");
+				this.appendText(languageProperties.getString("serverDown"));
 			}
 		}
 		myTextField.clear();
 	}
 
 	private void getName() {
-		this.appendText("Welcome to chat, please enter your name:");
+		this.appendText(languageProperties.getString("welcomeChat"));
 	}
 
 }

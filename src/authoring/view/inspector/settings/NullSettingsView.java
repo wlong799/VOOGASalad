@@ -1,5 +1,7 @@
 package authoring.view.inspector.settings;
 
+import java.util.ResourceBundle;
+
 import authoring.AuthoringController;
 
 /**
@@ -9,7 +11,7 @@ import authoring.AuthoringController;
  * @version 12/8/16
  */
 public class NullSettingsView extends AbstractSettingsView {
-    private static final String LABEL_MESSAGE = "Settings not currently available";
+    private ResourceBundle myLanguageResourceBundle;
 
     public NullSettingsView(AuthoringController controller) {
         super(controller);
@@ -17,6 +19,7 @@ public class NullSettingsView extends AbstractSettingsView {
 
     @Override
     public void initializeSettings() {
-        myLabel.setText(LABEL_MESSAGE);
+    	myLanguageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
+        myLabel.setText(myLanguageResourceBundle.getString("settingsNotAvail"));
     }
 }

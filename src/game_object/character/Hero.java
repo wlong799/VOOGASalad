@@ -94,8 +94,7 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 		final double DEFAULT_X = 100, DEFAULT_Y = 100;
 		final double DEFAULT_H = 40, DEFAULT_W = 40;
 		ArrayList<String> heroImages = new ArrayList<>();
-		heroImages.add(GameObjectConstants.BLUE_SNAIL_LEFT);
-		heroImages.add(GameObjectConstants.BLUE_SNAIL_RIGHT);
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_FILE);
 		return new Hero(
 			new Position(DEFAULT_X, DEFAULT_Y),
 			new Dimension(DEFAULT_H, DEFAULT_W),

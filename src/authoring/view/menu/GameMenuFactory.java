@@ -2,6 +2,7 @@ package authoring.view.menu;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
 
@@ -15,13 +16,14 @@ import authoring.AuthoringController;
  */
 public class GameMenuFactory {
     private static final String MENU_ELEMENT_PACKAGE = "authoring.view.menu.menu_element.";
+    private static ResourceBundle myLanguageResourceBundle;
 
     /**
      * GameMenuInfo enum holds the information that should be loaded into the GameMenuView. Each element in the enum
      * contains the name of the menu to add, and an array of Strings naming the menu elements within the menu.
      */
     private enum GameMenuInfo {
-        FILE("File", new String[]{
+        FILE(myLanguageResourceBundle.getString("file"), new String[]{
         		"NewGameElement", 
         		"ChangeGameElement", 
         		"SeparatorMenuElement", 
@@ -30,21 +32,16 @@ public class GameMenuFactory {
                 "SeparatorMenuElement", 
                 "CloseGameElement"
                 }),
-        LEVEL("Level", new String[]{
+        LEVEL(myLanguageResourceBundle.getString("level"), new String[]{
         		"NewLevelElement", 
         		"ChangeLevelElement", 
         		"DeleteLevelElement",
                 "SeparatorMenuElement", 
-                "ChangeLevelBackgroundElement", 
-                "SeparatorMenuElement", 
-                "SetLevelGoalElement"
+                "ChangeLevelBackgroundElement",
                 }),
-        TEST("Test", new String[]{
+        TEST(myLanguageResourceBundle.getString("test"), new String[]{
         		"RunElement"
-        		}),
-    	SETTINGS("Settings", new String[]{
-    			"ChangeLanguage"
-    			});
+        		});
 
         private String myGameMenuName;
         private String[] myGameMenuElementClasses;
@@ -65,13 +62,14 @@ public class GameMenuFactory {
 
     public static GameMenuView createGameMenuView(AuthoringController controller) {
         GameMenuView gameMenuView;
+        myLanguageResourceBundle = controller.getEnvironment().getLanguageResourceBundle();
         try {
             Constructor<GameMenuView> gameMenuViewConstructor = GameMenuView.class.getDeclaredConstructor(
                     AuthoringController.class);
             gameMenuViewConstructor.setAccessible(true);
             gameMenuView = gameMenuViewConstructor.newInstance(controller);
         } catch (Exception e) {
-            System.err.println("Reflection error.");
+            System.err.println(myLanguageResourceBundle.getString("reflectionError"));
             e.printStackTrace();
             return null;
         }
@@ -89,7 +87,7 @@ public class GameMenuFactory {
             gameMenuConstructor.setAccessible(true);
             gameMenu = gameMenuConstructor.newInstance(menuName);
         } catch (Exception e) {
-            System.err.println("Reflection error.");
+            System.err.println(myLanguageResourceBundle.getString("reflectionError"));
             e.printStackTrace();
             return null;
         }
@@ -111,7 +109,7 @@ public class GameMenuFactory {
             gameMenuElementConstructor.setAccessible(true);
             gameMenuElement = gameMenuElementConstructor.newInstance(controller);
         } catch (Exception e) {
-            System.err.println("Reflection error.");
+            System.err.println(myLanguageResourceBundle.getString("reflectionError"));
             e.printStackTrace();
             return null;
         }

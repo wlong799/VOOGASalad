@@ -45,7 +45,7 @@ public class Game {
 	
 	/* mock */
 	private void initDefaultGameInfo() {
-		myImagePath = GameObjectConstants.BLUE_SNAIL_LEFT;
+		myImagePath = GameObjectConstants.BLUE_SNAIL_FILE;
 		myDescription = GameObjectConstants.LOREM_IPSUM;
 	}
 	

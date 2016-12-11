@@ -20,12 +20,14 @@ public class AuthoringInitializer {
 	private AuthoringView myAuthoringView;
 	private AuthorEnvironment myEnvironment;
 	private ResourceBundle myCanvasProperties;
+	private String myLanguageResourceFilePath;
 	
-	public void init() {
+	public void init(String filePath) {
 		String os = System.getProperty("os.name");
 		myPrimaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		myHeight = 0;
 		myWidth = myPrimaryScreenBounds.getWidth();
+		myLanguageResourceFilePath = filePath;
 		if (os.contains("Windows")) {
 			myHeight = myPrimaryScreenBounds.getHeight();
 		}
@@ -50,6 +52,7 @@ public class AuthoringInitializer {
 	private AuthorEnvironment initEnvironment() {
 		Game game = LevelGenerator.getTestGame();
 		AuthorEnvironment env = new AuthorEnvironment();
+		env.initLanguageResource(myLanguageResourceFilePath);
 		env.addGame(game);
 		env.setCurrentGame(0);
 		env.setCurrentLevel(0);
