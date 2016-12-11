@@ -115,18 +115,9 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
         }
     }
 
-    @Override
-    public void load() {
-        // TODO: 12/5/16 method does nothing
-    }
-
-    @Override
-    public void setLanguage(String lang) {
-        // TODO: 12/5/16 method does nothing
-    }
-
     private void updateObservers() {
         setChanged();
         notifyObservers();
     }
+    
 }

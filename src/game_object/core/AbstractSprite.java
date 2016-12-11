@@ -18,6 +18,7 @@ import game_object.powerup.IPowerUp;
  */
 public abstract class AbstractSprite implements ISprite {
 
+	private static final long serialVersionUID = -5935430491986661297L;
 	private static SpriteScavenger staticSpriteScavenger;
 	protected Position myPosition;
 	protected Position myPreviousPosition;
