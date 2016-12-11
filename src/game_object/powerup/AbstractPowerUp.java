@@ -12,6 +12,8 @@ import game_object.simulation.ICollisionBody;
 
 abstract class AbstractPowerUp extends AbstractSprite implements IPowerUp {
 	
+	private static final long serialVersionUID = -7945452345477161682L;
+
 	protected AbstractPowerUp(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 		myCategoryBitMask = DefaultConstants.POWER_CATEGORY_BIT_MASK;

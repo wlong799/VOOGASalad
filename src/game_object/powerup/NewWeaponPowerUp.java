@@ -13,6 +13,7 @@ import game_object.weapon.WeaponModel;
  */
 public class NewWeaponPowerUp extends AbstractPowerUp {
 
+	private static final long serialVersionUID = 2114906066615238333L;
 	private WeaponModel myWeaponModel;
 	private Dimension myWeaponDimension;
 	

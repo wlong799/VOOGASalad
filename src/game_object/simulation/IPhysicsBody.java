@@ -7,18 +7,22 @@ import game_object.core.Velocity;
  * A physics body that, if getAffectedByPhysics() returns true, will be affected by physics
  * @author Jay
  */
-public interface IPhysicsBody extends IBodyWithPosition {
+public interface IPhysicsBody extends IBodyWithPosition, IBodyWithDimension{
 	
 	void setAffectedByPhysics(boolean affectedByPhysics);
 	
 	boolean getAffectedByPhysics();
-	
-	Velocity getVelocity();
 
 	void setVelocity(Velocity velocity); 
 	
-	IPhysicsStrategy getPhysics();
+	Velocity getVelocity();
+	
+	void setPreviousVelocity(Velocity velocity);
+	
+	Velocity getPreviousVelocity();
 	
 	void setPhysics(IPhysicsStrategy physics);
+	
+	IPhysicsStrategy getPhysics();
 
 }
