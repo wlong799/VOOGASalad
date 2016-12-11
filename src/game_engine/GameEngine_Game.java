@@ -78,7 +78,7 @@ public class GameEngine_Game implements IGameEngine {
 	    SpriteInfo si = new SpriteInfo(Block.class,imagePaths,dim);
 	    sprites.add(si);
 	    myGenerator = new RandomGenerationController(myCurrentLevel,sprites,5);
-	    myGenerator.setGenerationMetrics(0, 0, myCurrentLevel.getDimension().getHeight());
+	    myGenerator.setGenerationMetrics(0, 0, myCurrentLevel.getBoundary().getDimension().getHeight());
 	}
 	public void suppressLogDebug() {
 		logSuppressed = true;

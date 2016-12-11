@@ -46,7 +46,9 @@ public class RandomGenerationController {
                 Constructor<? extends ISprite> ctor =
                         c.getConstructor(Position.class, Dimension.class, List.class);
                 double xPos = new Random().nextDouble()*myXRange + myLevel.getBoundary().right() + OFFSET;
+                System.out.println(myLevel.getBoundary().getPosition().getX());
                 System.out.println("my level boundary right " + myLevel.getBoundary().right());
+                System.out.println(myLevel.getBoundary().getDimension().getWidth());
                 System.out.println("X POS " + xPos);
                 double yPos = new Random().nextDouble()*myYRange;
                 Position position = new Position(xPos, yPos);
