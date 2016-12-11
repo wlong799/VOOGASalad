@@ -8,6 +8,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
 /**
  * Provides a button that displays the current image for some setting, and allows you to change it when it is clicked
@@ -16,13 +17,13 @@ import java.io.File;
  * @author Will Long
  */
 public class ImageChangeButtonView extends AbstractSettingsView {
-    private static final String LABEL_TEXT = "Change Image";
     private static final double WIDTH_RATIO = 0.25;
 
     private String myImageFilename;
     private ITextChangeHandler myHandler;
     private Button myButton;
     private ImageView myImageView;
+    private ResourceBundle myLangageResourceBundle;
 
     public ImageChangeButtonView(AuthoringController controller, String defaultFilename, ITextChangeHandler handler) {
         super(controller);
@@ -45,7 +46,7 @@ public class ImageChangeButtonView extends AbstractSettingsView {
     public void initializeSettings() {
         myButton.setOnAction(event -> {
             FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Choose New Image");
+            fileChooser.setTitle(myLangageResourceBundle.getString("chooseNewImage"));
             File file = fileChooser.showOpenDialog(new Stage());
             if (setImageFilename(file.toURI().toString())) {
                 myHandler.handle(myImageFilename);
@@ -56,7 +57,8 @@ public class ImageChangeButtonView extends AbstractSettingsView {
     @Override
     protected void initUI() {
         super.initUI();
-        myLabel.setText(LABEL_TEXT);
+        myLangageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
+        myLabel.setText(myLangageResourceBundle.getString("changeImage"));
         myButton = new Button();
         myImageView = new ImageView();
         myButton.setGraphic(myImageView);

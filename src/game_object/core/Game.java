@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import game_engine.enemyai.EnemyLevelTypes;
 import game_object.constants.DefaultConstants;
 import game_object.constants.GameObjectConstants;
 import game_object.level.Level;
@@ -22,6 +23,7 @@ public class Game {
 	private Dimension myScreenSize;
 	private int myFPS;
 	private GameStatistics myGameStats;
+	private EnemyLevelTypes myEnemyDifficulty;
 
 	private Level myFirstSceneAsLevel;
 	//private TransitionMenu myFirstSceneAsMenu;
@@ -36,17 +38,26 @@ public class Game {
 			DefaultConstants.GAME_HEIGHT
 		);
 		myFPS = 60;
+		myEnemyDifficulty = EnemyLevelTypes.MEDIUM;
 		myGameStats = new GameStatistics(this);
 		initDefaultGameInfo();
 	}
 	
 	/* mock */
 	private void initDefaultGameInfo() {
-		myImagePath = GameObjectConstants.BLUE_SNAIL_LEFT;
+		myImagePath = GameObjectConstants.BLUE_SNAIL_FILE;
 		myDescription = GameObjectConstants.LOREM_IPSUM;
 	}
 	
 	/* Game basics */
+	public void setEnemyDifficulty(EnemyLevelTypes enemyDifficulty) {
+		myEnemyDifficulty = enemyDifficulty;
+	}
+	
+	public EnemyLevelTypes getEnemyDifficulty() {
+		return myEnemyDifficulty;
+	}
+	
 	public Dimension getScreenSize() {
 		return myScreenSize;
 	}

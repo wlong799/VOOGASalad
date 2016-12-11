@@ -1,6 +1,7 @@
 package game_object.core;
 
 import java.util.List;
+
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.ConstantStrategy;
 import game_engine.physics.IPhysicsStrategy;
@@ -19,6 +20,7 @@ import game_object.powerup.IPowerUp;
  */
 public abstract class AbstractSprite implements ISprite {
 
+	private static final long serialVersionUID = -5935430491986661297L;
 	private static SpriteScavenger staticSpriteScavenger;
 	protected Position myPosition;
 	protected Position myPreviousPosition;
@@ -30,6 +32,7 @@ public abstract class AbstractSprite implements ISprite {
 	protected int myCollisionBitMask;
 	protected boolean myAffectedByPhysics;
 	protected Velocity myVelocity;
+	protected Velocity myPreviousVelocity;
 	protected IPhysicsStrategy myPhysicsStrategy;
 	protected boolean myFacingLeft;
 	protected ChildSprites myChildSprites;
@@ -85,7 +88,6 @@ public abstract class AbstractSprite implements ISprite {
 	/* IBodyWithPosition Implementations */
 	@Override
 	public void setPosition(Position pos) {
-		myPreviousPosition = myPosition;
 		myPosition = pos;
 	}
 	
@@ -95,8 +97,13 @@ public abstract class AbstractSprite implements ISprite {
 	}
 	
 	@Override
+	public void setPreviousPosition(Position previousPosition) {
+		myPreviousPosition = previousPosition;
+	}
+	
+	@Override
 	public Position getPreviousPosition() {
-		return myPreviousPosition;
+		return myPreviousPosition == null ? getPosition() : myPreviousPosition;
 	}
 	/* ---IBodyWithPosition Implementations END--- */
 	
@@ -134,38 +141,6 @@ public abstract class AbstractSprite implements ISprite {
 
 	
 	/* ICollisionBody Implementations */
-	
-	/* Default implementation is to do nothing when you collide with these objects */
-	@Override
-	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
-		
-	}
-	
-	@Override
-	public void onCollideWith(Hero h, CollisionDirection collisionDirection){
-	    
-	}
-	
-	@Override
-	public void onCollideWith(Enemy e, CollisionDirection collisionDirection){
-	    
-	}
-	
-	@Override
-	public void onCollideWith(Block b, CollisionDirection collisionDirection){
-	    
-	}
-	
-	@Override
-    public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection){
-       
-    }
-	
-	@Override
-	public void onCollideWith(Projectile p, CollisionDirection collisionDirection){
-	    //Do nothing
-	}
-	
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {
 		myCategoryBitMask = categoryBitMask;
@@ -185,6 +160,35 @@ public abstract class AbstractSprite implements ISprite {
 	public int getCollisionBitMask() {
 		return myCollisionBitMask;
 	}
+	
+	@Override
+	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
+		
+	}
+	
+	@Override
+	public void onCollideWith(Hero h, CollisionDirection collisionDirection){
+		
+	}
+	
+	@Override
+	public void onCollideWith(Enemy e, CollisionDirection collisionDirection){
+		
+	}
+	
+	@Override
+	public void onCollideWith(Block b, CollisionDirection collisionDirection){
+	    
+	}
+	
+	@Override
+    public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection){
+       
+    }
+	
+    public void onCollideWith(Projectile p, CollisionDirection collisionDirection){
+       
+    }
 	/* ---ICollisionBody Implementations END--- */
 	
 	
@@ -219,6 +223,16 @@ public abstract class AbstractSprite implements ISprite {
 	public void setVelocity(Velocity velocity) {
 		myVelocity = velocity;
 	}
+	
+	@Override
+	public Velocity getPreviousVelocity() {
+		return myPreviousVelocity == null ? getVelocity() : myPreviousVelocity;
+	}
+	
+	@Override
+	public void setPreviousVelocity(Velocity previousVelocity) {
+		myPreviousVelocity = previousVelocity;
+	}
 	/* ---IPhysicsBody Setter Implementations END--- */
 	
 	
@@ -240,13 +254,7 @@ public abstract class AbstractSprite implements ISprite {
 	
 	@Override
 	public String getImagePath() {
-		return isFacingLeft() // face left
-			? myImagePaths.get(0)
-			: (
-				myImagePaths.size() < 2
-				? myImagePaths.get(0)
-				: myImagePaths.get(1)
-			);
+		return myImagePaths.get(0);
 	}
 
 	@Override

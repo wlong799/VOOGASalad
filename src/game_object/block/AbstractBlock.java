@@ -9,6 +9,7 @@ import game_object.core.Position;
 
 abstract class AbstractBlock extends AbstractSprite implements IBlock {
 
+	private static final long serialVersionUID = 1019302958162565566L;
 	protected BlockCollisionBehavior myCollisionBehavior = BlockCollisionBehavior.ALL_ALL_COLLISION;
 	
 	protected AbstractBlock(Position position, Dimension dimension, List<String> imagePaths) {

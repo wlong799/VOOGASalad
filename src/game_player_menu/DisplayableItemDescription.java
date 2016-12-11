@@ -24,6 +24,6 @@ public class DisplayableItemDescription implements ISelectable{
 
 	@Override
 	public void select() {
-		myMenuInputListener.itemChosen(myItemDescription.getName());
+		myMenuInputListener.itemChosen(myItemDescription);
 	}
 }	

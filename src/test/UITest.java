@@ -22,7 +22,7 @@ public class UITest extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		new AuthoringInitializer().init();
+		new AuthoringInitializer().init("resources/languages/English");
 	}
 	
 }

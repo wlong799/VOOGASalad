@@ -11,6 +11,8 @@ import game_object.simulation.ICollisionBody;
 
 public class Block extends AbstractBlock {
 	
+	private static final long serialVersionUID = -7636114925401610656L;
+
 	public Block(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 		myCategoryBitMask = DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
@@ -22,7 +24,7 @@ public class Block extends AbstractBlock {
 
 	@Override
     public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
-        otherBody.onCollideWith(this, collisionDirection);
+        otherBody.onCollideWith(this, collisionDirection.opposite());
     }
 	
     @Override

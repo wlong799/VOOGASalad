@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
 import authoring.controller.chat.ChatController;
+import authoring.share.NetworkController;
 import authoring.view.AbstractView;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -19,6 +20,8 @@ import resources.ResourceBundles;
 
 public class ChatView extends AbstractView {
 
+	private static final ResourceBundle languageProperties = ResourceBundles.languageProperties;
+	private NetworkController myNetworkController;
 	private TextFlow myTextFlow;
 	private ScrollPane myScrollPane;
 	private TextField myTextField;
@@ -32,7 +35,8 @@ public class ChatView extends AbstractView {
 
 	public ChatView(AuthoringController controller) {
 		super(controller);
-		myController = controller.getChatController();
+		myNetworkController = controller.getNetworkController();
+		myController = myNetworkController.getChatController();
 		myController.init(this);
 	}
 
@@ -79,7 +83,7 @@ public class ChatView extends AbstractView {
 	private void initSendingBox() {
 		mySendingBox = new HBox();
 		myTextField = new TextField();
-		myEnterButton = new Button("Send");
+		myEnterButton = new Button(languageProperties.getString("send"));
 		myEnterButton.getStyleClass().add("send-button");
 		myTextField.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER) {
@@ -101,18 +105,18 @@ public class ChatView extends AbstractView {
 		else {
 			hasName = true;
 			try {
-				myController.initClientWithName(current);
-				this.appendText("Oh hellooooo " + current);
-				this.appendText("Start chatting now!!");
+				myNetworkController.initClientWithName(current);
+				this.appendText(languageProperties.getString("hello") + current);
+				this.appendText(languageProperties.getString("startChatting"));
 			} catch (ServerDownException e) {
-				e.printStackTrace();
+				this.appendText(languageProperties.getString("serverDown"));
 			}
 		}
 		myTextField.clear();
 	}
 
 	private void getName() {
-		this.appendText("Welcome to chat, please enter your name:");
+		this.appendText(languageProperties.getString("welcomeChat"));
 	}
 
 }

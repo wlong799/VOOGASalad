@@ -5,10 +5,8 @@ import authoring.view.menu.AbstractGameMenuElement;
 
 public class RunElement extends AbstractGameMenuElement {
 
-	private static final String MENU_NAME = "Run";
-
     private RunElement(AuthoringController controller) {
-        super(MENU_NAME, controller);
+        super(controller.getEnvironment().getLanguageResourceBundle().getString("run"), controller);
     }
 
 	@Override

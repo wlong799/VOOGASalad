@@ -11,10 +11,15 @@ public class ComponentController {
     public void setCurrentlyCopiedSprite(ISprite sprite) {
         myCurrentlyCopiedSprite = sprite;
     }
+    
+    public ISprite getCurrentlyCopiedSprite() {
+    	return myCurrentlyCopiedSprite;
+    }
 
-    public SpriteView makeSpriteViewFromCopiedSprite(CanvasView canvas) {
-        SpriteView spriteView = new SpriteView(canvas.getController());
-        spriteView.setSprite(myCurrentlyCopiedSprite);
+    public SpriteView makeSpriteViewFromSprite(
+    		CanvasView canvas, ISprite sprite, long id) {
+        SpriteView spriteView = new SpriteView(canvas.getController(), id);
+        spriteView.setSprite(sprite);
         return spriteView;
     }
 }
