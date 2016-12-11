@@ -3,6 +3,7 @@ package authoring.view.inspector;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
+import authoring.view.IView;
 import authoring.view.inspector.settings.CheckBoxView;
 import authoring.view.inspector.settings.SliderBoxView;
 import authoring.view.inspector.settings.TitledPaneView;
@@ -100,7 +101,15 @@ public class InspectorLevelView extends AbstractInspectorTabView {
          
         goalPane = new TitledPaneView(getController(), myLevel);
         
-        addSettingsViews(myGravityBox, myAirFrictionBox, myGroundFrictionBox, myThresholdMaxBox, myThresholdMinBox, myGridSnapCheckBox, goalPane);
+        addSettingsViews(myGravityBox, myAirFrictionBox, myGroundFrictionBox, myThresholdMaxBox, myThresholdMinBox);
+    }
+    
+    @Override
+    public void setParentView(IView parent) {
+        super.setParentView(parent);
+        if (parent instanceof InspectorView) {
+        	addSettingsViews(myGridSnapCheckBox, goalPane);
+        }
     }
 
     private void setParameter(PhysicsParameterSetOptions option, double value) {
@@ -110,6 +119,5 @@ public class InspectorLevelView extends AbstractInspectorTabView {
             getController().getTestGameController().setParameter(option, value);
         }
     }
-    
  
 }
