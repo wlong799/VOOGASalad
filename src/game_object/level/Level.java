@@ -61,6 +61,7 @@ public class Level implements ILevelVisualization {
         myPowerUps = new ArrayList<>();
         myBoundary = new Boundary(new Position(0, 0), new Dimension(this.myParentGame.getScreenSize().getWidth(),
                                                                     this.myParentGame.getScreenSize().getHeight()));
+        System.out.println(this.myParentGame.getScreenSize().getWidth());
         myDimension = new Dimension(0,
                                     0);
         myPhysicsParameters = new PhysicsParameters();
