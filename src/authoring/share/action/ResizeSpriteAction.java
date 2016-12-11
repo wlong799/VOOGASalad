@@ -20,7 +20,7 @@ public class ResizeSpriteAction extends AbstractAction {
 	public void apply(AuthoringController controller) throws ShareEditException {
 		SpriteView targetView = controller.getSpriteViewWithID(this.getID());
 		if (targetView == null) {
-			throw new ShareEditException("Sprite View not found");
+			throw new ShareEditException(controller.getEnvironment().getLanguageResourceBundle().getString("spriteViewNotFound"));
 		}
 		targetView.setDimensionWidth(myWidth, false);
 		targetView.setDimensionHeight(myHeight, false);

@@ -9,7 +9,7 @@ import resources.ResourceBundles;
 
 public class LivesConfiguringView extends AbstractSettingsView {
 
-    Spinner<Integer> myLifeSpinner;
+    private Spinner<Integer> myLifeSpinner;
     private Hero myHero;
 
     private static ResourceBundle myInspectorProperties = ResourceBundles.inspectorProperties;

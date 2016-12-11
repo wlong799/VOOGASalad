@@ -16,6 +16,12 @@
     -fx-font-family: verdana;  
 }
 
+.sprite-label {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
 .combo-box-splash {
     -fx-pref-width: 300;
 }
