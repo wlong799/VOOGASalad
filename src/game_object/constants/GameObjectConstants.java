@@ -40,6 +40,8 @@ public class GameObjectConstants {
     public static final String WAVES_FILE = "img/sprites/waves.png";
     public static final String WAVY_GROUND_FILE = "img/sprites/wavy_ground.png";
     public static final String WHEEL_FILE = "img/sprites/wheel.png";
+    public static final String WARP_PIPE = "img/sprites/warp_pipe.png";
+    public static final String WARP_PIPE_DOWN = "img/sprites/warp_pipe_down.png";
     public static final String GIRL_FILE = "img/sprites/xmasgirl1.png";
     public static final String YELLOW_LIGHT_FILE = "img/sprites/yellow_light.png";
     public static final String ORANGE_BULLET_FILE = "img/sprites/orange_bullet.png";
