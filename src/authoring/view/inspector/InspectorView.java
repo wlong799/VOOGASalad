@@ -1,19 +1,17 @@
 package authoring.view.inspector;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import authoring.view.canvas.SpriteView;
 import authoring.view.components.Component;
-import game_object.core.Game;
 import game_object.level.Level;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import resources.ResourceBundles;
-
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * Inspector view allows users to edit various settings within the game environment, including overall game settings,
@@ -29,7 +27,6 @@ public class InspectorView extends AbstractView implements Observer {
     private ResourceBundle myInspectorProperties;
     private ResourceBundle myLanguageResourceBundle;
 
-    private Game selectedGame;
     private Level selectedLevel;
     private Component selectedComponent;
     private SpriteView selectedSpriteView;
@@ -72,7 +69,6 @@ public class InspectorView extends AbstractView implements Observer {
     }
 
     private void updateUI() {
-        myGameInspector.setGame(selectedGame);
         myLevelInspector.setLevel(selectedLevel);
         myComponentInspector.setComponent(selectedComponent);
         mySpriteInspector.setSpriteView(selectedSpriteView);
@@ -99,7 +95,6 @@ public class InspectorView extends AbstractView implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        selectedGame = getController().getEnvironment().getCurrentGame();
         selectedLevel = getController().getEnvironment().getCurrentLevel();
         selectedComponent = getController().getSelectedComponent();
         selectedSpriteView = getController().getSelectedSpriteView();

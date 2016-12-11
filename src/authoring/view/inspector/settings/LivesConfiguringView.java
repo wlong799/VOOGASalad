@@ -22,7 +22,6 @@ public class LivesConfiguringView extends AbstractSettingsView {
 
     @Override
     public void initializeSettings() {
-    	myLanguageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
         myLifeSpinner.valueProperty().addListener((obs, oldValue, newValue) ->
                 updateSpriteLives(newValue));
     }

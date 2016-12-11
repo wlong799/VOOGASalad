@@ -1,11 +1,15 @@
 package authoring.view.inspector;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
+import authoring.view.inspector.settings.ComboBoxSettingsView;
 import authoring.view.inspector.settings.ImageChangeButtonView;
 import authoring.view.inspector.settings.TextInputBoxView;
-import game_object.core.Game;
+import game_engine.enemyai.EnemyLevelTypes;
 
 /**
  * Inspector view that allows for editing of game-wide settings/metadata.
@@ -13,9 +17,9 @@ import game_object.core.Game;
  * @author Will Long
  */
 public class InspectorGameView extends AbstractInspectorTabView {
-    private Game myGame;
-    
+	
     private TextInputBoxView myTitleInputView, myDescriptionInputView;
+    private ComboBoxSettingsView myDifficultyBox;
     private ImageChangeButtonView myImageChangeButtonView;
     private ResourceBundle myLanguageResourceBundle;
 
@@ -38,11 +42,18 @@ public class InspectorGameView extends AbstractInspectorTabView {
         myDescriptionInputView = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("description"), "", newValue -> {
             // TODO: 12/7/16 set game description to new text
         });
-        addSettingsViews(myTitleInputView, myImageChangeButtonView, myDescriptionInputView);
+        List<String> difficulties = new ArrayList<String>(Arrays.asList(
+        		EnemyLevelTypes.EASY.toString(),
+        		EnemyLevelTypes.MEDIUM.toString(),
+        		EnemyLevelTypes.HARD.toString()));
+        myDifficultyBox = new ComboBoxSettingsView(
+                getController(),
+                "Enemy Difficulty",
+                difficulties,
+                (obv, oldVal, newVal) -> {
+                	this.getController().getEnvironment().getCurrentGame().setEnemyDifficulty(EnemyLevelTypes.valueOf(newVal));
+                });
+        addSettingsViews(myTitleInputView, myImageChangeButtonView, myDescriptionInputView, myDifficultyBox);
     }
-
-    public void setGame(Game game) {
-        myGame = game;
-        // TODO: 12/8/16 set new values based on game
-    }
+    
 }
