@@ -139,4 +139,46 @@ public abstract class Connection {
 	public String getUserName() {
 		return userName;
 	}
+	
+	/**
+	 * Acquire a lock on the object identified using <tt>id</tt>. If lock
+	 * already held by other client, return the holder's userName.
+	 * 
+	 * @param id identifies the server object to be locked
+	 * @param userName the request issuer
+	 * @return the userName of the client that currently holding the lock
+	 */
+	public String trylock(Long id, String userName) {
+		return null;
+	}
+	
+	/**
+	 * Release the lock on the object identified using <tt>id</tt>.
+	 * If the lock is held by client different from the request issuer
+	 * or if the lock is free, this call is a no-op.
+	 * @param id identifies the server object to be locked
+	 * @param userName the request issuer
+	 */
+	public void unlock(Long id, String userName) {
+		return;
+	}
+	
+	/**
+	 * To avoid duplicate id on sprite, the id name space is partitioned such
+	 * that for any two clients their id name spaces are totally disjoint. The
+	 * starting sequence number marks the start of collision-free id that is
+	 * available for the client. 
+	 * @return the starting id for new sprite
+	 */
+	public long getStartingSequenceNumber() {
+		return 0L;
+	}
+	
+	/**
+	 * Allow server to set the starting id remotely. 
+	 * 
+	 * <p>See also {@link Connection#getStartingSequenceNumber()}
+	 * @param seqno the starting id to store locally
+	 */
+	public void setStartingSequenceNumber(long seqno) {}
 }

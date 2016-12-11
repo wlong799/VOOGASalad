@@ -55,8 +55,4 @@ public interface IAuthorEnvironment {
 	 * @return level interface
 	 */
 	Level getCurrentLevel();
-	
-	void load();
-	
-	void setLanguage(String lang);
 }

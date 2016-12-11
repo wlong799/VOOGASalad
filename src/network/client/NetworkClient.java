@@ -14,6 +14,7 @@ import network.exceptions.MessageCreationFailureException;
 import network.exceptions.ServerDownException;
 import network.messages.Message;
 import network.messages.MessageType;
+import network.messages.application.LockResponseMessage;
 
 /** 
  * An implementation of of the {@link INetworkClient} interface.
@@ -29,12 +30,15 @@ import network.messages.MessageType;
  */
 public class NetworkClient implements INetworkClient {
 	
+	private static final long DELAY = 100;
+	
 	private Socket socket;
 	private Connection connectionToServer;
 	private BlockingQueue<Message> inComingBuffer;
 	private Queue<Message> nonBlockingIncomingBuffer;
 	private Multiplexer mux;
 	private String userName;
+	private long seqno;
 	
 	/**
 	 * Default runs as development mode
@@ -65,6 +69,7 @@ public class NetworkClient implements INetworkClient {
 					inComingBuffer, socket, true, userName);
 			nonBlockingIncomingBuffer = new LinkedList<>();
 			mux = new Multiplexer();
+			seqno = Long.MIN_VALUE;
 			startReaderThread();
 		} catch (IOException e) {
 			throw new ServerDownException();
@@ -165,5 +170,65 @@ public class NetworkClient implements INetworkClient {
 			}
 		};
 		reader.start();
+	}
+
+	/**
+	 * This call is blocking until server has returned the assigned
+	 * starting sequence number. Invoking this method gives the caller
+	 * that lowest available sequence number and internally increments
+	 * it by one to ensure no collision. Also thread safe.
+	 * 
+	 * <p>See also {@link INetworkClient#getNextSequenceNumber()}
+	 */
+	@Override
+	public synchronized long getNextSequenceNumber() throws SessionExpiredException {
+		if (seqno < 0) {
+			seqno = connectionToServer.getStartingSequenceNumber();
+		}
+		return seqno++;
+	}
+
+	/**
+	 * Refers to {@link INetworkClient#tryLock(long)}
+	 * 
+	 * <p> This call returns as soon as response from server is received.
+	 * In the worst case when the server failed, it is blocked for as long
+	 * as the remaining lease with the server. 
+	 */
+	@Override
+	public String tryLock(long id) throws SessionExpiredException {
+		signAndsend(MessageType.TRYLOCK, id);
+		while (!connectionToServer.isClosed()) {
+			Queue<Message> q = read(MessageType.LOCK_RESPONSE);
+			if (q.isEmpty()){
+				try {
+					Thread.sleep(DELAY);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				}
+			} else {
+				LockResponseMessage reponse = (LockResponseMessage) q.poll();
+				return reponse.getPayload();
+			}
+		}
+		throw new SessionExpiredException();
+	}
+
+	/**
+	 * Refers to {@link INetworkClient#unlock(long)}
+	 */
+	@Override
+	public void unlock(long id) throws SessionExpiredException {
+		if (connectionToServer.isClosed()) {
+			throw new SessionExpiredException();
+		}
+		signAndsend(MessageType.UNLOCK, id);
+	}
+	
+	/**
+	 * @return the client user name
+	 */
+	public String getUserName() {
+		return userName;
 	}
 }
