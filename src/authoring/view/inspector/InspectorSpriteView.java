@@ -33,6 +33,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
     private CheckBoxView myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
             myApplyPhysicsCheckBox, myReachPointCheckBox, enemyHasAIBox, myBounceHBox, myBounceVBox, myPushedHBox, myPushedVBox;
     private SliderBoxView myMaxJumpSlider, myJumpUnitSlider, myDamageSlider;
+	private CheckBoxView myInfiniteJumps;
     private ActionConfiguringView myActionView;
     private LivesConfiguringView myLivesConfiguringView;
     private HealthPointConfiguringView myHealthPointConfiguringView;
@@ -113,6 +114,19 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     hero.getMaxNumberOfJumps(),
                     Double.parseDouble(componentProperties.getString("JUMP_INCREMENT")),
                     (obv, oldVal, newVal) -> ((Hero) mySprite).setMaxNumberOfJumps(newVal.intValue()));
+            myInfiniteJumps = new CheckBoxView(
+            		getController(),
+            		myLanguageResourceBundle.getString("infiniteJumps"), 
+            		false,
+                    (obv, oldVal, newVal) -> {
+                    	if (newVal) {
+                    		hero.setMaxNumberOfJumps(Integer.MAX_VALUE);
+                    		myMaxJumpSlider.getUI().setDisable(true);
+                    	}
+                    	else {
+                    		myMaxJumpSlider.getUI().setDisable(false);
+                    	}
+                    });
             myJumpUnitSlider = new SliderBoxView(
                     getController(),
                     myLanguageResourceBundle.getString("jumpUnit"),
@@ -139,6 +153,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     });
             addSettingsViews(
             		myActionView, 
+            		myInfiniteJumps,
             		myMaxJumpSlider, 
             		myJumpUnitSlider,
             		myLivesConfiguringView,
