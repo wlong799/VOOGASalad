@@ -10,7 +10,6 @@ public class GameObjectConstants {
     public static final String STONE_BLOCK_FILE = "img/sprites/stone_block.png";
     public static final String BUSH_FILE = "img/sprites/bush.png";
     public static final String BRICK_FILE = "img/sprites/brick.png";
-    // public static final String WEAPON_POWER_UP_FILE = "img/sprites/weapon_powerup.png";
     public static final String MARIO_GROUND_FILE = "img/sprites/mario_ground.png";
     public static final String BAR_FILE = "img/sprites/bar.png";
     public static final String BLACK_AND_GREY_FILE = "img/sprites/black_and_grey.png";
@@ -43,7 +42,13 @@ public class GameObjectConstants {
     public static final String YELLOW_LIGHT_FILE = "img/sprites/yellow_light.png";
     public static final String ORANGE_BULLET_FILE = "img/sprites/orange_bullet.png";
     public static final String GREEN_BULLET_FILE = "img/sprites/green_bullet.png";
+    
+    // power up
     public static final String NEW_WEAPON_POWER_UP_FILE = "img/sprites/new_weapon_powerup.png";
+    public static final String SPEEDUP_POWER_UP_FILE = "img/sprites/speedup_powerup.jpg";
+    public static final String HEALTH_POWER_UP_FILE = "img/sprites/red_cross.jpg";
+    
+    // weapon
     public static final String RED_GUN_WEAPON_FILE = "img/sprites/red_gun.png";
     public static final String BLUE_GUN_WEAPON_FILE = "img/sprites/blue_gun.png";
 

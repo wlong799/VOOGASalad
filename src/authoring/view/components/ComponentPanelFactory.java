@@ -1,11 +1,11 @@
 package authoring.view.components;
 
+import java.lang.reflect.Constructor;
+import java.util.Arrays;
+
 import authoring.AuthoringController;
 import game_object.GameObjectType;
 import game_object.constants.GameObjectConstants;
-
-import java.lang.reflect.Constructor;
-import java.util.Arrays;
 
 /**
  * ComponentPanelFactory is responsible for creation of the main ComponentPanelView at the bottom of the application. It
@@ -55,7 +55,9 @@ public class ComponentPanelFactory {
                 }),
         POWER_UP("Power Up", GameObjectType.WEAPON_POWER_UP, new String[][]
                 {
-                       
+        			{GameObjectConstants.NEW_WEAPON_POWER_UP_FILE, "Weapon", "Gives the player a weapon", GameObjectType.WEAPON_POWER_UP.toString()},
+        			{GameObjectConstants.SPEEDUP_POWER_UP_FILE, "Speed Up", "Speeds the player up", GameObjectType.SPEED_POWER_UP.toString()},
+        			{GameObjectConstants.HEALTH_POWER_UP_FILE, "Replenish Health", "Heals the player", GameObjectType.HEALTH_POWER_UP.toString()}
                 });
         private String myTabName;
         private GameObjectType myGameObjectType;
@@ -117,10 +119,14 @@ public class ComponentPanelFactory {
             return null;
         }
         Arrays.stream(componentPanelInfo.getComponentInfo()).forEach(componentInfo -> {
-            String imagePath = componentInfo[0];
+        	String imagePath = componentInfo[0];
             String title = componentInfo[1];
             String description = componentInfo[2];
-            componentListView.addComponent(imagePath, title, description);
+        	if (componentInfo.length < 4) {
+        		componentListView.addComponent(imagePath, title, description);
+        	} else {
+        		componentListView.addComponent(imagePath, title, description, GameObjectType.valueOf(componentInfo[3]));
+        	}
         });
         return componentListView;
     }
