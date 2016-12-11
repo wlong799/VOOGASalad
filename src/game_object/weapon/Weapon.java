@@ -9,6 +9,7 @@ import game_object.core.Position;
 
 public class Weapon extends AbstractSprite {
 
+	private static final long serialVersionUID = -6674614933849902785L;
 	private static final double Z_POS_OFFSET_TO_OWNER = 0.01f;
 	WeaponModel myModel;
 	ICharacter myOwner;

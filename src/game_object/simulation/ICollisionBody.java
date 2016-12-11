@@ -5,8 +5,9 @@ import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.powerup.IPowerUp;
+import game_object.weapon.Projectile;
 
-public interface ICollisionBody extends IBodyWithPosition {
+public interface ICollisionBody extends IPhysicsBody {
 	
 	void setCategoryBitMask(int categoryBitMask);
 	
@@ -25,5 +26,7 @@ public interface ICollisionBody extends IBodyWithPosition {
 	void onCollideWith(Block b, CollisionDirection collisionDirection);
 	
 	void onCollideWith(IPowerUp p, CollisionDirection collisionDirection);
+
+	void onCollideWith(Projectile p, CollisionDirection collisionDirection);
 	
 }

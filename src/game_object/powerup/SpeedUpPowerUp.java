@@ -8,9 +8,10 @@ import game_object.core.Position;
 
 public class SpeedUpPowerUp extends AbstractPowerUp {
 
+	private static final long serialVersionUID = 3197118297575460821L;
 	private double mySpeedUpFactor;
 	
-	protected SpeedUpPowerUp(Position position, Dimension dimension, List<String> imagePaths, double speedUpFactor) {
+	public SpeedUpPowerUp(Position position, Dimension dimension, List<String> imagePaths, double speedUpFactor) {
 		super(position, dimension, imagePaths);
 		mySpeedUpFactor = speedUpFactor;
 	}

@@ -11,10 +11,9 @@ import authoring.view.menu.GameAdder;
  * @version 11/28/16
  */
 public class NewGameElement extends AbstractGameMenuElement {
-    private static final String MENU_NAME = "New Game";
 
     private NewGameElement(AuthoringController controller) {
-        super(MENU_NAME, controller);
+        super(controller.getEnvironment().getLanguageResourceBundle().getString("newGame"), controller);
     }
 
     @Override

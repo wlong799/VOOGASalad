@@ -28,7 +28,7 @@ public class NetworkController {
 	}
 	
 	public String getMyName() {
-		return myName;
+		return myName == null ? "" : myName;
 	}
 	
 	public NetworkClient getClient() {

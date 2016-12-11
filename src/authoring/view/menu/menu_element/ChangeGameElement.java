@@ -16,14 +16,12 @@ import java.util.*;
  * @version 11/28/16
  */
 public class ChangeGameElement extends AbstractGameMenuElement implements Observer {
-    private static final String MENU_NAME = "Change Game";
-    private static final String GAME_PREFIX = "Game ";
 
     private ToggleGroup myToggleGroup;
     private Map<Game, RadioMenuItem> myCurrentItems;
 
     private ChangeGameElement(AuthoringController controller) {
-        super(MENU_NAME, controller);
+        super(controller.getEnvironment().getLanguageResourceBundle().getString("changeGame"), controller);
     }
 
     @Override
@@ -47,7 +45,7 @@ public class ChangeGameElement extends AbstractGameMenuElement implements Observ
         for (int i = 0; i < availableGames.size(); i++) {
             Game game = availableGames.get(i);
             // TODO: 12/5/16 Add game metadata and use name of game instead of index
-            RadioMenuItem radioMenuItem = new RadioMenuItem(GAME_PREFIX + (i + 1));
+            RadioMenuItem radioMenuItem = new RadioMenuItem(myController.getEnvironment().getLanguageResourceBundle().getString("game") + (i + 1));
             radioMenuItem.setUserData(game);
             radioMenuItem.setToggleGroup(myToggleGroup);
             myCurrentItems.put(game, radioMenuItem);

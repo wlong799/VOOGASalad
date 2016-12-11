@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 public class Position implements Serializable {
 	
+	private static final long serialVersionUID = -7601906453626239644L;
 	private double myX;
 	private double myY;
 	private double myZ; // deals with front-to-back ordering of layers onscreen. Larger means more front.
@@ -22,6 +23,10 @@ public class Position implements Serializable {
 	public Position(double x, double y, double z) {
 		this(x, y);
 		myZ = z;
+	}
+	
+	public static Position getCopiedInstance(Position position) {
+		return new Position(position.getX(), position.getY(), position.getZ());
 	}
 
 	public double getX() {

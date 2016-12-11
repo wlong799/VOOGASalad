@@ -3,20 +3,17 @@ package authoring.view.inspector.settings;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
-import authoring.view.AbstractView;
-import authoring.view.inspector.settings.AbstractSettingsView;
 import game_object.character.Hero;
-import game_object.core.ISprite;
 import javafx.scene.control.Spinner;
 import resources.ResourceBundles;
 
 public class LivesConfiguringView extends AbstractSettingsView {
-    private static final String LABEL_TEXT = "CONFIGURE LIVES";
 
     Spinner<Integer> myLifeSpinner;
     private Hero myHero;
 
-    private ResourceBundle myInspectorProperties;
+    private static ResourceBundle myInspectorProperties = ResourceBundles.inspectorProperties;
+    private static ResourceBundle myLanguageResourceBundle = ResourceBundles.languageProperties;
 
     public LivesConfiguringView(AuthoringController controller, Hero hero) {
         super(controller);
@@ -32,8 +29,7 @@ public class LivesConfiguringView extends AbstractSettingsView {
     @Override
     protected void initUI() {
         super.initUI();
-        myInspectorProperties = ResourceBundles.inspectorProperties;
-        myLabel.setText(LABEL_TEXT);
+        myLabel.setText(myLanguageResourceBundle.getString("configLives"));
         myLifeSpinner = new Spinner<>(
                 Integer.parseInt(myInspectorProperties.getString("LIFE_MIN")),
                 Integer.parseInt(myInspectorProperties.getString("LIFE_MAX")),

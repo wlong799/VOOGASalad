@@ -6,7 +6,6 @@ import java.util.Set;
 import game_engine.collision.CollisionEngine;
 import game_engine.collision.ICollisionEngine;
 import game_engine.enemyai.EnemyControllerFactory;
-import game_engine.enemyai.EnemyLevelTypes;
 import game_engine.enemyai.IEnemyController;
 import game_engine.enemyai.IEnemyControllerFactory;
 import game_engine.inputcontroller.InputController;
@@ -57,7 +56,7 @@ public class GameEngine_Game implements IGameEngine {
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(game);
 		myEnemyControllerFactory = new EnemyControllerFactory();
-		myEnemyController = myEnemyControllerFactory.createEnemyController(EnemyLevelTypes.HARD);
+		myEnemyController = myEnemyControllerFactory.createEnemyController(game.getEnemyDifficulty());
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		myFPS = game.getFPS();
 		myTotalTime = 0;
@@ -86,7 +85,7 @@ public class GameEngine_Game implements IGameEngine {
 		executeInput(); //input for heroes
 		for (ISprite s : myCurrentLevel.getAllSprites()) {
 			//mimic enemy behavior; treat them as players
-			if (s instanceof Enemy) {
+			if (s instanceof Enemy && ((Enemy)s).hasAI()) {
 				IMover enemy = (IMover) s; 
 				Set<ActionName> list = myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
 				myEnemyController.executeInput(enemy, list);
@@ -103,7 +102,7 @@ public class GameEngine_Game implements IGameEngine {
 		myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites()
 		// myCurrentLevel.getProjectiles(),
 		);
-		updateScrolling();
+		updateLevel();
 		endCheck();
 	}
 
@@ -121,12 +120,13 @@ public class GameEngine_Game implements IGameEngine {
 		myPhysicsEngine.setParameters(option, value);
 	}
 
-	private void updateScrolling() {
+	private void updateLevel() {
 		Hero pivotHero = myCurrentLevel.getHeros().get(0);
 		if (pivotHero != null) {
 			AbstractSprite.getStaticPivotPosition().setX(pivotHero.getPosition().getX());
 			AbstractSprite.getStaticPivotPosition().setY(pivotHero.getPosition().getY());
 		}
+		myCurrentLevel.update();
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {

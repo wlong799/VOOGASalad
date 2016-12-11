@@ -11,10 +11,9 @@ import game_object.level.Level;
  * @version 11/28/16
  */
 public class DeleteLevelElement extends AbstractGameMenuElement {
-    private static final String MENU_NAME = "Delete Level";
 
     private DeleteLevelElement(AuthoringController controller) {
-        super(MENU_NAME, controller);
+        super(controller.getEnvironment().getLanguageResourceBundle().getString("deleteLevel"), controller);
     }
 
     @Override
