@@ -49,7 +49,6 @@ public class GameRunner {
 	private Level runningLevel;
 	
 	private Map<ISpriteVisualization, ImageView> spriteViewMap;
-	private Map<ISpriteVisualization, String> imagePathMap;
 	private Map<Level, Level> running2origin;
 	private Set<Event> currentlyPressedKeys;
 	
@@ -63,7 +62,6 @@ public class GameRunner {
 		originalGame = game;
 		currentlyPressedKeys = new HashSet<>();
 		spriteViewMap = new HashMap<>();
-		imagePathMap = new HashMap<>();
 		running2origin = new HashMap<>();
 		myView = new GameRunningView();
 		myLevelChangeHandler = levelChangeHandler;
@@ -106,7 +104,6 @@ public class GameRunner {
 		myView.clearSpriteViews();
 		currentlyPressedKeys.clear();
 		spriteViewMap.clear();
-		imagePathMap.clear();
 	}
 
 	private void initFrame() {
@@ -136,14 +133,7 @@ public class GameRunner {
 				//new sprite
 				addSpriteViewWithSprite(sprite);
 			} else {
-				//old friend sprites
-				if (!imagePathMap.containsKey(sprite)
-						|| !imagePathMap.get(sprite).equals(sprite.getImagePath())) {
-					// image path changed (e.g. facing changed)
-					imagePathMap.put(sprite, sprite.getImagePath());
-					myView.removeSpriteView(spriteViewMap.get(sprite));
-					addSpriteViewWithSprite(sprite);
-				}
+				spriteViewMap.get(sprite).setScaleX(sprite.isFacingLeft() ? 1 : -1);
 			}
 			spriteViewMap.get(sprite).setX(sprite.getXForVisualization());
 			spriteViewMap.get(sprite).setY(sprite.getYForVisualization());

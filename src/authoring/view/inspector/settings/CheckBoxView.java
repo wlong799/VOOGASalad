@@ -18,6 +18,13 @@ public class CheckBoxView extends AbstractSettingsView {
         isSelected = selected;
         myChangeListener = changeListener;
     }
+    
+    @Override
+    public void initializeSettings() {
+        myLabel.setText(myTitle);
+        mySnapBox.selectedProperty().addListener(myChangeListener);
+        mySnapBox.setSelected(isSelected);
+    }
 
     @Override
     protected void initUI() {
@@ -25,11 +32,5 @@ public class CheckBoxView extends AbstractSettingsView {
         mySnapBox = new CheckBox();
         myContent.getChildren().add(mySnapBox);
     }
-
-    @Override
-    public void initializeSettings() {
-        myLabel.setText(myTitle);
-        mySnapBox.selectedProperty().addListener(myChangeListener);
-        mySnapBox.setSelected(isSelected);
-    }
+    
 }

@@ -3,6 +3,7 @@ package authoring.view.inspector.settings;
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
@@ -29,6 +30,11 @@ public abstract class AbstractSettingsView extends AbstractView {
      * settings and labels.
      */
     public abstract void initializeSettings();
+    
+    @Override
+    public Parent getUI() {
+    	return myContent;
+    }
 
     @Override
     protected void initUI() {
@@ -37,7 +43,6 @@ public abstract class AbstractSettingsView extends AbstractView {
         myLabel = new Label();
         myLabel.setFont(Font.font(FONT));
         myContent.getChildren().add(myLabel);
-        addUI(myContent);
     }
 
     @Override

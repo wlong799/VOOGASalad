@@ -2,27 +2,19 @@ package authoring.view.inspector.settings;
 
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Map.Entry;
 
 import authoring.AuthoringController;
-import game_object.acting.ActionName;
-import game_object.acting.ActionTrigger;
-import game_object.acting.KeyEvent;
 import game_object.level.Level;
 import goal.time.PassTime;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TitledPane;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import resources.ResourceBundles;
 
 public class TitledPaneView extends AbstractSettingsView {

@@ -1,31 +1,35 @@
 package authoring.view.inspector;
 
+import static resources.ResourceBundles.componentProperties;
+
 import authoring.AuthoringController;
 import authoring.view.canvas.SpriteView;
-import authoring.view.inspector.settings.*;
+import authoring.view.inspector.settings.ActionConfiguringView;
+import authoring.view.inspector.settings.CheckBoxView;
+import authoring.view.inspector.settings.ComponentPhysicsSettings;
+import authoring.view.inspector.settings.LivesConfiguringView;
+import authoring.view.inspector.settings.NullSettingsView;
+import authoring.view.inspector.settings.SliderBoxView;
+import authoring.view.inspector.settings.TextInputBoxView;
 import game_object.block.IBlock;
+import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
 import game_object.core.ISprite;
 import game_object.level.Level;
 import goal.position.ReachPointGoal;
 
-import static resources.ResourceBundles.componentProperties;
-
-import java.util.ResourceBundle;
-
 public class InspectorSpriteView extends AbstractInspectorTabView {
     private SpriteView spriteView;
     private ISprite sprite;
 
     private ComponentPhysicsSettings componentPhysicsSettings;
-    private TextInputBoxView myXBox, myYBox, myZBox, myWidthBox, myHeightBox;
+    private TextInputBoxView myXBox, myYBox, myZBox, myWidthBox, myHeightBox, myVelocityXBox, myVelocityYBox;
     private CheckBoxView myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
-            myApplyPhysicsCheckBox, myReachPointCheckBox;
+            myApplyPhysicsCheckBox, myReachPointCheckBox, enemyHasAIBox;
     private SliderBoxView myMaxJumpSlider, myJumpUnitSlider;
     private ActionConfiguringView myActionView;
     private LivesConfiguringView myLivesConfiguringView;
-    private ResourceBundle myLanguageResourceBundle;
 
     public InspectorSpriteView(AuthoringController controller) {
         super(controller);
@@ -34,7 +38,6 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
     @Override
     protected void initUI() {
         super.initUI();
-        myLanguageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
         addSettingsView(new NullSettingsView(getController()));
     }
 
@@ -52,12 +55,14 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
         myZBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("posZ"), sprite.getPosition().getZ() + "",
                 (newVal) -> spriteView.setAbsolutePositionZ(Double.parseDouble(newVal)));
 
-      
         myWidthBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("width"), sprite.getDimension().getWidth() + "",
                 (newVal) -> spriteView.setDimensionWidth(Double.parseDouble(newVal), true));
         myHeightBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("height"), sprite.getDimension().getHeight() + "",
                 (newVal) -> spriteView.setDimensionHeight(Double.parseDouble(newVal), true));
-
+        myVelocityXBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("initialVelX"), sprite.getVelocity().getXVelocity() + "",
+                (newVal) -> spriteView.getSprite().getVelocity().setXVelocity(Double.parseDouble(newVal)));
+        myVelocityYBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("initialVelY"), sprite.getVelocity().getYVelocity() + "",
+                (newVal) -> spriteView.getSprite().getVelocity().setYVelocity(Double.parseDouble(newVal)));
 
         componentPhysicsSettings = new ComponentPhysicsSettings(sprite);
         myHerosCollisionCheckBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("collideWithHeros"),
@@ -73,7 +78,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                 sprite.getAffectedByPhysics(),
                 (obv, old_val, new_val) -> componentPhysicsSettings.makePhysicsApplicable(new_val));
 
-        addSettingsViews(myXBox, myYBox, myZBox, myWidthBox, myHeightBox, myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
+        addSettingsViews(myXBox, myYBox, myZBox, myWidthBox, myHeightBox, myVelocityXBox, myVelocityYBox, myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
                 myApplyPhysicsCheckBox);
 
         if (sprite instanceof IBlock) {
@@ -109,6 +114,14 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
             myLivesConfiguringView = new LivesConfiguringView(getController(), (Hero) sprite);
             addSettingsViews(myActionView, myMaxJumpSlider, myJumpUnitSlider, myLivesConfiguringView);
         }
+        
+        if (sprite instanceof Enemy) {
+        	enemyHasAIBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("hasAI"),
+                    ((Enemy) sprite).hasAI(),
+                    (obv, old_val, new_val) -> ((Enemy)sprite).setHasAI(new_val));
+        	addSettingsView(enemyHasAIBox);
+        }
+        
         updateLayout();
     }
 

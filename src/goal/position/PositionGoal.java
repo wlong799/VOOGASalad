@@ -14,4 +14,12 @@ public abstract class PositionGoal extends AbstractGoal{
 		 myDestinationSprite = sprite;
 	}
 	
+	public ISprite getDestinationSprite(){
+	    return myDestinationSprite;
+	}
+	
+	public ICharacter getMyCharacter(){
+	    return myCharacter;
+	}
+	
 }

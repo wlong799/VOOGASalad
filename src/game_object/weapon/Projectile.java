@@ -5,12 +5,13 @@ import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.ConstantStrategy;
 import game_engine.physics.IPhysicsStrategy;
+import game_object.character.Enemy;
+import game_object.character.Hero;
 import game_object.character.ICharacter;
 import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Position;
-import game_object.core.Velocity;
 import game_object.simulation.ICollisionBody;
 
 /**
@@ -24,16 +25,16 @@ import game_object.simulation.ICollisionBody;
 
 public class Projectile extends AbstractSprite {
 	
+	private static final long serialVersionUID = 2892891123139342664L;
 	private final static Dimension MISSILE_DIMENSION = new Dimension(10, 10);
 	private final static double HEIGHT_OFFSET_RATIO = 0.2;
 
-	private Velocity myVelocity;
 	private ProjectileModel myModel;
-	private ICharacter myFather;
+	private ICharacter myParent;
 
 	public Projectile(ICharacter character, Position position, List<String> imagePaths, ProjectileModel model) {
 		super(position, MISSILE_DIMENSION, imagePaths);
-		myFather = character;
+		myParent = character;
 		myModel = model;
 		myVelocity = myModel.getInitalVelocity();
 		myCategoryBitMask = DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
@@ -50,6 +51,10 @@ public class Projectile extends AbstractSprite {
 	public void setModel(ProjectileModel model) {
 		myModel = model;
 	}
+	
+	public ICharacter getParent() {
+		return myParent;
+	}
 
 	@Override
 	public void setAffectedByPhysics(boolean affectedByPhysics) {
@@ -62,39 +67,24 @@ public class Projectile extends AbstractSprite {
 	}
 
 	@Override
-	public Velocity getVelocity() {
-		return myVelocity;
-	}
-
-	@Override
-	public void setVelocity(Velocity velocity) {
-		myVelocity = velocity;
-	}
-
-	@Override
-	public void setCategoryBitMask(int categoryBitMask) {
-		myCategoryBitMask = categoryBitMask;
-	}
-
-	@Override
-	public int getCategoryBitMask() {
-		return myCategoryBitMask;
-	}
-
-	@Override
-	public void setCollisionBitMask(int collisionBitMask) {
-		myCollisionBitMask = collisionBitMask;
-	}
-
-	@Override
-	public int getCollisionBitMask() {
-		return myCollisionBitMask;
-	}
-
-	@Override
 	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
-		// TODO Auto-generated method stub
-		
+	    if (otherBody != myParent) {
+	    	otherBody.onCollideWith(this, collisionDirection.opposite());
+	    }
+	}
+	
+	@Override
+	public void onCollideWith(Enemy e, CollisionDirection collisionDirection) {
+		if (e != myParent) {
+			setValid(false);
+		}
+	}
+	
+	@Override
+	public void onCollideWith(Hero h, CollisionDirection collisionDirection) {
+		if (h != myParent) {
+			setValid(false);
+		}
 	}
 
     @Override
@@ -104,22 +94,22 @@ public class Projectile extends AbstractSprite {
     
     private void adjustPosition() {
     	// y position
-		this.getPosition().setY(myFather.getPosition().getY()
-				+ HEIGHT_OFFSET_RATIO * myFather.getDimension().getHeight());
+		this.getPosition().setY(myParent.getPosition().getY()
+				+ HEIGHT_OFFSET_RATIO * myParent.getDimension().getHeight());
 		// x position
-		if (myFather.isFacingLeft()) {
-			this.getPosition().setX(myFather.getPosition().getX());
+		if (myParent.isFacingLeft()) {
+			this.getPosition().setX(myParent.getPosition().getX());
 		} else {
 			this.getPosition().setX(
-					myFather.getPosition().getX()
-					+ myFather.getDimension().getWidth() - this.getDimension().getWidth());
+					myParent.getPosition().getX()
+					+ myParent.getDimension().getWidth() - this.getDimension().getWidth());
 		}
 		// for scrolling
-		this.setScrollOffset(myFather.getScrollOffset());
+		this.setScrollOffset(myParent.getScrollOffset());
 	}
     
     private void setVelocityDirection() {
-    	if (myFather.isFacingLeft()) {
+    	if (myParent.isFacingLeft()) {
 			this.getVelocity().setXVelocity(-Math.abs(this.getVelocity().getXVelocity()));
 		} else {
 			this.getVelocity().setXVelocity(Math.abs(this.getVelocity().getXVelocity()));

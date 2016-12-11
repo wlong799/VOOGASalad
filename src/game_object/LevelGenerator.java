@@ -59,8 +59,7 @@ public class LevelGenerator {
 	 */
 	private static Level initTestLevelA() {
 		ArrayList<String> heroImages = new ArrayList<>();
-		heroImages.add(GameObjectConstants.BLUE_SNAIL_LEFT);
-		heroImages.add(GameObjectConstants.BLUE_SNAIL_RIGHT);
+		heroImages.add(GameObjectConstants.BLUE_SNAIL_FILE);
 		ArrayList<String> enemyImages = new ArrayList<>();
 		enemyImages.add(GameObjectConstants.ORANGE_MUSHROOM_FILE);
 		ArrayList<String> blockImages = new ArrayList<>();
@@ -76,11 +75,11 @@ public class LevelGenerator {
 		hero.setWeaponDisplacementX(40);
 		hero.setWeaponDisplacementY(10);
 
-		ArrayList<String> bulletImgs = new ArrayList<>();
-		bulletImgs.add(GameObjectConstants.ORANGE_BULLET_FILE);
+		ArrayList<String> slowBulletImgs = new ArrayList<>();
+		slowBulletImgs.add(GameObjectConstants.ORANGE_BULLET_FILE);
         ProjectileModel bulletModel = new ProjectileModel(
-				bulletImgs, // image file
-				new Velocity(40, 0), // initial velocity
+				slowBulletImgs, // image file
+				new Velocity(80, 0), // initial velocity
 				false, // affected by gravity
 				false // follow hero
 				);
@@ -94,11 +93,12 @@ public class LevelGenerator {
 		WeaponModel heroWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
 		hero.setCurrentWeapon(heroWeapon.newWeaponInstance(hero, new Dimension(20, 20)));
 		
-		bulletImgs.add(GameObjectConstants.GREEN_BULLET_FILE);
+		ArrayList<String> fastBulletImgs = new ArrayList<>();
+		fastBulletImgs.add(GameObjectConstants.GREEN_BULLET_FILE);
 		// a very fast bullet model
         ProjectileModel fastModel = new ProjectileModel(
-				bulletImgs, // image file
-				new Velocity(100, 0), // initial velocity
+        		fastBulletImgs, // image file
+				new Velocity(150, 0), // initial velocity
 				false, // affected by gravity
 				false // follow hero
 				);

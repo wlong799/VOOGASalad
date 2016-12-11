@@ -10,6 +10,8 @@ public interface ILevelVisualization {
 	
 	void init();
 	
+	void update();
+	
 	List<ISpriteVisualization> getAllSpriteVisualizations();
 	
 }

@@ -64,7 +64,6 @@ public class CanvasController implements Observer {
         myBackground = background;
         myEnvironment = canvas.getController().getEnvironment();
         myEnvironment.addObserver(this);
-        myLanguageProperties = myEnvironment.getLanguageResourceBundle();
 
         spriteViews = new HashMap<>();
         mySpriteViewComparator = new SpriteViewComparator();
@@ -251,7 +250,7 @@ public class CanvasController implements Observer {
         clearSpriteViews(true);
         Level currentLevel = myEnvironment.getCurrentLevel();
         if (currentLevel == null) {
-            throw new RuntimeException(myLanguageProperties.getString("noLevel"));
+            throw new RuntimeException("no current level for canvas");
         }
         for (ISprite sp : currentLevel.getAllSprites()) {
         	long newID = myController.getNetworkController().getIDManager().getNextID();
@@ -385,7 +384,6 @@ public class CanvasController implements Observer {
             myBackground.getChildren().add(imageView);
         }
     }
-
 
     @Override
     public void update(Observable o, Object arg) {

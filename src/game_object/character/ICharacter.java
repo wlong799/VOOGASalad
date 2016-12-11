@@ -1,6 +1,10 @@
 package game_object.character;
 
+import game_object.block.Block;
+import game_object.collision.AttackCollisionStrategy;
+import game_object.collision.MotionCollisionStrategy;
 import game_object.core.ISprite;
+import game_object.weapon.Projectile;
 import game_object.weapon.Weapon;
 
 /**
@@ -20,5 +24,9 @@ public interface ICharacter extends ISprite, IMortal, IMover, IShooter {
 	double getWeaponY();
 
 	void setWeaponDisplacementY(double weaponDisplacementY);
+	
+	MotionCollisionStrategy<ICharacter, Block> getCollideWithBlockStrategy();
+	
+	AttackCollisionStrategy<ICharacter, Projectile> getAttackByProjectileStrategy();
 	
 }

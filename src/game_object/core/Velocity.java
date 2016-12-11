@@ -16,6 +16,10 @@ public class Velocity implements Serializable {
 		myYVelocity = yVelocity;
 	}
 
+	public static Velocity getCopiedInstance(Velocity velocity) {
+		return new Velocity(velocity.getXVelocity(), velocity.getYVelocity());
+	}
+	
 	public void setXVelocity(double xVelocity) {
 		myXVelocity = xVelocity;
 	}
