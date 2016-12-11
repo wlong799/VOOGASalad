@@ -65,7 +65,7 @@ public class Hero extends AbstractCharacter implements IUpgrader {
     
     @Override
     public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
-    	otherBody.onCollideWith(this, collisionDirection);
+    	otherBody.onCollideWith(this, collisionDirection.opposite());
     }
     
     @Override

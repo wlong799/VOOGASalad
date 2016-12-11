@@ -35,7 +35,7 @@ public class CollisionEngine extends AbstractCollisionEngine {
                     if (heroBoundary.overlaps(enemyBoundary)) {
                         CollisionDirection collision = getCharacterCollision(spriteA, spriteB);
                         spriteA.onCollideWith(spriteB,collision);
-                        spriteB.onCollideWith(spriteA,opposite(collision));
+                        spriteB.onCollideWith(spriteA,collision.opposite());
                     }
                 }
             }
@@ -92,24 +92,6 @@ public class CollisionEngine extends AbstractCollisionEngine {
 
     }
 
-    public CollisionDirection opposite(CollisionDirection cd){
-        if(cd==CollisionDirection.TOP){
-            return CollisionDirection.BOTTOM;
-        }
-        if(cd==CollisionDirection.BOTTOM){
-            return CollisionDirection.TOP;
-        }
-        if(cd==CollisionDirection.LEFT){
-            return CollisionDirection.RIGHT;
-        }
-        if(cd==CollisionDirection.RIGHT){
-            return CollisionDirection.LEFT;
-        }
-        if(cd==CollisionDirection.CORNER){
-            return CollisionDirection.CORNER;
-        }
-        return CollisionDirection.NONE;
-    }
     
     public enum CollisionDirection {
                                      TOP,
@@ -118,5 +100,24 @@ public class CollisionEngine extends AbstractCollisionEngine {
                                      RIGHT,
                                      CORNER,
                                      NONE;
+        
+        public CollisionDirection opposite() {
+            if(this==CollisionDirection.TOP){
+                return CollisionDirection.BOTTOM;
+            }
+            if(this==CollisionDirection.BOTTOM){
+                return CollisionDirection.TOP;
+            }
+            if(this==CollisionDirection.LEFT){
+                return CollisionDirection.RIGHT;
+            }
+            if(this==CollisionDirection.RIGHT){
+                return CollisionDirection.LEFT;
+            }
+            if(this==CollisionDirection.CORNER){
+                return CollisionDirection.CORNER;
+            }
+            return CollisionDirection.NONE;
+        }
     }
 }

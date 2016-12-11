@@ -94,7 +94,8 @@ public class Projectile extends AbstractSprite {
 	@Override
 	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
 		// TODO Auto-generated method stub
-		
+	    if(otherBody != myFather)
+		otherBody.onCollideWith(this, collisionDirection.opposite());
 	}
 
     @Override

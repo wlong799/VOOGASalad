@@ -34,12 +34,17 @@ public class Enemy extends AbstractCharacter {
 
 	@Override
     public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
-        otherBody.onCollideWith(this, collisionDirection);
+        otherBody.onCollideWith(this, collisionDirection.opposite());
     }
 	
     @Override
     public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
+
+        System.out.println("invalid");
+        if(collisionDirection == CollisionDirection.TOP){
+           this.setValid(false);
+        }
     }
 
     @Override

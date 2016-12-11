@@ -51,22 +51,22 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	            
 	            //c.onCollideWith(other);
 	            //logSuppressed = false;
-	            if (collisionDirection == CollisionDirection.TOP) {
+	            if (collisionDirection == CollisionDirection.BOTTOM) {
 	                getPosition().setY(b.getPosition().getY() - getDimension().getHeight());
 	                getVelocity().setYVelocity(0);
 	                resetCurrentJumps();
 	            }
-	            else if (collisionDirection == CollisionDirection.BOTTOM) {
+	            else if (collisionDirection == CollisionDirection.TOP) {
 	                getPosition().setY(b.getPosition()
 	                        .getY() + b.getDimension().getHeight());
 	                getVelocity().setYVelocity(0);
 	            }
-	            else if (collisionDirection == CollisionDirection.RIGHT) {
+	            else if (collisionDirection == CollisionDirection.LEFT) {
 	                getPosition().setX(b.getPosition().getX() +
 	                                     b.getDimension().getWidth());
 	                getVelocity().setXVelocity(0);
 	            }
-	            else if (collisionDirection == CollisionDirection.LEFT) {
+	            else if (collisionDirection == CollisionDirection.RIGHT) {
 	                getPosition().setX(b.getPosition().getX() - getDimension().getWidth());
 	                getVelocity().setXVelocity(0);
 	            }
