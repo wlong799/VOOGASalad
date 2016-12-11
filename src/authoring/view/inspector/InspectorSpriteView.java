@@ -7,6 +7,7 @@ import authoring.view.canvas.SpriteView;
 import authoring.view.inspector.settings.ActionConfiguringView;
 import authoring.view.inspector.settings.CheckBoxView;
 import authoring.view.inspector.settings.ComponentPhysicsSettings;
+import authoring.view.inspector.settings.HealthPointConfiguringView;
 import authoring.view.inspector.settings.LivesConfiguringView;
 import authoring.view.inspector.settings.NullSettingsView;
 import authoring.view.inspector.settings.SliderBoxView;
@@ -31,6 +32,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
     private SliderBoxView myMaxJumpSlider, myJumpUnitSlider, myDamageSlider;
     private ActionConfiguringView myActionView;
     private LivesConfiguringView myLivesConfiguringView;
+    private HealthPointConfiguringView myHealthPointConfiguringView;
 
     public InspectorSpriteView(AuthoringController controller) {
         super(controller);
@@ -97,6 +99,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
         if (sprite instanceof Hero) {
         	Hero hero = (Hero) sprite;
             myActionView = new ActionConfiguringView(getController(), sprite);
+            
             myMaxJumpSlider = new SliderBoxView(
                     getController(),
                     myLanguageResourceBundle.getString("noJumps"),
@@ -114,6 +117,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     Double.parseDouble(componentProperties.getString("JUMP_UNIT_INCREMENT")),
                     (obv, oldVal, newVal) -> ((Hero) sprite).setJumpingUnit(newVal.doubleValue()));
             myLivesConfiguringView = new LivesConfiguringView(getController(), hero);
+            myHealthPointConfiguringView = new HealthPointConfiguringView(getController(), hero);
             myPushedHBox = new CheckBoxView(
             		getController(), 
             		myLanguageResourceBundle.getString("enemyHorizontally"), 
@@ -133,6 +137,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
             		myMaxJumpSlider, 
             		myJumpUnitSlider,
             		myLivesConfiguringView,
+            		myHealthPointConfiguringView,
             		myPushedHBox,
             		myPushedVBox);
         }
