@@ -9,6 +9,7 @@ import authoring.AuthoringInitializer;
 import game_player.GamePlayManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -20,6 +21,7 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -29,29 +31,28 @@ public class EngineSetUp {
 	private static final ResourceBundle languageProperties = ResourceBundles.languageProperties;
 	private String languagesFilePathBeginning = "resources/languages/";
 	private ComboBox<String> languagesComboBox;
-	private VBox box;
+	private GridPane grid;
 	
 	public EngineSetUp() throws IOException {
 		Image splashImage = new Image("img/splash.png");
-		ImageView splashIV = new ImageView (splashImage);
 		
-		box = new VBox();
-		box.setAlignment(Pos.CENTER);
-		box.setSpacing(50);
-		box.setBackground(new Background(new BackgroundImage(splashImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		grid = new GridPane();
+		grid.setAlignment(Pos.CENTER);
+		grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(25, 25, 25, 25));
 		
-		box.getChildren().addAll(
-				initLanguageComboBox(),
-				initAuthoringButton(),
-				initPlayerButton());
-		
+		grid.setBackground(new Background(new BackgroundImage(splashImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
+		initLanguageComboBox();
+		initAuthoringButton();
+		initPlayerButton();
 	}
 	
-	public VBox getSplashScreenContent() {
-		return box;
+	public GridPane getSplashScreenContent() {
+		return grid;
 	}
 	
-	private ComboBox<String> initLanguageComboBox() throws IOException {
+	private void initLanguageComboBox() throws IOException {
 		ObservableList<String> languageOptions = FXCollections.observableArrayList();
 		BufferedReader br = new BufferedReader(new FileReader("src/resources/languages/LanguagesList"));
 		String language;
@@ -65,19 +66,21 @@ public class EngineSetUp {
 		
 		languagesComboBox = new ComboBox<>(languageOptions);	
 		languagesComboBox.setValue(languageProperties.getString("selectLanguage"));
-		return languagesComboBox;
+		languagesComboBox.getStyleClass().add("combo-box-splash");
+		languagesComboBox.setPrefWidth(1000);
+		grid.add(languagesComboBox, 3, 28);
 	}
 	
-	private Button initAuthoringButton() {
+	private void initAuthoringButton() {
 		Image createImage = new Image("img/create.png");
 		ImageView createIV = new ImageView (createImage);
 		Button button = new Button();
 		button.setGraphic(createIV);
 		button.setOnAction(e -> new AuthoringInitializer().init(languagesFilePathBeginning + languagesComboBox.getValue()));
-		return button;
+		grid.add(button, 2, 30);
 	}
 	
-	private Button initPlayerButton() {
+	private void initPlayerButton() {
 		Image playImage = new Image("img/play.png");
 		ImageView playIV = new ImageView (playImage);
 		Button button = new Button();
@@ -86,7 +89,7 @@ public class EngineSetUp {
 			GamePlayManager applicationManager = new GamePlayManager();
 			applicationManager.start(new Stage());
 		});
-		return button;
+		grid.add(button, 6, 30);
 	}
 	
 	

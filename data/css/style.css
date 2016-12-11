@@ -16,6 +16,10 @@
     -fx-font-family: verdana;  
 }
 
+.combo-box-splash {
+    -fx-pref-width: 300;
+}
+
 .button {
     -fx-background-color: white;
     -fx-focus-color: blue;
