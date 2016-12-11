@@ -7,12 +7,12 @@ import authoring.AuthorEnvironment;
 import game_object.core.Game;
 import game_object.level.Level;
 import javafx.scene.control.TextInputDialog;
+import resources.ResourceBundles;
 
 public class GameAdder {
-	private ResourceBundle myLanguageResourceBundle;
+	private static ResourceBundle myLanguageResourceBundle = ResourceBundles.languageProperties;
 	
 	public void addGame(AuthorEnvironment environment) {
-		myLanguageResourceBundle = environment.getLanguageResourceBundle();
 		Game game = new Game(myLanguageResourceBundle.getString("gameDefaultName"));
 		game.addLevel(getNewLevel(game));
 		environment.addGame(game);

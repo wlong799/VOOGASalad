@@ -14,6 +14,7 @@ import authoring.view.inspector.settings.TextInputBoxView;
 import game_object.block.IBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.character.ICharacter;
 import game_object.constants.DefaultConstants;
 import game_object.core.ISprite;
 import game_object.level.Level;
@@ -111,33 +112,12 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     hero.getJumpingUnit(),
                     Double.parseDouble(componentProperties.getString("JUMP_UNIT_INCREMENT")),
                     (obv, oldVal, newVal) -> ((Hero) sprite).setJumpingUnit(newVal.doubleValue()));
-            myDamageSlider = new SliderBoxView(
-                    getController(),
-                    "Damage by Projectile",
-                    Double.parseDouble(componentProperties.getString("MIN_DAMAGE")),
-                    Double.parseDouble(componentProperties.getString("MAX_DAMAGE")),
-                    hero.getAttackByProjectileStrategy().getDamage(),
-                    Double.parseDouble(componentProperties.getString("DAMAGE_INCREMENT")),
-                    (obv, oldVal, newVal) -> hero.getAttackByProjectileStrategy().setDamageFromAllDirection(newVal.doubleValue()));
             myLivesConfiguringView = new LivesConfiguringView(getController(), hero);
-            myBounceHBox = new CheckBoxView(
-            		getController(), 
-            		"Bounce Horizontally", 
-            		hero.getCollideWithBlockStrategy().getHorizontalBounce(),
-                    (obv, oldVal, newVal) -> hero.getCollideWithBlockStrategy().setHorizontalBounce(newVal));
-            myBounceVBox = new CheckBoxView(
-            		getController(), 
-            		"Bounce Vertically", 
-            		hero.getCollideWithBlockStrategy().getVerticalBounce(),
-                    (obv, oldVal, newVal) -> hero.getCollideWithBlockStrategy().setVerticalBounce(newVal));
             addSettingsViews(
             		myActionView, 
             		myMaxJumpSlider, 
-            		myJumpUnitSlider, 
-            		myDamageSlider, 
-            		myLivesConfiguringView,
-            		myBounceHBox,
-            		myBounceVBox);
+            		myJumpUnitSlider,
+            		myLivesConfiguringView);
         }
         
         if (sprite instanceof Enemy) {
@@ -147,6 +127,31 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
         	addSettingsView(enemyHasAIBox);
         }
         
+        if (sprite instanceof ICharacter) {
+        	ICharacter character = (ICharacter) sprite;
+        	myDamageSlider = new SliderBoxView(
+                    getController(),
+                    "Damage by Projectile",
+                    Double.parseDouble(componentProperties.getString("MIN_DAMAGE")),
+                    Double.parseDouble(componentProperties.getString("MAX_DAMAGE")),
+                    character.getAttackByProjectileStrategy().getDamage(),
+                    Double.parseDouble(componentProperties.getString("DAMAGE_INCREMENT")),
+                    (obv, oldVal, newVal) -> character.getAttackByProjectileStrategy().setDamageFromAllDirection(newVal.doubleValue()));
+            myBounceHBox = new CheckBoxView(
+            		getController(), 
+            		"Bounce Horizontally", 
+            		character.getCollideWithBlockStrategy().getHorizontalBounce(),
+                    (obv, oldVal, newVal) -> character.getCollideWithBlockStrategy().setHorizontalBounce(newVal));
+            myBounceVBox = new CheckBoxView(
+            		getController(), 
+            		"Bounce Vertically", 
+            		character.getCollideWithBlockStrategy().getVerticalBounce(),
+                    (obv, oldVal, newVal) -> character.getCollideWithBlockStrategy().setVerticalBounce(newVal));
+            addSettingsViews(
+            		myDamageSlider, 
+            		myBounceHBox, 
+            		myBounceVBox);
+        }
         updateLayout();
     }
 

@@ -10,6 +10,7 @@ import authoring.view.inspector.settings.ComboBoxSettingsView;
 import authoring.view.inspector.settings.ImageChangeButtonView;
 import authoring.view.inspector.settings.TextInputBoxView;
 import game_engine.enemyai.EnemyLevelTypes;
+import game_object.core.Game;
 
 /**
  * Inspector view that allows for editing of game-wide settings/metadata.
@@ -22,6 +23,7 @@ public class InspectorGameView extends AbstractInspectorTabView {
     private ComboBoxSettingsView myDifficultyBox;
     private ImageChangeButtonView myImageChangeButtonView;
     private ResourceBundle myLanguageResourceBundle;
+    private Game currentGame;
 
     public InspectorGameView(AuthoringController controller) {
         super(controller);
@@ -30,6 +32,9 @@ public class InspectorGameView extends AbstractInspectorTabView {
     @Override
     protected void initUI() {
         super.initUI();
+        if (currentGame == null) {
+        	currentGame = this.getController().getEnvironment().getCurrentGame();
+        }
         myLanguageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
         // TODO: 12/7/16 get title from current game
         myTitleInputView = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("title"), "", newValue -> {
@@ -49,11 +54,16 @@ public class InspectorGameView extends AbstractInspectorTabView {
         myDifficultyBox = new ComboBoxSettingsView(
                 getController(),
                 "Enemy Difficulty",
+                currentGame.getEnemyDifficulty().toString(),
                 difficulties,
                 (obv, oldVal, newVal) -> {
-                	this.getController().getEnvironment().getCurrentGame().setEnemyDifficulty(EnemyLevelTypes.valueOf(newVal));
+                	currentGame.setEnemyDifficulty(EnemyLevelTypes.valueOf(newVal));
                 });
         addSettingsViews(myTitleInputView, myImageChangeButtonView, myDescriptionInputView, myDifficultyBox);
+    }
+    
+    public void setGame(Game game) {
+    	currentGame = game;
     }
     
 }

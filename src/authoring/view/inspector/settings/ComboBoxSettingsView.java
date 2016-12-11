@@ -11,12 +11,14 @@ import javafx.scene.control.ComboBox;
 public class ComboBoxSettingsView extends AbstractSettingsView {
 	
 	private List<String> myOptions;
+	private String mySelection;
 	private ComboBox<String> myBox;
 	private ChangeListener<String> myListener;
 
-	public ComboBoxSettingsView(AuthoringController controller, String title, List<String> options, ChangeListener<String> changeListener) {
+	public ComboBoxSettingsView(AuthoringController controller, String title, String selection, List<String> options, ChangeListener<String> changeListener) {
 		super(controller);
 		myLabel.setText(title);
+		mySelection = selection;
 		myOptions = options;
 		myListener = changeListener;
 	}
@@ -25,6 +27,7 @@ public class ComboBoxSettingsView extends AbstractSettingsView {
 	public void initializeSettings() {
 		ObservableList<String> options = FXCollections.observableArrayList(myOptions);
 		myBox = new ComboBox<>(options);
+		myBox.setValue(mySelection);
 		myBox.valueProperty().addListener(myListener);
 		myContent.getChildren().add(myBox);
 	}
