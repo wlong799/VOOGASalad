@@ -66,7 +66,9 @@ public class ActionConfiguringView extends AbstractSettingsView {
         column2.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue()));
         
         myTableView.getColumns().addAll(column1, column2);
-        myTableView.setPrefHeight(200);
+        myTableView.setMaxHeight(Integer.MAX_VALUE);
+        myTableView.setPrefHeight(125);
+        myTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         myContent.getChildren().add(myTableView);
     }
 
