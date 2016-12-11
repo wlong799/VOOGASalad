@@ -8,6 +8,7 @@ import authoring.view.inspector.settings.ActionConfiguringView;
 import authoring.view.inspector.settings.CheckBoxView;
 import authoring.view.inspector.settings.ComponentPhysicsSettings;
 import authoring.view.inspector.settings.HealthPointConfiguringView;
+import authoring.view.inspector.settings.LabelView;
 import authoring.view.inspector.settings.LivesConfiguringView;
 import authoring.view.inspector.settings.NullSettingsView;
 import authoring.view.inspector.settings.SliderBoxView;
@@ -20,11 +21,13 @@ import game_object.constants.DefaultConstants;
 import game_object.core.ISprite;
 import game_object.level.Level;
 import goal.position.ReachPointGoal;
+import javafx.scene.control.Label;
 
 public class InspectorSpriteView extends AbstractInspectorTabView {
-    private SpriteView spriteView;
-    private ISprite sprite;
+    private SpriteView mySpriteView;
+    private ISprite mySprite;
 
+    private Label spriteTypeLabel;
     private ComponentPhysicsSettings componentPhysicsSettings;
     private TextInputBoxView myXBox, myYBox, myZBox, myWidthBox, myHeightBox, myVelocityXBox, myVelocityYBox;
     private CheckBoxView myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
@@ -46,59 +49,61 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
 
     private void updateUI() {
         clearSettingsView();
-        if (spriteView == null || (sprite = spriteView.getSprite()) == null) {
+        if (mySpriteView == null || (mySprite = mySpriteView.getSprite()) == null) {
             addSettingsView(new NullSettingsView(getController()));
             return;
         }
+        
+        LabelView myLabelView = new LabelView(getController(), mySprite);
 
-        myXBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("posX"), sprite.getPosition().getX() + "",
-                (newVal) -> spriteView.setAbsolutePositionX(Double.parseDouble(newVal)));
-        myYBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("posY"), sprite.getPosition().getY() + "",
-                (newVal) -> spriteView.setAbsolutePositionY(Double.parseDouble(newVal)));
-        myZBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("posZ"), sprite.getPosition().getZ() + "",
-                (newVal) -> spriteView.setAbsolutePositionZ(Double.parseDouble(newVal)));
+        myXBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("posX"), mySprite.getPosition().getX() + "",
+                (newVal) -> mySpriteView.setAbsolutePositionX(Double.parseDouble(newVal)));
+        myYBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("posY"), mySprite.getPosition().getY() + "",
+                (newVal) -> mySpriteView.setAbsolutePositionY(Double.parseDouble(newVal)));
+        myZBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("posZ"), mySprite.getPosition().getZ() + "",
+                (newVal) -> mySpriteView.setAbsolutePositionZ(Double.parseDouble(newVal)));
 
-        myWidthBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("width"), sprite.getDimension().getWidth() + "",
-                (newVal) -> spriteView.setDimensionWidth(Double.parseDouble(newVal), true));
-        myHeightBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("height"), sprite.getDimension().getHeight() + "",
-                (newVal) -> spriteView.setDimensionHeight(Double.parseDouble(newVal), true));
-        myVelocityXBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("initialVelX"), sprite.getVelocity().getXVelocity() + "",
-                (newVal) -> spriteView.getSprite().getVelocity().setXVelocity(Double.parseDouble(newVal)));
-        myVelocityYBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("initialVelY"), sprite.getVelocity().getYVelocity() + "",
-                (newVal) -> spriteView.getSprite().getVelocity().setYVelocity(Double.parseDouble(newVal)));
+        myWidthBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("width"), mySprite.getDimension().getWidth() + "",
+                (newVal) -> mySpriteView.setDimensionWidth(Double.parseDouble(newVal), true));
+        myHeightBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("height"), mySprite.getDimension().getHeight() + "",
+                (newVal) -> mySpriteView.setDimensionHeight(Double.parseDouble(newVal), true));
+        myVelocityXBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("initialVelX"), mySprite.getVelocity().getXVelocity() + "",
+                (newVal) -> mySpriteView.getSprite().getVelocity().setXVelocity(Double.parseDouble(newVal)));
+        myVelocityYBox = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("initialVelY"), mySprite.getVelocity().getYVelocity() + "",
+                (newVal) -> mySpriteView.getSprite().getVelocity().setYVelocity(Double.parseDouble(newVal)));
 
-        componentPhysicsSettings = new ComponentPhysicsSettings(sprite);
+        componentPhysicsSettings = new ComponentPhysicsSettings(mySprite);
         myHerosCollisionCheckBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("collideWithHeros"),
-                (sprite.getCollisionBitMask() & DefaultConstants.HERO_CATEGORY_BIT_MASK) != 0,
+                (mySprite.getCollisionBitMask() & DefaultConstants.HERO_CATEGORY_BIT_MASK) != 0,
                 (obv, old_val, new_val) -> componentPhysicsSettings.setCollisionSettingWithHeros(new_val));
         myEnemiesCollisionCheckBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("collideWithEnemies"),
-                (sprite.getCollisionBitMask() & DefaultConstants.ENEMY_CATEGORY_BIT_MASK) != 0,
+                (mySprite.getCollisionBitMask() & DefaultConstants.ENEMY_CATEGORY_BIT_MASK) != 0,
                 (obv, old_val, new_val) -> componentPhysicsSettings.setCollisionSettingWithEnemies(new_val));
         myBlockCollisionCheckBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("collideWithBlocks"),
-                (sprite.getCollisionBitMask() & DefaultConstants.BLOCK_CATEGORY_BIT_MASK) != 0,
+                (mySprite.getCollisionBitMask() & DefaultConstants.BLOCK_CATEGORY_BIT_MASK) != 0,
                 (obv, old_val, new_val) -> componentPhysicsSettings.setCollisionSettingWithBlock(new_val));
         myApplyPhysicsCheckBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("applyPhysics"),
-                sprite.getAffectedByPhysics(),
+                mySprite.getAffectedByPhysics(),
                 (obv, old_val, new_val) -> componentPhysicsSettings.makePhysicsApplicable(new_val));
-
-        addSettingsViews(myXBox, myYBox, myZBox, myWidthBox, myHeightBox, myVelocityXBox, myVelocityYBox, myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
+        
+        addSettingsViews(myLabelView, myXBox, myYBox, myZBox, myWidthBox, myHeightBox, myVelocityXBox, myVelocityYBox, myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
                 myApplyPhysicsCheckBox);
 
-        if (sprite instanceof IBlock) {
+        if (mySprite instanceof IBlock) {
             myReachPointCheckBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("assignGoal"), false,
                     (obv, oldVal, newVal) -> {
                         Level currentLevel = getController().getEnvironment().getCurrentLevel();
                         currentLevel.getHeros().forEach(hero -> {
-                            ReachPointGoal reachGoal = new ReachPointGoal(hero, sprite);
+                            ReachPointGoal reachGoal = new ReachPointGoal(hero, mySprite);
                             currentLevel.getAllGoals().add(reachGoal);
                         });
                     });
             addSettingsView(myReachPointCheckBox);
         }
 
-        if (sprite instanceof Hero) {
-        	Hero hero = (Hero) sprite;
-            myActionView = new ActionConfiguringView(getController(), sprite);
+        if (mySprite instanceof Hero) {
+        	Hero hero = (Hero) mySprite;
+            myActionView = new ActionConfiguringView(getController(), mySprite);
             
             myMaxJumpSlider = new SliderBoxView(
                     getController(),
@@ -107,7 +112,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     Double.parseDouble(componentProperties.getString("MAX_NUMBER_JUMPS")),
                     hero.getMaxNumberOfJumps(),
                     Double.parseDouble(componentProperties.getString("JUMP_INCREMENT")),
-                    (obv, oldVal, newVal) -> ((Hero) sprite).setMaxNumberOfJumps(newVal.intValue()));
+                    (obv, oldVal, newVal) -> ((Hero) mySprite).setMaxNumberOfJumps(newVal.intValue()));
             myJumpUnitSlider = new SliderBoxView(
                     getController(),
                     myLanguageResourceBundle.getString("jumpUnit"),
@@ -115,7 +120,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     Double.parseDouble(componentProperties.getString("MAX_JUMP_UNIT")),
                     hero.getJumpingUnit(),
                     Double.parseDouble(componentProperties.getString("JUMP_UNIT_INCREMENT")),
-                    (obv, oldVal, newVal) -> ((Hero) sprite).setJumpingUnit(newVal.doubleValue()));
+                    (obv, oldVal, newVal) -> ((Hero) mySprite).setJumpingUnit(newVal.doubleValue()));
             myLivesConfiguringView = new LivesConfiguringView(getController(), hero);
             myHealthPointConfiguringView = new HealthPointConfiguringView(getController(), hero);
             myPushedHBox = new CheckBoxView(
@@ -142,11 +147,11 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
             		myPushedVBox);
         }
         
-        if (sprite instanceof Enemy) {
-        	Enemy enemy = (Enemy) sprite;
+        if (mySprite instanceof Enemy) {
+        	Enemy enemy = (Enemy) mySprite;
         	enemyHasAIBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("hasAI"),
         			enemy.hasAI(),
-                    (obv, old_val, new_val) -> ((Enemy)sprite).setHasAI(new_val));
+                    (obv, old_val, new_val) -> ((Enemy)mySprite).setHasAI(new_val));
         	myPushedHBox = new CheckBoxView(
             		getController(), 
             		myLanguageResourceBundle.getString("heroHorizontally"), 
@@ -167,8 +172,8 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
         			myPushedVBox);
         }
         
-        if (sprite instanceof ICharacter) {
-        	ICharacter character = (ICharacter) sprite;
+        if (mySprite instanceof ICharacter) {
+        	ICharacter character = (ICharacter) mySprite;
         	myDamageSlider = new SliderBoxView(
                     getController(),
                     myLanguageResourceBundle.getString("damageByProjectile"),
@@ -196,7 +201,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
     }
 
     public void setSpriteView(SpriteView spView) {
-        spriteView = spView;
+        mySpriteView = spView;
         updateUI();
     }
     
