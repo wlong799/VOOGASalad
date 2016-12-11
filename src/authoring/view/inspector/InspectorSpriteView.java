@@ -27,7 +27,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
     private TextInputBoxView myXBox, myYBox, myZBox, myWidthBox, myHeightBox, myVelocityXBox, myVelocityYBox;
     private CheckBoxView myHerosCollisionCheckBox, myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
             myApplyPhysicsCheckBox, myReachPointCheckBox, enemyHasAIBox;
-    private SliderBoxView myMaxJumpSlider, myJumpUnitSlider;
+    private SliderBoxView myMaxJumpSlider, myJumpUnitSlider, myDamageSlider;
     private ActionConfiguringView myActionView;
     private LivesConfiguringView myLivesConfiguringView;
 
@@ -110,8 +110,16 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     ((Hero) sprite).getJumpingUnit(),
                     Double.parseDouble(componentProperties.getString("JUMP_UNIT_INCREMENT")),
                     (obv, oldVal, newVal) -> ((Hero) sprite).setJumpingUnit(newVal.doubleValue()));
+            myDamageSlider = new SliderBoxView(
+                    getController(),
+                    "Damage by Projectile",
+                    Double.parseDouble(componentProperties.getString("MIN_DAMAGE")),
+                    Double.parseDouble(componentProperties.getString("MAX_DAMAGE")),
+                    ((Hero) sprite).getAttackByProjectileStrategy().getDamage(),
+                    Double.parseDouble(componentProperties.getString("DAMAGE_INCREMENT")),
+                    (obv, oldVal, newVal) -> ((Hero) sprite).getAttackByProjectileStrategy().setDamageFromAllDirection(newVal.doubleValue()));
             myLivesConfiguringView = new LivesConfiguringView(getController(), (Hero) sprite);
-            addSettingsViews(myActionView, myMaxJumpSlider, myJumpUnitSlider, myLivesConfiguringView);
+            addSettingsViews(myActionView, myMaxJumpSlider, myJumpUnitSlider, myLivesConfiguringView, myDamageSlider);
         }
         
         if (sprite instanceof Enemy) {
