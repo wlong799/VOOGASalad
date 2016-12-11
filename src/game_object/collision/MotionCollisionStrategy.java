@@ -19,11 +19,6 @@ public class MotionCollisionStrategy<A extends ICollisionBody, B extends ICollis
 	}
 	
 	@Override
-	public void setValid(boolean valid) {
-		// TODO Auto-generated method stub
-	}
-	
-	@Override
 	public void applyCollision(A a, B b, CollisionDirection collisionDirection) {
 		switch (collisionDirection) {
 		case TOP:
