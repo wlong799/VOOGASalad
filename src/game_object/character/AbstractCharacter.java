@@ -4,12 +4,15 @@ import java.util.List;
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.GravityFrictionStrategy;
 import game_object.block.Block;
+import game_object.collision.AttackCollisionStrategy;
 import game_object.collision.MotionCollisionStrategy;
 import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Position;
 import game_object.core.Velocity;
+import game_object.simulation.ICollisionBody;
+import game_object.weapon.Projectile;
 import game_object.weapon.Weapon;
 
 /**
@@ -32,7 +35,9 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	protected boolean myTempJumping;
 	protected boolean myShooting;
 	protected boolean myTempShooting;
-	protected MotionCollisionStrategy<ICharacter, Block> myStrategyOnCollisionWithBlock;
+	protected MotionCollisionStrategy<ICharacter, Block> myCollideWithBlockStrategy;
+	protected AttackCollisionStrategy<ICharacter, Projectile> myAttackByProjectileStrategy;
+	
 	
 	// the following two fields define the weapon-holding position
 	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
@@ -43,20 +48,40 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 		super(position, dimension, imagePaths);
 		myAffectedByPhysics = true;
 		myPhysicsStrategy = new GravityFrictionStrategy();
-		myStrategyOnCollisionWithBlock = new MotionCollisionStrategy<>();
+		myCollideWithBlockStrategy = new MotionCollisionStrategy<>();
+		myAttackByProjectileStrategy = new AttackCollisionStrategy<>();
+		myAttackByProjectileStrategy.setDamageFromAllDirection(DefaultConstants.PROJECTILE_DAMAGE);
 		myWeaponDisplacementX = dimension.getWidth();
 		myWeaponDisplacementY = 0;
 	}
 	
+	
 	/*ICollisionBody Implementation*/
 	@Override
-	public MotionCollisionStrategy<ICharacter, Block> getStrategyOnCollisionWithBlock() {
-		return myStrategyOnCollisionWithBlock;
+	public MotionCollisionStrategy<ICharacter, Block> getCollideWithBlockStrategy() {
+		return myCollideWithBlockStrategy;
+	}
+	
+	@Override
+	public AttackCollisionStrategy<ICharacter, Projectile> getAttackByProjectileStrategy() {
+		return myAttackByProjectileStrategy;
+	}
+	
+	@Override
+	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
+		otherBody.onCollideWith(otherBody, collisionDirection.opposite());
 	}
 	
 	@Override
 	public void onCollideWith(Block b, CollisionDirection collisionDirection){
-		getStrategyOnCollisionWithBlock().applyCollision(this, b, collisionDirection);
+		getCollideWithBlockStrategy().applyCollision(this, b, collisionDirection);
+	}
+	
+	@Override
+	public void onCollideWith(Projectile p, CollisionDirection collisionDirection) {
+		if (p.getParent() != this) {
+			getAttackByProjectileStrategy().applyCollision(this, p, collisionDirection);
+		}
 	}
 	/* ---ICollisionBody Implementation END--- */
 
@@ -78,7 +103,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	@Override
 	public void setCurrentHP(double currentHP) {
 		myCurrentHP = currentHP;
-		if (currentHP < 0) {
+		if (currentHP <= 0) {
 			setValid(false);
 		}
 	}
