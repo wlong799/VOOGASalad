@@ -18,6 +18,7 @@ import game_object.weapon.Weapon;
  */
 abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
+	private static final long serialVersionUID = -8060574343161540861L;
 	protected double myMaxHP = DefaultConstants.CHARACTER_MAX_HP;
 	protected double myCurrentHP = DefaultConstants.CHARACTER_MAX_HP;
 	private double myMovingUnit = DefaultConstants.MOVING_UNIT;

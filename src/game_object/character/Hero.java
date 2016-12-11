@@ -18,7 +18,8 @@ import game_object.weapon.WeaponModel;
 
 public class Hero extends AbstractCharacter implements IUpgrader {
 
-    private List<ICollisionStrategy<Hero, Enemy>> myEnemyStrategyList;
+	private static final long serialVersionUID = -3734934429487355104L;
+	private List<ICollisionStrategy<Hero, Enemy>> myEnemyStrategyList;
     private AttackCollisionStrategy<Hero, Enemy> myAttackByEnemyCollisionStrategy;
     private MotionCollisionStrategy<Hero, Enemy> myPushByEnemyCollsionStrategy;
     

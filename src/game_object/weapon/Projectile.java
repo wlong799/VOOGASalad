@@ -24,6 +24,7 @@ import game_object.simulation.ICollisionBody;
 
 public class Projectile extends AbstractSprite {
 	
+	private static final long serialVersionUID = 2892891123139342664L;
 	private final static Dimension MISSILE_DIMENSION = new Dimension(10, 10);
 	private final static double HEIGHT_OFFSET_RATIO = 0.2;
 

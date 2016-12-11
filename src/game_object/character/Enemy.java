@@ -14,6 +14,7 @@ import game_object.simulation.ICollisionBody;
 
 public class Enemy extends AbstractCharacter {
 
+	private static final long serialVersionUID = -6360150217648638907L;
 	private List<ICollisionStrategy<Enemy, Hero>> myHeroStrategyList;
     private AttackCollisionStrategy<Enemy, Hero> myAttackByHeroCollisionStrategy;
     private MotionCollisionStrategy<Enemy, Hero> myPushByHeroCollsionStrategy;
@@ -41,11 +42,11 @@ public class Enemy extends AbstractCharacter {
     }
 	 
 	/* Collision Strategies */
-	public AttackCollisionStrategy<Enemy, Hero> getAttackByEnemyCollisionStrategy() {
+	public AttackCollisionStrategy<Enemy, Hero> getAttackByHeroCollisionStrategy() {
 		return myAttackByHeroCollisionStrategy;
 	}
 	
-	public MotionCollisionStrategy<Enemy, Hero> getPushByEnemyCollsionStrategy() {
+	public MotionCollisionStrategy<Enemy, Hero> getPushByHeroCollsionStrategy() {
 		return myPushByHeroCollsionStrategy;
 	}
 	    

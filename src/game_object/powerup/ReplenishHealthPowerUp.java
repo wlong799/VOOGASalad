@@ -8,6 +8,8 @@ import game_object.core.Position;
 
 public class ReplenishHealthPowerUp extends AbstractPowerUp {
 
+	private static final long serialVersionUID = 626586255653522477L;
+
 	public ReplenishHealthPowerUp(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
 	}
