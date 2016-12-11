@@ -42,7 +42,7 @@ public class Enemy extends AbstractCharacter {
     public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
         System.out.println("invalid");
-        if(collisionDirection == CollisionDirection.TOP){
+        if(collisionDirection == CollisionDirection.BOTTOM){
            this.setValid(false);
         }
     }
@@ -56,16 +56,17 @@ public class Enemy extends AbstractCharacter {
     @Override
     public void onCollideWith (Block b, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
-        //super.onCollideWith(b, collisionDirection);
+        
         if(collisionDirection == CollisionDirection.LEFT || collisionDirection == CollisionDirection.RIGHT){
             getVelocity().setXVelocity(-getVelocity().getXVelocity());
         }
+        super.onCollideWith(b, collisionDirection);
     }
 
     @Override
     public void onCollideWith (Projectile p, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
-        //this.setValid(false);
+        this.setValid(false);
         // die?
         //p.getModel().
     }
