@@ -16,14 +16,4 @@ public interface IUpgrader {
 	// and a percent of -0.1 is 0.9x original speed (slows down)
 	void speedUp(double percent);
 	
-	//changes size of player
-	//uses the multiplier to scale the image dimensions up or down
-	void changeSize(double multiplier);
-	
-	//gives ability to shoot projectile
-	void setHasProjectile(boolean hasProjectile);
-	
-	//get projectile state
-	boolean getHasProjectile();
-	
 }

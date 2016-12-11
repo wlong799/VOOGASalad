@@ -17,6 +17,8 @@ import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Game;
 import game_object.core.ISprite;
+import game_object.core.Position;
+import game_object.core.Velocity;
 import game_object.powerup.IPowerUp;
 import game_object.visualization.ILevelVisualization;
 import game_object.visualization.ISpriteVisualization;
@@ -232,6 +234,8 @@ public class Level implements ILevelVisualization {
 	/* ---Goals END--- */
 	
 	/* ILevelVisualization Implementations */
+	private List<ISpriteVisualization> mySpriteVisuals = new ArrayList<>();
+	
 	@Override
 	public void init() {
 		if (myHeros.size() == 0) {
@@ -241,16 +245,24 @@ public class Level implements ILevelVisualization {
 		mySpriteScavenger = AbstractSprite.getSpriteScavenger();
 		mySpriteScavenger.setBorderDimension(myParentGame.getScreenSize());
 	}
-	
+
 	@Override
-	public List<ISpriteVisualization> getAllSpriteVisualizations() {
+	public void update() {
 		List<ISprite> allSprites = getAllSprites();
 		allSprites.sort((s1, s2) ->
 			s1.getPosition().getZ() > s2.getPosition().getZ() ? 1 : -1
 		);
-		List<ISpriteVisualization> visuals = new ArrayList<>();
-		visuals.addAll(allSprites);
-		return visuals;
+		for (ISprite sprite : allSprites) {
+			sprite.setPreviousPosition(Position.getCopiedInstance(sprite.getPosition()));
+			sprite.setPreviousVelocity(Velocity.getCopiedInstance(sprite.getVelocity()));
+		}
+		mySpriteVisuals.clear();
+		mySpriteVisuals.addAll(allSprites);
+	}
+	
+	@Override
+	public List<ISpriteVisualization> getAllSpriteVisualizations() {
+		return mySpriteVisuals;
 	}
 	/* ---ILevelVisualization Implementations END--- */
 	
