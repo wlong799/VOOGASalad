@@ -7,6 +7,7 @@ import authoring.share.action.AddSpriteAction;
 import authoring.share.action.IAction;
 import authoring.share.action.MoveSpriteAction;
 import authoring.share.action.RemoveSpriteAction;
+import authoring.share.action.ResizeSpriteAction;
 import authoring.share.exception.ShareEditException;
 import authoring.view.canvas.SpriteView;
 import javafx.animation.KeyFrame;
@@ -83,6 +84,17 @@ public class ShareEditController {
 		if (!hasClient()) return;
 		IAction moveAction = new MoveSpriteAction(spView.getID(), newX, newY);
 		myNetworkController.getClient().broadcast(moveAction, MessageType.ACTION);
+	}
+	
+	/**
+	 * @param spView SpriteView to be resized
+	 * @param newWidth new width of the view
+	 * @param newHeight new height of the view
+	 */
+	public void resize(SpriteView spView, double newWidth, double newHeight) {
+		if (!hasClient()) return;
+		IAction resizeAction = new ResizeSpriteAction(spView.getID(), newWidth, newHeight);
+		myNetworkController.getClient().broadcast(resizeAction, MessageType.ACTION);
 	}
 	
 	private void init() {

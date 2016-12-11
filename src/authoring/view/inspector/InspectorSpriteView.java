@@ -80,11 +80,11 @@ public class InspectorSpriteView extends AbstractView {
 				});
 		widthBox = makeDoubleInputBox("Width", sprite.getDimension().getWidth(),
 				(newVal) -> {
-					inspectedSpriteView.setDimensionWidth(Double.parseDouble(newVal));
+					inspectedSpriteView.setDimensionWidth(Double.parseDouble(newVal), true);
 				});
 		heightBox = makeDoubleInputBox("Height", sprite.getDimension().getHeight(),
 				(newVal) -> {
-					inspectedSpriteView.setDimensionHeight(Double.parseDouble(newVal));
+					inspectedSpriteView.setDimensionHeight(Double.parseDouble(newVal), true);
 				});
 		myActionView = new ActionConfiguringView(this.getController());
 		myActionView.setSprite(sprite);

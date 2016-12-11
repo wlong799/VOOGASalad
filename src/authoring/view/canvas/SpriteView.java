@@ -64,20 +64,30 @@ public class SpriteView extends AbstractView {
 
     /**
      * @param width set width both frontend and backend mySprite
+     * @param share if the action is broadcasted
      */
-    public void setDimensionWidth(double width) {
+    public void setDimensionWidth(double width, boolean share) {
         setWidth(width);
         mySprite.getDimension().setWidth(width);
         updateLayout();
+        if (share) {
+        	this.getController().getNetworkController().getShareEditor()
+        		.resize(this, width, mySprite.getDimension().getHeight());
+        }
     }
 
     /**
      * @param height set height both frontend and backend mySprite
+     * @param share if the action is broadcasted
      */
-    public void setDimensionHeight(double height) {
+    public void setDimensionHeight(double height, boolean share) {
         setHeight(height);
         mySprite.getDimension().setHeight(height);
         updateLayout();
+        if (share) {
+        	this.getController().getNetworkController().getShareEditor()
+        		.resize(this, mySprite.getDimension().getWidth(), height);
+        }
     }
 
     public void indicateSelection() {
@@ -133,7 +143,7 @@ public class SpriteView extends AbstractView {
     public void snapToGrid() {
         setAbsolutePositionX(getController().getCanvasViewController().convertToNearestBlockValue(getPositionX()));
         setAbsolutePositionY(getController().getCanvasViewController().convertToNearestBlockValue(getPositionY()));
-        setDimensionWidth(getController().getCanvasViewController().convertToNearestBlockValue(getWidth()));
-        setDimensionHeight(getController().getCanvasViewController().convertToNearestBlockValue(getHeight()));
+        setDimensionWidth(getController().getCanvasViewController().convertToNearestBlockValue(getWidth()), true);
+        setDimensionHeight(getController().getCanvasViewController().convertToNearestBlockValue(getHeight()), true);
     }
 }

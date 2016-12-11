@@ -10,6 +10,7 @@ import game_object.constants.DefaultConstants;
  */
 public abstract class AbstractSprite implements ISprite {
 
+	private static final long serialVersionUID = -5935430491986661297L;
 	protected Position myPosition;
 	protected Position myPreviousPosition;
 	protected List<String> myImagePaths;

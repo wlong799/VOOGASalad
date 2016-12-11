@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class Dimension implements Serializable {
 
+	private static final long serialVersionUID = -4419865114102754848L;
 	private double myWidth;
 	private double myHeight;
 	

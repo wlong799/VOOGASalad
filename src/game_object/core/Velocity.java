@@ -8,6 +8,7 @@ import java.io.Serializable;
  */
 public class Velocity implements Serializable {
 	
+	private static final long serialVersionUID = -2347135187672813813L;
 	private double myXVelocity, myYVelocity;
 	
 	public Velocity(double xVelocity, double yVelocity) {

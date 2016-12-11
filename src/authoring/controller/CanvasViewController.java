@@ -174,8 +174,8 @@ public class CanvasViewController {
                                    double endY) {
         if (startX > endX || startY > endY) return;
         this.setAbsolutePosition(spView, startX, startY, true);
-        spView.setDimensionWidth(endX - startX);
-        spView.setDimensionHeight(endY - startY);
+        spView.setDimensionWidth(endX - startX, true);
+        spView.setDimensionHeight(endY - startY, true);
     }
 
     public void reorderSpriteViewsWithPositionZ() {
@@ -252,8 +252,8 @@ public class CanvasViewController {
             		newID);
             Dimension dim = new Dimension(sp.getDimension().getWidth(), sp.getDimension().getHeight());
             spView.setSprite(sp);
-            spView.setDimensionHeight(dim.getHeight());
-            spView.setDimensionWidth(dim.getWidth());
+            spView.setDimensionHeight(dim.getHeight(), false);
+            spView.setDimensionWidth(dim.getWidth(), false);
             add(spView, sp.getPosition().getX(), sp.getPosition().getY(), false);
         }
         updateBackground();
