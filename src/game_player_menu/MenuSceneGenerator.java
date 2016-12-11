@@ -52,11 +52,11 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 
 	private Scene generateScene(List<DisplayableItemDescription> menuItems){
 		myRoot = createBorderPane();
+		myMenuScene = new Scene(myRoot);
+		setMenuCSS();
 		HBox menuTop = createMenuTop();
 		myRoot.setTop(menuTop);
 		myRoot.setAlignment(menuTop, Pos.CENTER);
-		myMenuScene = new Scene(myRoot);
-		setMenuCSS();
 		myRoot.setCenter(layoutDescriptions(menuItems));
 		return myMenuScene;
 	}

@@ -19,7 +19,6 @@ public class TextTranslator extends NodeTranslator {
 	public Node createNode(String text, boolean isSelectable, ISelectable listener) {
 		Button menuButton = new Button(text);
 		menuButton.setAlignment(Pos.TOP_CENTER);
-		System.out.println(menuButton.getPrefWidth());
 		menuButton.getStyleClass().add(myResources.getString("ButtonStyle"));
 		if(isSelectable){
 			makeButtonSelectable(menuButton, listener);

@@ -44,8 +44,4 @@ public class GamePlayManager extends Application implements ISceneManager {
 		
 	}
 	
-	public static void main (String[] args){
-		launch(args);
-	}
-	
 }
