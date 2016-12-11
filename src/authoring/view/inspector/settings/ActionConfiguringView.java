@@ -36,12 +36,14 @@ public class ActionConfiguringView extends AbstractSettingsView {
     private TableView<Map.Entry<String, String>> myTableView;
     private ObservableList<Map.Entry<String, String>> myItems;
     private ResourceBundle componentProperties;
+    private ResourceBundle myLanguageResourceBundle;
 
     public ActionConfiguringView(AuthoringController controller, ISprite sprite) {
         super(controller);
         mySprite = sprite;
         componentProperties = ResourceBundles.componentProperties;
         myEntryMap = new HashMap<>();
+        myLanguageResourceBundle = controller.getEnvironment().getLanguageResourceBundle();
     }
 
     @Override
@@ -50,7 +52,7 @@ public class ActionConfiguringView extends AbstractSettingsView {
             Level currentLevel = this.getController().getEnvironment().getCurrentLevel();
             ActionTrigger trigger = currentLevel.getTriggerWithSpriteAndAction(mySprite, name);
             if (trigger == null) {
-                myEntryMap.put(name.toString(), "None");
+                myEntryMap.put(name.toString(), myLanguageResourceBundle.getString("none"));
             } else {
                 myEntryMap.put(name.toString(), ((KeyEvent) trigger.getEvent()).getKeyCode().toString());
             }
@@ -65,9 +67,9 @@ public class ActionConfiguringView extends AbstractSettingsView {
     protected void initUI() {
         super.initUI();
         myTableView = new TableView<>();
-        TableColumn<Map.Entry<String, String>, String> column1 = new TableColumn<>("Action Type");
+        TableColumn<Map.Entry<String, String>, String> column1 = new TableColumn<>(myLanguageResourceBundle.getString("actionType"));
         column1.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
-        TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>("Key Input");
+        TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>(myLanguageResourceBundle.getString("keyInput"));
         column2.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue()));
 
         myTableView.getColumns().addAll(column1, column2);
@@ -95,7 +97,7 @@ public class ActionConfiguringView extends AbstractSettingsView {
                 KeyCode code = getKeyDialog(currentTrigger);
                 if (code == null) {
                     currentLevel.getAllTriggers().remove(currentTrigger);
-                    myEntryMap.put(action.toString(), "None");
+                    myEntryMap.put(action.toString(), myLanguageResourceBundle.getString("none"));
                 } else {
                     currentTrigger.setEvent(new KeyEvent(code));
                     myEntryMap.put(action.toString(), code.toString());
@@ -108,14 +110,19 @@ public class ActionConfiguringView extends AbstractSettingsView {
 
     private KeyCode getKeyDialog(ActionTrigger trigger) {
         List<String> choices = new ArrayList<>();
-        choices.addAll(new ArrayList<>(Arrays.asList("NONE", "UP", "DOWN", "LEFT", "RIGHT")));
+        choices.addAll(new ArrayList<>(Arrays.asList(
+        		myLanguageResourceBundle.getString("noneCap"), 
+        		myLanguageResourceBundle.getString("upCap"), 
+        		myLanguageResourceBundle.getString("downCap"), 
+        		myLanguageResourceBundle.getString("leftCap"), 
+        		myLanguageResourceBundle.getString("rightCap"))));
         for (int i = 65; i <= 90; i++) {
             choices.add("" + (char) i);
         }
         ChoiceDialog<String> dialog = new ChoiceDialog<>(KeyCode.A.toString(), choices);
-        dialog.setTitle("Choice Key Input to Control this Action");
-        dialog.setHeaderText("When you press this key during the game, the character will " + trigger.getActionName());
-        dialog.setContentText("Choose your key input:");
+        dialog.setTitle(myLanguageResourceBundle.getString("choiceKey"));
+        dialog.setHeaderText(myLanguageResourceBundle.getString("whenUserPressesKey") + trigger.getActionName());
+        dialog.setContentText(myLanguageResourceBundle.getString("chooseKey"));
 
         Optional<String> result = dialog.showAndWait();
 

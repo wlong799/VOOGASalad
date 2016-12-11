@@ -25,6 +25,7 @@ public class InspectorLevelView extends AbstractInspectorTabView {
     private TitledPaneView goalPane;
     
     private ResourceBundle myLevelProperties;
+    private ResourceBundle myLanguageResourceBundle;
 
     public InspectorLevelView(AuthoringController controller) {
         super(controller);
@@ -54,13 +55,14 @@ public class InspectorLevelView extends AbstractInspectorTabView {
     protected void initUI() {
         super.initUI();
         myLevelProperties = ResourceBundles.testGameProperties;
+        myLanguageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
         fillInBox();
     }
 
     private void fillInBox() {
         myGravityBox = new SliderBoxView(
                 getController(),
-                "Gravity",
+                myLanguageResourceBundle.getString("gravity"),
                 Double.parseDouble(myLevelProperties.getString("GRAVITY_SLIDER_MIN")),
                 Double.parseDouble(myLevelProperties.getString("GRAVITY_SLIDER_MAX")),
                 Double.parseDouble(myLevelProperties.getString("GRAVITY_DEFAULT_VALUE")),
@@ -68,7 +70,7 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 (obv, oldVal, newVal) -> setParameter(PhysicsParameterSetOptions.GRAVITY, newVal.doubleValue()));
         myAirFrictionBox = new SliderBoxView(
                 getController(),
-                "Air Friction",
+                myLanguageResourceBundle.getString("airFriction"),
                 Double.parseDouble(myLevelProperties.getString("AIR_FRICTION_SLIDER_MIN")),
                 Double.parseDouble(myLevelProperties.getString("AIR_FRICTION_SLIDER_MAX")),
                 Double.parseDouble(myLevelProperties.getString("AIR_FRICTION_DEFAULT_VALUE")),
@@ -76,7 +78,7 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 (obv, oldVal, newVal) -> setParameter(PhysicsParameterSetOptions.AIRFRICTION, newVal.doubleValue()));
         myGroundFrictionBox = new SliderBoxView(
                 getController(),
-                "Ground Friction",
+                myLanguageResourceBundle.getString("groundFriction"),
                 Double.parseDouble(myLevelProperties.getString("GROUND_FRICTION_SLIDER_MIN")),
                 Double.parseDouble(myLevelProperties.getString("GROUND_FRICTION_SLIDER_MAX")),
                 Double.parseDouble(myLevelProperties.getString("GROUND_FRICTION_DEFAULT_VALUE")),
@@ -84,7 +86,7 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 (obv, oldVal, newVal) -> setParameter(PhysicsParameterSetOptions.GROUNDFRICTION, newVal.doubleValue()));
         myThresholdMaxBox = new SliderBoxView(
                 getController(),
-                "Max Threshold",
+                myLanguageResourceBundle.getString("maxThresh"),
                 Double.parseDouble(myLevelProperties.getString("MAX_THRESHOLD_SLIDER_MIN")),
                 Double.parseDouble(myLevelProperties.getString("MAX_THRESHOLD_SLIDER_MAX")),
                 Double.parseDouble(myLevelProperties.getString("MAX_THRESHOLD_DEFAULT_VALUE")),
@@ -92,13 +94,14 @@ public class InspectorLevelView extends AbstractInspectorTabView {
                 (obv, oldVal, newVal) -> this.setParameter(PhysicsParameterSetOptions.MAXTHRESHOLD, newVal.doubleValue()));
         myThresholdMinBox = new SliderBoxView(
                 getController(),
-                "Min Threshold",
+                myLanguageResourceBundle.getString("minThresh"),
                 Double.parseDouble(myLevelProperties.getString("MIN_THRESHOLD_SLIDER_MIN")),
                 Double.parseDouble(myLevelProperties.getString("MIN_THRESHOLD_SLIDER_MAX")),
                 Double.parseDouble(myLevelProperties.getString("MIN_THRESHOLD_DEFAULT_VALUE")),
                 Double.parseDouble(myLevelProperties.getString("MIN_THRESHOLD_INTERVALS")),
                 (obv, oldVal, newVal) -> this.setParameter(PhysicsParameterSetOptions.MINTHRESHOLD, newVal.doubleValue()));
-        myGridSnapCheckBox = new CheckBoxView(getController(), "Snap to Grid", getController().getCanvasController().getSnapToGrid(),
+       
+        myGridSnapCheckBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("snap"), getController().getCanvasController().getSnapToGrid(),
                 ((observable, oldValue, newValue) -> getController().getCanvasController().setSnapToGrid(newValue)));
          
         goalPane = new TitledPaneView(getController(), myLevel);

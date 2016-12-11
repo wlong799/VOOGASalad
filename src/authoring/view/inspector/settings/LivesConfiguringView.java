@@ -11,12 +11,12 @@ import javafx.scene.control.Spinner;
 import resources.ResourceBundles;
 
 public class LivesConfiguringView extends AbstractSettingsView {
-    private static final String LABEL_TEXT = "CONFIGURE LIVES";
 
     Spinner<Integer> myLifeSpinner;
     private Hero myHero;
 
     private ResourceBundle myInspectorProperties;
+    private ResourceBundle myLanguageResourceBundle;
 
     public LivesConfiguringView(AuthoringController controller, Hero hero) {
         super(controller);
@@ -25,6 +25,7 @@ public class LivesConfiguringView extends AbstractSettingsView {
 
     @Override
     public void initializeSettings() {
+    	myLanguageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
         myLifeSpinner.valueProperty().addListener((obs, oldValue, newValue) ->
                 updateSpriteLives(newValue));
     }
@@ -33,7 +34,7 @@ public class LivesConfiguringView extends AbstractSettingsView {
     protected void initUI() {
         super.initUI();
         myInspectorProperties = ResourceBundles.inspectorProperties;
-        myLabel.setText(LABEL_TEXT);
+        myLabel.setText(myLanguageResourceBundle.getString("configLives"));
         myLifeSpinner = new Spinner<>(
                 Integer.parseInt(myInspectorProperties.getString("LIFE_MIN")),
                 Integer.parseInt(myInspectorProperties.getString("LIFE_MAX")),

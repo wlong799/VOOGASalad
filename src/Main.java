@@ -22,7 +22,7 @@ import resources.ResourceBundles;
 public class Main extends Application {
 	
 	private static final ResourceBundle languageProperties = ResourceBundles.languageProperties;
-	private String languagesFilePathBeginning = "src/resources/languages/";
+	private String languagesFilePathBeginning = "resources/languages/";
 	private ComboBox<String> languagesComboBox;
 	
 	public static void main(String[] args) {

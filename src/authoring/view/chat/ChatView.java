@@ -27,6 +27,7 @@ public class ChatView extends AbstractView {
 	private VBox myChatViewCollection;
 	private ChatController myController;
 	private ResourceBundle myChatWindowProperties;
+	private ResourceBundle myLanguageResourceFile;
 
 	private boolean hasName = false;
 
@@ -34,6 +35,7 @@ public class ChatView extends AbstractView {
 		super(controller);
 		myController = controller.getChatController();
 		myController.init(this);
+		
 	}
 
 	public void appendText(String text) {
@@ -47,6 +49,7 @@ public class ChatView extends AbstractView {
 	@Override
 	protected void initUI() {
 		myChatWindowProperties = ResourceBundles.chatWindowProperties;
+		myLanguageResourceFile = super.getController().getEnvironment().getLanguageResourceBundle();
 		
 		myTextFlow = new TextFlow();
 		myTextFlow.setMaxHeight(this.getHeight());
@@ -79,7 +82,7 @@ public class ChatView extends AbstractView {
 	private void initSendingBox() {
 		mySendingBox = new HBox();
 		myTextField = new TextField();
-		myEnterButton = new Button("Send");
+		myEnterButton = new Button(myLanguageResourceFile.getString("send"));
 		myEnterButton.getStyleClass().add("send-button");
 		myTextField.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER) {
@@ -102,8 +105,8 @@ public class ChatView extends AbstractView {
 			hasName = true;
 			try {
 				myController.initClientWithName(current);
-				this.appendText("Oh hellooooo " + current);
-				this.appendText("Start chatting now!!");
+				this.appendText(myLanguageResourceFile.getString("hello") + current);
+				this.appendText(myLanguageResourceFile.getString("startChatting"));
 			} catch (ServerDownException e) {
 				e.printStackTrace();
 			}
@@ -112,7 +115,7 @@ public class ChatView extends AbstractView {
 	}
 
 	private void getName() {
-		this.appendText("Welcome to chat, please enter your name:");
+		this.appendText(myLanguageResourceFile.getString("welcomeChat"));
 	}
 
 }

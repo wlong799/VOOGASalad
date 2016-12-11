@@ -24,7 +24,7 @@ import game_object.powerup.NewWeaponPowerUp;
 // TODO: 11/21/16 Make a way to edit the template sprite
 // TODO: 11/21/16 Make a way to link all previously created sprites and update them as well 
 public class Component extends Observable {
-    private static final String COPY_ERROR = "Error when copying from template sprite.";
+    private static String COPY_ERROR = "Error when copying from template sprite.";
 
     private ISprite myTemplateSprite;
     private String myTitle;

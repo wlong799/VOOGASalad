@@ -30,9 +30,11 @@ public class TitledPaneView extends AbstractSettingsView {
 	private TitledPane myTimeGoalTitledPane, myPointGoalTitledPane, myBeatBossGoalTitledPane;
 	private Level myLevel;
 	private ResourceBundle myGoalPromptProperties;	
+	private ResourceBundle myLanguageResourceBundle;
 	
 	public TitledPaneView(AuthoringController controller, Level level) {
 		super(controller);
+		
 		myGoalPromptProperties = ResourceBundles.goalPromptProperties;
 		myLevel = level;
 	}
@@ -40,7 +42,7 @@ public class TitledPaneView extends AbstractSettingsView {
 	@Override
     protected void initUI() {
         super.initUI();
-        
+        myLanguageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
         //myContent.getChildren().add(myTitledPane);
     }
 
@@ -62,10 +64,10 @@ public class TitledPaneView extends AbstractSettingsView {
 		grid.setHgap(20);
 		grid.setVgap(20);
 		grid.setPadding(new Insets(20));
-		grid.add(new Label("Please select the time at which user wins level"), 0, 1);
+		grid.add(new Label(myLanguageResourceBundle.getString("timeGoal")), 0, 1);
 		grid.add(dspinner, 0, 2);
 	
-		Button applyTimeGoal = new Button("Apply Time Goal");
+		Button applyTimeGoal = new Button(myLanguageResourceBundle.getString("applyTimeGoal"));
 		applyTimeGoal.getStyleClass().add("goalButton");
 		applyTimeGoal.setOnAction((event) -> {
 			PassTime timeGoal = new PassTime(dspinner.getValue());
@@ -73,19 +75,19 @@ public class TitledPaneView extends AbstractSettingsView {
 		});
 		grid.add(applyTimeGoal, 0, 3);
 		
-		myTimeGoalTitledPane = new TitledPane("Time Goal", grid);
+		myTimeGoalTitledPane = new TitledPane(myLanguageResourceBundle.getString("timeGoal"), grid);
 	}
 	
 	private void initializePointGoalTitledPane() {
 		TableView<Map.Entry<String, String>> pointGoals = new TableView<>();
-		TableColumn<Map.Entry<String, String>, String> column1 = new TableColumn<>("Hero");
+		TableColumn<Map.Entry<String, String>, String> column1 = new TableColumn<>(myLanguageResourceBundle.getString("hero"));
         column1.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getKey()));
-        TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>("Goal");
+        TableColumn<Map.Entry<String, String>, String> column2 = new TableColumn<>(myLanguageResourceBundle.getString("goal"));
         column2.setCellValueFactory(p -> new SimpleStringProperty(p.getValue().getValue()));
         
         pointGoals.getColumns().addAll(column1, column2);
         myContent.getChildren().add(pointGoals);
-        myPointGoalTitledPane = new TitledPane("Point Goal", pointGoals);
+        myPointGoalTitledPane = new TitledPane(myLanguageResourceBundle.getString("pointGoal"), pointGoals);
 	
 //        pointGoals.setOnMousePressed(event -> {
 //            if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {

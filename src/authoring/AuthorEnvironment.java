@@ -3,6 +3,7 @@ package authoring;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+import java.util.ResourceBundle;
 
 import game_object.core.Game;
 import game_object.level.Level;
@@ -15,10 +16,14 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
     private List<Game> myAvailableGames;
     private Game myCurrentGame;
     private Level myCurrentLevel;
-    private String resourceLanguageFilePath;
+    private ResourceBundle  myLanguageResourceBundle; 
 
     public AuthorEnvironment() {
         myAvailableGames = new ArrayList<>();
+    }
+    
+    public void initLanguageResource(String filePath) {
+    	myLanguageResourceBundle = ResourceBundle.getBundle(filePath);
     }
 
     @Override
@@ -30,7 +35,7 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
     @Override
     public void setCurrentGame(int index) {
         if (index < 0 || index >= myAvailableGames.size()) {
-            throw new IllegalArgumentException("Game index out of range: " + index);
+            throw new IllegalArgumentException(myLanguageResourceBundle.getString("gameIndex") + index);
         }
         myCurrentGame = myAvailableGames.get(index);
         setCurrentLevel(0);
@@ -39,14 +44,14 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
     @Override
     public void setCurrentGame(Game game) {
         if (!myAvailableGames.contains(game)) {
-            throw new IllegalArgumentException("Selected game is not available");
+            throw new IllegalArgumentException(myLanguageResourceBundle.getString("notAvailable"));
         }
         setCurrentGame(myAvailableGames.indexOf(game));
     }
 
     public void removeGame(Game game) {
         if (!myAvailableGames.contains(game)) {
-            throw new IllegalArgumentException("Selected game is not available");
+            throw new IllegalArgumentException(myLanguageResourceBundle.getString("notAvailable"));
         }
         myAvailableGames.remove(game);
         if (myAvailableGames.size() == 0) {
@@ -55,6 +60,10 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
         } else {
             setCurrentGame(myAvailableGames.size() - 1);
         }
+    }
+    
+    public ResourceBundle getLanguageResourceBundle() {
+    	return myLanguageResourceBundle;
     }
 
     public List<Game> getAvailableGames() {
@@ -65,19 +74,11 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
     public Game getCurrentGame() {
         return myCurrentGame;
     }
-    
-    public String getResourceFilePath() {
-    	return resourceLanguageFilePath;
-    }
-    
-    public void setResourceFilePath(String filePath) {
-    	resourceLanguageFilePath = filePath;
-    }
 
     @Override
     public boolean addLevel(Level level) {
         if (myCurrentGame == null) {
-            throw new IllegalArgumentException("No game currently selected");
+            throw new IllegalArgumentException(myLanguageResourceBundle.getString("noGame"));
         }
         if (myCurrentGame.addLevel(level)) {
         	setCurrentLevel(myCurrentGame.getAllLevelsReadOnly().size() - 1);
@@ -88,7 +89,7 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
 
     public void setCurrentLevel(int index) {
         if (myCurrentGame == null) {
-            throw new IllegalArgumentException("No game currently selected");
+            throw new IllegalArgumentException(myLanguageResourceBundle.getString("noGame"));
         }
         if (index < 0 || index >= myCurrentGame.getAllLevelsReadOnly().size()) {
             throw new IllegalArgumentException("Level index out of range: " + index);
@@ -99,10 +100,10 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
 
     public void setCurrentLevel(Level level) {
         if (myCurrentGame == null) {
-            throw new IllegalArgumentException("No game currently selected");
+            throw new IllegalArgumentException(myLanguageResourceBundle.getString("noGame"));
         }
         if (!myCurrentGame.getAllLevelsReadOnly().contains(level)) {
-            throw new IllegalArgumentException("Selected level is not available");
+            throw new IllegalArgumentException(myLanguageResourceBundle.getString("outOfRange"));
         }
         setCurrentLevel(myCurrentGame.getAllLevelsReadOnly().indexOf(level));
     }
@@ -113,7 +114,7 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
 
     public void removeLevel(Level level) {
         if (!myCurrentGame.getAllLevelsReadOnly().contains(level)) {
-            throw new IllegalArgumentException("Selected level is not available");
+            throw new IllegalArgumentException(myLanguageResourceBundle.getString("levelNotAvailable"));
         }
         myCurrentGame.removeLevel(level);
         if (myCurrentGame.getAllLevelsReadOnly().size() == 0) {

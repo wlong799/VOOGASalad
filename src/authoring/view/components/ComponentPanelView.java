@@ -25,6 +25,7 @@ public class ComponentPanelView extends AbstractView {
     private ImageView myButtonImageView;
     private ResourceBundle myComponentProperties;
     private ResourceBundle myCanvasProperties;
+    private ResourceBundle myLanguageResourceBundle;
 
     private ComponentPanelView(AuthoringController controller) {
         super(controller);
@@ -34,6 +35,7 @@ public class ComponentPanelView extends AbstractView {
     protected void initUI() {
     	myComponentProperties = ResourceBundles.componentProperties;
     	myCanvasProperties = ResourceBundles.canvasProperties;
+    	myLanguageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
         myContent = new HBox();
         myTabPane = new TabPane();
         myButtonImageView = new ImageView(GameObjectConstants.UPLOAD);
@@ -91,8 +93,8 @@ public class ComponentPanelView extends AbstractView {
         myComponentCreationButton.setOnAction(event -> {
             File imageFile = showFileSelectionDialog();
             if (imageFile == null) return;
-            String componentTitle = showStringInputDialog("Component Name");
-            String componentDescription = showStringInputDialog("Component Description");
+            String componentTitle = showStringInputDialog(myLanguageResourceBundle.getString("componentName"));
+            String componentDescription = showStringInputDialog(myLanguageResourceBundle.getString("componentDescription"));
             if (!(imageFile == null || componentTitle == null || componentDescription == null)) {
                 int selectedTabIndex = myTabPane.getSelectionModel().getSelectedIndex();
                 ComponentListView componentListView = (ComponentListView) getSubViews().get(selectedTabIndex);
@@ -104,7 +106,7 @@ public class ComponentPanelView extends AbstractView {
 
     private File showFileSelectionDialog() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Choose Sprite Image");
+        fileChooser.setTitle(myLanguageResourceBundle.getString("chooseSprite"));
         File file = fileChooser.showOpenDialog(new Stage());
         return file;
     }

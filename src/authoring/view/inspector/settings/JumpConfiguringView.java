@@ -18,6 +18,7 @@ public class JumpConfiguringView extends AbstractView {
     private SliderBoxView jumpUnitBox;
     private VBox myBox;
     private ResourceBundle componentProperties;
+    private ResourceBundle myLanguageResourceBundle;
 
     public JumpConfiguringView(AuthoringController controller) {
         super(controller);
@@ -36,6 +37,7 @@ public class JumpConfiguringView extends AbstractView {
     @Override
     protected void initUI() {
         componentProperties = ResourceBundles.componentProperties;
+        myLanguageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
         myBox = new VBox();
         myBox.setPadding(new Insets(Double.parseDouble(componentProperties.getString("COMPONENT_PADDING"))));
         updateLayout();
@@ -48,7 +50,7 @@ public class JumpConfiguringView extends AbstractView {
     private void initSliders() {
         numJumpBox = new SliderBoxView(
                 getController(),
-                "Number of Jumps",
+                myLanguageResourceBundle.getString("noJumps"),
                 Double.parseDouble(componentProperties.getString("MIN_NUMBER_JUMPS")),
                 Double.parseDouble(componentProperties.getString("MAX_NUMBER_JUMPS")),
                 myHero.getMaxNumberOfJumps(),
@@ -58,7 +60,7 @@ public class JumpConfiguringView extends AbstractView {
                 });
         jumpUnitBox = new SliderBoxView(
                 getController(),
-                "Jump Unit",
+                myLanguageResourceBundle.getString("jumpUnit"),
                 Double.parseDouble(componentProperties.getString("MIN_JUMP_UNIT")),
                 Double.parseDouble(componentProperties.getString("MAX_JUMP_UNIT")),
                 myHero.getJumpingUnit(),
