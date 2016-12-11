@@ -1,5 +1,6 @@
 package game_engine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,16 +13,21 @@ import game_engine.inputcontroller.InputController;
 import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
 import game_engine.physics.PhysicsParameterSetOptions;
+import game_engine.random.RandomGenerationController;
+import game_engine.random.SpriteInfo;
 import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
 import game_object.acting.ActionName;
 import game_object.acting.Event;
 import game_object.background.Background;
+import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.character.IMover;
+import game_object.constants.GameObjectConstants;
 import game_object.core.AbstractSprite;
+import game_object.core.Dimension;
 import game_object.core.Game;
 import game_object.core.ISprite;
 import game_object.core.Position;
@@ -42,6 +48,7 @@ public class GameEngine_Game implements IGameEngine {
 	private InputController myInputController;
 	private IEnemyController myEnemyController;
 	private IEnemyControllerFactory myEnemyControllerFactory;
+	private RandomGenerationController myGenerator;
 	private double myElapsedTime;
 	private double myTotalTime;
 	private int myFPS;
@@ -60,8 +67,18 @@ public class GameEngine_Game implements IGameEngine {
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		myFPS = game.getFPS();
 		myTotalTime = 0;
+		initRandom();
 	}
 
+	private void initRandom(){
+	    List<SpriteInfo> sprites = new ArrayList<SpriteInfo>();
+	    List<String> imagePaths = new ArrayList<String>();
+	    imagePaths.add(GameObjectConstants.BLUE_METAL_FILE);
+	    Dimension dim = new Dimension(100, 100);
+	    SpriteInfo si = new SpriteInfo(Block.class,imagePaths,dim);
+	    sprites.add(si);
+	    myGenerator = new RandomGenerationController(myCurrentLevel,sprites,5);
+	}
 	public void suppressLogDebug() {
 		logSuppressed = true;
 		myCollisionEngine.suppressLogDebug();
@@ -81,6 +98,7 @@ public class GameEngine_Game implements IGameEngine {
 	@Override
 	public void update(double elapsedTime) {
 		updateTime();
+		myGenerator.generateSprites(elapsedTime);
 		setElapsedTime(elapsedTime);
 		executeInput(); //input for heroes
 		for (ISprite s : myCurrentLevel.getAllSprites()) {
