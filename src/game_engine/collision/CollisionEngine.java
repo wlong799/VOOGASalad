@@ -1,13 +1,8 @@
 package game_engine.collision;
 
+import java.util.Comparator;
 import java.util.List;
-import game_object.block.StaticBlock;
-import game_object.character.Enemy;
-import game_object.character.Hero;
-import game_object.character.ICharacter;
 import game_object.core.ISprite;
-import game_object.core.Position;
-import game_object.core.Velocity;
 
 
 /**
@@ -20,99 +15,30 @@ import game_object.core.Velocity;
 public class CollisionEngine extends AbstractCollisionEngine {
 
     private static final double COLLISION_THRESHOLD = 10.0;
-
     private boolean logSuppressed = false;
-    
 
     public void suppressLogDebug () {
         logSuppressed = true;
     }
     
     @Override
-    public void checkCollisions (List<Hero> heroes,
-                                 List<Enemy> enemies,
-                                 List<StaticBlock> blocks) {
-        checkCharacterEnemyCollisions(heroes, enemies);
-        checkCharacterBlockCollisions(heroes, blocks);
-        checkCharacterBlockCollisions(enemies, blocks);
-    }
-
-    /**
-     * @param heroes
-     * @param enemies
-     */
-    private void checkCharacterEnemyCollisions (List<Hero> heroes, List<Enemy> enemies) {
-        for (Hero h : heroes) {
-            for (Enemy e : enemies) {
-                if ((h.getCollisionBitMask() & e.getCategoryBitMask()) != 0) {
-                    Boundary heroBoundary = new Boundary(h.getPosition(), h.getDimension());
-                    Boundary enemyBoundary = new Boundary(e.getPosition(), e.getDimension());
+    public void checkCollisions (List<ISprite> sprites) {
+        Comparator<ISprite> sortByBitmask = Comparator.comparing(sprite -> sprite.getClass().toString()); 
+        sprites.stream().sorted(sortByBitmask);
+        for(int i = 0; i < sprites.size()-1; i++){
+            for(int j = i+1; j < sprites.size();j++){
+                ISprite spriteA = sprites.get(i);      
+                ISprite spriteB = sprites.get(j);                
+                if ((spriteA.getCollisionBitMask() & spriteB.getCategoryBitMask()) != 0 && (spriteB.getCollisionBitMask() & spriteA.getCategoryBitMask())!=0) {
+                    Boundary heroBoundary = new Boundary(spriteA.getPosition(), spriteA.getDimension());
+                    Boundary enemyBoundary = new Boundary(spriteB.getPosition(), spriteB.getDimension());
                     if (heroBoundary.overlaps(enemyBoundary)) {
-                        CollisionDirection collision = getCharacterCollision(h, e);
-                        h.onCollideWith(e);
-                        e.onCollideWith(h);
-                        updateCharacterOnCollision(h, e, collision);
+                        CollisionDirection collision = getCharacterCollision(spriteA, spriteB);
+                        spriteA.onCollideWith(spriteB,collision);
+                        spriteB.onCollideWith(spriteA,opposite(collision));
                     }
                 }
             }
-        }
-    }
-    
-    private void checkCharacterBlockCollisions (List<? extends ICharacter> characters,
-                                                List<StaticBlock> blocks) {
-        for (ICharacter c : characters) {
-            for (StaticBlock block : blocks) {
-                // System.out.println("Character at " + c.getPosition());
-                double r = c.getPosition().getX() + c.getDimension().getWidth();
-                // System.out.println("Character right at " +r);
-                // System.out.println("Block at " + block.getPosition());
-                if ((c.getCategoryBitMask() & block.getCollisionBitMask()) != 0 && ((block.getCategoryBitMask() & c.getCollisionBitMask()) != 0)) {
-                    CollisionDirection collision = getCharacterCollision(c, block);
-
-                    updateCharacterOnCollision(c, block, collision);
-                }
-            }
-        }
-    }
-
-    /**
-     * @param c
-     * @param other
-     * @param collision
-     */
-    private void updateCharacterOnCollision (ICharacter c,
-                                             ISprite other,
-                                             CollisionDirection collision) {
-       
-        if (collision != CollisionDirection.NONE) {
-            //logSuppressed = false;
-            if (!logSuppressed) {
-                System.out.println(collision);
-                System.out.println("Collision between " + c.toString() + " and " + other);
-            }
-            if (collision == CollisionDirection.TOP) {
-                c.getPosition().setY(other.getPosition().getY() - c.getDimension().getHeight());
-                c.getVelocity().setYVelocity(0);
-                c.resetCurrentJumps();
-            }
-            else if (collision == CollisionDirection.BOTTOM) {
-                c.getPosition().setY(other.getPosition()
-                        .getY() + other.getDimension().getHeight());
-                c.getVelocity().setYVelocity(0);
-            }
-            else if (collision == CollisionDirection.RIGHT) {
-                c.getPosition().setX(other.getPosition().getX() +
-                                     other.getDimension().getWidth());
-                c.getVelocity().setXVelocity(0);
-            }
-            else if (collision == CollisionDirection.LEFT) {
-                c.getPosition().setX(other.getPosition().getX() - c.getDimension().getWidth());
-                c.getVelocity().setXVelocity(0);
-            }
-            else {
-                // TODO: Implement corner collision handling
-            }
-
         }
     }
 
@@ -137,25 +63,26 @@ public class CollisionEngine extends AbstractCollisionEngine {
             double blockRight = blockBoundary.right();
 
             boolean couldLandOnBlock = (charLeft > blockLeft && charLeft < blockRight) ||
-                                       (charRight > blockLeft && charRight < blockRight);
+                                       (charRight > blockLeft && charRight < blockRight) || 
+                                       (charLeft < blockLeft && charRight > blockRight);
             if (!logSuppressed) {
                 System.out.println(charBottom);
                 System.out.println(blockTop);
                 System.out.println(couldLandOnBlock);
             }
             if ((charTop + COLLISION_THRESHOLD) >= blockBottom && couldLandOnBlock) {
-                return CollisionDirection.BOTTOM;
+                return CollisionDirection.TOP;
             }
             else if ((charBottom - COLLISION_THRESHOLD) <= blockTop &&
                      couldLandOnBlock) {
-                return CollisionDirection.TOP;
+                return CollisionDirection.BOTTOM;
             }
             else if (charLeft >= blockRight) {
-                return CollisionDirection.RIGHT;
+                return CollisionDirection.LEFT;
             }
 
             else if (charRight <= blockLeft) {
-                return CollisionDirection.LEFT;
+                return CollisionDirection.RIGHT;
             }
             else {
                 return CollisionDirection.CORNER;
@@ -165,7 +92,26 @@ public class CollisionEngine extends AbstractCollisionEngine {
 
     }
 
-    private enum CollisionDirection {
+    public CollisionDirection opposite(CollisionDirection cd){
+        if(cd==CollisionDirection.TOP){
+            return CollisionDirection.BOTTOM;
+        }
+        if(cd==CollisionDirection.BOTTOM){
+            return CollisionDirection.TOP;
+        }
+        if(cd==CollisionDirection.LEFT){
+            return CollisionDirection.RIGHT;
+        }
+        if(cd==CollisionDirection.RIGHT){
+            return CollisionDirection.LEFT;
+        }
+        if(cd==CollisionDirection.CORNER){
+            return CollisionDirection.CORNER;
+        }
+        return CollisionDirection.NONE;
+    }
+    
+    public enum CollisionDirection {
                                      TOP,
                                      BOTTOM,
                                      LEFT,

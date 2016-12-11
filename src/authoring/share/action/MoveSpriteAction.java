@@ -27,7 +27,7 @@ public class MoveSpriteAction extends AbstractAction {
 		if (targetView == null) {
 			throw new ShareEditException("Sprite View not found");
 		}
-		controller.getCanvasViewController().setAbsolutePosition(targetView, myNewX, myNewY, false);
+		controller.getCanvasController().setAbsolutePosition(targetView, myNewX, myNewY, false);
 	}
 
 }

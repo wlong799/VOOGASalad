@@ -10,19 +10,19 @@ import serializing.Marshaller;
 
 public class SaveElement extends AbstractGameMenuElement {
 	
-	private FileChooser fileChooser;
+	private FileChooser myFileChooser;
 	private static final String MENU_NAME = "Save Game";
 
     private SaveElement(AuthoringController controller) {
         super(MENU_NAME, controller);
-        fileChooser = new FileChooser();
+        myFileChooser = new FileChooser();
     }
 
 	@Override
 	protected void setFunctionality() {
 		myMenuItem.setOnAction(e -> {
-			fileChooser.setTitle("Save Game");
-			File saveFile = fileChooser.showSaveDialog(null);
+			myFileChooser.setTitle("Save Game");
+			File saveFile = myFileChooser.showSaveDialog(null);
 			if (saveFile != null) {
 				String path = saveFile.toURI().toString();
 				try {

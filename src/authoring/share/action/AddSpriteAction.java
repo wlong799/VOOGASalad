@@ -21,7 +21,7 @@ public class AddSpriteAction extends AbstractAction {
 
 	@Override
 	public void apply(AuthoringController controller) throws ShareEditException {
-		controller.getCanvasViewController().addSpriteView(
+		controller.getCanvasController().addSpriteView(
 				mySprite, 
 				myX, 
 				myY, 

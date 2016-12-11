@@ -1,14 +1,15 @@
 package authoring;
 
 import java.io.File;
+import java.util.Observable;
 
-import authoring.controller.CanvasViewController;
+import authoring.controller.CanvasController;
 import authoring.controller.ComponentController;
 import authoring.controller.run.TestGameController;
 import authoring.share.NetworkController;
 import authoring.share.exception.ShareEditException;
-import authoring.updating.AbstractPublisher;
 import authoring.view.canvas.SpriteView;
+import authoring.view.components.Component;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_object.level.Level;
 import game_player.image.ImageRenderer;
@@ -16,13 +17,14 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
-public class AuthoringController extends AbstractPublisher {
+public class AuthoringController extends Observable {
 	
 	private AuthorEnvironment myEnvironment;
+	private Component mySelectedComponent;
 	private SpriteView selectedSpriteView;
 	private Scene myScene;
 	
-	private CanvasViewController canvasViewController;
+	private CanvasController canvasController;
 	private ComponentController componentController;
 	private TestGameController testGameController;
 	private ImageRenderer renderer;
@@ -30,15 +32,15 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public AuthoringController(AuthorEnvironment environment) {
 		myEnvironment = environment;
-		canvasViewController = new CanvasViewController();
+		canvasController = new CanvasController();
 		componentController = new ComponentController();
 		testGameController = new TestGameController(this);
 		renderer = new ImageRenderer();
 		myNetworkController = new NetworkController(this);
 	}
 	
-	public CanvasViewController getCanvasViewController() {
-		return canvasViewController;
+	public CanvasController getCanvasController() {
+		return canvasController;
 	}
 	
 	public ComponentController getComponentController() {
@@ -61,6 +63,19 @@ public class AuthoringController extends AbstractPublisher {
 		return myEnvironment;
 	}
 	
+	public void selectComponent(Component component) {
+        if (component == null) {
+            return;
+        }
+        deselectComponent();
+        mySelectedComponent = component;
+        updateObservers();
+    }
+	
+    public Component getSelectedComponent() {
+        return mySelectedComponent;
+    }
+	
 	/**
 	 * @param spriteView SpriteView to be selected
 	 * first tries to lock the SpriteView from server
@@ -73,7 +88,7 @@ public class AuthoringController extends AbstractPublisher {
 			myNetworkController.getShareEditor().select(spView);
 			spView.indicateSelection();
 			selectedSpriteView = spView;
-			this.notifySubscribers();
+			this.updateObservers();
 		} catch (ShareEditException e) {
 			System.out.println("already selected by " + e.getMessage());
 		}
@@ -89,7 +104,7 @@ public class AuthoringController extends AbstractPublisher {
 			selectedSpriteView.indicateDeselection();
 			selectedSpriteView = null;
 			if (notify) {
-				this.notifySubscribers();
+				this.updateObservers();
 			}
 		}
 	}
@@ -102,7 +117,7 @@ public class AuthoringController extends AbstractPublisher {
 		myScene = scene;
 		myScene.setOnKeyPressed(event -> {
 			if (event.getCode() == KeyCode.DELETE || event.getCode() == KeyCode.BACK_SPACE) {
-				canvasViewController.delete(selectedSpriteView, true);
+				canvasController.delete(selectedSpriteView, true);
 			}
 			else if (event.getCode() == KeyCode.ESCAPE) {
 				this.deselectSpriteView(true);
@@ -119,11 +134,21 @@ public class AuthoringController extends AbstractPublisher {
 	
 	public void setParameter(Level level, PhysicsParameterSetOptions option, double value) {
 		level.getPhysicsParameters().set(option, value);
-		this.notifySubscribers();
+		this.updateObservers();
 	}
 	
 	public SpriteView getSpriteViewWithID(long id) {
-		return this.getCanvasViewController().getSpriteViewWithID(id);
+		return this.getCanvasController().getSpriteViewWithID(id);
 	}
+	
+	private void deselectComponent() {
+		mySelectedComponent = null;
+        updateObservers();
+	}
+
+    private void updateObservers() {
+        setChanged();
+        notifyObservers();
+    }
 
 }

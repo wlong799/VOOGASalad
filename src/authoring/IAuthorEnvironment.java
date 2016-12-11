@@ -38,8 +38,9 @@ public interface IAuthorEnvironment {
 	/**
 	 * add a certain level to the current game
 	 * @param level
+	 * @return if the level is successfully added
 	 */
-	void addLevel(Level level);
+	boolean addLevel(Level level);
 	
 	/**
 	 * set a level to be the one able to

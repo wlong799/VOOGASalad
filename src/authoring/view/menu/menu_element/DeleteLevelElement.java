@@ -2,6 +2,7 @@ package authoring.view.menu.menu_element;
 
 import authoring.AuthoringController;
 import authoring.view.menu.AbstractGameMenuElement;
+import game_object.level.Level;
 
 /**
  * Delete current level.
@@ -19,8 +20,8 @@ public class DeleteLevelElement extends AbstractGameMenuElement {
     @Override
     protected void setFunctionality() {
         myMenuItem.setOnAction(event -> {
-            myController.getEnvironment().deleteCurrentLevel();
-            myController.getCanvasViewController().refresh();
+            Level level = myController.getEnvironment().getCurrentLevel();
+            myController.getEnvironment().removeLevel(level);
         });
     }
 }

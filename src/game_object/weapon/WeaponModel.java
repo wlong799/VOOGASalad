@@ -41,14 +41,12 @@ public class WeaponModel {
 		myCollisionBitMask = collisionBitMask;
 	}
 	
-	public WeaponSprite newWeaponInstance(ICharacter character, Dimension dim) {
-		double dx = character.getWeaponDisplacementX();
-		double dy = character.getWeaponDisplacementY();
+	public Weapon newWeaponInstance(ICharacter character, Dimension dim) {
 		double dz = 1e-5; // just one layer in front
-		double x = character.getPosition().getX();
-		double y = character.getPosition().getY();
+		double x = character.getWeaponX();
+		double y = character.getWeaponY();
 		double z = character.getPosition().getZ();
-		return new WeaponSprite(new Position(x+dx, y+dy, z+dz), dim, myImagePaths, this);
+		return new Weapon(new Position(x, y, z+dz), dim, myImagePaths, this);
 	}
 
 }

@@ -21,8 +21,7 @@ public class NoTime extends TimeGoal{
 
 	@Override
 	public GoalType getGoalType() {
-		// TODO Auto-generated method stub
-		return null;
+		return GoalType.NO_TIME;
 	}
 	
 }

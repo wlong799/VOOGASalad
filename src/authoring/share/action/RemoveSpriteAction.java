@@ -15,7 +15,7 @@ public class RemoveSpriteAction extends AbstractAction {
 	@Override
 	public void apply(AuthoringController controller) throws ShareEditException {
 		SpriteView toRemove = controller.getSpriteViewWithID(this.getID());
-		controller.getCanvasViewController().delete(toRemove, false);
+		controller.getCanvasController().delete(toRemove, false);
 	}
 	
 }

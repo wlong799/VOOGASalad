@@ -9,24 +9,23 @@ import game_object.weapon.Projectile;
  * 
  * @author Charlie Wang
  */
-public class PhysicsEngineWithFriction extends PhysicsEngine {
+public class PhysicsEngineWithFriction extends PhysicsEngineWithoutFriction {
 
 	public PhysicsEngineWithFriction(Level level) {
 		super(level);
 	}
 
 	public double calculateNewHorizontalVelocity(IPhysicsBody body, double elapsedTime) {
-		double vx = body.getVelocity().getXVelocity();
+	        double vx = body.getVelocity().getXVelocity();
 		double newvx = vx;
-		if (!existLeftRight && !(body instanceof Projectile)) {
+		if (!existLeftRight) {
 			double friction = (body.getVelocity().getYVelocity() == 0) ? myLevel.getPhysicsParameters().getGroundFriction()
 					: myLevel.getPhysicsParameters().getAirFriction();
-			newvx = vx * (1 - friction);
+			newvx = body.getPhysics().calculateNewXVelocity(friction, vx, elapsedTime);
 		}
 		if (Math.abs(newvx) < myLevel.getPhysicsParameters().getMinThreshold()) {
 			newvx = 0;
 		}
-		//System.out.println(body.getVelocity().getXVelocity());
 		return newvx;
 	}
 	

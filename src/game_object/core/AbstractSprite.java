@@ -1,8 +1,16 @@
 package game_object.core;
 
 import java.util.List;
-
+import game_engine.collision.CollisionEngine.CollisionDirection;
+import game_engine.physics.ConstantStrategy;
+import game_engine.physics.IPhysicsStrategy;
+import game_object.block.Block;
+import game_object.character.Enemy;
+import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
+import game_object.level.SpriteScavenger;
+import game_object.simulation.ICollisionBody;
+import game_object.powerup.IPowerUp;
 
 /**
  * Base class for all sprites providing common functionalities.
@@ -11,6 +19,7 @@ import game_object.constants.DefaultConstants;
 public abstract class AbstractSprite implements ISprite {
 
 	private static final long serialVersionUID = -5935430491986661297L;
+	private static SpriteScavenger staticSpriteScavenger;
 	protected Position myPosition;
 	protected Position myPreviousPosition;
 	protected List<String> myImagePaths;
@@ -21,10 +30,13 @@ public abstract class AbstractSprite implements ISprite {
 	protected int myCollisionBitMask;
 	protected boolean myAffectedByPhysics;
 	protected Velocity myVelocity;
+	protected IPhysicsStrategy myPhysicsStrategy;
 	protected boolean myFacingLeft;
+	protected ChildSprites myChildSprites;
 	
 	static {
 		staticPivotPosition = new Position(0, 0);
+		staticSpriteScavenger = new SpriteScavenger();
 	}
 	
 	protected AbstractSprite(Position position, Dimension dimension, List<String> imagePaths) {
@@ -36,10 +48,17 @@ public abstract class AbstractSprite implements ISprite {
 		myCollisionBitMask = DefaultConstants.VOID_CATEGORY_BIT_MASK;
 		myAffectedByPhysics = false;
 		myVelocity = new Velocity(0, 0);
+		myPhysicsStrategy = new ConstantStrategy();
+		myValid = true;
 		myFacingLeft = false; //default to face right.
+		myChildSprites = new ChildSprites();
 	}
 	
 	/* General Setting */
+	public static SpriteScavenger getSpriteScavenger() {
+		return staticSpriteScavenger;
+	}
+	
 	@Override
 	public void setValid(boolean valid) {
 		myValid = valid;
@@ -56,6 +75,10 @@ public abstract class AbstractSprite implements ISprite {
 			myFacingLeft = getVelocity().getXVelocity() < 0;
 		}
 		return myFacingLeft;
+	}
+	
+	public ChildSprites getChildSprites() {
+		return myChildSprites;
 	}
 	/* ---General Setting END--- */
 	
@@ -111,6 +134,33 @@ public abstract class AbstractSprite implements ISprite {
 
 	
 	/* ICollisionBody Implementations */
+	
+	/* Default implementation is to do nothing when you collide with these objects */
+	@Override
+	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
+		
+	}
+	
+	@Override
+	public void onCollideWith(Hero h, CollisionDirection collisionDirection){
+	    
+	}
+	
+	@Override
+	public void onCollideWith(Enemy e, CollisionDirection collisionDirection){
+	    
+	}
+	
+	@Override
+	public void onCollideWith(Block b, CollisionDirection collisionDirection){
+	    
+	}
+	
+	@Override
+    public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection){
+       
+    }
+	
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {
 		myCategoryBitMask = categoryBitMask;
@@ -134,6 +184,17 @@ public abstract class AbstractSprite implements ISprite {
 	
 	
 	/* IPhysicsBody Setter Implementations */
+	
+	@Override
+	public IPhysicsStrategy getPhysics(){
+	    return myPhysicsStrategy;
+	}
+	
+	@Override
+	public void setPhysics(IPhysicsStrategy physics){
+	    myPhysicsStrategy = physics;
+	}
+	
 	@Override
 	public boolean getAffectedByPhysics() {
 		return myAffectedByPhysics;
@@ -210,6 +271,16 @@ public abstract class AbstractSprite implements ISprite {
 	public double getHeightForVisualization() {
 		return myDimension.getHeight();
 	}
+	
+	@Override
+	public double getScrollOffset() {
+		return myScrollOffset;
+	}
+	
+	protected void setScrollOffset(double offset) {
+		myScrollOffset = offset;
+	}
+	
 	/* ---ISpriteVisualization Implementations END--- */
 }
 

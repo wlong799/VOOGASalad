@@ -2,12 +2,11 @@ package authoring.view.components;
 
 import java.io.File;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
-import authoring.constants.UIConstants;
 import authoring.view.AbstractView;
 import game_object.constants.GameObjectConstants;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -17,16 +16,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 public class ComponentPanelView extends AbstractView {
-    private static final double LIST_WIDTH_RATIO = 0.9;
-    private static final double BUTTON_HEIGHT_RATIO = 0.5;
-    private static final double BUTTON_WIDTH_RATIO = 0.5;
-
     private HBox myContent;
     private TabPane myTabPane;
     private Button myComponentCreationButton;
     private ImageView myButtonImageView;
+    private ResourceBundle myComponentProperties;
+    private ResourceBundle myCanvasProperties;
 
     private ComponentPanelView(AuthoringController controller) {
         super(controller);
@@ -34,15 +32,15 @@ public class ComponentPanelView extends AbstractView {
 
     @Override
     protected void initUI() {
+    	myComponentProperties = ResourceBundles.componentProperties;
+    	myCanvasProperties = ResourceBundles.canvasProperties;
         myContent = new HBox();
-        myContent.setAlignment(Pos.CENTER);
         myTabPane = new TabPane();
-
         myButtonImageView = new ImageView(GameObjectConstants.UPLOAD);
         myButtonImageView.setPreserveRatio(true);
         myComponentCreationButton = new Button();
-        myComponentCreationButton.setPrefHeight(UIConstants.BOTTOM_HEIGHT + 50);
-        myComponentCreationButton.setPrefWidth(200);
+        myComponentCreationButton.setPrefHeight(Double.parseDouble(myCanvasProperties.getString("BOTTOM_HEIGHT")) + Double.parseDouble(myCanvasProperties.getString("CREATION_BUTTON_HEIGHT_ABOVE_BOTTOM")));
+        myComponentCreationButton.setPrefWidth(Double.parseDouble(myCanvasProperties.getString("CREATION_BUTTON_WIDTH")));
         myComponentCreationButton.setGraphic(myButtonImageView);
         setComponentCreationButtonAction();
 
@@ -52,21 +50,21 @@ public class ComponentPanelView extends AbstractView {
 
     @Override
     protected void updateLayoutSelf() {
-        double listWidth = getWidth() * LIST_WIDTH_RATIO;
+        double listWidth = getWidth() * Double.parseDouble(myComponentProperties.getString("LIST_WIDTH_RATIO"));
         double buttonWidth = getWidth() - listWidth;
         myContent.setPrefWidth(getWidth());
         myContent.setPrefHeight(getHeight());
-        myContent.setSpacing(buttonWidth * (BUTTON_WIDTH_RATIO / 2));
+        myContent.setSpacing(buttonWidth * (Double.parseDouble(myComponentProperties.getString("CONTENT_SPACING"))));
 
         myTabPane.setPrefWidth(listWidth);
         myTabPane.setPrefHeight(getHeight());
         getSubViews().forEach(subView -> {
             subView.setWidth(listWidth);
-            subView.setHeight(getHeight());
+            subView.setHeight(getHeight() - Double.parseDouble(myComponentProperties.getString("SUB_VIEW_HEIGHT_DIFFERENT")));
         });
 
-        double newImageWidth = buttonWidth * BUTTON_WIDTH_RATIO;
-        double newImageHeight = getHeight() * BUTTON_HEIGHT_RATIO;
+        double newImageWidth = buttonWidth * Double.parseDouble(myComponentProperties.getString("BUTTON_WIDTH_RATIO"));
+        double newImageHeight = getHeight() * Double.parseDouble(myComponentProperties.getString("BUTTON_HEIGHT_RATIO"));
         if (myButtonImageView.getImage().getWidth() / newImageWidth >
                 myButtonImageView.getImage().getHeight() / newImageHeight) {
             myButtonImageView.setFitHeight(0);
@@ -79,23 +77,14 @@ public class ComponentPanelView extends AbstractView {
 
     public void addTab(String tabName, ComponentListView componentListView) {
         Tab newTab = new Tab(tabName);
-        setTabStyle(newTab);
+        newTab.getStyleClass().add("tab");
         newTab.setClosable(false);
         final ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(componentListView.getUI());
+        scrollPane.setFitToHeight(true);
         newTab.setContent(scrollPane);
         myTabPane.getTabs().add(newTab);
         addSubView(componentListView);
-    }
-    
-    private void setTabStyle(Tab tab) {
-    	tab.setStyle(
-        		"-fx-background-insets: 0 1 0 1,0,0;"
-        		+"-fx-alignment: CENTER;"
-        		+"-fx-text-fill: #828282;"
-        		+ "-fx-font-size: 12px;"
-        		+ "-fx-font-weight: bold;"
-        		);
     }
 
     private void setComponentCreationButtonAction() {

@@ -1,9 +1,10 @@
 package game_object;
 import java.util.ArrayList;
+
 import game_object.acting.ActionName;
 import game_object.acting.ActionTrigger;
 import game_object.acting.KeyEvent;
-import game_object.block.StaticBlock;
+import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
@@ -16,8 +17,6 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.powerup.IPowerUp;
 import game_object.powerup.NewWeaponPowerUp;
-import goal.AbstractGoal;
-import goal.position.ReachPointGoal;
 import game_object.weapon.ProjectileModel;
 import game_object.weapon.WeaponModel;
 import javafx.scene.input.KeyCode;
@@ -71,17 +70,17 @@ public class LevelGenerator {
 		levelA.getLevelDimension().setWidth(2000);
 		levelA.getLevelDimension().setHeight(800);
 		
-		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 60), heroImages);
-		hero.setVelocity(new Velocity(40, -80));
+		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 40), heroImages);
+		hero.setVelocity(new Velocity(0, 0));
 		hero.setImageStyle(ImageStyle.FIT);
 		hero.setWeaponDisplacementX(40);
-		hero.setWeaponDisplacementY(0);
+		hero.setWeaponDisplacementY(10);
 
 		ArrayList<String> bulletImgs = new ArrayList<>();
-		bulletImgs.add(GameObjectConstants.BULLET_FILE);
+		bulletImgs.add(GameObjectConstants.ORANGE_BULLET_FILE);
         ProjectileModel bulletModel = new ProjectileModel(
 				bulletImgs, // image file
-				new Velocity(80, 0), // initial velocity
+				new Velocity(40, 0), // initial velocity
 				false, // affected by gravity
 				false // follow hero
 				);
@@ -90,48 +89,53 @@ public class LevelGenerator {
         		DefaultConstants.BLOCK_CATEGORY_BIT_MASK | 
         		DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
         ArrayList<String> blueGunImgs = new ArrayList<>();
-        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_FILE);
+        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_RIGHT_FILE);
+        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_LEFT_FILE);
 		WeaponModel heroWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
-		hero.setCurrentWeapon(heroWeapon.newWeaponInstance(hero, new Dimension(5, 5)));
+		hero.setCurrentWeapon(heroWeapon.newWeaponInstance(hero, new Dimension(20, 20)));
 		
-		bulletImgs.add(GameObjectConstants.BULLET_FILE);
+		bulletImgs.add(GameObjectConstants.GREEN_BULLET_FILE);
 		// a very fast bullet model
         ProjectileModel fastModel = new ProjectileModel(
 				bulletImgs, // image file
-				new Velocity(30, 0), // initial velocity
+				new Velocity(100, 0), // initial velocity
 				false, // affected by gravity
 				false // follow hero
 				);
                 
         ArrayList<String> redGunImgs = new ArrayList<>();
-        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_FILE);
+        redGunImgs.add(GameObjectConstants.RED_GUN_WEAPON_RIGHT_FILE);
+        redGunImgs.add(GameObjectConstants.RED_GUN_WEAPON_LEFT_FILE);
 		WeaponModel fastWeapon = new WeaponModel(redGunImgs, 10, fastModel, colBitMask);
 		ArrayList<String> fwpuImg = new ArrayList<String>();
 		fwpuImg.add(GameObjectConstants.NEW_WEAPON_POWER_UP_FILE);
 		IPowerUp fastWeaponPowerUp = new NewWeaponPowerUp(
 			new Position(300, 100),
-			new Dimension(20, 20),
+			new Dimension(40, 40),
 			fwpuImg,
 			fastWeapon,
-			new Dimension(10, 10)
+			new Dimension(20, 20)
 		);
 		levelA.addSprite(fastWeaponPowerUp);
 		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
+		WeaponModel enemyWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
+		enemy.setCurrentWeapon(enemyWeapon.newWeaponInstance(enemy, new Dimension(5, 5)));
 		enemy.setImageStyle(ImageStyle.FIT);
-		StaticBlock smackDown = new StaticBlock(new Position(340, 50), new Dimension(100, 200), blockImages);
+
+		Block smackDown = new Block(new Position(340, 50), new Dimension(100, 200), blockImages);
 		smackDown.setImageStyle(ImageStyle.TILE);
-		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 500), blockImages);
+		Block ground = new Block(new Position(0, 500), new Dimension(2000, 500), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
-		StaticBlock goalBlock = new StaticBlock(new Position(400,450),new Dimension(50,50),blockImages);
+		Block goalBlock = new Block(new Position(400,450),new Dimension(50,50),blockImages);
 		// NewWeaponPowerUp powerUp = new NewWeaponPowerUp(new Position(), dimension, imagePaths, w)
 		levelA.addSprite(hero);
-		//level.addSprite(enemy);
+		levelA.addSprite(enemy);
 		levelA.addSprite(ground);
 		levelA.addSprite(smackDown);
 		levelA.addSprite(goalBlock);
-		AbstractGoal goal = new ReachPointGoal(hero,new Position(400,450));
-		levelA.getAllGoals().add(goal);
+		//AbstractGoal goal = new ReachPointGoal(hero,new Position(400,450));
+		//levelA.getAllGoals().add(goal);
 		levelA.setNextLevel(getTestLevelB());
 		KeyEvent leftEvent = new KeyEvent(KeyCode.A);
 		KeyEvent rightEvent = new KeyEvent(KeyCode.D);
@@ -155,7 +159,7 @@ public class LevelGenerator {
 		levelB.getLevelDimension().setWidth(2000);
 		levelB.getLevelDimension().setHeight(800);
 		levelB.replaceAllHerosAndTriggersWithLevel(levelA);
-		StaticBlock ground = new StaticBlock(new Position(0, 500), new Dimension(2000, 200), blockImages);
+		Block ground = new Block(new Position(0, 500), new Dimension(2000, 200), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
 		levelB.addSprite(ground);
 		levelB.init();

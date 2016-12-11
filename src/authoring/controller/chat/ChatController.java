@@ -1,6 +1,7 @@
 package authoring.controller.chat;
 
 import java.util.Queue;
+import java.util.ResourceBundle;
 
 import authoring.share.NetworkController;
 import authoring.view.chat.ChatView;
@@ -13,19 +14,22 @@ import network.exceptions.MessageCreationFailureException;
 import network.exceptions.SessionExpiredException;
 import network.messages.Message;
 import network.messages.MessageType;
+import resources.ResourceBundles;
 
 public class ChatController {
 	
 	private ChatView myView;
 	private NetworkController myNetworkController;
+	private ResourceBundle myChatWindowProperties;
 	
 	public ChatController(NetworkController networkController) {
 		myNetworkController = networkController;
+		myChatWindowProperties = ResourceBundles.chatWindowProperties;
 	}
 
 	public void init(ChatView view) {
 		myView = view;
-		KeyFrame frame = new KeyFrame(Duration.millis(100.0),
+		KeyFrame frame = new KeyFrame(Duration.millis(Double.parseDouble(myChatWindowProperties.getString("CHAT_FRAME_DURATION_MILLISECOND"))),
 				new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {

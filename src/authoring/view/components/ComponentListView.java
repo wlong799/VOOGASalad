@@ -2,11 +2,14 @@ package authoring.view.components;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import game_object.GameObjectType;
+import javafx.scene.Parent;
 import javafx.scene.layout.HBox;
+import resources.ResourceBundles;
 
 /**
  * ComponentListView organizes multiple Components of the same GameObjectType within a single list, and provides options
@@ -16,17 +19,16 @@ import javafx.scene.layout.HBox;
  * @version 11/21/16
  */
 public class ComponentListView extends AbstractView {
-    private static final int MAX_NUMBER_COMPONENTS_VIEWED = 10;
-    private static final double MIN_COMPONENT_WIDTH = 125;
-    private static final double COMPONENT_HEIGHT_RATIO = 0.9;
 
     private GameObjectType myGameObjectType;
     private List<ComponentView> myComponentList;
     private HBox myComponentBox;
+    private ResourceBundle myComponentProperties;
 
     private ComponentListView(AuthoringController controller, GameObjectType gameObjectType) {
         super(controller);
         myGameObjectType = gameObjectType;
+        myComponentProperties = ResourceBundles.componentProperties;
     }
 
     public void addComponent(String imagePath, String title, String description) {
@@ -37,21 +39,23 @@ public class ComponentListView extends AbstractView {
         addSubView(componentView);
         myComponentBox.getChildren().add(componentView.getUI());
     }
+    
+    @Override
+    public Parent getUI() {
+    	return myComponentBox;
+    }
 
     @Override
     protected void initUI() {
         myComponentList = new ArrayList<>();
         myComponentBox = new HBox();
-        addUI(myComponentBox);
     }
 
     @Override
     protected void updateLayoutSelf() {
-        myComponentBox.setPrefWidth(getWidth());
-        myComponentBox.setPrefHeight(getHeight());
         getSubViews().forEach(subView -> {
-            subView.setHeight(getHeight() * COMPONENT_HEIGHT_RATIO);
-            subView.setWidth(Math.max(getWidth() / MAX_NUMBER_COMPONENTS_VIEWED, MIN_COMPONENT_WIDTH));
+            subView.setHeight(getHeight() * Double.parseDouble(myComponentProperties.getString("COMPONENT_HEIGHT_RATIO")));
+            subView.setWidth(Math.max(getWidth() / Double.parseDouble(myComponentProperties.getString("MAX_NUMBER_COMPONENTS_VIEWED")), Double.parseDouble(myComponentProperties.getString("MIN_COMPONENT_WIDTH"))));
         });
     }
 }

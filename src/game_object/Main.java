@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import game_engine.GameEngine;
+import game_engine.GameEngine_Level;
 import game_object.character.Hero;
 import game_object.core.ISprite;
 import game_object.level.Level;
@@ -34,7 +34,7 @@ public class Main extends Application {
 	public void start (Stage primaryStage) throws Exception {
 		Level l = LevelGenerator.getTestLevelA();
 		l.init();
-		GameEngine object = new GameEngine(l);
+		GameEngine_Level object = new GameEngine_Level(l);
 		Stage s = new Stage();
 		Group g = new Group();
 		scene = new Scene(g, 600, 600, Color.WHITE);

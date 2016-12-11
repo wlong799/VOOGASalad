@@ -5,6 +5,10 @@ import java.util.Set;
 
 import game_engine.collision.CollisionEngine;
 import game_engine.collision.ICollisionEngine;
+import game_engine.enemyai.EnemyControllerFactory;
+import game_engine.enemyai.EnemyLevelTypes;
+import game_engine.enemyai.IEnemyController;
+import game_engine.enemyai.IEnemyControllerFactory;
 import game_engine.inputcontroller.InputController;
 import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
@@ -12,9 +16,12 @@ import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
-import game_object.acting.KeyEvent;
+import game_object.acting.ActionName;
+import game_object.acting.Event;
 import game_object.background.Background;
+import game_object.character.Enemy;
 import game_object.character.Hero;
+import game_object.character.IMover;
 import game_object.core.AbstractSprite;
 import game_object.core.Game;
 import game_object.core.ISprite;
@@ -25,6 +32,7 @@ import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
 import game_object.weapon.Projectile;
 import goal.IGoal;
+import goal.time.TimeGoal;
 
 public class GameEngine_Game implements IGameEngine {
 
@@ -33,8 +41,11 @@ public class GameEngine_Game implements IGameEngine {
 	private ICollisionEngine myCollisionEngine;
 	private ITransitionManager myTransitionManager;
 	private InputController myInputController;
+	private IEnemyController myEnemyController;
+	private IEnemyControllerFactory myEnemyControllerFactory;
 	private double myElapsedTime;
-	private int FPS;
+	private double myTotalTime;
+	private int myFPS;
 	private boolean logSuppressed = false;
 
 	public GameEngine_Game(Game game) {
@@ -45,23 +56,17 @@ public class GameEngine_Game implements IGameEngine {
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(game);
+		myEnemyControllerFactory = new EnemyControllerFactory();
+		myEnemyController = myEnemyControllerFactory.createEnemyController(EnemyLevelTypes.HARD);
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
-		FPS = 120;
-		myElapsedTime = 1.0 / FPS;
+		myFPS = game.getFPS();
+		myTotalTime = 0;
 	}
 
 	public void suppressLogDebug() {
 		logSuppressed = true;
 		myCollisionEngine.suppressLogDebug();
 	}
-
-	// public void run() {
-	// while (runFlag == true) {
-	// update(myElapsedTime);
-	// draw();
-	// endCheck();
-	// }
-	// }
 
 	private void init() {
 		// setElements(myCurrentLevel);
@@ -70,40 +75,44 @@ public class GameEngine_Game implements IGameEngine {
 
 	@Override
 	public void shutdown() {
+		//TODO
 		return;
-	}
-
-	public void draw() {
-
 	}
 
 	@Override
 	public void update(double elapsedTime) {
-
+		updateTime();
 		setElapsedTime(elapsedTime);
-		executeInput();
+		executeInput(); //input for heroes
 		for (ISprite s : myCurrentLevel.getAllSprites()) {
+			//mimic enemy behavior; treat them as players
+			if (s instanceof Enemy) {
+				IMover enemy = (IMover) s; 
+				Set<ActionName> list = myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
+				myEnemyController.executeInput(enemy, list);
+				List<Projectile> plist = myEnemyController.getNewProjectiles();
+				for (Projectile p : plist) {
+					myCurrentLevel.addSprite(p);
+				}
+			}
 			updateNewParameters(s);
 		}
-		// System.out.println(myCurrentLevel.getAllSpriteVisualizations().size());
 		if (!logSuppressed) {
 			System.out.println(myCurrentLevel.getHeros().get(0));
 		}
-		myCollisionEngine.checkCollisions(myCurrentLevel.getHeros(), myCurrentLevel.getEnemies(),
-				myCurrentLevel.getStaticBlocks()
+		myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites()
 		// myCurrentLevel.getProjectiles(),
 		);
 		updateScrolling();
 		endCheck();
 	}
 
-	@Override
-	public List<ISpriteVisualization> getSprites() {
-		return myCurrentLevel.getAllSpriteVisualizations();
+	public void updateTime() {
+		myTotalTime += 1.0 / myFPS;
 	}
 
 	@Override
-	public void setInputList(Set<KeyEvent> list) {
+	public void setInputList(Set<Event> list) {
 		myInputController.setInputList(list);
 	}
 
@@ -121,16 +130,10 @@ public class GameEngine_Game implements IGameEngine {
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {
-		if (body.getAffectedByPhysics() || body instanceof Projectile) {
-			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
-			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
-			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
-		}
+		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
+		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
+		myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
 	}
-
-	// private void setElements(Level level) {
-	// mySprites = level.getAllSprites();
-	// }
 
 	private void endCheck() {
 		WinStatus ws = checkWin();
@@ -143,7 +146,7 @@ public class GameEngine_Game implements IGameEngine {
 
 			myCurrentLevel = myTransitionManager.readWinStatus(ws);
 			myPhysicsEngine.setLevel(myCurrentLevel);
-			
+
 			if (myCurrentLevel == null) {
 				shutdown();
 			}
@@ -154,10 +157,10 @@ public class GameEngine_Game implements IGameEngine {
 	private WinStatus checkWin() {
 		List<IGoal> myGoals = myCurrentLevel.getAllGoals();
 		for (IGoal g : myGoals) {
+			if (g instanceof TimeGoal) {
+				((TimeGoal) g).setCurrentTime(myTotalTime);
+			}
 
-			/*
-			 * if (g instanceof TimeGoal) { ((TimeGoal) g).setCurrentTime(0); }
-			 */
 			if (g.checkGoal()) {
 				return g.getResult();
 			}
@@ -176,6 +179,11 @@ public class GameEngine_Game implements IGameEngine {
 	@Override
 	public Background getBackground() {
 		return myCurrentLevel.getBackground();
+	}
+	
+	@Override
+	public List<ISpriteVisualization> getSprites() {
+		return myCurrentLevel.getAllSpriteVisualizations();
 	}
 
 }

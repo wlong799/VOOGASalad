@@ -21,12 +21,30 @@ public class GameMenuFactory {
      * contains the name of the menu to add, and an array of Strings naming the menu elements within the menu.
      */
     private enum GameMenuInfo {
-        FILE("File", new String[]{"NewGameElement", "ChangeGameElement", "SeparatorMenuElement", "LoadElement",
-                "SaveElement", "SeparatorMenuElement", "CloseGameElement"}),
-        LEVEL("Level", new String[]{"NewLevelElement", "ChangeLevelElement", "DeleteLevelElement",
-                "SeparatorMenuElement", "ChangeLevelBackgroundElement"}),
-        
-        TEST("Test", new String[]{"RunElement"});
+        FILE("File", new String[]{
+        		"NewGameElement", 
+        		"ChangeGameElement", 
+        		"SeparatorMenuElement", 
+        		"LoadElement",
+                "SaveElement", 
+                "SeparatorMenuElement", 
+                "CloseGameElement"
+                }),
+        LEVEL("Level", new String[]{
+        		"NewLevelElement", 
+        		"ChangeLevelElement", 
+        		"DeleteLevelElement",
+                "SeparatorMenuElement", 
+                "ChangeLevelBackgroundElement", 
+                "SeparatorMenuElement", 
+                "SetLevelGoalElement"
+                }),
+        TEST("Test", new String[]{
+        		"RunElement"
+        		}),
+    	SETTINGS("Settings", new String[]{
+    			"ChangeLanguage"
+    			});
 
         private String myGameMenuName;
         private String[] myGameMenuElementClasses;

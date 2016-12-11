@@ -2,6 +2,7 @@ package authoring.view.canvas;
 
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
+import authoring.view.IView;
 import game_object.core.ISprite;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -19,7 +20,7 @@ public class SpriteImageView extends AbstractView {
     }
 
     @Override
-    public void setParentView(AbstractView parent) {
+    public void setParentView(IView parent) {
         mySpriteView = (SpriteView) parent;
         mySprite = mySpriteView.getSprite();
         initUI();
@@ -60,14 +61,14 @@ public class SpriteImageView extends AbstractView {
         	this.getController().selectSpriteView(mySpriteView);
             CanvasView canvas = mySpriteView.getCanvasView();
             mySpriteView.getMouseOffset().setX(
-                    this.getController().getCanvasViewController()
+                    this.getController().getCanvasController()
                             .toAbsoluteX(event.getSceneX() - canvas.getPositionX()) - mySpriteView.getPositionX());
             mySpriteView.getMouseOffset().setY(
-                    this.getController().getCanvasViewController()
+                    this.getController().getCanvasController()
                             .toAbsoluteY(event.getSceneY() - canvas.getPositionY()) - mySpriteView.getPositionY());
         });
         this.getUI().setOnMouseDragged(event -> {
-            this.getController().getCanvasViewController().onDragSpriteView(mySpriteView, event);
+            this.getController().getCanvasController().onDragSpriteView(mySpriteView, event);
         });
     }
 
