@@ -10,7 +10,7 @@ import game_object.level.Level;
 
 /**
  * AuthorEnvironment contains all of the games currently available for editing. It extends Observable so that
- * elements within the authoring environment know when they need to updateObservers.
+ * elements within the authoring environment know when they need to triggerUpdate.
  */
 public class AuthorEnvironment extends Observable implements IAuthorEnvironment {
     private List<Game> myAvailableGames;
@@ -56,7 +56,7 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
         myAvailableGames.remove(game);
         if (myAvailableGames.size() == 0) {
             myCurrentGame = null;
-            updateObservers();
+            triggerUpdate();
         } else {
             setCurrentGame(myAvailableGames.size() - 1);
         }
@@ -95,7 +95,7 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
             throw new IllegalArgumentException("Level index out of range: " + index);
         }
         myCurrentLevel = myCurrentGame.getAllLevelsReadOnly().get(index);
-        updateObservers();
+        triggerUpdate();
     }
 
     public void setCurrentLevel(Level level) {
@@ -119,15 +119,14 @@ public class AuthorEnvironment extends Observable implements IAuthorEnvironment 
         myCurrentGame.removeLevel(level);
         if (myCurrentGame.getAllLevelsReadOnly().size() == 0) {
             myCurrentLevel = null;
-            updateObservers();
+            triggerUpdate();
         } else {
             setCurrentLevel(myCurrentGame.getAllLevelsReadOnly().size() - 1);
         }
     }
 
-    private void updateObservers() {
+    public void triggerUpdate() {
         setChanged();
         notifyObservers();
     }
-    
 }

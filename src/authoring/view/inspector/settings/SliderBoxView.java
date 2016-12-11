@@ -63,4 +63,8 @@ public class SliderBoxView extends AbstractSettingsView {
         super.updateLayoutSelf();
         mySlider.setPrefWidth(getWidth());
     }
+    
+    public void disable() {
+    	mySlider.setDisable(true);
+    }
 }
