@@ -132,6 +132,12 @@ public class Level implements ILevelVisualization {
 	
 	/* Add/Remove specific sprites */
 	public void addSprite(ISprite sprite) {
+	    if(sprite.getPosition().getX() > this.myLevelDimension.getWidth()){
+	        myLevelDimension.setWidth(sprite.getPosition().getX());
+	    }
+	    if(sprite.getPosition().getY() > myLevelDimension.getHeight()){
+	        myLevelDimension.setHeight(sprite.getPosition().getY());
+	    }
 		if (sprite instanceof Hero) {
 			myHeros.add((Hero)sprite);
 		} else if (sprite instanceof Enemy) {

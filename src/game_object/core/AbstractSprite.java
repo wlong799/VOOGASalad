@@ -10,9 +10,9 @@ import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
 import game_object.level.SpriteScavenger;
-import game_object.powerup.IPowerUp;
 import game_object.simulation.ICollisionBody;
 import game_object.weapon.Projectile;
+import game_object.powerup.IPowerUp;
 
 /**
  * Base class for all sprites providing common functionalities.
@@ -186,7 +186,6 @@ public abstract class AbstractSprite implements ISprite {
        
     }
 	
-	@Override
     public void onCollideWith(Projectile p, CollisionDirection collisionDirection){
        
     }

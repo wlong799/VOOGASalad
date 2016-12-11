@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import game_engine.collision.CollisionEngine.CollisionDirection;
+import game_object.block.Block;
 import game_object.collision.AttackCollisionStrategy;
 import game_object.collision.ICollisionStrategy;
 import game_object.collision.MotionCollisionStrategy;
@@ -11,6 +12,7 @@ import game_object.constants.DefaultConstants;
 import game_object.core.Dimension;
 import game_object.core.Position;
 import game_object.simulation.ICollisionBody;
+import game_object.weapon.Projectile;
 
 public class Enemy extends AbstractCharacter {
 
@@ -64,8 +66,31 @@ public class Enemy extends AbstractCharacter {
     public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection){
         otherBody.onCollideWith(this, collisionDirection.opposite());
     }
-	
+
     @Override
+    public void onCollideWith (Enemy e, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void onCollideWith (Block b, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        
+        if(collisionDirection == CollisionDirection.LEFT || collisionDirection == CollisionDirection.RIGHT){
+            getVelocity().setXVelocity(-getVelocity().getXVelocity());
+        }
+        super.onCollideWith(b, collisionDirection);
+    }
+
+    @Override
+    public void onCollideWith (Projectile p, CollisionDirection collisionDirection) {
+        // TODO Auto-generated method stub
+        this.setValid(false);
+        // die?
+        //p.getModel().
+    }
+	
     public void onCollideWith(Hero h, CollisionDirection collisionDirection) {
     	for (ICollisionStrategy<Enemy, Hero> strategy : myHeroStrategyList) {
     		if (strategy.isValid()) {
