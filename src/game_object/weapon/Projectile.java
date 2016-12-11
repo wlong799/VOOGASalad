@@ -75,9 +75,11 @@ public class Projectile extends AbstractSprite {
     public void onCollideWith (ICollisionBody otherBody, CollisionDirection collisionDirection) {
         if (otherBody != myParent) {
             otherBody.onCollideWith(this, collisionDirection.opposite());
+            this.setValid(false);
         }
     }
 
+    /*
     @Override
     public void onCollideWith (Enemy e, CollisionDirection collisionDirection) {
         if (e != myParent) {
@@ -102,7 +104,7 @@ public class Projectile extends AbstractSprite {
     public void onCollideWith (Block b, CollisionDirection collisionDirection) {
         // TODO Auto-generated method stub
         this.setValid(false);
-    }
+    }*/
 
     @Override
     public IPhysicsStrategy getPhysics () {
