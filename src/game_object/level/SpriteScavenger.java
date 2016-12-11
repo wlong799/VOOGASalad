@@ -20,8 +20,10 @@ public class SpriteScavenger {
 	public void scavengeList(List<? extends ISprite> list) {
 		Set<ISprite> removeSet = new HashSet<>();
 		for (ISprite sprite : list) {
-			if (!sprite.isValid() || isOutOfBoundary(sprite)) {
-				removeSet.add(sprite);
+			if (sprite != null) {
+				if (!sprite.isValid() || isOutOfBoundary(sprite)) {
+					removeSet.add(sprite);
+				}
 			}
 		}
 		list.removeAll(removeSet);

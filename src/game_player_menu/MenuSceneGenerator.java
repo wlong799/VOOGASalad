@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.collections.ListChangeListener.Change;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -37,8 +39,9 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 	private ResourceBundle myResources;
 	private PaneCreator myPaneCreator;
 	private Stage myStage;
+	private BorderPane myRoot;
 	protected IMenuInputListener myMenuListener;
-	
+
 	public MenuSceneGenerator(IMenuInputListener menu, Stage s){
 		myStage = s;
 		myDisplayableMenuItems = new ArrayList<DisplayableItemDescription>();
@@ -46,40 +49,56 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 		myMenuListener = menu;
 		myPaneCreator = new PaneCreator();
 	}
-	
+
 	private Scene generateScene(List<DisplayableItemDescription> menuItems){
+		myRoot = createBorderPane();
+		HBox menuTop = createMenuTop();
+		myRoot.setTop(menuTop);
+		myRoot.setAlignment(menuTop, Pos.CENTER);
+		myMenuScene = new Scene(myRoot);
+		setMenuCSS();
+		myRoot.setCenter(layoutDescriptions(menuItems));
+		return myMenuScene;
+	}
+
+	private HBox createMenuTop() {
+		HBox menuTop = new HBox();
 		Text instructions = new Text();
+		Button loadButton = createLoadGameButton();
+		menuTop.setSpacing(myRoot.getWidth() - loadButton.getWidth() - instructions.getStrokeWidth());
 		instructions.setText(myResources.getString("MenuInstructionText"));
 		instructions.setFont(new Font(Double.parseDouble(myResources.getString("MenuInstructionFontSize"))));
         instructions.getStyleClass().add("text");
         BorderPane root = createBorderPane();
         root.setAlignment(instructions, Pos.CENTER);
         root.setTop(instructions);
-		myMenuScene = new Scene(root);
 		setMenuCSS();
-		root.setCenter(layoutDescriptions(menuItems));
 		//root.setCenter(loadGameButton());
-		return myMenuScene;
+		instructions.getStyleClass().add("text");
+		loadButton.setAlignment(Pos.TOP_RIGHT);
+		menuTop.getChildren().add(loadButton);
+		menuTop.getChildren().add(instructions);
+		return menuTop;
 	}
-	
-	private Button loadGameButton(){
+
+	private Button createLoadGameButton(){
 		Button load = new Button("Load A New Game");
-		load.setOnMouseClicked(e -> openFileChooser());
+		load.setOnAction(e -> openFileChooser());
 		return load;
 	}
-	
-	
+
+
 	private void openFileChooser() {
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(myStage);
-		myMenuListener.playGame(file);
+		myMenuListener.loadGame(file);
 	}
 
 	private BorderPane createBorderPane() {
-		 BorderPane root = new BorderPane();
-	     root.setPrefSize(Double.parseDouble(myResources.getString("MenuWidth")),
-	        		Double.parseDouble(myResources.getString("MenuHeight")));
-	     root.getStyleClass().add("pane");
+		BorderPane root = new BorderPane();
+		root.setPrefSize(Double.parseDouble(myResources.getString("MenuWidth")),
+				Double.parseDouble(myResources.getString("MenuHeight")));
+		root.getStyleClass().add(myResources.getString("BorderPaneStyle"));
 		return root;
 	}
 
@@ -90,21 +109,45 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 	}
 
 	protected abstract Node layoutDescriptions(List<DisplayableItemDescription> menuItems);
+	
+	protected abstract void displayNewItem(DisplayableItemDescription item);
 
 	private void makeItemsDisplayable(List<ItemDescription> menuItems) {
 		for(ItemDescription item : menuItems){
-			DisplayableItemDescription currentTranslation = new DisplayableItemDescription(item, myMenuListener);
-			currentTranslation.setPaneRepresentation(myPaneCreator.getPaneRepresentation(item.getName(), 
-					item.getDescriptionn(), item.getImagePath(),currentTranslation));
-			myDisplayableMenuItems.add(currentTranslation);
+			DisplayableItemDescription displayableItem = generateDisplayableDescription(item);
+			myDisplayableMenuItems.add(displayableItem);
 		}
 	}
-	
-	
+
+	private DisplayableItemDescription generateDisplayableDescription(ItemDescription item){
+		DisplayableItemDescription displayableItem = new DisplayableItemDescription(item, myMenuListener);
+		displayableItem.setPaneRepresentation(myPaneCreator.getPaneRepresentation(item.getName(), 
+				item.getDescriptionn(), item.getImagePath(),displayableItem));
+		return displayableItem;
+	}
+
+
+
 	public Scene getMenuScene(List<ItemDescription> menuItems){
 		makeItemsDisplayable(menuItems);
 		return generateScene(myDisplayableMenuItems);
 	}
-	
-	
+
+	public void addItem(Change<ItemDescription> c) {
+		System.out.println("Test");
+		while(c.next()){
+			if (c.wasPermutated()) {
+				//do nothing
+			} else if (c.wasUpdated()) {
+				//do nothing
+			} else {
+				for (ItemDescription addItem : c.getAddedSubList()) {
+					DisplayableItemDescription item = generateDisplayableDescription(addItem);
+					displayNewItem(item);
+				}
+			}
+		}
+	}
+
+
 }

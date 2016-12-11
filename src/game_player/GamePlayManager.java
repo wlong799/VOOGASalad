@@ -25,7 +25,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import sun.launcher.resources.launcher;
 
-public class GamePlayManager extends Application implements ISceneManager  {
+public class GamePlayManager extends Application implements ISceneManager {
 	private Stage myStage;
 	private GamePlayMenu myMainMenu;
 	//private Scene myCurrentScene;
@@ -48,7 +48,4 @@ public class GamePlayManager extends Application implements ISceneManager  {
 		launch(args);
 	}
 	
-	
-	
-
 }
