@@ -67,8 +67,9 @@ public class EngineSetUp {
 		languagesComboBox = new ComboBox<>(languageOptions);	
 		languagesComboBox.setValue(languageProperties.getString("selectLanguage"));
 		languagesComboBox.getStyleClass().add("combo-box-splash");
-		languagesComboBox.setPrefWidth(1000);
-		grid.add(languagesComboBox, 3, 28);
+		languagesComboBox.setMinWidth(200.0);
+		languagesComboBox.setPrefWidth(languagesComboBox.getMinWidth());
+		grid.add(languagesComboBox, 2, 28);
 	}
 	
 	private void initAuthoringButton() {
