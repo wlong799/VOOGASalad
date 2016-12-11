@@ -11,6 +11,7 @@ import authoring.view.canvas.SpriteView;
  */
 public class MoveSpriteAction extends AbstractAction {
 	
+	private static final long serialVersionUID = -8847494025410089520L;
 	private double myNewX;
 	private double myNewY;
 	

@@ -6,6 +6,8 @@ import authoring.view.canvas.SpriteView;
 
 public class RemoveSpriteAction extends AbstractAction {
 
+	private static final long serialVersionUID = -5564136472217188635L;
+
 	public RemoveSpriteAction(long id) {
 		super(id);
 	}

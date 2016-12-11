@@ -6,6 +6,7 @@ import authoring.view.canvas.SpriteView;
 
 public class AddSpriteAction extends AbstractAction {
 	
+	private static final long serialVersionUID = -4226578689808573094L;
 	private SpriteView mySpriteView;
 	private double myX;
 	private double myY;
