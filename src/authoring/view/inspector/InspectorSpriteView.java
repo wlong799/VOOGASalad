@@ -116,14 +116,14 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
             myLivesConfiguringView = new LivesConfiguringView(getController(), hero);
             myPushedHBox = new CheckBoxView(
             		getController(), 
-            		"Pushed by Enemy Horizontally", 
+            		myLanguageResourceBundle.getString("enemyHorizontally"), 
             		hero.getPushByEnemyCollsionStrategy().getHorizontalBounce(),
                     (obv, oldVal, newVal) -> {
                         hero.getPushByEnemyCollsionStrategy().setHorizontalBounce(newVal);
                     });
             myPushedVBox = new CheckBoxView(
             		getController(), 
-            		"Pushed by Enemy Vertically", 
+            		myLanguageResourceBundle.getString("enemyVertically"), 
             		hero.getPushByEnemyCollsionStrategy().getVerticalBounce(),
                     (obv, oldVal, newVal) -> {
                         hero.getPushByEnemyCollsionStrategy().setVerticalBounce(newVal);;
@@ -139,19 +139,19 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
         
         if (sprite instanceof Enemy) {
         	Enemy enemy = (Enemy) sprite;
-        	enemyHasAIBox = new CheckBoxView(getController(), "Has AI",
+        	enemyHasAIBox = new CheckBoxView(getController(), myLanguageResourceBundle.getString("hasAI"),
         			enemy.hasAI(),
                     (obv, old_val, new_val) -> ((Enemy)sprite).setHasAI(new_val));
         	myPushedHBox = new CheckBoxView(
             		getController(), 
-            		"Pushed by Hero Horizontally", 
+            		myLanguageResourceBundle.getString("heroHorizontally"), 
             		enemy.getPushByHeroCollsionStrategy().getHorizontalBounce(),
                     (obv, oldVal, newVal) -> {
                     	enemy.getPushByHeroCollsionStrategy().setHorizontalBounce(newVal);
                     });
             myPushedVBox = new CheckBoxView(
             		getController(), 
-            		"Pushed by Hero Vertically", 
+            		myLanguageResourceBundle.getString("heroVertically"), 
             		enemy.getPushByHeroCollsionStrategy().getVerticalBounce(),
                     (obv, oldVal, newVal) -> {
                     	enemy.getPushByHeroCollsionStrategy().setVerticalBounce(newVal);;
@@ -166,7 +166,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
         	ICharacter character = (ICharacter) sprite;
         	myDamageSlider = new SliderBoxView(
                     getController(),
-                    "Damage by Projectile",
+                    myLanguageResourceBundle.getString("damageByProjectile"),
                     Double.parseDouble(componentProperties.getString("MIN_DAMAGE")),
                     Double.parseDouble(componentProperties.getString("MAX_DAMAGE")),
                     character.getAttackByProjectileStrategy().getDamage(),
@@ -174,12 +174,12 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                     (obv, oldVal, newVal) -> character.getAttackByProjectileStrategy().setDamageFromAllDirection(newVal.doubleValue()));
             myBounceHBox = new CheckBoxView(
             		getController(), 
-            		"Bounce Horizontally", 
+            		myLanguageResourceBundle.getString("bounceHorizontally"), 
             		character.getCollideWithBlockStrategy().getHorizontalBounce(),
                     (obv, oldVal, newVal) -> character.getCollideWithBlockStrategy().setHorizontalBounce(newVal));
             myBounceVBox = new CheckBoxView(
             		getController(), 
-            		"Bounce Vertically", 
+            		myLanguageResourceBundle.getString("bounceVertically"), 
             		character.getCollideWithBlockStrategy().getVerticalBounce(),
                     (obv, oldVal, newVal) -> character.getCollideWithBlockStrategy().setVerticalBounce(newVal));
             addSettingsViews(
