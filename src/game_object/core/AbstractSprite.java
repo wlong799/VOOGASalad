@@ -1,6 +1,7 @@
 package game_object.core;
 
 import java.util.List;
+
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.ConstantStrategy;
 import game_engine.physics.IPhysicsStrategy;
@@ -9,8 +10,8 @@ import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.constants.DefaultConstants;
 import game_object.level.SpriteScavenger;
-import game_object.simulation.ICollisionBody;
 import game_object.powerup.IPowerUp;
+import game_object.simulation.ICollisionBody;
 
 /**
  * Base class for all sprites providing common functionalities.
@@ -138,33 +139,6 @@ public abstract class AbstractSprite implements ISprite {
 
 	
 	/* ICollisionBody Implementations */
-	
-	/* Default implementation is to do nothing when you collide with these objects */
-	@Override
-	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
-		
-	}
-	
-	@Override
-	public void onCollideWith(Hero h, CollisionDirection collisionDirection){
-	    
-	}
-	
-	@Override
-	public void onCollideWith(Enemy e, CollisionDirection collisionDirection){
-	    
-	}
-	
-	@Override
-	public void onCollideWith(Block b, CollisionDirection collisionDirection){
-	    
-	}
-	
-	@Override
-    public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection){
-       
-    }
-	
 	@Override
 	public void setCategoryBitMask(int categoryBitMask) {
 		myCategoryBitMask = categoryBitMask;
@@ -184,6 +158,31 @@ public abstract class AbstractSprite implements ISprite {
 	public int getCollisionBitMask() {
 		return myCollisionBitMask;
 	}
+	
+	@Override
+	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
+		
+	}
+	
+	@Override
+	public void onCollideWith(Hero h, CollisionDirection collisionDirection){
+		
+	}
+	
+	@Override
+	public void onCollideWith(Enemy e, CollisionDirection collisionDirection){
+		
+	}
+	
+	@Override
+	public void onCollideWith(Block b, CollisionDirection collisionDirection){
+	    
+	}
+	
+	@Override
+    public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection){
+       
+    }
 	/* ---ICollisionBody Implementations END--- */
 	
 	
