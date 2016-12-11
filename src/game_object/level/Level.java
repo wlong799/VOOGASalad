@@ -59,8 +59,8 @@ public class Level implements ILevelVisualization {
         myTriggers = new ArrayList<>();
         myProjectiles = new ArrayList<>();
         myPowerUps = new ArrayList<>();
-        myBoundary = new Boundary(new Position(0, 0), new Dimension(DefaultConstants.LEVEL_WIDTH,
-                                                                    DefaultConstants.LEVEL_HEIGHT));
+        myBoundary = new Boundary(new Position(0, 0), new Dimension(this.myParentGame.getScreenSize().getWidth(),
+                                                                    this.myParentGame.getScreenSize().getHeight()));
         myDimension = new Dimension(0,
                                     0);
         myPhysicsParameters = new PhysicsParameters();
