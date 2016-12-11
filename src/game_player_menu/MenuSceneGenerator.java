@@ -91,7 +91,9 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 	private void openFileChooser() {
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(myStage);
-		myMenuListener.loadGame(file);
+		if(file != null){
+			myMenuListener.loadGame(file);
+		}
 	}
 
 	private BorderPane createBorderPane() {
@@ -134,7 +136,6 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 	}
 
 	public void addItem(Change<ItemDescription> c) {
-		System.out.println("Test");
 		while(c.next()){
 			if (c.wasPermutated()) {
 				//do nothing
