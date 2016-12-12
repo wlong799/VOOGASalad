@@ -47,6 +47,7 @@ public class Level implements ILevelVisualization {
 	private List<IPowerUp> myPowerUps;
 	private SpriteScavenger mySpriteScavenger;
 	
+
 	public Level(Game parentGame, String id) {
 		myParentGame = parentGame;
 		myId = id;
@@ -61,6 +62,11 @@ public class Level implements ILevelVisualization {
 		myPhysicsParameters = new PhysicsParameters();
 		myGoals = new ArrayList<>();
 		myBackground = new Background();
+		mySpriteScavenger = AbstractSprite.getSpriteScavenger();
+	}
+
+	public double getTotalScore() {
+		return myHeros.get(0).getTotalScore();
 	}
 	
 	public String getId() {
@@ -242,7 +248,6 @@ public class Level implements ILevelVisualization {
 			myHeros.add(Hero.generateDefaultHero());
 		}
 		AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
-		mySpriteScavenger = AbstractSprite.getSpriteScavenger();
 		mySpriteScavenger.setBorderDimension(myParentGame.getScreenSize());
 	}
 
