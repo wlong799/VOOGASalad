@@ -3,6 +3,7 @@ package game_engine.physics;
 import java.util.List;
 import java.util.Random;
 
+import game_object.character.Hero;
 import game_object.core.ISprite;
 import game_object.core.Position;
 import game_object.core.Velocity;
@@ -11,15 +12,16 @@ import game_object.simulation.IPhysicsBody;
 
 public class PhysicsHeroFollower extends AbstractPhysicsEngine {
 
-	private List<ISprite> myHeroes;
+	private List<Hero> myHeroes;
 	private ISprite myHero;
 	private double scalarVelocity, scalarDistance;
 
 	public PhysicsHeroFollower(Level level) {
 		super(level);
+		setHeroes(level.getHeros());
 	}
 
-	public void setHeroes(List<ISprite> heroes) {
+	private void setHeroes(List<Hero> heroes) {
 		myHeroes = heroes;
 		selectHero();
 	}
@@ -31,8 +33,8 @@ public class PhysicsHeroFollower extends AbstractPhysicsEngine {
 	}
 
 	public double calculateScalarVelocity(IPhysicsBody body, double elapsedTime) {
-		double scalarVelocity = Math
-				.sqrt(Math.pow(body.getVelocity().getXVelocity(), 2) + Math.pow(body.getVelocity().getYVelocity(), 2));
+		double scalarVelocity = Math.sqrt(Math.pow(body.getVelocity().getXVelocity(), 2) + 
+									      Math.pow(body.getVelocity().getYVelocity(), 2));
 		return scalarVelocity;
 	}
 
@@ -76,7 +78,7 @@ public class PhysicsHeroFollower extends AbstractPhysicsEngine {
 	@Override
 	public Position calculateNewPosition(IPhysicsBody body, double elapsedTime) {
 		double x = calculateNewHorizontalPosition(body, elapsedTime);
-		double y = calculateNewVerticalVelocity(body, elapsedTime);
+		double y = calculateNewVerticalPosition(body, elapsedTime);
 		return new Position(x, y);
 	}
 
