@@ -38,10 +38,15 @@ public class Projectile extends AbstractSprite {
 		myModel = model;
 		myVelocity = myModel.getInitalVelocity();
 		myCategoryBitMask = DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
-		myCollisionBitMask = model.getCollisionBitMask();
+		myCollisionBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK | DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
 		myPosition.setZ(Double.MAX_VALUE);
 		adjustPosition();
 		setVelocityDirection();
+	}
+	
+	@Override
+	public void setCollisionBitMask(int collisionBitMask) {
+		//shouldn't be set.
 	}
 	
 	public ProjectileModel getModel() {
