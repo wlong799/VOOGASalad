@@ -29,6 +29,8 @@ public class RandomSpriteCluster {
     }
 
     public boolean shouldRender (double elapsedTime) {
+        System.out.println(elapsedTime);
+        System.out.println(myCurrentTime);
         myCurrentTime += elapsedTime;
         if (myCurrentTime >= myRepeatTime) {
             myCurrentTime = 0;
@@ -52,6 +54,7 @@ public class RandomSpriteCluster {
                 Position pos = si.getRelativePosition();
                 pos.addPosition(offset);
                 ISprite sprite = ctor.newInstance(pos, dim, imagePaths);
+                
                 createdSprites.add(sprite);
             }
             catch (Exception e) {
