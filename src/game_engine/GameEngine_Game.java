@@ -133,13 +133,12 @@ public class GameEngine_Game implements IGameEngine {
 
 	private void updateNewParameters(IPhysicsBody body) {
 		if (body instanceof Projectile && ((Projectile) body).getModel().isFollowHero()) {
-			System.out.println("sss");
-			Position newPosition = myHeroFollowerEngine.calculateNewPosition(body, myElapsedTime);
 			Velocity newVelocity = myHeroFollowerEngine.calculateNewVelocity(body, myElapsedTime);
+			Position newPosition = myHeroFollowerEngine.calculateNewPosition(body, myElapsedTime);
 			myHeroFollowerEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
 		} else {
-			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
 			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
+			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
 			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
 		}
 	}
