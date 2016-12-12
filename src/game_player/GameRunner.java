@@ -26,8 +26,10 @@ import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -152,6 +154,12 @@ public class GameRunner {
 			myView.removeSpriteView(spriteViewMap.get(sprite));
 			spriteViewMap.remove(sprite);
 		}
+		
+		((Stage) myScene.getWindow()).showingProperty().addListener((obvs, old_val, new_val) -> {
+		    if(!new_val.booleanValue()){
+		        animation.stop();
+		    }
+		});
 	}
 	
 	private void addSpriteViewWithSprite(ISpriteVisualization sprite) {
