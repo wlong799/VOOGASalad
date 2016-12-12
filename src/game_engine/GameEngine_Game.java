@@ -105,12 +105,14 @@ public class GameEngine_Game implements IGameEngine {
 
     @Override
     public void shutdown () {
-        // TODO
+        System.out.println("SHUT THE FUCK UP. I MEAN DOWN");
+        System.exit(0);
         return;
     }
 
     @Override
     public void update (double elapsedTime) {
+        endCheck();
         updateTime();
         myGenerator.generateSprites(elapsedTime);
         setElapsedTime(elapsedTime);
@@ -136,7 +138,6 @@ public class GameEngine_Game implements IGameEngine {
         // myCurrentLevel.getProjectiles(),
         );
         updateLevel();
-        endCheck();
     }
 
     public void updateTime () {
@@ -174,15 +175,15 @@ public class GameEngine_Game implements IGameEngine {
             if (!logSuppressed) {
                 System.out.println("transition");
                 System.out.println(myCurrentLevel);
-                System.out.println(myCurrentLevel);
             }
 
+            
             myCurrentLevel = myTransitionManager.readWinStatus(ws);
-            myPhysicsEngine.setLevel(myCurrentLevel);
-
             if (myCurrentLevel == null) {
+                System.out.println("MADE IT");
                 shutdown();
             }
+            myPhysicsEngine.setLevel(myCurrentLevel);
             init();
         }
     }
@@ -198,9 +199,18 @@ public class GameEngine_Game implements IGameEngine {
                 return g.getResult();
             }
         }
-        return WinStatus.GO_ON;
+        return heroCheck();
     }
 
+    private WinStatus heroCheck() {
+        for(Hero h : myCurrentLevel.getHeros()){
+            if(h.getDead()){
+                return WinStatus.LOST;
+            }
+        }
+        return WinStatus.GO_ON;
+    }
+    
     private void setElapsedTime (double elapsedTime) {
         myElapsedTime = elapsedTime;
     }
