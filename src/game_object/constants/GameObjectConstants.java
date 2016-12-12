@@ -4,6 +4,9 @@ public class GameObjectConstants {
 
 	public static final String LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla purus nulla, lacinia a arcu eu, egestas tincidunt turpis. Vestibulum imperdiet, purus sit amet fringilla blandit, arcu ante maximus ipsum, tincidunt gravida arcu orci et ligula. Mauris in massa dignissim, tincidunt erat non, elementum turpis. Donec aliquam arcu quam, sit amet iaculis nibh pretium in. Proin volutpat tempus ipsum ut porta. Cras eu lorem non metus dignissim porttitor. Mauris tempus ex et finibus eleifend. Sed mattis ultricies neque et dictum. Suspendisse non velit dapibus, auctor justo eu, eleifend eros.";
 
+
+    public static final String WARP_PIPE = "img/sprites/warp_pipe.png";
+    public static final String WARP_PIPE_DOWN = "img/sprites/warp_pipe_down.png";
 	public static final String ANGRY_PIG_FILE = "img/sprites/angrypig.png";
 	public static final String BEAR_FILE = "img/sprites/bear.png";
 	public static final String SNAIL_KING_FILE = "img/sprites/snail_king.png";

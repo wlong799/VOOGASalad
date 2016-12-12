@@ -1,13 +1,17 @@
 package authoring.view.canvas;
 
+import java.util.ResourceBundle;
+
 import authoring.AuthoringController;
 import authoring.view.AbstractView;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import resources.ResourceBundles;
 
 public class SpriteNameView extends AbstractView {
 	
+	private ResourceBundle componentProperties = ResourceBundles.componentProperties;
 	private static final int RGB = 255;
 	private static final double RGB_FLOAT = 255.0;
 	private Label myLabel;

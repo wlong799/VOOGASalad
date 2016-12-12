@@ -7,8 +7,11 @@ import authoring.view.inspector.settings.SliderBoxView;
 import authoring.view.AbstractView;
 import game_object.character.Hero;
 import game_object.core.ISprite;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckBox;
 import javafx.scene.layout.VBox;
 import resources.ResourceBundles;
 
@@ -19,6 +22,7 @@ public class JumpConfiguringView extends AbstractView {
     private VBox myBox;
     private ResourceBundle componentProperties;
     private ResourceBundle myLanguageResourceBundle;
+    private CheckBox infiniteJumps;
 
     public JumpConfiguringView(AuthoringController controller) {
         super(controller);
@@ -48,7 +52,15 @@ public class JumpConfiguringView extends AbstractView {
     }
 
     private void initSliders() {
-        numJumpBox = new SliderBoxView(
+    	infiniteJumps = new CheckBox(myLanguageResourceBundle.getString("infiniteJumps"));
+    	infiniteJumps.selectedProperty().addListener(new ChangeListener<Boolean>() {
+			public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+				myHero.setMaxNumberOfJumps(Integer.MAX_VALUE);
+				numJumpBox.disable();
+			}
+        });
+    	
+    	numJumpBox = new SliderBoxView(
                 getController(),
                 myLanguageResourceBundle.getString("noJumps"),
                 Double.parseDouble(componentProperties.getString("MIN_NUMBER_JUMPS")),
@@ -68,6 +80,8 @@ public class JumpConfiguringView extends AbstractView {
                 (obv, oldVal, newVal) -> {
                     myHero.setJumpingUnit(newVal.doubleValue());
                 });
+        
+        
         myBox.getChildren().addAll(numJumpBox.getUI(), jumpUnitBox.getUI());
     }
 }
