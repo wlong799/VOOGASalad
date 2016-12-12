@@ -2,6 +2,12 @@ package game_engine.transition;
 
 import game_object.core.Game;
 import game_object.level.Level;
+import javafx.stage.Stage;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * Handles level transitions: the most basic rule -- go to the next level
@@ -33,6 +39,7 @@ public class TransitionManager extends AbstractTransitionManager {
 		while (level!=null) {
 			level=level.getNextLevel();
 		}
+		showGameOver();
 		return level;
 	}
 	
@@ -45,4 +52,12 @@ public class TransitionManager extends AbstractTransitionManager {
 		myLevel = level;
 	}
 	
+	private void showGameOver(){
+            Stage s = new Stage();
+            VBox root = new VBox();
+            root.getChildren().add(new Label("GAME OVER"));
+            root.setAlignment(Pos.CENTER);
+            s.setScene(new Scene(root,400,400));
+            s.show();
+	}
 }

@@ -130,7 +130,10 @@ public class GameRunner {
 	}
 
 	private void update() {
-	    
+
+	           if(myGameEngine.isShutDown()){
+	               animation.stop();
+	           }
 		for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
 		    System.out.println(sprite);
 			if (!spriteViewMap.containsKey(sprite)) {
@@ -154,12 +157,12 @@ public class GameRunner {
 			myView.removeSpriteView(spriteViewMap.get(sprite));
 			spriteViewMap.remove(sprite);
 		}
+                ((Stage) myScene.getWindow()).showingProperty().addListener((obvs, old_val, new_val) -> {
+                    if(!new_val.booleanValue()){
+                        animation.stop();
+                    }
+                });
 		
-		((Stage) myScene.getWindow()).showingProperty().addListener((obvs, old_val, new_val) -> {
-		    if(!new_val.booleanValue()){
-		        animation.stop();
-		    }
-		});
 	}
 	
 	private void addSpriteViewWithSprite(ISpriteVisualization sprite) {
@@ -195,6 +198,7 @@ public class GameRunner {
 		animation.getKeyFrames().add(frame);
 		animation.play();
 	}
+	
 
 	private void keyTriggers2Controls() {
 		myScene.setOnKeyReleased(event-> {

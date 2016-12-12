@@ -41,6 +41,8 @@ import game_object.visualization.ISpriteVisualization;
 import game_object.weapon.Projectile;
 import goal.IGoal;
 import goal.time.TimeGoal;
+import javafx.scene.Group;
+import javafx.stage.Stage;
 
 
 public class GameEngine_Game implements IGameEngine {
@@ -56,6 +58,7 @@ public class GameEngine_Game implements IGameEngine {
     private double myElapsedTime;
     private double myTotalTime;
     private int myFPS;
+    private boolean myShutDown;
     private boolean logSuppressed = false;
 
     public GameEngine_Game (Game game) {
@@ -103,18 +106,24 @@ public class GameEngine_Game implements IGameEngine {
         myCurrentLevel.init();
     }
 
+    public boolean isShutDown(){
+        return myShutDown;
+    }
     @Override
     public void shutdown () {
-        System.out.println("SHUT THE FUCK UP. I MEAN DOWN");
-        System.exit(0);
-        return;
+        myShutDown = true;
     }
 
     @Override
     public void update (double elapsedTime) {
+        if(myCurrentLevel == null){
+            return;
+        }
         endCheck();
         updateTime();
-        myGenerator.generateSprites(elapsedTime);
+        if(myGenerator != null){
+            myGenerator.generateSprites(elapsedTime);
+        }
         setElapsedTime(elapsedTime);
         executeInput(); // input for heroes
         for (ISprite s : myCurrentLevel.getAllSprites()) {
@@ -179,12 +188,12 @@ public class GameEngine_Game implements IGameEngine {
 
             
             myCurrentLevel = myTransitionManager.readWinStatus(ws);
+            myPhysicsEngine.setLevel(myCurrentLevel);
+            init();
             if (myCurrentLevel == null) {
                 System.out.println("MADE IT");
                 shutdown();
             }
-            myPhysicsEngine.setLevel(myCurrentLevel);
-            init();
         }
     }
 
