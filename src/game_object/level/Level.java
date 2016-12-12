@@ -59,8 +59,10 @@ public class Level implements ILevelVisualization {
         myTriggers = new ArrayList<>();
         myProjectiles = new ArrayList<>();
         myPowerUps = new ArrayList<>();
-        myBoundary = new Boundary(new Position(0, 0), new Dimension(this.myParentGame.getScreenSize().getWidth(),
-                                                                    this.myParentGame.getScreenSize().getHeight()));
+        myBoundary =
+                new Boundary(new Position(0, 0),
+                             new Dimension(this.myParentGame.getScreenSize().getWidth(),
+                                           this.myParentGame.getScreenSize().getHeight()));
         System.out.println(this.myParentGame.getScreenSize().getWidth());
         myDimension = new Dimension(0,
                                     0);
@@ -308,4 +310,5 @@ public class Level implements ILevelVisualization {
         mySpriteScavenger.scavengeList(myBlocks);
     }
     /* private END--- */
+
 }
