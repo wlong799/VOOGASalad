@@ -8,4 +8,7 @@ public interface IMenuInputListener {
 	
 	
 	void loadGame(File f);
+
+
+	void exit();
 }

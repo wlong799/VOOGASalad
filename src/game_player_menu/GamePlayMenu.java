@@ -133,4 +133,9 @@ public class GamePlayMenu implements IMenuInputListener {
 		}
 	}
 
+	@Override
+	public void exit() {
+		myStage.close();
+	}
+
 }

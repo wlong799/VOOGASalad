@@ -63,26 +63,33 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 
 	private HBox createMenuTop() {
 		HBox menuTop = new HBox();
+		menuTop.setAlignment(Pos.CENTER);
 		Text instructions = new Text();
-		Button loadButton = createLoadGameButton();
-		menuTop.setSpacing(myRoot.getWidth() - loadButton.getWidth() - instructions.getStrokeWidth());
 		instructions.setText(myResources.getString("MenuInstructionText"));
 		instructions.setFont(new Font(Double.parseDouble(myResources.getString("MenuInstructionFontSize"))));
-        instructions.getStyleClass().add("text");
-        BorderPane root = createBorderPane();
-        root.setAlignment(instructions, Pos.CENTER);
-        root.setTop(instructions);
-		setMenuCSS();
-		//root.setCenter(loadGameButton());
-		instructions.getStyleClass().add("text");
-		loadButton.setAlignment(Pos.TOP_RIGHT);
-		menuTop.getChildren().add(loadButton);
-		menuTop.getChildren().add(instructions);
+        instructions.getStyleClass().add(myResources.getString("MenuHeadingTextStyle"));
+        
+        Region paddingRegionLeft = new Region();
+        menuTop.setHgrow(paddingRegionLeft, Priority.ALWAYS);
+		Region paddingRegionRight = new Region();
+		menuTop.setHgrow(paddingRegionRight, Priority.ALWAYS);
+		menuTop.getChildren().addAll(
+				createLoadGameButton(), 
+				paddingRegionLeft, 
+				instructions,
+				paddingRegionRight,
+				createExitButton());
 		return menuTop;
 	}
 
+	private Button createExitButton() {
+		Button exit = new Button(myResources.getString("ExitButtonText"));
+		exit.setOnAction( e-> myMenuListener.exit());
+		return exit;
+	}
+
 	private Button createLoadGameButton(){
-		Button load = new Button("Load A New Game");
+		Button load = new Button(myResources.getString("LoadButtonText"));
 		load.setOnAction(e -> openFileChooser());
 		return load;
 	}

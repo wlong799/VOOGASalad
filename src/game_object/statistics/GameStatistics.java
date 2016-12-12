@@ -2,10 +2,12 @@ package game_object.statistics;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import game_object.character.Hero;
 import game_object.core.Game;
+import game_object.core.Position;
 
 /**
  * A GameStatistics class providing all available fields for HUD
@@ -16,10 +18,12 @@ public class GameStatistics {
 	private static DecimalFormat staticDF2 = new DecimalFormat(".##");
 	private Game myGame;
 	private Map<StatisticsField, Boolean> myValidFieldsMap;
+	private Map<Hero, List<String>> myHeroStats;
 	
 	public GameStatistics(Game game) {
 		myGame = game;
 		myValidFieldsMap = new HashMap<>();
+		
 		enableAll();
 	}
 	
@@ -66,6 +70,12 @@ public class GameStatistics {
 		return isValid(StatisticsField.HEALTH)
 			? "" + (int)getHeroWithIndex(index).getCurrentHP()
 			: null;
+	}
+	
+	public Position getPositionOfHero(int index){
+		return isValid(StatisticsField.POSITION)
+				? getHeroWithIndex(index).getPosition()
+				: null;
 	}
 	
 	public String getXPosOfHero(int index) {
