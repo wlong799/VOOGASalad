@@ -37,7 +37,7 @@ import javafx.util.Duration;
  * takes a scene and a game
  * UI Group root can be accessed using getRunningView().getViews()
  */
-public class GameRunner {
+public class GameRunner implements IEndListener{
 	
 	private GameEngine_Game myGameEngine;
 
@@ -58,8 +58,9 @@ public class GameRunner {
 	private Consumer<Level> myLevelChangeHandler;
 	private ImageRenderer myRenderer;
 	private HUDController myHudController;
+	private IEndListener myEndListener;
 
-	public GameRunner(Scene s, Game game, Consumer<Level> levelChangeHandler) {
+	public GameRunner(Scene s, Game game, Consumer<Level> levelChangeHandler, IEndListener listener) {
 		myScene = s;
 		originalGame = game;
 		currentlyPressedKeys = new HashSet<>();
@@ -68,6 +69,7 @@ public class GameRunner {
 		myView = new GameRunningView();
 		myLevelChangeHandler = levelChangeHandler;
 		myRenderer = new ImageRenderer();
+		myEndListener = listener;
 		init();
 	}
 	
@@ -89,7 +91,7 @@ public class GameRunner {
 
 	private void init() {
 		runningGame = copyGame(originalGame);
-		myGameEngine = new GameEngine_Game(runningGame);
+		myGameEngine = new GameEngine_Game(runningGame, this);
 		myGameEngine.suppressLogDebug();
 		myHudController = new HUDController(runningGame);
 		
@@ -224,5 +226,12 @@ public class GameRunner {
 		XStream mySerializer = new XStream(new DomDriver());
 		return (Game)mySerializer.fromXML(mySerializer.toXML(game));
 	}
-	
+
+	@Override
+	public void onEnd() {
+		animation.stop();
+		myEndListener.onEnd();
+		
+	}
+
 }

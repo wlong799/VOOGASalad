@@ -17,30 +17,38 @@ import resources.ResourceBundles;
  *sending that to the game engine.
  */
 
-public class GamePlayer {
+public class GamePlayer implements IEndListener{
 	private ResourceBundle myResources = ResourceBundles.languageProperties;
-	private Stage myStage;
 	private Scene myScene;
 	private GameRunner myRunner;
 	private Game myCurrentGame;
 	private Group myRoot;
+	private ISceneManager mySceneManager;
 
-	public GamePlayer(Stage s, Game game) {
-		myStage = s;
+	public GamePlayer(Game game, ISceneManager manager) {
+		mySceneManager = manager;
 		myRoot = new Group();
 		myScene = new Scene(myRoot, game.getScreenSize().getWidth(), game.getScreenSize().getHeight());
 		setSceneCSS();
-		myRunner = new GameRunner(myScene, game, level->{});
+		myRunner = new GameRunner(myScene, game, level->{}, this);
 		myRoot.getChildren().add(myRunner.getHUDController().getView());
 		myRoot.getChildren().add(myRunner.getRunningView().getViews());
-		myStage.setScene(myScene);
-		myStage.show();
 	}
 
 	private void setSceneCSS() {
 		File f = new File(myResources.getString("HUDCSSFile"));
 		myScene.getStylesheets().clear();
 		myScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
+	}
+	
+	public Scene getGamePlayScene(){
+		return myScene;
+	}
+
+	@Override
+	public void onEnd() {
+		mySceneManager.returnToMenu();
+		
 	}
 
 }

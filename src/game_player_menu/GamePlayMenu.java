@@ -47,6 +47,7 @@ public class GamePlayMenu implements IMenuInputListener {
 	private ISceneManager myManager;
 	private HashMap<ItemDescription, Game> myGameMap;
 	private Stage myStage;
+	private Scene myMenuScene;
 
 	public GamePlayMenu(Stage s, ISceneManager gamePlayManager){
 		myManager = gamePlayManager;
@@ -59,7 +60,7 @@ public class GamePlayMenu implements IMenuInputListener {
 		makeItemsObservable(myInitialMenuItems);
 		myMenuSceneGenerator = new HBoxMenu(this,s);
 		myStage = s;
-		showMenu(myStage, myMenuSceneGenerator.getMenuScene(myInitialMenuItems));
+		myMenuScene = myMenuSceneGenerator.getMenuScene(myMenuItems);
 	}
 
 	private void makeItemsObservable(List<ItemDescription> items) {
@@ -81,12 +82,8 @@ public class GamePlayMenu implements IMenuInputListener {
 			myGameMap.put(gameDescription, game);
 		}
 	}
-
-	private void showMenu(Stage s, Scene menuScene) {
-		s.setScene(menuScene);
-		s.show();	
-	}
-
+	
+	
 	private ItemDescription generateDescription(Game game){
 		String name = game.getId();
 		String description = game.getDescription();
@@ -135,6 +132,10 @@ public class GamePlayMenu implements IMenuInputListener {
 	@Override
 	public void exit() {
 		myStage.close();
+	}
+
+	public Scene getMenuScene() {
+		return myMenuScene;
 	}
 
 }
