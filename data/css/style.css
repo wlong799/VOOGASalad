@@ -16,6 +16,15 @@
     -fx-font-family: verdana;  
 }
 
+.splash-button {
+    -fx-border-color: black;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-font-size: 1em; /* 12 */
+    -fx-text-fill: #828282;
+}
+
 .sprite-label {
     -fx-font-size: 30px;
     -fx-font-weight: bold;
