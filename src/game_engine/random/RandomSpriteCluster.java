@@ -51,7 +51,7 @@ public class RandomSpriteCluster {
             try {
                 Constructor<? extends ISprite> ctor =
                         c.getConstructor(Position.class, Dimension.class, List.class);
-                Position pos = si.getRelativePosition();
+                Position pos = new Position(si.getRelativePosition().getX(), si.getRelativePosition().getY());
                 pos.addPosition(offset);
                 ISprite sprite = ctor.newInstance(pos, dim, imagePaths);
                 
