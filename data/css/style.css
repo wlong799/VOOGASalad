@@ -13,6 +13,21 @@
     -fx-focused-mark-color : -fx-focused-text-base-color ;  
 }
 
+.splash-button {
+    -fx-border-color: black;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+    -fx-font-size: 1em; /* 12 */
+    -fx-text-fill: #828282;
+}
+
+.sprite-label {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: black;
+}
+
 .combo-box-splash {
     -fx-pref-width: 300;
 }

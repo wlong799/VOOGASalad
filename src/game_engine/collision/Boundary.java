@@ -66,6 +66,14 @@ public class Boundary {
         return myPosition.getY();
     }
     
+    public Dimension getDimension() {
+        return myDimension;
+    }
+    
+    public Position getPosition() {
+        return myPosition;
+    }
+    
     private boolean contains (Position pos) {
         if (pos.getX() <= right() && pos.getX() >= left()) {
             if (pos.getY() <= bottom() && pos.getY() >= top()) {

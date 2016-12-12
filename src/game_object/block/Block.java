@@ -18,7 +18,8 @@ public class Block extends AbstractBlock {
 		myCategoryBitMask = DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
 		myCollisionBitMask =
 				DefaultConstants.HERO_CATEGORY_BIT_MASK |
-				DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
+				DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
+				DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
 		myAffectedByPhysics = false;
 	}
 

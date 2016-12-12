@@ -27,8 +27,10 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -137,13 +139,22 @@ public class GameRunner implements IEndListener{
 	}
 
 	private void update() {
+
+	        if(myGameEngine.isShutDown()){
+	            animation.stop();
+	            return;
+	        }
 		for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
+		    //System.out.println(sprite);
 			if (!spriteViewMap.containsKey(sprite)) {
 				//new sprite
 				addSpriteViewWithSprite(sprite);
 			} else {
+			    
 				spriteViewMap.get(sprite).setScaleX(sprite.isFacingLeft() ? 1 : -1);
 			}
+			
+			
 			spriteViewMap.get(sprite).setX(sprite.getXForVisualization());
 			spriteViewMap.get(sprite).setY(sprite.getYForVisualization());
 		}
@@ -151,10 +162,17 @@ public class GameRunner implements IEndListener{
 		//remove what's not returned from game engine
 		Set<ISpriteVisualization> removing = new HashSet<>(spriteViewMap.keySet());
 		removing.removeAll(myGameEngine.getSprites());
+		
 		for (ISpriteVisualization sprite : removing) {
 			myView.removeSpriteView(spriteViewMap.get(sprite));
 			spriteViewMap.remove(sprite);
 		}
+                ((Stage) myScene.getWindow()).showingProperty().addListener((obvs, old_val, new_val) -> {
+                    if(!new_val.booleanValue()){
+                        animation.stop();
+                    }
+                });
+		
 	}
 	
 	private void addSpriteViewWithSprite(ISpriteVisualization sprite) {
@@ -176,8 +194,8 @@ public class GameRunner implements IEndListener{
 		Background background = myGameEngine.getBackground();
 		if (background.getImagePaths().size() < 1) return;
 		ImageView bckGrdImg = new ImageView(background.getImagePaths().get(0));
-		bckGrdImg.setFitWidth(runningLevel.getLevelDimension().getWidth());
-		bckGrdImg.setFitWidth(runningLevel.getLevelDimension().getHeight());
+		bckGrdImg.setFitWidth(runningLevel.getDimension().getWidth());
+		bckGrdImg.setFitWidth(runningLevel.getDimension().getHeight());
 		myView.addSpriteView(bckGrdImg);
 	}
 
@@ -190,6 +208,7 @@ public class GameRunner implements IEndListener{
 		animation.getKeyFrames().add(frame);
 		animation.play();
 	}
+	
 
 	private void keyTriggers2Controls() {
 		myScene.setOnKeyReleased(event-> {

@@ -96,7 +96,6 @@ public class Component extends Observable {
                 sprite = new ReplenishHealthPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths);
                 break;
             case WEAPON_PROJECTILE:
-                ExceptionThrower.illegalArgs("Projectile should not be created directly inside authoring environment");
                 break;
             default:
                 break;

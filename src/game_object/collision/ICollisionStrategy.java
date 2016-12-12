@@ -25,4 +25,6 @@ public interface ICollisionStrategy<A extends ICollisionBody, B extends ICollisi
 	 */
 	void applyCollision(A a, B b, CollisionDirection collisionDirection);
 	
+	
+	
 }
