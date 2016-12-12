@@ -131,11 +131,12 @@ public class GameRunner {
 
 	private void update() {
 
-	           if(myGameEngine.isShutDown()){
-	               animation.stop();
-	           }
+	        if(myGameEngine.isShutDown()){
+	            animation.stop();
+	            return;
+	        }
 		for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
-		    System.out.println(sprite);
+		    //System.out.println(sprite);
 			if (!spriteViewMap.containsKey(sprite)) {
 				//new sprite
 				addSpriteViewWithSprite(sprite);

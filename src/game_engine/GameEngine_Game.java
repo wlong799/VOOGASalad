@@ -75,6 +75,7 @@ public class GameEngine_Game implements IGameEngine {
         myTransitionManager = new TransitionManager(game, myCurrentLevel);
         myFPS = game.getFPS();
         myTotalTime = 0;
+        myShutDown = false;
         myGenerator = game.getRandomGenerationController();
     }
 
