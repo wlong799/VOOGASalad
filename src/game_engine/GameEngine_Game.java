@@ -1,11 +1,9 @@
 package game_engine;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import game_engine.collision.Boundary;
-import com.sun.corba.se.spi.activation.EndpointInfoListHelper;
 import game_engine.collision.CollisionEngine;
 import game_engine.collision.ICollisionEngine;
 import game_engine.enemyai.EnemyControllerFactory;
@@ -17,19 +15,15 @@ import game_engine.physics.PhysicsEngineWithFriction;
 import game_engine.physics.PhysicsHeroFollower;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.random.RandomGenerationController;
-import game_engine.random.RandomSpriteCluster;
-import game_engine.random.SpriteInfo;
 import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
 import game_engine.transition.WinStatus;
 import game_object.acting.ActionName;
 import game_object.acting.Event;
 import game_object.background.Background;
-import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.character.IMover;
-import game_object.constants.GameObjectConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Game;
@@ -43,8 +37,6 @@ import game_object.weapon.Projectile;
 import game_player.IEndListener;
 import goal.IGoal;
 import goal.time.TimeGoal;
-import javafx.scene.Group;
-import javafx.stage.Stage;
 
 
 public class GameEngine_Game implements IGameEngine {
@@ -80,6 +72,7 @@ public class GameEngine_Game implements IGameEngine {
 		myTransitionManager = new TransitionManager(game, myCurrentLevel);
 		myFPS = game.getFPS();
 		myTotalTime = 0;
+		myGenerator = game.getRandomGenerationController();
 	}
 
 	public void suppressLogDebug() {
