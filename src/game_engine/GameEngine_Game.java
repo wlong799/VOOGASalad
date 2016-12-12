@@ -72,7 +72,7 @@ public class GameEngine_Game implements IGameEngine {
         myTransitionManager = new TransitionManager(game, myCurrentLevel);
         myFPS = game.getFPS();
         myTotalTime = 0;
-        initRandom();
+        myGenerator = game.getRandomGenerationController();
     }
 
     private void initRandom () {
