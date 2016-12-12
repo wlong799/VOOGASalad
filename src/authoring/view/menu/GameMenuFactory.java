@@ -38,6 +38,7 @@ public class GameMenuFactory {
         		"DeleteLevelElement",
                 "SeparatorMenuElement", 
                 "ChangeLevelBackgroundElement",
+                "RandomClusterElement"
                 }),
         TEST(myLanguageResourceBundle.getString("test"), new String[]{
         		"RunElement"

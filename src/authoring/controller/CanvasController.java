@@ -51,8 +51,6 @@ public class CanvasController implements Observer {
     private SpriteViewComparator mySpriteViewComparator;
     private ResourceBundle myCanvasProperties;
     private ResourceBundle myLanguageProperties;
-  
-    private static final double BLOCK_SIZE = 50;
 
     public void init(CanvasView canvas, ScrollPane scrollPane, Group content, HBox background) {
         myController = canvas.getController();
@@ -239,7 +237,7 @@ public class CanvasController implements Observer {
     }
     
     public double convertToNearestBlockValue(double value) {
-        return Math.round(value / BLOCK_SIZE) * BLOCK_SIZE;
+        return Math.round(value / Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE"))) * Double.parseDouble(myCanvasProperties.getString("BLOCK_SIZE"));
     }
     
     //ID

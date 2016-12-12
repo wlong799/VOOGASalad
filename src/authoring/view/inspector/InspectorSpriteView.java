@@ -17,6 +17,8 @@ import authoring.view.inspector.settings.LivesConfiguringView;
 import authoring.view.inspector.settings.NullSettingsView;
 import authoring.view.inspector.settings.SliderBoxView;
 import authoring.view.inspector.settings.TextInputBoxView;
+import game_engine.physics.IPhysicsStrategy;
+import authoring.view.inspector.settings.*;
 import game_object.block.IBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
@@ -26,12 +28,20 @@ import game_object.collision.ICollisionStrategy;
 import game_object.collision.MotionCollisionStrategy;
 import game_object.constants.DefaultConstants;
 import game_object.core.ISprite;
+import game_object.core.ImageStyle;
 import game_object.level.Level;
 import goal.position.ReachPointGoal;
 import javafx.scene.control.Label;
+import org.reflections.Reflections;
+
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.*;
 
 
 public class InspectorSpriteView extends AbstractInspectorTabView {
+
     private SpriteView mySpriteView;
     private ISprite mySprite;
 

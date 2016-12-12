@@ -68,9 +68,9 @@ public class EngineSetUp {
 
         languagesComboBox = new ComboBox<>(languageOptions);
         languagesComboBox.setValue(languageProperties.getString("selectLanguage"));
-        languagesComboBox.getStyleClass().add("combo-box-splash");
         languagesComboBox.setMinWidth(200.0);
         languagesComboBox.setPrefWidth(languagesComboBox.getMinWidth());
+        languagesComboBox.getSelectionModel().select(0);
         grid.add(languagesComboBox, 2, 28);
     }
 
