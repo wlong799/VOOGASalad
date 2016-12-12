@@ -21,8 +21,8 @@ public class Main extends Application {
 		EngineSetUp splashScreenContent = new EngineSetUp();
 		Scene s = new Scene(
 				splashScreenContent.getSplashScreenContent(), 
-				Integer.parseInt(languageProperties.getString("sceneDim")), 
-				Integer.parseInt(languageProperties.getString("sceneDim")));
+				Integer.parseInt(MainProperties.getString("sceneDim")), 
+				Integer.parseInt(MainProperties.getString("sceneDim")));
 		primaryStage.setScene(s);
 		primaryStage.setTitle(languageProperties.getString("maintitle"));
 		primaryStage.show();
