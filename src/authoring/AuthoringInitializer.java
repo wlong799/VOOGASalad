@@ -1,6 +1,5 @@
 package authoring;
 
-import java.io.IOException;
 import java.util.ResourceBundle;
 
 import authoring.view.AuthoringView;
@@ -10,7 +9,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import network.server.Coordinator;
 import resources.ResourceBundles;
 
 public class AuthoringInitializer {
@@ -25,11 +23,6 @@ public class AuthoringInitializer {
 	private String myLanguageResourceFilePath;
 	
 	public void init(String filePath) {
-		try {
-			new Coordinator(9999);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		String os = System.getProperty("os.name");
 		myPrimaryScreenBounds = Screen.getPrimary().getVisualBounds();
 		myHeight = 0;
