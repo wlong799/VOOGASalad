@@ -142,14 +142,14 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
             		myLanguageResourceBundle.getString("enemyHorizontally"), 
             		hero.getPushByEnemyCollsionStrategy().getHorizontalBounce(),
                     (obv, oldVal, newVal) -> {
-                        hero.getPushByEnemyCollsionStrategy().setHorizontalBounce(newVal);
+                        hero.getPushByEnemyCollsionStrategy().setMyHorizontalPushed(newVal);
                     });
             myPushedVBox = new CheckBoxView(
             		getController(), 
             		myLanguageResourceBundle.getString("enemyVertically"), 
             		hero.getPushByEnemyCollsionStrategy().getVerticalBounce(),
                     (obv, oldVal, newVal) -> {
-                        hero.getPushByEnemyCollsionStrategy().setVerticalBounce(newVal);;
+                        hero.getPushByEnemyCollsionStrategy().setMyVerticalPushed(newVal);;
                     });
             addSettingsViews(
             		myActionView, 
@@ -172,14 +172,14 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
             		myLanguageResourceBundle.getString("heroHorizontally"), 
             		enemy.getPushByHeroCollsionStrategy().getHorizontalBounce(),
                     (obv, oldVal, newVal) -> {
-                    	enemy.getPushByHeroCollsionStrategy().setHorizontalBounce(newVal);
+                    	enemy.getPushByHeroCollsionStrategy().setMyHorizontalPushed(newVal);
                     });
             myPushedVBox = new CheckBoxView(
             		getController(), 
             		myLanguageResourceBundle.getString("heroVertically"), 
             		enemy.getPushByHeroCollsionStrategy().getVerticalBounce(),
                     (obv, oldVal, newVal) -> {
-                    	enemy.getPushByHeroCollsionStrategy().setVerticalBounce(newVal);;
+                    	enemy.getPushByHeroCollsionStrategy().setMyVerticalPushed(newVal);;
                     });
         	addSettingsViews(
         			enemyHasAIBox,

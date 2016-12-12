@@ -3,7 +3,8 @@ package game_engine;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
+import java.util.stream.Collectors;
+import game_engine.collision.Boundary;
 import game_engine.collision.CollisionEngine;
 import game_engine.collision.ICollisionEngine;
 import game_engine.enemyai.EnemyControllerFactory;
@@ -14,6 +15,7 @@ import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.random.RandomGenerationController;
+import game_engine.random.RandomSpriteCluster;
 import game_engine.random.SpriteInfo;
 import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
@@ -39,170 +41,195 @@ import game_object.weapon.Projectile;
 import goal.IGoal;
 import goal.time.TimeGoal;
 
+
 public class GameEngine_Game implements IGameEngine {
 
-	private Level myCurrentLevel;
-	private IPhysicsEngine myPhysicsEngine;
-	private ICollisionEngine myCollisionEngine;
-	private ITransitionManager myTransitionManager;
-	private InputController myInputController;
-	private IEnemyController myEnemyController;
-	private IEnemyControllerFactory myEnemyControllerFactory;
-	private RandomGenerationController myGenerator;
-	private double myElapsedTime;
-	private double myTotalTime;
-	private int myFPS;
-	private boolean logSuppressed = false;
+    private Level myCurrentLevel;
+    private IPhysicsEngine myPhysicsEngine;
+    private ICollisionEngine myCollisionEngine;
+    private ITransitionManager myTransitionManager;
+    private InputController myInputController;
+    private IEnemyController myEnemyController;
+    private IEnemyControllerFactory myEnemyControllerFactory;
+    private RandomGenerationController myGenerator;
+    private double myElapsedTime;
+    private double myTotalTime;
+    private int myFPS;
+    private boolean logSuppressed = false;
 
-	public GameEngine_Game(Game game) {
-		myCurrentLevel = game.getAllLevelsReadOnly().get(0);
-		init();
-		game.setCurrentLevel(myCurrentLevel);
-		myCurrentLevel.init();
-		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
-		myCollisionEngine = new CollisionEngine();
-		myInputController = new InputController(game);
-		myEnemyControllerFactory = new EnemyControllerFactory();
-		myEnemyController = myEnemyControllerFactory.createEnemyController(game.getEnemyDifficulty());
-		myTransitionManager = new TransitionManager(game, myCurrentLevel);
-		myFPS = game.getFPS();
-		myTotalTime = 0;
-		initRandom();
-	}
+    public GameEngine_Game (Game game) {
+        myCurrentLevel = game.getAllLevelsReadOnly().get(0);
+        init();
+        game.setCurrentLevel(myCurrentLevel);
+        myCurrentLevel.init();
+        myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
+        myCollisionEngine = new CollisionEngine();
+        myInputController = new InputController(game);
+        myEnemyControllerFactory = new EnemyControllerFactory();
+        myEnemyController =
+                myEnemyControllerFactory.createEnemyController(game.getEnemyDifficulty());
+        myTransitionManager = new TransitionManager(game, myCurrentLevel);
+        myFPS = game.getFPS();
+        myTotalTime = 0;
+        initRandom();
+    }
 
-	private void initRandom(){
-	    List<SpriteInfo> sprites = new ArrayList<SpriteInfo>();
-	    List<String> imagePaths = new ArrayList<String>();
-	    imagePaths.add(GameObjectConstants.BLUE_METAL_FILE);
-	    Dimension dim = new Dimension(100, 100);
-	    SpriteInfo si = new SpriteInfo(Block.class,imagePaths,dim);
-	    sprites.add(si);
-	    myGenerator = new RandomGenerationController(myCurrentLevel,sprites,5);
-	    myGenerator.setGenerationMetrics(0, 0, myCurrentLevel.getBoundary().getDimension().getHeight());
-	}
-	public void suppressLogDebug() {
-		logSuppressed = true;
-		myCollisionEngine.suppressLogDebug();
-	}
+    private void initRandom () {
+        List<SpriteInfo> sprites = new ArrayList<SpriteInfo>();
+        List<String> imagePaths = new ArrayList<String>();
+        imagePaths.add(GameObjectConstants.WARP_PIPE_DOWN);
+        Dimension dim = new Dimension(100, 400);
+        RandomSpriteCluster rsc = new RandomSpriteCluster(0, 300, 2);
+        SpriteInfo si = new SpriteInfo(Block.class, imagePaths, dim, new Position(0, -400));
+        imagePaths = new ArrayList<String>();
+        imagePaths.add(GameObjectConstants.WARP_PIPE);
+        SpriteInfo bottomSi = new SpriteInfo(Block.class, imagePaths, dim, new Position(0, 300));
+        sprites.add(si);
+        sprites.add(bottomSi);
+        sprites.forEach(s -> rsc.addSprite(s));
+        List<RandomSpriteCluster> clusters = new ArrayList<RandomSpriteCluster>();
+        clusters.add(rsc);
+        myGenerator = new RandomGenerationController(myCurrentLevel, clusters);
+    }
 
-	private void init() {
-		// setElements(myCurrentLevel);
-		myCurrentLevel.init();
-	}
+    public void suppressLogDebug () {
+        logSuppressed = true;
+        myCollisionEngine.suppressLogDebug();
+    }
 
-	@Override
-	public void shutdown() {
-		//TODO
-		return;
-	}
+    private void init () {
+        // setElements(myCurrentLevel);
+        myCurrentLevel.init();
+    }
 
-	@Override
-	public void update(double elapsedTime) {
-		updateTime();
-		myGenerator.generateSprites(elapsedTime);
-		setElapsedTime(elapsedTime);
-		executeInput(); //input for heroes
-		for (ISprite s : myCurrentLevel.getAllSprites()) {
-			//mimic enemy behavior; treat them as players
-			if (s instanceof Enemy && ((Enemy)s).hasAI()) {
-				IMover enemy = (IMover) s; 
-				Set<ActionName> list = myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
-				myEnemyController.executeInput(enemy, list);
-				List<Projectile> plist = myEnemyController.getNewProjectiles();
-				for (Projectile p : plist) {
-					myCurrentLevel.addSprite(p);
-				}
-			}
-			updateNewParameters(s);
-		}
-		if (!logSuppressed) {
-			System.out.println(myCurrentLevel.getHeros().get(0));
-		}
-		myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites()
-		// myCurrentLevel.getProjectiles(),
-		);
-		updateLevel();
-		endCheck();
-	}
+    @Override
+    public void shutdown () {
+        // TODO
+        return;
+    }
 
-	public void updateTime() {
-		myTotalTime += 1.0 / myFPS;
-	}
+    @Override
+    public void update (double elapsedTime) {
+        updateTime();
+        myGenerator.generateSprites(elapsedTime);
+        setElapsedTime(elapsedTime);
+        executeInput(); // input for heroes
+        for (ISprite s : myCurrentLevel.getAllSprites()) {
+            // mimic enemy behavior; treat them as players
+            if (s instanceof Enemy && ((Enemy) s).hasAI()) {
+                IMover enemy = (IMover) s;
+                Set<ActionName> list =
+                        myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
+                myEnemyController.executeInput(enemy, list);
+                List<Projectile> plist = myEnemyController.getNewProjectiles();
+                for (Projectile p : plist) {
+                    myCurrentLevel.addSprite(p);
+                }
+            }
+            updateNewParameters(s);
+        }
+        if (!logSuppressed) {
+            System.out.println(myCurrentLevel.getHeros().get(0));
+        }
+        myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites()
+        // myCurrentLevel.getProjectiles(),
+        );
+        updateLevel();
+        endCheck();
+    }
 
-	@Override
-	public void setInputList(Set<Event> list) {
-		myInputController.setInputList(list);
-	}
+    public void updateTime () {
+        myTotalTime += 1.0 / myFPS;
+    }
 
-	@Override
-	public void setParameter(PhysicsParameterSetOptions option, double value) {
-		myPhysicsEngine.setParameters(option, value);
-	}
+    @Override
+    public void setInputList (Set<Event> list) {
+        myInputController.setInputList(list);
+    }
 
-	private void updateLevel() {
-		Hero pivotHero = myCurrentLevel.getHeros().get(0);
-		if (pivotHero != null) {
-			AbstractSprite.getStaticPivotPosition().setX(pivotHero.getPosition().getX());
-			AbstractSprite.getStaticPivotPosition().setY(pivotHero.getPosition().getY());
-		}
-		myCurrentLevel.update();
-	}
+    @Override
+    public void setParameter (PhysicsParameterSetOptions option, double value) {
+        myPhysicsEngine.setParameters(option, value);
+    }
 
-	private void updateNewParameters(IPhysicsBody body) {
-		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
-		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
-		myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
-	}
+    private void updateLevel () {
+        Hero pivotHero = myCurrentLevel.getHeros().get(0);
+        if (pivotHero != null) {
+            AbstractSprite.getStaticPivotPosition().setX(pivotHero.getPosition().getX());
+            AbstractSprite.getStaticPivotPosition().setY(pivotHero.getPosition().getY());
+        }
+        myCurrentLevel.update();
+    }
 
-	private void endCheck() {
-		WinStatus ws = checkWin();
-		if (ws != WinStatus.GO_ON) {
-			if (!logSuppressed) {
-				System.out.println("transition");
-				System.out.println(myCurrentLevel);
-				System.out.println(myCurrentLevel);
-			}
+    private void updateNewParameters (IPhysicsBody body) {
+        Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
+        Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
+        myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
+    }
 
-			myCurrentLevel = myTransitionManager.readWinStatus(ws);
-			myPhysicsEngine.setLevel(myCurrentLevel);
+    private void endCheck () {
+        WinStatus ws = checkWin();
+        if (ws != WinStatus.GO_ON) {
+            if (!logSuppressed) {
+                System.out.println("transition");
+                System.out.println(myCurrentLevel);
+                System.out.println(myCurrentLevel);
+            }
 
-			if (myCurrentLevel == null) {
-				shutdown();
-			}
-			init();
-		}
-	}
+            myCurrentLevel = myTransitionManager.readWinStatus(ws);
+            myPhysicsEngine.setLevel(myCurrentLevel);
 
-	private WinStatus checkWin() {
-		List<IGoal> myGoals = myCurrentLevel.getAllGoals();
-		for (IGoal g : myGoals) {
-			if (g instanceof TimeGoal) {
-				((TimeGoal) g).setCurrentTime(myTotalTime);
-			}
+            if (myCurrentLevel == null) {
+                shutdown();
+            }
+            init();
+        }
+    }
 
-			if (g.checkGoal()) {
-				return g.getResult();
-			}
-		}
-		return WinStatus.GO_ON;
-	}
+    private WinStatus checkWin () {
+        List<IGoal> myGoals = myCurrentLevel.getAllGoals();
+        for (IGoal g : myGoals) {
+            if (g instanceof TimeGoal) {
+                ((TimeGoal) g).setCurrentTime(myTotalTime);
+            }
 
-	private void setElapsedTime(double elapsedTime) {
-		myElapsedTime = elapsedTime;
-	}
+            if (g.checkGoal()) {
+                return g.getResult();
+            }
+        }
+        return WinStatus.GO_ON;
+    }
 
-	private void executeInput() {
-		myInputController.executeInput();
-	}
+    private void setElapsedTime (double elapsedTime) {
+        myElapsedTime = elapsedTime;
+    }
 
-	@Override
-	public Background getBackground() {
-		return myCurrentLevel.getBackground();
-	}
-	
-	@Override
-	public List<ISpriteVisualization> getSprites() {
-		return myCurrentLevel.getAllSpriteVisualizations();
-	}
+    private void executeInput () {
+        myInputController.executeInput();
+    }
+
+    @Override
+    public Background getBackground () {
+        return myCurrentLevel.getBackground();
+    }
+
+    @Override
+    public List<ISpriteVisualization> getSprites () {
+        System.out.println(myCurrentLevel.getBoundary().right() + "right");
+        System.out.println(myCurrentLevel.getBoundary().left());
+        System.out.println(myCurrentLevel.getBoundary().top());
+        System.out.println(myCurrentLevel.getBoundary().bottom());
+        System.out.println(myCurrentLevel.getAllSpriteVisualizations().size() + " sprites");
+        List<ISpriteVisualization> l =
+                myCurrentLevel.getAllSprites().stream().filter(s -> myCurrentLevel.getBoundary()
+                        .overlaps(new Boundary(new Position(s.getPosition().getX(),
+                                                            s.getPosition().getY()),
+                                               new Dimension(s.getDimension().getWidth(),
+                                                             s.getDimension().getHeight()))))
+                        .map(s -> (ISpriteVisualization) s).collect(Collectors.toList());
+
+        System.out.println(l.size());
+        return l;
+    }
 
 }

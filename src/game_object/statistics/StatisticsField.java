@@ -5,5 +5,5 @@ package game_object.statistics;
  * @author Jay
  */
 public enum StatisticsField {
-	FPS, LEVEL_ID, HEALTH, POSITION
+	FPS, LEVEL_ID, HEALTH, POSITION, SCORE
 }
