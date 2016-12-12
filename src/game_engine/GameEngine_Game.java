@@ -188,12 +188,13 @@ public class GameEngine_Game implements IGameEngine {
 
             
             myCurrentLevel = myTransitionManager.readWinStatus(ws);
-            myPhysicsEngine.setLevel(myCurrentLevel);
-            init();
             if (myCurrentLevel == null) {
                 System.out.println("MADE IT");
                 shutdown();
+                return;
             }
+            myPhysicsEngine.setLevel(myCurrentLevel);
+            init();
         }
     }
 
