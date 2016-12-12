@@ -15,7 +15,7 @@ import game_object.statistics.GameStatistics;
  * @author Jay
  */
 public class Game {
-	
+
 	private final String myId;
 	private String myImagePath;
 	private String myDescription;
@@ -27,9 +27,9 @@ public class Game {
 
 	private Level myFirstSceneAsLevel;
 	//private TransitionMenu myFirstSceneAsMenu;
-	
+
 	private Level myCurrentLevel;
-	
+
 	public Game(String id) {
 		myId = id;
 		myLevels = new ArrayList<>();
@@ -42,60 +42,60 @@ public class Game {
 		myGameStats = new GameStatistics(this);
 		initDefaultGameInfo();
 	}
-	
+
 	/* mock */
 	private void initDefaultGameInfo() {
 		myImagePath = GameObjectConstants.BLUE_SNAIL_FILE;
 		myDescription = GameObjectConstants.LOREM_IPSUM;
 	}
-	
+
 	/* Game basics */
 	public void setEnemyDifficulty(EnemyLevelTypes enemyDifficulty) {
 		myEnemyDifficulty = enemyDifficulty;
 	}
-	
+
 	public EnemyLevelTypes getEnemyDifficulty() {
 		return myEnemyDifficulty;
 	}
-	
+
 	public Dimension getScreenSize() {
 		return myScreenSize;
 	}
-	
+
 	public String getId() {
 		return myId;
 	}
-	
+
 	public void setDescription(String description) {
 		myDescription = description;
 	}
-	
+
 	public String getDescription() {
 		return myDescription;
 	}
-	
+
 	public void setImagePath(String imagePath) {
 		myImagePath = imagePath;
 	}
-	
+
 	public String getImagePath() {
 		return myImagePath;
 	}
-	
+
 	/* FPS setting */
 	public void setFPS(int fPS) {
 		myFPS = fPS;
 	}
-	
+
 	public int getFPS() {
 		return myFPS;
 	}
-	
+
 	/* Game Statistics */
 	public GameStatistics getGameStats() {
 		return myGameStats;
 	}
-	
+
 	/**
 	 * Return false if this level's id conflicts with the existing ones.
 	 * @param level
@@ -110,24 +110,29 @@ public class Game {
 		myLevels.add(level);
 		return true;
 	}
-	
+
 	public void removeLevel(Level level) {
 		myLevels.remove(level);
 	}
-	
+
 	public List<Level> getAllLevelsReadOnly() {
 		return Collections.unmodifiableList(myLevels);
 	}
-	
+
+	// NOTE: SHOULD ONLY USE THIS IF ABSOLUTELY NECESSARY! OTHERWISE USE THE OTHER METHODS PROVIDED
+	public List<Level> getAllLevels() {
+		return myLevels;
+	}
+
 	public void setCurrentLevel(Level currentLevel) {
 		myCurrentLevel = currentLevel;
 	}
-	
+
 	public Level getCurrentLevel() {
 		return myCurrentLevel;
 	}
-	
-	/* 
+
+	/*
 	 * First Scene, it is either a level or a menu. (For now let's just start with a level)
 	 * If getFirstSceneAsLevel() returns a non-null instance of Level,
 	 * getFirstSceneAsMenu() will be ignored.
@@ -135,7 +140,7 @@ public class Game {
 	public void setFirstSceneAsLevel(Level level) {
 		myFirstSceneAsLevel = level;
 	}
-	
+
 	public Level getFirstSceneAsLevel() {
 		return myFirstSceneAsLevel;
 	}
@@ -147,5 +152,5 @@ public class Game {
 //	public TransitionMenu getFirstSceneAsMenu() {
 //		return myFirstSceneAsMenu;
 //	}
-	
+
 }
