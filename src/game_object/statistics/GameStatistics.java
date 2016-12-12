@@ -90,4 +90,10 @@ public class GameStatistics {
 			: null;
 	}
 	
+	public String getScoreOfHero(int index) {
+		return isValid(StatisticsField.SCORE)
+			? "" + staticDF2.format(getHeroWithIndex(index).getTotalScore())
+			: null;
+	}
+	
 }

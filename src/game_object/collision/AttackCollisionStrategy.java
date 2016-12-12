@@ -1,8 +1,11 @@
 package game_object.collision;
 
 import game_engine.collision.CollisionEngine.CollisionDirection;
+import game_object.character.Enemy;
+import game_object.character.Hero;
 import game_object.character.ICharacter;
 import game_object.simulation.ICollisionBody;
+import game_object.weapon.Projectile;
 
 public class AttackCollisionStrategy<A extends ICharacter, B extends ICollisionBody>
 	extends AbstractCollisionStrategy<A, B> {
@@ -67,6 +70,17 @@ public class AttackCollisionStrategy<A extends ICharacter, B extends ICollisionB
 			break;
 		}
 		a.setCurrentHP(a.getCurrentHP() - damage);
+		
+		// check for enemy death and add score to hero
+		if(a instanceof Enemy && !a.isValid()) {
+			if(b instanceof Projectile && ((Projectile) b).getParent() instanceof Hero) {
+				Hero h = (Hero)((Projectile)b).getParent();
+				h.incrementScore((Enemy)a);
+			} else if(b instanceof Hero) {
+				((Hero)b).incrementScore((Enemy)a);
+			}
+		}
+		
 	}
 
 }
