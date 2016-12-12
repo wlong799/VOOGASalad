@@ -142,6 +142,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                   DefaultConstants.ENEMY_CATEGORY_BIT_MASK) != 0,
                                  (obv, old_val, new_val) -> componentPhysicsSettings
                                          .setCollisionSettingWithEnemies(new_val));
+        
         myBlockCollisionCheckBox =
                 new CheckBoxView(getController(),
                                  myLanguageResourceBundle.getString("collideWithBlocks"),
@@ -150,7 +151,9 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                  (obv, old_val, new_val) -> {
                                      componentPhysicsSettings
                                          .setCollisionSettingWithBlock(new_val);
-                                     myKillHeroBox.getBox().setDisable(!new_val);
+                                     if(myKillHeroBox!=null){
+                                         myKillHeroBox.getBox().setDisable(!new_val);
+                                     }
                                  }
                                  );
         
@@ -188,8 +191,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
             myActionView = new ActionConfiguringView(getController(), mySprite);
             myKillHeroBox = new CheckBoxView(getController(),
                                              myLanguageResourceBundle.getString("collisionBlockDeath"),
-                                             (mySprite.getCollisionBitMask() &
-                                              DefaultConstants.ENEMY_CATEGORY_BIT_MASK) != 0,
+                                             false,
                                              (obv, old_val, new_val) -> {
                                                  AttackCollisionStrategy strat = new AttackCollisionStrategy();
                                                  MotionCollisionStrategy motion = new MotionCollisionStrategy();
