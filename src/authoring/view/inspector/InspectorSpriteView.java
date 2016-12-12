@@ -120,10 +120,10 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
 		for(Class<? extends IPhysicsStrategy> c : physics){
 			System.out.println(c.getName());
 		}
-		List<String> choices = physics.stream().map(p -> p.getName()).collect(Collectors.toList());
-		myPhysicsBox = new ComboBoxSettingsView(getController(),"Physics",mySprite.getPhysics().getClass().getName(),choices,(obv, old_val, new_val)->{
+		List<String> choices = physics.stream().map(p -> p.getSimpleName()).collect(Collectors.toList());
+		myPhysicsBox = new ComboBoxSettingsView(getController(),"Physics",mySprite.getPhysics().getClass().getSimpleName(),choices,(obv, old_val, new_val)->{
 			try{
-			mySprite.setPhysics((IPhysicsStrategy)Class.forName(new_val).newInstance());
+			mySprite.setPhysics((IPhysicsStrategy)Class.forName("game_engine.physics."+new_val).newInstance());
 			}
 			catch(Exception e){
 				

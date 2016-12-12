@@ -79,11 +79,11 @@ public class GameEngine_Game implements IGameEngine {
         List<String> imagePaths = new ArrayList<String>();
         imagePaths.add(GameObjectConstants.WARP_PIPE_DOWN);
         Dimension dim = new Dimension(100, 400);
-        RandomSpriteCluster rsc = new RandomSpriteCluster(0, 300, 2);
+        RandomSpriteCluster rsc = new RandomSpriteCluster(0, 300, 5);
         SpriteInfo si = new SpriteInfo(Block.class, imagePaths, dim, new Position(0, -400));
         imagePaths = new ArrayList<String>();
         imagePaths.add(GameObjectConstants.WARP_PIPE);
-        SpriteInfo bottomSi = new SpriteInfo(Block.class, imagePaths, dim, new Position(0, 300));
+        SpriteInfo bottomSi = new SpriteInfo(Block.class, imagePaths, dim, new Position(0, 200));
         sprites.add(si);
         sprites.add(bottomSi);
         sprites.forEach(s -> rsc.addSprite(s));
