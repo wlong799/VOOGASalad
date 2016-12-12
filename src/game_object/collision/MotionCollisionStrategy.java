@@ -62,7 +62,7 @@ public class MotionCollisionStrategy<A extends ICollisionBody, B extends ICollis
             a.getVelocity().setYVelocity(-1.0 * a.getVelocity().getYVelocity());
             return;
         }
-        else if(myVerticalPushed) {
+        else if(!myVerticalPushed) {
             a.getPosition().setY(b.getPosition().getY() + b.getDimension().getHeight());
         }
         a.getVelocity().setYVelocity(0);
@@ -76,7 +76,7 @@ public class MotionCollisionStrategy<A extends ICollisionBody, B extends ICollis
             a.getVelocity().setYVelocity(-1.0 * a.getVelocity().getYVelocity());
             return;
         }
-        else if(myVerticalPushed) {
+        else if(!myVerticalPushed) {
             a.getPosition().setY(b.getPosition().getY() - a.getDimension().getHeight());
         }
         a.getVelocity().setYVelocity(0);
@@ -88,7 +88,7 @@ public class MotionCollisionStrategy<A extends ICollisionBody, B extends ICollis
             a.getVelocity().setXVelocity(-1.0 * a.getVelocity().getXVelocity());
             return;
         }
-        else if(myHorizontalPushed){
+        else if(!myHorizontalPushed){
             a.getPosition().setX(b.getPosition().getX() + b.getDimension().getWidth());
         }
         a.getVelocity().setXVelocity(0);
@@ -99,7 +99,7 @@ public class MotionCollisionStrategy<A extends ICollisionBody, B extends ICollis
             a.getVelocity().setXVelocity(-1.0 * a.getVelocity().getXVelocity());
             return;
         }
-        else if(myHorizontalPushed) {
+        else if(!myHorizontalPushed) {
             a.getPosition().setX(b.getPosition().getX() - a.getDimension().getWidth());
         }
         a.getVelocity().setXVelocity(0);
