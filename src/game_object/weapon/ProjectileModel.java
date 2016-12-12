@@ -3,6 +3,7 @@ package game_object.weapon;
 import java.util.List;
 
 import game_object.character.ICharacter;
+import game_object.constants.DefaultConstants;
 import game_object.core.Position;
 import game_object.core.Velocity;
 
@@ -24,10 +25,7 @@ public class ProjectileModel {
 	private int myCollisionBitMask;
 	
 	public ProjectileModel(List<String> imagePaths, Velocity v, boolean affectedByGravity) {
-		myImagePaths = imagePaths;
-		myInitalVelocity = v;
-		myAffectedByGravity = affectedByGravity;
-		myFollowHero = false;
+		this(imagePaths, v, affectedByGravity, false);
 	}
 	
 	public ProjectileModel(List<String> imgPaths, Velocity v, boolean affectedByGravity, boolean followHero) {
@@ -35,7 +33,10 @@ public class ProjectileModel {
 		myInitalVelocity = v;
 		myAffectedByGravity = affectedByGravity;
 		myFollowHero = followHero;
+		myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK
+				| DefaultConstants.HERO_CATEGORY_BIT_MASK;
 	}
+	
 
 	public List<String> getImagePaths() {
 		return myImagePaths;
