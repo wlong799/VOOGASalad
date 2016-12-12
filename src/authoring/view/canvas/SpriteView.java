@@ -116,7 +116,6 @@ public class SpriteView extends AbstractView {
     @Override
     protected void initUI() {
         if (mySprite == null) return;
-
         mySpriteImageView = new SpriteImageView(this.getController());
         mySpriteNameView = new SpriteNameView(this.getController());
         addUIAll(mySpriteImageView.getUI(), mySpriteNameView.getUI());

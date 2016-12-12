@@ -5,6 +5,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.control.CheckBox;
 
 public class CheckBoxView extends AbstractSettingsView {
+	
 	private String myTitle;
 	private boolean isSelected;
 	private ChangeListener<Boolean> myChangeListener;
@@ -21,7 +22,7 @@ public class CheckBoxView extends AbstractSettingsView {
 
 	@Override
 	public void initializeSettings() {
-		myLabel.setText(myTitle);
+		mySnapBox.setText(myTitle);
 		mySnapBox.selectedProperty().addListener(myChangeListener);
 		mySnapBox.setSelected(isSelected);
 	}
