@@ -62,6 +62,7 @@ public class Level implements ILevelVisualization {
 		myPhysicsParameters = new PhysicsParameters();
 		myGoals = new ArrayList<>();
 		myBackground = new Background();
+		mySpriteScavenger = AbstractSprite.getSpriteScavenger();
 	}
 
 	public double getTotalScore() {
@@ -247,7 +248,6 @@ public class Level implements ILevelVisualization {
 			myHeros.add(Hero.generateDefaultHero());
 		}
 		AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
-		mySpriteScavenger = AbstractSprite.getSpriteScavenger();
 		mySpriteScavenger.setBorderDimension(myParentGame.getScreenSize());
 	}
 
