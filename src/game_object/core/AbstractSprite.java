@@ -241,6 +241,7 @@ public abstract class AbstractSprite implements ISprite {
     private static double Y_SCROLL_PERCENT = DefaultConstants.Y_SCROLL_PERCENT;
 
     private double myScrollOffset = 0;
+    private double myHeightOffset = 0;
 
     public static Position getStaticPivotPosition () {
         return staticPivotPosition;
@@ -272,6 +273,8 @@ public abstract class AbstractSprite implements ISprite {
 
     @Override
     public double getYForVisualization () {
+        myHeightOffset = -staticPivotPosition.getY() +
+                Y_SCROLL_PERCENT * staticPivotDimension.getHeight();
         return myPosition.getY() - staticPivotPosition.getY() +
                Y_SCROLL_PERCENT * staticPivotDimension.getHeight();
     }
@@ -289,6 +292,10 @@ public abstract class AbstractSprite implements ISprite {
     @Override
     public double getScrollOffset () {
         return myScrollOffset;
+    }
+    
+    public double getHeightOffset(){
+        return myHeightOffset;
     }
 
     protected void setScrollOffset (double offset) {

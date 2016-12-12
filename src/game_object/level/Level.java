@@ -283,6 +283,7 @@ public class Level implements ILevelVisualization {
             sprite.setPreviousVelocity(Velocity.getCopiedInstance(sprite.getVelocity()));
         }
         myBoundary.getPosition().setX(-myHeros.get(0).getScrollOffset());
+        myBoundary.getPosition().setY(-myHeros.get(0).getHeightOffset());
         mySpriteVisuals.clear();
         mySpriteVisuals.addAll(allSprites);
     }
