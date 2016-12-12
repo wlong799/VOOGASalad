@@ -211,34 +211,8 @@ public class GameRunner implements IEndListener{
 	
 
 	private void keyTriggers2Controls() {
-		myScene.setOnKeyReleased(event-> {
-			for (Hero hero : runningLevel.getHeros()) {
-				for(ActionName name : ActionName.values()) {
-					ActionTrigger trigger = runningLevel.getTriggerWithSpriteAndAction(hero, name);
-					if (trigger == null) break;
-					Event evt = trigger.getEvent();
-
-					if (!(evt instanceof KeyEvent)) break;
-					if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
-						currentlyPressedKeys.remove((KeyEvent)evt);
-					}
-				}
-			}
-		});
-		myScene.setOnKeyPressed(event -> {
-			for (Hero hero : runningLevel.getHeros()) {
-				for (ActionName name : ActionName.values()) {
-					ActionTrigger trigger = runningLevel.getTriggerWithSpriteAndAction(hero, name);
-					if (trigger == null) break;
-					Event evt = trigger.getEvent();
-
-					if (!(evt instanceof KeyEvent)) break;
-					if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
-						currentlyPressedKeys.add((KeyEvent)evt);
-					}
-				}
-			}
-		});
+		myScene.setOnKeyReleased(event-> currentlyPressedKeys.remove(new KeyEvent(event.getCode())));
+		myScene.setOnKeyPressed(event -> currentlyPressedKeys.add(new KeyEvent(event.getCode())));
 	}
 
 	private Game copyGame(Game game) {
