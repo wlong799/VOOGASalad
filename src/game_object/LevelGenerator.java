@@ -120,10 +120,18 @@ public class LevelGenerator {
 		);
 		levelA.addSprite(fastWeaponPowerUp);
 		
+		ProjectileModel enemybulletModel = new ProjectileModel(
+				slowBulletImgs, // image file
+				new Velocity(80, 0), // initial velocity
+				false, // affected by gravity
+				true // follow hero
+				);
+		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
-		WeaponModel enemyWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
+		WeaponModel enemyWeapon = new WeaponModel(blueGunImgs, 10, enemybulletModel, colBitMask);
 		enemy.setCurrentWeapon(enemyWeapon.newWeaponInstance(enemy, new Dimension(5, 5)));
 		enemy.setImageStyle(ImageStyle.FIT);
+		enemy.setHasAI(true);
 
 		Block smackDown = new Block(new Position(340, 50), new Dimension(100, 200), blockImages);
 		smackDown.setImageStyle(ImageStyle.TILE);

@@ -13,6 +13,7 @@ import game_engine.enemyai.IEnemyControllerFactory;
 import game_engine.inputcontroller.InputController;
 import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
+import game_engine.physics.PhysicsHeroFollower;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.random.RandomGenerationController;
 import game_engine.random.RandomSpriteCluster;
@@ -231,5 +232,4 @@ public class GameEngine_Game implements IGameEngine {
         System.out.println(l.size());
         return l;
     }
-
 }
