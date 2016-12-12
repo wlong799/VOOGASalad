@@ -30,6 +30,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 /**
  * @author samuelcurtis
@@ -37,9 +38,7 @@ import javafx.stage.Stage;
  *from this menu to various games that may be played.
  */
 public class GamePlayMenu implements IMenuInputListener {
-	public static final String RESOURCE_FOLDER = "game_player_resources/GamePlayMenu";
-	private ResourceBundle myResources = ResourceBundle.getBundle(RESOURCE_FOLDER);
-
+	protected ResourceBundle myResources = ResourceBundles.languageProperties;
 	private List<ItemDescription> myInitialMenuItems;
 	private ObservableList<ItemDescription> myMenuItems;
 	private MenuSceneGenerator myMenuSceneGenerator;

@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 
 /**
@@ -26,8 +27,7 @@ import javafx.stage.Stage;
  * @author George Bernard
  */
 public class FileLoader {
-	public static final String RESOURCE_FOLDER = "game_player_resources/GamePlayMenu";
-	public static ResourceBundle myResources = ResourceBundle.getBundle(RESOURCE_FOLDER);
+	protected static ResourceBundle myResources = ResourceBundles.languageProperties;
 	private static final String TITLE = "Load File";
     private static final String ERR_MSG = "File Failed To Load";
 

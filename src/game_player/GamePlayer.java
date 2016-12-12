@@ -1,9 +1,13 @@
 package game_player;
 
+import java.io.File;
+import java.util.ResourceBundle;
+
 import game_object.core.Game;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 /**
  * @author samuelcurtis, billyu
@@ -13,66 +17,30 @@ import javafx.stage.Stage;
  *sending that to the game engine.
  */
 
-public class GamePlayer implements IGamePlayer {
-	
+public class GamePlayer {
+	private ResourceBundle myResources = ResourceBundles.languageProperties;
 	private Stage myStage;
 	private Scene myScene;
 	private GameRunner myRunner;
 	private Game myCurrentGame;
+	private Group myRoot;
 
 	public GamePlayer(Stage s, Game game) {
 		myStage = s;
-		myScene = new Scene(new Group(), game.getScreenSize().getWidth(), game.getScreenSize().getHeight());
+		myRoot = new Group();
+		myScene = new Scene(myRoot, game.getScreenSize().getWidth(), game.getScreenSize().getHeight());
+		setSceneCSS();
 		myRunner = new GameRunner(myScene, game, level->{});
-		myScene.setRoot(myRunner.getRunningView().getViews());
+		myRoot.getChildren().add(myRunner.getHUDController().getView());
+		myRoot.getChildren().add(myRunner.getRunningView().getViews());
 		myStage.setScene(myScene);
 		myStage.show();
 	}
 
-	//This will eventually already take a game object in from a serializer
-	@Override
-	public void setGame(String gameName) {
-		myCurrentGame = new Game(gameName);
-		//myGameEngine = new GameEngine_Game(myCurrentGame);
+	private void setSceneCSS() {
+		File f = new File(myResources.getString("HUDCSSFile"));
+		myScene.getStylesheets().clear();
+		myScene.getStylesheets().add("file:///" + f.getAbsolutePath().replace("\\", "/"));
 	}
-
-	@Override
-	public void start() {
-	/*	final long startNanoTime = System.nanoTime();
-		new AnimationTimer()
-		{
-			public void handle(long currentNanoTime)
-			{
-				double t = (currentNanoTime - startNanoTime) / 1000000000.0; 
-				myGameEngine.update(t);
-				renderSprites();
-			}
-		}.start();
-		myStage.show();*/
-	}
-
-	@Override
-	public void save() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public IHighScoreStore getHighScoreStore() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public IGamePreferenceManager getGamePreferenceManager() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*	@Override
-	public List<GameInfo> getAllGameInfo() {
-		// TODO Auto-generated method stub
-		return null;
-	}*/
 
 }

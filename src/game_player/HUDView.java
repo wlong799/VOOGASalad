@@ -3,55 +3,68 @@ package game_player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 import game_object.core.Game;
 import game_object.statistics.GameStatistics;
 import game_object.statistics.StatisticsField;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import resources.ResourceBundles;
 
 public class HUDView {
+	private ResourceBundle myResources = ResourceBundles.languageProperties;
+	private VBox myStatsView;
+	private Map<String, String> myStatsMap;
 	
-	private Group myRoot;
-	private GridPane myStatisticsGrid;
-	private GameStatistics myStatistics;
-	private List<String> myValidFields;
-	
-	
-	public HUDView(GameStatistics stats){
-		myRoot = new Group();
-		myStatistics = stats;
-		myStatisticsGrid = new GridPane();
-		myValidFields = new ArrayList<String>();
-		init();
+	public HUDView(Map<String, String> statsMap){
+		myStatsMap = statsMap;
+		myStatsView = new VBox();
+		myStatsView.getStyleClass().add(myResources.getString("HUDVBoxStyle"));
+		updateView();
 	}
-
-	private void init() {
-		for(StatisticsField field : StatisticsField.values()){
-			if(myStatistics.isValid(field)){
-				myValidFields.add(field.toString());
-			}
+	
+	public void updateView(){
+		myStatsView.getChildren().clear();
+		for(Map.Entry<String, String> entry : myStatsMap.entrySet()){
+			HBox hBox = new HBox();
+			hBox.getStyleClass().add(myResources.getString("HUDHBoxStyle"));
+			String label = entry.getKey();
+			String value = entry.getValue();
+			Label field = new Label(label);
+			field.getStyleClass().add(myResources.getString("HUDFieldLabelStyle"));
+			Text fieldValue = new Text(value);
+			fieldValue.getStyleClass().add(myResources.getString("HUDFieldValueStyle"));
+			hBox.getChildren().addAll(field,fieldValue);
+			myStatsView.getChildren().add(hBox);
 		}
-		createGridRows();
-		populateRows();
+		myStatsView.setMinWidth(myStatsView.getWidth());
+	}
+	
+	public Node getView(){
+		return myStatsView;
 	}
 
-	private void populateRows() {
-		String fps = myStatistics.getFPS();
-		//String health = myStatistics.get
-		
-		
-	}
 
-	private void createGridRows() {
-		int rowNumber = 0;
-		for(String field : myValidFields){
-			myStatisticsGrid.add(new Label(field), 0, rowNumber);
-			rowNumber++;
-		}
-	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

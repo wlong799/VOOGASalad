@@ -23,6 +23,7 @@ import game_object.visualization.ISpriteVisualization;
 import game_player.image.ImageRenderer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -56,6 +57,7 @@ public class GameRunner {
 	private Scene myScene;
 	private Consumer<Level> myLevelChangeHandler;
 	private ImageRenderer myRenderer;
+	private HUDController myHudController;
 
 	public GameRunner(Scene s, Game game, Consumer<Level> levelChangeHandler) {
 		myScene = s;
@@ -67,6 +69,10 @@ public class GameRunner {
 		myLevelChangeHandler = levelChangeHandler;
 		myRenderer = new ImageRenderer();
 		init();
+	}
+	
+	public HUDController getHUDController(){
+		return myHudController;
 	}
 	
 	public GameRunningView getRunningView() {
@@ -85,7 +91,8 @@ public class GameRunner {
 		runningGame = copyGame(originalGame);
 		myGameEngine = new GameEngine_Game(runningGame);
 		myGameEngine.suppressLogDebug();
-
+		myHudController = new HUDController(runningGame);
+		
 		clear();
 		initRunning2Origin();
 		initFrame();
@@ -138,6 +145,7 @@ public class GameRunner {
 			spriteViewMap.get(sprite).setX(sprite.getXForVisualization());
 			spriteViewMap.get(sprite).setY(sprite.getYForVisualization());
 		}
+		myHudController.updateStatisticsMap();
 		//remove what's not returned from game engine
 		Set<ISpriteVisualization> removing = new HashSet<>(spriteViewMap.keySet());
 		removing.removeAll(myGameEngine.getSprites());

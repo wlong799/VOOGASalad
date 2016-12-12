@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javax.annotation.Resources;
 
 import javafx.scene.Node;
+import resources.ResourceBundles;
 
 /**
  * @author samuelcurtis
@@ -16,8 +17,7 @@ import javafx.scene.Node;
  */
 public abstract class NodeTranslator implements INodeTranslator {
 	
-	public static final String RESOURCE_FOLDER = "game_player_resources/GamePlayMenu";
-	protected ResourceBundle myResources = ResourceBundle.getBundle(RESOURCE_FOLDER);
+	protected ResourceBundle myResources = ResourceBundles.languageProperties;
 	
 	public abstract Node createNode(String text, boolean isSelectable, ISelectable listener);
 	

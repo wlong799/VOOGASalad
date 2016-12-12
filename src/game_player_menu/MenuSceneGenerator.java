@@ -24,6 +24,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 /**
  * @author samuelcurtis
@@ -33,10 +34,9 @@ import javafx.stage.Stage;
  *
  */
 public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
-	public static final String RESOURCE_FOLDER = "game_player_resources/GamePlayMenu";
+	protected ResourceBundle myResources = ResourceBundles.languageProperties;
 	private Scene myMenuScene;
 	private List<DisplayableItemDescription> myDisplayableMenuItems;
-	private ResourceBundle myResources;
 	private PaneCreator myPaneCreator;
 	private Stage myStage;
 	private BorderPane myRoot;
@@ -45,7 +45,6 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 	public MenuSceneGenerator(IMenuInputListener menu, Stage s){
 		myStage = s;
 		myDisplayableMenuItems = new ArrayList<DisplayableItemDescription>();
-		myResources = ResourceBundle.getBundle(RESOURCE_FOLDER);
 		myMenuListener = menu;
 		myPaneCreator = new PaneCreator();
 	}

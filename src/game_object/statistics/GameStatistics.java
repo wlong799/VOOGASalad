@@ -18,7 +18,6 @@ public class GameStatistics {
 	private static DecimalFormat staticDF2 = new DecimalFormat(".##");
 	private Game myGame;
 	private Map<StatisticsField, Boolean> myValidFieldsMap;
-	private Map<Hero, List<String>> myHeroStats;
 	
 	public GameStatistics(Game game) {
 		myGame = game;
@@ -51,6 +50,10 @@ public class GameStatistics {
 	
 	public boolean isValid(StatisticsField field) {
 		return myValidFieldsMap.get(field);
+	}
+	
+	public Map<StatisticsField, Boolean> getValidFieldMap(){
+		return myValidFieldsMap;
 	}
 	
 	/* Field Getters */

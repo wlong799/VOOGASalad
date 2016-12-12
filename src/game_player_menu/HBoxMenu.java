@@ -18,9 +18,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 public class HBoxMenu extends MenuSceneGenerator{
-	private ResourceBundle myResources;
+	protected ResourceBundle myResources = ResourceBundles.languageProperties;
 	private HBox myItemsBox;
 	private ScrollPane myScrollPane;
 	private List<DisplayableItemDescription> myMenuItems;
@@ -28,7 +29,6 @@ public class HBoxMenu extends MenuSceneGenerator{
 	
 	public HBoxMenu(IMenuInputListener menuListener, Stage s) {
 		super(menuListener,s);
-		myResources = ResourceBundle.getBundle(RESOURCE_FOLDER);
 		myMaxItemWidth = Double.parseDouble(myResources.getString("ItemPaneMaxWidth"));
 	}
 
