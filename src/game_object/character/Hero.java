@@ -23,8 +23,10 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 	private List<ICollisionStrategy<Hero, Enemy>> myEnemyStrategyList;
     private AttackCollisionStrategy<Hero, Enemy> myAttackByEnemyCollisionStrategy;
     private MotionCollisionStrategy<Hero, Enemy> myPushByEnemyCollsionStrategy;
+    private double myTotalScore;
     
-    public Hero (Position position, Dimension dimension, List<String> imagePaths) {
+
+	public Hero (Position position, Dimension dimension, List<String> imagePaths) {
         super(position, dimension, imagePaths);
         myCategoryBitMask = DefaultConstants.HERO_CATEGORY_BIT_MASK;
         myCollisionBitMask =
@@ -34,7 +36,23 @@ public class Hero extends AbstractCharacter implements IUpgrader {
 		    DefaultConstants.POWER_CATEGORY_BIT_MASK;
         setupDefaultStrategy();
     }
-    
+
+    public double getTotalScore() {
+		return myTotalScore;
+	}
+
+	public void setTotalScore(double totalScore) {
+		myTotalScore = totalScore;
+	}
+	
+	public void incrementScore(double score) {
+		myTotalScore += score;
+	}
+	
+	public void incrementScore(Enemy enemy) {
+		incrementScore(enemy.getScoreValue());
+	}
+	
     private void setupDefaultStrategy() {
         myAttackByEnemyCollisionStrategy = new AttackCollisionStrategy<>();
         myPushByEnemyCollsionStrategy = new MotionCollisionStrategy<>();
