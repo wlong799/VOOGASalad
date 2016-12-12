@@ -36,7 +36,9 @@ public class ComponentPanelFactory {
                 {
                         {GameObjectConstants.ORANGE_MUSHROOM_FILE, myLanguageResourceBundle.getString("mushroom"), myLanguageResourceBundle.getString("mushroomDescription")},
                         {GameObjectConstants.RIBBON_PIG_FILE, myLanguageResourceBundle.getString("pig"), myLanguageResourceBundle.getString("pigDescription")},
-                        {GameObjectConstants.SLIME_FILE, myLanguageResourceBundle.getString("slime"), myLanguageResourceBundle.getString("slimeHero")}
+                        {GameObjectConstants.SLIME_FILE, myLanguageResourceBundle.getString("slime"), myLanguageResourceBundle.getString("slimeHero")},
+                        {GameObjectConstants.WARP_PIPE, myLanguageResourceBundle.getString("warpPipe"), myLanguageResourceBundle.getString("warpPipeDescription")},
+                        {GameObjectConstants.WARP_PIPE_DOWN, myLanguageResourceBundle.getString("warpPipeDown"), myLanguageResourceBundle.getString("warpPipeDownDescription")}
                 }),
         STATIC_BLOCK(myLanguageResourceBundle.getString("blocks"), GameObjectType.STATIC_BLOCK, new String[][]
                 {

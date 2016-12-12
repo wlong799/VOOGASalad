@@ -128,19 +128,26 @@ public class GameRunner {
 	}
 
 	private void update() {
+	    
 		for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
+		    System.out.println(sprite);
 			if (!spriteViewMap.containsKey(sprite)) {
 				//new sprite
 				addSpriteViewWithSprite(sprite);
 			} else {
+			    
 				spriteViewMap.get(sprite).setScaleX(sprite.isFacingLeft() ? 1 : -1);
 			}
+			
+			
 			spriteViewMap.get(sprite).setX(sprite.getXForVisualization());
 			spriteViewMap.get(sprite).setY(sprite.getYForVisualization());
 		}
+		
 		//remove what's not returned from game engine
 		Set<ISpriteVisualization> removing = new HashSet<>(spriteViewMap.keySet());
 		removing.removeAll(myGameEngine.getSprites());
+		
 		for (ISpriteVisualization sprite : removing) {
 			myView.removeSpriteView(spriteViewMap.get(sprite));
 			spriteViewMap.remove(sprite);
@@ -166,8 +173,8 @@ public class GameRunner {
 		Background background = myGameEngine.getBackground();
 		if (background.getImagePaths().size() < 1) return;
 		ImageView bckGrdImg = new ImageView(background.getImagePaths().get(0));
-		bckGrdImg.setFitWidth(runningLevel.getLevelDimension().getWidth());
-		bckGrdImg.setFitWidth(runningLevel.getLevelDimension().getHeight());
+		bckGrdImg.setFitWidth(runningLevel.getDimension().getWidth());
+		bckGrdImg.setFitWidth(runningLevel.getDimension().getHeight());
 		myView.addSpriteView(bckGrdImg);
 	}
 

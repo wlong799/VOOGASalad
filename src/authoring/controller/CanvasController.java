@@ -202,30 +202,30 @@ public class CanvasController implements Observer {
     }
 
     public void expand() {
-        double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
+        double width = myEnvironment.getCurrentLevel().getDimension().getWidth();
         width += Double.parseDouble(myCanvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
-        myEnvironment.getCurrentLevel().getLevelDimension().setWidth(width);
+        myEnvironment.getCurrentLevel().getDimension().setWidth(width);
         updateBackground();
     }
 
     public void shrink() {
-        double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
+        double width = myEnvironment.getCurrentLevel().getDimension().getWidth();
         width -= Double.parseDouble(myCanvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
-        myEnvironment.getCurrentLevel().getLevelDimension().setWidth(width);
+        myEnvironment.getCurrentLevel().getDimension().setWidth(width);
         updateBackground();
     }
 
     public void taller() {
-        double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
+        double height = myEnvironment.getCurrentLevel().getDimension().getHeight();
         height += Double.parseDouble(myCanvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
-        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(height);
+        myEnvironment.getCurrentLevel().getDimension().setHeight(height);
         updateBackground();
     }
 
     public void shorter() {
-        double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
+        double height = myEnvironment.getCurrentLevel().getDimension().getHeight();
         height -= Double.parseDouble(myCanvasProperties.getString("SCREEN_CHANGE_INTERVAL"));
-        myEnvironment.getCurrentLevel().getLevelDimension().setHeight(height);
+        myEnvironment.getCurrentLevel().getDimension().setHeight(height);
         updateBackground();
     }
 
@@ -360,8 +360,8 @@ public class CanvasController implements Observer {
 
     private void updateBackground() {
         myBackground.getChildren().clear();
-        double width = myEnvironment.getCurrentLevel().getLevelDimension().getWidth();
-        double height = myEnvironment.getCurrentLevel().getLevelDimension().getHeight();
+        double width = myEnvironment.getCurrentLevel().getDimension().getWidth();
+        double height = myEnvironment.getCurrentLevel().getDimension().getHeight();
         if (myEnvironment.getCurrentLevel().getBackground().getImagePaths().size() == 0) {
             Rectangle rectangle = new Rectangle(0, 0, width, height);
             rectangle.setFill(Color.LIGHTCYAN);

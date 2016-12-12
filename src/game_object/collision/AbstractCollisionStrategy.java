@@ -16,5 +16,6 @@ public abstract class AbstractCollisionStrategy<A extends ICollisionBody, B exte
 	public boolean isValid() {
 		return myValid;
 	}
+	
 
 }
