@@ -1,26 +1,36 @@
 package game_player_menu;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.swing.JOptionPane;
+
+import org.xml.sax.SAXParseException;
+
 import com.sun.javafx.collections.MappingChange.Map;
 
 import game_object.core.*;
 import game_object.statistics.GameStatistics;
 import serializing.*;
+import utils.FileExtension;
+import utils.FileLoader;
+import utils.FileLoader.StartDirectory;
 import game_player.GamePlayManager;
 import game_player.GamePlayer;
 import game_player.ISceneManager;
+import groovy.io.FileType;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 /**
  * @author samuelcurtis
@@ -28,9 +38,7 @@ import javafx.stage.Stage;
  *from this menu to various games that may be played.
  */
 public class GamePlayMenu implements IMenuInputListener {
-	public static final String RESOURCE_FOLDER = "game_player_resources/GamePlayMenu";
-	private ResourceBundle myResources = ResourceBundle.getBundle(RESOURCE_FOLDER);
-	
+	protected ResourceBundle myResources = ResourceBundles.languageProperties;
 	private List<ItemDescription> myInitialMenuItems;
 	private ObservableList<ItemDescription> myMenuItems;
 	private MenuSceneGenerator myMenuSceneGenerator;
@@ -39,32 +47,33 @@ public class GamePlayMenu implements IMenuInputListener {
 	private ISceneManager myManager;
 	private HashMap<ItemDescription, Game> myGameMap;
 	private Stage myStage;
-	
+	private Scene myMenuScene;
+
 	public GamePlayMenu(Stage s, ISceneManager gamePlayManager){
 		myManager = gamePlayManager;
 		mySerializer = new Marshaller();
 		myGames = new ArrayList<Game>();
 		myGameMap = new HashMap<ItemDescription,Game>();
-		loadGames();
+		loadDefaultGames();
 		myInitialMenuItems = new ArrayList<ItemDescription>();
 		generateInitialDescriptions();
 		makeItemsObservable(myInitialMenuItems);
 		myMenuSceneGenerator = new HBoxMenu(this,s);
 		myStage = s;
-		showMenu(myStage, myMenuSceneGenerator.getMenuScene(myInitialMenuItems));
+		myMenuScene = myMenuSceneGenerator.getMenuScene(myMenuItems);
 	}
 
 	private void makeItemsObservable(List<ItemDescription> items) {
 		myMenuItems = FXCollections.observableList(items);
-        myMenuItems.addListener(new ListChangeListener<ItemDescription>() {
-            @Override
-            public void onChanged(ListChangeListener.Change change) {
-                myMenuSceneGenerator.addItem(change);
-            }
-        });
-		
+		myMenuItems.addListener(new ListChangeListener<ItemDescription>() {
+			@Override
+			public void onChanged(ListChangeListener.Change change) {
+				myMenuSceneGenerator.addItem(change);
+			}
+		});
+
 	}
-	
+
 
 	private void generateInitialDescriptions() {
 		for(Game game : myGames){
@@ -73,11 +82,7 @@ public class GamePlayMenu implements IMenuInputListener {
 			myGameMap.put(gameDescription, game);
 		}
 	}
-
-	private void showMenu(Stage s, Scene menuScene) {
-		s.setScene(menuScene);
-		s.show();	
-	}
+	
 	
 	private ItemDescription generateDescription(Game game){
 		String name = game.getId();
@@ -85,42 +90,52 @@ public class GamePlayMenu implements IMenuInputListener {
 		String imagePath = game.getImagePath();
 		return new ItemDescription(name, description, imagePath);
 	}
-	
-	
-	private void loadGames() {
-		File folder = new File(myResources.getString("DefaultGameDirectory"));
-		File[] listOfFiles = folder.listFiles();
-		for(File f : listOfFiles){
-			Game game = serializeGame(f);
-			myGames.add(game);
+
+
+	private void loadDefaultGames() {
+		FileLoader loader = new FileLoader(StartDirectory.DEFAULT_DIRECTORY,utils.FileType.DATA);
+		try {
+			List<File> allGameFiles = loader.loadMultipleFromDefaultDirectory();
+			for(File f : allGameFiles){
+				Game game = serializeGame(f);
+				myGames.add(game);
+			}
+		} catch (FileNotFoundException e) {
+			//
 		}
 	}
 
 
-	private Game serializeGame(File f) {
+	private Game serializeGame(File f){
 		Game game = mySerializer.loadGameFromFile(f);
 		return game;
 	}
 
 	@Override
 	public void itemChosen(ItemDescription item) {
-			Game toPlay = myGameMap.get(item);
-			myManager.playGame(toPlay);
+		Game toPlay = myGameMap.get(item);
+		myManager.playGame(toPlay);
 	}
 
-	@Override
-	public void playGame(File f) {
-			Game game = mySerializer.loadGameFromFile(f);
-			myManager.playGame(game);
-	}
 
 	@Override
 	public void loadGame(File f) {
 		Game game = serializeGame(f);
-		ItemDescription gameDescription = generateDescription(game);
-		myMenuItems.add(gameDescription);
-		myGames.add(game);
-		myGameMap.put(gameDescription, game);
+		if(game != null){
+			ItemDescription gameDescription = generateDescription(game);
+			myMenuItems.add(gameDescription);
+			myGames.add(game);
+			myGameMap.put(gameDescription, game);
+		}
 	}
-	
+
+	@Override
+	public void exit() {
+		myStage.close();
+	}
+
+	public Scene getMenuScene() {
+		return myMenuScene;
+	}
+
 }

@@ -3,6 +3,8 @@ package game_engine;
 import java.util.List;
 import java.util.Set;
 
+import com.sun.corba.se.spi.activation.EndpointInfoListHelper;
+
 import game_engine.collision.CollisionEngine;
 import game_engine.collision.ICollisionEngine;
 import game_engine.enemyai.EnemyControllerFactory;
@@ -31,6 +33,7 @@ import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 import game_object.visualization.ISpriteVisualization;
 import game_object.weapon.Projectile;
+import game_player.IEndListener;
 import goal.IGoal;
 import goal.time.TimeGoal;
 
@@ -43,14 +46,16 @@ public class GameEngine_Game implements IGameEngine {
 	private InputController myInputController;
 	private IEnemyController myEnemyController;
 	private IEnemyControllerFactory myEnemyControllerFactory;
+	private IEndListener myEndListener;
 	private double myElapsedTime;
 	private double myTotalTime;
 	private int myFPS;
 	private boolean logSuppressed = false;
 
-	public GameEngine_Game(Game game) {
+	public GameEngine_Game(Game game,IEndListener endListener) {
 		myCurrentLevel = game.getAllLevelsReadOnly().get(0);
 		init();
+		myEndListener = endListener;
 		game.setCurrentLevel(myCurrentLevel);
 		myCurrentLevel.init();
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
@@ -76,8 +81,7 @@ public class GameEngine_Game implements IGameEngine {
 
 	@Override
 	public void shutdown() {
-		// TODO
-		return;
+		myEndListener.onEnd();
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import game_object.visualization.ISpriteVisualization;
 import game_player.image.ImageRenderer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -36,7 +37,7 @@ import javafx.util.Duration;
  * takes a scene and a game
  * UI Group root can be accessed using getRunningView().getViews()
  */
-public class GameRunner {
+public class GameRunner implements IEndListener{
 	
 	private GameEngine_Game myGameEngine;
 
@@ -56,8 +57,10 @@ public class GameRunner {
 	private Scene myScene;
 	private Consumer<Level> myLevelChangeHandler;
 	private ImageRenderer myRenderer;
+	private HUDController myHudController;
+	private IEndListener myEndListener;
 
-	public GameRunner(Scene s, Game game, Consumer<Level> levelChangeHandler) {
+	public GameRunner(Scene s, Game game, Consumer<Level> levelChangeHandler, IEndListener listener) {
 		myScene = s;
 		originalGame = game;
 		currentlyPressedKeys = new HashSet<>();
@@ -66,7 +69,12 @@ public class GameRunner {
 		myView = new GameRunningView();
 		myLevelChangeHandler = levelChangeHandler;
 		myRenderer = new ImageRenderer();
+		myEndListener = listener;
 		init();
+	}
+	
+	public HUDController getHUDController(){
+		return myHudController;
 	}
 	
 	public GameRunningView getRunningView() {
@@ -83,9 +91,10 @@ public class GameRunner {
 
 	private void init() {
 		runningGame = copyGame(originalGame);
-		myGameEngine = new GameEngine_Game(runningGame);
+		myGameEngine = new GameEngine_Game(runningGame, this);
 		myGameEngine.suppressLogDebug();
-
+		myHudController = new HUDController(runningGame);
+		
 		clear();
 		initRunning2Origin();
 		initFrame();
@@ -138,6 +147,7 @@ public class GameRunner {
 			spriteViewMap.get(sprite).setX(sprite.getXForVisualization());
 			spriteViewMap.get(sprite).setY(sprite.getYForVisualization());
 		}
+		myHudController.updateStatisticsMap();
 		//remove what's not returned from game engine
 		Set<ISpriteVisualization> removing = new HashSet<>(spriteViewMap.keySet());
 		removing.removeAll(myGameEngine.getSprites());
@@ -216,5 +226,12 @@ public class GameRunner {
 		XStream mySerializer = new XStream(new DomDriver());
 		return (Game)mySerializer.fromXML(mySerializer.toXML(game));
 	}
-	
+
+	@Override
+	public void onEnd() {
+		animation.stop();
+		myEndListener.onEnd();
+		
+	}
+
 }

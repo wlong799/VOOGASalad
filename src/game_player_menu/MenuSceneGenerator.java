@@ -24,6 +24,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 /**
  * @author samuelcurtis
@@ -33,10 +34,9 @@ import javafx.stage.Stage;
  *
  */
 public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
-	public static final String RESOURCE_FOLDER = "game_player_resources/GamePlayMenu";
+	protected ResourceBundle myResources = ResourceBundles.languageProperties;
 	private Scene myMenuScene;
 	private List<DisplayableItemDescription> myDisplayableMenuItems;
-	private ResourceBundle myResources;
 	private PaneCreator myPaneCreator;
 	private Stage myStage;
 	private BorderPane myRoot;
@@ -45,7 +45,6 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 	public MenuSceneGenerator(IMenuInputListener menu, Stage s){
 		myStage = s;
 		myDisplayableMenuItems = new ArrayList<DisplayableItemDescription>();
-		myResources = ResourceBundle.getBundle(RESOURCE_FOLDER);
 		myMenuListener = menu;
 		myPaneCreator = new PaneCreator();
 	}
@@ -63,26 +62,33 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 
 	private HBox createMenuTop() {
 		HBox menuTop = new HBox();
+		menuTop.setAlignment(Pos.CENTER);
 		Text instructions = new Text();
-		Button loadButton = createLoadGameButton();
-		menuTop.setSpacing(myRoot.getWidth() - loadButton.getWidth() - instructions.getStrokeWidth());
 		instructions.setText(myResources.getString("MenuInstructionText"));
 		instructions.setFont(new Font(Double.parseDouble(myResources.getString("MenuInstructionFontSize"))));
-        instructions.getStyleClass().add("text");
-        BorderPane root = createBorderPane();
-        root.setAlignment(instructions, Pos.CENTER);
-        root.setTop(instructions);
-		setMenuCSS();
-		//root.setCenter(loadGameButton());
-		instructions.getStyleClass().add("text");
-		loadButton.setAlignment(Pos.TOP_RIGHT);
-		menuTop.getChildren().add(loadButton);
-		menuTop.getChildren().add(instructions);
+        instructions.getStyleClass().add(myResources.getString("MenuHeadingTextStyle"));
+        
+        Region paddingRegionLeft = new Region();
+        menuTop.setHgrow(paddingRegionLeft, Priority.ALWAYS);
+		Region paddingRegionRight = new Region();
+		menuTop.setHgrow(paddingRegionRight, Priority.ALWAYS);
+		menuTop.getChildren().addAll(
+				createLoadGameButton(), 
+				paddingRegionLeft, 
+				instructions,
+				paddingRegionRight,
+				createExitButton());
 		return menuTop;
 	}
 
+	private Button createExitButton() {
+		Button exit = new Button(myResources.getString("ExitButtonText"));
+		exit.setOnAction( e-> myMenuListener.exit());
+		return exit;
+	}
+
 	private Button createLoadGameButton(){
-		Button load = new Button("Load A New Game");
+		Button load = new Button(myResources.getString("LoadButtonText"));
 		load.setOnAction(e -> openFileChooser());
 		return load;
 	}
@@ -91,7 +97,9 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 	private void openFileChooser() {
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(myStage);
-		myMenuListener.loadGame(file);
+		if(file != null){
+			myMenuListener.loadGame(file);
+		}
 	}
 
 	private BorderPane createBorderPane() {
@@ -134,7 +142,6 @@ public abstract class MenuSceneGenerator implements IMenuSceneGenerator{
 	}
 
 	public void addItem(Change<ItemDescription> c) {
-		System.out.println("Test");
 		while(c.next()){
 			if (c.wasPermutated()) {
 				//do nothing
