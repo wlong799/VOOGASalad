@@ -10,6 +10,6 @@ public class ResourceBundles {
 	public final static ResourceBundle testGameProperties = ResourceBundle.getBundle("resources.constants/TestGameConfigurationView");
 	public final static ResourceBundle inspectorProperties = ResourceBundle.getBundle("resources.constants/Inspector");
 	public final static ResourceBundle languageProperties = ResourceBundle.getBundle("resources.languages/English");
-	public final static ResourceBundle mainProperties = ResourceBundle.getBundle("resources.languages/Main");
+	public final static ResourceBundle mainProperties = ResourceBundle.getBundle("resources.constants/Main");
 	public final static ResourceBundle serialProperties = ResourceBundle.getBundle("resources.constants/SerialNumbers");
 }

@@ -25,7 +25,8 @@ import game_object.core.ImageStyle;
 import game_object.level.Level;
 import goal.position.ReachPointGoal;
 import javafx.scene.control.Label;
-import org.reflections.*;
+import org.reflections.Reflections;
+
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
