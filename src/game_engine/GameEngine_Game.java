@@ -116,10 +116,10 @@ public class GameEngine_Game implements IGameEngine {
 
     @Override
     public void update (double elapsedTime) {
+        endCheck();
         if(myCurrentLevel == null){
             return;
         }
-        endCheck();
         updateTime();
         if(myGenerator != null){
             myGenerator.generateSprites(elapsedTime);
@@ -189,7 +189,6 @@ public class GameEngine_Game implements IGameEngine {
             
             myCurrentLevel = myTransitionManager.readWinStatus(ws);
             if (myCurrentLevel == null) {
-                System.out.println("MADE IT");
                 shutdown();
                 return;
             }
@@ -236,11 +235,6 @@ public class GameEngine_Game implements IGameEngine {
 
     @Override
     public List<ISpriteVisualization> getSprites () {
-        System.out.println(myCurrentLevel.getBoundary().right() + "right");
-        System.out.println(myCurrentLevel.getBoundary().left());
-        System.out.println(myCurrentLevel.getBoundary().top());
-        System.out.println(myCurrentLevel.getBoundary().bottom());
-        System.out.println(myCurrentLevel.getAllSpriteVisualizations().size() + " sprites");
         List<ISpriteVisualization> l =
                 myCurrentLevel.getAllSprites().stream().filter(s -> myCurrentLevel.getBoundary()
                         .overlaps(new Boundary(new Position(s.getPosition().getX(),
@@ -248,8 +242,14 @@ public class GameEngine_Game implements IGameEngine {
                                                new Dimension(s.getDimension().getWidth(),
                                                              s.getDimension().getHeight()))))
                         .map(s -> (ISpriteVisualization) s).collect(Collectors.toList());
-
-        System.out.println(l.size());
+        if(!logSuppressed){
+            System.out.println(myCurrentLevel.getBoundary().right() + "right");
+            System.out.println(myCurrentLevel.getBoundary().left());
+            System.out.println(myCurrentLevel.getBoundary().top());
+            System.out.println(myCurrentLevel.getBoundary().bottom());
+            System.out.println(myCurrentLevel.getAllSpriteVisualizations().size() + " sprites");
+            System.out.println(l.size());
+        }
         return l;
     }
 }

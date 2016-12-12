@@ -6,8 +6,10 @@ import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 /**
  * Handles level transitions: the most basic rule -- go to the next level
@@ -15,6 +17,9 @@ import javafx.scene.layout.VBox;
  * @author Charlie Wang
  */
 public class TransitionManager extends AbstractTransitionManager {
+    
+        public static final String GAME_OVER = "GAME OVER!!!";
+        public static final String FROWN = "img/frown.png";
 
 	private Level myLevel;
 
@@ -55,7 +60,9 @@ public class TransitionManager extends AbstractTransitionManager {
 	private void showGameOver(){
             Stage s = new Stage();
             VBox root = new VBox();
-            root.getChildren().add(new Label("GAME OVER"));
+            Label gameOver = new Label(GAME_OVER);
+            gameOver.setFont(new Font(50));
+            root.getChildren().addAll(gameOver,new ImageView(FROWN));
             root.setAlignment(Pos.CENTER);
             s.setScene(new Scene(root,400,400));
             s.show();
