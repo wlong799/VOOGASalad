@@ -17,9 +17,10 @@ public class PhysicsHeroFollower extends AbstractPhysicsEngine {
 
 	public PhysicsHeroFollower(Level level) {
 		super(level);
+		//setHeroes();
 	}
 
-	public void setHeroes(List<ISprite> heroes) {
+	private void setHeroes(List<ISprite> heroes) {
 		myHeroes = heroes;
 		selectHero();
 	}

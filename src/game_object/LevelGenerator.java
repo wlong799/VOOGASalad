@@ -81,7 +81,7 @@ public class LevelGenerator {
 				slowBulletImgs, // image file
 				new Velocity(80, 0), // initial velocity
 				false, // affected by gravity
-				false // follow hero
+				true // follow hero
 				);
                 
         int colBitMask = 
@@ -122,6 +122,7 @@ public class LevelGenerator {
 		WeaponModel enemyWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
 		enemy.setCurrentWeapon(enemyWeapon.newWeaponInstance(enemy, new Dimension(5, 5)));
 		enemy.setImageStyle(ImageStyle.FIT);
+		enemy.setHasAI(true);
 
 		Block smackDown = new Block(new Position(340, 50), new Dimension(100, 200), blockImages);
 		smackDown.setImageStyle(ImageStyle.TILE);

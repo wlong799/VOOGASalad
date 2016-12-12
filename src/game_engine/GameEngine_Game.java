@@ -11,6 +11,7 @@ import game_engine.enemyai.IEnemyControllerFactory;
 import game_engine.inputcontroller.InputController;
 import game_engine.physics.IPhysicsEngine;
 import game_engine.physics.PhysicsEngineWithFriction;
+import game_engine.physics.PhysicsHeroFollower;
 import game_engine.physics.PhysicsParameterSetOptions;
 import game_engine.transition.ITransitionManager;
 import game_engine.transition.TransitionManager;
@@ -36,7 +37,7 @@ import goal.time.TimeGoal;
 public class GameEngine_Game implements IGameEngine {
 
 	private Level myCurrentLevel;
-	private IPhysicsEngine myPhysicsEngine;
+	private IPhysicsEngine myPhysicsEngine, myHeroFollowerEngine;
 	private ICollisionEngine myCollisionEngine;
 	private ITransitionManager myTransitionManager;
 	private InputController myInputController;
@@ -53,6 +54,7 @@ public class GameEngine_Game implements IGameEngine {
 		game.setCurrentLevel(myCurrentLevel);
 		myCurrentLevel.init();
 		myPhysicsEngine = new PhysicsEngineWithFriction(myCurrentLevel);
+		myHeroFollowerEngine = new PhysicsHeroFollower(myCurrentLevel);
 		myCollisionEngine = new CollisionEngine();
 		myInputController = new InputController(game);
 		myEnemyControllerFactory = new EnemyControllerFactory();
@@ -74,7 +76,7 @@ public class GameEngine_Game implements IGameEngine {
 
 	@Override
 	public void shutdown() {
-		//TODO
+		// TODO
 		return;
 	}
 
@@ -82,11 +84,11 @@ public class GameEngine_Game implements IGameEngine {
 	public void update(double elapsedTime) {
 		updateTime();
 		setElapsedTime(elapsedTime);
-		executeInput(); //input for heroes
+		executeInput(); // input for heroes
 		for (ISprite s : myCurrentLevel.getAllSprites()) {
-			//mimic enemy behavior; treat them as players
-			if (s instanceof Enemy && ((Enemy)s).hasAI()) {
-				IMover enemy = (IMover) s; 
+			// mimic enemy behavior; treat them as players
+			if (s instanceof Enemy && ((Enemy) s).hasAI()) {
+				IMover enemy = (IMover) s;
 				Set<ActionName> list = myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
 				myEnemyController.executeInput(enemy, list);
 				List<Projectile> plist = myEnemyController.getNewProjectiles();
@@ -130,9 +132,16 @@ public class GameEngine_Game implements IGameEngine {
 	}
 
 	private void updateNewParameters(IPhysicsBody body) {
-		Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
-		Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
-		myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
+		if (body instanceof Projectile && ((Projectile) body).getModel().isFollowHero()) {
+			System.out.println("sss");
+			Position newPosition = myHeroFollowerEngine.calculateNewPosition(body, myElapsedTime);
+			Velocity newVelocity = myHeroFollowerEngine.calculateNewVelocity(body, myElapsedTime);
+			myHeroFollowerEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
+		} else {
+			Position newPosition = myPhysicsEngine.calculateNewPosition(body, myElapsedTime);
+			Velocity newVelocity = myPhysicsEngine.calculateNewVelocity(body, myElapsedTime);
+			myPhysicsEngine.updatePositionAndVelocity(newPosition, newVelocity, body);
+		}
 	}
 
 	private void endCheck() {
@@ -180,7 +189,7 @@ public class GameEngine_Game implements IGameEngine {
 	public Background getBackground() {
 		return myCurrentLevel.getBackground();
 	}
-	
+
 	@Override
 	public List<ISpriteVisualization> getSprites() {
 		return myCurrentLevel.getAllSpriteVisualizations();
