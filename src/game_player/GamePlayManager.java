@@ -36,11 +36,23 @@ public class GamePlayManager extends Application implements ISceneManager {
 	public void start(Stage s) {
 		myStage = s;
 		myMainMenu = new GamePlayMenu(s, this);
+		myStage.setScene(myMainMenu.getMenuScene());
+		myStage.show();
 	}
 
 	@Override
 	public void playGame(Game game) {
-		GamePlayer player = new GamePlayer(myStage, game);
+		myStage.close();
+		GamePlayer player = new GamePlayer (game, this);
+		myStage.setScene(player.getGamePlayScene());
+		myStage.show();
+	}
+
+	@Override
+	public void returnToMenu() {
+		myStage.close();
+		myStage.setScene(myMainMenu.getMenuScene());
+		myStage.show();
 		
 	}
 	

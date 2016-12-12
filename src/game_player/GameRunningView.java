@@ -1,6 +1,7 @@
 package game_player;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 
 public class GameRunningView {
@@ -26,5 +27,7 @@ public class GameRunningView {
 	public void removeSpriteView(ImageView image) {
 		myRoot.getChildren().remove(image);
 	}
+	
+	
 
 }

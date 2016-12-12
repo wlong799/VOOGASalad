@@ -6,7 +6,9 @@ public interface IMenuInputListener {
 	
 	void itemChosen(ItemDescription item);
 	
-	void playGame(File f);
 	
 	void loadGame(File f);
+
+
+	void exit();
 }

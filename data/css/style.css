@@ -1,6 +1,5 @@
 .root * {
     -fx-base: #000044; 
-    /*-fx-accent: lightgrey ;*/
     -fx-default-button: #C0C0C0;
     -fx-focus-color: #C0C0C0;
     -fx-faint-focus-color: #003366;
@@ -12,8 +11,6 @@
             -fx-mid-text-color 100%
         );
     -fx-focused-mark-color : -fx-focused-text-base-color ;  
-
-    -fx-font-family: verdana;  
 }
 
 .splash-button {
@@ -89,7 +86,7 @@
 -fx-background-color: -fx-box-border, -fx-inner-border, -fx-body-color;
 -fx-background-insets: 0, 1, 2;
 -fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
--fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
+-fx-padding: 0.166667em 0.833333em 0.25em 0.833333em;
 }
 
 .titled-pane 
@@ -219,8 +216,6 @@
     -fx-background-color:#000044 ;
 }
 
-/*.button:focused,
-.toggle-button:focused,*/
 .radio-button:focused > .radio,
 .check-box:focused > .box,
 .menu-button:focused,
@@ -244,8 +239,8 @@
 }
 
 .radio-button > .radio, .radio-button:focused > .radio  {   
-    -fx-background-radius: 1.0em; /* large value to make sure this remains circular */    
-    -fx-padding: 0.333333em; /* 4 -- padding from outside edge to the inner black dot */ 
+    -fx-background-radius: 1.0em; 
+    -fx-padding: 0.333333em; 
 }
 .split-menu-button:focused {
     -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border; 
@@ -257,13 +252,13 @@
     -fx-background-color: -fx-inner-border, -fx-body-color; 
     -fx-background-insets: 1 0 1 1, 2 1 2 2;
     -fx-background-radius: 2 0 0 2, 1 0 0 1;
-    -fx-padding: 0.333333em 0.667em 0.333333em 0.667em; /* 4 8 4 8 */
+    -fx-padding: 0.333333em 0.667em 0.333333em 0.667em; 
 }
 .split-menu-button:focused > .arrow-button {
     -fx-background-color: -fx-inner-border, -fx-body-color; 
     -fx-background-insets: 1, 2;
     -fx-background-radius: 0 2 2 0, 0 1 1 0;
-    -fx-padding: 0.5em 0.667em 0.5em 0.667em; /* 6 8 6 8 */
+    -fx-padding: 0.5em 0.667em 0.5em 0.667em; 
 }
 
 .scroll-bar:focused {
