@@ -325,29 +325,31 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                                        .getAttackByProjectileStrategy()
                                                        .setDamageFromAllDirection(newVal
                                                                .doubleValue()));
-           /*
+            
+            if(character.getCollideWithBlockStrategy() instanceof MotionCollisionStrategy){
+                
+            MotionCollisionStrategy mcs = (MotionCollisionStrategy)character.getCollideWithBlockStrategy();
+
             myBounceHBox = new CheckBoxView(
                                             getController(),
                                             myLanguageResourceBundle
                                                     .getString("bounceHorizontally"),
-                                            character.getCollideWithBlockStrategy()
-                                                    .getHorizontalBounce(),
-                                            (obv, oldVal, newVal) -> character
-                                                    .getCollideWithBlockStrategy()
-                                                    .setHorizontalBounce(newVal));
+                                            mcs.getHorizontalBounce(),
+                                            (obv, oldVal, newVal) -> mcs.setHorizontalBounce(newVal));
             myBounceVBox = new CheckBoxView(
                                             getController(),
                                             myLanguageResourceBundle.getString("bounceVertically"),
-                                            character.getCollideWithBlockStrategy()
-                                                    .getVerticalBounce(),
-                                            (obv, oldVal, newVal) -> character
-                                                    .getCollideWithBlockStrategy()
-                                                    .setVerticalBounce(newVal));
-                                                    */
+                                            mcs.getVerticalBounce(),
+                                            (obv, oldVal, newVal) -> mcs.setVerticalBounce(newVal));
+
+            
             addSettingsViews(
-                             myDamageSlider);
-                             //myBounceHBox,
-                             //myBounceVBox);
+                             myDamageSlider,
+                             myBounceHBox,
+                             myBounceVBox);
+            }else{
+                addSettingsViews(myDamageSlider);
+            }
         }
         updateLayout();
     }
