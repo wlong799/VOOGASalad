@@ -38,5 +38,11 @@ public class CheckBoxView extends AbstractSettingsView {
 		super.updateLayoutSelf();
 		mySnapBox.setPrefWidth(this.getWidth());
 	}
+	
+	
+	public CheckBox getBox(){
+	    return mySnapBox;
+	}
+	
 
 }

@@ -63,4 +63,8 @@ public abstract class AbstractInspectorTabView extends AbstractView {
         getSubViews().forEach(subView -> subView.setParentView(null));
         getSubViews().clear();
     }
+    
+    protected void removeSettingsView(AbstractSettingsView settingsView){
+        myContent.getChildren().remove(settingsView);
+    }
 }
