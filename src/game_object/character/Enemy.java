@@ -15,10 +15,13 @@ import game_object.simulation.ICollisionBody;
 public class Enemy extends AbstractCharacter {
 
 	private static final long serialVersionUID = -6360150217648638907L;
+	private static final double DEFAULT_SCORE_VALUE = 100;
+	
 	private boolean myHasAI = false;
 	private List<ICollisionStrategy<Enemy, Hero>> myHeroStrategyList;
     private AttackCollisionStrategy<Enemy, Hero> myAttackByHeroCollisionStrategy;
     private MotionCollisionStrategy<Enemy, Hero> myPushByHeroCollsionStrategy;
+    private double myScoreValue; // the value for this enemy
 	
 	public Enemy(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
@@ -28,6 +31,7 @@ public class Enemy extends AbstractCharacter {
 			DefaultConstants.BLOCK_CATEGORY_BIT_MASK | 
 			DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
 		setupDefaultStrategy();
+		myScoreValue = DEFAULT_SCORE_VALUE;
 	}
 	
 	private void setupDefaultStrategy() {
@@ -41,7 +45,16 @@ public class Enemy extends AbstractCharacter {
 		myPushByHeroCollsionStrategy.setHorizontalBounce(true);
 		myPushByHeroCollsionStrategy.setVerticalBounce(true);
 	}
-	 
+
+	public double getScoreValue() {
+		return myScoreValue;
+	}
+
+	public void setScoreValue(double scoreValue) {
+		myScoreValue = scoreValue;
+	}
+
+	
 	public void setHasAI(boolean hasAI) {
 		myHasAI = hasAI;
 	}
