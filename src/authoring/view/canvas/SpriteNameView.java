@@ -17,7 +17,6 @@ public class SpriteNameView extends AbstractView {
 	}
 	
 	public void setName(String name) {
-		myLabel.setText(name);
 		long hash = name.hashCode();
 		int red = (int) (hash % RGB);
 		hash /= RGB;
@@ -25,6 +24,7 @@ public class SpriteNameView extends AbstractView {
 		hash /= RGB;
 		int blue = (int) (hash % RGB);
 		myLabel.setTextFill(new Color(red / RGB_FLOAT, green / RGB_FLOAT, blue/ RGB_FLOAT, 1));
+		myLabel.setText(name);
 	}
 
 	@Override
@@ -37,7 +37,5 @@ public class SpriteNameView extends AbstractView {
 	@Override
 	protected void updateLayoutSelf() {
 	}
-	
-	
 	
 }
