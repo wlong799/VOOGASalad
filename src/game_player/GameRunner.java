@@ -11,12 +11,9 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import game_engine.GameEngine_Game;
-import game_object.acting.ActionName;
-import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 import game_object.background.Background;
-import game_object.character.Hero;
 import game_object.core.Game;
 import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
@@ -167,7 +164,7 @@ public class GameRunner {
 		if (background.getImagePaths().size() < 1) return;
 		ImageView bckGrdImg = new ImageView(background.getImagePaths().get(0));
 		bckGrdImg.setFitWidth(runningLevel.getLevelDimension().getWidth());
-		bckGrdImg.setFitWidth(runningLevel.getLevelDimension().getHeight());
+		bckGrdImg.setFitHeight(runningLevel.getLevelDimension().getHeight());
 		myView.addSpriteView(bckGrdImg);
 	}
 
