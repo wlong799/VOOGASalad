@@ -42,8 +42,8 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	
 	// the following two fields define the weapon-holding position
 	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
-	private double myWeaponDisplacementX;
-	private double myWeaponDisplacementY;
+	private double myWeaponDisplacementX = DefaultConstants.DEFAULT_WEAPON_X;
+	private double myWeaponDisplacementY = DefaultConstants.DEFAULT_WEAPON_Y;
 
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);

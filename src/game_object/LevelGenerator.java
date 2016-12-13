@@ -114,9 +114,7 @@ public class LevelGenerator {
 		IPowerUp fastWeaponPowerUp = new NewWeaponPowerUp(
 			new Position(300, 100),
 			new Dimension(40, 40),
-			fwpuImg,
-			fastWeapon,
-			new Dimension(20, 20)
+			fwpuImg
 		);
 		levelA.addSprite(fastWeaponPowerUp);
 		

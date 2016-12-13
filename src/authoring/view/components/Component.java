@@ -87,7 +87,7 @@ public class Component extends Observable {
                 sprite = new Block(new Position(0, 0), new Dimension(0, 0), imagePaths);
                 break;
             case WEAPON_POWER_UP:
-                sprite = new NewWeaponPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths, null, null);
+                sprite = new NewWeaponPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths);
                 break;
             case SPEED_POWER_UP:
                 sprite = new SpeedUpPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths, 2);
