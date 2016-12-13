@@ -6,7 +6,6 @@ import java.util.List;
 
 import game_engine.enemyai.EnemyLevelTypes;
 import game_engine.random.RandomGenerationController;
-import game_engine.random.RandomSpriteCluster;
 import game_object.constants.DefaultConstants;
 import game_object.constants.GameObjectConstants;
 import game_object.level.Level;

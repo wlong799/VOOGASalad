@@ -52,7 +52,8 @@ public class Receiver extends Thread {
 			} catch (IOException | ClassNotFoundException e) {
 				// IOException : the socket is closed, or not connected, or input has been shutdown
 				// ClassNotFoundException: reflection failed
-				connection.close();
+				e.printStackTrace();
+				//connection.close();
 			} catch (InterruptedException e) {
 				Thread.currentThread().interrupt();
 			}

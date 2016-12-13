@@ -12,6 +12,12 @@ public class DefaultConstants {
 	public static final double JUMPING_UNIT = 100;
 	public static final int MAX_JUMP = 3;
 	
+	public static final double DEFAULT_WEAPON_WIDTH = 20;
+	public static final double DEFAULT_WEAPON_HEIGHT = 20;
+	public static final double DEFAULT_WEAPON_X = 40;
+	public static final double DEFAULT_WEAPON_Y = 10;
+	
+	
 	public static final int VOID_CATEGORY_BIT_MASK = 0;
 	public static final int HERO_CATEGORY_BIT_MASK = 1 << 0;
 	public static final int ENEMY_CATEGORY_BIT_MASK = 1 << 1;

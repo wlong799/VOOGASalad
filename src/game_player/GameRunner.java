@@ -11,23 +11,18 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import game_engine.GameEngine_Game;
-import game_object.acting.ActionName;
-import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 import game_object.background.Background;
-import game_object.character.Hero;
 import game_object.core.Game;
 import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
 import game_player.image.ImageRenderer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -195,7 +190,7 @@ public class GameRunner implements IEndListener{
 		if (background.getImagePaths().size() < 1) return;
 		ImageView bckGrdImg = new ImageView(background.getImagePaths().get(0));
 		bckGrdImg.setFitWidth(runningLevel.getDimension().getWidth());
-		bckGrdImg.setFitWidth(runningLevel.getDimension().getHeight());
+		bckGrdImg.setFitHeight(runningLevel.getDimension().getHeight());
 		myView.addSpriteView(bckGrdImg);
 	}
 
@@ -211,34 +206,8 @@ public class GameRunner implements IEndListener{
 	
 
 	private void keyTriggers2Controls() {
-		myScene.setOnKeyReleased(event-> {
-			for (Hero hero : runningLevel.getHeros()) {
-				for(ActionName name : ActionName.values()) {
-					ActionTrigger trigger = runningLevel.getTriggerWithSpriteAndAction(hero, name);
-					if (trigger == null) break;
-					Event evt = trigger.getEvent();
-
-					if (!(evt instanceof KeyEvent)) break;
-					if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
-						currentlyPressedKeys.remove((KeyEvent)evt);
-					}
-				}
-			}
-		});
-		myScene.setOnKeyPressed(event -> {
-			for (Hero hero : runningLevel.getHeros()) {
-				for (ActionName name : ActionName.values()) {
-					ActionTrigger trigger = runningLevel.getTriggerWithSpriteAndAction(hero, name);
-					if (trigger == null) break;
-					Event evt = trigger.getEvent();
-
-					if (!(evt instanceof KeyEvent)) break;
-					if(event.getCode() == ((KeyEvent)evt).getKeyCode()){
-						currentlyPressedKeys.add((KeyEvent)evt);
-					}
-				}
-			}
-		});
+		myScene.setOnKeyReleased(event-> currentlyPressedKeys.remove(new KeyEvent(event.getCode())));
+		myScene.setOnKeyPressed(event -> currentlyPressedKeys.add(new KeyEvent(event.getCode())));
 	}
 
 	private Game copyGame(Game game) {

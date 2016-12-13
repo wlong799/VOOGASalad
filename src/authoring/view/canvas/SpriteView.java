@@ -17,6 +17,7 @@ public class SpriteView extends AbstractView {
     private SpriteResizeView mySpriteResizeView;
     private SpriteNameView mySpriteNameView;
     private Position myMouseOffset;
+    private static final double Y_OFFSET = -20;
 
     public SpriteView(AuthoringController controller, long id) {
         super(controller);
@@ -92,10 +93,7 @@ public class SpriteView extends AbstractView {
     }
 
     public void indicateSelection() {
-        this.removeSubView(mySpriteResizeView);
-        if (mySpriteResizeView != null) {
-            removeUI(mySpriteResizeView.getUI());
-        }
+        this.indicateDeselection();
         mySpriteResizeView = new SpriteResizeView(this.getController());
         addUI(mySpriteResizeView.getUI());
         addSubView(mySpriteResizeView);
@@ -133,7 +131,7 @@ public class SpriteView extends AbstractView {
         mySpriteImageView.setWidth(getWidth());
         mySpriteImageView.setHeight(getHeight());
         mySpriteNameView.setPositionX(0);
-        mySpriteNameView.setPositionY(-20);
+        mySpriteNameView.setPositionY(Y_OFFSET);
         if (mySpriteResizeView != null) {
             mySpriteResizeView.setWidth(getWidth());
             mySpriteResizeView.setHeight(getHeight());
