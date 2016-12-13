@@ -127,6 +127,7 @@ public class GameRunner implements IEndListener{
 					myLevelChangeHandler.accept(originalLevel);
 					clear();
 					initBackground();
+					initHud();
 					keyTriggers2Controls();
 				}
 				myGameEngine.setInputList(currentlyPressedKeys);
@@ -179,6 +180,10 @@ public class GameRunner implements IEndListener{
 		bckGrdImg.setFitWidth(runningLevel.getDimension().getWidth());
 		bckGrdImg.setFitWidth(runningLevel.getDimension().getHeight());
 		myView.addSpriteView(bckGrdImg);
+	}
+	
+	private void initHud() {
+		myView.getViews().getChildren().add(myHudController.getView());
 	}
 
 	private void initAnimation() {
