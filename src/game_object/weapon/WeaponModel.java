@@ -1,12 +1,16 @@
 package game_object.weapon;
 
 import game_object.character.*;
+import game_object.constants.GameObjectConstants;
 import game_object.core.Dimension;
 import game_object.core.Position;
+import game_object.core.Velocity;
+
 import java.util.*;
 
 public class WeaponModel {
 
+	private static final double DEFAULT_RPOJECTILE_VELOCITY = 80;
 	private double myDamage;
 	private ProjectileModel myProjectileModel;
 	private int myCollisionBitMask;
@@ -18,6 +22,17 @@ public class WeaponModel {
 		myProjectileModel = model;
 		myCollisionBitMask = collisionBitMask;
 		myProjectileModel.setCollisionBitMask(collisionBitMask);
+	}
+	
+	static public WeaponModel generateDefaultWeaponModel() {
+		ArrayList<String> blueGunImgs = new ArrayList<>();
+		ArrayList<String> bulletImgs = new ArrayList<>();
+        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_RIGHT_FILE);
+        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_LEFT_FILE);
+		bulletImgs.add(GameObjectConstants.ORANGE_BULLET_FILE);
+		ProjectileModel enemybulletModel = 
+			new ProjectileModel(bulletImgs, new Velocity(DEFAULT_RPOJECTILE_VELOCITY, 0), false, false);
+		return new WeaponModel(blueGunImgs, 0, enemybulletModel, 0);
 	}
 	
 	public double getDamage() {
