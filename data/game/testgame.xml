@@ -19,7 +19,15 @@
           <myGame reference="../.."/>
           <myValidFieldsMap>
             <entry>
+              <game__object.statistics.StatisticsField>LEVEL_ID</game__object.statistics.StatisticsField>
+              <boolean>true</boolean>
+            </entry>
+            <entry>
               <game__object.statistics.StatisticsField>FPS</game__object.statistics.StatisticsField>
+              <boolean>true</boolean>
+            </entry>
+            <entry>
+              <game__object.statistics.StatisticsField>POSITION</game__object.statistics.StatisticsField>
               <boolean>true</boolean>
             </entry>
             <entry>
@@ -28,14 +36,6 @@
             </entry>
             <entry>
               <game__object.statistics.StatisticsField>SCORE</game__object.statistics.StatisticsField>
-              <boolean>true</boolean>
-            </entry>
-            <entry>
-              <game__object.statistics.StatisticsField>LEVEL_ID</game__object.statistics.StatisticsField>
-              <boolean>true</boolean>
-            </entry>
-            <entry>
-              <game__object.statistics.StatisticsField>POSITION</game__object.statistics.StatisticsField>
               <boolean>true</boolean>
             </entry>
           </myValidFieldsMap>
@@ -274,7 +274,9 @@
         <mySpriteVisuals/>
       </myNextLevel>
       <myBackground>
-        <myImagePaths/>
+        <myImagePaths>
+          <string>img/background/bg5.png</string>
+        </myImagePaths>
       </myBackground>
       <myPhysicsParameters>
         <myGravity>50.0</myGravity>
@@ -575,7 +577,15 @@
     <myGame reference="../.."/>
     <myValidFieldsMap>
       <entry>
+        <game__object.statistics.StatisticsField>LEVEL_ID</game__object.statistics.StatisticsField>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
         <game__object.statistics.StatisticsField>FPS</game__object.statistics.StatisticsField>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <game__object.statistics.StatisticsField>POSITION</game__object.statistics.StatisticsField>
         <boolean>true</boolean>
       </entry>
       <entry>
@@ -584,14 +594,6 @@
       </entry>
       <entry>
         <game__object.statistics.StatisticsField>SCORE</game__object.statistics.StatisticsField>
-        <boolean>true</boolean>
-      </entry>
-      <entry>
-        <game__object.statistics.StatisticsField>LEVEL_ID</game__object.statistics.StatisticsField>
-        <boolean>true</boolean>
-      </entry>
-      <entry>
-        <game__object.statistics.StatisticsField>POSITION</game__object.statistics.StatisticsField>
         <boolean>true</boolean>
       </entry>
     </myValidFieldsMap>
