@@ -27,7 +27,9 @@ public class GameAdder {
 	private Level getNewLevel(Game game) {
 		String id = getIDFromUser();
 		Level newLevel = new Level(game, id);
-		newLevel.replaceAllHerosAndTriggersWithLevel(game.getCurrentLevel());
+		if (game.getCurrentLevel() != null) {
+			newLevel.replaceAllHerosAndTriggersWithLevel(game.getCurrentLevel());
+		}
 		return newLevel;
 	}
 	
