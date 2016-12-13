@@ -19,19 +19,19 @@
           <myGame reference="../.."/>
           <myValidFieldsMap>
             <entry>
-              <game__object.statistics.StatisticsField>LEVEL_ID</game__object.statistics.StatisticsField>
-              <boolean>true</boolean>
-            </entry>
-            <entry>
-              <game__object.statistics.StatisticsField>FPS</game__object.statistics.StatisticsField>
-              <boolean>true</boolean>
-            </entry>
-            <entry>
               <game__object.statistics.StatisticsField>POSITION</game__object.statistics.StatisticsField>
               <boolean>true</boolean>
             </entry>
             <entry>
               <game__object.statistics.StatisticsField>HEALTH</game__object.statistics.StatisticsField>
+              <boolean>true</boolean>
+            </entry>
+            <entry>
+              <game__object.statistics.StatisticsField>LEVEL_ID</game__object.statistics.StatisticsField>
+              <boolean>true</boolean>
+            </entry>
+            <entry>
+              <game__object.statistics.StatisticsField>FPS</game__object.statistics.StatisticsField>
               <boolean>true</boolean>
             </entry>
             <entry>
@@ -42,17 +42,39 @@
         </myGameStats>
         <myEnemyDifficulty>MEDIUM</myEnemyDifficulty>
       </myParentGame>
-      <myLevelDimension>
+      <myBoundary>
+        <myPosition>
+          <myX>0.0</myX>
+          <myY>0.0</myY>
+          <myZ>0.0</myZ>
+        </myPosition>
+        <myDimension>
+          <myWidth>900.0</myWidth>
+          <myHeight>700.0</myHeight>
+        </myDimension>
+      </myBoundary>
+      <myDimension>
         <myWidth>2000.0</myWidth>
-        <myHeight>800.0</myHeight>
-      </myLevelDimension>
+        <myHeight>1000.0</myHeight>
+      </myDimension>
       <myNextLevel>
         <myId>TestLevelB</myId>
         <myParentGame reference="../../myParentGame"/>
-        <myLevelDimension>
+        <myBoundary>
+          <myPosition>
+            <myX>0.0</myX>
+            <myY>0.0</myY>
+            <myZ>0.0</myZ>
+          </myPosition>
+          <myDimension>
+            <myWidth>900.0</myWidth>
+            <myHeight>700.0</myHeight>
+          </myDimension>
+        </myBoundary>
+        <myDimension>
           <myWidth>2000.0</myWidth>
-          <myHeight>800.0</myHeight>
-        </myLevelDimension>
+          <myHeight>700.0</myHeight>
+        </myDimension>
         <myBackground>
           <myImagePaths/>
         </myBackground>
@@ -122,6 +144,7 @@
                       <myChanged>false</myChanged>
                     </myChildSprites>
                     <myScrollOffset>0.0</myScrollOffset>
+                    <myHeightOffset>0.0</myHeightOffset>
                     <myModel>
                       <myDamage>10.0</myDamage>
                       <myProjectileModel>
@@ -145,6 +168,7 @@
                 <myChanged>true</myChanged>
               </myChildSprites>
               <myScrollOffset>0.0</myScrollOffset>
+              <myHeightOffset>0.0</myHeightOffset>
               <myMaxHP>100.0</myMaxHP>
               <myCurrentHP>100.0</myCurrentHP>
               <myMovingUnit>50.0</myMovingUnit>
@@ -161,10 +185,12 @@
               <myTempJumping>false</myTempJumping>
               <myShooting>false</myShooting>
               <myTempShooting>false</myTempShooting>
-              <myCollideWithBlockStrategy>
+              <myCollideWithBlockStrategy class="game_object.collision.MotionCollisionStrategy">
                 <myValid>true</myValid>
                 <myVerticalBounce>false</myVerticalBounce>
                 <myHorizontalBounce>false</myHorizontalBounce>
+                <myHorizontalPushed>false</myHorizontalPushed>
+                <myVerticalPushed>false</myVerticalPushed>
               </myCollideWithBlockStrategy>
               <myAttackByProjectileStrategy>
                 <myValid>true</myValid>
@@ -189,6 +215,8 @@
                   <myValid>true</myValid>
                   <myVerticalBounce>true</myVerticalBounce>
                   <myHorizontalBounce>true</myHorizontalBounce>
+                  <myHorizontalPushed>false</myHorizontalPushed>
+                  <myVerticalPushed>false</myVerticalPushed>
                 </game__object.collision.MotionCollisionStrategy>
               </myEnemyStrategyList>
               <myAttackByEnemyCollisionStrategy reference="../myEnemyStrategyList/game__object.collision.AttackCollisionStrategy"/>
@@ -216,7 +244,7 @@
             </myDimension>
             <myValid>true</myValid>
             <myCategoryBitMask>4</myCategoryBitMask>
-            <myCollisionBitMask>3</myCollisionBitMask>
+            <myCollisionBitMask>11</myCollisionBitMask>
             <myAffectedByPhysics>false</myAffectedByPhysics>
             <myVelocity>
               <myXVelocity>0.0</myXVelocity>
@@ -229,6 +257,7 @@
               <myChanged>false</myChanged>
             </myChildSprites>
             <myScrollOffset>0.0</myScrollOffset>
+            <myHeightOffset>0.0</myHeightOffset>
             <myCollisionBehavior>ALL_ALL_COLLISION</myCollisionBehavior>
           </game__object.block.Block>
         </myBlocks>
@@ -269,7 +298,10 @@
         <myProjectiles/>
         <myPowerUps/>
         <mySpriteScavenger>
-          <myBorderDimension reference="../../../myParentGame/myScreenSize"/>
+          <myBorderDimension>
+            <myWidth>2000.0</myWidth>
+            <myHeight>1000.0</myHeight>
+          </myBorderDimension>
         </mySpriteScavenger>
         <mySpriteVisuals/>
       </myNextLevel>
@@ -341,6 +373,7 @@
                   <myChanged>false</myChanged>
                 </myChildSprites>
                 <myScrollOffset>0.0</myScrollOffset>
+                <myHeightOffset>0.0</myHeightOffset>
                 <myModel>
                   <myDamage>10.0</myDamage>
                   <myProjectileModel>
@@ -362,6 +395,7 @@
             <myChanged>true</myChanged>
           </myChildSprites>
           <myScrollOffset>0.0</myScrollOffset>
+          <myHeightOffset>0.0</myHeightOffset>
           <myMaxHP>100.0</myMaxHP>
           <myCurrentHP>100.0</myCurrentHP>
           <myMovingUnit>50.0</myMovingUnit>
@@ -378,10 +412,12 @@
           <myTempJumping>false</myTempJumping>
           <myShooting>false</myShooting>
           <myTempShooting>false</myTempShooting>
-          <myCollideWithBlockStrategy>
+          <myCollideWithBlockStrategy class="game_object.collision.MotionCollisionStrategy">
             <myValid>true</myValid>
             <myVerticalBounce>false</myVerticalBounce>
             <myHorizontalBounce>false</myHorizontalBounce>
+            <myHorizontalPushed>false</myHorizontalPushed>
+            <myVerticalPushed>false</myVerticalPushed>
           </myCollideWithBlockStrategy>
           <myAttackByProjectileStrategy>
             <myValid>true</myValid>
@@ -407,6 +443,8 @@
               <myValid>true</myValid>
               <myVerticalBounce>true</myVerticalBounce>
               <myHorizontalBounce>true</myHorizontalBounce>
+              <myHorizontalPushed>false</myHorizontalPushed>
+              <myVerticalPushed>false</myVerticalPushed>
             </game__object.collision.MotionCollisionStrategy>
           </myHeroStrategyList>
           <myAttackByHeroCollisionStrategy reference="../myHeroStrategyList/game__object.collision.AttackCollisionStrategy"/>
@@ -431,7 +469,7 @@
           </myDimension>
           <myValid>true</myValid>
           <myCategoryBitMask>4</myCategoryBitMask>
-          <myCollisionBitMask>3</myCollisionBitMask>
+          <myCollisionBitMask>11</myCollisionBitMask>
           <myAffectedByPhysics>false</myAffectedByPhysics>
           <myVelocity>
             <myXVelocity>0.0</myXVelocity>
@@ -444,6 +482,7 @@
             <myChanged>false</myChanged>
           </myChildSprites>
           <myScrollOffset>0.0</myScrollOffset>
+          <myHeightOffset>0.0</myHeightOffset>
           <myCollisionBehavior>ALL_ALL_COLLISION</myCollisionBehavior>
         </game__object.block.Block>
         <game__object.block.Block>
@@ -460,7 +499,7 @@
           </myDimension>
           <myValid>true</myValid>
           <myCategoryBitMask>4</myCategoryBitMask>
-          <myCollisionBitMask>3</myCollisionBitMask>
+          <myCollisionBitMask>11</myCollisionBitMask>
           <myAffectedByPhysics>false</myAffectedByPhysics>
           <myVelocity>
             <myXVelocity>0.0</myXVelocity>
@@ -473,6 +512,7 @@
             <myChanged>false</myChanged>
           </myChildSprites>
           <myScrollOffset>0.0</myScrollOffset>
+          <myHeightOffset>0.0</myHeightOffset>
           <myCollisionBehavior>ALL_ALL_COLLISION</myCollisionBehavior>
         </game__object.block.Block>
         <game__object.block.Block>
@@ -489,7 +529,7 @@
           </myDimension>
           <myValid>true</myValid>
           <myCategoryBitMask>4</myCategoryBitMask>
-          <myCollisionBitMask>3</myCollisionBitMask>
+          <myCollisionBitMask>11</myCollisionBitMask>
           <myAffectedByPhysics>false</myAffectedByPhysics>
           <myVelocity>
             <myXVelocity>0.0</myXVelocity>
@@ -502,6 +542,7 @@
             <myChanged>false</myChanged>
           </myChildSprites>
           <myScrollOffset>0.0</myScrollOffset>
+          <myHeightOffset>0.0</myHeightOffset>
           <myCollisionBehavior>ALL_ALL_COLLISION</myCollisionBehavior>
         </game__object.block.Block>
       </myBlocks>
@@ -537,6 +578,7 @@
             <myChanged>false</myChanged>
           </myChildSprites>
           <myScrollOffset>0.0</myScrollOffset>
+          <myHeightOffset>0.0</myHeightOffset>
           <myWeaponModel>
             <myDamage>10.0</myDamage>
             <myProjectileModel>
@@ -577,19 +619,19 @@
     <myGame reference="../.."/>
     <myValidFieldsMap>
       <entry>
-        <game__object.statistics.StatisticsField>LEVEL_ID</game__object.statistics.StatisticsField>
-        <boolean>true</boolean>
-      </entry>
-      <entry>
-        <game__object.statistics.StatisticsField>FPS</game__object.statistics.StatisticsField>
-        <boolean>true</boolean>
-      </entry>
-      <entry>
         <game__object.statistics.StatisticsField>POSITION</game__object.statistics.StatisticsField>
         <boolean>true</boolean>
       </entry>
       <entry>
         <game__object.statistics.StatisticsField>HEALTH</game__object.statistics.StatisticsField>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <game__object.statistics.StatisticsField>LEVEL_ID</game__object.statistics.StatisticsField>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <game__object.statistics.StatisticsField>FPS</game__object.statistics.StatisticsField>
         <boolean>true</boolean>
       </entry>
       <entry>

@@ -2,10 +2,12 @@ package game_object.statistics;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import game_object.character.Hero;
 import game_object.core.Game;
+import game_object.core.Position;
 
 /**
  * A GameStatistics class providing all available fields for HUD
@@ -20,6 +22,7 @@ public class GameStatistics {
 	public GameStatistics(Game game) {
 		myGame = game;
 		myValidFieldsMap = new HashMap<>();
+		
 		enableAll();
 	}
 	
@@ -49,6 +52,10 @@ public class GameStatistics {
 		return myValidFieldsMap.get(field);
 	}
 	
+	public Map<StatisticsField, Boolean> getValidFieldMap(){
+		return myValidFieldsMap;
+	}
+	
 	/* Field Getters */
 	public String getFPS() {
 		return isValid(StatisticsField.FPS)
@@ -66,6 +73,12 @@ public class GameStatistics {
 		return isValid(StatisticsField.HEALTH)
 			? "" + (int)getHeroWithIndex(index).getCurrentHP()
 			: null;
+	}
+	
+	public Position getPositionOfHero(int index){
+		return isValid(StatisticsField.POSITION)
+				? getHeroWithIndex(index).getPosition()
+				: null;
 	}
 	
 	public String getXPosOfHero(int index) {

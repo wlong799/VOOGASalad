@@ -5,6 +5,7 @@ import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.GravityFrictionStrategy;
 import game_object.block.Block;
 import game_object.collision.AttackCollisionStrategy;
+import game_object.collision.ICollisionStrategy;
 import game_object.collision.MotionCollisionStrategy;
 import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
@@ -35,7 +36,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	protected boolean myTempJumping;
 	protected boolean myShooting;
 	protected boolean myTempShooting;
-	protected MotionCollisionStrategy<ICharacter, Block> myCollideWithBlockStrategy;
+	protected ICollisionStrategy<ICharacter, Block> myCollideWithBlockStrategy;
 	protected AttackCollisionStrategy<ICharacter, Projectile> myAttackByProjectileStrategy;
 	
 	
@@ -58,7 +59,7 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	
 	/*ICollisionBody Implementation*/
 	@Override
-	public MotionCollisionStrategy<ICharacter, Block> getCollideWithBlockStrategy() {
+	public ICollisionStrategy<ICharacter, Block> getCollideWithBlockStrategy() {
 		return myCollideWithBlockStrategy;
 	}
 	
@@ -68,6 +69,10 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	}
 	
 	@Override
+	public void setCollideWithBlockStrategy(ICollisionStrategy<ICharacter, Block> strategy){
+	    myCollideWithBlockStrategy = strategy;
+	}
+	@Override
 	public void onCollideWith(ICollisionBody otherBody, CollisionDirection collisionDirection) {
 		otherBody.onCollideWith(otherBody, collisionDirection.opposite());
 	}
@@ -75,12 +80,15 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	@Override
 	public void onCollideWith(Block b, CollisionDirection collisionDirection){
 		getCollideWithBlockStrategy().applyCollision(this, b, collisionDirection);
+		System.out.println(this.getDead());
+		setValid(!this.getDead());
 	}
 	
 	@Override
 	public void onCollideWith(Projectile p, CollisionDirection collisionDirection) {
 		if (p.getParent() != this) {
 			getAttackByProjectileStrategy().applyCollision(this, p, collisionDirection);
+			setValid(!this.getDead());
 		}
 	}
 	/* ---ICollisionBody Implementation END--- */

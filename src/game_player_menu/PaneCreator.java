@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 import javafx.geometry.Pos;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import resources.ResourceBundles;
 
 /**
  * @author samuelcurtis
@@ -15,8 +16,7 @@ import javafx.scene.layout.VBox;
  */
 public class PaneCreator implements DescriptionDisplayCreator{
 	
-	public static final String RESOURCE_FOLDER = "game_player_resources/GamePlayMenu";
-	protected ResourceBundle myResources = ResourceBundle.getBundle(RESOURCE_FOLDER);
+	private ResourceBundle myResources = ResourceBundles.languageProperties;
 	
 	NodeTranslator myNameTranslator;
 	NodeTranslator myDescriptionTranslator;

@@ -19,14 +19,14 @@ public class ChangeLevelBackgroundElement extends AbstractGameMenuElement{
 	private static final String MENU_NAME = inspectorProperties.getString("change");
 	
 	protected ChangeLevelBackgroundElement(AuthoringController controller) {
-		super(MENU_NAME, controller);
+		super(controller.getEnvironment().getLanguageResourceBundle().getString("changeLevelBackground"), controller);
 	}
 
 	@Override
 	protected void setFunctionality() {
 		myMenuItem.setOnAction(event -> {
 			FileChooser fileChooser = new FileChooser();
-			fileChooser.setTitle(inspectorProperties.getString("choose"));
+			fileChooser.setTitle(MENU_NAME);
         	File imageFile = fileChooser.showOpenDialog(new Stage());
         	if (imageFile == null) return;
         	File dir = new File(inspectorProperties.getString("DATA_DIR"));

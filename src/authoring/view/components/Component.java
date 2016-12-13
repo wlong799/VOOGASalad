@@ -13,7 +13,6 @@ import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
 import game_object.core.Dimension;
-import game_object.core.ExceptionThrower;
 import game_object.core.ISprite;
 import game_object.core.Position;
 import game_object.powerup.NewWeaponPowerUp;
@@ -25,8 +24,6 @@ import game_object.powerup.SpeedUpPowerUp;
  * component has a title and a description, and holds a single template sprite, which can be edited. Editing the template
  * edits all currently linked sprites on screen created using the template.
  */
-// TODO: 11/21/16 Make a way to edit the template sprite
-// TODO: 11/21/16 Make a way to link all previously created sprites and update them as well 
 public class Component extends Observable {
 
     private ISprite myTemplateSprite;
@@ -96,7 +93,6 @@ public class Component extends Observable {
                 sprite = new ReplenishHealthPowerUp(new Position(0, 0), new Dimension(0, 0), imagePaths);
                 break;
             case WEAPON_PROJECTILE:
-                ExceptionThrower.illegalArgs("Projectile should not be created directly inside authoring environment");
                 break;
             default:
                 break;

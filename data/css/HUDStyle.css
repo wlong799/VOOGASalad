@@ -1,0 +1,28 @@
+.vbox {
+/*    -fx-background-image: url("graphics/arrow_t_up_right.png");
+    -fx-background-size: 96, 205;
+    -fx-background-repeat: no-repeat;*/
+    -fx-background-color: #222930;
+    -fx-max-height: 100;
+    -fx-spacing: 20;
+}
+
+.hbox{
+	-fx-spacing: 5;
+	-fx-max-height: 25;
+	-fx-background-color: #222930;
+}
+
+.label{
+	 -fx-font-size: 11pt;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: #4EB1BA;
+}
+
+.text{
+	-fx-text-fill: #222930;
+}
+
+.test {
+	-fx-fill: #E9E9E9;
+}

@@ -1,7 +1,7 @@
 package game_player_menu;
 
 import java.io.File;
-import java.io.IOException;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +14,10 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 import serializing.Marshaller;
+import utils.FileLoader;
+import utils.FileLoader.StartDirectory;
 
 /**
  * @author samuelcurtis
@@ -22,11 +25,7 @@ import serializing.Marshaller;
  *from this menu to various games that may be played.
  */
 public class GamePlayMenu implements IMenuInputListener {
-
-	public static final String RESOURCE_FOLDER = "game_player_resources/GamePlayMenu";
-	private static final String XML_SUFFIX = ".xml";
-	private ResourceBundle myResources = ResourceBundle.getBundle(RESOURCE_FOLDER);
-
+	protected ResourceBundle myResources = ResourceBundles.languageProperties;
 	private List<ItemDescription> myInitialMenuItems;
 	private ObservableList<ItemDescription> myMenuItems;
 	private MenuSceneGenerator myMenuSceneGenerator;
@@ -34,18 +33,19 @@ public class GamePlayMenu implements IMenuInputListener {
 	private ISceneManager myManager;
 	private HashMap<ItemDescription, Game> myGameMap;
 	private Stage myStage;
+	private Scene myMenuScene;
 
 	public GamePlayMenu(Stage s, ISceneManager gamePlayManager){
 		myManager = gamePlayManager;
 		myGames = new ArrayList<Game>();
 		myGameMap = new HashMap<ItemDescription,Game>();
-		loadGames();
+		loadDefaultGames();
 		myInitialMenuItems = new ArrayList<ItemDescription>();
 		generateInitialDescriptions();
 		makeItemsObservable(myInitialMenuItems);
 		myMenuSceneGenerator = new HBoxMenu(this,s);
 		myStage = s;
-		showMenu(myStage, myMenuSceneGenerator.getMenuScene(myInitialMenuItems));
+		myMenuScene = myMenuSceneGenerator.getMenuScene(myMenuItems);
 	}
 
 	private void makeItemsObservable(List<ItemDescription> items) {
@@ -56,6 +56,7 @@ public class GamePlayMenu implements IMenuInputListener {
 				myMenuSceneGenerator.addItem(change);
 			}
 		});
+
 	}
 
 	private void generateInitialDescriptions() {
@@ -65,12 +66,7 @@ public class GamePlayMenu implements IMenuInputListener {
 			myGameMap.put(gameDescription, game);
 		}
 	}
-
-	private void showMenu(Stage s, Scene menuScene) {
-		s.setScene(menuScene);
-		s.show();	
-	}
-
+	
 	private ItemDescription generateDescription(Game game){
 		String name = game.getId();
 		String description = game.getDescription();
@@ -78,20 +74,21 @@ public class GamePlayMenu implements IMenuInputListener {
 		return new ItemDescription(name, description, imagePath);
 	}
 
-
-	private void loadGames() {
-		File folder = new File(myResources.getString("DefaultGameDirectory"));
-		String[] listOfFilePaths = folder.list((dir, name) -> {
-			return name.endsWith(XML_SUFFIX);
-		});
-		for(String path : listOfFilePaths){
-			try {
-				Game game = Marshaller.loadGame(folder.toURI().toString() + path);
+	private void loadDefaultGames() {
+		FileLoader loader = new FileLoader(StartDirectory.DEFAULT_DIRECTORY,utils.FileType.DATA);
+		try {
+			List<File> allGameFiles = loader.loadMultipleFromDefaultDirectory();
+			for(File f : allGameFiles){
+				Game game = serializeGame(f);
 				myGames.add(game);
-			} catch (IOException e) {
-				System.out.println("fail loading game: " + path);
 			}
+		} catch (FileNotFoundException e) {
+			//
 		}
+	}
+
+	private Game serializeGame(File f){
+		return Marshaller.loadGameFromFile(f);
 	}
 
 	@Override
@@ -101,18 +98,23 @@ public class GamePlayMenu implements IMenuInputListener {
 	}
 
 	@Override
-	public void playGame(File f) {
-		Game game = Marshaller.loadGameFromFile(f);
-		myManager.playGame(game);
+	public void loadGame(File f) {
+		Game game = serializeGame(f);
+		if(game != null){
+			ItemDescription gameDescription = generateDescription(game);
+			myMenuItems.add(gameDescription);
+			myGames.add(game);
+			myGameMap.put(gameDescription, game);
+		}
 	}
 
 	@Override
-	public void loadGame(File f) {
-		Game game = Marshaller.loadGameFromFile(f);
-		ItemDescription gameDescription = generateDescription(game);
-		myMenuItems.add(gameDescription);
-		myGames.add(game);
-		myGameMap.put(gameDescription, game);
+	public void exit() {
+		myStage.close();
+	}
+
+	public Scene getMenuScene() {
+		return myMenuScene;
 	}
 
 }

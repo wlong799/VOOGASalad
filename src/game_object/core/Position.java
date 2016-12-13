@@ -53,6 +53,11 @@ public class Position implements Serializable {
 		myZ = z;
 	}
 	
+	public void addPosition(Position p){
+	    myX+=p.getX();
+	    myY+=p.getY();
+	}
+	
 	@Override
 	public String toString() {
 	    return myX + ", " + myY;
