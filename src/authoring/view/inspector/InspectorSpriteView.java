@@ -1,11 +1,15 @@
 package authoring.view.inspector;
 
 import static resources.ResourceBundles.componentProperties;
-
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.reflections.Reflections;
 import authoring.AuthoringController;
 import authoring.view.canvas.SpriteView;
 import authoring.view.inspector.settings.ActionConfiguringView;
 import authoring.view.inspector.settings.CheckBoxView;
+import authoring.view.inspector.settings.ComboBoxSettingsView;
 import authoring.view.inspector.settings.ComponentPhysicsSettings;
 import authoring.view.inspector.settings.HealthPointConfiguringView;
 import authoring.view.inspector.settings.LabelView;
@@ -13,6 +17,7 @@ import authoring.view.inspector.settings.LivesConfiguringView;
 import authoring.view.inspector.settings.NullSettingsView;
 import authoring.view.inspector.settings.SliderBoxView;
 import authoring.view.inspector.settings.TextInputBoxView;
+import game_engine.physics.IPhysicsStrategy;
 import game_object.block.IBlock;
 import game_object.character.Enemy;
 import game_object.character.Hero;
@@ -37,11 +42,11 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
     private TextInputBoxView myXBox, myYBox, myZBox, myWidthBox, myHeightBox, myVelocityXBox,
             myVelocityYBox;
     private CheckBoxView myHerosCollisionCheckBox, myEnemiesCollisionCheckBox,
-            myBlockCollisionCheckBox,
-            myApplyPhysicsCheckBox, myReachPointCheckBox, enemyHasAIBox, myBounceHBox, myBounceVBox,
-            myPushedHBox, myPushedVBox, myKillHeroBox;
+            myBlockCollisionCheckBox, myReachPointCheckBox, enemyHasAIBox, myBounceHBox,
+            myBounceVBox, myPushedHBox, myPushedVBox, myKillHeroBox;
     private SliderBoxView myMaxJumpSlider, myJumpUnitSlider, myDamageSlider;
     private CheckBoxView myInfiniteJumps;
+    private ComboBoxSettingsView myPhysicsBox;
     private ActionConfiguringView myActionView;
     private LivesConfiguringView myLivesConfiguringView;
     private HealthPointConfiguringView myHealthPointConfiguringView;
@@ -79,10 +84,10 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
             addCharacterSettings();
         }
         if (mySprite instanceof NewWeaponPowerUp) {
-        	addWeaponSettings();
+            addWeaponSettings();
         }
         if (mySprite instanceof SpeedUpPowerUp) {
-        	addSpeedSettings();
+            addSpeedSettings();
         }
         updateLayout();
     }
@@ -91,9 +96,9 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
         mySpriteView = spView;
         updateUI();
     }
-    
-    private void addCommonSettings() {
-    	LabelView myLabelView = new LabelView(getController(), mySprite);
+
+    private void addCommonSettings () {
+        LabelView myLabelView = new LabelView(getController(), mySprite);
         myXBox =
                 new TextInputBoxView(getController(), myLanguageResourceBundle.getString("posX"),
                                      mySprite.getPosition().getX() + "",
@@ -140,15 +145,16 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                   DefaultConstants.HERO_CATEGORY_BIT_MASK) != 0,
                                  (obv, old_val, new_val) -> {
                                      componentPhysicsSettings
-                                         .setCollisionSettingWithHeros(new_val);
-                                     /*if(new_val){
-                                         addSettingsView(myKillHeroBox);
-                                         }
-                                     else{
-                                         removeSettingsView(myKillHeroBox);
-                                     }*/
-                                     }
-                                 );
+                                             .setCollisionSettingWithHeros(new_val);
+                                     /*
+                                      * if(new_val){
+                                      * addSettingsView(myKillHeroBox);
+                                      * }
+                                      * else{
+                                      * removeSettingsView(myKillHeroBox);
+                                      * }
+                                      */
+                                 });
         myEnemiesCollisionCheckBox =
                 new CheckBoxView(getController(),
                                  myLanguageResourceBundle.getString("collideWithEnemies"),
@@ -163,26 +169,36 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                   DefaultConstants.BLOCK_CATEGORY_BIT_MASK) != 0,
                                  (obv, old_val, new_val) -> {
                                      componentPhysicsSettings
-                                         .setCollisionSettingWithBlock(new_val);
-                                     if(myKillHeroBox!=null){
+                                             .setCollisionSettingWithBlock(new_val);
+                                     if (myKillHeroBox != null) {
                                          myKillHeroBox.getBox().setDisable(!new_val);
                                      }
-                                 }
-                                 );
-        myApplyPhysicsCheckBox =
-                new CheckBoxView(getController(),
-                                 myLanguageResourceBundle.getString("applyPhysics"),
-                                 mySprite.getAffectedByPhysics(),
-                                 (obv, old_val, new_val) -> componentPhysicsSettings
-                                         .makePhysicsApplicable(new_val));
+                                 });
+        Reflections reflections = new Reflections("game_engine.physics");
+        Set<Class<? extends IPhysicsStrategy>> physics =
+                reflections.getSubTypesOf(IPhysicsStrategy.class);
+        List<String> choices =
+                physics.stream().map(p -> p.getSimpleName()).collect(Collectors.toList());
+        myPhysicsBox =
+                new ComboBoxSettingsView(getController(), "Physics",
+                                         mySprite.getPhysics().getClass().getSimpleName(), choices,
+                                         (obv, old_val, new_val) -> {
+                                             try {
+                                                 mySprite.setPhysics((IPhysicsStrategy) Class
+                                                         .forName("game_engine.physics." + new_val)
+                                                         .newInstance());
+                                             }
+                                             catch (Exception e) {
+
+                                             }
+                                         });
         addSettingsViews(myLabelView, myXBox, myYBox, myZBox, myWidthBox, myHeightBox,
                          myVelocityXBox, myVelocityYBox, myHerosCollisionCheckBox,
-                         myEnemiesCollisionCheckBox, myBlockCollisionCheckBox,
-                         myApplyPhysicsCheckBox);
+                         myEnemiesCollisionCheckBox, myBlockCollisionCheckBox, myPhysicsBox);
     }
-    
-    private void addBlockSettings() {
-    	myReachPointCheckBox =
+
+    private void addBlockSettings () {
+        myReachPointCheckBox =
                 new CheckBoxView(getController(),
                                  myLanguageResourceBundle.getString("assignGoal"), false,
                                  (obv, oldVal, newVal) -> {
@@ -196,21 +212,24 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                  });
         addSettingsView(myReachPointCheckBox);
     }
-    
-    private void addHeroSettings() {
-    	Hero hero = (Hero) mySprite;
+
+    private void addHeroSettings () {
+        Hero hero = (Hero) mySprite;
         myActionView = new ActionConfiguringView(getController(), mySprite);
         myKillHeroBox = new CheckBoxView(getController(),
                                          myLanguageResourceBundle.getString("collisionBlockDeath"),
                                          false,
                                          (obv, old_val, new_val) -> {
-                                             AttackCollisionStrategy strat = new AttackCollisionStrategy();
-                                             MotionCollisionStrategy motion = new MotionCollisionStrategy();
+                                             AttackCollisionStrategy strat =
+                                                     new AttackCollisionStrategy();
+                                             MotionCollisionStrategy motion =
+                                                     new MotionCollisionStrategy();
                                              if (new_val) {
-                                                 strat.setDamageFromAllDirection(hero.getMaxHP()+1); //die bitch
+                                                 strat.setDamageFromAllDirection(hero.getMaxHP() +
+                                                                                 1); // die bitch
                                                  hero.setCollideWithBlockStrategy(strat);
                                              }
-                                             if (old_val){
+                                             if (old_val) {
                                                  hero.setCollideWithBlockStrategy(motion);
                                              }
                                          });
@@ -272,7 +291,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                                     .setVerticalBounce(newVal);
                                             ;
                                         });
-        if((hero.getCollisionBitMask() & DefaultConstants.BLOCK_CATEGORY_BIT_MASK) == 0){
+        if ((hero.getCollisionBitMask() & DefaultConstants.BLOCK_CATEGORY_BIT_MASK) == 0) {
             myKillHeroBox.getBox().setDisable(true);
         }
         addSettingsViews(myKillHeroBox,
@@ -285,24 +304,26 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                          myPushedHBox,
                          myPushedVBox);
     }
-    
-    private void addEnemySettings() {
-    	Enemy enemy = (Enemy) mySprite;
+
+    private void addEnemySettings () {
+        Enemy enemy = (Enemy) mySprite;
         enemyHasAIBox =
                 new CheckBoxView(getController(), myLanguageResourceBundle.getString("hasAI"),
                                  enemy.hasAI(),
                                  (obv, old_val, new_val) -> ((Enemy) mySprite)
                                          .setHasAI(new_val));
         CheckBoxView canShootBox = new CheckBoxView(
-        		this.getController(),
-        		myLanguageResourceBundle.getString("canShoot"),
-        		enemy.canShoot(),
-        		(obv, old_val, new_val) -> enemy.setShoot(new_val));
+                                                    this.getController(),
+                                                    myLanguageResourceBundle.getString("canShoot"),
+                                                    enemy.canShoot(),
+                                                    (obv, old_val, new_val) -> enemy
+                                                            .setShoot(new_val));
         CheckBoxView followBox = new CheckBoxView(
-        		this.getController(),
-        		myLanguageResourceBundle.getString("canFollow"),
-        		enemy.getCanProjectileFollowHero(),
-        		(obv, old_val, new_val) -> enemy.setCanProjectileFollowHero(new_val));
+                                                  this.getController(),
+                                                  myLanguageResourceBundle.getString("canFollow"),
+                                                  enemy.getCanProjectileFollowHero(),
+                                                  (obv, old_val, new_val) -> enemy
+                                                          .setCanProjectileFollowHero(new_val));
         myPushedHBox = new CheckBoxView(
                                         getController(),
                                         myLanguageResourceBundle.getString("heroHorizontally"),
@@ -329,9 +350,9 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                          myPushedHBox,
                          myPushedVBox);
     }
-    
-    private void addCharacterSettings() {
-    	ICharacter character = (ICharacter) mySprite;
+
+    private void addCharacterSettings () {
+        ICharacter character = (ICharacter) mySprite;
         myDamageSlider = new SliderBoxView(
                                            getController(),
                                            myLanguageResourceBundle
@@ -348,60 +369,65 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                                    .getAttackByProjectileStrategy()
                                                    .setDamageFromAllDirection(newVal
                                                            .doubleValue()));
-        if(character.getCollideWithBlockStrategy() instanceof MotionCollisionStrategy){
-        MotionCollisionStrategy mcs = (MotionCollisionStrategy)character.getCollideWithBlockStrategy();
-        myBounceHBox = new CheckBoxView(
-                                        getController(),
-                                        myLanguageResourceBundle
-                                                .getString("bounceHorizontally"),
-                                        mcs.getHorizontalBounce(),
-                                        (obv, oldVal, newVal) -> mcs.setHorizontalBounce(newVal));
-        myBounceVBox = new CheckBoxView(
-                                        getController(),
-                                        myLanguageResourceBundle.getString("bounceVertically"),
-                                        mcs.getVerticalBounce(),
-                                        (obv, oldVal, newVal) -> mcs.setVerticalBounce(newVal));
-        addSettingsViews(
-                         myDamageSlider,
-                         myBounceHBox,
-                         myBounceVBox);
-        } else {
+        if (character.getCollideWithBlockStrategy() instanceof MotionCollisionStrategy) {
+            MotionCollisionStrategy mcs =
+                    (MotionCollisionStrategy) character.getCollideWithBlockStrategy();
+            myBounceHBox = new CheckBoxView(
+                                            getController(),
+                                            myLanguageResourceBundle
+                                                    .getString("bounceHorizontally"),
+                                            mcs.getHorizontalBounce(),
+                                            (obv, oldVal, newVal) -> mcs
+                                                    .setHorizontalBounce(newVal));
+            myBounceVBox = new CheckBoxView(
+                                            getController(),
+                                            myLanguageResourceBundle.getString("bounceVertically"),
+                                            mcs.getVerticalBounce(),
+                                            (obv, oldVal, newVal) -> mcs.setVerticalBounce(newVal));
+            addSettingsViews(
+                             myDamageSlider,
+                             myBounceHBox,
+                             myBounceVBox);
+        }
+        else {
             addSettingsViews(myDamageSlider);
         }
     }
-    
-    private void addWeaponSettings() {
-    	NewWeaponPowerUp up = (NewWeaponPowerUp) mySprite;
-    	SliderBoxView vSlider = new SliderBoxView(
-                getController(),
-                myLanguageResourceBundle.getString("projectileVelocity"),
-                Double.parseDouble(componentProperties
-                        .getString("projVMin")),
-                Double.parseDouble(componentProperties
-                        .getString("projVMax")),
-                up.getProjectileVelocity().getXVelocity(),
-                Double.parseDouble(componentProperties
-                        .getString("projVInc")),
-                (obv, oldVal, newVal) -> 
-                up.getProjectileVelocity().setXVelocity(newVal.doubleValue()));
-    	addSettingsViews(vSlider);
+
+    private void addWeaponSettings () {
+        NewWeaponPowerUp up = (NewWeaponPowerUp) mySprite;
+        SliderBoxView vSlider = new SliderBoxView(
+                                                  getController(),
+                                                  myLanguageResourceBundle
+                                                          .getString("projectileVelocity"),
+                                                  Double.parseDouble(componentProperties
+                                                          .getString("projVMin")),
+                                                  Double.parseDouble(componentProperties
+                                                          .getString("projVMax")),
+                                                  up.getProjectileVelocity().getXVelocity(),
+                                                  Double.parseDouble(componentProperties
+                                                          .getString("projVInc")),
+                                                  (obv, oldVal, newVal) -> up
+                                                          .getProjectileVelocity()
+                                                          .setXVelocity(newVal.doubleValue()));
+        addSettingsViews(vSlider);
     }
-    
-    private void addSpeedSettings() {
-    	SpeedUpPowerUp up = (SpeedUpPowerUp) mySprite;
-    	SliderBoxView vSlider = new SliderBoxView(
-                getController(),
-                myLanguageResourceBundle.getString("speedUp"),
-                Double.parseDouble(componentProperties
-                        .getString("speedMin")),
-                Double.parseDouble(componentProperties
-                        .getString("speedMax")),
-                up.getSpeedUpFactor(),
-                Double.parseDouble(componentProperties
-                        .getString("speedInc")),
-                (obv, oldVal, newVal) -> 
-                up.setSpeedUpFactor(newVal.doubleValue()));
-    	addSettingsViews(vSlider);
+
+    private void addSpeedSettings () {
+        SpeedUpPowerUp up = (SpeedUpPowerUp) mySprite;
+        SliderBoxView vSlider = new SliderBoxView(
+                                                  getController(),
+                                                  myLanguageResourceBundle.getString("speedUp"),
+                                                  Double.parseDouble(componentProperties
+                                                          .getString("speedMin")),
+                                                  Double.parseDouble(componentProperties
+                                                          .getString("speedMax")),
+                                                  up.getSpeedUpFactor(),
+                                                  Double.parseDouble(componentProperties
+                                                          .getString("speedInc")),
+                                                  (obv, oldVal, newVal) -> up
+                                                          .setSpeedUpFactor(newVal.doubleValue()));
+        addSettingsViews(vSlider);
     }
 
 }
