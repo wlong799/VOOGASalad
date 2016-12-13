@@ -3,6 +3,7 @@ package game_object.level;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
 import game_engine.collision.Boundary;
 import game_engine.physics.PhysicsParameters;
 import game_object.acting.ActionName;
@@ -12,7 +13,6 @@ import game_object.background.Background;
 import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
-import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Game;
