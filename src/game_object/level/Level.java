@@ -48,6 +48,9 @@ public class Level implements ILevelVisualization {
     private List<Projectile> myProjectiles;
     private List<IPowerUp> myPowerUps;
     private SpriteScavenger mySpriteScavenger;
+    
+    private static final double DEFAULT_DIMENSION_WIDTH = 2000;
+    private static final double DEFAULT_DIMENSION_HEIGHT = 800;
 
     public Level (Game parentGame, String id) {
         myParentGame = parentGame;
@@ -63,7 +66,7 @@ public class Level implements ILevelVisualization {
                              new Dimension(this.myParentGame.getScreenSize().getWidth(),
                                            this.myParentGame.getScreenSize().getHeight()));
         System.out.println(this.myParentGame.getScreenSize().getWidth());
-        myDimension = new Dimension(0, 0);
+        myDimension = new Dimension(DEFAULT_DIMENSION_WIDTH, DEFAULT_DIMENSION_HEIGHT);
         myPhysicsParameters = new PhysicsParameters();
         myGoals = new ArrayList<>();
         myBackground = new Background();
