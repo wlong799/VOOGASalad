@@ -1,12 +1,10 @@
 package game_object.weapon;
 
 import java.util.List;
+
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.ConstantStrategy;
 import game_engine.physics.IPhysicsStrategy;
-import game_object.block.Block;
-import game_object.character.Enemy;
-import game_object.character.Hero;
 import game_object.character.ICharacter;
 import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
@@ -43,7 +41,8 @@ public class Projectile extends AbstractSprite {
         myModel = model;
         myVelocity = myModel.getInitalVelocity();
         myCategoryBitMask = DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
-        myCollisionBitMask = model.getCollisionBitMask();
+        myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK | 
+        		DefaultConstants.HERO_CATEGORY_BIT_MASK;
         myPosition.setZ(Double.MAX_VALUE);
         adjustPosition();
         setVelocityDirection();

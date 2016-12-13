@@ -2,35 +2,22 @@ package game_player_menu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
-import org.xml.sax.SAXParseException;
-
-import com.sun.javafx.collections.MappingChange.Map;
-
-import game_object.core.*;
-import game_object.statistics.GameStatistics;
-import serializing.*;
-import utils.FileExtension;
-import utils.FileLoader;
-import utils.FileLoader.StartDirectory;
-import game_player.GamePlayManager;
-import game_player.GamePlayer;
+import game_object.core.Game;
 import game_player.ISceneManager;
-import groovy.io.FileType;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import resources.ResourceBundles;
+import serializing.Marshaller;
+import utils.FileLoader;
+import utils.FileLoader.StartDirectory;
 
 /**
  * @author samuelcurtis
@@ -42,7 +29,6 @@ public class GamePlayMenu implements IMenuInputListener {
 	private List<ItemDescription> myInitialMenuItems;
 	private ObservableList<ItemDescription> myMenuItems;
 	private MenuSceneGenerator myMenuSceneGenerator;
-	private Marshaller mySerializer;
 	private List<Game> myGames;
 	private ISceneManager myManager;
 	private HashMap<ItemDescription, Game> myGameMap;
@@ -51,7 +37,6 @@ public class GamePlayMenu implements IMenuInputListener {
 
 	public GamePlayMenu(Stage s, ISceneManager gamePlayManager){
 		myManager = gamePlayManager;
-		mySerializer = new Marshaller();
 		myGames = new ArrayList<Game>();
 		myGameMap = new HashMap<ItemDescription,Game>();
 		loadDefaultGames();
@@ -74,7 +59,6 @@ public class GamePlayMenu implements IMenuInputListener {
 
 	}
 
-
 	private void generateInitialDescriptions() {
 		for(Game game : myGames){
 			ItemDescription gameDescription = generateDescription(game);
@@ -83,14 +67,12 @@ public class GamePlayMenu implements IMenuInputListener {
 		}
 	}
 	
-	
 	private ItemDescription generateDescription(Game game){
 		String name = game.getId();
 		String description = game.getDescription();
 		String imagePath = game.getImagePath();
 		return new ItemDescription(name, description, imagePath);
 	}
-
 
 	private void loadDefaultGames() {
 		FileLoader loader = new FileLoader(StartDirectory.DEFAULT_DIRECTORY,utils.FileType.DATA);
@@ -105,10 +87,8 @@ public class GamePlayMenu implements IMenuInputListener {
 		}
 	}
 
-
 	private Game serializeGame(File f){
-		Game game = mySerializer.loadGameFromFile(f);
-		return game;
+		return Marshaller.loadGameFromFile(f);
 	}
 
 	@Override
@@ -116,7 +96,6 @@ public class GamePlayMenu implements IMenuInputListener {
 		Game toPlay = myGameMap.get(item);
 		myManager.playGame(toPlay);
 	}
-
 
 	@Override
 	public void loadGame(File f) {

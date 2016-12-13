@@ -2,7 +2,6 @@ package game_object.statistics;
 
 import java.text.DecimalFormat;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import game_object.character.Hero;

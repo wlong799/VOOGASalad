@@ -52,6 +52,7 @@ public class ImageChangeButtonView extends AbstractSettingsView {
                 myHandler.handle(myImageFilename);
             }
         });
+        this.setImageFilename(myImageFilename);
     }
 
     @Override

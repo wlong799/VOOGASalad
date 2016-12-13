@@ -21,4 +21,12 @@ public class SpeedUpPowerUp extends AbstractPowerUp {
 		u.speedUp(mySpeedUpFactor);
 	}
 	
+	public void setSpeedUpFactor(double speedUpFactor) {
+		mySpeedUpFactor = speedUpFactor;
+	}
+	
+	public double getSpeedUpFactor() {
+		return mySpeedUpFactor;
+	}
+	
 }

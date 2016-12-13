@@ -37,17 +37,20 @@ public class InspectorGameView extends AbstractInspectorTabView {
         super.initUI();
         currentGame = getController().getEnvironment().getCurrentGame();
         myLanguageResourceBundle = super.getController().getEnvironment().getLanguageResourceBundle();
-        // TODO: 12/7/16 get title from current game
-        myTitleInputView = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("title"), "", newValue -> {
-            // TODO: 12/7/16 set game title to new text
-        });
-        myImageChangeButtonView = new ImageChangeButtonView(getController(), "", newValue -> {
-            // TODO: 12/7/16 fix this too
-        });
-        // TODO: 12/7/16 get description from current game
-        myDescriptionInputView = new TextInputBoxView(getController(), myLanguageResourceBundle.getString("description"), "", newValue -> {
-            // TODO: 12/7/16 set game description to new text
-        });
+        myTitleInputView = new TextInputBoxView(
+        		getController(), 
+        		myLanguageResourceBundle.getString("title"), 
+        		currentGame.getId(), 
+        		newValue -> {});
+        myImageChangeButtonView = new ImageChangeButtonView(
+        		getController(), 
+        		currentGame.getImagePath(), 
+        		newValue -> {});
+        myDescriptionInputView = new TextInputBoxView(
+        		getController(), 
+        		myLanguageResourceBundle.getString("description"), 
+        		currentGame.getDescription(), 
+        		newValue -> currentGame.setDescription(newValue));
         myLevelReorderListView = new ReorderableListView<>(getController(),
                 myLanguageResourceBundle.getString("CHANGE_LEVEL_ORDER"),
                 getController().getEnvironment().getCurrentGame().getAllLevels());

@@ -1,5 +1,7 @@
 package game_object.collision;
 
+import java.io.Serializable;
+
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_object.simulation.ICollisionBody;
 
@@ -10,7 +12,7 @@ import game_object.simulation.ICollisionBody;
  * @param <A> First ICollisionBody
  * @param <B> Second ICollisionBody
  */
-public interface ICollisionStrategy<A extends ICollisionBody, B extends ICollisionBody> {
+public interface ICollisionStrategy<A extends ICollisionBody, B extends ICollisionBody> extends Serializable {
 	
 	void setValid(boolean valid);
 	

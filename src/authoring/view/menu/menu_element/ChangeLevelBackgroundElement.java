@@ -1,11 +1,13 @@
 package authoring.view.menu.menu_element;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
 import authoring.view.menu.AbstractGameMenuElement;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import resources.ResourceBundles;
 
 /**
  * @author rachelbransom
@@ -13,6 +15,9 @@ import javafx.stage.Stage;
  */
 public class ChangeLevelBackgroundElement extends AbstractGameMenuElement{
 
+	private static final ResourceBundle inspectorProperties = ResourceBundles.inspectorProperties;
+	private static final String MENU_NAME = inspectorProperties.getString("change");
+	
 	protected ChangeLevelBackgroundElement(AuthoringController controller) {
 		super(controller.getEnvironment().getLanguageResourceBundle().getString("changeLevelBackground"), controller);
 	}
@@ -21,11 +26,14 @@ public class ChangeLevelBackgroundElement extends AbstractGameMenuElement{
 	protected void setFunctionality() {
 		myMenuItem.setOnAction(event -> {
 			FileChooser fileChooser = new FileChooser();
+			fileChooser.setTitle(MENU_NAME);
         	File imageFile = fileChooser.showOpenDialog(new Stage());
         	if (imageFile == null) return;
-			String imagePath = imageFile.toURI().toString();
+        	File dir = new File(inspectorProperties.getString("DATA_DIR"));
+			String imagePath = imageFile.toURI().toString().substring(dir.toURI().toString().length());
 			myController.getEnvironment().getCurrentLevel().getBackground().clearImagePaths();
 			myController.getEnvironment().getCurrentLevel().getBackground().appendImagePath(imagePath);
+			myController.getEnvironment().triggerUpdate();
 		});
 	}
 }
