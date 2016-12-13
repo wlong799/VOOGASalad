@@ -9,7 +9,6 @@ import authoring.view.inspector.settings.CheckBoxView;
 import authoring.view.inspector.settings.ComponentPhysicsSettings;
 import authoring.view.inspector.settings.HealthPointConfiguringView;
 import authoring.view.inspector.settings.LabelView;
-import authoring.view.inspector.settings.LivesConfiguringView;
 import authoring.view.inspector.settings.NullSettingsView;
 import authoring.view.inspector.settings.SliderBoxView;
 import authoring.view.inspector.settings.TextInputBoxView;
@@ -43,7 +42,6 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
     private SliderBoxView myMaxJumpSlider, myJumpUnitSlider, myDamageSlider;
     private CheckBoxView myInfiniteJumps;
     private ActionConfiguringView myActionView;
-    private LivesConfiguringView myLivesConfiguringView;
     private HealthPointConfiguringView myHealthPointConfiguringView;
 
     public InspectorSpriteView (AuthoringController controller) {
@@ -251,7 +249,6 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                                      .getString("JUMP_UNIT_INCREMENT")),
                                              (obv, oldVal, newVal) -> (hero)
                                                      .setJumpingUnit(newVal.doubleValue()));
-        myLivesConfiguringView = new LivesConfiguringView(getController(), hero);
         myHealthPointConfiguringView = new HealthPointConfiguringView(getController(), hero);
         myPushedHBox = new CheckBoxView(
                                         getController(),
@@ -280,7 +277,6 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                          myInfiniteJumps,
                          myMaxJumpSlider,
                          myJumpUnitSlider,
-                         myLivesConfiguringView,
                          myHealthPointConfiguringView,
                          myPushedHBox,
                          myPushedVBox);
