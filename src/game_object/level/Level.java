@@ -66,7 +66,7 @@ public class Level implements ILevelVisualization {
                              new Dimension(this.myParentGame.getScreenSize().getWidth(),
                                            this.myParentGame.getScreenSize().getHeight()));
 
-        myDimension = new Dimension(0, 0);
+        myDimension = new Dimension(myParentGame.getScreenSize().getWidth(), myParentGame.getScreenSize().getHeight());
         myPhysicsParameters = new PhysicsParameters();
         myGoals = new ArrayList<>();
         myBackground = new Background();
