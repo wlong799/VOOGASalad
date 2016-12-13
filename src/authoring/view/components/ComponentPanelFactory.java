@@ -67,7 +67,9 @@ public class ComponentPanelFactory {
 			{GameObjectConstants.CAUTION_FILE, myLanguageResourceBundle.getString("cautionOrange2"), myLanguageResourceBundle.getString("cautionOrange2Description")},
 			{GameObjectConstants.DIAGONAL_METAL_FILE, myLanguageResourceBundle.getString("diagonal"), myLanguageResourceBundle.getString("diagonalDescription")},
 			{GameObjectConstants.DIAGONAL_WITH_BORDER_FILE, myLanguageResourceBundle.getString("diagonalBorder"),myLanguageResourceBundle.getString("diagonalBorderDescription")},
-			{GameObjectConstants.DIAGONAL_YELLOW_WITH_BORDER_FILE, myLanguageResourceBundle.getString("diagonalYellow"), myLanguageResourceBundle.getString("diagonalYellowDescription")}
+			{GameObjectConstants.DIAGONAL_YELLOW_WITH_BORDER_FILE, myLanguageResourceBundle.getString("diagonalYellow"), myLanguageResourceBundle.getString("diagonalYellowDescription")},
+			{GameObjectConstants.WARP_PIPE_FILE, myLanguageResourceBundle.getString("warpPipe"),myLanguageResourceBundle.getString("warpPipeDescription")},
+			{GameObjectConstants.WARP_PIPE_DOWN_FILE, myLanguageResourceBundle.getString("warpPipeDown"),myLanguageResourceBundle.getString("warpPipeDownDescription")}
 				}),
 		POWER_UP("Power Up", GameObjectType.WEAPON_POWER_UP, new String[][]
 				{
