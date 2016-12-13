@@ -140,7 +140,7 @@ public class GameRunner implements IEndListener{
 	            return;
 	        }
 		for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
-		    //System.out.println(sprite);
+		    
 			if (!spriteViewMap.containsKey(sprite)) {
 				//new sprite
 				addSpriteViewWithSprite(sprite);
