@@ -19,11 +19,7 @@
           <myGame reference="../.."/>
           <myValidFieldsMap>
             <entry>
-              <game__object.statistics.StatisticsField>POSITION</game__object.statistics.StatisticsField>
-              <boolean>true</boolean>
-            </entry>
-            <entry>
-              <game__object.statistics.StatisticsField>HEALTH</game__object.statistics.StatisticsField>
+              <game__object.statistics.StatisticsField>SCORE</game__object.statistics.StatisticsField>
               <boolean>true</boolean>
             </entry>
             <entry>
@@ -31,11 +27,15 @@
               <boolean>true</boolean>
             </entry>
             <entry>
-              <game__object.statistics.StatisticsField>FPS</game__object.statistics.StatisticsField>
+              <game__object.statistics.StatisticsField>HEALTH</game__object.statistics.StatisticsField>
               <boolean>true</boolean>
             </entry>
             <entry>
-              <game__object.statistics.StatisticsField>SCORE</game__object.statistics.StatisticsField>
+              <game__object.statistics.StatisticsField>POSITION</game__object.statistics.StatisticsField>
+              <boolean>true</boolean>
+            </entry>
+            <entry>
+              <game__object.statistics.StatisticsField>FPS</game__object.statistics.StatisticsField>
               <boolean>true</boolean>
             </entry>
           </myValidFieldsMap>
@@ -86,145 +86,138 @@
           <myMaxThreshold>1000.0</myMaxThreshold>
         </myPhysicsParameters>
         <myGoals/>
-        <myHeros class="java.util.Collections$UnmodifiableRandomAccessList" resolves-to="java.util.Collections$UnmodifiableList">
-          <c class="list">
-            <game__object.character.Hero>
-              <myPosition>
-                <myX>165.0</myX>
-                <myY>100.0</myY>
-                <myZ>0.0</myZ>
-              </myPosition>
-              <myImagePaths>
-                <string>img/sprites/blue_snail_left.png</string>
-              </myImagePaths>
-              <myImageStyle>FIT</myImageStyle>
-              <myDimension>
-                <myWidth>40.0</myWidth>
-                <myHeight>40.0</myHeight>
-              </myDimension>
-              <myValid>true</myValid>
-              <myCategoryBitMask>1</myCategoryBitMask>
-              <myCollisionBitMask>30</myCollisionBitMask>
-              <myAffectedByPhysics>true</myAffectedByPhysics>
-              <myVelocity defined-in="game_object.core.AbstractSprite">
-                <myXVelocity>0.0</myXVelocity>
-                <myYVelocity>0.0</myYVelocity>
-              </myVelocity>
-              <myPhysicsStrategy class="game_engine.physics.GravityFrictionStrategy"/>
-              <myFacingLeft>false</myFacingLeft>
-              <myChildSprites>
-                <mySprites>
-                  <game__object.weapon.Weapon>
-                    <myPosition>
-                      <myX>165.0</myX>
-                      <myY>100.0</myY>
-                      <myZ>1.0E-5</myZ>
-                    </myPosition>
-                    <myImagePaths>
-                      <string>img/sprites/blue_gun_right.png</string>
-                      <string>img/sprites/blue_gun_left.png</string>
-                    </myImagePaths>
-                    <myImageStyle>FIT</myImageStyle>
-                    <myDimension>
-                      <myWidth>20.0</myWidth>
-                      <myHeight>20.0</myHeight>
-                    </myDimension>
-                    <myValid>true</myValid>
-                    <myCategoryBitMask>0</myCategoryBitMask>
-                    <myCollisionBitMask>0</myCollisionBitMask>
-                    <myAffectedByPhysics>false</myAffectedByPhysics>
-                    <myVelocity>
-                      <myXVelocity>0.0</myXVelocity>
-                      <myYVelocity>0.0</myYVelocity>
-                    </myVelocity>
-                    <myPhysicsStrategy class="game_engine.physics.ConstantStrategy"/>
-                    <myFacingLeft>false</myFacingLeft>
-                    <myChildSprites>
-                      <mySprites/>
-                      <myChanged>false</myChanged>
-                    </myChildSprites>
-                    <myScrollOffset>0.0</myScrollOffset>
-                    <myHeightOffset>0.0</myHeightOffset>
-                    <myModel>
-                      <myDamage>10.0</myDamage>
-                      <myProjectileModel>
-                        <myImagePaths>
-                          <string>img/sprites/orange_bullet.png</string>
-                        </myImagePaths>
-                        <myInitalVelocity>
-                          <myXVelocity>80.0</myXVelocity>
-                          <myYVelocity>0.0</myYVelocity>
-                        </myInitalVelocity>
-                        <myAffectedByGravity>false</myAffectedByGravity>
-                        <myFollowHero>false</myFollowHero>
-                        <myCollisionBitMask>6</myCollisionBitMask>
-                      </myProjectileModel>
+        <myHeros>
+          <game__object.character.Hero>
+            <myPosition>
+              <myX>165.0</myX>
+              <myY>100.0</myY>
+              <myZ>0.0</myZ>
+            </myPosition>
+            <myImagePaths>
+              <string>img/sprites/blue_snail_left.png</string>
+            </myImagePaths>
+            <myImageStyle>FIT</myImageStyle>
+            <myDimension>
+              <myWidth>40.0</myWidth>
+              <myHeight>40.0</myHeight>
+            </myDimension>
+            <myValid>true</myValid>
+            <myCategoryBitMask>1</myCategoryBitMask>
+            <myCollisionBitMask>30</myCollisionBitMask>
+            <myAffectedByPhysics>true</myAffectedByPhysics>
+            <myVelocity defined-in="game_object.core.AbstractSprite">
+              <myXVelocity>0.0</myXVelocity>
+              <myYVelocity>0.0</myYVelocity>
+            </myVelocity>
+            <myPhysicsStrategy class="game_engine.physics.GravityFrictionStrategy"/>
+            <myFacingLeft>false</myFacingLeft>
+            <myChildSprites>
+              <mySprites>
+                <game__object.weapon.Weapon>
+                  <myPosition>
+                    <myX>165.0</myX>
+                    <myY>100.0</myY>
+                    <myZ>1.0E-5</myZ>
+                  </myPosition>
+                  <myImagePaths>
+                    <string>img/sprites/blue_gun_right.png</string>
+                    <string>img/sprites/blue_gun_left.png</string>
+                  </myImagePaths>
+                  <myImageStyle>FIT</myImageStyle>
+                  <myDimension>
+                    <myWidth>20.0</myWidth>
+                    <myHeight>20.0</myHeight>
+                  </myDimension>
+                  <myValid>true</myValid>
+                  <myCategoryBitMask>0</myCategoryBitMask>
+                  <myCollisionBitMask>0</myCollisionBitMask>
+                  <myAffectedByPhysics>false</myAffectedByPhysics>
+                  <myVelocity>
+                    <myXVelocity>0.0</myXVelocity>
+                    <myYVelocity>0.0</myYVelocity>
+                  </myVelocity>
+                  <myPhysicsStrategy class="game_engine.physics.ConstantStrategy"/>
+                  <myFacingLeft>false</myFacingLeft>
+                  <myChildSprites>
+                    <mySprites/>
+                    <myChanged>false</myChanged>
+                  </myChildSprites>
+                  <myScrollOffset>0.0</myScrollOffset>
+                  <myHeightOffset>0.0</myHeightOffset>
+                  <myModel>
+                    <myDamage>10.0</myDamage>
+                    <myProjectileModel>
+                      <myImagePaths>
+                        <string>img/sprites/orange_bullet.png</string>
+                      </myImagePaths>
+                      <myInitalVelocity>
+                        <myXVelocity>80.0</myXVelocity>
+                        <myYVelocity>0.0</myYVelocity>
+                      </myInitalVelocity>
+                      <myAffectedByGravity>false</myAffectedByGravity>
+                      <myFollowHero>false</myFollowHero>
                       <myCollisionBitMask>6</myCollisionBitMask>
-                      <myImagePaths reference="../../myImagePaths"/>
-                    </myModel>
-                    <myOwner class="game_object.character.Hero" reference="../../../.."/>
-                  </game__object.weapon.Weapon>
-                </mySprites>
-                <myChanged>true</myChanged>
-              </myChildSprites>
-              <myScrollOffset>0.0</myScrollOffset>
-              <myHeightOffset>0.0</myHeightOffset>
-              <myMaxHP>100.0</myMaxHP>
-              <myCurrentHP>100.0</myCurrentHP>
-              <myMovingUnit>50.0</myMovingUnit>
-              <myJumpingUnit>100.0</myJumpingUnit>
-              <myMaxNumberOfJumps>3</myMaxNumberOfJumps>
-              <myVelocity>
-                <myXVelocity>0.0</myXVelocity>
-                <myYVelocity>0.0</myYVelocity>
-              </myVelocity>
-              <myDead>false</myDead>
-              <myCurrentJumps>0</myCurrentJumps>
-              <myCurrentWeapon reference="../myChildSprites/mySprites/game__object.weapon.Weapon"/>
-              <myJumping>false</myJumping>
-              <myTempJumping>false</myTempJumping>
-              <myShooting>false</myShooting>
-              <myTempShooting>false</myTempShooting>
-              <myCollideWithBlockStrategy class="game_object.collision.MotionCollisionStrategy">
+                    </myProjectileModel>
+                    <myCollisionBitMask>6</myCollisionBitMask>
+                    <myImagePaths reference="../../myImagePaths"/>
+                  </myModel>
+                  <myOwner class="game_object.character.Hero" reference="../../../.."/>
+                </game__object.weapon.Weapon>
+              </mySprites>
+              <myChanged>true</myChanged>
+            </myChildSprites>
+            <myScrollOffset>0.0</myScrollOffset>
+            <myHeightOffset>0.0</myHeightOffset>
+            <myMaxHP>100.0</myMaxHP>
+            <myCurrentHP>100.0</myCurrentHP>
+            <myMovingUnit>50.0</myMovingUnit>
+            <myJumpingUnit>100.0</myJumpingUnit>
+            <myMaxNumberOfJumps>3</myMaxNumberOfJumps>
+            <myVelocity>
+              <myXVelocity>0.0</myXVelocity>
+              <myYVelocity>0.0</myYVelocity>
+            </myVelocity>
+            <myDead>false</myDead>
+            <myCurrentJumps>0</myCurrentJumps>
+            <myCurrentWeapon reference="../myChildSprites/mySprites/game__object.weapon.Weapon"/>
+            <myJumping>false</myJumping>
+            <myTempJumping>false</myTempJumping>
+            <myShooting>false</myShooting>
+            <myTempShooting>false</myTempShooting>
+            <myCollideWithBlockStrategy class="game_object.collision.MotionCollisionStrategy">
+              <myValid>true</myValid>
+              <myVerticalBounce>false</myVerticalBounce>
+              <myHorizontalBounce>false</myHorizontalBounce>
+            </myCollideWithBlockStrategy>
+            <myAttackByProjectileStrategy>
+              <myValid>true</myValid>
+              <myCornerDamage>100.0</myCornerDamage>
+              <myTopDamage>100.0</myTopDamage>
+              <myBottomDamage>100.0</myBottomDamage>
+              <myLeftDamage>100.0</myLeftDamage>
+              <myRightDamage>100.0</myRightDamage>
+            </myAttackByProjectileStrategy>
+            <myWeaponDisplacementX>40.0</myWeaponDisplacementX>
+            <myWeaponDisplacementY>10.0</myWeaponDisplacementY>
+            <myEnemyStrategyList>
+              <game__object.collision.AttackCollisionStrategy>
                 <myValid>true</myValid>
-                <myVerticalBounce>false</myVerticalBounce>
-                <myHorizontalBounce>false</myHorizontalBounce>
-                <myHorizontalPushed>false</myHorizontalPushed>
-                <myVerticalPushed>false</myVerticalPushed>
-              </myCollideWithBlockStrategy>
-              <myAttackByProjectileStrategy>
+                <myCornerDamage>0.0</myCornerDamage>
+                <myTopDamage>0.0</myTopDamage>
+                <myBottomDamage>0.0</myBottomDamage>
+                <myLeftDamage>5.0</myLeftDamage>
+                <myRightDamage>5.0</myRightDamage>
+              </game__object.collision.AttackCollisionStrategy>
+              <game__object.collision.MotionCollisionStrategy>
                 <myValid>true</myValid>
-                <myCornerDamage>100.0</myCornerDamage>
-                <myTopDamage>100.0</myTopDamage>
-                <myBottomDamage>100.0</myBottomDamage>
-                <myLeftDamage>100.0</myLeftDamage>
-                <myRightDamage>100.0</myRightDamage>
-              </myAttackByProjectileStrategy>
-              <myWeaponDisplacementX>40.0</myWeaponDisplacementX>
-              <myWeaponDisplacementY>10.0</myWeaponDisplacementY>
-              <myEnemyStrategyList>
-                <game__object.collision.AttackCollisionStrategy>
-                  <myValid>true</myValid>
-                  <myCornerDamage>0.0</myCornerDamage>
-                  <myTopDamage>0.0</myTopDamage>
-                  <myBottomDamage>0.0</myBottomDamage>
-                  <myLeftDamage>5.0</myLeftDamage>
-                  <myRightDamage>5.0</myRightDamage>
-                </game__object.collision.AttackCollisionStrategy>
-                <game__object.collision.MotionCollisionStrategy>
-                  <myValid>true</myValid>
-                  <myVerticalBounce>true</myVerticalBounce>
-                  <myHorizontalBounce>true</myHorizontalBounce>
-                  <myHorizontalPushed>false</myHorizontalPushed>
-                  <myVerticalPushed>false</myVerticalPushed>
-                </game__object.collision.MotionCollisionStrategy>
-              </myEnemyStrategyList>
-              <myAttackByEnemyCollisionStrategy reference="../myEnemyStrategyList/game__object.collision.AttackCollisionStrategy"/>
-              <myPushByEnemyCollsionStrategy reference="../myEnemyStrategyList/game__object.collision.MotionCollisionStrategy"/>
-              <myTotalScore>0.0</myTotalScore>
-            </game__object.character.Hero>
-          </c>
-          <list reference="../c"/>
+                <myVerticalBounce>true</myVerticalBounce>
+                <myHorizontalBounce>true</myHorizontalBounce>
+              </game__object.collision.MotionCollisionStrategy>
+            </myEnemyStrategyList>
+            <myAttackByEnemyCollisionStrategy reference="../myEnemyStrategyList/game__object.collision.AttackCollisionStrategy"/>
+            <myPushByEnemyCollsionStrategy reference="../myEnemyStrategyList/game__object.collision.MotionCollisionStrategy"/>
+            <myTotalScore>0.0</myTotalScore>
+          </game__object.character.Hero>
         </myHeros>
         <myEnemies/>
         <myBlocks>
@@ -267,7 +260,7 @@
               <myEventType>KEY</myEventType>
               <myKey>A</myKey>
             </myEvent>
-            <mySprite class="game_object.character.Hero" reference="../../../myHeros/c/game__object.character.Hero"/>
+            <mySprite class="game_object.character.Hero" reference="../../../myHeros/game__object.character.Hero"/>
             <myActionName>MOVE_LEFT</myActionName>
           </game__object.acting.ActionTrigger>
           <game__object.acting.ActionTrigger>
@@ -275,7 +268,7 @@
               <myEventType>KEY</myEventType>
               <myKey>D</myKey>
             </myEvent>
-            <mySprite class="game_object.character.Hero" reference="../../../myHeros/c/game__object.character.Hero"/>
+            <mySprite class="game_object.character.Hero" reference="../../../myHeros/game__object.character.Hero"/>
             <myActionName>MOVE_RIGHT</myActionName>
           </game__object.acting.ActionTrigger>
           <game__object.acting.ActionTrigger>
@@ -283,7 +276,7 @@
               <myEventType>KEY</myEventType>
               <myKey>W</myKey>
             </myEvent>
-            <mySprite class="game_object.character.Hero" reference="../../../myHeros/c/game__object.character.Hero"/>
+            <mySprite class="game_object.character.Hero" reference="../../../myHeros/game__object.character.Hero"/>
             <myActionName>JUMP</myActionName>
           </game__object.acting.ActionTrigger>
           <game__object.acting.ActionTrigger>
@@ -291,17 +284,14 @@
               <myEventType>KEY</myEventType>
               <myKey>J</myKey>
             </myEvent>
-            <mySprite class="game_object.character.Hero" reference="../../../myHeros/c/game__object.character.Hero"/>
+            <mySprite class="game_object.character.Hero" reference="../../../myHeros/game__object.character.Hero"/>
             <myActionName>SHOOT</myActionName>
           </game__object.acting.ActionTrigger>
         </myTriggers>
         <myProjectiles/>
         <myPowerUps/>
         <mySpriteScavenger>
-          <myBorderDimension>
-            <myWidth>2000.0</myWidth>
-            <myHeight>1000.0</myHeight>
-          </myBorderDimension>
+          <myBorderDimension reference="../../../myDimension"/>
         </mySpriteScavenger>
         <mySpriteVisuals/>
       </myNextLevel>
@@ -318,7 +308,7 @@
         <myMaxThreshold>1000.0</myMaxThreshold>
       </myPhysicsParameters>
       <myGoals/>
-      <myHeros reference="../myNextLevel/myHeros/c"/>
+      <myHeros reference="../myNextLevel/myHeros"/>
       <myEnemies>
         <game__object.character.Enemy>
           <myPosition>
@@ -352,7 +342,7 @@
                   <myY>400.0</myY>
                   <myZ>1.0E-5</myZ>
                 </myPosition>
-                <myImagePaths reference="../../../../../../myNextLevel/myHeros/c/game__object.character.Hero/myChildSprites/mySprites/game__object.weapon.Weapon/myImagePaths"/>
+                <myImagePaths reference="../../../../../../myNextLevel/myHeros/game__object.character.Hero/myChildSprites/mySprites/game__object.weapon.Weapon/myImagePaths"/>
                 <myImageStyle>FIT</myImageStyle>
                 <myDimension>
                   <myWidth>5.0</myWidth>
@@ -377,7 +367,7 @@
                 <myModel>
                   <myDamage>10.0</myDamage>
                   <myProjectileModel>
-                    <myImagePaths reference="../../../../../../../../myNextLevel/myHeros/c/game__object.character.Hero/myChildSprites/mySprites/game__object.weapon.Weapon/myModel/myProjectileModel/myImagePaths"/>
+                    <myImagePaths reference="../../../../../../../../myNextLevel/myHeros/game__object.character.Hero/myChildSprites/mySprites/game__object.weapon.Weapon/myModel/myProjectileModel/myImagePaths"/>
                     <myInitalVelocity>
                       <myXVelocity>80.0</myXVelocity>
                       <myYVelocity>0.0</myYVelocity>
@@ -387,7 +377,7 @@
                     <myCollisionBitMask>6</myCollisionBitMask>
                   </myProjectileModel>
                   <myCollisionBitMask>6</myCollisionBitMask>
-                  <myImagePaths reference="../../../../../../../myNextLevel/myHeros/c/game__object.character.Hero/myChildSprites/mySprites/game__object.weapon.Weapon/myImagePaths"/>
+                  <myImagePaths reference="../../../../../../../myNextLevel/myHeros/game__object.character.Hero/myChildSprites/mySprites/game__object.weapon.Weapon/myImagePaths"/>
                 </myModel>
                 <myOwner class="game_object.character.Enemy" reference="../../../.."/>
               </game__object.weapon.Weapon>
@@ -416,8 +406,6 @@
             <myValid>true</myValid>
             <myVerticalBounce>false</myVerticalBounce>
             <myHorizontalBounce>false</myHorizontalBounce>
-            <myHorizontalPushed>false</myHorizontalPushed>
-            <myVerticalPushed>false</myVerticalPushed>
           </myCollideWithBlockStrategy>
           <myAttackByProjectileStrategy>
             <myValid>true</myValid>
@@ -443,13 +431,13 @@
               <myValid>true</myValid>
               <myVerticalBounce>true</myVerticalBounce>
               <myHorizontalBounce>true</myHorizontalBounce>
-              <myHorizontalPushed>false</myHorizontalPushed>
-              <myVerticalPushed>false</myVerticalPushed>
             </game__object.collision.MotionCollisionStrategy>
           </myHeroStrategyList>
           <myAttackByHeroCollisionStrategy reference="../myHeroStrategyList/game__object.collision.AttackCollisionStrategy"/>
           <myPushByHeroCollsionStrategy reference="../myHeroStrategyList/game__object.collision.MotionCollisionStrategy"/>
           <myScoreValue>100.0</myScoreValue>
+          <myCanShoot>false</myCanShoot>
+          <myCanProjectileFollowHero>false</myCanProjectileFollowHero>
         </game__object.character.Enemy>
       </myEnemies>
       <myBlocks>
@@ -580,23 +568,23 @@
           <myScrollOffset>0.0</myScrollOffset>
           <myHeightOffset>0.0</myHeightOffset>
           <myWeaponModel>
-            <myDamage>10.0</myDamage>
+            <myDamage>0.0</myDamage>
             <myProjectileModel>
               <myImagePaths>
-                <string>img/sprites/green_bullet.png</string>
+                <string>img/sprites/orange_bullet.png</string>
               </myImagePaths>
               <myInitalVelocity>
-                <myXVelocity>150.0</myXVelocity>
+                <myXVelocity>80.0</myXVelocity>
                 <myYVelocity>0.0</myYVelocity>
               </myInitalVelocity>
               <myAffectedByGravity>false</myAffectedByGravity>
               <myFollowHero>false</myFollowHero>
-              <myCollisionBitMask>6</myCollisionBitMask>
+              <myCollisionBitMask>0</myCollisionBitMask>
             </myProjectileModel>
-            <myCollisionBitMask>6</myCollisionBitMask>
+            <myCollisionBitMask>0</myCollisionBitMask>
             <myImagePaths>
-              <string>img/sprites/red_gun_right.png</string>
-              <string>img/sprites/red_gun_left.png</string>
+              <string>img/sprites/blue_gun_right.png</string>
+              <string>img/sprites/blue_gun_left.png</string>
             </myImagePaths>
           </myWeaponModel>
           <myWeaponDimension>
@@ -619,11 +607,7 @@
     <myGame reference="../.."/>
     <myValidFieldsMap>
       <entry>
-        <game__object.statistics.StatisticsField>POSITION</game__object.statistics.StatisticsField>
-        <boolean>true</boolean>
-      </entry>
-      <entry>
-        <game__object.statistics.StatisticsField>HEALTH</game__object.statistics.StatisticsField>
+        <game__object.statistics.StatisticsField>SCORE</game__object.statistics.StatisticsField>
         <boolean>true</boolean>
       </entry>
       <entry>
@@ -631,11 +615,15 @@
         <boolean>true</boolean>
       </entry>
       <entry>
-        <game__object.statistics.StatisticsField>FPS</game__object.statistics.StatisticsField>
+        <game__object.statistics.StatisticsField>HEALTH</game__object.statistics.StatisticsField>
         <boolean>true</boolean>
       </entry>
       <entry>
-        <game__object.statistics.StatisticsField>SCORE</game__object.statistics.StatisticsField>
+        <game__object.statistics.StatisticsField>POSITION</game__object.statistics.StatisticsField>
+        <boolean>true</boolean>
+      </entry>
+      <entry>
+        <game__object.statistics.StatisticsField>FPS</game__object.statistics.StatisticsField>
         <boolean>true</boolean>
       </entry>
     </myValidFieldsMap>
