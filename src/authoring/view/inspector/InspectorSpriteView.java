@@ -249,7 +249,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                                     .getHorizontalBounce(),
                                             (obv, oldVal, newVal) -> {
                                                 hero.getPushByEnemyCollsionStrategy()
-                                                        .setMyHorizontalPushed(newVal);
+                                                        .setHorizontalBounce(newVal);
                                             });
             myPushedVBox = new CheckBoxView(
                                             getController(),
@@ -258,7 +258,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                                     .getVerticalBounce(),
                                             (obv, oldVal, newVal) -> {
                                                 hero.getPushByEnemyCollsionStrategy()
-                                                        .setMyVerticalPushed(newVal);
+                                                        .setVerticalBounce(newVal);
                                                 ;
                                             });
             
@@ -291,7 +291,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                                     .getHorizontalBounce(),
                                             (obv, oldVal, newVal) -> {
                                                 enemy.getPushByHeroCollsionStrategy()
-                                                        .setMyHorizontalPushed(newVal);
+                                                        .setHorizontalBounce(newVal);
                                             });
             myPushedVBox = new CheckBoxView(
                                             getController(),
@@ -300,7 +300,7 @@ public class InspectorSpriteView extends AbstractInspectorTabView {
                                                     .getVerticalBounce(),
                                             (obv, oldVal, newVal) -> {
                                                 enemy.getPushByHeroCollsionStrategy()
-                                                        .setMyVerticalPushed(newVal);
+                                                        .setVerticalBounce(newVal);
                                                 ;
                                             });
             addSettingsViews(
