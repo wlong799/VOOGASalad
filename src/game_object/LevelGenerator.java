@@ -122,7 +122,7 @@ public class LevelGenerator {
 				slowBulletImgs, // image file
 				new Velocity(80, 0), // initial velocity
 				false, // affected by gravity
-				true // follow hero
+				false // follow hero
 				);
 		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
