@@ -1,13 +1,11 @@
 package game_player;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 
 import game_object.core.Game;
 import game_object.statistics.GameStatistics;
-import game_object.statistics.StatisticsField;
 import javafx.scene.Node;
 import resources.ResourceBundles;
 
