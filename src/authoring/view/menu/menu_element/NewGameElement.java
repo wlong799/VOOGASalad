@@ -22,5 +22,6 @@ public class NewGameElement extends AbstractGameMenuElement {
         myMenuItem.setOnAction(event -> {
         	adder.addGame(myController.getEnvironment());
         });
+        myController.getEnvironment().triggerUpdate();
     }
 }
