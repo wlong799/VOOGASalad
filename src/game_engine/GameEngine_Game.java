@@ -205,7 +205,7 @@ public class GameEngine_Game implements IGameEngine {
 	                return WinStatus.LOST;
 	            }
 	            if(!myCurrentLevel.getMapEnd().overlaps(new Boundary(h.getPosition(),h.getDimension()))){
-	                return WinStatus.LOST;
+	                //return WinStatus.LOST;
 	            }
 	        }
 	        return WinStatus.GO_ON;
