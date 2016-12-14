@@ -38,7 +38,8 @@ public class ComponentPanelFactory {
 			{GameObjectConstants.ELIZA_FILE, myLanguageResourceBundle.getString("eliza"), myLanguageResourceBundle.getString("elizaDescription")},
 			{GameObjectConstants.BOY_FILE, myLanguageResourceBundle.getString("boy"), myLanguageResourceBundle.getString("boyDescription")},
 			{GameObjectConstants.CINDERELLA_FILE, myLanguageResourceBundle.getString("cinderella"), myLanguageResourceBundle.getString("cinderellaDescription")},
-			{GameObjectConstants.BOY2_FILE, myLanguageResourceBundle.getString("boy2"), myLanguageResourceBundle.getString("boy2Description")}
+			{GameObjectConstants.BOY2_FILE, myLanguageResourceBundle.getString("boy2"), myLanguageResourceBundle.getString("boy2Description")},
+			{GameObjectConstants.FLAPPY_BIRD_FILE, myLanguageResourceBundle.getString("flappyBird"), myLanguageResourceBundle.getString("flappyBirdDescription")}
 				}),
 		ENEMY(myLanguageResourceBundle.getString("enemies"), GameObjectType.ENEMY, new String[][]
 				{
@@ -67,7 +68,9 @@ public class ComponentPanelFactory {
 			{GameObjectConstants.CAUTION_FILE, myLanguageResourceBundle.getString("cautionOrange2"), myLanguageResourceBundle.getString("cautionOrange2Description")},
 			{GameObjectConstants.DIAGONAL_METAL_FILE, myLanguageResourceBundle.getString("diagonal"), myLanguageResourceBundle.getString("diagonalDescription")},
 			{GameObjectConstants.DIAGONAL_WITH_BORDER_FILE, myLanguageResourceBundle.getString("diagonalBorder"),myLanguageResourceBundle.getString("diagonalBorderDescription")},
-			{GameObjectConstants.DIAGONAL_YELLOW_WITH_BORDER_FILE, myLanguageResourceBundle.getString("diagonalYellow"), myLanguageResourceBundle.getString("diagonalYellowDescription")}
+			{GameObjectConstants.DIAGONAL_YELLOW_WITH_BORDER_FILE, myLanguageResourceBundle.getString("diagonalYellow"), myLanguageResourceBundle.getString("diagonalYellowDescription")},
+			{GameObjectConstants.WARP_PIPE_FILE, myLanguageResourceBundle.getString("warpPipe"),myLanguageResourceBundle.getString("warpPipeDescription")},
+			{GameObjectConstants.WARP_PIPE_DOWN_FILE, myLanguageResourceBundle.getString("warpPipeDown"),myLanguageResourceBundle.getString("warpPipeDownDescription")}
 				}),
 		POWER_UP("Power Up", GameObjectType.WEAPON_POWER_UP, new String[][]
 				{

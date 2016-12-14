@@ -56,12 +56,11 @@ public class InputController implements IInputController {
 
 	private void chooseAction(ActionTrigger at) {
 		ISprite sprite = at.getSprite();
+		IMover m = (IMover) sprite;
 		if (at.getActionName() == ActionName.MOVE_LEFT) {
-			IMover m = (IMover) sprite;
 			m.moveLeft();
 			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.MOVE_RIGHT) {
-			IMover m = (IMover) sprite;
 			m.moveRight();
 			myLeftRightExist = true;
 		} else if (at.getActionName() == ActionName.JUMP) {
@@ -69,7 +68,6 @@ public class InputController implements IInputController {
 				myJump = false;
 			}
 			jumping = true;
-			IMover m = (IMover) sprite;
 			if (!myJump) {
 				m.jumpUp();
 			}
@@ -80,6 +78,9 @@ public class InputController implements IInputController {
 			if (!myShoot) {
 				addProjectile(character);
 			}
+		}
+		else if(at.getActionName() == ActionName.MOVE_DOWN){
+		    m.moveDown();
 		}
 	}
 

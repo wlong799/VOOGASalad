@@ -2,6 +2,7 @@ package game_object.acting;
 
 public enum ActionName {
 
+        MOVE_DOWN("Move Down"),
 	MOVE_LEFT ("Move Left"),
 	MOVE_RIGHT ("Move Right"),
 	JUMP ("Jump"),

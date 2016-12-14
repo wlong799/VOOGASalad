@@ -25,7 +25,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -117,6 +116,7 @@ public class GameRunner implements IEndListener{
 				new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
+				if (myGameEngine.isShutDown()) return;
 				Level currentLevel = runningGame.getCurrentLevel();
 				if (runningLevel != currentLevel) {
 					runningLevel = currentLevel;
@@ -124,6 +124,7 @@ public class GameRunner implements IEndListener{
 					myLevelChangeHandler.accept(originalLevel);
 					clear();
 					initBackground();
+					initHud();
 					keyTriggers2Controls();
 				}
 				myGameEngine.setInputList(currentlyPressedKeys);
@@ -134,40 +135,30 @@ public class GameRunner implements IEndListener{
 	}
 
 	private void update() {
-
-	        if(myGameEngine.isShutDown()){
-	            animation.stop();
-	            return;
-	        }
 		for (ISpriteVisualization sprite : myGameEngine.getSprites()) {
-		    //System.out.println(sprite);
 			if (!spriteViewMap.containsKey(sprite)) {
 				//new sprite
 				addSpriteViewWithSprite(sprite);
 			} else {
-			    
 				spriteViewMap.get(sprite).setScaleX(sprite.isFacingLeft() ? 1 : -1);
 			}
-			
-			
 			spriteViewMap.get(sprite).setX(sprite.getXForVisualization());
 			spriteViewMap.get(sprite).setY(sprite.getYForVisualization());
 		}
+		
+		myGameEngine.getSpritesOffScreen().forEach(s->{
+		    s.getXForVisualization();
+		    s.getYForVisualization();
+		});
+		
 		myHudController.updateStatisticsMap();
 		//remove what's not returned from game engine
 		Set<ISpriteVisualization> removing = new HashSet<>(spriteViewMap.keySet());
 		removing.removeAll(myGameEngine.getSprites());
-		
 		for (ISpriteVisualization sprite : removing) {
 			myView.removeSpriteView(spriteViewMap.get(sprite));
 			spriteViewMap.remove(sprite);
 		}
-                ((Stage) myScene.getWindow()).showingProperty().addListener((obvs, old_val, new_val) -> {
-                    if(!new_val.booleanValue()){
-                        animation.stop();
-                    }
-                });
-		
 	}
 	
 	private void addSpriteViewWithSprite(ISpriteVisualization sprite) {
@@ -190,8 +181,12 @@ public class GameRunner implements IEndListener{
 		if (background.getImagePaths().size() < 1) return;
 		ImageView bckGrdImg = new ImageView(background.getImagePaths().get(0));
 		bckGrdImg.setFitWidth(runningLevel.getDimension().getWidth());
-		bckGrdImg.setFitHeight(runningLevel.getDimension().getHeight());
+		bckGrdImg.setFitWidth(runningLevel.getDimension().getHeight());
 		myView.addSpriteView(bckGrdImg);
+	}
+	
+	private void initHud() {
+		myView.getViews().getChildren().add(myHudController.getView());
 	}
 
 	private void initAnimation() {
@@ -203,7 +198,6 @@ public class GameRunner implements IEndListener{
 		animation.getKeyFrames().add(frame);
 		animation.play();
 	}
-	
 
 	private void keyTriggers2Controls() {
 		myScene.setOnKeyReleased(event-> currentlyPressedKeys.remove(new KeyEvent(event.getCode())));

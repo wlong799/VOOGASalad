@@ -36,6 +36,7 @@ public class Level implements ILevelVisualization {
     private final Game myParentGame;
     private Boundary myBoundary;
     private Dimension myDimension;
+    private Boundary myMapEnd;
     private Level myNextLevel;
     private TransitionMenu myNextMenu;
     private Background myBackground;
@@ -48,6 +49,9 @@ public class Level implements ILevelVisualization {
     private List<Projectile> myProjectiles;
     private List<IPowerUp> myPowerUps;
     private SpriteScavenger mySpriteScavenger;
+    
+    private static final double DEFAULT_DIMENSION_WIDTH = 2000;
+    private static final double DEFAULT_DIMENSION_HEIGHT = 800;
 
     public Level (Game parentGame, String id) {
         myParentGame = parentGame;
@@ -62,8 +66,10 @@ public class Level implements ILevelVisualization {
                 new Boundary(new Position(0, 0),
                              new Dimension(this.myParentGame.getScreenSize().getWidth(),
                                            this.myParentGame.getScreenSize().getHeight()));
-        System.out.println(this.myParentGame.getScreenSize().getWidth());
-        myDimension = new Dimension(0, 0);
+        myDimension = new Dimension(myParentGame.getScreenSize().getWidth(), myParentGame.getScreenSize().getHeight());
+        myMapEnd = new Boundary(new Position(0,0), 
+                                new Dimension(this.myParentGame.getScreenSize().getWidth(),
+                                              this.myParentGame.getScreenSize().getHeight()));
         myPhysicsParameters = new PhysicsParameters();
         myGoals = new ArrayList<>();
         myBackground = new Background();
@@ -104,6 +110,12 @@ public class Level implements ILevelVisualization {
     public Boundary getBoundary () {
         return myBoundary;
     }
+    
+    /*Level Map End*/
+    public Boundary getMapEnd () {
+        return myMapEnd;
+    }
+    
     /* ---Level Dimensions END --- */
 
     /* Engine Settings */
@@ -147,6 +159,7 @@ public class Level implements ILevelVisualization {
                 .getHeight()) {
             myDimension.setHeight(sprite.getPosition().getY() + sprite.getDimension().getHeight());
         }
+        myMapEnd.expandToFit(new Boundary(sprite.getPosition(),sprite.getDimension()));
         if (sprite instanceof Hero) {
             myHeros.add((Hero) sprite);
         }
@@ -292,7 +305,7 @@ public class Level implements ILevelVisualization {
     }
 
     /* ---ILevelVisualization Implementations END--- */
-
+    
     /* private */
     private List<ISprite> getRuntimeSprites () {
         List<ISprite> runtimeSprites = new ArrayList<>();
