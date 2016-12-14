@@ -1,8 +1,10 @@
 package game_engine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import game_engine.collision.Boundary;
 import game_engine.collision.CollisionEngine;
 import game_engine.collision.ICollisionEngine;
@@ -183,6 +185,7 @@ public class GameEngine_Game implements IGameEngine {
 	    }
 
 	    private WinStatus checkWin () {
+	    	if (myCurrentLevel == null) return WinStatus.LOST;
 	        List<IGoal> myGoals = myCurrentLevel.getAllGoals();
 	        for (IGoal g : myGoals) {
 	            if (g instanceof TimeGoal) {
@@ -232,6 +235,7 @@ public class GameEngine_Game implements IGameEngine {
     
     @Override
     public List<ISpriteVisualization> getSprites () {
+    	if (myCurrentLevel == null) return new ArrayList<>();
         List<ISpriteVisualization> l =
                 myCurrentLevel.getAllSprites().stream().filter(s -> myCurrentLevel.getBoundary()
                         .overlaps(new Boundary(new Position(s.getPosition().getX(),

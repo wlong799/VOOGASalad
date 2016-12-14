@@ -109,14 +109,6 @@ public class Hero extends AbstractCharacter implements IUpgrader {
         p.affect(this);
     }
 
-
-    @Override
-    public void onCollideWith (Projectile p, CollisionDirection collisionDirection) {
-        // TODO Auto-generated method stub
-        
-    }
-
-
     public static Hero generateDefaultHero() {
 		final double DEFAULT_X = 100, DEFAULT_Y = 100;
 		final double DEFAULT_H = 40, DEFAULT_W = 40;
