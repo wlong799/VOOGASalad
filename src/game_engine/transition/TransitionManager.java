@@ -40,7 +40,7 @@ public class TransitionManager extends AbstractTransitionManager {
 	    myLevel = myLevel.getNextLevel();
 	    //System.out.println(myLevel.getNextLevel());
 	    myGame.setCurrentLevel(myLevel);
-	    myLevel.getHeros().get(0).setPosition(new Position(0,-500));
+	    myLevel.getHeros().get(0).setPosition(new Position(0,0));
 	    return myLevel;
 		//return myLevel = myLevel.getNextLevel();
 	}
