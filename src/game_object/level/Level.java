@@ -282,7 +282,7 @@ public class Level implements ILevelVisualization {
             myHeros.add(Hero.generateDefaultHero());
         }
         AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
-        mySpriteScavenger.setBorderDimension(myParentGame.getScreenSize());
+        mySpriteScavenger.setBorderDimension(myMapEnd);
     }
 
     @Override
@@ -315,7 +315,7 @@ public class Level implements ILevelVisualization {
 
     private void cleanup () {
         // I intentionally made this verbose just for my own sanity.
-        mySpriteScavenger.setBorderDimension(myDimension);
+        mySpriteScavenger.setBorderDimension(myMapEnd);
         mySpriteScavenger.scavengeList(myEnemies);
         mySpriteScavenger.scavengeList(myProjectiles);
         mySpriteScavenger.scavengeList(myPowerUps);

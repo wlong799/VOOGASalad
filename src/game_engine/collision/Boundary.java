@@ -53,17 +53,18 @@ public class Boundary {
     }
 
     public void expandToFit (Boundary other) {
-        if (other.right() > this.right()) {
+        // expand to the right
+        if (other.left() > this.right()) {
             this.getDimension().setWidth(other.right() - this.left());
         }
-        if (other.bottom() > this.bottom()) {
+        if (other.top() > this.bottom()) {
             this.getDimension().setHeight(other.bottom() - this.top());
         }
-        if (other.left() < this.left()) {
+        if (other.right() < this.left()) {
             this.getDimension().setWidth(this.right() - other.left());
             this.getPosition().setX(other.left());
         }
-        if (other.top() < this.top()) {
+        if (other.bottom() < this.top()) {
             this.getDimension().setHeight(this.bottom() - other.top());
             this.getPosition().setY(other.top());
         }

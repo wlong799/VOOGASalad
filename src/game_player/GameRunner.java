@@ -1,5 +1,6 @@
 package game_player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,6 +16,7 @@ import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 import game_object.background.Background;
 import game_object.core.Game;
+import game_object.core.ISprite;
 import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
 import game_player.image.ImageRenderer;
@@ -59,6 +61,11 @@ public class GameRunner implements IEndListener{
 	public GameRunner(Scene s, Game game, Consumer<Level> levelChangeHandler, IEndListener listener) {
 		myScene = s;
 		originalGame = game;
+//		originalGame.getAllLevels().forEach(l->{
+//		    List<ISprite> sprites = new ArrayList<ISprite>(l.getAllSprites());
+//		    l.getAllSprites().clear();
+//		    sprites.forEach(l::addSprite);
+//		});
 		currentlyPressedKeys = new HashSet<>();
 		spriteViewMap = new HashMap<>();
 		running2origin = new HashMap<>();
