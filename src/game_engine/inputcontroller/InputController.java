@@ -24,7 +24,6 @@ public class InputController implements IInputController {
 	private boolean shooting;
 	private Level myCurrentLevel;
 	private Game myGame;
-	private double myCurrentTime;
 	private boolean myLeftRightExist;
 
 	public InputController(Game game) {
@@ -96,8 +95,4 @@ public class InputController implements IInputController {
 		return myLeftRightExist;
 	}
 
-	@Override
-	public void setCurrentTime(double time) {
-		myCurrentTime = time;
-	}
 }

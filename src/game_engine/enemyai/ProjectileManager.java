@@ -5,6 +5,10 @@ import game_object.weapon.Projectile;
 import game_object.weapon.ProjectileModel;
 import game_object.weapon.Weapon;
 
+/**
+ * @author Charlie Wang
+ *
+ */
 public class ProjectileManager {
 	
 	public static Projectile addProjectile(ICharacter character) {

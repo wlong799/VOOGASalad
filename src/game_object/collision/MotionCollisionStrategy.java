@@ -49,16 +49,17 @@ public class MotionCollisionStrategy<A extends ICollisionBody, B extends ICollis
     }
 
     private void applyTopCollision (A a, B b) {
+        a.getPosition().setY(b.getPosition().getY() + b.getDimension().getHeight());
         if (myVerticalBounce) {
             a.getVelocity().setYVelocity(-1.0 * a.getVelocity().getYVelocity());
         } else {
-            a.getPosition().setY(b.getPosition().getY() + b.getDimension().getHeight());
             a.getVelocity().setYVelocity(0);
         }
         
     }
 
     private void applyBottomCollision (A a, B b) {
+        a.getPosition().setY(b.getPosition().getY() - a.getDimension().getHeight());
         if (a instanceof ICharacter) {
             ((ICharacter) a).resetCurrentJumps();
         }
@@ -66,24 +67,23 @@ public class MotionCollisionStrategy<A extends ICollisionBody, B extends ICollis
             a.getVelocity().setYVelocity(-1.0 * a.getVelocity().getYVelocity());
         } else {
         	a.getVelocity().setYVelocity(0);
-            a.getPosition().setY(b.getPosition().getY() - a.getDimension().getHeight());
         }
     }
 
     private void applyLeftCollision (A a, B b) {
+        a.getPosition().setX(b.getPosition().getX() + b.getDimension().getWidth());
         if (myHorizontalBounce) {
             a.getVelocity().setXVelocity(-1.0 * a.getVelocity().getXVelocity());
         } else {
-            a.getPosition().setX(b.getPosition().getX() + b.getDimension().getWidth());
             a.getVelocity().setXVelocity(0);
         }
     }
 
     private void applyRightCollision (A a, B b) {
+        a.getPosition().setX(b.getPosition().getX() - a.getDimension().getWidth());
         if (myHorizontalBounce) {
             a.getVelocity().setXVelocity(-1.0 * a.getVelocity().getXVelocity());
         } else {
-            a.getPosition().setX(b.getPosition().getX() - a.getDimension().getWidth());
             a.getVelocity().setXVelocity(0);
         }
     }

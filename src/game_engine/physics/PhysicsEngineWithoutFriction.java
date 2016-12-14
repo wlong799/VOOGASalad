@@ -4,8 +4,6 @@ import game_object.core.Position;
 import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
-import game_object.weapon.Projectile;
-import game_object.weapon.WeaponModel;
 
 /**
  * Engine that calculates all the velocity and position.

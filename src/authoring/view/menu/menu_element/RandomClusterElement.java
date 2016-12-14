@@ -10,6 +10,7 @@ import game_object.core.ISprite;
 import javafx.beans.property.DoubleProperty;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -20,8 +21,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import resources.ResourceBundles;
-
 import java.util.*;
+
 
 /**
  * Allows users to configure generation of random sprites.
@@ -38,8 +39,9 @@ public class RandomClusterElement extends AbstractGameMenuElement implements Obs
     private List<SpriteInfo> myClusterSpriteInfoList;
     private VBox myClusterSpritesView;
 
-    protected RandomClusterElement(AuthoringController controller) {
-        super(controller.getEnvironment().getLanguageResourceBundle().getString("configureRandom"), controller);
+    protected RandomClusterElement (AuthoringController controller) {
+        super(controller.getEnvironment().getLanguageResourceBundle().getString("configureRandom"),
+              controller);
         myConstantProperties = ResourceBundles.componentProperties;
         myLanguageProperties = myController.getEnvironment().getLanguageResourceBundle();
 
@@ -52,7 +54,7 @@ public class RandomClusterElement extends AbstractGameMenuElement implements Obs
     }
 
     @Override
-    protected void setFunctionality() {
+    protected void setFunctionality () {
         myMenuItem.setOnAction(event -> {
             if (!isAcceptingComponents) {
                 isAcceptingComponents = true;
@@ -62,13 +64,13 @@ public class RandomClusterElement extends AbstractGameMenuElement implements Obs
     }
 
     @Override
-    public void update(Observable o, Object arg) {
+    public void update (Observable o, Object arg) {
         if (isAcceptingComponents && myController.getSelectedComponent() != null) {
             addSpriteToCluster(myController.getSelectedComponent().copySpriteFromTemplate());
         }
     }
 
-    private void launchAddComponentScreen() {
+    private void launchAddComponentScreen () {
         myClusterSpriteInfoList.clear();
         myClusterSpritesView.getChildren().clear();
 
@@ -83,13 +85,26 @@ public class RandomClusterElement extends AbstractGameMenuElement implements Obs
         stage.setScene(scene);
         stage.show();
 
-        stage.showingProperty().addListener(((observable, oldValue, newValue) -> {
+        stage.showingProperty().addListener(( (observable, oldValue, newValue) -> {
             isAcceptingComponents = false;
             launchEditClusterGenerationScreen();
         }));
     }
 
-    private void launchEditClusterGenerationScreen() {
+    private void launchEditClusterGenerationScreen () {
+
+        List<String> choices = new ArrayList<>();
+        choices.add("Up");
+        choices.add("Right");
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("Right", choices);
+        dialog.setTitle("Scroll Direction");
+        dialog.setHeaderText("Scroll");
+        dialog.setContentText("Which way do you want the sprites to generate:");
+
+        // Traditional way to get the response value.
+        Optional<String> scrollResult = dialog.showAndWait();
+
         TextInputDialog xRangeInput = new TextInputDialog();
         xRangeInput.setContentText(myLanguageProperties.getString("randomXRange"));
         Optional<String> result = xRangeInput.showAndWait();
@@ -114,24 +129,32 @@ public class RandomClusterElement extends AbstractGameMenuElement implements Obs
         }
         double repeatTime = Double.parseDouble(result.get());
         // TODO: 12/12/16 FIX THIS ONCE BACKEND IS BETTER
-        RandomSpriteCluster randomSpriteCluster = new RandomSpriteCluster(xRange, yRange, repeatTime);
+        RandomSpriteCluster randomSpriteCluster =
+                new RandomSpriteCluster(xRange, yRange, repeatTime);
         myClusterSpriteInfoList.forEach(randomSpriteCluster::addSprite);
         List<RandomSpriteCluster> randomSpriteClusters = new ArrayList<>();
         randomSpriteClusters.add(randomSpriteCluster);
-        myController.getEnvironment().getCurrentGame().setRandomGenerationController(
-                new RandomGenerationController(myController.getEnvironment().getCurrentLevel(), randomSpriteClusters));
+        RandomGenerationController rgc =
+                new RandomGenerationController(myController.getEnvironment().getCurrentLevel(),
+                                               randomSpriteClusters);
+        scrollResult.ifPresent(direction -> {
+            boolean right = direction.equals("Right");
+            rgc.setSidewaysScrolling(right);
+        });
+        myController.getEnvironment().getCurrentGame().setRandomGenerationController(rgc);
     }
 
-    private void addSpriteToCluster(ISprite sprite) {
+    private void addSpriteToCluster (ISprite sprite) {
         if (sprite == null) {
             return;
         }
         SpriteInfo spriteInfo = new SpriteInfo(sprite.getClass(), sprite.getImagePaths(),
-                sprite.getDimension(), sprite.getPosition());
+                                               sprite.getDimension(), sprite.getPosition());
         myClusterSpriteInfoList.add(spriteInfo);
 
         HBox hBox = new HBox();
-        double miniSize = Double.parseDouble(myConstantProperties.getString("CLUSTER_SPRITE_HEIGHT"));
+        double miniSize =
+                Double.parseDouble(myConstantProperties.getString("CLUSTER_SPRITE_HEIGHT"));
         hBox.setPrefWidth(mySize);
         hBox.setPrefHeight(miniSize);
         ImageView imageView = new ImageView(sprite.getImagePath());
@@ -140,29 +163,34 @@ public class RandomClusterElement extends AbstractGameMenuElement implements Obs
         hBox.getChildren().add(imageView);
 
         Node positionXInput = makeInputBox(myLanguageProperties.getString("posX"),
-                spriteInfo.getRelativePosition().getX(),
-                newValue -> spriteInfo.getRelativePosition().setX(Double.parseDouble(newValue)));
+                                           spriteInfo.getRelativePosition().getX(),
+                                           newValue -> spriteInfo.getRelativePosition()
+                                                   .setX(Double.parseDouble(newValue)));
         Node positionYInput = makeInputBox(myLanguageProperties.getString("posY"),
-                spriteInfo.getRelativePosition().getY(),
-                newValue -> spriteInfo.getRelativePosition().setY(Double.parseDouble(newValue)));
+                                           spriteInfo.getRelativePosition().getY(),
+                                           newValue -> spriteInfo.getRelativePosition()
+                                                   .setY(Double.parseDouble(newValue)));
         Node widthInput = makeInputBox(myLanguageProperties.getString("width"),
-                spriteInfo.getDimension().getWidth(),
-                newValue -> spriteInfo.getDimension().setWidth(Double.parseDouble(newValue)));
+                                       spriteInfo.getDimension().getWidth(),
+                                       newValue -> spriteInfo.getDimension()
+                                               .setWidth(Double.parseDouble(newValue)));
         Node heightInput = makeInputBox(myLanguageProperties.getString("height"),
-                spriteInfo.getDimension().getHeight(),
-                newValue -> spriteInfo.getDimension().setHeight(Double.parseDouble(newValue)));
+                                        spriteInfo.getDimension().getHeight(),
+                                        newValue -> spriteInfo.getDimension()
+                                                .setHeight(Double.parseDouble(newValue)));
 
-        myClusterSpritesView.getChildren().addAll(hBox, positionXInput, positionYInput, widthInput, heightInput);
+        myClusterSpritesView.getChildren().addAll(hBox, positionXInput, positionYInput, widthInput,
+                                                  heightInput);
     }
 
-    private Node makeInputBox(String title, double defaultValue, ITextChangeHandler handler) {
+    private Node makeInputBox (String title, double defaultValue, ITextChangeHandler handler) {
         TextField textField = new TextField(defaultValue + "");
         textField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 handler.handle(textField.getText());
             }
         });
-        textField.focusedProperty().addListener((obs, oldVal, newVal) -> {
+        textField.focusedProperty().addListener( (obs, oldVal, newVal) -> {
             if (!newVal) {
                 handler.handle(textField.getText());
             }
