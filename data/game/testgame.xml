@@ -57,6 +57,17 @@
         <myWidth>2000.0</myWidth>
         <myHeight>1000.0</myHeight>
       </myDimension>
+      <myMapEnd>
+	<myPosition>
+	  <myX>0.0</myX>
+	  <myY>0.0</myY>
+	  <myZ>0.0</myZ>
+	</myPosition>
+	<myDimension>
+	  <myWidth>2000.0</myWidth>
+	  <myHeight>1000.0</myHeight>
+	</myDimension>
+      </myMapEnd>
       <myNextLevel>
         <myId>TestLevelB</myId>
         <myParentGame reference="../../myParentGame"/>
@@ -291,7 +302,7 @@
         <myProjectiles/>
         <myPowerUps/>
         <mySpriteScavenger>
-          <myBorderDimension reference="../../../myDimension"/>
+          <myBorderDimension reference="../../../myMapEnd"/>
         </mySpriteScavenger>
         <mySpriteVisuals/>
       </myNextLevel>

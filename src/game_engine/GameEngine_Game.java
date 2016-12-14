@@ -102,7 +102,7 @@ public class GameEngine_Game implements IGameEngine {
 		}
 		updateTime();
 		if (myGenerator != null) {
-			myGenerator.generateSprites(elapsedTime);
+			myGenerator.generateSprites(myCurrentLevel.getHeros().get(0).getPosition());
 		}
 		setElapsedTime(elapsedTime);
 		executeInput(); // input for heroes
@@ -201,7 +201,7 @@ public class GameEngine_Game implements IGameEngine {
 	                return WinStatus.LOST;
 	            }
 	            if(!myCurrentLevel.getMapEnd().overlaps(new Boundary(h.getPosition(),h.getDimension()))){
-	                //return WinStatus.LOST;
+	                return WinStatus.LOST;
 	            }
 	        }
 	        return WinStatus.GO_ON;
