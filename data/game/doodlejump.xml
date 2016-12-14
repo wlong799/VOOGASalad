@@ -1,7 +1,7 @@
 <game__object.core.Game>
-  <myId>&quot;TODO:id&quot;</myId>
-  <myImagePath>img/sprites/blue_snail_left.png</myImagePath>
-  <myDescription>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla purus nulla, lacinia a arcu eu, egestas tincidunt turpis. Vestibulum imperdiet, purus sit amet fringilla blandit, arcu ante maximus ipsum, tincidunt gravida arcu orci et ligula. Mauris in massa dignissim, tincidunt erat non, elementum turpis. Donec aliquam arcu quam, sit amet iaculis nibh pretium in. Proin volutpat tempus ipsum ut porta. Cras eu lorem non metus dignissim porttitor. Mauris tempus ex et finibus eleifend. Sed mattis ultricies neque et dictum. Suspendisse non velit dapibus, auctor justo eu, eleifend eros.</myDescription>
+  <myId>Doodle Jump</myId>
+  <myImagePath>img/sprites/doodlejump.png</myImagePath>
+  <myDescription>A doodle-jump like game.</myDescription>
   <myLevels>
     <game__object.level.Level>
       <myId>Doodle Jump</myId>
@@ -51,7 +51,7 @@
             <myZ>0.0</myZ>
           </myPosition>
           <myImagePaths>
-            <string>img/sprites/blue_snail_left.png</string>
+            <string>img/sprites/doodlejump.png</string>
           </myImagePaths>
           <myImageStyle>FIT</myImageStyle>
           <myDimension>
