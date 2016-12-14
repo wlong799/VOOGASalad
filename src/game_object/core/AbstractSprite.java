@@ -256,10 +256,10 @@ public abstract class AbstractSprite implements ISprite {
         return myImagePaths.get(0);
     }
 
+
     @Override
     public double getXForVisualization () {
         double staticX = staticPivotPosition.getX();
-        double myX = myPosition.getX();
         if (staticX + myScrollOffset < X_SCROLL_THRESHOLD) {
             myScrollOffset += X_SCROLL_THRESHOLD - staticX - myScrollOffset;
         }
@@ -268,7 +268,7 @@ public abstract class AbstractSprite implements ISprite {
                     staticX + myScrollOffset - staticPivotDimension.getWidth() + X_SCROLL_THRESHOLD;
         }
 
-        return myX + myScrollOffset;
+        return myPosition.getX() + myScrollOffset;
     }
 
     @Override
