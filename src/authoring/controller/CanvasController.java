@@ -90,7 +90,6 @@ public class CanvasController implements Observer {
     			myCanvas,
     			sprite,
     			id);
-    	System.out.println(id);
     	if (share) {
         	myShareEditor.add(spView, x, y);
         }
@@ -321,7 +320,7 @@ public class CanvasController implements Observer {
         if (relative) {
             setRelativePosition(spView, x, y);
         } else {
-            setAbsolutePosition(spView, x, y, true);
+            setAbsolutePosition(spView, x, y, false);
         }
         reorderSpriteViewsWithPositionZ();
         if (myDoesSnap) {
