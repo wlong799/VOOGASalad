@@ -1,6 +1,6 @@
 <game__object.core.Game>
   <myId>Flappy Bird</myId>
-  <myImagePath>img/sprites/blue_snail_left.png</myImagePath>
+  <myImagePath>img/sprites/flappy_bird.png</myImagePath>
   <myDescription>Flappy Bird.</myDescription>
   <myLevels>
     <game__object.level.Level>
@@ -42,7 +42,7 @@
             <myZ>0.0</myZ>
           </myPosition>
           <myImagePaths>
-            <string>file:/Users/michael/Desktop/School/Fall%20&apos;16/CS308/fb_fit.png</string>
+            <string>img/sprites/flappy_bird.png</string>
           </myImagePaths>
           <myImageStyle>FIT</myImageStyle>
           <myDimension>
