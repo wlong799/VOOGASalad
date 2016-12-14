@@ -44,10 +44,8 @@ public class InputController implements IInputController {
 		jumping = false;
 		shooting = false;
 		if (myList != null && myList.size() != 0) {
-			System.out.println(myList);
 			for (Event event : myList) {
 				List<ActionTrigger> trigger = myCurrentLevel.getTriggersWithEvent(event);
-				System.out.println(trigger);
 				for (ActionTrigger actionTrigger : trigger) {
 					chooseAction(actionTrigger);
 				}
@@ -58,7 +56,6 @@ public class InputController implements IInputController {
 	}
 
 	private void chooseAction(ActionTrigger at) {
-		System.out.println(at.getActionName());
 		ISprite sprite = at.getSprite();
 		IMover m = (IMover) sprite;
 		if (at.getActionName() == ActionName.MOVE_LEFT) {
