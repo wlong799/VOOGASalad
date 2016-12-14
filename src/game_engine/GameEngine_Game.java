@@ -92,6 +92,7 @@ public class GameEngine_Game implements IGameEngine {
 	@Override
 	public void shutdown() {
 		myShutDown = true;
+		myEndListener.onEnd();
 	}
 
 	@Override

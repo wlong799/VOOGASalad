@@ -18,6 +18,7 @@ public class SelectSpriteAction extends AbstractAction {
 	public void apply(AuthoringController controller) throws ShareEditException {
 		SpriteView targetView = controller.getSpriteViewWithID(this.getID());
 		if (targetView == null) {
+			System.out.println("in select sprite");
 			throw new ShareEditException(controller.getEnvironment().getLanguageResourceBundle().getString("spriteViewNotFound"));
 		}
 		controller.selectSpriteViewFromNetwork(targetView, myName);

@@ -66,6 +66,7 @@ public class TransitionManager extends AbstractTransitionManager {
 	
 	private void showGameOver(){
             Stage s = new Stage();
+            s.setAlwaysOnTop(true);
             VBox root = new VBox();
             root.setSpacing(SPACING);
             root.setMaxHeight(Integer.MAX_VALUE);
@@ -84,11 +85,10 @@ public class TransitionManager extends AbstractTransitionManager {
                 //GamePlayer g = new GamePlayer(new Stage(),myGame);
             });
             quit.setOnAction((event) -> {
-                //TODO
             });
             buttons.getChildren().addAll(replay,quit);
             buttons.setAlignment(Pos.CENTER);
-            root.getChildren().addAll(gameOver,new ImageView(FROWN),buttons);
+            root.getChildren().addAll(gameOver,new ImageView(FROWN));
             root.setAlignment(Pos.CENTER);
             s.setScene(new Scene(root,myGame.getScreenSize().getWidth()/2,myGame.getScreenSize().getHeight()/2));
             s.show();
