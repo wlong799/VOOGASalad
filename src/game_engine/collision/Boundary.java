@@ -42,10 +42,10 @@ public class Boundary {
     
     public void expandToFit (Boundary other){
         if (other.right() > this.right()) {
-            this.getDimension().setWidth(other.right() + this.left());
+            this.getDimension().setWidth(other.right() - this.left());
         }
         if (other.bottom() > this.bottom()) {
-            this.getDimension().setHeight(other.bottom() + this.top());
+            this.getDimension().setHeight(other.bottom() - this.top());
         }
         if (other.left() < this.left()) {
             this.getDimension().setWidth(this.right() - other.left());

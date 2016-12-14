@@ -131,7 +131,7 @@ public class LevelGenerator {
 		enemy.setImageStyle(ImageStyle.FIT);
 		enemy.setHasAI(true);
 
-		Block smackDown = new Block(new Position(340, 50), new Dimension(100, 200), blockImages);
+		Block smackDown = new Block(new Position(-340, 50), new Dimension(100, 200), blockImages);
 		smackDown.setImageStyle(ImageStyle.TILE);
 		Block ground = new Block(new Position(0, 500), new Dimension(2000, 500), blockImages);
 		ground.setImageStyle(ImageStyle.TILE);
