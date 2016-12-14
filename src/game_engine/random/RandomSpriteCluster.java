@@ -15,13 +15,14 @@ public class RandomSpriteCluster {
     private List<SpriteInfo> mySprites;
 
     private double myXRange, myYRange;
-    private double myRepeatTime, myCurrentTime;
+    private double myRepeatDistance, myCurrentDistance, myPreviousDistance;
 
-    public RandomSpriteCluster (double xRange, double yRange, double repeatTime) {
+    public RandomSpriteCluster (double xRange, double yRange, double distance) {
         myXRange = xRange;
         myYRange = yRange;
-        myRepeatTime = repeatTime;
-        myCurrentTime = 0;
+        myRepeatDistance = distance;
+        myCurrentDistance = 0;
+        myPreviousDistance = myCurrentDistance;
         mySprites = new ArrayList<SpriteInfo>();
     }
 
@@ -29,10 +30,11 @@ public class RandomSpriteCluster {
         mySprites.add(spriteInfo);
     }
 
-    public boolean shouldRender (double elapsedTime) {
-        myCurrentTime += elapsedTime;
-        if (myCurrentTime >= myRepeatTime) {
-            myCurrentTime = 0;
+    public boolean shouldRender (double position) {
+        myCurrentDistance = Math.max(myCurrentDistance, position);
+        if (myCurrentDistance-myPreviousDistance >= myRepeatDistance) {
+            myPreviousDistance = myCurrentDistance - myCurrentDistance%myRepeatDistance;
+            myCurrentDistance = 0;
             return true;
         }
         return false;
