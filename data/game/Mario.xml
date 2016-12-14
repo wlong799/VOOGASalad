@@ -95,7 +95,7 @@
             </myDimension>
             <myValid>true</myValid>
             <myCategoryBitMask>1</myCategoryBitMask>
-            <myCollisionBitMask>30</myCollisionBitMask>
+            <myCollisionBitMask>62</myCollisionBitMask>
             <myAffectedByPhysics>true</myAffectedByPhysics>
             <myVelocity defined-in="game_object.core.AbstractSprite">
               <myXVelocity>0.0</myXVelocity>
@@ -274,7 +274,7 @@
         </myPosition>
         <myDimension>
           <myWidth>1421.586628692829</myWidth>
-          <myHeight>776.0</myHeight>
+          <myHeight>1200.0</myHeight>
         </myDimension>
       </myMapEnd>
       <myBackground>
@@ -1356,6 +1356,7 @@
           <myHeightOffset>0.0</myHeightOffset>
           <myCollisionBehavior>ALL_ALL_COLLISION</myCollisionBehavior>
         </game__object.block.Block>
+        
         <game__object.block.Block>
           <myPosition>
             <myX>853.1373817262297</myX>
@@ -3797,13 +3798,13 @@
           <myScrollOffset>0.0</myScrollOffset>
           <myHeightOffset>0.0</myHeightOffset>
           <myWeaponModel>
-            <myDamage>0.0</myDamage>
+            <myDamage>20.0</myDamage>
             <myProjectileModel>
               <myImagePaths>
                 <string>img/sprites/orange_bullet.png</string>
               </myImagePaths>
               <myInitalVelocity>
-                <myXVelocity>80.0</myXVelocity>
+                <myXVelocity>160.0</myXVelocity>
                 <myYVelocity>0.0</myYVelocity>
               </myInitalVelocity>
               <myAffectedByGravity>false</myAffectedByGravity>
@@ -3825,6 +3826,7 @@
       <mySpriteScavenger reference="../myNextLevel/mySpriteScavenger"/>
       <mySpriteVisuals/>
     </game__object.level.Level> 
+    <game_object.level.Level reference="../game_object.level.Level/myNextLevel"/>
   </myLevels>
   <myScreenSize>
     <myWidth>900.0</myWidth>
