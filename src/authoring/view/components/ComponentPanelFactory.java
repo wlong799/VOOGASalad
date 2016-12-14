@@ -38,7 +38,8 @@ public class ComponentPanelFactory {
 			{GameObjectConstants.ELIZA_FILE, myLanguageResourceBundle.getString("eliza"), myLanguageResourceBundle.getString("elizaDescription")},
 			{GameObjectConstants.BOY_FILE, myLanguageResourceBundle.getString("boy"), myLanguageResourceBundle.getString("boyDescription")},
 			{GameObjectConstants.CINDERELLA_FILE, myLanguageResourceBundle.getString("cinderella"), myLanguageResourceBundle.getString("cinderellaDescription")},
-			{GameObjectConstants.BOY2_FILE, myLanguageResourceBundle.getString("boy2"), myLanguageResourceBundle.getString("boy2Description")}
+			{GameObjectConstants.BOY2_FILE, myLanguageResourceBundle.getString("boy2"), myLanguageResourceBundle.getString("boy2Description")},
+			{GameObjectConstants.FLAPPY_BIRD_FILE, myLanguageResourceBundle.getString("flappyBird"), myLanguageResourceBundle.getString("flappyBirdDescription")}
 				}),
 		ENEMY(myLanguageResourceBundle.getString("enemies"), GameObjectType.ENEMY, new String[][]
 				{
