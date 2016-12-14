@@ -48,7 +48,7 @@
       <myHeros>
         <game__object.character.Hero>
           <myPosition>
-            <myX>721.0</myX>
+            <myX>500.0</myX>
             <myY>189.77</myY>
             <myZ>0.0</myZ>
           </myPosition>
@@ -144,7 +144,7 @@
       <myProjectiles/>
       <myPowerUps/>
       <mySpriteScavenger>
-        <myBorderDimension reference="../../myDimension"/>
+        <myBorderDimension reference="../../myMapEnd"/>
       </mySpriteScavenger>
       <mySpriteVisuals/>
     </game__object.level.Level>
@@ -196,7 +196,7 @@
             </myDimension>
             <myRelativePosition>
               <myX>0.0</myX>
-              <myY>400.0</myY>
+              <myY>350.0</myY>
               <myZ>0.0</myZ>
             </myRelativePosition>
           </game__engine.random.SpriteInfo>
@@ -218,9 +218,11 @@
         </mySprites>
         <myXRange>0.0</myXRange>
         <myYRange>300.0</myYRange>
-        <myRepeatTime>5.0</myRepeatTime>
-        <myCurrentTime>0.0</myCurrentTime>
+        <myRepeatDistance>300.0</myRepeatDistance>
+        <myCurrentDistance>0.0</myCurrentDistance>
+	<myPreviousDistance>0.0</myPreviousDistance>
       </game__engine.random.RandomSpriteCluster>
     </myRepeated>
+    <scrollSideways>true</scrollSideways>
   </myRandomGenerationController>
 </game__object.core.Game>

@@ -31,9 +31,10 @@ public class RandomSpriteCluster {
     }
 
     public boolean shouldRender (double position) {
+        //System.out.println(myCurrentDistance);
         myCurrentDistance = Math.max(myCurrentDistance, position);
         if (myCurrentDistance-myPreviousDistance >= myRepeatDistance) {
-            myPreviousDistance = myCurrentDistance - myCurrentDistance%myRepeatDistance;
+            myPreviousDistance = Math.abs(Math.abs(myCurrentDistance) - Math.abs(myCurrentDistance)%myRepeatDistance);
             myCurrentDistance = 0;
             return true;
         }

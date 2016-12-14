@@ -9,7 +9,7 @@ import game_object.level.Level;
 
 
 public class RandomGenerationController {
-    private static final double OFFSET = 100;
+    private static final double OFFSET = 10;
     private Level myLevel;
     private List<RandomSpriteCluster> myRepeated;
     private boolean scrollSideways;
@@ -18,11 +18,11 @@ public class RandomGenerationController {
                                        ) {
         myLevel = level;
         myRepeated = toRepeat;
-        scrollSideways = false;
+        scrollSideways = true;
     }
 
     public void generateSprites (Position heroPosition) {
-        double currPos = scrollSideways ? heroPosition.getX() : heroPosition.getY();
+        double currPos = scrollSideways ? heroPosition.getX() : -heroPosition.getY();
         for(RandomSpriteCluster si : myRepeated){
             if(si.shouldRender(currPos)){
                 List<ISprite> sprites = si.getSprites();
