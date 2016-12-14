@@ -44,7 +44,8 @@ public class Projectile extends AbstractSprite {
                  DefaultConstants.HERO_CATEGORY_BIT_MASK) != 0 ? DefaultConstants.HERO_PROJECTILE_CATEGORY_BIT_MASK
                                                                : DefaultConstants.ENEMY_PROJECTILE_CATEGORY_BIT_MASK;
         myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
-                             DefaultConstants.HERO_CATEGORY_BIT_MASK;
+                             DefaultConstants.HERO_CATEGORY_BIT_MASK |
+                             DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
         myPosition.setZ(Double.MAX_VALUE);
         adjustPosition();
         setVelocityDirection();
