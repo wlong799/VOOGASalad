@@ -1,6 +1,7 @@
 package game_engine.transition;
 
 import game_object.core.Game;
+import game_object.core.Position;
 import game_object.level.Level;
 import game_player.GamePlayer;
 import javafx.stage.Stage;
@@ -39,6 +40,7 @@ public class TransitionManager extends AbstractTransitionManager {
 	    myLevel = myLevel.getNextLevel();
 	    //System.out.println(myLevel.getNextLevel());
 	    myGame.setCurrentLevel(myLevel);
+	    myLevel.getHeros().get(0).setPosition(new Position(0,-500));
 	    return myLevel;
 		//return myLevel = myLevel.getNextLevel();
 	}
