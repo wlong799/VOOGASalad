@@ -204,6 +204,9 @@ public class GameEngine_Game implements IGameEngine {
 	            if(h.getDead()){
 	                return WinStatus.LOST;
 	            }
+	            if(!myCurrentLevel.getMapEnd().overlaps(new Boundary(h.getPosition(),h.getDimension()))){
+	                return WinStatus.LOST;
+	            }
 	        }
 	        return WinStatus.GO_ON;
 	    }
@@ -223,6 +226,7 @@ public class GameEngine_Game implements IGameEngine {
 	}
 
     public List<ISpriteVisualization> getSpritesOffScreen () {
+        if (myCurrentLevel == null) return new ArrayList<>();
         List<ISpriteVisualization> l =
                 myCurrentLevel.getAllSprites().stream().filter(s -> !myCurrentLevel.getBoundary()
                         .overlaps(new Boundary(new Position(s.getPosition().getX(),
