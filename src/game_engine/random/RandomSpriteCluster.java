@@ -7,6 +7,7 @@ import java.util.Random;
 import game_object.core.Dimension;
 import game_object.core.ISprite;
 import game_object.core.Position;
+import javafx.scene.control.Alert;
 
 
 public class RandomSpriteCluster {
@@ -29,8 +30,6 @@ public class RandomSpriteCluster {
     }
 
     public boolean shouldRender (double elapsedTime) {
-        System.out.println(elapsedTime);
-        System.out.println(myCurrentTime);
         myCurrentTime += elapsedTime;
         if (myCurrentTime >= myRepeatTime) {
             myCurrentTime = 0;
@@ -58,7 +57,7 @@ public class RandomSpriteCluster {
                 createdSprites.add(sprite);
             }
             catch (Exception e) {
-
+                
             }
         }
         return createdSprites;

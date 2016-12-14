@@ -80,7 +80,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	@Override
 	public void onCollideWith(Block b, CollisionDirection collisionDirection){
 		getCollideWithBlockStrategy().applyCollision(this, b, collisionDirection);
-		System.out.println(this.getDead());
 		setValid(!this.getDead());
 	}
 	
@@ -165,14 +164,17 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void moveUp() {
+	    
 	}
 
 	@Override
 	public void moveDown() {
+	    myVelocity.setYVelocity(myMovingUnit);
 	}
 
 	@Override
 	public void shoot() {
+	    
 	}
 
 	@Override

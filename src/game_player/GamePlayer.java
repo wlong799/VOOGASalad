@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 import resources.ResourceBundles;
 
 /**
- * @author samuelcurtis, billyu
+ * @author samuelcurtis
  *This class is the front end view for game engine. It takes in a game object, and then repeatedly 
  *calls methods from the IGameEngine interface at a specific framerate in order to receive all of the objects
  *it needs to render onto the screen. It is  also responsible for detecting all user key input and 
@@ -31,7 +31,7 @@ public class GamePlayer implements IEndListener{
 		myScene = new Scene(myRoot, game.getScreenSize().getWidth(), game.getScreenSize().getHeight());
 		setSceneCSS();
 		myRunner = new GameRunner(myScene, game, level->{}, this);
-		myRoot.getChildren().add(myRunner.getHUDController().getView());
+		//myRoot.getChildren().add(myRunner.getHUDController().getView());
 		myRoot.getChildren().add(myRunner.getRunningView().getViews());
 	}
 
@@ -48,7 +48,6 @@ public class GamePlayer implements IEndListener{
 	@Override
 	public void onEnd() {
 		mySceneManager.returnToMenu();
-		
 	}
 
 }

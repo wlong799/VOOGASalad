@@ -39,6 +39,23 @@ public class Boundary {
         }
         return false;
     }
+    
+    public void expandToFit (Boundary other){
+        if (other.right() > this.right()) {
+            this.getDimension().setWidth(other.right() - this.left());
+        }
+        if (other.bottom() > this.bottom()) {
+            this.getDimension().setHeight(other.bottom() - this.top());
+        }
+        if (other.left() < this.left()) {
+            this.getDimension().setWidth(this.right() - other.left());
+            this.getPosition().setX(other.left());
+        }
+        if (other.top() < this.top()) {
+            this.getDimension().setHeight(this.bottom() - other.top());
+            this.getPosition().setY(other.top());
+        }
+    }
     /**
      * @return the left most x position of the boundary
      */
@@ -82,5 +99,6 @@ public class Boundary {
         }
         return false;
     }
+   
 
 }

@@ -12,7 +12,7 @@ public class RandomGenerationController {
     private static final double OFFSET = 100;
     private Level myLevel;
     private List<RandomSpriteCluster> myRepeated;
-    private int myCounter = 0;
+    
     public RandomGenerationController (Level level,
                                        List<RandomSpriteCluster> toRepeat
                                        ) {
@@ -23,9 +23,7 @@ public class RandomGenerationController {
     public void generateSprites (double elapsedTime) {
         for(RandomSpriteCluster si : myRepeated){
             if(si.shouldRender(elapsedTime)){
-                System.out.println("RENDERING");
-                myCounter++;
-                System.out.println(myCounter +" pipes");
+                System.out.println("add pipes");
                 List<ISprite> sprites = si.getSprites();
                 for(ISprite s : sprites){
                     

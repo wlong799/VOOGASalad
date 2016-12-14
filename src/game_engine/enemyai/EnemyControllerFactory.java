@@ -1,5 +1,9 @@
 package game_engine.enemyai;
 
+/**
+ * @author Charlie Wang
+ *
+ */
 public class EnemyControllerFactory implements IEnemyControllerFactory{
 	
 	public EnemyControllerFactory() {
