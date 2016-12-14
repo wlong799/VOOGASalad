@@ -1,7 +1,6 @@
 package game_object.weapon;
 
 import java.util.List;
-
 import game_engine.collision.CollisionEngine.CollisionDirection;
 import game_engine.physics.ConstantStrategy;
 import game_engine.physics.IPhysicsStrategy;
@@ -40,9 +39,13 @@ public class Projectile extends AbstractSprite {
         myParent = character;
         myModel = model;
         myVelocity = myModel.getInitalVelocity();
-        myCategoryBitMask = DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
-        myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK | 
-        		DefaultConstants.HERO_CATEGORY_BIT_MASK;
+        myCategoryBitMask =
+                (myParent.getCategoryBitMask() &
+                 DefaultConstants.HERO_CATEGORY_BIT_MASK) != 0 ? DefaultConstants.HERO_PROJECTILE_CATEGORY_BIT_MASK
+                                                               : DefaultConstants.ENEMY_PROJECTILE_CATEGORY_BIT_MASK;
+        myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
+                             DefaultConstants.HERO_CATEGORY_BIT_MASK |
+                             DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
         myPosition.setZ(Double.MAX_VALUE);
         adjustPosition();
         setVelocityDirection();
@@ -79,31 +82,32 @@ public class Projectile extends AbstractSprite {
     }
 
     /*
-    @Override
-    public void onCollideWith (Enemy e, CollisionDirection collisionDirection) {
-        if (e != myParent) {
-            setValid(false);
-        }
-    }
-
-    @Override
-    public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
-        if (h != myParent) {
-            setValid(false);
-        }
-    }
-
-    @Override
-    public void onCollideWith (Projectile p, CollisionDirection collisionDirection) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onCollideWith (Block b, CollisionDirection collisionDirection) {
-        // TODO Auto-generated method stub
-        this.setValid(false);
-    }*/
+     * @Override
+     * public void onCollideWith (Enemy e, CollisionDirection collisionDirection) {
+     * if (e != myParent) {
+     * setValid(false);
+     * }
+     * }
+     * 
+     * @Override
+     * public void onCollideWith (Hero h, CollisionDirection collisionDirection) {
+     * if (h != myParent) {
+     * setValid(false);
+     * }
+     * }
+     * 
+     * @Override
+     * public void onCollideWith (Projectile p, CollisionDirection collisionDirection) {
+     * // TODO Auto-generated method stub
+     * 
+     * }
+     * 
+     * @Override
+     * public void onCollideWith (Block b, CollisionDirection collisionDirection) {
+     * // TODO Auto-generated method stub
+     * this.setValid(false);
+     * }
+     */
 
     @Override
     public IPhysicsStrategy getPhysics () {
