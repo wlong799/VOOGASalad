@@ -94,13 +94,13 @@ public class RandomClusterElement extends AbstractGameMenuElement implements Obs
     private void launchEditClusterGenerationScreen () {
 
         List<String> choices = new ArrayList<>();
-        choices.add("Up");
-        choices.add("Right");
+        choices.add(myLanguageProperties.getString("scrollChoiceUp"));
+        choices.add(myLanguageProperties.getString("scrollChoiceRight"));
 
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("Right", choices);
-        dialog.setTitle("Scroll Direction");
-        dialog.setHeaderText("Scroll");
-        dialog.setContentText("Which way do you want the sprites to generate:");
+        ChoiceDialog<String> dialog = new ChoiceDialog<>(myLanguageProperties.getString("scrollChoiceRight"), choices);
+        dialog.setTitle(myLanguageProperties.getString("scrollDirection"));
+        dialog.setHeaderText(myLanguageProperties.getString("scrollHeader"));
+        dialog.setContentText(myLanguageProperties.getString("scrollPrompt"));
 
         // Traditional way to get the response value.
         Optional<String> scrollResult = dialog.showAndWait();

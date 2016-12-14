@@ -1,6 +1,7 @@
 package game_engine.random;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -40,7 +41,8 @@ public class RandomSpriteCluster {
         }
         return false;
     }
-
+    
+    
     public List<ISprite> getSprites () {
         List<ISprite> createdSprites = new ArrayList<ISprite>();
         double randomX = new Random().nextDouble()*myXRange;
@@ -59,7 +61,7 @@ public class RandomSpriteCluster {
                 
                 createdSprites.add(sprite);
             }
-            catch (Exception e) {
+            catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
                 
             }
         }
