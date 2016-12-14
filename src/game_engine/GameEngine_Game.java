@@ -222,6 +222,17 @@ public class GameEngine_Game implements IGameEngine {
 		return myCurrentLevel.getBackground();
 	}
 
+    public List<ISpriteVisualization> getSpritesOffScreen () {
+        List<ISpriteVisualization> l =
+                myCurrentLevel.getAllSprites().stream().filter(s -> !myCurrentLevel.getBoundary()
+                        .overlaps(new Boundary(new Position(s.getPosition().getX(),
+                                                            s.getPosition().getY()),
+                                               new Dimension(s.getDimension().getWidth(),
+                                                             s.getDimension().getHeight()))))
+                        .map(s -> (ISpriteVisualization) s).collect(Collectors.toList());
+        return l;
+    }
+    
     @Override
     public List<ISpriteVisualization> getSprites () {
     	if (myCurrentLevel == null) return new ArrayList<>();

@@ -145,6 +145,12 @@ public class GameRunner implements IEndListener{
 			spriteViewMap.get(sprite).setX(sprite.getXForVisualization());
 			spriteViewMap.get(sprite).setY(sprite.getYForVisualization());
 		}
+		
+		myGameEngine.getSpritesOffScreen().forEach(s->{
+		    s.getXForVisualization();
+		    s.getYForVisualization();
+		});
+		
 		myHudController.updateStatisticsMap();
 		//remove what's not returned from game engine
 		Set<ISpriteVisualization> removing = new HashSet<>(spriteViewMap.keySet());
