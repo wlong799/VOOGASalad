@@ -22,8 +22,9 @@ public class DefaultConstants {
 	public static final int HERO_CATEGORY_BIT_MASK = 1 << 0;
 	public static final int ENEMY_CATEGORY_BIT_MASK = 1 << 1;
 	public static final int BLOCK_CATEGORY_BIT_MASK = 1 << 2;
-	public static final int PROJECTILE_CATEGORY_BIT_MASK = 1 << 3;
-	public static final int POWER_CATEGORY_BIT_MASK = 1 << 4;
+	public static final int HERO_PROJECTILE_CATEGORY_BIT_MASK = 1 << 3;
+	public static final int ENEMY_PROJECTILE_CATEGORY_BIT_MASK = 1 << 4;
+	public static final int POWER_CATEGORY_BIT_MASK = 1 << 5;
 	
 	
 	public static final double CHARACTER_MAX_HP = 100;

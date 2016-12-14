@@ -34,7 +34,7 @@ public class Enemy extends AbstractCharacter {
 		myCollisionBitMask =
 			DefaultConstants.HERO_CATEGORY_BIT_MASK |
 			DefaultConstants.BLOCK_CATEGORY_BIT_MASK | 
-			DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK;
+			DefaultConstants.HERO_PROJECTILE_CATEGORY_BIT_MASK;
 		setupDefaultStrategy();
 		myScoreValue = DEFAULT_SCORE_VALUE;
 	}
