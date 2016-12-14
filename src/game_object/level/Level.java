@@ -36,6 +36,7 @@ public class Level implements ILevelVisualization {
     private final Game myParentGame;
     private Boundary myBoundary;
     private Dimension myDimension;
+    private Boundary myMapEnd;
     private Level myNextLevel;
     private TransitionMenu myNextMenu;
     private Background myBackground;
@@ -65,8 +66,10 @@ public class Level implements ILevelVisualization {
                 new Boundary(new Position(0, 0),
                              new Dimension(this.myParentGame.getScreenSize().getWidth(),
                                            this.myParentGame.getScreenSize().getHeight()));
-
         myDimension = new Dimension(myParentGame.getScreenSize().getWidth(), myParentGame.getScreenSize().getHeight());
+        myMapEnd = new Boundary(new Position(0,0), 
+                                new Dimension(this.myParentGame.getScreenSize().getWidth(),
+                                              this.myParentGame.getScreenSize().getHeight()));
         myPhysicsParameters = new PhysicsParameters();
         myGoals = new ArrayList<>();
         myBackground = new Background();
@@ -107,6 +110,12 @@ public class Level implements ILevelVisualization {
     public Boundary getBoundary () {
         return myBoundary;
     }
+    
+    /*Level Map End*/
+    public Boundary getMapEnd () {
+        return myMapEnd;
+    }
+    
     /* ---Level Dimensions END --- */
 
     /* Engine Settings */
@@ -150,6 +159,7 @@ public class Level implements ILevelVisualization {
                 .getHeight()) {
             myDimension.setHeight(sprite.getPosition().getY() + sprite.getDimension().getHeight());
         }
+        //myMapEnd.expandToFit(new Boundary(sprite.getPosition(),sprite.getDimension()));
         if (sprite instanceof Hero) {
             myHeros.add((Hero) sprite);
         }
@@ -296,6 +306,25 @@ public class Level implements ILevelVisualization {
 
     /* ---ILevelVisualization Implementations END--- */
 
+    private void updateMapEnd (ISprite sprite) {
+        if (sprite.getPosition().getX() + sprite.getDimension().getWidth() > myMapEnd.right()) {
+            myMapEnd.getDimension().setWidth(sprite.getPosition().getX() + sprite.getDimension().getWidth() + 
+                                             myMapEnd.getPosition().getX());
+        }
+        if (sprite.getPosition().getY() + sprite.getDimension().getHeight() > myMapEnd.bottom()) {
+            myMapEnd.getDimension().setHeight(sprite.getPosition().getY() + sprite.getDimension().getHeight() + 
+                                             myMapEnd.getPosition().getY());
+        }
+        if (sprite.getPosition().getX() < myMapEnd.left()) {
+            myMapEnd.getDimension().setWidth(myMapEnd.right() - sprite.getPosition().getX());
+            myMapEnd.getPosition().setX(sprite.getPosition().getX());
+        }
+        if (sprite.getPosition().getY()> myMapEnd.top()) {
+            myMapEnd.getDimension().setHeight(myMapEnd.bottom() - sprite.getPosition().getY());
+            myMapEnd.getPosition().setY(sprite.getPosition().getY());
+        }
+    }
+    
     /* private */
     private List<ISprite> getRuntimeSprites () {
         List<ISprite> runtimeSprites = new ArrayList<>();
