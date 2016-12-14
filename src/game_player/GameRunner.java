@@ -11,19 +11,15 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import game_engine.GameEngine_Game;
-import game_object.acting.ActionName;
-import game_object.acting.ActionTrigger;
 import game_object.acting.Event;
 import game_object.acting.KeyEvent;
 import game_object.background.Background;
-import game_object.character.Hero;
 import game_object.core.Game;
 import game_object.level.Level;
 import game_object.visualization.ISpriteVisualization;
 import game_player.image.ImageRenderer;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -120,6 +116,7 @@ public class GameRunner implements IEndListener{
 				new EventHandler<ActionEvent>() {
 			@Override
 			public void handle (ActionEvent event) {
+				if (myGameEngine.isShutDown()) return;
 				Level currentLevel = runningGame.getCurrentLevel();
 				if (runningLevel != currentLevel) {
 					runningLevel = currentLevel;
