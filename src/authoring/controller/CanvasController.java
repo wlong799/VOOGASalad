@@ -90,11 +90,13 @@ public class CanvasController implements Observer {
     			myCanvas,
     			sprite,
     			id);
-        add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true); 
-        myEnvironment.getCurrentLevel().addSprite(sprite);
-        if (share) {
+    	System.out.println(id);
+    	if (share) {
         	myShareEditor.add(spView, x, y);
         }
+        add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true); 
+        System.out.println("after add");
+        myEnvironment.getCurrentLevel().addSprite(sprite);
     }
 
     /**
