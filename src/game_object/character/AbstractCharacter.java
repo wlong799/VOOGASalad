@@ -164,14 +164,17 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void moveUp() {
+	    
 	}
 
 	@Override
 	public void moveDown() {
+	    myVelocity.setYVelocity(myMovingUnit);
 	}
 
 	@Override
 	public void shoot() {
+	    
 	}
 
 	@Override
