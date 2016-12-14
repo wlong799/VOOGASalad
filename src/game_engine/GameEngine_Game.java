@@ -40,9 +40,7 @@ import game_player.IEndListener;
 import goal.IGoal;
 import goal.time.TimeGoal;
 
-
 public class GameEngine_Game implements IGameEngine {
-
 
 	private Level myCurrentLevel;
 	private IPhysicsEngine myPhysicsEngine, myHeroFollowerEngine;
@@ -59,7 +57,7 @@ public class GameEngine_Game implements IGameEngine {
 	private boolean myShutDown;
 	private boolean logSuppressed = false;
 
-	public GameEngine_Game(Game game,IEndListener endListener) {
+	public GameEngine_Game(Game game, IEndListener endListener) {
 		myCurrentLevel = game.getAllLevelsReadOnly().get(0);
 		init();
 		myEndListener = endListener;
@@ -87,48 +85,46 @@ public class GameEngine_Game implements IGameEngine {
 		myCurrentLevel.init();
 	}
 
-	public boolean isShutDown(){
-	        return myShutDown;
-	    }
-	    @Override
-	    public void shutdown () {
-	        myShutDown = true;
-	    }
+	public boolean isShutDown() {
+		return myShutDown;
+	}
 
-	    @Override
-	    public void update (double elapsedTime) {
-	        endCheck();
-	        if(myCurrentLevel == null){
-	            return;
-	        }
-	        updateTime();
-	        if(myGenerator != null){
-	            myGenerator.generateSprites(elapsedTime);
-	        }
-	        setElapsedTime(elapsedTime);
-	        executeInput(); // input for heroes
-	        for (ISprite s : myCurrentLevel.getAllSprites()) {
-	            // mimic enemy behavior; treat them as players
-	            if (s instanceof Enemy && ((Enemy) s).hasAI()) {
-	                IMover enemy = (IMover) s;
-	                Set<ActionName> list =
-	                        myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
-	                myEnemyController.executeInput(enemy, list);
-	                List<Projectile> plist = myEnemyController.getNewProjectiles();
-	                for (Projectile p : plist) {
-	                    myCurrentLevel.addSprite(p);
-	                }
-	            }
-	            updateNewParameters(s);
-	        }
-	        if (!logSuppressed) {
-	            System.out.println(myCurrentLevel.getHeros().get(0));
-	        }
-	        myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites()
-	        // myCurrentLevel.getProjectiles(),
-	        );
-	        updateLevel();
-	    }
+	@Override
+	public void shutdown() {
+		myShutDown = true;
+	}
+
+	@Override
+	public void update(double elapsedTime) {
+		endCheck();
+		if (myCurrentLevel == null) {
+			return;
+		}
+		updateTime();
+		if (myGenerator != null) {
+			myGenerator.generateSprites(elapsedTime);
+		}
+		setElapsedTime(elapsedTime);
+		executeInput(); // input for heroes
+		for (ISprite s : myCurrentLevel.getAllSprites()) {
+			// mimic enemy behavior; treat them as players
+			if (s instanceof Enemy && ((Enemy) s).hasAI()) {
+				IMover enemy = (IMover) s;
+				Set<ActionName> list = myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
+				myEnemyController.executeInput(enemy, list);
+				List<Projectile> plist = myEnemyController.getNewProjectiles();
+				for (Projectile p : plist) {
+					myCurrentLevel.addSprite(p);
+				}
+			}
+			updateNewParameters(s);
+		}
+		if (!logSuppressed) {
+			System.out.println(myCurrentLevel.getHeros().get(0));
+		}
+		myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites());
+		updateLevel();
+	}
 
 	public void updateTime() {
 		myTotalTime += 1.0 / myFPS;

@@ -7,7 +7,13 @@ package game_engine.enemyai;
  *
  */
 public interface IEnemyControllerFactory {
-	
+
+	/**
+	 * @param type
+	 *            Enemy difficulty
+	 * @return an enemy controller according to the type given by the factory
+	 *         caller (engine)
+	 */
 	public IEnemyController createEnemyController(EnemyLevelTypes type);
-	
+
 }
