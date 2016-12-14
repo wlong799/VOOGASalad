@@ -121,7 +121,7 @@ public class CanvasController implements Observer {
      * @param y      new position Y relative to top-left corner
      *               x and y are not relative to the origin of content!
      */
-    public void setRelativePosition(SpriteView spView, double x, double y) {
+    public void setRelativePosition(SpriteView spView, double x, double y, boolean share) {
         retrieveScrollPaneSize();
         retrieveBackgroundSize();
         double newx = 0, newy = 0;
@@ -135,7 +135,7 @@ public class CanvasController implements Observer {
         } else {
             newy = toAbsoluteY(y);
         }
-        setAbsolutePosition(spView, newx, newy, true);
+        setAbsolutePosition(spView, newx, newy, share);
     }
 
     /**
@@ -164,7 +164,8 @@ public class CanvasController implements Observer {
         this.setRelativePosition(
                 spView,
                 x - spView.getMouseOffset().getX(),
-                y - spView.getMouseOffset().getY());
+                y - spView.getMouseOffset().getY(),
+                true);
     }
 
     /**
@@ -318,7 +319,7 @@ public class CanvasController implements Observer {
         spView.setCanvasView(myCanvas);
         myContent.getChildren().add(spView.getUI());
         if (relative) {
-            setRelativePosition(spView, x, y);
+            setRelativePosition(spView, x, y, false);
         } else {
             setAbsolutePosition(spView, x, y, false);
         }
