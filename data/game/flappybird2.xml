@@ -21,6 +21,17 @@
         <myWidth>1500.0</myWidth>
         <myHeight>900.0</myHeight>
       </myDimension>
+      <myMapEnd>
+        <myPosition>
+          <myX>0.0</myX>
+          <myY>0.0</myY>
+          <myZ>0.0</myZ>
+        </myPosition>
+        <myDimension>
+          <myWidth>1200.0</myWidth>
+          <myHeight>700.0</myHeight>
+        </myDimension>
+      </myMapEnd>
       <myBackground>
         <myImagePaths>
           <string>img/background/bg10.png</string>
