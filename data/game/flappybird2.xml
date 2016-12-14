@@ -220,7 +220,7 @@
         <myYRange>300.0</myYRange>
         <myRepeatDistance>300.0</myRepeatDistance>
         <myCurrentDistance>0.0</myCurrentDistance>
-	<myPreviousDistance>0.0</myPreviousDistance>
+	<myPreviousDistance>300.0</myPreviousDistance>
       </game__engine.random.RandomSpriteCluster>
     </myRepeated>
     <scrollSideways>true</scrollSideways>
