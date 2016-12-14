@@ -16,6 +16,7 @@ import authoring.view.canvas.SpriteView;
 import authoring.view.canvas.SpriteViewComparator;
 import game_object.core.Dimension;
 import game_object.core.ISprite;
+import game_object.core.Position;
 import game_object.level.Level;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -89,11 +90,11 @@ public class CanvasController implements Observer {
     			myCanvas,
     			sprite,
     			id);
+        add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true); 
         myEnvironment.getCurrentLevel().addSprite(sprite);
         if (share) {
         	myShareEditor.add(spView, x, y);
         }
-        add(spView, x - spView.getWidth() / 2, y - spView.getHeight() / 2, true);
     }
 
     /**
