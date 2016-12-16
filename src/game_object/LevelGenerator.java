@@ -68,7 +68,6 @@ public class LevelGenerator {
 		
 
                 levelA.getBoundary().getDimension().setWidth(game.getScreenSize().getWidth());
-                System.out.println(game.getScreenSize().getWidth());
                 levelA.getBoundary().getDimension().setHeight(game.getScreenSize().getHeight());
 		
 		Hero hero = new Hero(new Position(165, 100), new Dimension(40, 40), heroImages);
@@ -76,60 +75,17 @@ public class LevelGenerator {
 		hero.setImageStyle(ImageStyle.FIT);
 		hero.setWeaponDisplacementX(40);
 		hero.setWeaponDisplacementY(10);
-
-		ArrayList<String> slowBulletImgs = new ArrayList<>();
-		slowBulletImgs.add(GameObjectConstants.ORANGE_BULLET_FILE);
-        ProjectileModel bulletModel = new ProjectileModel(
-				slowBulletImgs, // image file
-				new Velocity(80, 0), // initial velocity
-				false, // affected by gravity
-				false // follow hero
-				);
-                
-        int colBitMask = 
-        		DefaultConstants.BLOCK_CATEGORY_BIT_MASK | 
-        		DefaultConstants.ENEMY_CATEGORY_BIT_MASK;
-        ArrayList<String> blueGunImgs = new ArrayList<>();
-        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_RIGHT_FILE);
-        blueGunImgs.add(GameObjectConstants.BLUE_GUN_WEAPON_LEFT_FILE);
-		WeaponModel heroWeapon = new WeaponModel(blueGunImgs, 10, bulletModel, colBitMask);
-		hero.setCurrentWeapon(heroWeapon.newWeaponInstance(hero, new Dimension(20, 20)));
 		
-		ArrayList<String> fastBulletImgs = new ArrayList<>();
-		fastBulletImgs.add(GameObjectConstants.GREEN_BULLET_FILE);
-		// a very fast bullet model
-        ProjectileModel fastModel = new ProjectileModel(
-        		fastBulletImgs, // image file
-				new Velocity(150, 0), // initial velocity
-				false, // affected by gravity
-				false // follow hero
-				);
-                
-        ArrayList<String> redGunImgs = new ArrayList<>();
-        redGunImgs.add(GameObjectConstants.RED_GUN_WEAPON_RIGHT_FILE);
-        redGunImgs.add(GameObjectConstants.RED_GUN_WEAPON_LEFT_FILE);
-		WeaponModel fastWeapon = new WeaponModel(redGunImgs, 10, fastModel, colBitMask);
 		ArrayList<String> fwpuImg = new ArrayList<String>();
 		fwpuImg.add(GameObjectConstants.NEW_WEAPON_POWER_UP_FILE);
 		IPowerUp fastWeaponPowerUp = new NewWeaponPowerUp(
 			new Position(300, 100),
 			new Dimension(40, 40),
-			fwpuImg,
-			fastWeapon,
-			new Dimension(20, 20)
+			fwpuImg
 		);
 		levelA.addSprite(fastWeaponPowerUp);
 		
-		ProjectileModel enemybulletModel = new ProjectileModel(
-				slowBulletImgs, // image file
-				new Velocity(80, 0), // initial velocity
-				false, // affected by gravity
-				true // follow hero
-				);
-		
 		Enemy enemy = new Enemy(new Position(300,400),new Dimension(40, 60), enemyImages);
-		WeaponModel enemyWeapon = new WeaponModel(blueGunImgs, 10, enemybulletModel, colBitMask);
-		enemy.setCurrentWeapon(enemyWeapon.newWeaponInstance(enemy, new Dimension(5, 5)));
 		enemy.setImageStyle(ImageStyle.FIT);
 		enemy.setHasAI(true);
 

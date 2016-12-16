@@ -7,6 +7,10 @@ import game_object.acting.ActionName;
 import game_object.character.ICharacter;
 import game_object.character.IMover;
 
+/**
+ * @author Charlie Wang
+ *
+ */
 public class HardEnemyController extends AbstractEnemyController{
 
 	private static final double JUMPPROB = 0.01;

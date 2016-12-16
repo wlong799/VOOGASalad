@@ -1,8 +1,8 @@
 package game_object.level;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
 import game_engine.collision.Boundary;
 import game_engine.physics.PhysicsParameters;
 import game_object.acting.ActionName;
@@ -12,7 +12,6 @@ import game_object.background.Background;
 import game_object.block.Block;
 import game_object.character.Enemy;
 import game_object.character.Hero;
-import game_object.constants.DefaultConstants;
 import game_object.core.AbstractSprite;
 import game_object.core.Dimension;
 import game_object.core.Game;
@@ -37,6 +36,7 @@ public class Level implements ILevelVisualization {
     private final Game myParentGame;
     private Boundary myBoundary;
     private Dimension myDimension;
+    private Boundary myMapEnd;
     private Level myNextLevel;
     private TransitionMenu myNextMenu;
     private Background myBackground;
@@ -49,6 +49,9 @@ public class Level implements ILevelVisualization {
     private List<Projectile> myProjectiles;
     private List<IPowerUp> myPowerUps;
     private SpriteScavenger mySpriteScavenger;
+    
+    private static final double DEFAULT_DIMENSION_WIDTH = 2000;
+    private static final double DEFAULT_DIMENSION_HEIGHT = 800;
 
     public Level (Game parentGame, String id) {
         myParentGame = parentGame;
@@ -63,12 +66,14 @@ public class Level implements ILevelVisualization {
                 new Boundary(new Position(0, 0),
                              new Dimension(this.myParentGame.getScreenSize().getWidth(),
                                            this.myParentGame.getScreenSize().getHeight()));
-        System.out.println(this.myParentGame.getScreenSize().getWidth());
-        myDimension = new Dimension(0,
-                                    0);
+        myDimension = new Dimension(myParentGame.getScreenSize().getWidth(), myParentGame.getScreenSize().getHeight());
+        myMapEnd = new Boundary(new Position(0,0), 
+                                new Dimension(this.myParentGame.getScreenSize().getWidth(),
+                                              this.myParentGame.getScreenSize().getHeight()));
         myPhysicsParameters = new PhysicsParameters();
         myGoals = new ArrayList<>();
         myBackground = new Background();
+        mySpriteScavenger = AbstractSprite.getSpriteScavenger();
     }
 
     public String getId () {
@@ -105,6 +110,12 @@ public class Level implements ILevelVisualization {
     public Boundary getBoundary () {
         return myBoundary;
     }
+    
+    /*Level Map End*/
+    public Boundary getMapEnd () {
+        return myMapEnd;
+    }
+    
     /* ---Level Dimensions END --- */
 
     /* Engine Settings */
@@ -148,6 +159,7 @@ public class Level implements ILevelVisualization {
                 .getHeight()) {
             myDimension.setHeight(sprite.getPosition().getY() + sprite.getDimension().getHeight());
         }
+        myMapEnd.expandToFit(new Boundary(sprite.getPosition(),sprite.getDimension()));
         if (sprite instanceof Hero) {
             myHeros.add((Hero) sprite);
         }
@@ -206,23 +218,23 @@ public class Level implements ILevelVisualization {
     }
 
     public List<Hero> getHeros () {
-        return Collections.unmodifiableList(myHeros);
+        return myHeros;
     }
 
     public List<Enemy> getEnemies () {
-        return Collections.unmodifiableList(myEnemies);
+        return myEnemies;
     }
 
     public List<Block> getStaticBlocks () {
-        return Collections.unmodifiableList(myBlocks);
+        return myBlocks;
     }
 
     public List<Projectile> getProjectiles () {
-        return Collections.unmodifiableList(myProjectiles);
+        return myProjectiles;
     }
 
     public List<IPowerUp> getPowerUps () {
-        return Collections.unmodifiableList(myPowerUps);
+        return myPowerUps;
     }
 
     /* ---Accessors for background, characters and blocks END--- */
@@ -270,8 +282,7 @@ public class Level implements ILevelVisualization {
             myHeros.add(Hero.generateDefaultHero());
         }
         AbstractSprite.setStaticPivotDimension(getParentGame().getScreenSize());
-        mySpriteScavenger = AbstractSprite.getSpriteScavenger();
-        mySpriteScavenger.setBorderDimension(myParentGame.getScreenSize());
+        mySpriteScavenger.setBorderDimension(myMapEnd);
     }
 
     @Override
@@ -294,7 +305,7 @@ public class Level implements ILevelVisualization {
     }
 
     /* ---ILevelVisualization Implementations END--- */
-
+    
     /* private */
     private List<ISprite> getRuntimeSprites () {
         List<ISprite> runtimeSprites = new ArrayList<>();
@@ -304,7 +315,7 @@ public class Level implements ILevelVisualization {
 
     private void cleanup () {
         // I intentionally made this verbose just for my own sanity.
-        mySpriteScavenger.setBorderDimension(myDimension);
+        mySpriteScavenger.setBorderDimension(myMapEnd);
         mySpriteScavenger.scavengeList(myEnemies);
         mySpriteScavenger.scavengeList(myProjectiles);
         mySpriteScavenger.scavengeList(myPowerUps);

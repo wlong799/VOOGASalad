@@ -41,8 +41,6 @@ public class TestGameController implements IEndListener {
 
 	@Override
 	public void onEnd() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

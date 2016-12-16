@@ -25,6 +25,7 @@ public class MoveSpriteAction extends AbstractAction {
 	public void apply(AuthoringController controller) throws ShareEditException {
 		SpriteView targetView = controller.getSpriteViewWithID(this.getID());
 		if (targetView == null) {
+			System.out.println("in move");
 			throw new ShareEditException(controller.getEnvironment().getLanguageResourceBundle().getString("spriteViewNotFound"));
 		}
 		controller.getCanvasController().setAbsolutePosition(targetView, myNewX, myNewY, false);

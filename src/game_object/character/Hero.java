@@ -32,7 +32,7 @@ public class Hero extends AbstractCharacter implements IUpgrader {
         myCollisionBitMask =
 			DefaultConstants.BLOCK_CATEGORY_BIT_MASK |
 		    DefaultConstants.ENEMY_CATEGORY_BIT_MASK |
-		    DefaultConstants.PROJECTILE_CATEGORY_BIT_MASK |
+		    DefaultConstants.ENEMY_PROJECTILE_CATEGORY_BIT_MASK |
 		    DefaultConstants.POWER_CATEGORY_BIT_MASK;
         setupDefaultStrategy();
     }
@@ -108,14 +108,6 @@ public class Hero extends AbstractCharacter implements IUpgrader {
     public void onCollideWith(IPowerUp p, CollisionDirection collisionDirection) {
         p.affect(this);
     }
-
-
-    @Override
-    public void onCollideWith (Projectile p, CollisionDirection collisionDirection) {
-        // TODO Auto-generated method stub
-        
-    }
-
 
     public static Hero generateDefaultHero() {
 		final double DEFAULT_X = 100, DEFAULT_Y = 100;

@@ -34,7 +34,8 @@ public class ProjectileModel {
 		myAffectedByGravity = affectedByGravity;
 		myFollowHero = followHero;
 		myCollisionBitMask = DefaultConstants.ENEMY_CATEGORY_BIT_MASK
-				| DefaultConstants.HERO_CATEGORY_BIT_MASK;
+				| DefaultConstants.HERO_CATEGORY_BIT_MASK |
+				DefaultConstants.BLOCK_CATEGORY_BIT_MASK;
 	}
 	
 

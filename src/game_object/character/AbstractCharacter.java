@@ -42,8 +42,8 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	
 	// the following two fields define the weapon-holding position
 	// the weapon will be relatively fixed at characterPosition + weaponDisplacement
-	private double myWeaponDisplacementX;
-	private double myWeaponDisplacementY;
+	private double myWeaponDisplacementX = DefaultConstants.DEFAULT_WEAPON_X;
+	private double myWeaponDisplacementY = DefaultConstants.DEFAULT_WEAPON_Y;
 
 	protected AbstractCharacter(Position position, Dimension dimension, List<String> imagePaths) {
 		super(position, dimension, imagePaths);
@@ -80,7 +80,6 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 	@Override
 	public void onCollideWith(Block b, CollisionDirection collisionDirection){
 		getCollideWithBlockStrategy().applyCollision(this, b, collisionDirection);
-		System.out.println(this.getDead());
 		setValid(!this.getDead());
 	}
 	
@@ -165,14 +164,17 @@ abstract class AbstractCharacter extends AbstractSprite implements ICharacter {
 
 	@Override
 	public void moveUp() {
+	    
 	}
 
 	@Override
 	public void moveDown() {
+	    myVelocity.setYVelocity(myMovingUnit);
 	}
 
 	@Override
 	public void shoot() {
+	    
 	}
 
 	@Override

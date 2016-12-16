@@ -1,12 +1,14 @@
 package game_engine.random;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import game_object.core.Dimension;
 import game_object.core.ISprite;
 import game_object.core.Position;
+import javafx.scene.control.Alert;
 
 
 public class RandomSpriteCluster {
@@ -14,13 +16,14 @@ public class RandomSpriteCluster {
     private List<SpriteInfo> mySprites;
 
     private double myXRange, myYRange;
-    private double myRepeatTime, myCurrentTime;
+    private double myRepeatDistance, myCurrentDistance, myPreviousDistance;
 
-    public RandomSpriteCluster (double xRange, double yRange, double repeatTime) {
+    public RandomSpriteCluster (double xRange, double yRange, double distance) {
         myXRange = xRange;
         myYRange = yRange;
-        myRepeatTime = repeatTime;
-        myCurrentTime = 0;
+        myRepeatDistance = distance;
+        myCurrentDistance = 0;
+        myPreviousDistance = myCurrentDistance;
         mySprites = new ArrayList<SpriteInfo>();
     }
 
@@ -28,17 +31,18 @@ public class RandomSpriteCluster {
         mySprites.add(spriteInfo);
     }
 
-    public boolean shouldRender (double elapsedTime) {
-        System.out.println(elapsedTime);
-        System.out.println(myCurrentTime);
-        myCurrentTime += elapsedTime;
-        if (myCurrentTime >= myRepeatTime) {
-            myCurrentTime = 0;
+    public boolean shouldRender (double position) {
+        //System.out.println(myCurrentDistance);
+        myCurrentDistance = Math.max(myCurrentDistance, position);
+        if (myCurrentDistance-myPreviousDistance >= myRepeatDistance) {
+            myPreviousDistance = Math.abs(Math.abs(myCurrentDistance) - Math.abs(myCurrentDistance)%myRepeatDistance);
+            myCurrentDistance = 0;
             return true;
         }
         return false;
     }
-
+    
+    
     public List<ISprite> getSprites () {
         List<ISprite> createdSprites = new ArrayList<ISprite>();
         double randomX = new Random().nextDouble()*myXRange;
@@ -57,8 +61,8 @@ public class RandomSpriteCluster {
                 
                 createdSprites.add(sprite);
             }
-            catch (Exception e) {
-
+            catch (NoSuchMethodException | InvocationTargetException | IllegalAccessException | InstantiationException e) {
+                
             }
         }
         return createdSprites;

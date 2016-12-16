@@ -3,7 +3,7 @@ package game_object.level;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+import game_engine.collision.Boundary;
 import game_object.core.Dimension;
 import game_object.core.ISprite;
 import game_object.core.Position;
@@ -11,10 +11,10 @@ import game_object.core.Position;
 public class SpriteScavenger {
 	
 	private static final double BORDER_OFFSET = 500;
-	private Dimension myBorderDimension;
+	private Boundary myBorderDimension;
 	
-	public void setBorderDimension(Dimension borderDimension) {
-		myBorderDimension = borderDimension;
+	public void setBorderDimension(Boundary border) {
+		myBorderDimension = border;
 	}
 	
 	public void scavengeList(List<? extends ISprite> list) {
@@ -30,11 +30,7 @@ public class SpriteScavenger {
 	}
 	
 	private boolean isOutOfBoundary(ISprite sprite) {
-		Position pos = sprite.getPosition();
-		return pos.getX() < 0 - BORDER_OFFSET
-			|| pos.getX() > myBorderDimension.getWidth() + BORDER_OFFSET
-			|| pos.getY() < 0 - BORDER_OFFSET
-			|| pos.getY() > myBorderDimension.getHeight() + BORDER_OFFSET;
+		return !myBorderDimension.overlaps(new Boundary(sprite.getPosition(),sprite.getDimension()));
 	}
 	
 }

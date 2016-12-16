@@ -1,8 +1,10 @@
 package game_engine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import game_engine.collision.Boundary;
 import game_engine.collision.CollisionEngine;
 import game_engine.collision.ICollisionEngine;
@@ -38,9 +40,7 @@ import game_player.IEndListener;
 import goal.IGoal;
 import goal.time.TimeGoal;
 
-
 public class GameEngine_Game implements IGameEngine {
-
 
 	private Level myCurrentLevel;
 	private IPhysicsEngine myPhysicsEngine, myHeroFollowerEngine;
@@ -57,7 +57,7 @@ public class GameEngine_Game implements IGameEngine {
 	private boolean myShutDown;
 	private boolean logSuppressed = false;
 
-	public GameEngine_Game(Game game,IEndListener endListener) {
+	public GameEngine_Game(Game game, IEndListener endListener) {
 		myCurrentLevel = game.getAllLevelsReadOnly().get(0);
 		init();
 		myEndListener = endListener;
@@ -85,48 +85,47 @@ public class GameEngine_Game implements IGameEngine {
 		myCurrentLevel.init();
 	}
 
-	public boolean isShutDown(){
-	        return myShutDown;
-	    }
-	    @Override
-	    public void shutdown () {
-	        myShutDown = true;
-	    }
+	public boolean isShutDown() {
+		return myShutDown;
+	}
 
-	    @Override
-	    public void update (double elapsedTime) {
-	        endCheck();
-	        if(myCurrentLevel == null){
-	            return;
-	        }
-	        updateTime();
-	        if(myGenerator != null){
-	            myGenerator.generateSprites(elapsedTime);
-	        }
-	        setElapsedTime(elapsedTime);
-	        executeInput(); // input for heroes
-	        for (ISprite s : myCurrentLevel.getAllSprites()) {
-	            // mimic enemy behavior; treat them as players
-	            if (s instanceof Enemy && ((Enemy) s).hasAI()) {
-	                IMover enemy = (IMover) s;
-	                Set<ActionName> list =
-	                        myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
-	                myEnemyController.executeInput(enemy, list);
-	                List<Projectile> plist = myEnemyController.getNewProjectiles();
-	                for (Projectile p : plist) {
-	                    myCurrentLevel.addSprite(p);
-	                }
-	            }
-	            updateNewParameters(s);
-	        }
-	        if (!logSuppressed) {
-	            System.out.println(myCurrentLevel.getHeros().get(0));
-	        }
-	        myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites()
-	        // myCurrentLevel.getProjectiles(),
-	        );
-	        updateLevel();
-	    }
+	@Override
+	public void shutdown() {
+		myShutDown = true;
+		myEndListener.onEnd();
+	}
+
+	@Override
+	public void update(double elapsedTime) {
+		endCheck();
+		if (myCurrentLevel == null) {
+			return;
+		}
+		updateTime();
+		if (myGenerator != null) {
+			myGenerator.generateSprites(myCurrentLevel.getHeros().get(0).getPosition());
+		}
+		setElapsedTime(elapsedTime);
+		executeInput(); // input for heroes
+		for (ISprite s : myCurrentLevel.getAllSprites()) {
+			// mimic enemy behavior; treat them as players
+			if (s instanceof Enemy && ((Enemy) s).hasAI()) {
+				IMover enemy = (IMover) s;
+				Set<ActionName> list = myEnemyController.getActions(enemy, myCurrentLevel.getHeros().get(0));
+				myEnemyController.executeInput(enemy, list);
+				List<Projectile> plist = myEnemyController.getNewProjectiles();
+				for (Projectile p : plist) {
+					myCurrentLevel.addSprite(p);
+				}
+			}
+			updateNewParameters(s);
+		}
+		if (!logSuppressed) {
+			System.out.println(myCurrentLevel.getHeros().get(0));
+		}
+		myCollisionEngine.checkCollisions(myCurrentLevel.getAllSprites());
+		updateLevel();
+	}
 
 	public void updateTime() {
 		myTotalTime += 1.0 / myFPS;
@@ -183,6 +182,7 @@ public class GameEngine_Game implements IGameEngine {
 	    }
 
 	    private WinStatus checkWin () {
+	    	if (myCurrentLevel == null) return WinStatus.LOST;
 	        List<IGoal> myGoals = myCurrentLevel.getAllGoals();
 	        for (IGoal g : myGoals) {
 	            if (g instanceof TimeGoal) {
@@ -199,6 +199,9 @@ public class GameEngine_Game implements IGameEngine {
 	    private WinStatus heroCheck() {
 	        for(Hero h : myCurrentLevel.getHeros()){
 	            if(h.getDead()){
+	                return WinStatus.LOST;
+	            }
+	            if(!myCurrentLevel.getMapEnd().overlaps(new Boundary(h.getPosition(),h.getDimension()))){
 	                return WinStatus.LOST;
 	            }
 	        }
@@ -219,8 +222,21 @@ public class GameEngine_Game implements IGameEngine {
 		return myCurrentLevel.getBackground();
 	}
 
+    public List<ISpriteVisualization> getSpritesOffScreen () {
+        if (myCurrentLevel == null) return new ArrayList<>();
+        List<ISpriteVisualization> l =
+                myCurrentLevel.getAllSprites().stream().filter(s -> !myCurrentLevel.getBoundary()
+                        .overlaps(new Boundary(new Position(s.getPosition().getX(),
+                                                            s.getPosition().getY()),
+                                               new Dimension(s.getDimension().getWidth(),
+                                                             s.getDimension().getHeight()))))
+                        .map(s -> (ISpriteVisualization) s).collect(Collectors.toList());
+        return l;
+    }
+    
     @Override
     public List<ISpriteVisualization> getSprites () {
+    	if (myCurrentLevel == null) return new ArrayList<>();
         List<ISpriteVisualization> l =
                 myCurrentLevel.getAllSprites().stream().filter(s -> myCurrentLevel.getBoundary()
                         .overlaps(new Boundary(new Position(s.getPosition().getX(),

@@ -10,6 +10,11 @@ import game_object.core.Velocity;
 import game_object.level.Level;
 import game_object.simulation.IPhysicsBody;
 
+/**
+ * Engine for those sprites that follows a hero+++++	+----------------------------------------------------`
+ * 
+ * @author Charlie Wang
+ */
 public class PhysicsHeroFollower extends AbstractPhysicsEngine {
 
 	private List<Hero> myHeroes;

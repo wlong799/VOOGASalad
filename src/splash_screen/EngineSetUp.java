@@ -15,7 +15,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -24,8 +23,6 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import resources.ResourceBundles;
 
@@ -84,7 +81,6 @@ public class EngineSetUp {
                 new AuthoringInitializer().init(languagesFilePathBeginning + languagesComboBox.getValue());
                 ((Stage) grid.getScene().getWindow()).close();
             } catch (MissingResourceException r) {
-                DialogFactory dialogBox = new DialogFactory();
                 DialogFactory.showErrorDialog(
                         languageProperties.getString("stop"),
                         languageProperties.getString("noLanguage"),
