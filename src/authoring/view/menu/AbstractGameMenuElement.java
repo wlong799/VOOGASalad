@@ -5,16 +5,22 @@ import authoring.AuthoringController;
 import javafx.scene.control.MenuItem;
 
 /**
- * Abstract superclass for all GameMenuElements. GameMenuElements are placed in GameMenus within the GameMenuBar. These
- * elements are what provide the actual functionality within the GameMenuBar.
+ * Abstract superclass for all elements in the game menu, both terminal elements, and container menu elements. Different
+ * implementations of AbstractGameMenuElement primarily provided through overriding the setFunctionality method.
  *
  * @author Will Long
- * @version 11/17/16
+ * @version 12/18/16
  */
 public abstract class AbstractGameMenuElement {
     protected MenuItem myMenuItem;
     protected AuthoringController myController;
 
+    /**
+     * Creates a new menu element with the specified name and top-level controller.
+     *
+     * @param menuElementName is name of menu element.
+     * @param controller      is top-level controller of authoring environment.
+     */
     protected AbstractGameMenuElement(String menuElementName, AuthoringController controller) {
         myController = controller;
         initMenuItem(menuElementName);
@@ -26,11 +32,19 @@ public abstract class AbstractGameMenuElement {
     }
 
     /**
-     * Adds the actual implementation to the menu element, specifying how it interacts with the game.
+     * Creates the menu element. Placed outside of constructor code because sub-classes may need to instantiate menuItem
+     * to something other than a simple MenuItem.
+     *
+     * @param menuItemName is name of menu element.
      */
-    protected abstract void setFunctionality();
-
     protected void initMenuItem(String menuItemName) {
         myMenuItem = new MenuItem(menuItemName);
     }
+
+    /**
+     * Overriding this method provides actual functionality to the menu element, specifying how it interacts with the
+     * game.
+     */
+    protected abstract void setFunctionality();
+
 }

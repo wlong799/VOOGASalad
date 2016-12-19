@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 
 import authoring.AuthoringController;
+import authoring.view.menu.menu_element.SimpleGameMenu;
+import javafx.scene.control.ListView;
 
 /**
  * Responsible for creating the overall menu bar at the top of the application. Uses reflection to access the necessary
@@ -24,25 +26,25 @@ public class GameMenuFactory {
      */
     private enum GameMenuInfo {
         FILE(myLanguageResourceBundle.getString("file"), new String[]{
-        		"NewGameElement", 
-        		"ChangeGameElement", 
-        		"SeparatorMenuElement", 
-        		"LoadElement",
-                "SaveElement", 
-                "SeparatorMenuElement", 
+                "NewGameElement",
+                "ChangeGameElement",
+                "SeparatorMenuElement",
+                "LoadElement",
+                "SaveElement",
+                "SeparatorMenuElement",
                 "CloseGameElement"
-                }),
+        }),
         LEVEL(myLanguageResourceBundle.getString("level"), new String[]{
-        		"NewLevelElement", 
-        		"ChangeLevelElement", 
-        		"DeleteLevelElement",
-                "SeparatorMenuElement", 
+                "NewLevelElement",
+                "ChangeLevelElement",
+                "DeleteLevelElement",
+                "SeparatorMenuElement",
                 "ChangeLevelBackgroundElement",
                 "RandomClusterElement"
-                }),
+        }),
         TEST(myLanguageResourceBundle.getString("test"), new String[]{
-        		"RunElement"
-        		});
+                "RunElement"
+        });
 
         private String myGameMenuName;
         private String[] myGameMenuElementClasses;
@@ -79,14 +81,15 @@ public class GameMenuFactory {
         return gameMenuView;
     }
 
-    private static GameMenu createGameMenu(GameMenuInfo gameMenuInfo, AuthoringController controller) {
+    private static AbstractGameMenu createGameMenu(GameMenuInfo gameMenuInfo, AuthoringController controller) {
         String menuName = gameMenuInfo.getGameMenuName();
         String[] menuElementClasses = gameMenuInfo.getGameMenuElementClasses();
-        GameMenu gameMenu;
+        AbstractGameMenu gameMenu;
         try {
-            Constructor<GameMenu> gameMenuConstructor = GameMenu.class.getDeclaredConstructor(String.class);
+            Constructor<SimpleGameMenu> gameMenuConstructor = SimpleGameMenu.class.getDeclaredConstructor(String.class,
+                    AuthoringController.class);
             gameMenuConstructor.setAccessible(true);
-            gameMenu = gameMenuConstructor.newInstance(menuName);
+            gameMenu = gameMenuConstructor.newInstance(menuName, controller);
         } catch (Exception e) {
             System.err.println(myLanguageResourceBundle.getString("reflectionError"));
             e.printStackTrace();

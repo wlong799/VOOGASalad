@@ -6,22 +6,32 @@ import javafx.scene.Parent;
 import javafx.scene.control.MenuBar;
 
 /**
- * Menu bar located at top of application. Contains various sub-menus, for opening and closing game workspaces,
- * switching between levels, testing the game, and accessing other game-wide/level-wide content. Created using
- * GameMenuFactory, which adds GameMenus using the addGameMenu function.
+ * View object that provides a menu bar located at the top of the application. Provides functionality to add various
+ * container menus to the bar. Due to complicated process of initializing a menu bar with many different menus, creation
+ * is handled through the GameMenuFactory class, which allows users to specify which menu element classes they wish to
+ * load into the bar.
  *
  * @author Will Long
- * @version 11/17/16
+ * @version 12/18/16
  */
 public class GameMenuView extends AbstractView {
-
     private MenuBar myMenuView;
 
+    /**
+     * Private constructor to force (or at least heavily push for) creation only through the GameMenuFactory class.
+     *
+     * @param controller is the top-level controller of authoring environment.
+     */
     private GameMenuView(AuthoringController controller) {
         super(controller);
     }
 
-    public void addGameMenu(GameMenu menu) {
+    /**
+     * Adds a new top-level menu to the view.
+     *
+     * @param menu is the container menu to add to the top bar of the menu.
+     */
+    public void addGameMenu(AbstractGameMenu menu) {
         myMenuView.getMenus().add(menu.getMenu());
     }
 
@@ -37,7 +47,7 @@ public class GameMenuView extends AbstractView {
 
     @Override
     protected void updateLayoutSelf() {
-        myMenuView.setPrefHeight(this.getHeight());
-        myMenuView.setPrefWidth(this.getWidth());
+        myMenuView.setPrefHeight(getHeight());
+        myMenuView.setPrefWidth(getWidth());
     }
 }
