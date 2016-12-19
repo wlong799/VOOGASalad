@@ -6,6 +6,8 @@ import java.util.stream.Collectors;
 
 import authoring.AuthoringController;
 import authoring.ui.DialogFactory;
+import authoring.view.menu.menu_element.NullMenu;
+import authoring.view.menu.menu_element.NullMenuElement;
 
 /**
  * Responsible for creating the overall menu bar at the top of the application. Uses reflection to access the necessary
@@ -27,8 +29,8 @@ public class GameMenuFactory {
 
         GameMenuView gameMenuView;
         try {
-            Constructor<GameMenuView> gameMenuViewConstructor = GameMenuView.class.getDeclaredConstructor(
-                    AuthoringController.class);
+            Constructor<GameMenuView> gameMenuViewConstructor =
+                    GameMenuView.class.getDeclaredConstructor(AuthoringController.class);
             gameMenuViewConstructor.setAccessible(true);
             gameMenuView = gameMenuViewConstructor.newInstance(controller);
         } catch (Exception e) {
@@ -39,7 +41,7 @@ public class GameMenuFactory {
 
         Arrays.stream(GameMenuPreferences.values())
                 .map(gameMenuPreferences -> createGameMenu(gameMenuPreferences, controller))
-                .filter(gameMenu -> gameMenu != null).forEach(gameMenuView::addGameMenu);
+                .forEach(gameMenuView::addGameMenu);
 
         displayErrorDialog();
         return gameMenuView;
@@ -52,9 +54,6 @@ public class GameMenuFactory {
             menuName = myLanguageResourceBundle.getString(menuName);
         } catch (MissingResourceException e) {
             addResourceException(menuName);
-        }
-        if (myLanguageResourceBundle.containsKey(menuName)) {
-            menuName = myLanguageResourceBundle.getString(menuName);
         }
         String menuClass = gameMenuPreferences.getMenuClass();
         String[] menuElementClasses = gameMenuPreferences.getGameMenuElementClasses();
@@ -69,11 +68,11 @@ public class GameMenuFactory {
             gameMenu = gameMenuConstructor.newInstance(menuName, controller);
         } catch (Exception e) {
             addCreationException(menuClass);
-            return null;
+            gameMenu = new NullMenu();
         }
 
-        Arrays.stream(menuElementClasses).map(menuElementClass -> createGameMenuElement(menuElementClass, controller)).
-                filter(gameMenuElement -> gameMenuElement != null).forEach(gameMenu::addGameMenuElement);
+        Arrays.stream(menuElementClasses).map(menuElementClass -> createGameMenuElement(menuElementClass, controller))
+                .forEach(gameMenu::addGameMenuElement);
         return gameMenu;
     }
 
@@ -89,7 +88,7 @@ public class GameMenuFactory {
             gameMenuElement = gameMenuElementConstructor.newInstance(controller);
         } catch (Exception e) {
             addCreationException(menuElementClass);
-            return null;
+            gameMenuElement = new NullMenuElement();
         }
         return gameMenuElement;
     }
