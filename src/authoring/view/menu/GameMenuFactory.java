@@ -1,18 +1,17 @@
 package authoring.view.menu;
 
 import java.lang.reflect.Constructor;
-import java.util.Arrays;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import authoring.AuthoringController;
-import authoring.view.menu.menu_element.SimpleGameMenu;
+import authoring.ui.DialogFactory;
 
 /**
  * Responsible for creating the overall menu bar at the top of the application. Uses reflection to access the necessary
  * private constructors. Functionality of individual elements is implemented through polymorphism of the
  * setFunctionality() method within AbstractGameMenuElement. Designed to make extending GameMenuView as simple as
- * possible.
+ * possible. Any exceptions encountered during creation are output at the end using a dialog box.
  *
  * @author Will Long
  * @version 12/19/16
@@ -20,22 +19,29 @@ import authoring.view.menu.menu_element.SimpleGameMenu;
 @SuppressWarnings("unchecked")
 public class GameMenuFactory {
     private static ResourceBundle myLanguageResourceBundle;
+    private static List<MenuCreationException> myExceptions;
 
     public static GameMenuView createGameMenuView(AuthoringController controller) {
-        GameMenuView gameMenuView;
+        myExceptions = new ArrayList<>();
         myLanguageResourceBundle = controller.getEnvironment().getLanguageResourceBundle();
+
+        GameMenuView gameMenuView;
         try {
             Constructor<GameMenuView> gameMenuViewConstructor = GameMenuView.class.getDeclaredConstructor(
                     AuthoringController.class);
             gameMenuViewConstructor.setAccessible(true);
             gameMenuView = gameMenuViewConstructor.newInstance(controller);
         } catch (Exception e) {
-            // TODO: 12/19/16 ERROR CHECK
+            addCreationException(GameMenuView.class.getName());
+            displayErrorDialog();
             return null;
         }
+
         Arrays.stream(GameMenuPreferences.values())
                 .map(gameMenuPreferences -> createGameMenu(gameMenuPreferences, controller))
                 .filter(gameMenu -> gameMenu != null).forEach(gameMenuView::addGameMenu);
+
+        displayErrorDialog();
         return gameMenuView;
     }
 
@@ -45,10 +51,14 @@ public class GameMenuFactory {
         try {
             menuName = myLanguageResourceBundle.getString(menuName);
         } catch (MissingResourceException e) {
-            // TODO: 12/19/16 EXCEPTION HANDLING
+            addResourceException(menuName);
+        }
+        if (myLanguageResourceBundle.containsKey(menuName)) {
+            menuName = myLanguageResourceBundle.getString(menuName);
         }
         String menuClass = gameMenuPreferences.getMenuClass();
         String[] menuElementClasses = gameMenuPreferences.getGameMenuElementClasses();
+
         AbstractGameMenu gameMenu;
         try {
             Class<? extends AbstractGameMenu> gameMenuClass =
@@ -58,9 +68,10 @@ public class GameMenuFactory {
             gameMenuConstructor.setAccessible(true);
             gameMenu = gameMenuConstructor.newInstance(menuName, controller);
         } catch (Exception e) {
-            // TODO: 12/19/16 ERROR CHECK
+            addCreationException(menuClass);
             return null;
         }
+
         Arrays.stream(menuElementClasses).map(menuElementClass -> createGameMenuElement(menuElementClass, controller)).
                 filter(gameMenuElement -> gameMenuElement != null).forEach(gameMenu::addGameMenuElement);
         return gameMenu;
@@ -77,9 +88,31 @@ public class GameMenuFactory {
             gameMenuElementConstructor.setAccessible(true);
             gameMenuElement = gameMenuElementConstructor.newInstance(controller);
         } catch (Exception e) {
-            // TODO: 12/19/16 ERROR CHECK
+            addCreationException(menuElementClass);
             return null;
         }
         return gameMenuElement;
+    }
+
+    private static void addResourceException(String missingResourceName) {
+        myExceptions.add(
+                new MenuCreationException(
+                        myLanguageResourceBundle.getString("MENU_MISSING_NAME_EXCEPTION") + " " + missingResourceName));
+    }
+
+    private static void addCreationException(String errorClassName) {
+        myExceptions.add(
+                new MenuCreationException(
+                        myLanguageResourceBundle.getString("MENU_CREATION_EXCEPTION") + " " + errorClassName));
+    }
+
+    private static void displayErrorDialog() {
+        if (myExceptions.size() == 0) {
+            return;
+        }
+        String title = myLanguageResourceBundle.getString("MENU_ERROR_TITLE");
+        String header = myLanguageResourceBundle.getString("MENU_ERROR_HEADER");
+        String content = myExceptions.stream().map(Throwable::getMessage).collect(Collectors.joining("\n"));
+        DialogFactory.showErrorDialog(title, header, content);
     }
 }

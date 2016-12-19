@@ -25,7 +25,7 @@ public enum GameMenuPreferences {
                     "CloseGameElement"
             }),
 
-    LEVEL("asdf", "SimpleGameMenu",
+    LEVEL("level", "SimpleGameMenu",
             new String[]{
                     "NewLevelElement",
                     "ChangeLevelElement",
